@@ -63,7 +63,7 @@ IsGitShellActive()
         SendInput % "cd """ . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu""{Enter}"
     }
     else {
-        SendInput % """" . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu"""
+        SendInput % GetGitHubFolder() . "\distinguishedscholarships.wsu.edu{Enter}"
     }
 return
 
@@ -72,7 +72,7 @@ return
         SendInput % "cd """ . GetGitHubFolder() . "\firstyear.wsu.edu""{Enter}"
     }
     else {
-        SendInput % """" . GetGitHubFolder() . "\firstyear.wsu.edu"""
+        SendInput % GetGitHubFolder() . "\firstyear.wsu.edu{Enter}"
     }
 return
 
@@ -81,7 +81,7 @@ return
         SendInput % "cd """ . GetGitHubFolder() . "\surca.wsu.edu""{Enter}"
     }
     else {
-        SendInput % """" . GetGitHubFolder() . "\surca.wsu.edu"""
+        SendInput % GetGitHubFolder() . "\surca.wsu.edu{Enter}"
     }
 return
 
@@ -90,7 +90,7 @@ return
         SendInput % "cd """ . GetGitHubFolder() . "\undergraduateresearch.wsu.edu""{Enter}"
     }
     else {
-        SendInput % """" . GetGitHubFolder() . "\undergraduateresearch.wsu.edu"""
+        SendInput % GetGitHubFolder() . "\undergraduateresearch.wsu.edu{Enter}"
     }
 return
 
@@ -99,7 +99,7 @@ return
         SendInput % "cd """ . GetGitHubFolder() . "\transfercredit.wsu.edu""{Enter}"
     }
     else {
-        SendInput % """" . GetGitHubFolder() . "\transfercredit.wsu.edu"""
+        SendInput % GetGitHubFolder() . "\transfercredit.wsu.edu{Enter}"
     }
 return
 
@@ -108,7 +108,7 @@ return
         SendInput % "cd """ . GetGitHubFolder() . "\WSU-UE---CSS""{Enter}"
     }
     else {
-        SendInput % """" . GetGitHubFolder() . "\WSU-UE---CSS"""
+        SendInput % GetGitHubFolder() . "\WSU-UE---CSS{Enter}"
     }
 return
 
@@ -117,7 +117,16 @@ return
         SendInput % "cd """ . GetGitHubFolder() . "\WSU-UE---JS""{Enter}"
     }
     else {
-        SendInput % """" . GetGitHubFolder() . "\WSU-UE---JS"""
+        SendInput % GetGitHubFolder() . "\WSU-UE---JS{Enter}"
+    }
+return
+
+:*:@gotoGhAhk::
+    if (isGitShellActive()) {
+        SendInput % "cd """ . GetGitHubFolder() . "\WSU-OUE-AutoHotkey""{Enter}"
+    }
+    else {
+        SendInput % GetGitHubFolder() . "\WSU-OUE-AutoHotkey{Enter}"
     }
 return
 
