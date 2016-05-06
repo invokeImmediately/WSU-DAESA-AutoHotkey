@@ -1,0 +1,64 @@
+; ============================================================================================================
+; AUTOHOTKEY SCRIPT IMPORT for Working with Github Desktop for Windows
+; ============================================================================================================
+; IMPORT DEPENDENCIES
+;   This file has no import dependencies.
+; ============================================================================================================
+; IMPORT ASSUMPTIONS
+;   This file makes no import assumptions.
+; ============================================================================================================
+; AUTOHOTKEY SEND LEGEND
+; ! = ALT     + = SHIFT     ^ = CONTROL     # = WIN
+; (see https://autohotkey.com/docs/commands/Send.htm for more info)
+; ============================================================================================================
+
+; ------------------------------------------------------------------------------------------------------------
+; General FUNCTIONS used for multiple purposes
+; ------------------------------------------------------------------------------------------------------------
+
+doesVarExist(ByRef v) { ; Requires 1.0.46+ 
+    return &v = &undeclared ? 0 : 1 
+}
+
+isVarEmpty(ByRef v) { ; Requires 1.0.46+ 
+    return v = "" ? 1 : 0 
+}
+
+isVarDeclared(ByRef v) { ; Requires 1.0.46+ 
+    return &v = &undeclared ? 0 : v = "" ? 0 : 1
+}
+
+LaunchApplicationPatiently(path, title)
+{
+    Run % path
+    isReady := false
+    while !isReady
+    {
+        IfWinExist, % title
+        {
+            isReady := true
+            Sleep, 500
+        }
+        else
+        {
+            Sleep, 250
+        }
+    }
+}
+
+WaitForApplicationPatiently(title)
+{
+    isReady := false
+    while !isReady
+    {
+        IfWinExist, % title
+        {
+            isReady := true
+            Sleep, 500
+        }
+        else
+        {
+            Sleep, 250
+        }
+    }
+}
