@@ -640,3 +640,26 @@ return
         MsgBox , 0x0, % "Error: Couldn't Copy Minified JS for UGR Website", % "Failed to open file: " . fileToOpen
     }
 return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@checkGitStatus::
+    proceedWithCheck := ActivateGitShell()
+    if (proceedWithCheck) {
+        Clipboard := "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\WSU-UE---CSS\""`r`n"
+            . "git status`r`n"
+            . "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\WSU-UE---JS\""`r`n"
+            . "git status`r`n"
+            . "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\distinguishedscholarships.wsu.edu\""`r`n"
+            . "git status`r`n"
+            . "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\firstyear.wsu.edu\""`r`n"
+            . "git status`r`n"
+            . "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\surca.wsu.edu\""`r`n"
+            . "git status`r`n"
+            . "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\undergraduateresearch.wsu.edu\""`r`n"
+            . "git status`r`n"
+            . "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\transfercredit.wsu.edu\""`r`n"
+            . "git status`r`n"
+        Click right 44, 55
+    }
+return
