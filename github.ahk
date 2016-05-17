@@ -396,7 +396,7 @@ return
     if (minCssFile != 0) {
         contents := minCssFile.Read()
         minCssFile.Close()
-        clipboard := "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invokeImmediately/firstyear.wsu.edu] for a repository of source code. */`r`n" . contents
+        clipboard := "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invokeImmediately/undergraduateresearch.wsu.edu] for a repository of source code. */`r`n" . contents
     }
     else {
         MsgBox , 0x0, % "Error: Couldn't Copy Minified CSS for UGR Website", % "Failed to open file: " . fileToOpen
@@ -409,7 +409,7 @@ return
     if (minCssFile != 0) {
         contents := minCssFile.Read()
         minCssFile.Close()
-        clipboard := "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invokeImmediately/firstyear.wsu.edu] for a repository of source code. */`r`n" . contents
+        clipboard := "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invokeImmediately/surca.wsu.edu] for a repository of source code. */`r`n" . contents
     }
     else {
         MsgBox , 0x0, % "Error: Couldn't Copy Minified CSS for SURCA Website", % "Failed to open file: " . fileToOpen
@@ -422,7 +422,7 @@ return
     if (minCssFile != 0) {
         contents := minCssFile.Read()
         minCssFile.Close()
-        clipboard := "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invokeImmediately/firstyear.wsu.edu] for a repository of source code. */`r`n" . contents
+        clipboard := "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invokeImmediately/transfercredit.wsu.edu] for a repository of source code. */`r`n" . contents
     }
     else {
         MsgBox , 0x0, % "Error: Couldn't Copy Minified CSS for Transfer Credit Website", % "Failed to open file: " . fileToOpen
@@ -631,9 +631,24 @@ return
     if (minJsFile != 0) {
         contents := minJsFile.Read()
         minJsFile.Close()
-        Clipboard := "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/distinguishedscholarship.wsu.edu] for a repository of source code.`r`n"
+        Clipboard := "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/undergraduateresearch.wsu.edu] for a repository of source code.`r`n"
             . "// Third-party, open-source JavaScript plugins used by this website:`r`n"
             . "//   FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatron5000/FitText.js | GNU GPLv2 -- http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html`r`n"
+            . "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- http://creativecommons.org/licenses/by/3.0/`r`n" . contents
+    }
+    else {
+        MsgBox , 0x0, % "Error: Couldn't Copy Minified JS for UGR Website", % "Failed to open file: " . fileToOpen
+    }
+return
+
+:*:@copyMinJsXfer::
+    fileToOpen := GetGitHubFolder() . "\transfercredit.wsu.edu\JS\wp-custom-js-source.min.js"
+    minJsFile := FileOpen(fileToOpen, "r")
+    if (minJsFile != 0) {
+        contents := minJsFile.Read()
+        minJsFile.Close()
+        Clipboard := "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/transfercredit.wsu.edu] for a repository of source code.`r`n"
+            . "// Third-party, open-source JavaScript plugins used by this website:`r`n"
             . "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- http://creativecommons.org/licenses/by/3.0/`r`n" . contents
     }
     else {
