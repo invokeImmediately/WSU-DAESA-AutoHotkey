@@ -130,6 +130,38 @@ Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
+^!#Left::
+    if (IsWindowOnLeftDualMonitor()) {
+        SysGet, Mon2, MonitorWorkArea, 2
+        WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
+        WinMove, A, , %Mon2Left%, 0, %thisWinW%, %thisWinH%        
+    }
+    else {
+        SysGet, Mon1, MonitorWorkArea, 1
+        WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
+        WinMove, A, , %Mon1Left%, 0, %thisWinW%, %thisWinH%
+    }
+return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+^!#Right::
+    if (IsWindowOnLeftDualMonitor()) {
+        SysGet, Mon2, MonitorWorkArea, 2
+        WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
+        newWinX := Mon2Right - thisWinW
+        WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%        
+    }
+    else {
+        SysGet, Mon1, MonitorWorkArea, 1
+        WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
+        newWinX := Mon1Right - thisWinW
+        WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%
+    }
+return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 ^!1::
     if (IsWindowOnLeftDualMonitor()) {
         SendInput, #{Tab}
