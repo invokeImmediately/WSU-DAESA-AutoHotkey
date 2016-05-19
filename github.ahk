@@ -59,6 +59,7 @@ IsGitShellActive()
 ; ------------------------------------------------------------------------------------------------------------
 
 :*:@gotoGhDsp::
+    AppendAhkCmd(":*:@gotoGhDsp")
     if (isGitShellActive()) {
         SendInput % "cd """ . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu""{Enter}"
     }
@@ -68,6 +69,7 @@ IsGitShellActive()
 return
 
 :*:@gotoGhFye::
+    AppendAhkCmd(":*:@gotoGhFye")
     if (isGitShellActive()) {
         SendInput % "cd """ . GetGitHubFolder() . "\firstyear.wsu.edu""{Enter}"
     }
@@ -77,6 +79,7 @@ return
 return
 
 :*:@gotoGhSurca::
+    AppendAhkCmd(":*:@gotoGhSurca")
     if (isGitShellActive()) {
         SendInput % "cd """ . GetGitHubFolder() . "\surca.wsu.edu""{Enter}"
     }
@@ -86,6 +89,7 @@ return
 return
 
 :*:@gotoGhUgr::
+    AppendAhkCmd(":*:@gotoGhUgr")
     if (isGitShellActive()) {
         SendInput % "cd """ . GetGitHubFolder() . "\undergraduateresearch.wsu.edu""{Enter}"
     }
@@ -95,6 +99,7 @@ return
 return
 
 :*:@gotoGhXfer::
+    AppendAhkCmd(":*:@gotoGhXfer")
     if (isGitShellActive()) {
         SendInput % "cd """ . GetGitHubFolder() . "\transfercredit.wsu.edu""{Enter}"
     }
@@ -104,6 +109,7 @@ return
 return
 
 :*:@gotoGhCSS::
+    AppendAhkCmd(":*:@gotoGhCSS")
     if (isGitShellActive()) {
         SendInput % "cd """ . GetGitHubFolder() . "\WSU-UE---CSS""{Enter}"
     }
@@ -113,6 +119,7 @@ return
 return
 
 :*:@gotoGhJS::
+    AppendAhkCmd(":*:@gotoGhJS")
     if (isGitShellActive()) {
         SendInput % "cd """ . GetGitHubFolder() . "\WSU-UE---JS""{Enter}"
     }
@@ -122,6 +129,7 @@ return
 return
 
 :*:@gotoGhAhk::
+    AppendAhkCmd(":*:@gotoGhAhk")
     if (isGitShellActive()) {
         SendInput % "cd """ . GetGitHubFolder() . "\WSU-OUE-AutoHotkey""{Enter}"
     }
@@ -135,12 +143,14 @@ return
 ; ------------------------------------------------------------------------------------------------------------
 
 :*:@doGitCommit::
+    AppendAhkCmd(":*:@doGitCommit")
     SendInput git commit -m "" -m ""{Left 7}
 return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@pasteGitCommitMsg::
+    AppendAhkCmd(":*:@pasteGitCommitMsg")
     WinGet, thisProcess, ProcessName, A
     if (thisProcess = "PowerShell.exe") {
         commitText := RegExReplace(clipboard, Chr(0x2026) "\R" Chr(0x2026), "")
@@ -152,6 +162,7 @@ return
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@gitAddThis::
+    AppendAhkCmd(":*:@gitAddThis")
     WinGet, thisProcess, ProcessName, A
     if (thisProcess = "notepad++.exe") {
         SendInput !e
@@ -178,6 +189,7 @@ return
 :*:@swapSlashes::
     ;DESCRIPTION: For reversing forward slashes within a copied file name reported by 'git status' in
     ; PowerShell and then pasting the result into PowerShell.
+    AppendAhkCmd(":*:@swapSlashes")
     WinGet, thisProcess, ProcessName, A
     if (thisProcess = "PowerShell.exe") {
         newText := RegExReplace(clipboard, "/", "\")
@@ -191,6 +203,7 @@ return
 ; ------------------------------------------------------------------------------------------------------------
 
 :*:@rebuildCssDsp::
+    AppendAhkCmd(":*:@rebuildCssDsp")
     proceedWithBuild := ActivateGitShell()
     if (proceedWithBuild) {
         shellText := "cd """ . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\CSS""`r"
@@ -207,6 +220,7 @@ return
 return
 
 :*:@rebuildCssFye::
+    AppendAhkCmd(":*:@rebuildCssFye")
     proceedWithBuild := ActivateGitShell()
     if (proceedWithBuild) {
         shellText := "cd """ . GetGitHubFolder() . "\firstyear.wsu.edu\CSS""`r"
@@ -223,6 +237,7 @@ return
 return
 
 :*:@rebuildCssSurca::
+    AppendAhkCmd(":*:@rebuildCssSurca")
     proceedWithBuild := ActivateGitShell()
     if (proceedWithBuild) {
         shellText := "cd """ . GetGitHubFolder() . "\surca.wsu.edu\CSS""`r"
@@ -239,6 +254,7 @@ return
 return
 
 :*:@rebuildCssUgr::
+    AppendAhkCmd(":*:@rebuildCssUgr")
     proceedWithBuild := ActivateGitShell()
     if (proceedWithBuild) {
         shellText := "cd """ . GetGitHubFolder() . "\undergraduateresearch.wsu.edu\CSS""`r"
@@ -255,6 +271,7 @@ return
 return
 
 :*:@rebuildCssXfer::
+    AppendAhkCmd(":*:@rebuildCssXfer")
     proceedWithBuild := ActivateGitShell()
     if (proceedWithBuild) {
         shellText := "cd """ . GetGitHubFolder() . "\transfercredit.wsu.edu\CSS""`r"
@@ -270,9 +287,27 @@ return
     }
 return
 
+:*:@rebuildCssFyf::
+    AppendAhkCmd(":*:@rebuildCssFyf")
+    proceedWithBuild := ActivateGitShell()
+    if (proceedWithBuild) {
+        shellText := "cd """ . GetGitHubFolder() . "\learningcommunities.wsu.edu\CSS""`r"
+            . "lessc learningcommunities-custom.less learningcommunities-custom.css`r"
+            . "lessc --clean-css learningcommunities-custom.less learningcommunities-custom.min.css`r"
+            . "cd """ . GetGitHubFolder() . "\learningcommunities.wsu.edu\""`r"
+            . "git add CSS\learningcommunities-custom.css`r"
+            . "git add CSS\learningcommunities-custom.min.css`r"
+            . "git commit -m ""Updating build"" -m ""Rebuilt production file to incorporate recent changes to source code."" `r"
+            . "git push`r"
+        clipboard = %shellText%
+        Click right 44, 55
+    }
+return
+
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@updateCssSubmoduleDsp::
+    AppendAhkCmd(":*:@updateCssSubmoduleDsp")
     proceedWithBuild := ActivateGitShell()
     if (proceedWithBuild) {
         shellText := "cd """ . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\WSU-UE---CSS""`r"
@@ -289,6 +324,7 @@ return
 return
 
 :*:@updateCssSubmoduleFye::
+    AppendAhkCmd(":*:@updateCssSubmoduleFye")
     proceedWithBuild := ActivateGitShell()
     if (proceedWithBuild) {
         shellText := "cd """ . GetGitHubFolder() . "\firstyear.wsu.edu\WSU-UE---CSS""`r"
@@ -305,6 +341,7 @@ return
 return
 
 :*:@updateCssSubmoduleSurca::
+    AppendAhkCmd(":*:@updateCssSubmoduleSurca")
     proceedWithBuild := ActivateGitShell()
     if (proceedWithBuild) {
         shellText := "cd """ . GetGitHubFolder() . "\surca.wsu.edu\WSU-UE---CSS""`r"
@@ -321,6 +358,7 @@ return
 return
 
 :*:@updateCssSubmoduleUgr::
+    AppendAhkCmd(":*:@updateCssSubmoduleUgr")
     proceedWithBuild := ActivateGitShell()
     if (proceedWithBuild) {
         shellText := "cd """ . GetGitHubFolder() . "\undergraduateresearch.wsu.edu\WSU-UE---CSS""`r"
@@ -337,6 +375,7 @@ return
 return
 
 :*:@updateCssSubmoduleXfer::
+    AppendAhkCmd(":*:@updateCssSubmoduleXfer")
     proceedWithBuild := ActivateGitShell()
     if (proceedWithBuild) {
         shellText := "cd """ . GetGitHubFolder() . "\transfercredit.wsu.edu\WSU-UE---CSS""`r"
@@ -352,9 +391,27 @@ return
     }
 return
 
+:*:@updateCssSubmoduleFyf::
+    AppendAhkCmd(":*:@updateCssSubmoduleFyf")
+    proceedWithBuild := ActivateGitShell()
+    if (proceedWithBuild) {
+        shellText := "cd """ . GetGitHubFolder() . "\learningcommunities.wsu.edu\WSU-UE---CSS""`r"
+            . "git fetch`r"
+            . "git merge origin/master`r"
+            . "cd ..`r"
+            . "git add WSU-UE---CSS`r"
+            . "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent changes in project source code""`r"
+            . "git push`r"
+        clipboard = %shellText%
+        Click right 44, 55
+        Gosub :*:@rebuildCssFyf
+    }
+return
+
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@updateCssSubmoduleAll::
+    AppendAhkCmd(":*:@updateCssSubmoduleAll")
     Gosub :*:@updateCssSubmoduleDsp
     Gosub :*:@updateCssSubmoduleFye
     Gosub :*:@updateCssSubmoduleSurca
@@ -365,6 +422,7 @@ return
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@copyMinCssDsp::
+    AppendAhkCmd(":*:@copyMinCssDsp")
     fileToOpen := GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\CSS\distinguished-scholarships-program.min.css"
     minCssFile := FileOpen(fileToOpen, "r")
     if (minCssFile != 0) {
@@ -378,6 +436,7 @@ return
 return
 
 :*:@copyMinCssFye::
+    AppendAhkCmd(":*:@copyMinCssFye")
     fileToOpen := GetGitHubFolder() . "\firstyear.wsu.edu\CSS\fye-custom.min.css"
     minCssFile := FileOpen(fileToOpen, "r")
     if (minCssFile != 0) {
@@ -391,6 +450,7 @@ return
 return
 
 :*:@copyMinCssUgr::
+    AppendAhkCmd(":*:@copyMinCssUgr")
     fileToOpen := GetGitHubFolder() . "\undergraduateresearch.wsu.edu\CSS\undergraduate-research-custom.min.css"
     minCssFile := FileOpen(fileToOpen, "r")
     if (minCssFile != 0) {
@@ -404,6 +464,7 @@ return
 return
 
 :*:@copyMinCssSurca::
+    AppendAhkCmd(":*:@copyMinCssSurca")
     fileToOpen := GetGitHubFolder() . "\surca.wsu.edu\CSS\surca-custom.min.css"
     minCssFile := FileOpen(fileToOpen, "r")
     if (minCssFile != 0) {
@@ -417,6 +478,7 @@ return
 return
 
 :*:@copyMinCssXfer::
+    AppendAhkCmd(":*:@copyMinCssXfer")
     fileToOpen := GetGitHubFolder() . "\transfercredit.wsu.edu\CSS\transfer-central-custom.min.css"
     minCssFile := FileOpen(fileToOpen, "r")
     if (minCssFile != 0) {
@@ -429,9 +491,24 @@ return
     }
 return
 
+:*:@copyMinCssFyf::
+    AppendAhkCmd(":*:@copyMinCssFyf")
+    fileToOpen := GetGitHubFolder() . "\learningcommunities.wsu.edu\CSS\learningcommunities-custom.min.css"
+    minCssFile := FileOpen(fileToOpen, "r")
+    if (minCssFile != 0) {
+        contents := minCssFile.Read()
+        minCssFile.Close()
+        clipboard := "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invokeImmediately/learningcommunities.wsu.edu] for a repository of source code. */`r`n" . contents
+    }
+    else {
+        MsgBox , 0x0, % "Error: Couldn't Copy Minified CSS for Transfer Credit Website", % "Failed to open file: " . fileToOpen
+    }
+return
+
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@rebuildJsDsp::
+    AppendAhkCmd(":*:@rebuildJsDsp")
     proceedWithBuild := ActivateGitShell()
     if (proceedWithBuild) {
         shellText := "cd """ . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\JS""`r"
@@ -448,6 +525,7 @@ return
 return
 
 :*:@rebuildJsFye::
+    AppendAhkCmd(":*:@rebuildJsFye")
     proceedWithBuild := ActivateGitShell()
     if (proceedWithBuild) {
         shellText := "cd """ . GetGitHubFolder() . "\firstyear.wsu.edu\JS""`r"
@@ -464,6 +542,7 @@ return
 return
 
 :*:@rebuildJsSurca::
+    AppendAhkCmd(":*:@rebuildJsSurca")
     proceedWithBuild := ActivateGitShell()
     if (proceedWithBuild) {
         shellText := "cd """ . GetGitHubFolder() . "\surca.wsu.edu\JS""`r"
@@ -480,6 +559,7 @@ return
 return
 
 :*:@rebuildJsUgr::
+    AppendAhkCmd(":*:@rebuildJsUgr")
     proceedWithBuild := ActivateGitShell()
     if (proceedWithBuild) {
         shellText := "cd """ . GetGitHubFolder() . "\undergraduateresearch.wsu.edu\JS""`r"
@@ -496,6 +576,7 @@ return
 return
 
 :*:@rebuildJsXfer::
+    AppendAhkCmd(":*:@rebuildJsXfer")
     proceedWithBuild := ActivateGitShell()
     if (proceedWithBuild) {
         shellText := "cd """ . GetGitHubFolder() . "\transfercredit.wsu.edu\JS""`r"
@@ -514,6 +595,7 @@ return
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@updateJsSubmoduleDsp::
+    AppendAhkCmd(":*:@updateJsSubmoduleDsp")
     proceedWithBuild := ActivateGitShell()
     if (proceedWithBuild) {
         shellText := "cd """ . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\WSU-UE---JS""`r"
@@ -530,6 +612,7 @@ return
 return
 
 :*:@updateJsSubmoduleFye::
+    AppendAhkCmd(":*:@updateJsSubmoduleFye")
     proceedWithBuild := ActivateGitShell()
     if (proceedWithBuild) {
         shellText := "cd """ . GetGitHubFolder() . "\firstyear.wsu.edu\WSU-UE---JS""`r"
@@ -546,6 +629,7 @@ return
 return
 
 :*:@updateJsSubmoduleSurca::
+    AppendAhkCmd(":*:@updateJsSubmoduleSurca")
     proceedWithBuild := ActivateGitShell()
     if (proceedWithBuild) {
         shellText := "cd """ . GetGitHubFolder() . "\surca.wsu.edu\WSU-UE---JS""`r"
@@ -562,6 +646,7 @@ return
 return
 
 :*:@updateJsSubmoduleUgr::
+    AppendAhkCmd(":*:@updateJsSubmoduleUgr")
     proceedWithBuild := ActivateGitShell()
     if (proceedWithBuild) {
         shellText := "cd """ . GetGitHubFolder() . "\undergraduateresearch.wsu.edu\WSU-UE---JS""`r"
@@ -578,6 +663,7 @@ return
 return
 
 :*:@updateJsSubmoduleXfer::
+    AppendAhkCmd(":*:@updateJsSubmoduleXfer")
     proceedWithBuild := ActivateGitShell()
     if (proceedWithBuild) {
         shellText := "cd """ . GetGitHubFolder() . "\transfercredit.wsu.edu\WSU-UE---JS""`r"
@@ -596,6 +682,7 @@ return
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@updateJsSubmoduleAll::
+    AppendAhkCmd(":*:@updateJsSubmoduleAll")
     Gosub :*:@updateJsSubmoduleDsp
     Gosub :*:@updateJsSubmoduleFye
     Gosub :*:@updateJsSubmoduleSurca
@@ -606,6 +693,7 @@ return
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@copyMinJsDsp::
+    AppendAhkCmd(":*:@copyMinJsDsp")
     fileToOpen := GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\JS\wp-custom-js-source.min.dsp.js"
     minJsFile := FileOpen(fileToOpen, "r")
     if (minJsFile != 0) {
@@ -626,6 +714,7 @@ return
 return
 
 :*:@copyMinJsUgr::
+    AppendAhkCmd(":*:@copyMinJsUgr")
     fileToOpen := GetGitHubFolder() . "\undergraduateresearch.wsu.edu\JS\wp-custom-js-source.min.js"
     minJsFile := FileOpen(fileToOpen, "r")
     if (minJsFile != 0) {
@@ -642,6 +731,7 @@ return
 return
 
 :*:@copyMinJsXfer::
+    AppendAhkCmd(":*:@copyMinJsXfer")
     fileToOpen := GetGitHubFolder() . "\transfercredit.wsu.edu\JS\wp-custom-js-source.min.js"
     minJsFile := FileOpen(fileToOpen, "r")
     if (minJsFile != 0) {
@@ -659,6 +749,7 @@ return
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@checkGitStatus::
+    AppendAhkCmd(":*:@checkGitStatus")
     proceedWithCheck := ActivateGitShell()
     if (proceedWithCheck) {
         Clipboard := "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\WSU-UE---CSS\""`r`n"
