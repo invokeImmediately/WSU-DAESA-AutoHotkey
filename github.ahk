@@ -108,6 +108,16 @@ return
     }
 return
 
+:*:@gotoGhSumRes::
+    AppendAhkCmd(":*:@gotoGhSumRes")
+    if (isGitShellActive()) {
+        SendInput % "cd """ . GetGitHubFolder() . "\summerresearch.wsu.edu""{Enter}"
+    }
+    else {
+        SendInput % GetGitHubFolder() . "\summerresearch.wsu.edu{Enter}"
+    }
+return
+
 :*:@gotoGhCSS::
     AppendAhkCmd(":*:@gotoGhCSS")
     if (isGitShellActive()) {
