@@ -314,6 +314,23 @@ return
     }
 return
 
+:*:@rebuildCssSumRes::
+    AppendAhkCmd(":*:@rebuildCssSumRes")
+    proceedWithBuild := ActivateGitShell()
+    if (proceedWithBuild) {
+        shellText := "cd """ . GetGitHubFolder() . "\summerresearch.wsu.edu\CSS""`r"
+            . "lessc summerresearch-custom.less summerresearch-custom.css`r"
+            . "lessc --clean-css summerresearch-custom.less summerresearch-custom.min.css`r"
+            . "cd """ . GetGitHubFolder() . "\summerresearch.wsu.edu\""`r"
+            . "git add CSS\summerresearch-custom.css`r"
+            . "git add CSS\summerresearch-custom.min.css`r"
+            . "git commit -m ""Updating build"" -m ""Rebuilt production file to incorporate recent changes to source code."" `r"
+            . "git push`r"
+        clipboard = %shellText%
+        Click right 44, 55
+    }
+return
+
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@updateCssSubmoduleDsp::
@@ -418,6 +435,23 @@ return
     }
 return
 
+:*:@updateCssSubmoduleSumRes::
+    AppendAhkCmd(":*:@updateCssSubmoduleSumRes")
+    proceedWithBuild := ActivateGitShell()
+    if (proceedWithBuild) {
+        shellText := "cd """ . GetGitHubFolder() . "\summerresearch.wsu.edu\WSU-UE---CSS""`r"
+            . "git fetch`r"
+            . "git merge origin/master`r"
+            . "cd ..`r"
+            . "git add WSU-UE---CSS`r"
+            . "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent changes in project source code""`r"
+            . "git push`r"
+        clipboard = %shellText%
+        Click right 44, 55
+        Gosub :*:@rebuildCssSumRes
+    }
+return
+
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@updateCssSubmoduleAll::
@@ -427,6 +461,8 @@ return
     Gosub :*:@updateCssSubmoduleSurca
     Gosub :*:@updateCssSubmoduleUgr
     Gosub :*:@updateCssSubmoduleXfer
+    Gosub :*:@updateCssSubmoduleFyf
+    Gosub :*:@updateCssSubmoduleSumRes
 return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
@@ -511,7 +547,21 @@ return
         clipboard := "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invokeImmediately/learningcommunities.wsu.edu] for a repository of source code. */`r`n" . contents
     }
     else {
-        MsgBox , 0x0, % "Error: Couldn't Copy Minified CSS for Transfer Credit Website", % "Failed to open file: " . fileToOpen
+        MsgBox , 0x0, % "Error: Couldn't Copy Minified CSS for First-Year Focus Website", % "Failed to open file: " . fileToOpen
+    }
+return
+
+:*:@copyMinCssSumRes::
+    AppendAhkCmd(":*:@copyMinCssSumRes")
+    fileToOpen := GetGitHubFolder() . "\summerresearch.wsu.edu\CSS\summerresearch-custom.min.css"
+    minCssFile := FileOpen(fileToOpen, "r")
+    if (minCssFile != 0) {
+        contents := minCssFile.Read()
+        minCssFile.Close()
+        clipboard := "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invokeImmediately/summerresearch.wsu.edu] for a repository of source code. */`r`n" . contents
+    }
+    else {
+        MsgBox , 0x0, % "Error: Couldn't Copy Minified CSS for Summer Research Website", % "Failed to open file: " . fileToOpen
     }
 return
 
