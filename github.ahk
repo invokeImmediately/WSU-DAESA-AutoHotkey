@@ -773,6 +773,22 @@ return
     }
 return
 
+:*:@copyMinJsFye::
+    AppendAhkCmd(":*:@copyMinJsFye")
+    fileToOpen := GetGitHubFolder() . "\firstyear.wsu.edu\JS\wp-custom-js-source.min.js"
+    minJsFile := FileOpen(fileToOpen, "r")
+    if (minJsFile != 0) {
+        contents := minJsFile.Read()
+        minJsFile.Close()
+        Clipboard := "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/distinguishedscholarship.wsu.edu] for a repository of source code.`r`n"
+            . "// Third-party, open-source JavaScript plugins used by this website:`r`n"
+            . "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- http://creativecommons.org/licenses/by/3.0/`r`n" . contents
+    }
+    else {
+        MsgBox , 0x0, % "Error: Couldn't Copy Minified JS for DSP Website", % "Failed to open file: " . fileToOpen
+    }
+return
+
 :*:@copyMinJsUgr::
     AppendAhkCmd(":*:@copyMinJsUgr")
     fileToOpen := GetGitHubFolder() . "\undergraduateresearch.wsu.edu\JS\wp-custom-js-source.min.js"
