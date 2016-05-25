@@ -652,6 +652,23 @@ return
     }
 return
 
+:*:@rebuildJsSumRes::
+    AppendAhkCmd(":*:@rebuildJsXfer")
+    proceedWithBuild := ActivateGitShell()
+    if (proceedWithBuild) {
+        shellText := "cd """ . GetGitHubFolder() . "\summerresearch.wsu.edu\JS""`r"
+            . "node build-production-file.js`r"
+            . "uglifyjs wp-custom-js-source.js -m --output wp-custom-js-source.min.js`r"
+            . "cd """ . GetGitHubFolder() . "\summerresearch.wsu.edu\""`r"
+            . "git add JS\wp-custom-js-source.js`r"
+            . "git add JS\wp-custom-js-source.min.js`r"
+            . "git commit -m ""Updating build"" -m ""Rebuilt production file to incorporate recent changes to source code."" `r"
+            . "git push`r"
+        clipboard = %shellText%
+        Click right 44, 55
+    }
+return
+
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@updateJsSubmoduleDsp::
@@ -739,6 +756,23 @@ return
     }
 return
 
+:*:@updateJsSubmoduleSumRes::
+    AppendAhkCmd(":*:@updateJsSubmoduleSumRes")
+    proceedWithBuild := ActivateGitShell()
+    if (proceedWithBuild) {
+        shellText := "cd """ . GetGitHubFolder() . "\summerresearch.wsu.edu\WSU-UE---JS""`r"
+            . "git fetch`r"
+            . "git merge origin/master`r"
+            . "cd ..`r"
+            . "git add WSU-UE---JS`r"
+            . "git commit -m ""Updating submodule"" -m ""Updated master JS submodule to incorporate recent changes in project source code""`r"
+            . "git push`r"
+        clipboard = %shellText%
+        Click right 44, 55
+        Gosub :*:@rebuildJsSumRes
+    }
+return
+
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@updateJsSubmoduleAll::
@@ -748,6 +782,7 @@ return
     Gosub :*:@updateJsSubmoduleSurca
     Gosub :*:@updateJsSubmoduleUgr
     Gosub :*:@updateJsSubmoduleXfer
+    Gosub :*:@updateJsSubmoduleSumRes
 return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
