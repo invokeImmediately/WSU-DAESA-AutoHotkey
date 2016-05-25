@@ -857,6 +857,23 @@ return
     }
 return
 
+:*:@copyMinJsSumRes::
+    AppendAhkCmd(":*:@copyMinJsSumRes")
+    fileToOpen := GetGitHubFolder() . "\summerresearch.wsu.edu\JS\wp-custom-js-source.min.js"
+    minJsFile := FileOpen(fileToOpen, "r")
+    if (minJsFile != 0) {
+        contents := minJsFile.Read()
+        minJsFile.Close()
+        Clipboard := "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/transfercredit.wsu.edu] for a repository of source code.`r`n"
+            . "// Third-party, open-source JavaScript plugins used by this website:`r`n"
+            . "//   Masonry JS, (c) David DeSandro 2016 | http://masonry.desandro.com/ | MIT license -- http://desandro.mit-license.org/`r`n"
+            . "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- http://creativecommons.org/licenses/by/3.0/`r`n" . contents
+    }
+    else {
+        MsgBox , 0x0, % "Error: Couldn't Copy Minified JS for WSU Summer Research Website", % "Failed to open file: " . fileToOpen
+    }
+return
+
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@checkGitStatus::
