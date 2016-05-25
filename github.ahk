@@ -853,7 +853,7 @@ return
             . "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- http://creativecommons.org/licenses/by/3.0/`r`n" . contents
     }
     else {
-        MsgBox , 0x0, % "Error: Couldn't Copy Minified JS for UGR Website", % "Failed to open file: " . fileToOpen
+        MsgBox , 0x0, % "Error: Couldn't Copy Minified JS for WSU Transfer Credit Website", % "Failed to open file: " . fileToOpen
     }
 return
 
