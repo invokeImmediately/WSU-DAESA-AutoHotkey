@@ -1080,26 +1080,33 @@ return
 return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
 :*:@checkGitStatus::
     AppendAhkCmd(":*:@checkGitStatus")
     if (UserFolderIsSet()) {
         proceedWithCheck := ActivateGitShell()
         if (proceedWithCheck) {
-            Clipboard := "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\WSU-UE---CSS\""`r`n"
+            Clipboard := "write-host ""``n------------------------------------------------WSU-OUE---CSS-------------------------------------------------"" -foreground ""green""`r`n"
+                . "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\WSU-UE---CSS\""`r`n"
                 . "git status`r`n"
+                . "write-host ""``n-------------------------------------------------WSU-OUE---JS-------------------------------------------------"" -foreground ""green""`r`n"
                 . "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\WSU-UE---JS\""`r`n"
                 . "git status`r`n"
+                . "write-host ""``n--------------------------------------distinguishedscholarships.wsu.edu---------------------------------------"" -foreground ""green""`r`n"
                 . "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\distinguishedscholarships.wsu.edu\""`r`n"
                 . "git status`r`n"
+                . "write-host ""``n----------------------------------------------firstyear.wsu.edu-----------------------------------------------"" -foreground ""green""`r`n"
                 . "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\firstyear.wsu.edu\""`r`n"
                 . "git status`r`n"
+                . "write-host ""``n------------------------------------------------surca.wsu.edu-------------------------------------------------"" -foreground ""green""`r`n"
                 . "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\surca.wsu.edu\""`r`n"
                 . "git status`r`n"
+                . "write-host ""``n----------------------------------------undergraduateresearch.wsu.edu-----------------------------------------"" -foreground ""green""`r`n"
                 . "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\undergraduateresearch.wsu.edu\""`r`n"
                 . "git status`r`n"
+                . "write-host ""``n--------------------------------------------transfercredit.wsu.edu--------------------------------------------"" -foreground ""green""`r`n"
                 . "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\transfercredit.wsu.edu\""`r`n"
                 . "git status`r`n"
+                . "write-host ""``n--------------------------------------------summerresearch.wsu.edu--------------------------------------------"" -foreground ""green""`r`n"
                 . "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\summerresearch.wsu.edu\""`r`n"
                 . "git status`r`n"
             Click right 44, 55
