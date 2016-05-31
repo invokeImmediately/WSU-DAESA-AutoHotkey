@@ -276,6 +276,10 @@ return
             clipboard = %shellText%
             Click right 44, 55
         }
+        else {
+            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
+             . "string for."
+        }
     }
 return
 
@@ -294,6 +298,10 @@ return
                 . "git push`r"
             clipboard = %shellText%
             Click right 44, 55
+        }
+        else {
+            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
+             . "string for."
         }
     }
 return
@@ -314,6 +322,10 @@ return
             clipboard = %shellText%
             Click right 44, 55
         }
+        else {
+            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
+             . "string for."
+        }
     }
 return
 
@@ -332,6 +344,10 @@ return
                 . "git push`r"
             clipboard = %shellText%
             Click right 44, 55
+        }
+        else {
+            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
+             . "string for."
         }
     }
 return
@@ -352,6 +368,10 @@ return
             clipboard = %shellText%
             Click right 44, 55
         }
+        else {
+            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
+             . "string for."
+        }
     }
 return
 
@@ -370,6 +390,10 @@ return
                 . "git push`r"
             clipboard = %shellText%
             Click right 44, 55
+        }
+        else {
+            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
+             . "string for."
         }
     }
 return
@@ -392,6 +416,10 @@ return
             Click right 44, 55
             Gosub :*:@rebuildCssDsp
         }
+        else {
+            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
+             . "string for."
+        }
     }
 return
 
@@ -410,6 +438,10 @@ return
             clipboard = %shellText%
             Click right 44, 55
             Gosub :*:@rebuildCssFye
+        }
+        else {
+            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
+             . "string for."
         }
     }
 return
@@ -430,6 +462,10 @@ return
             Click right 44, 55
             Gosub :*:@rebuildCssSurca
         }
+        else {
+            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
+             . "string for."
+        }
     }
 return
 
@@ -448,6 +484,10 @@ return
             clipboard = %shellText%
             Click right 44, 55
             Gosub :*:@rebuildCssUgr
+        }
+        else {
+            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
+             . "string for."
         }
     }
 return
@@ -468,6 +508,10 @@ return
             Click right 44, 55
             Gosub :*:@rebuildCssXfer
         }
+        else {
+            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
+             . "string for."
+        }
     }
 return
 
@@ -487,6 +531,10 @@ return
             Click right 44, 55
             Gosub :*:@rebuildCssFyf
         }
+        else {
+            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
+             . "string for."
+        }
     }
 return
 
@@ -505,6 +553,10 @@ return
             clipboard = %shellText%
             Click right 44, 55
             Gosub :*:@rebuildCssSumRes
+        }
+        else {
+            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
+             . "string for."
         }
     }
 return
@@ -535,7 +587,7 @@ return
             clipboard := "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invokeImmediately/firstyear.wsu.edu] for a repository of source code. */`r`n" . contents
         }
         else {
-            MsgBox, % (0x0 + 0x10), % "Error: Couldn't Copy Minified CSS for DSP Website", % "Failed to open file: " . fileToOpen
+            MsgBox, % (0x0 + 0x10), % "ERROR: Couldn't Copy Minified CSS for DSP Website", % "Failed to open file: " . fileToOpen
         }
     }
 return
@@ -551,7 +603,7 @@ return
             clipboard := "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invokeImmediately/firstyear.wsu.edu] for a repository of source code. */`r`n" . contents
         }
         else {
-            MsgBox, % (0x0 + 0x10), % "Error: Couldn't Copy Minified CSS for FYE Website", % "Failed to open file: " . fileToOpen
+            MsgBox, % (0x0 + 0x10), % "ERROR: Couldn't Copy Minified CSS for FYE Website", % "Failed to open file: " . fileToOpen
         }
     }
 return
@@ -567,7 +619,7 @@ return
             clipboard := "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invokeImmediately/undergraduateresearch.wsu.edu] for a repository of source code. */`r`n" . contents
         }
         else {
-            MsgBox, % (0x0 + 0x10), % "Error: Couldn't Copy Minified CSS for UGR Website", % "Failed to open file: " . fileToOpen
+            MsgBox, % (0x0 + 0x10), % "ERROR: Couldn't Copy Minified CSS for UGR Website", % "Failed to open file: " . fileToOpen
         }
     }
 return
@@ -583,7 +635,7 @@ return
             clipboard := "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invokeImmediately/surca.wsu.edu] for a repository of source code. */`r`n" . contents
         }
         else {
-            MsgBox, % (0x0 + 0x10), % "Error: Couldn't Copy Minified CSS for SURCA Website", % "Failed to open file: " . fileToOpen
+            MsgBox, % (0x0 + 0x10), % "ERROR: Couldn't Copy Minified CSS for SURCA Website", % "Failed to open file: " . fileToOpen
         }
     }
 return
@@ -599,7 +651,7 @@ return
             clipboard := "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invokeImmediately/transfercredit.wsu.edu] for a repository of source code. */`r`n" . contents
         }
         else {
-            MsgBox, % (0x0 + 0x10), % "Error: Couldn't Copy Minified CSS for Transfer Credit Website", % "Failed to open file: " . fileToOpen
+            MsgBox, % (0x0 + 0x10), % "ERROR: Couldn't Copy Minified CSS for Transfer Credit Website", % "Failed to open file: " . fileToOpen
         }
     }
 return
@@ -615,7 +667,7 @@ return
             clipboard := "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invokeImmediately/learningcommunities.wsu.edu] for a repository of source code. */`r`n" . contents
         }
         else {
-            MsgBox, % (0x0 + 0x10), % "Error: Couldn't Copy Minified CSS for First-Year Focus Website", % "Failed to open file: " . fileToOpen
+            MsgBox, % (0x0 + 0x10), % "ERROR: Couldn't Copy Minified CSS for First-Year Focus Website", % "Failed to open file: " . fileToOpen
         }
     }
 return
@@ -631,7 +683,7 @@ return
             clipboard := "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invokeImmediately/summerresearch.wsu.edu] for a repository of source code. */`r`n" . contents
         }
         else {
-            MsgBox, % (0x0 + 0x10), % "Error: Couldn't Copy Minified CSS for Summer Research Website", % "Failed to open file: " . fileToOpen
+            MsgBox, % (0x0 + 0x10), % "ERROR: Couldn't Copy Minified CSS for Summer Research Website", % "Failed to open file: " . fileToOpen
         }
     }
 return
@@ -654,6 +706,10 @@ return
             clipboard = %shellText%
             Click right 44, 55
         }
+        else {
+            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
+             . "string for."
+        }
     }
 return
 
@@ -672,6 +728,10 @@ return
                 . "git push`r"
             clipboard = %shellText%
             Click right 44, 55
+        }
+        else {
+            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
+             . "string for."
         }
     }
 return
@@ -692,6 +752,10 @@ return
             clipboard = %shellText%
             Click right 44, 55
         }
+        else {
+            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
+             . "string for."
+        }
     }
 return
 
@@ -710,6 +774,10 @@ return
                 . "git push`r"
             clipboard = %shellText%
             Click right 44, 55
+        }
+        else {
+            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
+             . "string for."
         }
     }
 return
@@ -730,6 +798,10 @@ return
             clipboard = %shellText%
             Click right 44, 55
         }
+        else {
+            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
+             . "string for."
+        }
     }
 return
 
@@ -748,6 +820,10 @@ return
                 . "git push`r"
             clipboard = %shellText%
             Click right 44, 55
+        }
+        else {
+            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
+             . "string for."
         }
     }
 return
@@ -770,6 +846,10 @@ return
             Click right 44, 55
             Gosub :*:@rebuildJsDsp
         }
+        else {
+            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
+             . "string for."
+        }
     }
 return
 
@@ -788,6 +868,10 @@ return
             clipboard = %shellText%
             Click right 44, 55
             Gosub :*:@rebuildJsFye
+        }
+        else {
+            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
+             . "string for."
         }
     }
 return
@@ -808,6 +892,10 @@ return
             Click right 44, 55
             Gosub :*:@rebuildJsSurca
         }
+        else {
+            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
+             . "string for."
+        }
     }
 return
 
@@ -826,6 +914,10 @@ return
             clipboard = %shellText%
             Click right 44, 55
             Gosub :*:@rebuildJsUgr
+        }
+        else {
+            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
+             . "string for."
         }
     }
 return
@@ -846,6 +938,10 @@ return
             Click right 44, 55
             Gosub :*:@rebuildJsXfer
         }
+        else {
+            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
+             . "string for."
+        }
     }
 return
 
@@ -864,6 +960,10 @@ return
             clipboard = %shellText%
             Click right 44, 55
             Gosub :*:@rebuildJsSumRes
+        }
+        else {
+            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
+             . "string for."
         }
     }
 return
@@ -900,7 +1000,7 @@ return
                 . "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- http://creativecommons.org/licenses/by/3.0/`r`n" . contents
         }
         else {
-            MsgBox, % (0x0 + 0x10), % "Error: Couldn't Copy Minified JS for DSP Website", % "Failed to open file: " . fileToOpen
+            MsgBox, % (0x0 + 0x10), % "ERROR: Couldn't Copy Minified JS for DSP Website", % "Failed to open file: " . fileToOpen
         }
     }
 return
@@ -918,7 +1018,7 @@ return
                 . "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- http://creativecommons.org/licenses/by/3.0/`r`n" . contents
         }
         else {
-            MsgBox, % (0x0 + 0x10), % "Error: Couldn't Copy Minified JS for FYE Website", % "Failed to open file: " . fileToOpen
+            MsgBox, % (0x0 + 0x10), % "ERROR: Couldn't Copy Minified JS for FYE Website", % "Failed to open file: " . fileToOpen
         }
     }
 return
@@ -937,7 +1037,7 @@ return
                 . "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- http://creativecommons.org/licenses/by/3.0/`r`n" . contents
         }
         else {
-            MsgBox, % (0x0 + 0x10), % "Error: Couldn't Copy Minified JS for UGR Website", % "Failed to open file: " . fileToOpen
+            MsgBox, % (0x0 + 0x10), % "ERROR: Couldn't Copy Minified JS for UGR Website", % "Failed to open file: " . fileToOpen
         }
     }
 return
@@ -955,7 +1055,7 @@ return
                 . "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- http://creativecommons.org/licenses/by/3.0/`r`n" . contents
         }
         else {
-            MsgBox, % (0x0 + 0x10), % "Error: Couldn't Copy Minified JS for WSU Transfer Credit Website", % "Failed to open file: " . fileToOpen
+            MsgBox, % (0x0 + 0x10), % "ERROR: Couldn't Copy Minified JS for WSU Transfer Credit Website", % "Failed to open file: " . fileToOpen
         }
     }
 return
@@ -974,7 +1074,7 @@ return
                 . "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- http://creativecommons.org/licenses/by/3.0/`r`n" . contents
         }
         else {
-            MsgBox, % (0x0 + 0x10), % "Error: Couldn't Copy Minified JS for WSU Summer Research Website", % "Failed to open file: " . fileToOpen
+            MsgBox, % (0x0 + 0x10), % "ERROR: Couldn't Copy Minified JS for WSU Summer Research Website", % "Failed to open file: " . fileToOpen
         }
     }
 return
