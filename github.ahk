@@ -1085,7 +1085,10 @@ return
     if (UserFolderIsSet()) {
         proceedWithCheck := ActivateGitShell()
         if (proceedWithCheck) {
-            Clipboard := "write-host ""``n------------------------------------------------WSU-OUE---CSS-------------------------------------------------"" -foreground ""green""`r`n"
+            Clipboard := "write-host ""``n----------------------------------------------WSU-OUE-AutoHotkey----------------------------------------------"" -foreground ""green""`r`n"
+                . "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\WSU-OUE-AutoHotkey\""`r`n"
+                . "git status`r`n"
+                . "write-host ""``n------------------------------------------------WSU-OUE---CSS-------------------------------------------------"" -foreground ""green""`r`n"
                 . "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\WSU-UE---CSS\""`r`n"
                 . "git status`r`n"
                 . "write-host ""``n-------------------------------------------------WSU-OUE---JS-------------------------------------------------"" -foreground ""green""`r`n"
