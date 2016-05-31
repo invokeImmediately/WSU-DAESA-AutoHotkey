@@ -1100,6 +1100,8 @@ return
                 . "git status`r`n"
                 . "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\transfercredit.wsu.edu\""`r`n"
                 . "git status`r`n"
+                . "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\summerresearch.wsu.edu\""`r`n"
+                . "git status`r`n"
             Click right 44, 55
         }
     }
