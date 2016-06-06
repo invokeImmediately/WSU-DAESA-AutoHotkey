@@ -12,13 +12,17 @@ return
     }
 return
 
+^!r::
+    Gosub % ":*:@rptCmd"
+return
+
 :*:@rptCmd::
     if (ahkCmds.Length() > 0) {
         index := 1
-        cmdList := "1: " . ahkCmds[1]
+        cmdList := index . ") " . ahkCmds[ahkCmds.Length() - index + 1]
         index := index + 1
         while index <= ahkCmds.Length() {
-            cmdList := cmdList . "|" . index . ": " . ahkCmds[index]
+            cmdList := cmdList . "|" . index . ") " . ahkCmds[ahkCmds.Length() - index + 1]
             index := index + 1
         }
         Gui, New,, % "AutoHotkey Command History"
@@ -34,9 +38,11 @@ return
 
 HandleCmdRptOK:
     Gui, Submit
-    Gui, Destroy
+    Gui, Destroy ;Doing this now implicitly allows us to return to the previously active window.
     if (CmdChosen > 0 && CmdChosen <= ahkCmds.Length()) {
-        GoSub % ahkCmds[CmdChosen]
+        if IsLabel(ahkCmds[ahkCmds.Length()]) {
+            GoSub % ahkCmds[ahkCmds.Length() - CmdChosen + 1] ;Run hotstring on window that was active when ":*:@rptCmd" was triggered.
+        }
     }
 return
 
