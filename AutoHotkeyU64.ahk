@@ -17,84 +17,44 @@
 ; ------------------------------------------------------------------------------------------------------------
 
 global userAccountFolder := "C:\Users\CamilleandDaniel"
-global gitHubFolder := userAccountFolder . "\Documents\GitHub"
 global logFileName := userAccountFolder . "\Documents\Daniel\^WSU-Web-Dev\^Personnel-File\Work-log.txt"
 global workTimerCountdownTime := -1200000
 global workTimerNotificationSound := userAccountFolder . "\Documents\Daniel\Sound Library\foghorn.wav"
 global bitAccentToggle := false
 global accentOverwrite := "{U+00b7}"
+global ahkCmds := Array()
+global ahkCmdLimit := 20
+global CmdChosen
+global hotstrStartTime := 0
+global hotstrEndTime := 0
+
+#NoEnv
+#SingleInstance
+
+#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\functions.ahk
 
 ; ------------------------------------------------------------------------------------------------------------
-; FUNCTIONS & SUBROUTINES
+; COMMAND HISTORY
 ; ------------------------------------------------------------------------------------------------------------
-
-LaunchApplicationPatiently(path, title)
-{
-    Run % path
-    isReady := false
-    while !isReady
-    {
-        IfWinExist, % title
-        {
-            isReady := true
-            Sleep, 500
-        }
-        else
-        {
-            Sleep, 250
-        }
-    }
-}
-
-WaitForApplicationPatiently(title)
-{
-    isReady := false
-    while !isReady
-    {
-        IfWinExist, % title
-        {
-            isReady := true
-            Sleep, 500
-        }
-        else
-        {
-            Sleep, 250
-        }
-    }
-}
-
-OpenChromeTab:
-    WinGet, thisProcess, ProcessName, A
-    if (thisProcess = "chrome.exe") {
-        SendInput ^n
-        Sleep 250
-        isReady := false
-        while !isReady
-        {
-            IfWinExist, % "New Tab"
-            {
-                isReady := true
-                Sleep, 500
-            }
-            else
-            {
-                Sleep, 250
-            }
-        }
-    }
-return
+#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\commandHistory.ahk
 
 ; ------------------------------------------------------------------------------------------------------------
 ; WORKSPACE MANAGEMENT
 ; ------------------------------------------------------------------------------------------------------------
 
-^!r::
+#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\workspaceMngmnt.ahk
+
+#!r::
     SetTitleMatchMode, 2
     LaunchApplicationPatiently("C:\Program Files (x86)\Notepad++\notepad++.exe", "C:\Users")
     SendInput ^{End}
     Sleep 330
     SendInput !{F6}
-    Sleep 100
+    Sleep 500
+    SendInput !{Tab}
+    Sleep 750
+    Gosub % "^!1"
+    Sleep 750
     LaunchApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", "New Tab")
     Sleep 330
     SendInput !d
@@ -118,6 +78,7 @@ return
     LaunchApplicationPatiently(userAccountFolder . "\AppData\Local\GitHub\Github.appref-ms", "GitHub ahk_exe GitHub.exe")
     LaunchApplicationPatiently(userAccountFolder . "\Desktop\Git Shell.lnk", "Powershell")
     Sleep 1000
+    Gosub :*:@arrangeGitHub
     SendInput, #{Tab}
     Sleep, 330
     SendInput, {Tab}{Right}{Right}{Enter}
@@ -136,9 +97,10 @@ return
     Sleep 5000
     SendInput {Enter}
     Sleep 1500
-    WaitForApplicationPatiently("Inbox ahk_exe Outlook.exe")
-    LaunchApplicationPatiently("C:\Program Files\Microsoft Office 15\root\office15\onenote.exe", "OneNote")
+    WaitForApplicationPatiently("Inbox - ahk_exe outlook.exe")
+    LaunchApplicationPatiently("C:\Program Files\Microsoft Office 15\root\office15\onenote.exe", "- OneNote")
     Sleep 1000
+    Gosub :*:@arrangeEmail
     SendInput, #{Tab}
     Sleep, 330
     SendInput, {Tab}{Right}{Right}{Right}{Right}{Enter}
@@ -152,7 +114,7 @@ return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-:*:@arrangeGithub::
+:*:@arrangeGitHub::
     SetTitleMatchMode, 2
     WinRestore, GitHub
     WinMove, GitHub, , -1893, 20, 1868, 772
@@ -161,7 +123,7 @@ return
     WinMove, PowerShell, , -1527, 161
     Sleep 200
     WinRestore, invokeImmediately
-    WinMove, invokeImmediately, , -1830, 35, 1700, 999
+    WinMove, invokeImmediately, , -1830, 0, 1700, 1040
     Sleep 200
     WinRestore, File Explorer
     WinMove, File Explorer, , 100, 0, 1820, 1040
@@ -233,111 +195,19 @@ return
     WinMove, Navigation, , -345, 518, 350, 522
 return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-^F10::WinSet, Alwaysontop, Toggle, A
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-^!F1::
-    SendInput #{Tab}
-    Sleep 330
-    SendInput {Tab}{Enter}
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-^!F2::
-    SendInput, #{Tab}
-    Sleep, 330
-    SendInput, {Tab}{Right}{Enter}
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-^!F3::
-    SendInput #{Tab}
-    Sleep 330
-    SendInput {Tab}{Right}{Right}{Enter}
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-^!F4::
-    SendInput #{Tab}
-    Sleep 330
-    SendInput {Tab}{Right}{Right}{Right}{Enter}
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-^!F5::
-    SendInput #{Tab}
-    Sleep 330
-    SendInput {Tab}{Right}{Right}{Right}{Right}{Enter}
-Return
-
-^!F6::
-    SendInput #{Tab}
-    Sleep 330
-    SendInput {Tab}{Right}{Right}{Right}{Right}{Right}{Enter}
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-^F9::
-    SysGet, Mon1, MonitorWorkArea, 1
-    M1Width := Mon1Right - Mon1Left - 100
-    M1Height := Mon1Bottom - Mon1Top
-    WinRestore, A
-    WinMove, A, , 100, 0, %M1Width%, %M1Height%
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-^F8::
-    SysGet, Mon1, MonitorWorkArea, 1
-    M1Width := Mon1Right - Mon1Left - 100
-    M1Height := Mon1Bottom - Mon1Top
-    WinRestore, A
-    WinMove, A, , 0, 0, %M1Width%, %M1Height%
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-^F7::
-    SysGet, Mon1, MonitorWorkArea, 1
-    M1Width := Mon1Right - Mon1Left - 100
-    M1X := -M1Width
-    M1Height := Mon1Bottom - Mon1Top
-    WinRestore, A
-    WinMove, A, , %M1X%, 0, %M1Width%, %M1Height%
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-^F6::
-    SysGet, Mon1, MonitorWorkArea, 1
-    M1X := -(Mon1Right - Mon1Left)
-    M1Width := Mon1Right - Mon1Left - 100
-    M1Height := Mon1Bottom - Mon1Top
-    WinRestore, A
-    WinMove, A, , %M1X%, 0, %M1Width%, %M1Height%
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-^!m::
-    WinGetPos, thisX, thisY, thisW, thisH, A
-    thisX := -thisX - thisW
-    WinMove, A, , %thisX%, %thisY%, %thisW%, %thisH%
-Return
-
 ; ------------------------------------------------------------------------------------------------------------
 ; UTILITY FUNCTIONS: For working with AutoHotkey
 ; ------------------------------------------------------------------------------------------------------------
 
+:*:@checkIsUnicode::
+    AppendAhkCmd(":*:@checkIsUnicode")
+    MsgBox % "Unicode flag set to: " A_IsUnicode
+return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 :*:@getWinTitle::
+    AppendAhkCmd(":*:@getWinTitle")
     WinGetTitle, thisTitle, A
     MsgBox, The active window is "%thisTitle%"
 return
@@ -345,13 +215,15 @@ return
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@getWinPos::
+    AppendAhkCmd(":*:@getWinPos")
     WinGetPos, thisX, thisY, thisW, thisH, A
-    MsgBox, % "The active window is at" . thisX . ", " . thisY . "Width: " . thisW
+    MsgBox, % "The active window is at" . thisX . ", " . thisY . "`rWidth: " . thisW . ", Height: " . thisH
 return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@getWinPID::
+    AppendAhkCmd(":*:@getWinPID")
     WinGet, thisPID, PID, A
     MsgBox, % "The active window PID is " . thisPID
 return
@@ -359,6 +231,7 @@ return
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@getWinProcess::
+    AppendAhkCmd(":*:@getWinProcess")
     WinGet, thisProcess, ProcessName, A
     MsgBox, % "The active window process name is " . thisProcess
 return
@@ -366,15 +239,15 @@ return
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@getMousePos::
+    AppendAhkCmd(":*:@getMousePos")
     MouseGetPos, windowMousePosX, windowMousePosY
     MsgBox % "The mouse cursor is at {x = " . windowMousePosX . ", y = " . windowMousePosY . "} relative to the window."
 return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-:*:@getMousePos::
-    MouseGetPos, windowMousePosX, windowMousePosY
-    MsgBox % "The mouse cursor is at {x = " . windowMousePosX . ", y = " . windowMousePosY . "} relative to the window."
+:*:@getLastHotStrTime::
+    MsgBox % "The last hotstring took " . (hotStrEndTime - hotStrStartTime) . "ms to run."
 return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
@@ -391,12 +264,6 @@ return
         WinActivate % "Untitled - Notepad"
     else
         Run Notepad
-return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@toggleAccentKey::
-    bitAccentToggle := !bitAccentToggle
 return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
@@ -622,12 +489,27 @@ return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
+:*:@toggleAccentKey::
+    bitAccentToggle := !bitAccentToggle
+return
+
+^+`::
+    Gosub :*:@toggleAccentKey
+return
+
 :*:``::
     if (bitAccentToggle) {
         SendInput % accentOverwrite
     }
     else {
         SendInput ``
+    }
+return
+
+:*:@changeAccentOverwrite::
+    Inputbox, inputEntered, % "Change Accent Overwrite", % "Enter a character/string that the accent key will now represent when alternative input is toggled."
+    if (!ErrorLevel) {
+        accentOverwrite := inputEntered
     }
 return
 
