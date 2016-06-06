@@ -722,7 +722,6 @@ return
                 . "node build-production-file.js`r"
                 . "uglifyjs wp-custom-js-source.js --output wp-custom-js-source.min.js`r"
                 . "cd """ . GetGitHubFolder() . "\firstyear.wsu.edu\""`r"
-                . "JS\wp-custom-js-source.js`r"
                 . "git add JS\wp-custom-js-source.min.js`r"
                 . "git commit -m ""Updating build"" -m ""Rebuilt production file to incorporate recent changes to source code""`r"
                 . "git push`r"
