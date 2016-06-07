@@ -163,6 +163,7 @@ return
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!1::
+    hotstrStartTime := A_TickCount
     if (IsWindowOnLeftDualMonitor()) {
         SendInput, #{Tab}
         Sleep, 330
@@ -177,6 +178,7 @@ return
         Sleep, 100
         SendInput, #{Tab}
     }
+    hotstrEndTime := A_TickCount
 return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
