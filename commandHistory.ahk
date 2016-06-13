@@ -61,7 +61,12 @@ return
         cmdList := index . ") " . ahkCmds[ahkCmds.Length() - index + 1]
         index := index + 1
         while index <= ahkCmds.Length() {
-            cmdList := cmdList . "|" . index . ") " . ahkCmds[ahkCmds.Length() - index + 1]
+            if (index - 1 > 9) {
+                cmdList := cmdList . "|" . Chr(index + 87) . ") " . ahkCmds[ahkCmds.Length() - index + 1]
+            }
+            else {
+                cmdList := cmdList . "|" . (index - 1) . ") " . ahkCmds[ahkCmds.Length() - index + 1]
+            }
             index := index + 1
         }
         Gui, New,, % "AutoHotkey Command History"
