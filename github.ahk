@@ -317,6 +317,7 @@ return
         . "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent chang"
         . "es in project source code""`r"
         . "git push`r")
+    Gosub :*:@rebuildCssDsp
 return
 
 :*:@updateCssSubmoduleFye::
@@ -329,6 +330,7 @@ return
         . "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent chang"
         . "es in project source code""`r"
         . "git push`r")
+    Gosub :*:@rebuildCssFye
 return
 
 :*:@updateCssSubmoduleSurca::
@@ -341,6 +343,7 @@ return
         . "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent chang"
         . "es in project source code""`r"
         . "git push`r")
+    Gosub :*:@rebuildCssSurca
 return
 
 :*:@updateCssSubmoduleUgr::
@@ -353,6 +356,7 @@ return
         . "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent chang"
         . "es in project source code""`r"
         . "git push`r")
+    Gosub :*:@rebuildCssUgr
 return
 
 :*:@updateCssSubmoduleXfer::
@@ -365,6 +369,7 @@ return
         . "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent chang"
         . "es in project source code""`r"
         . "git push`r")
+    Gosub :*:@rebuildCssXfer
 return
 
 :*:@updateCssSubmoduleFyf::
@@ -377,6 +382,7 @@ return
         . "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent chang"
         . "es in project source code""`r"
         . "git push`r")
+    Gosub :*:@rebuildCssFyf
 return
 
 :*:@updateCssSubmoduleSumRes::
@@ -389,6 +395,7 @@ return
         . "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent chang"
         . "es in project source code""`r"
         . "git push`r")
+    Gosub :*:@rebuildCssSumRes
 return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
@@ -567,6 +574,7 @@ return
         . "git commit -m ""Updating submodule"" -m ""Updated master JS submodule to incorporate recent change"
         . "s in project source code""`r"
         . "git push`r")
+    Gosub :*:@rebuildJsDsp
 return
 
 :*:@updateJsSubmoduleFye::
@@ -579,6 +587,7 @@ return
         . "git commit -m ""Updating submodule"" -m ""Updated master JS submodule to incorporate recent change"
         . "s in project source code""`r"
         . "git push`r")
+    Gosub :*:@rebuildJsFye
 return
 
 :*:@updateJsSubmoduleFyf::
@@ -591,6 +600,7 @@ return
         . "git commit -m ""Updating submodule"" -m ""Updated master JS submodule to incorporate recent change"
         . "s in project source code""`r"
         . "git push`r")
+    Gosub :*:@rebuildJsFyf
 return
 
 :*:@updateJsSubmoduleSurca::
@@ -602,6 +612,7 @@ return
         . "git add WSU-UE---JS`r"
         . "git commit -m ""Updating submodule"" -m ""Updated master JS submodule to incorporate recent changes in project source code""`r"
         . "git push`r")
+    Gosub :*:@rebuildJsSurca
 return
 
 :*:@updateJsSubmoduleUgr::
@@ -613,6 +624,7 @@ return
         . "git add WSU-UE---JS`r"
         . "git commit -m ""Updating submodule"" -m ""Updated master JS submodule to incorporate recent changes in project source code""`r"
         . "git push`r")
+    Gosub :*:@rebuildJsUgr
 return
 
 :*:@updateJsSubmoduleXfer::
@@ -624,6 +636,7 @@ return
         . "git add WSU-UE---JS`r"
         . "git commit -m ""Updating submodule"" -m ""Updated master JS submodule to incorporate recent changes in project source code""`r"
         . "git push`r")
+    Gosub :*:@rebuildJsXfer
 return
 
 :*:@updateJsSubmoduleSumRes::
@@ -635,6 +648,7 @@ return
         . "git add WSU-UE---JS`r"
         . "git commit -m ""Updating submodule"" -m ""Updated master JS submodule to incorporate recent changes in project source code""`r"
         . "git push`r")
+    Gosub :*:@rebuildJsSumRes
 return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
