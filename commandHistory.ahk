@@ -1,10 +1,48 @@
+global sgCmdBeingEntered := false
+
+AppendAhkCmd(whatCmd) {
+    CheckForCmdEntryGui()
+    if IsLabel(whatCmd) {
+        ahkCmds.Push(whatCmd)
+        while ahkCmds.Length() > 0 && ahkCmds.Length() > ahkCmdLimit {
+            ahkCmds.RemoveAt(1)
+        }
+    }
+    else {
+        MsgBox % "Failed to append purported command: " . whatCmd
+    }
+}
+
+CheckForCmdEntryGui() {
+    if (sgCmdBeingEntered) {
+        Gosub HandleEnterCmdCancel
+    }
+}
+
+HandleEnterCmdCancel:
+    sgCmdBeingEntered = false
+    Gui, AhkGuiEnterCmd:Destroy
+return
+
+HandleCmdRptOK:
+    Gui, Submit
+    Gui, Destroy ;Doing this now implicitly allows us to return to the previously active window.
+    if (CmdChosen > 0 && CmdChosen <= ahkCmds.Length()) {
+        if IsLabel(ahkCmds[ahkCmds.Length()]) {
+            GoSub % ahkCmds[ahkCmds.Length() - CmdChosen + 1] ;Run hotstring on window that was active when ":*:@rptCmd" was triggered.
+        }
+    }
+return
+
 :*:@clearCmdHistory::
+    CheckForCmdEntryGui()
     while ahkCmds.Length() > 0 {
         ahkCmds.Pop()
     }
 return
 
 :*:@doLastCmd::
+    CheckForCmdEntryGui()
     if (ahkCmds.Length() > 0) {
         if IsLabel(ahkCmds[ahkCmds.Length()]) {
             GoSub % ahkCmds[ahkCmds.Length()]
@@ -17,6 +55,7 @@ return
 return
 
 :*:@rptCmd::
+    CheckForCmdEntryGui()
     if (ahkCmds.Length() > 0) {
         index := 1
         cmdList := index . ") " . ahkCmds[ahkCmds.Length() - index + 1]
@@ -36,17 +75,8 @@ return
     }
 return
 
-HandleCmdRptOK:
-    Gui, Submit
-    Gui, Destroy ;Doing this now implicitly allows us to return to the previously active window.
-    if (CmdChosen > 0 && CmdChosen <= ahkCmds.Length()) {
-        if IsLabel(ahkCmds[ahkCmds.Length()]) {
-            GoSub % ahkCmds[ahkCmds.Length() - CmdChosen + 1] ;Run hotstring on window that was active when ":*:@rptCmd" was triggered.
-        }
-    }
-return
-
 :*:@showLastCmd::
+    CheckForCmdEntryGui()
     if (ahkCmds.Length() > 0) {
         MsgBox % "Last command entered into history: `r" . ahkCmds[ahkCmds.Length()]
     }
@@ -55,14 +85,11 @@ return
     }
 return
 
-AppendAhkCmd(whatCmd) {
-    if IsLabel(whatCmd) {
-        ahkCmds.Push(whatCmd)
-        while ahkCmds.Length() > 0 && ahkCmds.Length() > ahkCmdLimit {
-            ahkCmds.RemoveAt(1)
-        }
-    }
-    else {
-        MsgBox % "Failed to append purported command: " . whatCmd
-    }
-}
+^!x::
+    sgCmdBeingEntered = true
+    Gui, AhkGuiEnterCmd:New,, % "Enter AutoHotkey Hotstring"
+    Gui, AhkGuiEnterCmd:Add, Text,, % "Enter the hotstring you would like to run:"
+    Gui, AhkGuiEnterCmd:Add, Edit, r1 w500 vCmdEntryBox
+    Gui, AhkGuiEnterCmd:Add, Button, Default gHandleEnterCmdCancel, &Cancel
+    Gui, AhkGuiEnterCmd:Show
+return
