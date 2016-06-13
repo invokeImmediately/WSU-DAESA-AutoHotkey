@@ -58,6 +58,21 @@ ActivateGitShell()
     return shellActivated
 }
 
+CopySrcFileToClipboard(ahkCmdName, srcFileToCopy, strToPrepend, errorMsg) {
+    AppendAhkCmd(ahkCmdName)
+    if (UserFolderIsSet()) {
+        srcFile := FileOpen(srcFileToCopy, "r")
+        if (srcFile != 0) {
+            contents := srcFile.Read()
+            srcFile.Close()
+            clipboard := strToPrepend . contents
+        }
+        else {
+            MsgBox, % (0x0 + 0x10), % errorMsg, % "Failed to open file: " . fileToOpen
+        }
+    }
+}
+
 IsGitShellActive()
 {
     WinGet, thisProcess, ProcessName, A
@@ -65,116 +80,74 @@ IsGitShellActive()
     return shellIsActive
 }
 
+InsertFilePath(ahkCmdName, filePath) {
+    AppendAhkCmd(ahkCmdName)
+    if (UserFolderIsSet()) {
+        if (IsGitShellActive()) {
+            SendInput % "cd """ . filePath . """{Enter}"
+        }
+        else {
+            SendInput % filePath . "{Enter}"
+        }
+    }
+}
+
+PasteTextIntoGitShell(ahkCmdName, shellText) {
+    AppendAhkCmd(ahkCmdName)
+    if (UserFolderIsSet()) {
+        proceedWithPaste := ActivateGitShell()
+        if (proceedWithPaste) {
+            clipboard = %shellText%
+            Click right 44, 55
+        }
+        else {
+            MsgBox, % (0x0 + 0x10), % "ERROR (" . ahkCmdName . "): GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
+        }
+    }
+}
+
 ; ------------------------------------------------------------------------------------------------------------
 ; FILE SYSTEM NAVIGATION
 ; ------------------------------------------------------------------------------------------------------------
 
 :*:@gotoGhDsp::
-    AppendAhkCmd(":*:@gotoGhDsp")
-    if (UserFolderIsSet()) {
-        if (isGitShellActive()) {
-            SendInput % "cd """ . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu""{Enter}"
-        }
-        else {
-            SendInput % GetGitHubFolder() . "\distinguishedscholarships.wsu.edu{Enter}"
-        }
-    }
+    InsertFilePath(":*:@gotoGhDsp", GetGitHubFolder() . "\distinguishedscholarships.wsu.edu") 
 return
 
 :*:@gotoGhFye::
-    AppendAhkCmd(":*:@gotoGhFye")
-    if (UserFolderIsSet()) {
-        if (isGitShellActive()) {
-            SendInput % "cd """ . GetGitHubFolder() . "\firstyear.wsu.edu""{Enter}"
-        }
-        else {
-            SendInput % GetGitHubFolder() . "\firstyear.wsu.edu{Enter}"
-        }
-    }
+    InsertFilePath(":*:@gotoGhFye", GetGitHubFolder() . "\firstyear.wsu.edu")
+return
+
+:*:@gotoGhFyf::
+    InsertFilePath(":*:@gotoGhFyf", GetGitHubFolder() . "\learningcommunities.wsu.edu")
 return
 
 :*:@gotoGhSurca::
-    AppendAhkCmd(":*:@gotoGhSurca")
-    if (UserFolderIsSet()) {
-        if (isGitShellActive()) {
-            SendInput % "cd """ . GetGitHubFolder() . "\surca.wsu.edu""{Enter}"
-        }
-        else {
-            SendInput % GetGitHubFolder() . "\surca.wsu.edu{Enter}"
-        }
-    }
+    InsertFilePath(":*:@gotoGhSurca", GetGitHubFolder() . "\surca.wsu.edu")
 return
 
 :*:@gotoGhUgr::
-    AppendAhkCmd(":*:@gotoGhUgr")
-    if (UserFolderIsSet()) {
-        if (isGitShellActive()) {
-            SendInput % "cd """ . GetGitHubFolder() . "\undergraduateresearch.wsu.edu""{Enter}"
-        }
-        else {
-            SendInput % GetGitHubFolder() . "\undergraduateresearch.wsu.edu{Enter}"
-        }
-    }
+    InsertFilePath(":*:@gotoGhUgr", GetGitHubFolder() . "\undergraduateresearch.wsu.edu")
 return
 
 :*:@gotoGhXfer::
-    AppendAhkCmd(":*:@gotoGhXfer")
-    if (UserFolderIsSet()) {
-        if (isGitShellActive()) {
-            SendInput % "cd """ . GetGitHubFolder() . "\transfercredit.wsu.edu""{Enter}"
-        }
-        else {
-            SendInput % GetGitHubFolder() . "\transfercredit.wsu.edu{Enter}"
-        }
-    }
+    InsertFilePath(":*:@gotoGhXfer", GetGitHubFolder() . "\transfercredit.wsu.edu")
 return
 
 :*:@gotoGhSumRes::
-    AppendAhkCmd(":*:@gotoGhSumRes")
-    if (UserFolderIsSet()) {
-        if (isGitShellActive()) {
-            SendInput % "cd """ . GetGitHubFolder() . "\summerresearch.wsu.edu""{Enter}"
-        }
-        else {
-            SendInput % GetGitHubFolder() . "\summerresearch.wsu.edu{Enter}"
-        }
-    }
+    InsertFilePath(":*:@gotoGhSumRes", GetGitHubFolder() . "\summerresearch.wsu.edu")
 return
 
 :*:@gotoGhCSS::
-    AppendAhkCmd(":*:@gotoGhCSS")
-    if (UserFolderIsSet()) {
-        if (isGitShellActive()) {
-            SendInput % "cd """ . GetGitHubFolder() . "\WSU-UE---CSS""{Enter}"
-        }
-        else {
-            SendInput % GetGitHubFolder() . "\WSU-UE---CSS{Enter}"
-        }
-    }
+    InsertFilePath(":*:@gotoGhCSS", GetGitHubFolder() . "\WSU-UE---CSS")
 return
 
 :*:@gotoGhJS::
-    AppendAhkCmd(":*:@gotoGhJS")
-    if (UserFolderIsSet()) {
-        if (isGitShellActive()) {
-            SendInput % "cd """ . GetGitHubFolder() . "\WSU-UE---JS""{Enter}"
-        }
-        else {
-            SendInput % GetGitHubFolder() . "\WSU-UE---JS{Enter}"
-        }
-    }
+    InsertFilePath(":*:@gotoGhJS", GetGitHubFolder() . "\WSU-UE---JS")
 return
 
 :*:@gotoGhAhk::
-    AppendAhkCmd(":*:@gotoGhAhk")
-    if (UserFolderIsSet()) {
-        if (isGitShellActive()) {
-            SendInput % "cd """ . GetGitHubFolder() . "\WSU-OUE-AutoHotkey""{Enter}"
-        }
-        else {
-            SendInput % GetGitHubFolder() . "\WSU-OUE-AutoHotkey{Enter}"
-        }
-    }
+    InsertFilePath(":*:@gotoGhAhk", GetGitHubFolder() . "\WSU-OUE-AutoHotkey")
 return
 
 ; ------------------------------------------------------------------------------------------------------------
@@ -242,323 +215,180 @@ return
 ; ------------------------------------------------------------------------------------------------------------
 
 :*:@rebuildCssDsp::
-    AppendAhkCmd(":*:@rebuildCssDsp")
-    if (UserFolderIsSet()) {
-        proceedWithBuild := ActivateGitShell()
-        if (proceedWithBuild) {
-            shellText := "cd """ . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\CSS""`r"
-                . "lessc distinguished-scholarships-program.less distinguished-scholarships-program.css`r"
-                . "lessc --clean-css distinguished-scholarships-program.less distinguished-scholarships-program.min.css`r"
-                . "cd """ . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\""`r"
-                . "git add CSS\distinguished-scholarships-program.css`r"
-                . "git add CSS\distinguished-scholarships-program.min.css`r"
-                . "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to source code""`r"
-                . "git push`r"
-            clipboard = %shellText%
-            Click right 44, 55
-        }
-    }
+    PasteTextIntoGitShell(":*:@rebuildCssDsp"
+        , "cd """ . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\CSS""`r"
+        . "lessc dsp-custom.less dsp-custom.css`r"
+        . "lessc --clean-css dsp-custom.less dsp-custom.min.css`r"
+        . "cd """ . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\""`r"
+        . "git add CSS\dsp-custom.css`r"
+        . "git add CSS\dsp-custom.min.css`r"
+        . "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
+        . "urce code""`r"
+        . "git push`r")
 return
 
 :*:@rebuildCssFye::
-    AppendAhkCmd(":*:@rebuildCssFye")
-    if (UserFolderIsSet()) {
-        proceedWithBuild := ActivateGitShell()
-        if (proceedWithBuild) {
-            shellText := "cd """ . GetGitHubFolder() . "\firstyear.wsu.edu\CSS""`r"
-                . "lessc fye-custom.less fye-custom.css`r"
-                . "lessc --clean-css fye-custom.less fye-custom.min.css`r"
-                . "cd """ . GetGitHubFolder() . "\firstyear.wsu.edu\""`r"
-                . "git add CSS\fye-custom.css`r"
-                . "git add CSS\fye-custom.min.css`r"
-                . "git commit -m ""Updating build"" -m ""Rebuilt production file to incorporate recent changes to source code""`r"
-                . "git push`r"
-            clipboard = %shellText%
-            Click right 44, 55
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
-             . "string for."
-        }
-    }
+    PasteTextIntoGitShell(":*:@rebuildCssFye"
+        , "cd """ . GetGitHubFolder() . "\firstyear.wsu.edu\CSS""`r"
+        . "lessc fye-custom.less fye-custom.css`r"
+        . "lessc --clean-css fye-custom.less fye-custom.min.css`r"
+        . "cd """ . GetGitHubFolder() . "\firstyear.wsu.edu\""`r"
+        . "git add CSS\fye-custom.css`r"
+        . "git add CSS\fye-custom.min.css`r"
+        . "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
+        . "urce code""`r"
+        . "git push`r")
 return
 
 :*:@rebuildCssSurca::
-    AppendAhkCmd(":*:@rebuildCssSurca")
-    if (UserFolderIsSet()) {
-        proceedWithBuild := ActivateGitShell()
-        if (proceedWithBuild) {
-            shellText := "cd """ . GetGitHubFolder() . "\surca.wsu.edu\CSS""`r"
-                . "lessc surca-custom.less surca-custom.css`r"
-                . "lessc --clean-css surca-custom.less surca-custom.min.css`r"
-                . "cd """ . GetGitHubFolder() . "\surca.wsu.edu\""`r"
-                . "git add CSS\surca-custom.css`r"
-                . "git add CSS\surca-custom.min.css`r"
-                . "git commit -m ""Updating build"" -m ""Rebuilt production file to incorporate recent changes to source code"" `r"
-                . "git push`r"
-            clipboard = %shellText%
-            Click right 44, 55
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
-             . "string for."
-        }
-    }
+    PasteTextIntoGitShell(":*:@rebuildCssSurca"
+        , "cd """ . GetGitHubFolder() . "\surca.wsu.edu\CSS""`r"
+        . "lessc surca-custom.less surca-custom.css`r"
+        . "lessc --clean-css surca-custom.less surca-custom.min.css`r"
+        . "cd """ . GetGitHubFolder() . "\surca.wsu.edu\""`r"
+        . "git add CSS\surca-custom.css`r"
+        . "git add CSS\surca-custom.min.css`r"
+        . "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
+        . "urce code"" `r"
+        . "git push`r")
 return
 
 :*:@rebuildCssUgr::
-    AppendAhkCmd(":*:@rebuildCssUgr")
-    if (UserFolderIsSet()) {
-        proceedWithBuild := ActivateGitShell()
-        if (proceedWithBuild) {
-            shellText := "cd """ . GetGitHubFolder() . "\undergraduateresearch.wsu.edu\CSS""`r"
-                . "lessc undergraduate-research-custom.less undergraduate-research-custom.css`r"
-                . "lessc --clean-css undergraduate-research-custom.less undergraduate-research-custom.min.css`r"
-                . "cd """ . GetGitHubFolder() . "\undergraduateresearch.wsu.edu\""`r"
-                . "git add CSS\undergraduate-research-custom.css`r"
-                . "git add CSS\undergraduate-research-custom.min.css`r"
-                . "git commit -m ""Updating build"" -m ""Rebuilt production file to incorporate recent changes to source code"" `r"
-                . "git push`r"
-            clipboard = %shellText%
-            Click right 44, 55
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
-             . "string for."
-        }
-    }
+    PasteTextIntoGitShell(":*:@rebuildCssUgr"
+        , "cd """ . GetGitHubFolder() . "\undergraduateresearch.wsu.edu\CSS""`r"
+        . "lessc undergraduate-research-custom.less undergraduate-research-custom.css`r"
+        . "lessc --clean-css undergraduate-research-custom.less undergraduate-research-custom.min.css`r"
+        . "cd """ . GetGitHubFolder() . "\undergraduateresearch.wsu.edu\""`r"
+        . "git add CSS\undergraduate-research-custom.css`r"
+        . "git add CSS\undergraduate-research-custom.min.css`r"
+        . "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
+        . "urce code"" `r"
+        . "git push`r")
 return
 
 :*:@rebuildCssXfer::
-    AppendAhkCmd(":*:@rebuildCssXfer")
-    if (UserFolderIsSet()) {
-        proceedWithBuild := ActivateGitShell()
-        if (proceedWithBuild) {
-            shellText := "cd """ . GetGitHubFolder() . "\transfercredit.wsu.edu\CSS""`r"
-                . "lessc transfer-central-custom.less transfer-central-custom.css`r"
-                . "lessc --clean-css transfer-central-custom.less transfer-central-custom.min.css`r"
-                . "cd """ . GetGitHubFolder() . "\transfercredit.wsu.edu\""`r"
-                . "git add CSS\transfer-central-custom.css`r"
-                . "git add CSS\transfer-central-custom.min.css`r"
-                . "git commit -m ""Updating build"" -m ""Rebuilt production file to incorporate recent changes to source code."" `r"
-                . "git push`r"
-            clipboard = %shellText%
-            Click right 44, 55
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
-             . "string for."
-        }
-    }
+    PasteTextIntoGitShell(":*:@rebuildCssXfer"
+        , "cd """ . GetGitHubFolder() . "\transfercredit.wsu.edu\CSS""`r"
+        . "lessc xfercredit-custom.less xfercredit-custom.css`r"
+        . "lessc --clean-css xfercredit-custom.less xfercredit-custom.min.css`r"
+        . "cd """ . GetGitHubFolder() . "\transfercredit.wsu.edu\""`r"
+        . "git add CSS\xfercredit-custom.css`r"
+        . "git add CSS\xfercredit-custom.min.css`r"
+        . "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
+        . "urce code."" `r"
+        . "git push`r")
 return
 
 :*:@rebuildCssFyf::
-    AppendAhkCmd(":*:@rebuildCssFyf")
-    if (UserFolderIsSet()) {
-        proceedWithBuild := ActivateGitShell()
-        if (proceedWithBuild) {
-            shellText := "cd """ . GetGitHubFolder() . "\learningcommunities.wsu.edu\CSS""`r"
-                . "lessc learningcommunities-custom.less learningcommunities-custom.css`r"
-                . "lessc --clean-css learningcommunities-custom.less learningcommunities-custom.min.css`r"
-                . "cd """ . GetGitHubFolder() . "\learningcommunities.wsu.edu\""`r"
-                . "git add CSS\learningcommunities-custom.css`r"
-                . "git add CSS\learningcommunities-custom.min.css`r"
-                . "git commit -m ""Updating build"" -m ""Rebuilt production file to incorporate recent changes to source code."" `r"
-                . "git push`r"
-            clipboard = %shellText%
-            Click right 44, 55
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
-             . "string for."
-        }
-    }
+    PasteTextIntoGitShell(":*:@rebuildCssFyf"
+        , "cd """ . GetGitHubFolder() . "\learningcommunities.wsu.edu\CSS""`r"
+        . "lessc learningcommunities-custom.less learningcommunities-custom.css`r"
+        . "lessc --clean-css learningcommunities-custom.less learningcommunities-custom.min.css`r"
+        . "cd """ . GetGitHubFolder() . "\learningcommunities.wsu.edu\""`r"
+        . "git add CSS\learningcommunities-custom.css`r"
+        . "git add CSS\learningcommunities-custom.min.css`r"
+        . "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
+        . "urce code."" `r"
+        . "git push`r")
 return
 
 :*:@rebuildCssSumRes::
-    AppendAhkCmd(":*:@rebuildCssSumRes")
-    if (UserFolderIsSet()) {
-        proceedWithBuild := ActivateGitShell()
-        if (proceedWithBuild) {
-            shellText := "cd """ . GetGitHubFolder() . "\summerresearch.wsu.edu\CSS""`r"
-                . "lessc summerresearch-custom.less summerresearch-custom.css`r"
-                . "lessc --clean-css summerresearch-custom.less summerresearch-custom.min.css`r"
-                . "cd """ . GetGitHubFolder() . "\summerresearch.wsu.edu\""`r"
-                . "git add CSS\summerresearch-custom.css`r"
-                . "git add CSS\summerresearch-custom.min.css`r"
-                . "git commit -m ""Updating build"" -m ""Rebuilt production file to incorporate recent changes to source code."" `r"
-                . "git push`r"
-            clipboard = %shellText%
-            Click right 44, 55
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
-             . "string for."
-        }
-    }
+    PasteTextIntoGitShell(":*:@rebuildCssSumRes"
+        , "cd """ . GetGitHubFolder() . "\summerresearch.wsu.edu\CSS""`r"
+        . "lessc summerresearch-custom.less summerresearch-custom.css`r"
+        . "lessc --clean-css summerresearch-custom.less summerresearch-custom.min.css`r"
+        . "cd """ . GetGitHubFolder() . "\summerresearch.wsu.edu\""`r"
+        . "git add CSS\summerresearch-custom.css`r"
+        . "git add CSS\summerresearch-custom.min.css`r"
+        . "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
+        . "urce code."" `r"
+        . "git push`r")
 return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@updateCssSubmoduleDsp::
-    AppendAhkCmd(":*:@updateCssSubmoduleDsp")
-    if (UserFolderIsSet()) {
-        proceedWithBuild := ActivateGitShell()
-        if (proceedWithBuild) {
-            shellText := "cd """ . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\WSU-UE---CSS""`r"
-                . "git fetch`r"
-                . "git merge origin/master`r"
-                . "cd ..`r"
-                . "git add WSU-UE---CSS`r"
-                . "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent changes in project source code""`r"
-                . "git push`r"
-            clipboard = %shellText%
-            Click right 44, 55
-            Gosub :*:@rebuildCssDsp
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
-             . "string for."
-        }
-    }
+    PasteTextIntoGitShell(":*:@updateCssSubmoduleDsp"
+        , "cd """ . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\WSU-UE---CSS""`r"
+        . "git fetch`r"
+        . "git merge origin/master`r"
+        . "cd ..`r"
+        . "git add WSU-UE---CSS`r"
+        . "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent chang"
+        . "es in project source code""`r"
+        . "git push`r")
 return
 
 :*:@updateCssSubmoduleFye::
-    AppendAhkCmd(":*:@updateCssSubmoduleFye")
-    if (UserFolderIsSet()) {
-        proceedWithBuild := ActivateGitShell()
-        if (proceedWithBuild) {
-            shellText := "cd """ . GetGitHubFolder() . "\firstyear.wsu.edu\WSU-UE---CSS""`r"
-                . "git fetch`r"
-                . "git merge origin/master`r"
-                . "cd ..`r"
-                . "git add WSU-UE---CSS`r"
-                . "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent changes in project source code""`r"
-                . "git push`r"
-            clipboard = %shellText%
-            Click right 44, 55
-            Gosub :*:@rebuildCssFye
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
-             . "string for."
-        }
-    }
+    PasteTextIntoGitShell(":*:@updateCssSubmoduleFye"
+        , "cd """ . GetGitHubFolder() . "\firstyear.wsu.edu\WSU-UE---CSS""`r"
+        . "git fetch`r"
+        . "git merge origin/master`r"
+        . "cd ..`r"
+        . "git add WSU-UE---CSS`r"
+        . "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent chang"
+        . "es in project source code""`r"
+        . "git push`r")
 return
 
 :*:@updateCssSubmoduleSurca::
-    AppendAhkCmd(":*:@updateCssSubmoduleSurca")
-    if (UserFolderIsSet()) {
-        proceedWithBuild := ActivateGitShell()
-        if (proceedWithBuild) {
-            shellText := "cd """ . GetGitHubFolder() . "\surca.wsu.edu\WSU-UE---CSS""`r"
-                . "git fetch`r"
-                . "git merge origin/master`r"
-                . "cd ..`r"
-                . "git add WSU-UE---CSS`r"
-                . "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent changes in project source code""`r"
-                . "git push`r"
-            clipboard = %shellText%
-            Click right 44, 55
-            Gosub :*:@rebuildCssSurca
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
-             . "string for."
-        }
-    }
+    PasteTextIntoGitShell(":*:@updateCssSubmoduleSurca"
+        , "cd """ . GetGitHubFolder() . "\surca.wsu.edu\WSU-UE---CSS""`r"
+        . "git fetch`r"
+        . "git merge origin/master`r"
+        . "cd ..`r"
+        . "git add WSU-UE---CSS`r"
+        . "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent chang"
+        . "es in project source code""`r"
+        . "git push`r")
 return
 
 :*:@updateCssSubmoduleUgr::
-    AppendAhkCmd(":*:@updateCssSubmoduleUgr")
-    if (UserFolderIsSet()) {
-        proceedWithBuild := ActivateGitShell()
-        if (proceedWithBuild) {
-            shellText := "cd """ . GetGitHubFolder() . "\undergraduateresearch.wsu.edu\WSU-UE---CSS""`r"
-                . "git fetch`r"
-                . "git merge origin/master`r"
-                . "cd ..`r"
-                . "git add WSU-UE---CSS`r"
-                . "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent changes in project source code""`r"
-                . "git push`r"
-            clipboard = %shellText%
-            Click right 44, 55
-            Gosub :*:@rebuildCssUgr
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
-             . "string for."
-        }
-    }
+    PasteTextIntoGitShell(":*:@updateCssSubmoduleUgr"
+        , "cd """ . GetGitHubFolder() . "\undergraduateresearch.wsu.edu\WSU-UE---CSS""`r"
+        . "git fetch`r"
+        . "git merge origin/master`r"
+        . "cd ..`r"
+        . "git add WSU-UE---CSS`r"
+        . "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent chang"
+        . "es in project source code""`r"
+        . "git push`r")
 return
 
 :*:@updateCssSubmoduleXfer::
-    AppendAhkCmd(":*:@updateCssSubmoduleXfer")
-    if (UserFolderIsSet()) {
-        proceedWithBuild := ActivateGitShell()
-        if (proceedWithBuild) {
-            shellText := "cd """ . GetGitHubFolder() . "\transfercredit.wsu.edu\WSU-UE---CSS""`r"
-                . "git fetch`r"
-                . "git merge origin/master`r"
-                . "cd ..`r"
-                . "git add WSU-UE---CSS`r"
-                . "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent changes in project source code""`r"
-                . "git push`r"
-            clipboard = %shellText%
-            Click right 44, 55
-            Gosub :*:@rebuildCssXfer
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
-             . "string for."
-        }
-    }
+    PasteTextIntoGitShell(":*:@updateCssSubmoduleXfer"
+        , "cd """ . GetGitHubFolder() . "\transfercredit.wsu.edu\WSU-UE---CSS""`r"
+        . "git fetch`r"
+        . "git merge origin/master`r"
+        . "cd ..`r"
+        . "git add WSU-UE---CSS`r"
+        . "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent chang"
+        . "es in project source code""`r"
+        . "git push`r")
 return
 
 :*:@updateCssSubmoduleFyf::
-    AppendAhkCmd(":*:@updateCssSubmoduleFyf")
-    if (UserFolderIsSet()) {
-        proceedWithBuild := ActivateGitShell()
-        if (proceedWithBuild) {
-            shellText := "cd """ . GetGitHubFolder() . "\learningcommunities.wsu.edu\WSU-UE---CSS""`r"
-                . "git fetch`r"
-                . "git merge origin/master`r"
-                . "cd ..`r"
-                . "git add WSU-UE---CSS`r"
-                . "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent changes in project source code""`r"
-                . "git push`r"
-            clipboard = %shellText%
-            Click right 44, 55
-            Gosub :*:@rebuildCssFyf
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
-             . "string for."
-        }
-    }
+    PasteTextIntoGitShell(":*:@updateCssSubmoduleFyf"
+        , "cd """ . GetGitHubFolder() . "\learningcommunities.wsu.edu\WSU-UE---CSS""`r"
+        . "git fetch`r"
+        . "git merge origin/master`r"
+        . "cd ..`r"
+        . "git add WSU-UE---CSS`r"
+        . "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent chang"
+        . "es in project source code""`r"
+        . "git push`r")
 return
 
 :*:@updateCssSubmoduleSumRes::
-    AppendAhkCmd(":*:@updateCssSubmoduleSumRes")
-    if (UserFolderIsSet()) {
-        proceedWithBuild := ActivateGitShell()
-        if (proceedWithBuild) {
-            shellText := "cd """ . GetGitHubFolder() . "\summerresearch.wsu.edu\WSU-UE---CSS""`r"
-                . "git fetch`r"
-                . "git merge origin/master`r"
-                . "cd ..`r"
-                . "git add WSU-UE---CSS`r"
-                . "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent changes in project source code""`r"
-                . "git push`r"
-            clipboard = %shellText%
-            Click right 44, 55
-            Gosub :*:@rebuildCssSumRes
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
-             . "string for."
-        }
-    }
+    PasteTextIntoGitShell(":*:@updateCssSubmoduleSumRes"
+        , "cd """ . GetGitHubFolder() . "\summerresearch.wsu.edu\WSU-UE---CSS""`r"
+        . "git fetch`r"
+        . "git merge origin/master`r"
+        . "cd ..`r"
+        . "git add WSU-UE---CSS`r"
+        . "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent chang"
+        . "es in project source code""`r"
+        . "git push`r")
 return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
@@ -577,394 +407,234 @@ return
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@copyMinCssDsp::
-    AppendAhkCmd(":*:@copyMinCssDsp")
-    if (UserFolderIsSet()) {
-        fileToOpen := GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\CSS\distinguished-scholarships-program.min.css"
-        minCssFile := FileOpen(fileToOpen, "r")
-        if (minCssFile != 0) {
-            contents := minCssFile.Read()
-            minCssFile.Close()
-            clipboard := "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invokeImmediately/firstyear.wsu.edu] for a repository of source code. */`r`n" . contents
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: Couldn't Copy Minified CSS for DSP Website", % "Failed to open file: " . fileToOpen
-        }
-    }
+    CopySrcFileToClipboard(":*:@copyMinCssDsp"
+        , GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\CSS\dsp-custom.min.css"
+        , "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
+        . "keImmediately/firstyear.wsu.edu] for a repository of source code. */`r`n"
+        , "ERROR: Couldn't Copy Minified CSS for DSP Website")
 return
 
 :*:@copyMinCssFye::
-    AppendAhkCmd(":*:@copyMinCssFye")
-    if UserFolderIsSet() {
-        fileToOpen := GetGitHubFolder() . "\firstyear.wsu.edu\CSS\fye-custom.min.css"
-        minCssFile := FileOpen(fileToOpen, "r")
-        if (minCssFile != 0) {
-            contents := minCssFile.Read()
-            minCssFile.Close()
-            clipboard := "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invokeImmediately/firstyear.wsu.edu] for a repository of source code. */`r`n" . contents
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: Couldn't Copy Minified CSS for FYE Website", % "Failed to open file: " . fileToOpen
-        }
-    }
+    CopySrcFileToClipboard(":*:@copyMinCssFye"
+        , GetGitHubFolder() . "\firstyear.wsu.edu\CSS\fye-custom.min.css"
+        , "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
+        . "keImmediately/firstyear.wsu.edu] for a repository of source code. */`r`n"
+        , "ERROR: Couldn't Copy Minified CSS for FYE Website")
 return
 
 :*:@copyMinCssUgr::
-    AppendAhkCmd(":*:@copyMinCssUgr")
-    if (UserFolderIsSet()) {
-        fileToOpen := GetGitHubFolder() . "\undergraduateresearch.wsu.edu\CSS\undergraduate-research-custom.min.css"
-        minCssFile := FileOpen(fileToOpen, "r")
-        if (minCssFile != 0) {
-            contents := minCssFile.Read()
-            minCssFile.Close()
-            clipboard := "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invokeImmediately/undergraduateresearch.wsu.edu] for a repository of source code. */`r`n" . contents
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: Couldn't Copy Minified CSS for UGR Website", % "Failed to open file: " . fileToOpen
-        }
-    }
+    CopySrcFileToClipboard(":*:@copyMinCssUgr"
+        , GetGitHubFolder() . "\undergraduateresearch.wsu.edu\CSS\undergraduate-research-custom.min.css"
+        , "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
+        . "keImmediately/undergraduateresearch.wsu.edu] for a repository of source code. */`r`n"
+        , "ERROR: Couldn't Copy Minified CSS for UGR Website")
 return
 
 :*:@copyMinCssSurca::
-    AppendAhkCmd(":*:@copyMinCssSurca")
-    if (UserFolderIsSet()) {
-        fileToOpen := GetGitHubFolder() . "\surca.wsu.edu\CSS\surca-custom.min.css"
-        minCssFile := FileOpen(fileToOpen, "r")
-        if (minCssFile != 0) {
-            contents := minCssFile.Read()
-            minCssFile.Close()
-            clipboard := "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invokeImmediately/surca.wsu.edu] for a repository of source code. */`r`n" . contents
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: Couldn't Copy Minified CSS for SURCA Website", % "Failed to open file: " . fileToOpen
-        }
-    }
+    CopySrcFileToClipboard(":*:@copyMinCssSurca"
+        , GetGitHubFolder() . "\surca.wsu.edu\CSS\surca-custom.min.css"
+        , "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
+        . "keImmediately/surca.wsu.edu] for a repository of source code. */`r`n"
+        , "ERROR: Couldn't Copy Minified CSS for SURCA Website")
 return
 
 :*:@copyMinCssXfer::
-    AppendAhkCmd(":*:@copyMinCssXfer")
-    if (UserFolderIsSet()) {
-        fileToOpen := GetGitHubFolder() . "\transfercredit.wsu.edu\CSS\transfer-central-custom.min.css"
-        minCssFile := FileOpen(fileToOpen, "r")
-        if (minCssFile != 0) {
-            contents := minCssFile.Read()
-            minCssFile.Close()
-            clipboard := "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invokeImmediately/transfercredit.wsu.edu] for a repository of source code. */`r`n" . contents
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: Couldn't Copy Minified CSS for Transfer Credit Website", % "Failed to open file: " . fileToOpen
-        }
-    }
+    CopySrcFileToClipboard(":*:@copyMinCssXfer"
+        , GetGitHubFolder() . "\transfercredit.wsu.edu\CSS\xfercredit-custom.min.css"
+        , "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
+        . "keImmediately/transfercredit.wsu.edu] for a repository of source code. */`r`n"
+        , "ERROR: Couldn't Copy Minified CSS for Transfer Credit Website")
 return
 
 :*:@copyMinCssFyf::
-    AppendAhkCmd(":*:@copyMinCssFyf")
-    if (UserFolderIsSet()) {
-        fileToOpen := GetGitHubFolder() . "\learningcommunities.wsu.edu\CSS\learningcommunities-custom.min.css"
-        minCssFile := FileOpen(fileToOpen, "r")
-        if (minCssFile != 0) {
-            contents := minCssFile.Read()
-            minCssFile.Close()
-            clipboard := "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invokeImmediately/learningcommunities.wsu.edu] for a repository of source code. */`r`n" . contents
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: Couldn't Copy Minified CSS for First-Year Focus Website", % "Failed to open file: " . fileToOpen
-        }
-    }
+    CopySrcFileToClipboard(":*:@copyMinCssFyf"
+        , GetGitHubFolder() . "\learningcommunities.wsu.edu\CSS\learningcommunities-custom.min.css"
+        , "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
+        . "keImmediately/learningcommunities.wsu.edu] for a repository of source code. */`r`n"
+        , "ERROR: Couldn't Copy Minified CSS for First-Year Focus Website")
 return
 
 :*:@copyMinCssSumRes::
-    AppendAhkCmd(":*:@copyMinCssSumRes")
-    if (UserFolderIsSet()) {
-        fileToOpen := GetGitHubFolder() . "\summerresearch.wsu.edu\CSS\summerresearch-custom.min.css"
-        minCssFile := FileOpen(fileToOpen, "r")
-        if (minCssFile != 0) {
-            contents := minCssFile.Read()
-            minCssFile.Close()
-            clipboard := "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invokeImmediately/summerresearch.wsu.edu] for a repository of source code. */`r`n" . contents
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: Couldn't Copy Minified CSS for Summer Research Website", % "Failed to open file: " . fileToOpen
-        }
-    }
+    CopySrcFileToClipboard(":*:@copyMinCssSumRes"
+        , GetGitHubFolder() . "\summerresearch.wsu.edu\CSS\summerresearch-custom.min.css"
+        , "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
+        . "keImmediately/summerresearch.wsu.edu] for a repository of source code. */`r`n"
+        , "ERROR: Couldn't Copy Minified CSS for Summer Research Website")
 return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@rebuildJsDsp::
-    AppendAhkCmd(":*:@rebuildJsDsp")
-    if (UserFolderIsSet()) {
-        proceedWithBuild := ActivateGitShell()
-        if (proceedWithBuild) {
-            shellText := "cd """ . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\JS""`r"
-                . "node build-production-file.js`r"
-                . "uglifyjs wp-custom-javascript-source.dsp.js --output wp-custom-js-source.min.dsp.js`r"
-                . "cd """ . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\""`r"
-                . "git add JS\wp-custom-javascript-source.dsp.js`r"
-                . "git add JS\wp-custom-js-source.min.dsp.js`r"
-                . "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to source code""`r"
-                . "git push`r"
-            clipboard = %shellText%
-            Click right 44, 55
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
-             . "string for."
-        }
-    }
+    PasteTextIntoGitShell(":*:@rebuildJsDsp"
+        , "cd """ . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\JS""`r"
+        . "node build-production-file.js`r"
+        . "uglifyjs wp-custom-javascript-source.dsp.js --output wp-custom-js-source.min.dsp.js`r"
+        . "cd """ . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\""`r"
+        . "git add JS\wp-custom-javascript-source.dsp.js`r"
+        . "git add JS\wp-custom-js-source.min.dsp.js`r"
+        . "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
+        . "urce code""`r"
+        . "git push`r")
 return
 
 :*:@rebuildJsFye::
-    AppendAhkCmd(":*:@rebuildJsFye")
-    if (UserFolderIsSet()) {
-        proceedWithBuild := ActivateGitShell()
-        if (proceedWithBuild) {
-            shellText := "cd """ . GetGitHubFolder() . "\firstyear.wsu.edu\JS""`r"
-                . "node build-production-file.js`r"
-                . "uglifyjs wp-custom-js-source.js --output wp-custom-js-source.min.js`r"
-                . "cd """ . GetGitHubFolder() . "\firstyear.wsu.edu\""`r"
-                . "git add JS\wp-custom-js-source.min.js`r"
-                . "git commit -m ""Updating build"" -m ""Rebuilt production file to incorporate recent changes to source code""`r"
-                . "git push`r"
-            clipboard = %shellText%
-            Click right 44, 55
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
-             . "string for."
-        }
-    }
+    PasteTextIntoGitShell(":*:@rebuildJsFye"
+        , "cd """ . GetGitHubFolder() . "\firstyear.wsu.edu\JS""`r"
+        . "node build-production-file.js`r"
+        . "uglifyjs wp-custom-js-source.js --output wp-custom-js-source.min.js -mt`r"
+        . "cd """ . GetGitHubFolder() . "\firstyear.wsu.edu\""`r"
+        . "git add JS\wp-custom-js-source.js`r"
+        . "git add JS\wp-custom-js-source.min.js`r"
+        . "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
+        . "urce code""`r"
+        . "git push`r")
+return
+
+:*:@rebuildJsFyf::
+    PasteTextIntoGitShell(":*:@rebuildJsFyf"
+        , "cd """ . GetGitHubFolder() . "\learningcommunities.wsu.edu\JS""`r"
+        . "node build-production-file.js`r"
+        . "uglifyjs wp-custom-js-source.js --output wp-custom-js-source.min.js -mt`r"
+        . "cd """ . GetGitHubFolder() . "\learningcommunities.wsu.edu\""`r"
+        . "git add JS\wp-custom-js-source.js`r"
+        . "git add JS\wp-custom-js-source.min.js`r"
+        . "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
+        . "urce code""`r"
+        . "git push`r")
 return
 
 :*:@rebuildJsSurca::
-    AppendAhkCmd(":*:@rebuildJsSurca")
-    if (UserFolderIsSet()) {
-        proceedWithBuild := ActivateGitShell()
-        if (proceedWithBuild) {
-            shellText := "cd """ . GetGitHubFolder() . "\surca.wsu.edu\JS""`r"
-                . "node build-production-file.js`r"
-                . "uglifyjs wp-custom-js-source.js --output wp-custom-js-source.min.js`r"
-                . "cd """ . GetGitHubFolder() . "\surca.wsu.edu\""`r"
-                . "git add JS\wp-custom-js-source.js`r"
-                . "git add JS\wp-custom-js-source.min.js`r"
-                . "git commit -m ""Updating build"" -m ""Rebuilt production file to incorporate recent changes to source code"" `r"
-                . "git push`r"
-            clipboard = %shellText%
-            Click right 44, 55
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
-             . "string for."
-        }
-    }
+    PasteTextIntoGitShell(":*:@rebuildJsSurca"
+        , "cd """ . GetGitHubFolder() . "\surca.wsu.edu\JS""`r"
+        . "node build-production-file.js`r"
+        . "uglifyjs wp-custom-js-source.js --output wp-custom-js-source.min.js`r"
+        . "cd """ . GetGitHubFolder() . "\surca.wsu.edu\""`r"
+        . "git add JS\wp-custom-js-source.js`r"
+        . "git add JS\wp-custom-js-source.min.js`r"
+        . "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
+        . "urce code"" `r"
+        . "git push`r")
 return
 
 :*:@rebuildJsUgr::
-    AppendAhkCmd(":*:@rebuildJsUgr")
-    if (UserFolderIsSet()) {
-        proceedWithBuild := ActivateGitShell()
-        if (proceedWithBuild) {
-            shellText := "cd """ . GetGitHubFolder() . "\undergraduateresearch.wsu.edu\JS""`r"
-                . "node build-production-file.js`r"
-                . "uglifyjs wp-custom-js-source.js --output wp-custom-js-source.min.js`r"
-                . "cd """ . GetGitHubFolder() . "\undergraduateresearch.wsu.edu\""`r"
-                . "git add JS\wp-custom-js-source.js`r"
-                . "git add JS\wp-custom-js-source.min.js`r"
-                . "git commit -m ""Updating build"" -m ""Rebuilt production file to incorporate recent changes to source code"" `r"
-                . "git push`r"
-            clipboard = %shellText%
-            Click right 44, 55
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
-             . "string for."
-        }
-    }
+    PasteTextIntoGitShell(":*:@rebuildJsUgr"
+        , "cd """ . GetGitHubFolder() . "\undergraduateresearch.wsu.edu\JS""`r"
+        . "node build-production-file.js`r"
+        . "uglifyjs wp-custom-js-source.js --output wp-custom-js-source.min.js`r"
+        . "cd """ . GetGitHubFolder() . "\undergraduateresearch.wsu.edu\""`r"
+        . "git add JS\wp-custom-js-source.js`r"
+        . "git add JS\wp-custom-js-source.min.js`r"
+        . "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
+        . "urce code"" `r"
+        . "git push`r")
 return
 
 :*:@rebuildJsXfer::
-    AppendAhkCmd(":*:@rebuildJsXfer")
-    if (UserFolderIsSet()) {
-        proceedWithBuild := ActivateGitShell()
-        if (proceedWithBuild) {
-            shellText := "cd """ . GetGitHubFolder() . "\transfercredit.wsu.edu\JS""`r"
-                . "node build-production-file.js`r"
-                . "uglifyjs wp-custom-js-source.js -m --output wp-custom-js-source.min.js`r"
-                . "cd """ . GetGitHubFolder() . "\transfercredit.wsu.edu\""`r"
-                . "git add JS\wp-custom-js-source.js`r"
-                . "git add JS\wp-custom-js-source.min.js`r"
-                . "git commit -m ""Updating build"" -m ""Rebuilt production file to incorporate recent changes to source code."" `r"
-                . "git push`r"
-            clipboard = %shellText%
-            Click right 44, 55
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
-             . "string for."
-        }
-    }
+    PasteTextIntoGitShell(":*:@rebuildJsXfer"
+        , "cd """ . GetGitHubFolder() . "\transfercredit.wsu.edu\JS""`r"
+        . "node build-production-file.js`r"
+        . "uglifyjs wp-custom-js-source.js -m --output wp-custom-js-source.min.js`r"
+        . "cd """ . GetGitHubFolder() . "\transfercredit.wsu.edu\""`r"
+        . "git add JS\wp-custom-js-source.js`r"
+        . "git add JS\wp-custom-js-source.min.js`r"
+        . "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
+        . "urce code."" `r"
+        . "git push`r")
 return
 
 :*:@rebuildJsSumRes::
-    AppendAhkCmd(":*:@rebuildJsXfer")
-    if (UserFolderIsSet()) {
-        proceedWithBuild := ActivateGitShell()
-        if (proceedWithBuild) {
-            shellText := "cd """ . GetGitHubFolder() . "\summerresearch.wsu.edu\JS""`r"
-                . "node build-production-file.js`r"
-                . "uglifyjs wp-custom-js-source.js -m --output wp-custom-js-source.min.js`r"
-                . "cd """ . GetGitHubFolder() . "\summerresearch.wsu.edu\""`r"
-                . "git add JS\wp-custom-js-source.js`r"
-                . "git add JS\wp-custom-js-source.min.js`r"
-                . "git commit -m ""Updating build"" -m ""Rebuilt production file to incorporate recent changes to source code."" `r"
-                . "git push`r"
-            clipboard = %shellText%
-            Click right 44, 55
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
-             . "string for."
-        }
-    }
+    PasteTextIntoGitShell(":*:@rebuildJsXfer"
+        , "cd """ . GetGitHubFolder() . "\summerresearch.wsu.edu\JS""`r"
+        . "node build-production-file.js`r"
+        . "uglifyjs wp-custom-js-source.js -m --output wp-custom-js-source.min.js`r"
+        . "cd """ . GetGitHubFolder() . "\summerresearch.wsu.edu\""`r"
+        . "git add JS\wp-custom-js-source.js`r"
+        . "git add JS\wp-custom-js-source.min.js`r"
+        . "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
+        . "urce code."" `r"
+        . "git push`r")
 return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@updateJsSubmoduleDsp::
-    AppendAhkCmd(":*:@updateJsSubmoduleDsp")
-    if (UserFolderIsSet()) {
-        proceedWithBuild := ActivateGitShell()
-        if (proceedWithBuild) {
-            shellText := "cd """ . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\WSU-UE---JS""`r"
-                . "git fetch`r"
-                . "git merge origin/master`r"
-                . "cd ..`r"
-                . "git add WSU-UE---JS`r"
-                . "git commit -m ""Updating submodule"" -m ""Updated master JS submodule to incorporate recent changes in project source code""`r"
-                . "git push`r"
-            clipboard = %shellText%
-            Click right 44, 55
-            Gosub :*:@rebuildJsDsp
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
-             . "string for."
-        }
-    }
+    PasteTextIntoGitShell(":*:@updateJsSubmoduleDsp"
+        , "cd """ . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\WSU-UE---JS""`r"
+        . "git fetch`r"
+        . "git merge origin/master`r"
+        . "cd ..`r"
+        . "git add WSU-UE---JS`r"
+        . "git commit -m ""Updating submodule"" -m ""Updated master JS submodule to incorporate recent change"
+        . "s in project source code""`r"
+        . "git push`r")
 return
 
 :*:@updateJsSubmoduleFye::
-    AppendAhkCmd(":*:@updateJsSubmoduleFye")
-    if (UserFolderIsSet()) {
-        proceedWithBuild := ActivateGitShell()
-        if (proceedWithBuild) {
-            shellText := "cd """ . GetGitHubFolder() . "\firstyear.wsu.edu\WSU-UE---JS""`r"
-                . "git fetch`r"
-                . "git merge origin/master`r"
-                . "cd ..`r"
-                . "git add WSU-UE---JS`r"
-                . "git commit -m ""Updating submodule"" -m ""Updated master JS submodule to incorporate recent changes in project source code""`r"
-                . "git push`r"
-            clipboard = %shellText%
-            Click right 44, 55
-            Gosub :*:@rebuildJsFye
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
-             . "string for."
-        }
-    }
+    PasteTextIntoGitShell(":*:@updateJsSubmoduleFye"
+        , "cd """ . GetGitHubFolder() . "\firstyear.wsu.edu\WSU-UE---JS""`r"
+        . "git fetch`r"
+        . "git merge origin/master`r"
+        . "cd ..`r"
+        . "git add WSU-UE---JS`r"
+        . "git commit -m ""Updating submodule"" -m ""Updated master JS submodule to incorporate recent change"
+        . "s in project source code""`r"
+        . "git push`r")
+return
+
+:*:@updateJsSubmoduleFyf::
+    PasteTextIntoGitShell(":*:@updateJsSubmoduleFyf"
+        , "cd """ . GetGitHubFolder() . "\learningcommunities.wsu.edu\WSU-UE---JS""`r"
+        . "git fetch`r"
+        . "git merge origin/master`r"
+        . "cd ..`r"
+        . "git add WSU-UE---JS`r"
+        . "git commit -m ""Updating submodule"" -m ""Updated master JS submodule to incorporate recent change"
+        . "s in project source code""`r"
+        . "git push`r")
 return
 
 :*:@updateJsSubmoduleSurca::
-    AppendAhkCmd(":*:@updateJsSubmoduleSurca")
-    if (UserFolderIsSet()) {
-        proceedWithBuild := ActivateGitShell()
-        if (proceedWithBuild) {
-            shellText := "cd """ . GetGitHubFolder() . "\surca.wsu.edu\WSU-UE---JS""`r"
-                . "git fetch`r"
-                . "git merge origin/master`r"
-                . "cd ..`r"
-                . "git add WSU-UE---JS`r"
-                . "git commit -m ""Updating submodule"" -m ""Updated master JS submodule to incorporate recent changes in project source code""`r"
-                . "git push`r"
-            clipboard = %shellText%
-            Click right 44, 55
-            Gosub :*:@rebuildJsSurca
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
-             . "string for."
-        }
-    }
+    PasteTextIntoGitShell(":*:@updateJsSubmoduleSurca"
+        , "cd """ . GetGitHubFolder() . "\surca.wsu.edu\WSU-UE---JS""`r"
+        . "git fetch`r"
+        . "git merge origin/master`r"
+        . "cd ..`r"
+        . "git add WSU-UE---JS`r"
+        . "git commit -m ""Updating submodule"" -m ""Updated master JS submodule to incorporate recent changes in project source code""`r"
+        . "git push`r")
 return
 
 :*:@updateJsSubmoduleUgr::
-    AppendAhkCmd(":*:@updateJsSubmoduleUgr")
-    if (UserFolderIsSet()) {
-        proceedWithBuild := ActivateGitShell()
-        if (proceedWithBuild) {
-            shellText := "cd """ . GetGitHubFolder() . "\undergraduateresearch.wsu.edu\WSU-UE---JS""`r"
-                . "git fetch`r"
-                . "git merge origin/master`r"
-                . "cd ..`r"
-                . "git add WSU-UE---JS`r"
-                . "git commit -m ""Updating submodule"" -m ""Updated master JS submodule to incorporate recent changes in project source code""`r"
-                . "git push`r"
-            clipboard = %shellText%
-            Click right 44, 55
-            Gosub :*:@rebuildJsUgr
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
-             . "string for."
-        }
-    }
+    PasteTextIntoGitShell(":*:@updateJsSubmoduleUgr"
+        , "cd """ . GetGitHubFolder() . "\undergraduateresearch.wsu.edu\WSU-UE---JS""`r"
+        . "git fetch`r"
+        . "git merge origin/master`r"
+        . "cd ..`r"
+        . "git add WSU-UE---JS`r"
+        . "git commit -m ""Updating submodule"" -m ""Updated master JS submodule to incorporate recent changes in project source code""`r"
+        . "git push`r")
 return
 
 :*:@updateJsSubmoduleXfer::
-    AppendAhkCmd(":*:@updateJsSubmoduleXfer")
-    if (UserFolderIsSet()) {
-        proceedWithBuild := ActivateGitShell()
-        if (proceedWithBuild) {
-            shellText := "cd """ . GetGitHubFolder() . "\transfercredit.wsu.edu\WSU-UE---JS""`r"
-                . "git fetch`r"
-                . "git merge origin/master`r"
-                . "cd ..`r"
-                . "git add WSU-UE---JS`r"
-                . "git commit -m ""Updating submodule"" -m ""Updated master JS submodule to incorporate recent changes in project source code""`r"
-                . "git push`r"
-            clipboard = %shellText%
-            Click right 44, 55
-            Gosub :*:@rebuildJsXfer
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
-             . "string for."
-        }
-    }
+    PasteTextIntoGitShell(":*:@updateJsSubmoduleXfer"
+        , "cd """ . GetGitHubFolder() . "\transfercredit.wsu.edu\WSU-UE---JS""`r"
+        . "git fetch`r"
+        . "git merge origin/master`r"
+        . "cd ..`r"
+        . "git add WSU-UE---JS`r"
+        . "git commit -m ""Updating submodule"" -m ""Updated master JS submodule to incorporate recent changes in project source code""`r"
+        . "git push`r")
 return
 
 :*:@updateJsSubmoduleSumRes::
-    AppendAhkCmd(":*:@updateJsSubmoduleSumRes")
-    if (UserFolderIsSet()) {
-        proceedWithBuild := ActivateGitShell()
-        if (proceedWithBuild) {
-            shellText := "cd """ . GetGitHubFolder() . "\summerresearch.wsu.edu\WSU-UE---JS""`r"
-                . "git fetch`r"
-                . "git merge origin/master`r"
-                . "cd ..`r"
-                . "git add WSU-UE---JS`r"
-                . "git commit -m ""Updating submodule"" -m ""Updated master JS submodule to incorporate recent changes in project source code""`r"
-                . "git push`r"
-            clipboard = %shellText%
-            Click right 44, 55
-            Gosub :*:@rebuildJsSumRes
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
-             . "string for."
-        }
-    }
+    PasteTextIntoGitShell(":*:@updateJsSubmoduleSumRes"
+        , "cd """ . GetGitHubFolder() . "\summerresearch.wsu.edu\WSU-UE---JS""`r"
+        . "git fetch`r"
+        . "git merge origin/master`r"
+        . "cd ..`r"
+        . "git add WSU-UE---JS`r"
+        . "git commit -m ""Updating submodule"" -m ""Updated master JS submodule to incorporate recent changes in project source code""`r"
+        . "git push`r")
 return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
@@ -982,100 +652,99 @@ return
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@copyMinJsDsp::
-    AppendAhkCmd(":*:@copyMinJsDsp")
-    if (UserFolderIsSet()) {
-        fileToOpen := GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\JS\wp-custom-js-source.min.dsp.js"
-        minJsFile := FileOpen(fileToOpen, "r")
-        if (minJsFile != 0) {
-            contents := minJsFile.Read()
-            minJsFile.Close()
-            Clipboard := "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/distinguishedscholarship.wsu.edu] for a repository of source code.`r`n"
-                . "// Third-party, open-source JavaScript plugins used by this website:`r`n"
-                . "//   cycle2, (c) 2012-2014 M. Alsup. | https://github.com/malsup/cycle2 | MIT license -- http://malsup.github.io/mit-license.txt && GPL license -- http://malsup.github.io/gpl-license-v2.txt`r`n"
-                . "//   FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatron5000/FitText.js | GNU GPLv2 -- http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html`r`n"
-                . "//   imagesLoaded, (c) David DeSandro 2016 | http://imagesloaded.desandro.com/ | MIT license -- http://desandro.mit-license.org/`r`n"
-                . "//   Masonry JS, (c) David DeSandro 2016 | http://masonry.desandro.com/ | MIT license -- http://desandro.mit-license.org/`r`n"
-                . "//   jQuery Media Plugin, (c) 2007-2010 M. Alsup. | http://malsup.com/jquery/media/ | MIT license -- https://opensource.org/licenses/mit-license.php  && GPL license -- http://www.gnu.org/licenses/gpl.html`r`n"
-                . "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- http://creativecommons.org/licenses/by/3.0/`r`n" . contents
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: Couldn't Copy Minified JS for DSP Website", % "Failed to open file: " . fileToOpen
-        }
-    }
+    CopySrcFileToClipboard(":*:@copyMinJsDsp"
+        , GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\JS\wp-custom-js-source.min.dsp.js"
+        , "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo/"
+        . "UglifyJS]. Please see [https://github.com/invokeImmediately/distinguishedscholarship.wsu.edu] for "
+        . "a repository of source code.`r`n"
+        . "// Third-party, open-source JavaScript plugins used by this website:`r`n"
+        . "//   cycle2, (c) 2012-2014 M. Alsup. | https://github.com/malsup/cycle2 | MIT license -- http://ma"
+        . "lsup.github.io/mit-license.txt && GPL license -- http://malsup.github.io/gpl-license-v2.txt`r`n"
+        . "//   FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatron5000/Fit"
+        . "Text.js | GNU GPLv2 -- http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html`r`n"
+        . "//   imagesLoaded, (c) David DeSandro 2016 | http://imagesloaded.desandro.com/ | MIT license -- ht"
+        . "tp://desandro.mit-license.org/`r`n"
+        . "//   Masonry JS, (c) David DeSandro 2016 | http://masonry.desandro.com/ | MIT license -- http://de"
+        . "sandro.mit-license.org/`r`n"
+        . "//   jQuery Media Plugin, (c) 2007-2010 M. Alsup. | http://malsup.com/jquery/media/ | MIT license "
+        . "-- https://opensource.org/licenses/mit-license.php  && GPL license -- http://www.gnu.org/licenses/"
+        . "gpl.html`r`n"
+        . "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- http://cre"
+        . "ativecommons.org/licenses/by/3.0/`r`n"
+        , "ERROR: Couldn't Copy Minified JS for DSP Website")
 return
 
 :*:@copyMinJsFye::
-    AppendAhkCmd(":*:@copyMinJsFye")
-    if (UserFolderIsSet()) {
-        fileToOpen := GetGitHubFolder() . "\firstyear.wsu.edu\JS\wp-custom-js-source.min.js"
-        minJsFile := FileOpen(fileToOpen, "r")
-        if (minJsFile != 0) {
-            contents := minJsFile.Read()
-            minJsFile.Close()
-            Clipboard := "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/distinguishedscholarship.wsu.edu] for a repository of source code.`r`n"
-                . "// Third-party, open-source JavaScript plugins used by this website:`r`n"
-                . "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- http://creativecommons.org/licenses/by/3.0/`r`n" . contents
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: Couldn't Copy Minified JS for FYE Website", % "Failed to open file: " . fileToOpen
-        }
-    }
+    CopySrcFileToClipboard(":*:@copyMinJsFye"
+        , GetGitHubFolder() . "\firstyear.wsu.edu\JS\wp-custom-js-source.min.js"
+        , "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo/"
+        . "UglifyJS]. Please see [https://github.com/invokeImmediately/firstyear.wsu.edu] for a repository of"
+        . "source code.`r`n"
+        . "// Third-party, open-source JavaScript plugins used by this website:`r`n"
+        . "//   FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatron5000/Fit"
+        . "Text.js | GNU GPLv2 -- http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html`r`n"
+        . "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- http://cre"
+        . "ativecommons.org/licenses/by/3.0/`r`n"
+        , "ERROR: Couldn't Copy Minified JS for FYE Website")
+return
+
+:*:@copyMinJsFyf::
+    CopySrcFileToClipboard(":*:@copyMinJsFyf"
+        , GetGitHubFolder() . "\learningcommunities.wsu.edu\JS\wp-custom-js-source.min.js"
+        , "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo/"
+        . "UglifyJS]. Please see [https://github.com/invokeImmediately/learningcommunities.wsu.edu] for a rep"
+        . "ository of source code.`r`n"
+        . "// Third-party, open-source JavaScript plugins used by this website:`r`n"
+        . "//   FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatron5000/Fit"
+        . "Text.js | GNU GPLv2 -- http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html`r`n"
+        . "//   Masonry JS, (c) David DeSandro 2016 | http://masonry.desandro.com/ | MIT license -- http://de"
+        . "sandro.mit-license.org/`r`n"
+        . "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- http://cre"
+        . "ativecommons.org/licenses/by/3.0/`r`n"
+        , "ERROR: Couldn't Copy Minified JS for FYF Website")
 return
 
 :*:@copyMinJsUgr::
-    AppendAhkCmd(":*:@copyMinJsUgr")
-    if (UserFolderIsSet()) {
-        fileToOpen := GetGitHubFolder() . "\undergraduateresearch.wsu.edu\JS\wp-custom-js-source.min.js"
-        minJsFile := FileOpen(fileToOpen, "r")
-        if (minJsFile != 0) {
-            contents := minJsFile.Read()
-            minJsFile.Close()
-            Clipboard := "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/undergraduateresearch.wsu.edu] for a repository of source code.`r`n"
-                . "// Third-party, open-source JavaScript plugins used by this website:`r`n"
-                . "//   FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatron5000/FitText.js | GNU GPLv2 -- http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html`r`n"
-                . "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- http://creativecommons.org/licenses/by/3.0/`r`n" . contents
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: Couldn't Copy Minified JS for UGR Website", % "Failed to open file: " . fileToOpen
-        }
-    }
+    CopySrcFileToClipboard(":*:@copyMinJsUgr"
+        , GetGitHubFolder() . "\undergraduateresearch.wsu.edu\JS\wp-custom-js-source.min.js"
+        , "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo/"
+        . "UglifyJS]. Please see [https://github.com/invokeImmediately/undergraduateresearch.wsu.edu] for a r"
+        . "epository of source code.`r`n"
+        . "// Third-party, open-source JavaScript plugins used by this website:`r`n"
+        . "//   FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatron5000/Fit"
+        . "Text.js | GNU GPLv2 -- http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html`r`n"
+        . "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- http://cre"
+        . "ativecommons.org/licenses/by/3.0/`r`n"
+        , "ERROR: Couldn't Copy Minified JS for UGR Website")
 return
 
 :*:@copyMinJsXfer::
-    AppendAhkCmd(":*:@copyMinJsXfer")
-    if (UserFolderIsSet()) {
-        fileToOpen := GetGitHubFolder() . "\transfercredit.wsu.edu\JS\wp-custom-js-source.min.js"
-        minJsFile := FileOpen(fileToOpen, "r")
-        if (minJsFile != 0) {
-            contents := minJsFile.Read()
-            minJsFile.Close()
-            Clipboard := "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/transfercredit.wsu.edu] for a repository of source code.`r`n"
-                . "// Third-party, open-source JavaScript plugins used by this website:`r`n"
-                . "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- http://creativecommons.org/licenses/by/3.0/`r`n" . contents
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: Couldn't Copy Minified JS for WSU Transfer Credit Website", % "Failed to open file: " . fileToOpen
-        }
-    }
+    CopySrcFileToClipboard(":*:@copyMinJsXfer"
+        , GetGitHubFolder() . "\transfercredit.wsu.edu\JS\wp-custom-js-source.min.js"
+        , "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo/"
+        . "UglifyJS]. Please see [https://github.com/invokeImmediately/transfercredit.wsu.edu] for a reposito"
+        . "ry of source code.`r`n"
+        . "// Third-party, open-source JavaScript plugins used by this website:`r`n"
+        . "//   FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatron5000/Fit"
+        . "Text.js | GNU GPLv2 -- http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html`r`n"
+        . "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- http://cre"
+        . "ativecommons.org/licenses/by/3.0/`r`n"
+        , "ERROR: Couldn't Copy Minified JS for WSU Transfer Credit Website")
 return
 
 :*:@copyMinJsSumRes::
-    AppendAhkCmd(":*:@copyMinJsSumRes")
-    if (UserFolderIsSet()) {
-        fileToOpen := GetGitHubFolder() . "\summerresearch.wsu.edu\JS\wp-custom-js-source.min.js"
-        minJsFile := FileOpen(fileToOpen, "r")
-        if (minJsFile != 0) {
-            contents := minJsFile.Read()
-            minJsFile.Close()
-            Clipboard := "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/transfercredit.wsu.edu] for a repository of source code.`r`n"
-                . "// Third-party, open-source JavaScript plugins used by this website:`r`n"
-                . "//   Masonry JS, (c) David DeSandro 2016 | http://masonry.desandro.com/ | MIT license -- http://desandro.mit-license.org/`r`n"
-                . "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- http://creativecommons.org/licenses/by/3.0/`r`n" . contents
-        }
-        else {
-            MsgBox, % (0x0 + 0x10), % "ERROR: Couldn't Copy Minified JS for WSU Summer Research Website", % "Failed to open file: " . fileToOpen
-        }
-    }
+    CopySrcFileToClipboard(":*:@copyMinJsSumRes"
+        , GetGitHubFolder() . "\summerresearch.wsu.edu\JS\wp-custom-js-source.min.js"
+        , "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo/"
+        . "UglifyJS]. Please see [https://github.com/invokeImmediately/summerresearch.wsu.edu] for a reposito"
+        . "ry of source code.`r`n"
+        . "// Third-party, open-source JavaScript plugins used by this website:`r`n"
+        . "//   FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatron5000/Fit"
+        . "//   Masonry JS, (c) David DeSandro 2016 | http://masonry.desandro.com/ | MIT license -- http://de"
+        . "sandro.mit-license.org/`r`n"
+        . "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- http://cre"
+        . "ativecommons.org/licenses/by/3.0/`r`n"
+        , "ERROR: Couldn't Copy Minified JS for WSU Summer Research Website")
 return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
