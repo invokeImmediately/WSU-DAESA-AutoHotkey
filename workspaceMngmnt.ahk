@@ -267,6 +267,26 @@ Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
+;TODO: Implement this for Skype muting regardless of what application is currently active.
+
+;^m::
+;    WinGet, thisProcessID, ID, A
+;	IfWinExist,
+;    WinGetPos, thisX, thisY, thisW, thisH, A
+;    thisX := -thisX - thisW
+;    WinMove, A, , %thisX%, %thisY%, %thisW%, %thisH%
+;Return
+
+PeformBypassingCtrlM:
+    Suspend
+    Sleep 10
+    SendInput ^m
+    Sleep 10
+    Suspend, Off
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 
 /*
  * 	The options object below defines the hotkeys for the window manager. 
