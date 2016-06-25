@@ -550,7 +550,7 @@ return
 return
 
 :*:@rebuildJsSumRes::
-    PasteTextIntoGitShell(":*:@rebuildJsXfer"
+    PasteTextIntoGitShell(":*:@rebuildJsSumRes"
         , "cd """ . GetGitHubFolder() . "\summerresearch.wsu.edu\JS""`r"
         . "node build-production-file.js`r"
         . "uglifyjs wp-custom-js-source.js -m --output wp-custom-js-source.min.js`r"
