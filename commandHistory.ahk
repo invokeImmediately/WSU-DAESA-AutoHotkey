@@ -65,7 +65,12 @@ return
                 cmdList := cmdList . "|" . Chr(index + 86) . ") " . ahkCmds[ahkCmds.Length() - index + 1]
             }
             else {
-                cmdList := cmdList . "|" . (index - 1) . ") " . ahkCmds[ahkCmds.Length() - index + 1]
+				if (index - 1 < 9) {
+					cmdList := cmdList . "|" . index . ") " . ahkCmds[ahkCmds.Length() - index + 1]
+				}
+				else {
+					cmdList := cmdList . "|0) " . ahkCmds[ahkCmds.Length() - index + 1]
+				}
             }
             index := index + 1
         }
