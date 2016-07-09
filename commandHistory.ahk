@@ -58,7 +58,7 @@ return
     CheckForCmdEntryGui()
     if (ahkCmds.Length() > 0) {
         index := 1
-        cmdList := (index - 1) . ") " . ahkCmds[ahkCmds.Length() - index + 1]
+        cmdList := index . ") " . ahkCmds[ahkCmds.Length() - index + 1]
         index := index + 1
         while index <= ahkCmds.Length() {
             if (index - 1 > 9) {
