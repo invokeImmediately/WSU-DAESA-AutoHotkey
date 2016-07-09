@@ -138,6 +138,10 @@ return
     InsertFilePath(":*:@gotoGhSumRes", GetGitHubFolder() . "\summerresearch.wsu.edu")
 return
 
+:*:@gotoGhUcrAss::
+    InsertFilePath(":*:@gotoGhUcrAss", GetGitHubFolder() . "\ucore.wsu.edu-assessment")
+return
+
 :*:@gotoGhCSS::
     InsertFilePath(":*:@gotoGhCSS", GetGitHubFolder() . "\WSU-UE---CSS")
 return
@@ -156,7 +160,32 @@ return
 
 :*:@doGitCommit::
     AppendAhkCmd(":*:@doGitCommit")
-    SendInput git commit -m "" -m ""{Left 7}
+	proceedWithCmd := ActivateGitShell()
+	if(proceedWithCmd) {
+		SendInput git commit -m "" -m ""{Left 7}
+	}
+	else {
+        MsgBox, % (0x0 + 0x10), % "ERROR (" . ":*:@doGitCommit" . "): Could Not Locate Git PowerShell", % "The Git PowerShell process could not be located and activated."
+	}
+return
+
+:*:@dogc::
+	Gosub, :*:@doGitCommit
+return
+
+:*:@doGitStatus::
+    AppendAhkCmd(":*:@doGitStatus")
+	proceedWithCmd := ActivateGitShell()
+	if(proceedWithCmd) {
+		SendInput % "git status{enter}"
+	}
+	else {
+        MsgBox, % (0x0 + 0x10), % "ERROR (" . ":*:@doGitStatus" . "): Could Not Locate Git PowerShell", % "The Git PowerShell process could not be located and activated."
+	}
+return
+
+:*:@dogs::
+	Gosub, :*:@doGitStatus
 return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
@@ -199,8 +228,8 @@ return
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@swapSlashes::
-    ;DESCRIPTION: For reversing forward slashes within a copied file name reported by 'git status' in
-    ; PowerShell and then pasting the result into PowerShell.
+    ; DESCRIPTION: For reversing forward slashes within a copied file name reported by 'git status' in
+    ;  PowerShell and then pasting the result into PowerShell.
     AppendAhkCmd(":*:@swapSlashes")
     WinGet, thisProcess, ProcessName, A
     if (thisProcess = "PowerShell.exe") {
@@ -209,6 +238,93 @@ return
         Click right 44, 55 ;TODO: Check to see if the mouse cursor is already within the PowerShell bounding rectangle 
     }    
 return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@initCssPaste::
+;	prevTitleMatchMode := A_TitleMatchMode
+;	SetTitleMatchMode, RegEx
+;	SetTitleMatchMode, prevTitleMatchMode
+	global hwndCssPasteWindow
+	global titleCssPasteWindowTab
+    AppendAhkCmd(":*:@initCssPaste")
+	WinGetTitle, thisTitle, A
+	posFound := RegExMatch(thisTitle, "i)^CSS[^" . Chr(0x2014) . "]+" . Chr(0x2014) . " WordPress - Google Chrome$")
+	if(posFound) {
+		WinGet, hwndCssPasteWindow, ID, A
+		titleCssPasteWindowTab := thisTitle
+		MsgBox, % "HWND for window containing CSS stylsheet editor set to " . hwndCssPasteWindow
+	}
+	else {
+		MsgBox, % (0x0 + 0x10), % "ERROR (:*:@setCssPasteWindow): CSS Stylesheet Editor Not Active", % "Please select your CSS stylesheet editor tab in Chrome as the currently active window."
+	}
+return
+
+:*:@doCssPaste::
+    ; DESCRIPTION: Paste copied CSS into WordPress window
+	global hwndCssPasteWindow
+	global titleCssPasteWindowTab
+    AppendAhkCmd(":*:@doCssPaste")
+	if(isVarDeclared(hwndCssPasteWindow)) {
+		; Attempt to switch to chrome
+		WinActivate, % "ahk_id " . hwndCssPasteWindow
+		WinWaitActive, % "ahk_id " . hwndCssPasteWindow, , 1
+		if (ErrorLevel) {
+			MsgBox, % (0x0 + 0x10), % "ERROR (:*:@doCssPaste): Could Not Find Process", % "The HWND set for the chrome window containing the tab in which the CSS stylesheet editor was loaded can no longer be found."
+		}
+		else {
+			WinGetTitle, thisTitle, A
+			if(thisTitle != titleCssPasteWindowTab) {
+				startingTitle := thistTitle
+				SendInput, ^{Tab}
+				Sleep 100
+				WinGetTitle, currentTitle, A
+				while (currentTitle != startingTitle and currentTitle != titleCssPasteWindowTab) {
+					SendInput, ^{Tab}
+					Sleep 100
+					WinGetTitle, currentTitle, A
+				}
+				if(currentTitle != titleCssPasteWindowTab) {
+					MsgBox, % (0x0 + 0x10), % "ERROR (:*:@doCssPaste): Couldn't Find Tab", % "Could not locate the tab containing the CSS stylesheet editor."
+				}
+				else {
+					proceedWithPaste := true
+				}
+			}
+			else {
+				proceedWithPaste := true
+			}
+			if (proceedWithPaste) {
+				; Add check for expected client coordinates; if not correct, then reset window position
+				WinGetPos, thisX, thisY, thisW, thisH, A
+				if (thisX != -1830 or thisY != 0 or thisW != 1700 or thisH != 1040) {
+					WinMove, A, , -1830, 0, 1700, 1040
+				}
+				; Add check for correct CSS in clipboard — the first line is a font import.
+				posFound := RegExMatch(clipboard, "^@import")
+				if (posFound != 0) {
+					CoordMode, Mouse, Client
+					Click, 768, 570
+					Sleep, 100
+					SendInput, ^a
+					Sleep, 100
+					SendInput, ^v
+					Sleep, 1000
+					Click, 1615, 397
+					Sleep, 100
+					Click, 1615, 442
+				}
+				else {
+					MsgBox, % (0x0 + 0x10), % "ERROR (:*:@doCssPaste): Clipboard Has Unexpected Contents", % "The clipboard does not begin with the expected '@import ...,' and thus may not contain minified CSS."
+				}			
+			}
+		}
+	}
+	else {
+		MsgBox, % (0x0 + 0x10), % "ERROR (:*:@doCssPaste): HWND Not Set Yet", % "You haven't yet used the @setCssPasteWindow hotstring to set the HWND for the Chrome window containing a tab with the CSS stylsheet editor."
+	}
+return
+
 
 ; ------------------------------------------------------------------------------------------------------------
 ; COMMAND LINE INPUT GENERATION as triggered by HotStrings for working with GitHub Desktop
@@ -300,6 +416,19 @@ return
         . "cd """ . GetGitHubFolder() . "\summerresearch.wsu.edu\""`r"
         . "git add CSS\summerresearch-custom.css`r"
         . "git add CSS\summerresearch-custom.min.css`r"
+        . "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
+        . "urce code."" `r"
+        . "git push`r")
+return
+
+:*:@rebuildCssUcrAss::
+    PasteTextIntoGitShell(":*:@rebuildCssUcrAss"
+        , "cd """ . GetGitHubFolder() . "\ucore.wsu.edu-assessment\CSS""`r"
+        . "lessc ucore-assessment-custom.less ucore-assessment-custom.css`r"
+        . "lessc --clean-css ucore-assessment-custom.less ucore-assessment-custom.min.css`r"
+        . "cd """ . GetGitHubFolder() . "\ucore.wsu.edu-assessment\""`r"
+        . "git add CSS\ucore-assessment-custom.css`r"
+        . "git add CSS\ucore-assessment-custom.min.css`r"
         . "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
         . "urce code."" `r"
         . "git push`r")
@@ -398,6 +527,19 @@ return
     Gosub :*:@rebuildCssSumRes
 return
 
+:*:@updateCssSubmoduleUcrAss::
+    PasteTextIntoGitShell(":*:@updateCssSubmoduleUcrAss"
+        , "cd """ . GetGitHubFolder() . "\ucore.wsu.edu-assessment\WSU-UE---CSS""`r"
+        . "git fetch`r"
+        . "git merge origin/master`r"
+        . "cd ..`r"
+        . "git add WSU-UE---CSS`r"
+        . "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent chang"
+        . "es in project source code""`r"
+        . "git push`r")
+    Gosub :*:@rebuildCssUcrAss
+return
+
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@updateCssSubmoduleAll::
@@ -409,6 +551,7 @@ return
     Gosub :*:@updateCssSubmoduleXfer
     Gosub :*:@updateCssSubmoduleFyf
     Gosub :*:@updateCssSubmoduleSumRes
+    Gosub :*:@updateCssSubmoduleUcrAss
 return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
@@ -464,6 +607,14 @@ return
 :*:@copyMinCssSumRes::
     CopySrcFileToClipboard(":*:@copyMinCssSumRes"
         , GetGitHubFolder() . "\summerresearch.wsu.edu\CSS\summerresearch-custom.min.css"
+        , "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
+        . "keImmediately/summerresearch.wsu.edu] for a repository of source code. */`r`n"
+        , "ERROR: Couldn't Copy Minified CSS for Summer Research Website")
+return
+
+:*:@copyMinCssUcrAss::
+    CopySrcFileToClipboard(":*:@copyMinCssUcrAss"
+        , GetGitHubFolder() . "\ucore.wsu.edu-assessment\CSS\ucore-assessment-custom.min.css"
         , "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
         . "keImmediately/summerresearch.wsu.edu] for a repository of source code. */`r`n"
         , "ERROR: Couldn't Copy Minified CSS for Summer Research Website")
@@ -562,6 +713,19 @@ return
         . "git push`r")
 return
 
+:*:@rebuildJsUcrAss::
+    PasteTextIntoGitShell(":*:@rebuildJsUcrAss"
+        , "cd """ . GetGitHubFolder() . "\ucore.wsu.edu-assessment\JS""`r"
+        . "node build-production-file.js`r"
+        . "uglifyjs wp-custom-js-source.js -m --output wp-custom-js-source.min.js`r"
+        . "cd """ . GetGitHubFolder() . "\ucore.wsu.edu-assessment\""`r"
+        . "git add JS\wp-custom-js-source.js`r"
+        . "git add JS\wp-custom-js-source.min.js`r"
+        . "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
+        . "urce code."" `r"
+        . "git push`r")
+return
+
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@updateJsSubmoduleDsp::
@@ -651,6 +815,18 @@ return
     Gosub :*:@rebuildJsSumRes
 return
 
+:*:@updateJsSubmoduleUcrAss::
+    PasteTextIntoGitShell(":*:@updateJsSubmoduleUcrAss"
+        , "cd """ . GetGitHubFolder() . "\ucore.wsu.edu-assessment\WSU-UE---JS""`r"
+        . "git fetch`r"
+        . "git merge origin/master`r"
+        . "cd ..`r"
+        . "git add WSU-UE---JS`r"
+        . "git commit -m ""Updating submodule"" -m ""Updated master JS submodule to incorporate recent changes in project source code""`r"
+        . "git push`r")
+    Gosub :*:@rebuildJsUcrAss
+return
+
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@updateJsSubmoduleAll::
@@ -661,6 +837,7 @@ return
     Gosub :*:@updateJsSubmoduleUgr
     Gosub :*:@updateJsSubmoduleXfer
     Gosub :*:@updateJsSubmoduleSumRes
+    Gosub :*:@updateJsSubmoduleUcrAss
 return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
@@ -749,6 +926,21 @@ return
 :*:@copyMinJsSumRes::
     CopySrcFileToClipboard(":*:@copyMinJsSumRes"
         , GetGitHubFolder() . "\summerresearch.wsu.edu\JS\wp-custom-js-source.min.js"
+        , "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo/"
+        . "UglifyJS]. Please see [https://github.com/invokeImmediately/summerresearch.wsu.edu] for a reposito"
+        . "ry of source code.`r`n"
+        . "// Third-party, open-source JavaScript plugins used by this website:`r`n"
+        . "//   FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatron5000/Fit"
+        . "//   Masonry JS, (c) David DeSandro 2016 | http://masonry.desandro.com/ | MIT license -- http://de"
+        . "sandro.mit-license.org/`r`n"
+        . "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- http://cre"
+        . "ativecommons.org/licenses/by/3.0/`r`n"
+        , "ERROR: Couldn't Copy Minified JS for WSU Summer Research Website")
+return
+
+:*:@copyMinJsUcrAss::
+    CopySrcFileToClipboard(":*:@copyMinJsUcrAss"
+        , GetGitHubFolder() . "\ucore.wsu.edu-assessment\JS\wp-custom-js-source.min.js"
         , "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo/"
         . "UglifyJS]. Please see [https://github.com/invokeImmediately/summerresearch.wsu.edu] for a reposito"
         . "ry of source code.`r`n"
