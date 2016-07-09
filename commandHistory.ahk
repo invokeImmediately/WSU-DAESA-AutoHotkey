@@ -76,7 +76,7 @@ return
         }
         Gui, New,, % "AutoHotkey Command History"
         Gui, Add, Text,, % "Choose a command from the history:"
-        Gui, Add, ListBox, AltSubmit vCmdChosen H500, % cmdList
+        Gui, Add, ListBox, AltSubmit vCmdChosen H500 W250, % cmdList
         Gui, Add, Button, Default gHandleCmdRptOK, &OK
         Gui, Show
     }
