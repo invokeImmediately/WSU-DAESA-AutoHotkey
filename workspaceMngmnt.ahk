@@ -134,12 +134,22 @@ Return
     if (IsWindowOnLeftDualMonitor()) {
         SysGet, Mon2, MonitorWorkArea, 2
         WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
-        WinMove, A, , %Mon2Left%, 0, %thisWinW%, %thisWinH%        
+		if (thisWinX = Mon2Left and thisWinW > (Mon2Right - Mon2Left) / 4) {
+			WinMove, A, , %Mon2Left%, 0, % (thisWinW - 100), %thisWinH%        
+		}
+		else {
+			WinMove, A, , %Mon2Left%, 0, %thisWinW%, %thisWinH%        
+		}
     }
     else {
         SysGet, Mon1, MonitorWorkArea, 1
         WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
-        WinMove, A, , %Mon1Left%, 0, %thisWinW%, %thisWinH%
+		if (thisWinX = Mon1Left and thisWinW > (Mon1Right - Mon1Left) / 4) {
+			WinMove, A, , %Mon1Left%, 0, % (thisWinW - 100), %thisWinH%			
+		}
+		else {
+			WinMove, A, , %Mon1Left%, 0, %thisWinW%, %thisWinH%
+		}
     }
 return
 
@@ -150,13 +160,25 @@ return
         SysGet, Mon2, MonitorWorkArea, 2
         WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
         newWinX := Mon2Right - thisWinW
-        WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%        
+		if (thisWinX = newWinX and thisWinW > (Mon2Right - Mon2Left) / 4) {
+			newWinX := newWinX + 100
+			WinMove, A, , %newWinX%, 0, % (thisWinW - 100), %thisWinH%
+		}
+		else {
+			WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%
+		}
     }
     else {
         SysGet, Mon1, MonitorWorkArea, 1
         WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
         newWinX := Mon1Right - thisWinW
-        WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%
+		if (thisWinX = newWinX and thisWinW > (Mon1Right - Mon1Left) / 4) {
+			newWinX := newWinX + 100
+			WinMove, A, , %newWinX%, 0, % (thisWinW - 100), %thisWinH%
+		}
+		else {
+			WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%
+		}
     }
 return
 
@@ -264,6 +286,26 @@ return
     thisX := -thisX - thisW
     WinMove, A, , %thisX%, %thisY%, %thisW%, %thisH%
 Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+:*:@toggleGimp::
+	CheckForCmdEntryGui()
+	WinGet, thisHwnd, ID, A
+	SetTitleMatchMode, 2
+	WinActivate, % "GIMP ahk_exe gimp-2.8.exe"
+	WinWaitActive, % "GIMP ahk_exe gimp-2.8.exe", , 0.25
+	if (ErrorLevel) {
+		WinActivate, % "GNU Image Manipulation Program ahk_exe gimp-2.8.exe"
+		WinWaitActive, % "GNU Image Manipulation Program ahk_exe gimp-2.8.exe", , 0.25
+		if (!ErrorLevel) {
+			SendInput, {Tab}
+		}
+	}
+	else {
+		SendInput, {Tab}
+	}
+	WinActivate, % "ahk_id" . thisHwnd
+return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
