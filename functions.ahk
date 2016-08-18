@@ -46,6 +46,35 @@ LaunchApplicationPatiently(path, title)
     }
 }
 
+InsertFilePath(ahkCmdName, filePath) {
+	AppendAhkCmd(ahkCmdName)
+    if (UserFolderIsSet()) {
+        if (IsGitShellActive()) {
+            SendInput % "cd """ . filePath . """{Enter}"
+        }
+        else {
+            SendInput % filePath . "{Enter}"
+        }
+    }
+}
+
+MoveCursorIntoActiveWindow(ByRef curPosX, ByRef curPosY)
+{
+	WinGetPos, winPosX, winPosY, winW, winH, A
+	if (curPosX < 0) {
+		curPosX := 50
+	}
+	else if(curPosX > winW) {
+		curPosX := winW - 50
+	}
+	if (curPosY < 0) {
+		curPosY := 100
+	}
+	else if(curPosY > winH) {
+		curPosY := winH - 50
+	}
+}
+
 WaitForApplicationPatiently(title)
 {
     isReady := false
