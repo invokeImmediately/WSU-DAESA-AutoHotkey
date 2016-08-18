@@ -2,15 +2,17 @@ global sgCmdBeingEntered := false
 
 AppendAhkCmd(whatCmd) {
     CheckForCmdEntryGui()
-    if IsLabel(whatCmd) {
-        ahkCmds.Push(whatCmd)
-        while ahkCmds.Length() > 0 && ahkCmds.Length() > ahkCmdLimit {
-            ahkCmds.RemoveAt(1)
-        }
-    }
-    else {
-        MsgBox % "Failed to append purported command: " . whatCmd
-    }
+	if (whatCmd != "") {
+		if IsLabel(whatCmd) {
+			ahkCmds.Push(whatCmd)
+			while ahkCmds.Length() > 0 && ahkCmds.Length() > ahkCmdLimit {
+				ahkCmds.RemoveAt(1)
+			}
+		}
+		else {
+			MsgBox % "Failed to append purported command: " . whatCmd
+		}
+	}
 }
 
 CheckForCmdEntryGui() {
@@ -32,6 +34,10 @@ HandleCmdRptOK:
             GoSub % ahkCmds[ahkCmds.Length() - CmdChosen + 1] ;Run hotstring on window that was active when ":*:@rptCmd" was triggered.
         }
     }
+return
+
+HandleCmdRptCancel:
+    Gui, Destroy ;Doing this now implicitly allows us to return to the previously active window.
 return
 
 :*:@clearCmdHistory::
@@ -78,6 +84,7 @@ return
         Gui, Add, Text,, % "Choose a command from the history:"
         Gui, Add, ListBox, AltSubmit vCmdChosen H500 W250, % cmdList
         Gui, Add, Button, Default gHandleCmdRptOK, &OK
+		Gui, Add, Button, gHandleCmdRptCancel X+5, &Cancel
         Gui, Show
     }
     else {
