@@ -37,6 +37,35 @@ GetGitHubFolder()
     return userAccountFolder . "\Documents\GitHub"
 }
 
+ToEscapedPath(path)
+{
+	escapedPath := StrReplace(path, "\", "\\")
+    return escapedPath
+}
+
+GetCurrentDirFromPS()
+{
+	copyDirCmd := "(get-location).ToString() | clip`r`n"
+	PasteTextIntoGitShell("", copyDirCmd)
+	while(Clipboard = copyDirCmd) {
+		Sleep 100
+	}
+	return Clipboard
+}
+
+GetCmdForMoveToCSSFolder(curDir)
+{
+	cmd := ""
+	needleStr := "^" . ToEscapedPath(GetGitHubFolder()) . "(.+)"
+	posFound := RegExMatch(curDir, needleStr, matches)
+	if(posFound > 0) {
+		if(doesVarExist(matches1) && !doesVarExist(matches2)) {
+			cmd := "awesome!"
+		}
+	}
+	return cmd
+}
+
 ; ------------------------------------------------------------------------------------------------------------
 ; FUNCTIONS for working with GitHub Desktop
 ; ------------------------------------------------------------------------------------------------------------
@@ -80,25 +109,15 @@ IsGitShellActive()
     return shellIsActive
 }
 
-InsertFilePath(ahkCmdName, filePath) {
-    AppendAhkCmd(ahkCmdName)
-    if (UserFolderIsSet()) {
-        if (IsGitShellActive()) {
-            SendInput % "cd """ . filePath . """{Enter}"
-        }
-        else {
-            SendInput % filePath . "{Enter}"
-        }
-    }
-}
-
 PasteTextIntoGitShell(ahkCmdName, shellText) {
-    AppendAhkCmd(ahkCmdName)
+	AppendAhkCmd(ahkCmdName)
     if (UserFolderIsSet()) {
         proceedWithPaste := ActivateGitShell()
         if (proceedWithPaste) {
+			MouseGetPos, curPosX, curPosY
+			MoveCursorIntoActiveWindow(curPosX, curPosY)
             clipboard = %shellText%
-            Click right 44, 55
+            Click right %curPosX%, %curPosY%
         }
         else {
             MsgBox, % (0x0 + 0x10), % "ERROR (" . ahkCmdName . "): GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
@@ -301,7 +320,7 @@ return
 					WinMove, A, , -1830, 0, 1700, 1040
 				}
 				; Add check for correct CSS in clipboard — the first line is a font import.
-				posFound := RegExMatch(clipboard, "^@import")
+				posFound := RegExMatch(clipboard, "^/\* Built with the LESS CSS")
 				if (posFound != 0) {
 					CoordMode, Mouse, Client
 					Click, 768, 570
@@ -311,8 +330,10 @@ return
 					SendInput, ^v
 					Sleep, 1000
 					Click, 1615, 397
-					Sleep, 100
+					Sleep, 60
 					Click, 1615, 442
+					Sleep, 60
+					Click, 1615, 477
 				}
 				else {
 					MsgBox, % (0x0 + 0x10), % "ERROR (:*:@doCssPaste): Clipboard Has Unexpected Contents", % "The clipboard does not begin with the expected '@import ...,' and thus may not contain minified CSS."
@@ -325,10 +346,16 @@ return
 	}
 return
 
-
 ; ------------------------------------------------------------------------------------------------------------
 ; COMMAND LINE INPUT GENERATION as triggered by HotStrings for working with GitHub Desktop
 ; ------------------------------------------------------------------------------------------------------------
+
+:*:@rebuildCssHere::
+	currentDir := GetCurrentDirFromPS()
+	if (GetCmdForMoveToCSSFolder(currentDir) = "awesome!") {
+		MsgBox % "Current location: " . currentDir
+	}
+return
 
 :*:@rebuildCssDsp::
     PasteTextIntoGitShell(":*:@rebuildCssDsp"
@@ -990,6 +1017,10 @@ return
         . "git status`r`n"
         . "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\summerresearch.wsu.edu\""`r`n"
         . "write-host ""``n--------------------------------------------summerresearch.wsu.edu----------------"
+        . "----------------------------"" -foreground ""green""`r`n"
+        . "git status`r`n"
+		. "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\ucore.wsu.edu-assessment\""`r`n"
+        . "write-host ""``n-------------------------------------------ucore.wsu.edu/assessment---------------"
         . "----------------------------"" -foreground ""green""`r`n"
         . "git status`r`n")
 return
