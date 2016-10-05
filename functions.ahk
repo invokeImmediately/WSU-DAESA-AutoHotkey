@@ -64,14 +64,14 @@ MoveCursorIntoActiveWindow(ByRef curPosX, ByRef curPosY)
 	if (curPosX < 0) {
 		curPosX := 50
 	}
-	else if(curPosX > winW) {
-		curPosX := winW - 50
+	else if(curPosX > winW - 100) {
+		curPosX := winW - 100
 	}
 	if (curPosY < 0) {
 		curPosY := 100
 	}
-	else if(curPosY > winH) {
-		curPosY := winH - 50
+	else if(curPosY > winH - 100) {
+		curPosY := winH - 100
 	}
 }
 
