@@ -22,7 +22,7 @@ CheckForCmdEntryGui() {
 }
 
 HandleEnterCmdCancel:
-    sgCmdBeingEntered = false
+    sgCmdBeingEntered := false
     Gui, AhkGuiEnterCmd:Destroy
 return
 
