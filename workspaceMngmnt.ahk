@@ -134,20 +134,30 @@ Return
     if (IsWindowOnLeftDualMonitor()) {
         SysGet, Mon2, MonitorWorkArea, 2
         WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
+		thisWinH := Mon2Bottom - Mon2Top
 		if (thisWinX = Mon2Left and thisWinW > (Mon2Right - Mon2Left) / 4) {
 			WinMove, A, , %Mon2Left%, 0, % (thisWinW - 100), %thisWinH%        
 		}
+		else if (thisWinW > (Mon2Right - Mon2Left) / 4) {
+			WinMove, A, , %Mon2Left%, 0, %thisWinW%, %thisWinH%        
+		}
 		else {
+			thisWinW := Mon2Right - Mon2Left - 100
 			WinMove, A, , %Mon2Left%, 0, %thisWinW%, %thisWinH%        
 		}
     }
     else {
         SysGet, Mon1, MonitorWorkArea, 1
         WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
+		thisWinH := Mon1Bottom - Mon1Top
 		if (thisWinX = Mon1Left and thisWinW > (Mon1Right - Mon1Left) / 4) {
 			WinMove, A, , %Mon1Left%, 0, % (thisWinW - 100), %thisWinH%			
 		}
+		else if (thisWinW > (Mon1Right - Mon1Left) / 4) {
+			WinMove, A, , %Mon1Left%, 0, %thisWinW%, %thisWinH%			
+		}
 		else {
+			thisWinW := Mon1Right - Mon1Left - 100
 			WinMove, A, , %Mon1Left%, 0, %thisWinW%, %thisWinH%
 		}
     }
@@ -160,11 +170,17 @@ return
         SysGet, Mon2, MonitorWorkArea, 2
         WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
         newWinX := Mon2Right - thisWinW
+		thisWinH := Mon2Bottom - Mon2Top
 		if (thisWinX = newWinX and thisWinW > (Mon2Right - Mon2Left) / 4) {
 			newWinX := newWinX + 100
 			WinMove, A, , %newWinX%, 0, % (thisWinW - 100), %thisWinH%
 		}
+		else if (thisWinW > (Mon2Right - Mon2Left) / 4) {
+			WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%
+		}
 		else {
+			thisWinW := Mon2Right - Mon2Left - 100
+			newWinX := Mon2Left + 100
 			WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%
 		}
     }
@@ -172,14 +188,80 @@ return
         SysGet, Mon1, MonitorWorkArea, 1
         WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
         newWinX := Mon1Right - thisWinW
+		thisWinH := Mon1Bottom - Mon1Top
 		if (thisWinX = newWinX and thisWinW > (Mon1Right - Mon1Left) / 4) {
 			newWinX := newWinX + 100
 			WinMove, A, , %newWinX%, 0, % (thisWinW - 100), %thisWinH%
 		}
+		else if (thisWinW > (Mon1Right - Mon1Left) / 4) {
+			WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%
+		}
 		else {
+			thisWinW := Mon1Right - Mon1Left - 100
+			newWinX := Mon1Left + 100
 			WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%
 		}
     }
+return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+^!#Down::
+    if (IsWindowOnLeftDualMonitor()) {
+        SysGet, Mon2, MonitorWorkArea, 2
+        WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
+        newWinY := Mon2Bottom - thisWinH
+		newWinW := Mon2Right - Mon2Left
+		if (thisWinY = newWinY and thisWinH > (Mon2Bottom - Mon2Top) / 4) {
+			newWinY := newWinY + 100
+			WinMove, A, , %Mon2Left%, %newWinY%, %newWinW%, % (thisWinH - 100)
+		}
+		else if (thisWinH > (Mon2Bottom - Mon2Top) / 4) {
+			WinMove, A, , %Mon2Left%, %newWinY%, %newWinW%, %thisWinH%
+		}
+		else {
+			thisWinH := Mon2Bottom - Mon2Top - 100
+			newWinY := 100
+			WinMove, A, , %Mon2Left%, %newWinY%, %newWinW%, %thisWinH%
+		}
+    }
+    else {
+        SysGet, Mon1, MonitorWorkArea, 1
+        WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
+        newWinY := Mon1Bottom - thisWinH
+		newWinW := Mon1Right - Mon1Left
+		if (thisWinY = newWinY and thisWinH > (Mon1Bottom - Mon1Top) / 4) {
+			newWinY := newWinY + 100
+			WinMove, A, , %Mon1Left%, 0, %newWinW%, % (thisWinH - 100)
+		}
+		else if (thisWinH > (Mon1Bottom - Mon1Top) / 4) {
+			WinMove, A, , %Mon1Left%, 0, %newWinW%, %thisWinH%
+		}
+		else {
+			thisWinH := Mon1Right - Mon1Left - 100
+			newWinY := 100
+			WinMove, A, , %Mon1Left%, 0, %newWinW%, %thisWinH%
+		}
+    }
+return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+^!#Numpad5::
+    if (IsWindowOnLeftDualMonitor()) {
+        SysGet, Mon2, MonitorWorkArea, 2
+        WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
+		newWinX := (Mon2Right - Mon2Left) / 2 - thisWinW / 2
+		newWinY := (Mon2Bottom - Mon2Top) / 2 - thisWinH / 2
+		WinMove, A, , %newWinX%, %newWinY%, %thisWinW%, %thisWinH%
+    }
+    else {
+        SysGet, Mon1, MonitorWorkArea, 1
+        WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
+		newWinX := (Mon1Right - Mon1Left) / 2 - thisWinW / 2
+		newWinY := (Mon1Bottom - Mon1Top) / 2 - thisWinH / 2
+		WinMove, A, , %newWinX%, %newWinY%, %thisWinW%, %thisWinH%
+    }	
 return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
