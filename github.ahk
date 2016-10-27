@@ -18,6 +18,7 @@
 ; ============================================================================================================
 
 sgIsPostingMinCss := false
+sgIsPostingMinJs := false
 
 ; ------------------------------------------------------------------------------------------------------------
 ; SETTINGS accessed via functions for this imported file
@@ -202,6 +203,82 @@ HandlePostMinCssOK:
 return
 
 HandlePostMinCssCancel:
+    Gui, Destroy ;Doing this now implicitly allows us to return to the previously active window.
+return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+PasteMinJsToWebsite(websiteUrl, jsCopyCmd)
+{
+    WinGet, thisProcess, ProcessName, A
+	if (thisProcess != "chrome.exe") {
+		WinActivate, % "ahk_exe chrome.exe"
+		WinGetPos, thisX, thisY, thisW, thisH, A
+		if (thisX != -1830 or thisY != 0 or thisW != 1700 or thisH != 1040) {
+			WinMove, A, , -1830, 0, 1700, 1040
+		}
+	}
+	Sleep, 330
+	SendInput, ^t
+	Sleep, 1000
+	SendInput, !d
+	Sleep, 200
+	SendInput, % websiteUrl . "{Enter}"
+	Sleep, 200
+	Gosub, %jsCopyCmd%
+	Sleep, 7500
+	proceed := false
+	WinGetTitle, thisTitle, A
+	IfNotInString, thisTitle, % "New Tab"
+		proceed := true
+	while (!proceed) {
+		Sleep 2000
+		WinGetTitle, thisTitle, A
+		IfNotInString, thisTitle, % "New Tab"
+			proceed := true
+	}
+	Gosub, ExecuteJsPasteCmds
+	Sleep, 1000
+}
+
+HandlePostMinJsOK:
+    Gui, Submit
+    Gui, Destroy ;Doing this now implicitly allows us to return to the previously active window.
+	sgIsPostingMinJs := true
+	if (PostMinJsToCr) {
+		PasteMinJsToWebsite("https://commonreading.wsu.edu/wp-admin/themes.php?page=custom-javascript", ":*:@copyMinJsCr")
+	}
+	if (PostMinJsToDsp) {
+		PasteMinJsToWebsite("https://distinguishedscholarships.wsu.edu/wp-admin/themes.php?page=custom-javascript", ":*:@copyMinJsDsp")
+	}
+	if (PostMinJsToFye) {
+		PasteMinJsToWebsite("https://firstyear.wsu.edu/wp-admin/themes.php?page=custom-javascript", ":*:@copyMinJsFye")
+	}
+	if (PostMinJsToFyf) {
+		PasteMinJsToWebsite("https://learningcommunities.wsu.edu/wp-admin/themes.php?page=custom-javascript", ":*:@copyMinJsFyf")
+	}
+	if (PostMinJsToPbk) {
+		PasteMinJsToWebsite("https://phibetakappa.wsu.edu/wp-admin/themes.php?page=custom-javascript", ":*:@copyMinJsPbk")
+	}
+	if (PostMinJsToSurca) {
+		PasteMinJsToWebsite("https://surca.wsu.edu/wp-admin/themes.php?page=custom-javascript", ":*:@copyMinJsSurca")
+	}
+	if (PostMinJsToSumRes) {
+		PasteMinJsToWebsite("https://summerresearch.wsu.edu/wp-admin/themes.php?page=custom-javascript", ":*:@copyMinJsSumRes")
+	}
+	if (PostMinJsToXfer,) {
+		PasteMinJsToWebsite("https://transfercredit.wsu.edu/wp-admin/themes.php?page=custom-javascript", ":*:@copyMinJsXfer")
+	}
+	if (PostMinJsToUgr) {
+		PasteMinJsToWebsite("https://undergraduateresearch.wsu.edu/wp-admin/themes.php?page=custom-javascript", ":*:@copyMinJsUgr")
+	}
+	if (PostMinJsToUcrAss) {
+		PasteMinJsToWebsite("https://ucore.wsu.edu/assessment/wp-admin/themes.php?page=custom-javascript", ":*:@copyMinJsUcrAss")
+	}
+	sgIsPostingMinJs := false
+return
+
+HandlePostMinJsCancel:
     Gui, Destroy ;Doing this now implicitly allows us to return to the previously active window.
 return
 
@@ -393,9 +470,11 @@ ExecuteCssPasteCmds:
 		Sleep, 100
 		SendInput, ^v
 		Sleep, 1000
-		Click, 1565, 395
+		Click, 1565, 370
 		Sleep, 60
-		Click, 1565, 440
+		Click, 1565, 410
+		Sleep, 60
+		Click, 1565, 455
 	}
 	else {
 		MsgBox, % (0x0 + 0x10), % "ERROR (:*:@doCssPaste): Clipboard Has Unexpected Contents", % "The clipboard does not begin with the expected '@import ...,' and thus may not contain minified CSS."
@@ -449,6 +528,29 @@ return
 	else {
 		MsgBox, % (0x0 + 0x10), % "ERROR (:*:@doCssPaste): HWND Not Set Yet", % "You haven't yet used the @setCssPasteWindow hotstring to set the HWND for the Chrome window containing a tab with the CSS stylsheet editor."
 	}
+return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+ExecuteJsPasteCmds:
+	; Add check for correct CSS in clipboard — the first line is a font import.
+	posFound := RegExMatch(clipboard, "^// Built with Node.js")
+	if (posFound != 0) {
+		CoordMode, Mouse, Client
+		Click, 461, 371
+		Sleep, 330
+		SendInput, ^a
+		Sleep, 2500
+		SendInput, ^v
+		Sleep, 10000
+		Click, 214, 565
+		Sleep, 60
+		Click, 214, 615
+		Sleep 2500
+	}
+	else {
+		MsgBox, % (0x0 + 0x10), % "ERROR (:*:@doJsPaste): Clipboard Has Unexpected Contents", % "The clipboard does not begin with the expected '// Built with Node.js ...,' and thus may not contain minified JS."
+	}			
 return
 
 ; ------------------------------------------------------------------------------------------------------------
@@ -768,6 +870,31 @@ return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
+:*:@postMinJs::
+    AppendAhkCmd(":*:@postMinJs")
+    CheckForCmdEntryGui()
+	
+	if(!sgIsPostingMinJs) {
+		Gui, New,, % "Post Minified JS to OUE Websites"
+		Gui, Add, Text,, % "Which OUE Websites would you like to update?"
+		Gui, Add, CheckBox, vPostMinJsToCr, % "https://commonreading.wsu.edu"
+		Gui, Add, CheckBox, vPostMinJsToDsp Checked, % "https://distinguishedscholarships.wsu.edu"
+		Gui, Add, CheckBox, vPostMinJsToFye Checked, % "https://firstyear.wsu.edu"
+		Gui, Add, CheckBox, vPostMinJsToFyf Checked, % "https://learningcommunities.wsu.edu"
+		Gui, Add, CheckBox, vPostMinJsToPbk Checked, % "https://phibetakappa.wsu.edu"
+		Gui, Add, CheckBox, vPostMinJsToSurca Checked, % "https://surca.wsu.edu"
+		Gui, Add, CheckBox, vPostMinJsToSumRes Checked, % "https://summerresearch.wsu.edu"
+		Gui, Add, CheckBox, vPostMinJsToXfer, % "https://transfercredit.wsu.edu"
+		Gui, Add, CheckBox, vPostMinJsToUgr Checked, % "https://undergraduateresearch.wsu.edu"
+		Gui, Add, CheckBox, vPostMinJsToUcrAss Checked, % "https://ucore.wsu.edu/assessment"
+		Gui, Add, Button, Default gHandlePostMinJsOK, &OK
+		Gui, Add, Button, gHandlePostMinJsCancel X+5, &Cancel
+		Gui, Show
+	}
+return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 :*:@copyMinCssCr::
     CopySrcFileToClipboard(":*:@copyMinCssCr"
         , GetGitHubFolder() . "\commonreading.wsu.edu\CSS\cr-custom.min.css"
@@ -867,7 +994,7 @@ return
     PasteTextIntoGitShell(":*:@rebuildJsDsp"
         , "cd """ . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\JS""`r"
         . "node build-production-file.js`r"
-        . "uglifyjs wp-custom-javascript-source.dsp.js --output wp-custom-js-source.min.dsp.js`r"
+        . "uglifyjs wp-custom-javascript-source.dsp.js --output wp-custom-js-source.min.dsp.js -mt`r"
         . "cd """ . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\""`r"
         . "git add JS\wp-custom-javascript-source.dsp.js`r"
         . "git add JS\wp-custom-js-source.min.dsp.js`r"
@@ -906,7 +1033,7 @@ return
     PasteTextIntoGitShell(":*:@rebuildJsPbk"
         , "cd """ . GetGitHubFolder() . "\phibetakappa.wsu.edu\JS""`r"
         . "node build-production-file.js`r"
-        . "uglifyjs wp-custom-js-source.js -m --output wp-custom-js-source.min.js`r"
+        . "uglifyjs wp-custom-js-source.js -m --output wp-custom-js-source.min.js -mt`r"
         . "cd """ . GetGitHubFolder() . "\phibetakappa.wsu.edu\""`r"
         . "git add JS\wp-custom-js-source.js`r"
         . "git add JS\wp-custom-js-source.min.js`r"
@@ -919,7 +1046,7 @@ return
     PasteTextIntoGitShell(":*:@rebuildJsSurca"
         , "cd """ . GetGitHubFolder() . "\surca.wsu.edu\JS""`r"
         . "node build-production-file.js`r"
-        . "uglifyjs wp-custom-js-source.js --output wp-custom-js-source.min.js`r"
+        . "uglifyjs wp-custom-js-source.js --output wp-custom-js-source.min.js -mt`r"
         . "cd """ . GetGitHubFolder() . "\surca.wsu.edu\""`r"
         . "git add JS\wp-custom-js-source.js`r"
         . "git add JS\wp-custom-js-source.min.js`r"
@@ -932,7 +1059,7 @@ return
     PasteTextIntoGitShell(":*:@rebuildJsSumRes"
         , "cd """ . GetGitHubFolder() . "\summerresearch.wsu.edu\JS""`r"
         . "node build-production-file.js`r"
-        . "uglifyjs wp-custom-js-source.js -m --output wp-custom-js-source.min.js`r"
+        . "uglifyjs wp-custom-js-source.js -m --output wp-custom-js-source.min.js -mt`r"
         . "cd """ . GetGitHubFolder() . "\summerresearch.wsu.edu\""`r"
         . "git add JS\wp-custom-js-source.js`r"
         . "git add JS\wp-custom-js-source.min.js`r"
@@ -945,7 +1072,7 @@ return
     PasteTextIntoGitShell(":*:@rebuildJsXfer"
         , "cd """ . GetGitHubFolder() . "\transfercredit.wsu.edu\JS""`r"
         . "node build-production-file.js`r"
-        . "uglifyjs wp-custom-js-source.js -m --output wp-custom-js-source.min.js`r"
+        . "uglifyjs wp-custom-js-source.js -m --output wp-custom-js-source.min.js -mt`r"
         . "cd """ . GetGitHubFolder() . "\transfercredit.wsu.edu\""`r"
         . "git add JS\wp-custom-js-source.js`r"
         . "git add JS\wp-custom-js-source.min.js`r"
@@ -958,7 +1085,7 @@ return
     PasteTextIntoGitShell(":*:@rebuildJsUgr"
         , "cd """ . GetGitHubFolder() . "\undergraduateresearch.wsu.edu\JS""`r"
         . "node build-production-file.js`r"
-        . "uglifyjs wp-custom-js-source.js --output wp-custom-js-source.min.js`r"
+        . "uglifyjs wp-custom-js-source.js --output wp-custom-js-source.min.js -mt`r"
         . "cd """ . GetGitHubFolder() . "\undergraduateresearch.wsu.edu\""`r"
         . "git add JS\wp-custom-js-source.js`r"
         . "git add JS\wp-custom-js-source.min.js`r"
@@ -971,7 +1098,7 @@ return
     PasteTextIntoGitShell(":*:@rebuildJsUcrAss"
         , "cd """ . GetGitHubFolder() . "\ucore.wsu.edu-assessment\JS""`r"
         . "node build-production-file.js`r"
-        . "uglifyjs wp-custom-js-source.js -m --output wp-custom-js-source.min.js`r"
+        . "uglifyjs wp-custom-js-source.js -m --output wp-custom-js-source.min.js -mt`r"
         . "cd """ . GetGitHubFolder() . "\ucore.wsu.edu-assessment\""`r"
         . "git add JS\wp-custom-js-source.js`r"
         . "git add JS\wp-custom-js-source.min.js`r"
@@ -1350,6 +1477,22 @@ PerformBypassingCtrlShftV:
 	Suspend
 	Sleep 10
 	SendInput ^+v
+	Sleep 10
+	Suspend, Off
+return
+
+^!Backspace::
+	if (IsGitShellActive()) {
+		SendInput {Backspace 120}
+	} else {
+		GoSub, PerformBypassingCtrlAltBS
+	}
+return
+
+PerformBypassingCtrlAltBS:
+	Suspend
+	Sleep 10
+	SendInput ^!{Backspace}
 	Sleep 10
 	Suspend, Off
 return
