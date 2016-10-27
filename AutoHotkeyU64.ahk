@@ -52,23 +52,41 @@ If not A_IsAdmin
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\workspaceMngmnt.ahk
 
 SetupVirtualDesktop1:
-	LaunchApplicationPatiently("C:\Program Files (x86)\Notepad++\notepad++.exe", "C:\Users")
-	Sleep 2000
-	SendInput ^{End}
+	; Send temperature monitoring programs to desktop #5
+	WinActivate, % "GPU Temp"
 	Sleep 330
+	Gosub % "^!4"
+	Sleep 750
+	WinActivate, % "RealTemp"
+	Sleep 330
+	Gosub % "^!4"
+	Sleep 750
+	
+	; Start up Notepad++, open a second instance, and send the initial, primary instance to desktop #2
+	LaunchStdApplicationPatiently("C:\Program Files (x86)\Notepad++\notepad++.exe", "C:\Users ahk_exe notepad++.exe")
+	Sleep 3000
+	WinActivate, % "C:\Users ahk_exe notepad++.exe"
+	Sleep 100
+	SendInput ^{End}
+	Sleep 500
 	SendInput !{F6}
-	Sleep 2000
+	Sleep 3000
 	SendInput !{Tab}
 	Sleep 750
 	Gosub % "^!1"
 	Sleep 750
-	LaunchApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", "New Tab")
-	Sleep 330
+	Gosub % "^F8"
+	Sleep 500
+	
+	; Start up Chrome and direct it to a WSU WordPress login page; wait for it to load before proceeding
+	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", "New Tab")
+	Sleep 1000
 	SendInput !d
 	Sleep 20
-	SendInput, https://stage.oue.wsu.edu/wp-admin/{Enter}
+	SendInput, https://distinguishedscholarships.wsu.edu/wp-admin/{Enter}
 	Sleep 100
-	WaitForApplicationPatiently("Office of Undergraduate")
+	WaitForApplicationPatiently("WSU Distinguished")
+	Gosub % "^F7"
 	Sleep 1000
 return
 
@@ -80,13 +98,13 @@ SetupVirtualDesktop2:
 	SendInput, #e
 	WaitForApplicationPatiently("File Explorer")
 	Sleep, 330
-	LaunchApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", "New Tab")
+	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", "New Tab")
 	SendInput !d
 	Sleep 100
 	SendInput, https://github.com/invokeImmediately{Enter}
 	Sleep 330
-	LaunchApplicationPatiently(userAccountFolder . "\AppData\Local\GitHub\Github.appref-ms", "GitHub ahk_exe GitHub.exe")
-	LaunchApplicationPatiently(userAccountFolder . "\Desktop\Git Shell.lnk", "Powershell")
+	LaunchStdApplicationPatiently(userAccountFolder . "\AppData\Local\GitHub\Github.appref-ms", "GitHub ahk_exe GitHub.exe")
+	LaunchStdApplicationPatiently(userAccountFolder . "\Desktop\Git Shell.lnk", "Powershell")
 	Sleep 1000
 	Gosub :*:@arrangeGitHub
 return
@@ -95,12 +113,13 @@ SetupVirtualDesktop3:
 	SendInput, #{Tab}
 	Sleep, 330
 	SendInput, {Tab}{Right}{Right}{Enter}
-	LaunchApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", "New Tab")
+	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", "New Tab")
 	SendInput !d
 	Sleep 100
 	SendInput, http://www.colorhexa.com/{Enter}
 	Sleep 330
-	LaunchApplicationPatiently("C:\Program Files\GIMP 2\bin\gimp-2.8.exe", "GNU Image")
+	Gosub % "^!#Left"
+	LaunchStdApplicationPatiently("C:\Program Files\GIMP 2\bin\gimp-2.8.exe", "GNU Image")
 	Sleep 1000
 return
 
@@ -108,23 +127,24 @@ SetupVirtualDesktop4:
 	SendInput, #{Tab}
 	Sleep, 330
 	SendInput, {Tab}{Right}{Right}{Right}{Enter}
-	LaunchApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", "New Tab")
-	Run outlook
+	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", "New Tab")
+	Run, % "explorer.exe ""C:\Program Files (x86)\Microsoft Office\Office14\outlook.exe"""
 	Sleep 5000
 	SendInput {Enter}
 	Sleep 1500
 	WaitForApplicationPatiently("Inbox - ahk_exe outlook.exe")
-	LaunchApplicationPatiently("C:\Program Files\Microsoft Office 15\root\office15\onenote.exe", "- OneNote")
+	LaunchStdApplicationPatiently("C:\Program Files\Microsoft Office 15\root\office15\onenote.exe", "- OneNote")
 	Sleep 1000
 	Gosub :*:@arrangeEmail
 return
 
 SetupVirtualDesktop5:
+	; TODO: Arrange window dimensions and placements
 	SendInput, #{Tab}
 	Sleep, 330
 	SendInput, {Tab}{Right}{Right}{Right}{Right}{Enter}
 	Sleep, 330
-	LaunchApplicationPatiently(userAccountFolder . "\AppData\Local\Wunderlist\Wunderlist.exe", "Inbox - Wunderlist")
+	LaunchStdApplicationPatiently(userAccountFolder . "\AppData\Local\Wunderlist\Wunderlist.exe", "Inbox - Wunderlist")
 	Sleep, 1000
 return
 
@@ -216,7 +236,7 @@ return
 
 	SendInput ^{Tab}
 	Sleep 330
-	LaunchApplicationPatiently("C:\Program Files\iTunes\iTunes.exe", "iTunes")
+	LaunchStdApplicationPatiently("C:\Program Files\iTunes\iTunes.exe", "iTunes")
 	WinRestore, % "Inbox - ahk_exe outlook.exe"
 	WinMove, % "Inbox - ahk_exe outlook.exe", , -1920, 0, 1820, 1040
 	Sleep 100
@@ -265,94 +285,8 @@ return
 return
 
 ; ------------------------------------------------------------------------------------------------------------
-; UTILITY FUNCTIONS: For working with AutoHotkey
+; WORK TIMER scripts for tracking hours and indicating when breaks should be taken
 ; ------------------------------------------------------------------------------------------------------------
-
-:*:@checkIsUnicode::
-	AppendAhkCmd(":*:@checkIsUnicode")
-	Msgbox % "v" A_AhkVersion " " (A_PtrSize = 4 ? 32 : 64) "-bit " (A_IsUnicode ? "Unicode" : "ANSI") (A_IsAdmin ? "(Admin mode)" : "(Not Admin)")
-return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@getWinTitle::
-	AppendAhkCmd(":*:@getWinTitle")
-	WinGetTitle, thisTitle, A
-	MsgBox, The active window is "%thisTitle%"
-return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@getWinPos::
-	AppendAhkCmd(":*:@getWinPos")
-	WinGetPos, thisX, thisY, thisW, thisH, A
-	MsgBox, % "The active window is at" . thisX . ", " . thisY . "`rWidth: " . thisW . ", Height: " . thisH
-return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@getWinPID::
-	AppendAhkCmd(":*:@getWinPID")
-	WinGet, thisPID, PID, A
-	MsgBox, % "The active window PID is " . thisPID
-return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@getWinHwnd::
-	AppendAhkCmd(":*:@getWinHwnd")
-	WinGet, thisHwnd, ID, A
-	MsgBox, % "The active window ID (HWND) is " . thisHwnd
-return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@getWinProcess::
-	AppendAhkCmd(":*:@getWinProcess")
-	WinGet, thisProcess, ProcessName, A
-	MsgBox, % "The active window process name is " . thisProcess
-return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@getMousePos::
-	AppendAhkCmd(":*:@getMousePos")
-	MouseGetPos, windowMousePosX, windowMousePosY
-	MsgBox % "The mouse cursor is at {x = " . windowMousePosX . ", y = " . windowMousePosY . "} relative to the window."
-return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@getLastHotStrTime::
-	MsgBox % "The last hotstring took " . (hotStrEndTime - hotStrStartTime) . "ms to run."
-return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-^+F1::
-	clpbrdLngth := StrLen(clipboard)
-	MsgBox % "The clipboard is " . clpbrdLngth . " characters long."
-return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-^+F2::
-	clpbrdLngth := StrLen(clipboard)
-	SendInput, +{Right %clpbrdLngth%}
-	Sleep, 20
-	SendInput, ^v
-return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-^!q::
-	IfWinExist % "Untitled - Notepad"
-		WinActivate % "Untitled - Notepad"
-	else
-		Run Notepad
-return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@setupWorkTimer::
 	AppendAhkCmd(":*:@setupWorkTimer")
