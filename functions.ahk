@@ -133,7 +133,7 @@ return
 :*:@getWinPos::
 	AppendAhkCmd(":*:@getWinPos")
 	WinGetPos, thisX, thisY, thisW, thisH, A
-	MsgBox, % "The active window is at" . thisX . ", " . thisY . "`rWidth: " . thisW . ", Height: " . thisH
+	MsgBox, % "The active window is at coordinates " . thisX . ", " . thisY . "`rWindow's width = " . thisW . ", height = " . thisH
 return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
