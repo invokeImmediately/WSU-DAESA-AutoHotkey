@@ -1,8 +1,19 @@
 ; ============================================================================================================
+; WORKSPACE MANAGEMENT SCRIPTS
+; ============================================================================================================
 ; LEGEND
 ; ! = ALT     + = SHIFT     ^ = CONTROL     # = WIN
 ; (see https://autohotkey.com/docs/commands/Send.htm for more info)
 ; ============================================================================================================
+
+; ------------------------------------------------------------------------------------------------------------
+; DEPENDENCIES
+; ------------------------------------------------------------------------------------------------------------
+#include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\desktopStartup.ahk
+
+; ------------------------------------------------------------------------------------------------------------
+; FUNCTIONS
+; ------------------------------------------------------------------------------------------------------------
 
 OpenChromeTab:
     WinGet, thisProcess, ProcessName, A
@@ -36,101 +47,116 @@ IsWindowOnLeftDualMonitor() {
     }
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ------------------------------------------------------------------------------------------------------------
+; HOTKEYS
+; ------------------------------------------------------------------------------------------------------------
 
 ^F10::WinSet, Alwaysontop, Toggle, A
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!F1::
     SendInput #{Tab}
     Sleep 330
     SendInput {Tab}{Enter}
+	SoundPlay, %desktopSwitchingSound%
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!F2::
     SendInput, #{Tab}
     Sleep, 330
     SendInput, {Tab}{Right}{Enter}
+	SoundPlay, %desktopSwitchingSound%
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!F3::
     SendInput #{Tab}
     Sleep 330
     SendInput {Tab}{Right}{Right}{Enter}
+	SoundPlay, %desktopSwitchingSound%
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!F4::
     SendInput #{Tab}
     Sleep 330
     SendInput {Tab}{Right}{Right}{Right}{Enter}
+	SoundPlay, %desktopSwitchingSound%
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!F5::
     SendInput #{Tab}
     Sleep 330
     SendInput {Tab}{Right}{Right}{Right}{Right}{Enter}
+	SoundPlay, %desktopSwitchingSound%
 Return
+
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!F6::
     SendInput #{Tab}
     Sleep 330
     SendInput {Tab}{Right}{Right}{Right}{Right}{Right}{Enter}
+	SoundPlay, %desktopSwitchingSound%
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^F9::
+	SoundPlay, %windowSizingSound%
     SysGet, Mon1, MonitorWorkArea, 1
-    M1Width := Mon1Right - Mon1Left - 100
+    M1Width := Mon1Right - Mon1Left - 200
     M1Height := Mon1Bottom - Mon1Top
     WinRestore, A
-    WinMove, A, , 100, 0, %M1Width%, %M1Height%
+    WinMove, A, , 200, 0, %M1Width%, %M1Height%
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^F8::
+	SoundPlay, %windowSizingSound%
     SysGet, Mon1, MonitorWorkArea, 1
-    M1Width := Mon1Right - Mon1Left - 100
+    M1Width := Mon1Right - Mon1Left - 200
     M1Height := Mon1Bottom - Mon1Top
     WinRestore, A
     WinMove, A, , 0, 0, %M1Width%, %M1Height%
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^F7::
+	SoundPlay, %windowSizingSound%
     SysGet, Mon1, MonitorWorkArea, 1
-    M1Width := Mon1Right - Mon1Left - 100
+    M1Width := Mon1Right - Mon1Left - 200
     M1X := -M1Width
     M1Height := Mon1Bottom - Mon1Top
     WinRestore, A
     WinMove, A, , %M1X%, 0, %M1Width%, %M1Height%
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^F6::
+	SoundPlay, %windowSizingSound%
     SysGet, Mon1, MonitorWorkArea, 1
     M1X := -(Mon1Right - Mon1Left)
-    M1Width := Mon1Right - Mon1Left - 100
+    M1Width := Mon1Right - Mon1Left - 200
     M1Height := Mon1Bottom - Mon1Top
     WinRestore, A
     WinMove, A, , %M1X%, 0, %M1Width%, %M1Height%
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!#Left::
+	SoundPlay, %windowMovementSound%
     if (IsWindowOnLeftDualMonitor()) {
         SysGet, Mon2, MonitorWorkArea, 2
         WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
@@ -163,9 +189,10 @@ Return
     }
 return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!#Right::
+	SoundPlay, %windowMovementSound%
     if (IsWindowOnLeftDualMonitor()) {
         SysGet, Mon2, MonitorWorkArea, 2
         WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
@@ -204,9 +231,10 @@ return
     }
 return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!#Down::
+	SoundPlay, %windowMovementSound%
     if (IsWindowOnLeftDualMonitor()) {
         SysGet, Mon2, MonitorWorkArea, 2
         WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
@@ -245,9 +273,10 @@ return
     }
 return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!#Numpad5::
+	SoundPlay, %windowMovementSound%
     if (IsWindowOnLeftDualMonitor()) {
         SysGet, Mon2, MonitorWorkArea, 2
         WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
@@ -264,10 +293,9 @@ return
     }	
 return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!1::
-    hotstrStartTime := A_TickCount
     if (IsWindowOnLeftDualMonitor()) {
         SendInput, #{Tab}
         Sleep, 330
@@ -282,10 +310,10 @@ return
         Sleep, 100
         SendInput, #{Tab}
     }
-    hotstrEndTime := A_TickCount
+	SoundPlay, %windowShiftingSound%
 return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!2::
     if (IsWindowOnLeftDualMonitor()) {
@@ -302,9 +330,10 @@ return
         Sleep, 100
         SendInput, #{Tab}
     }
+	SoundPlay, %windowShiftingSound%
 return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!3::
     if (IsWindowOnLeftDualMonitor()) {
@@ -321,9 +350,10 @@ return
         Sleep, 100
         SendInput, #{Tab}
     }
+	SoundPlay, %windowShiftingSound%
 return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!4::
     if (IsWindowOnLeftDualMonitor()) {
@@ -340,9 +370,10 @@ return
         Sleep, 100
         SendInput, #{Tab}
     }
+	SoundPlay, %windowShiftingSound%
 return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!5::
     if (IsWindowOnLeftDualMonitor()) {
@@ -359,17 +390,46 @@ return
         Sleep, 100
         SendInput, #{Tab}
     }
+	SoundPlay, %windowShiftingSound%
 return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!m::
     WinGetPos, thisX, thisY, thisW, thisH, A
     thisX := -thisX - thisW
     WinMove, A, , %thisX%, %thisY%, %thisW%, %thisH%
+	SoundPlay, %windowMovementSound%
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+~^#Left::
+	SoundPlay, %desktopSwitchingSound%
+Return
+
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+~+#Left::
+	SoundPlay, %windowMovementSound%
+Return
+
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+~^#Right::
+	SoundPlay, %desktopSwitchingSound%
+Return
+
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+~+#Right::
+	SoundPlay, %windowMovementSound%
+Return
+
+; ------------------------------------------------------------------------------------------------------------
+; GNU Image Manipulation Program: Photo Editing & Graphic Design Enhancement Hotkeys & Scripts
+; ------------------------------------------------------------------------------------------------------------
+
 :*:@toggleGimp::
 	CheckForCmdEntryGui()
 	WinGet, thisHwnd, ID, A
@@ -389,7 +449,7 @@ Return
 	WinActivate, % "ahk_id" . thisHwnd
 return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ;TODO: Implement this for Skype muting regardless of what application is currently active.
 
@@ -409,7 +469,9 @@ PeformBypassingCtrlM:
     Suspend, Off
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ------------------------------------------------------------------------------------------------------------
+; Notepad++: Text Editing Enhancement Hotkeys & Scripts
+; ------------------------------------------------------------------------------------------------------------
 
 DoChangeDelimiter(leftDelimiter, rightDelimeter) {
 	CoordMode, Mouse, Client
@@ -454,4 +516,45 @@ Return
     if (thisProcess = "notepad++.exe") {
 		DoChangeDelimiter("[", "]")
 	}
+Return
+
+>^t::
+    WinGet, thisProcess, ProcessName, A
+    if (thisProcess = "notepad++.exe") {
+		SendInput, % "{Esc}"
+		Sleep, 10
+		SendInput, % "^f"
+		Sleep, 10
+		SendInput, % "<"
+		Sleep, 10
+		SendInput, % "!x"
+		Sleep, 10
+		SendInput, % "!d"
+		Sleep, 10
+		SendInput, % "{Enter}"
+		Sleep, 10
+		SendInput, % "{Esc}"
+		Sleep, 10
+		SendInput, % "{Right}"
+	}
+Return
+
+; ------------------------------------------------------------------------------------------------------------
+; Mouse Hotkeys
+; ------------------------------------------------------------------------------------------------------------
+
+^!+RButton::
+	global savedMouseX
+	global savedMouseY
+	
+	CoordMode, Mouse, Screen
+	MouseGetPos, savedMouseX, savedMouseY
+Return
+
+^!+LButton::
+	global savedMouseX
+	global savedMouseY
+
+	CoordMode, Mouse, Screen
+	MouseMove, %savedMouseX%, %savedMouseY%
 Return
