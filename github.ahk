@@ -150,7 +150,7 @@ PasteMinCssToWebsite(websiteUrl, cssCopyCmd)
 	SendInput, % websiteUrl . "{Enter}"
 	Sleep, 200
 	Gosub, %cssCopyCmd%
-	Sleep, 5000
+	Sleep, 7500
 	proceed := false
 	WinGetTitle, thisTitle, A
 	IfNotInString, thisTitle, % "New Tab"
@@ -195,6 +195,9 @@ HandlePostMinCssOK:
 	}
 	if (PostMinCssToUgr) {
 		PasteMinCssToWebsite("https://undergraduateresearch.wsu.edu/wp-admin/themes.php?page=editcss", ":*:@copyMinCssUgr")
+	}
+	if (PostMinCssToUcore) {
+		PasteMinCssToWebsite("https://ucore.wsu.edu/wp-admin/themes.php?page=editcss", ":*:@copyMinCssUcore")
 	}
 	if (PostMinCssToUcrAss) {
 		PasteMinCssToWebsite("https://ucore.wsu.edu/assessment/wp-admin/themes.php?page=editcss", ":*:@copyMinCssUcrAss")
@@ -272,6 +275,9 @@ HandlePostMinJsOK:
 	if (PostMinJsToUgr) {
 		PasteMinJsToWebsite("https://undergraduateresearch.wsu.edu/wp-admin/themes.php?page=custom-javascript", ":*:@copyMinJsUgr")
 	}
+	if (PostMinJsToUcore) {
+		PasteMinJsToWebsite("https://ucore.wsu.edu/wp-admin/themes.php?page=custom-javascript", ":*:@copyMinJsUcore")
+	}
 	if (PostMinJsToUcrAss) {
 		PasteMinJsToWebsite("https://ucore.wsu.edu/assessment/wp-admin/themes.php?page=custom-javascript", ":*:@copyMinJsUcrAss")
 	}
@@ -320,6 +326,10 @@ return
 
 :*:@gotoGhUgr::
     InsertFilePath(":*:@gotoGhUgr", GetGitHubFolder() . "\undergraduateresearch.wsu.edu")
+return
+
+:*:@gotoGhUcore::
+    InsertFilePath(":*:@gotoGhUcore", GetGitHubFolder() . "\ucore.wsu.edu")
 return
 
 :*:@gotoGhUcrAss::
@@ -682,6 +692,19 @@ return
         . "git push`r")
 return
 
+:*:@rebuildCssUcore::
+    PasteTextIntoGitShell(":*:@rebuildCssUcore"
+        , "cd """ . GetGitHubFolder() . "\ucore.wsu.edu\CSS""`r"
+        . "lessc ucore-custom.less ucore-custom.css`r"
+        . "lessc --clean-css ucore-custom.less ucore-custom.min.css`r"
+        . "cd """ . GetGitHubFolder() . "\ucore.wsu.edu\""`r"
+        . "git add CSS\ucore-custom.css`r"
+        . "git add CSS\ucore-custom.min.css`r"
+        . "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
+        . "urce code."" `r"
+        . "git push`r")
+return
+
 :*:@rebuildCssUcrAss::
     PasteTextIntoGitShell(":*:@rebuildCssUcrAss"
         , "cd """ . GetGitHubFolder() . "\ucore.wsu.edu-assessment\CSS""`r"
@@ -814,6 +837,19 @@ return
     Gosub :*:@rebuildCssUgr
 return
 
+:*:@updateCssSubmoduleUcore::
+    PasteTextIntoGitShell(":*:@updateCssSubmoduleUcore"
+        , "cd """ . GetGitHubFolder() . "\ucore.wsu.edu\WSU-UE---CSS""`r"
+        . "git fetch`r"
+        . "git merge origin/master`r"
+        . "cd ..`r"
+        . "git add WSU-UE---CSS`r"
+        . "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent chang"
+        . "es in project source code""`r"
+        . "git push`r")
+    Gosub :*:@rebuildCssUcore
+return
+
 :*:@updateCssSubmoduleUcrAss::
     PasteTextIntoGitShell(":*:@updateCssSubmoduleUcrAss"
         , "cd """ . GetGitHubFolder() . "\ucore.wsu.edu-assessment\WSU-UE---CSS""`r"
@@ -840,6 +876,7 @@ return
     Gosub :*:@updateCssSubmoduleSumRes
     Gosub :*:@updateCssSubmoduleXfer
     Gosub :*:@updateCssSubmoduleUgr
+    Gosub :*:@updateCssSubmoduleUcore
     Gosub :*:@updateCssSubmoduleUcrAss
 return
 
@@ -861,6 +898,7 @@ return
 		Gui, Add, CheckBox, vPostMinCssToSumRes Checked, % "https://summerresearch.wsu.edu"
 		Gui, Add, CheckBox, vPostMinCssToXfer, % "https://transfercredit.wsu.edu"
 		Gui, Add, CheckBox, vPostMinCssToUgr Checked, % "https://undergraduateresearch.wsu.edu"
+		Gui, Add, CheckBox, vPostMinCssToUcore Checked, % "https://ucore.wsu.edu"
 		Gui, Add, CheckBox, vPostMinCssToUcrAss Checked, % "https://ucore.wsu.edu/assessment"
 		Gui, Add, Button, Default gHandlePostMinCssOK, &OK
 		Gui, Add, Button, gHandlePostMinCssCancel X+5, &Cancel
@@ -886,6 +924,7 @@ return
 		Gui, Add, CheckBox, vPostMinJsToSumRes Checked, % "https://summerresearch.wsu.edu"
 		Gui, Add, CheckBox, vPostMinJsToXfer, % "https://transfercredit.wsu.edu"
 		Gui, Add, CheckBox, vPostMinJsToUgr Checked, % "https://undergraduateresearch.wsu.edu"
+		Gui, Add, CheckBox, vPostMinJsToUcore Checked, % "https://ucore.wsu.edu"
 		Gui, Add, CheckBox, vPostMinJsToUcrAss Checked, % "https://ucore.wsu.edu/assessment"
 		Gui, Add, Button, Default gHandlePostMinJsOK, &OK
 		Gui, Add, Button, gHandlePostMinJsCancel X+5, &Cancel
@@ -900,7 +939,7 @@ return
         , GetGitHubFolder() . "\commonreading.wsu.edu\CSS\cr-custom.min.css"
         , "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
         . "keImmediately/commonreading.wsu.edu] for a repository of source code. */`r`n"
-        , "ERROR: Couldn't Copy Minified CSS for Common Reading Website")
+        , "ERROR: Couldn't copy minified CSS for Common Reading website")
 return
 
 :*:@copyMinCssDsp::
@@ -908,7 +947,7 @@ return
         , GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\CSS\dsp-custom.min.css"
         , "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
         . "keImmediately/distinguishedscholarships.wsu.edu] for a repository of source code. */`r`n"
-        , "ERROR: Couldn't Copy Minified CSS for DSP Website")
+        , "ERROR: Couldn't copy minified CSS for DSP Website")
 return
 
 :*:@copyMinCssFye::
@@ -916,7 +955,7 @@ return
         , GetGitHubFolder() . "\firstyear.wsu.edu\CSS\fye-custom.min.css"
         , "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
         . "keImmediately/firstyear.wsu.edu] for a repository of source code. */`r`n"
-        , "ERROR: Couldn't Copy Minified CSS for FYE Website")
+        , "ERROR: Couldn't copy minified CSS for FYE website")
 return
 
 :*:@copyMinCssFyf::
@@ -924,7 +963,7 @@ return
         , GetGitHubFolder() . "\learningcommunities.wsu.edu\CSS\learningcommunities-custom.min.css"
         , "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
         . "keImmediately/learningcommunities.wsu.edu] for a repository of source code. */`r`n"
-        , "ERROR: Couldn't Copy Minified CSS for First-Year Focus Website")
+        , "ERROR: Couldn't copy minified CSS for First-Year Focus website")
 return
 
 :*:@copyMinCssPbk::
@@ -932,7 +971,7 @@ return
         , GetGitHubFolder() . "\phibetakappa.wsu.edu\CSS\pbk-custom.min.css"
         , "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
         . "keImmediately/phibetakappa.wsu.edu] for a repository of source code. */`r`n"
-        , "ERROR: Couldn't Copy Minified CSS for Summer Research Website")
+        , "ERROR: Couldn't copy minified CSS for Phi Beta Kappa website")
 return
 
 :*:@copyMinCssSurca::
@@ -940,7 +979,7 @@ return
         , GetGitHubFolder() . "\surca.wsu.edu\CSS\surca-custom.min.css"
         , "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
         . "keImmediately/surca.wsu.edu] for a repository of source code. */`r`n"
-        , "ERROR: Couldn't Copy Minified CSS for SURCA Website")
+        , "ERROR: Couldn't copy minified CSS for SURCA website")
 return
 
 :*:@copyMinCssSumRes::
@@ -948,7 +987,7 @@ return
         , GetGitHubFolder() . "\summerresearch.wsu.edu\CSS\summerresearch-custom.min.css"
         , "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
         . "keImmediately/summerresearch.wsu.edu] for a repository of source code. */`r`n"
-        , "ERROR: Couldn't Copy Minified CSS for Summer Research Website")
+        , "ERROR: Couldn't copy minified CSS for Summer Research website")
 return
 
 :*:@copyMinCssXfer::
@@ -956,7 +995,7 @@ return
         , GetGitHubFolder() . "\transfercredit.wsu.edu\CSS\xfercredit-custom.min.css"
         , "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
         . "keImmediately/transfercredit.wsu.edu] for a repository of source code. */`r`n"
-        , "ERROR: Couldn't Copy Minified CSS for Transfer Credit Website")
+        , "ERROR: Couldn't copy minified CSS for Transfer Credit website")
 return
 
 :*:@copyMinCssUgr::
@@ -964,7 +1003,15 @@ return
         , GetGitHubFolder() . "\undergraduateresearch.wsu.edu\CSS\undergraduate-research-custom.min.css"
         , "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
         . "keImmediately/undergraduateresearch.wsu.edu] for a repository of source code. */`r`n"
-        , "ERROR: Couldn't Copy Minified CSS for UGR Website")
+        , "ERROR: Couldn't copy minified CSS for UGR website")
+return
+
+:*:@copyMinCssUcore::
+    CopySrcFileToClipboard(":*:@copyMinCssUcore"
+        , GetGitHubFolder() . "\ucore.wsu.edu\CSS\ucore-custom.min.css"
+        , "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
+        . "keImmediately/ucore.wsu.edu] for a repository of source code. */`r`n"
+        , "ERROR: Couldn't copy minified CSS for UCORE website")
 return
 
 :*:@copyMinCssUcrAss::
@@ -972,7 +1019,7 @@ return
         , GetGitHubFolder() . "\ucore.wsu.edu-assessment\CSS\ucore-assessment-custom.min.css"
         , "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
         . "keImmediately/ucore.wsu.edu-assessment] for a repository of source code. */`r`n"
-        , "ERROR: Couldn't Copy Minified CSS for Summer Research Website")
+        , "ERROR: Couldn't copy minified CSS for UCORE Assessment website")
 return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
@@ -1033,7 +1080,7 @@ return
     PasteTextIntoGitShell(":*:@rebuildJsPbk"
         , "cd """ . GetGitHubFolder() . "\phibetakappa.wsu.edu\JS""`r"
         . "node build-production-file.js`r"
-        . "uglifyjs wp-custom-js-source.js -m --output wp-custom-js-source.min.js -mt`r"
+        . "uglifyjs wp-custom-js-source.js --output wp-custom-js-source.min.js -mt`r"
         . "cd """ . GetGitHubFolder() . "\phibetakappa.wsu.edu\""`r"
         . "git add JS\wp-custom-js-source.js`r"
         . "git add JS\wp-custom-js-source.min.js`r"
@@ -1059,7 +1106,7 @@ return
     PasteTextIntoGitShell(":*:@rebuildJsSumRes"
         , "cd """ . GetGitHubFolder() . "\summerresearch.wsu.edu\JS""`r"
         . "node build-production-file.js`r"
-        . "uglifyjs wp-custom-js-source.js -m --output wp-custom-js-source.min.js -mt`r"
+        . "uglifyjs wp-custom-js-source.js --output wp-custom-js-source.min.js -mt`r"
         . "cd """ . GetGitHubFolder() . "\summerresearch.wsu.edu\""`r"
         . "git add JS\wp-custom-js-source.js`r"
         . "git add JS\wp-custom-js-source.min.js`r"
@@ -1072,7 +1119,7 @@ return
     PasteTextIntoGitShell(":*:@rebuildJsXfer"
         , "cd """ . GetGitHubFolder() . "\transfercredit.wsu.edu\JS""`r"
         . "node build-production-file.js`r"
-        . "uglifyjs wp-custom-js-source.js -m --output wp-custom-js-source.min.js -mt`r"
+        . "uglifyjs wp-custom-js-source.js --output wp-custom-js-source.min.js -mt`r"
         . "cd """ . GetGitHubFolder() . "\transfercredit.wsu.edu\""`r"
         . "git add JS\wp-custom-js-source.js`r"
         . "git add JS\wp-custom-js-source.min.js`r"
@@ -1094,11 +1141,24 @@ return
         . "git push`r")
 return
 
+:*:@rebuildJsUcore::
+    PasteTextIntoGitShell(":*:@rebuildJsUcore"
+        , "cd """ . GetGitHubFolder() . "\ucore.wsu.edu\JS""`r"
+        . "node build-production-file.js`r"
+        . "uglifyjs wp-custom-js-source.js --output wp-custom-js-source.min.js -mt`r"
+        . "cd """ . GetGitHubFolder() . "\ucore.wsu.edu\""`r"
+        . "git add JS\wp-custom-js-source.js`r"
+        . "git add JS\wp-custom-js-source.min.js`r"
+        . "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
+        . "urce code."" `r"
+        . "git push`r")
+return
+
 :*:@rebuildJsUcrAss::
     PasteTextIntoGitShell(":*:@rebuildJsUcrAss"
         , "cd """ . GetGitHubFolder() . "\ucore.wsu.edu-assessment\JS""`r"
         . "node build-production-file.js`r"
-        . "uglifyjs wp-custom-js-source.js -m --output wp-custom-js-source.min.js -mt`r"
+        . "uglifyjs wp-custom-js-source.js --output wp-custom-js-source.min.js -mt`r"
         . "cd """ . GetGitHubFolder() . "\ucore.wsu.edu-assessment\""`r"
         . "git add JS\wp-custom-js-source.js`r"
         . "git add JS\wp-custom-js-source.min.js`r"
@@ -1221,6 +1281,18 @@ return
     Gosub :*:@rebuildJsUgr
 return
 
+:*:@updateJsSubmoduleUcore::
+    PasteTextIntoGitShell(":*:@updateJsSubmoduleUcore"
+        , "cd """ . GetGitHubFolder() . "\ucore.wsu.edu\WSU-UE---JS""`r"
+        . "git fetch`r"
+        . "git merge origin/master`r"
+        . "cd ..`r"
+        . "git add WSU-UE---JS`r"
+        . "git commit -m ""Updating submodule"" -m ""Updated master JS submodule to incorporate recent changes in project source code""`r"
+        . "git push`r")
+    Gosub :*:@rebuildJsUcore
+return
+
 :*:@updateJsSubmoduleUcrAss::
     PasteTextIntoGitShell(":*:@updateJsSubmoduleUcrAss"
         , "cd """ . GetGitHubFolder() . "\ucore.wsu.edu-assessment\WSU-UE---JS""`r"
@@ -1245,6 +1317,7 @@ return
     Gosub :*:@updateJsSubmoduleSumRes
     Gosub :*:@updateJsSubmoduleXfer
     Gosub :*:@updateJsSubmoduleUgr
+    Gosub :*:@updateJsSubmoduleUcore
     Gosub :*:@updateJsSubmoduleUcrAss
 return
 
@@ -1385,11 +1458,26 @@ return
         , "ERROR: Couldn't Copy Minified JS for UGR Website")
 return
 
+:*:@copyMinJsUcore::
+    CopySrcFileToClipboard(":*:@copyMinJsUcore"
+        , GetGitHubFolder() . "\ucore.wsu.edu\JS\wp-custom-js-source.min.js"
+        , "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo/"
+        . "UglifyJS]. Please see [https://github.com/invokeImmediately/ucore.wsu.edu] for a reposito"
+        . "ry of source code.`r`n"
+        . "// Third-party, open-source JavaScript plugins used by this website:`r`n"
+        . "//   FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatron5000/Fit"
+        . "//   Masonry JS, (c) David DeSandro 2016 | http://masonry.desandro.com/ | MIT license -- http://de"
+        . "sandro.mit-license.org/`r`n"
+        . "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- http://cre"
+        . "ativecommons.org/licenses/by/3.0/`r`n"
+        , "ERROR: Couldn't Copy Minified JS for WSU Summer Research Website")
+return
+
 :*:@copyMinJsUcrAss::
     CopySrcFileToClipboard(":*:@copyMinJsUcrAss"
         , GetGitHubFolder() . "\ucore.wsu.edu-assessment\JS\wp-custom-js-source.min.js"
         , "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo/"
-        . "UglifyJS]. Please see [https://github.com/invokeImmediately/summerresearch.wsu.edu] for a reposito"
+        . "UglifyJS]. Please see [https://github.com/invokeImmediately/ucore.wsu.edu-assessment] for a reposito"
         . "ry of source code.`r`n"
         . "// Third-party, open-source JavaScript plugins used by this website:`r`n"
         . "//   FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatron5000/Fit"
@@ -1452,6 +1540,11 @@ return
         . "write-host ""``n--------------------------------------------summerresearch.wsu.edu----------------"
         . "----------------------------"" -foreground ""green""`r`n"
         . "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\summerresearch.wsu.edu\""`r`n"
+        . "git status`r`n"
+		. "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\""`r`n"
+        . "write-host ""``n------------------------------------------------ucore.wsu.edu---------------------"
+        . "----------------------------"" -foreground ""green""`r`n"
+		. "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\ucore.wsu.edu\""`r`n"
         . "git status`r`n"
 		. "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\""`r`n"
         . "write-host ""``n-------------------------------------------ucore.wsu.edu/assessment---------------"
