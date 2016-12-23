@@ -2,9 +2,7 @@
 ; LEGEND
 ; ! = ALT     + = SHIFT     ^ = CONTROL     # = WIN
 ; (see https://autohotkey.com/docs/commands/Send.htm for more info)
-; ============================================================================================================
-
-; ============================================================================================================
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 ; TABLE OF CONTENTS
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 ;   Global Variables: 19  •  Workspace Management: 27  •  Utility Functions: 289  •  Text Replacement: 517
@@ -12,15 +10,21 @@
 ;   Github Shortcuts: 670
 ; ============================================================================================================
 
-; ------------------------------------------------------------------------------------------------------------
-; GLOBAL VARIABLES
-; ------------------------------------------------------------------------------------------------------------
+Gosub, MainSubroutine
+
+;   --------------------------------------------------------------------------------------------------------
+;   GLOBAL VARIABLES
+;   --------------------------------------------------------------------------------------------------------
 
 global userAccountFolder := "C:\Users\CamilleandDaniel"
 global logFileName := userAccountFolder . "\Documents\Daniel\^WSU-Web-Dev\^Personnel-File\Work-log.txt"
 global workTimerCountdownTime := -1200000
 global workTimeLeftOver := 0
 global workTimerNotificationSound := userAccountFolder . "\Documents\Daniel\Sound Library\foghorn.wav"
+global windowMovementSound := userAccountFolder . "\Documents\Daniel\Sound Library\323413__sethroph__glass-slide-3_-12.5db_faster.wav"
+global windowSizingSound := userAccountFolder . "\Documents\Daniel\Sound Library\68222__xtyl33__paper3_-7.5db_faster.wav"
+global windowShiftingSound := userAccountFolder . "\Documents\Daniel\Sound Library\185849__lloydevans09__warping.wav"
+global desktopSwitchingSound := userAccountFolder . "\Documents\Daniel\Sound Library\352719__dalesome__woosh-stick-swung-in-the-air_-15db.wav"
 global bitAccentToggle := false
 global accentOverwrite := "{U+00b7}"
 global ahkCmds := Array()
@@ -28,6 +32,8 @@ global ahkCmdLimit := 36
 global CmdChosen
 global hotstrStartTime := 0
 global hotstrEndTime := 0
+global savedMouseX := 0
+global savedMouseY := 0
 
 #NoEnv
 #SingleInstance
@@ -40,253 +46,21 @@ If not A_IsAdmin
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\functions.ahk
 
-; ------------------------------------------------------------------------------------------------------------
-; COMMAND HISTORY
-; ------------------------------------------------------------------------------------------------------------
+;   --------------------------------------------------------------------------------------------------------
+;   COMMAND HISTORY
+;   --------------------------------------------------------------------------------------------------------
+
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\commandHistory.ahk
 
-; ------------------------------------------------------------------------------------------------------------
-; WORKSPACE MANAGEMENT
-; ------------------------------------------------------------------------------------------------------------
+;   --------------------------------------------------------------------------------------------------------
+;   WORKSPACE MANAGEMENT
+;   --------------------------------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\workspaceMngmnt.ahk
 
-SetupVirtualDesktop1:
-	; Send temperature monitoring programs to desktop #5
-	WinActivate, % "GPU Temp"
-	Sleep 330
-	Gosub % "^!4"
-	Sleep 750
-	WinActivate, % "RealTemp"
-	Sleep 330
-	Gosub % "^!4"
-	Sleep 750
-	
-	; Start up Notepad++, open a second instance, and send the initial, primary instance to desktop #2
-	LaunchStdApplicationPatiently("C:\Program Files (x86)\Notepad++\notepad++.exe", "C:\Users ahk_exe notepad++.exe")
-	Sleep 3000
-	WinActivate, % "C:\Users ahk_exe notepad++.exe"
-	Sleep 100
-	SendInput ^{End}
-	Sleep 500
-	SendInput !{F6}
-	Sleep 3000
-	SendInput !{Tab}
-	Sleep 750
-	Gosub % "^!1"
-	Sleep 750
-	Gosub % "^F8"
-	Sleep 500
-	
-	; Start up Chrome and direct it to a WSU WordPress login page; wait for it to load before proceeding
-	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", "New Tab")
-	Sleep 1000
-	SendInput !d
-	Sleep 20
-	SendInput, https://distinguishedscholarships.wsu.edu/wp-admin/{Enter}
-	Sleep 100
-	WaitForApplicationPatiently("WSU Distinguished")
-	Gosub % "^F7"
-	Sleep 1000
-return
-
-SetupVirtualDesktop2:
-	SendInput, #{Tab}
-	Sleep, 330
-	SendInput, {Tab}{Right}{Enter}
-	Sleep, 330
-	SendInput, #e
-	WaitForApplicationPatiently("File Explorer")
-	Sleep, 330
-	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", "New Tab")
-	SendInput !d
-	Sleep 100
-	SendInput, https://github.com/invokeImmediately{Enter}
-	Sleep 330
-	LaunchStdApplicationPatiently(userAccountFolder . "\AppData\Local\GitHub\Github.appref-ms", "GitHub ahk_exe GitHub.exe")
-	LaunchStdApplicationPatiently(userAccountFolder . "\Desktop\Git Shell.lnk", "Powershell")
-	Sleep 1000
-	Gosub :*:@arrangeGitHub
-return
-
-SetupVirtualDesktop3:
-	SendInput, #{Tab}
-	Sleep, 330
-	SendInput, {Tab}{Right}{Right}{Enter}
-	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", "New Tab")
-	SendInput !d
-	Sleep 100
-	SendInput, http://www.colorhexa.com/{Enter}
-	Sleep 330
-	Gosub % "^!#Left"
-	LaunchStdApplicationPatiently("C:\Program Files\GIMP 2\bin\gimp-2.8.exe", "GNU Image")
-	Sleep 1000
-return
-
-SetupVirtualDesktop4:
-	SendInput, #{Tab}
-	Sleep, 330
-	SendInput, {Tab}{Right}{Right}{Right}{Enter}
-	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", "New Tab")
-	Run, % "explorer.exe ""C:\Program Files (x86)\Microsoft Office\Office14\outlook.exe"""
-	Sleep 5000
-	SendInput {Enter}
-	Sleep 1500
-	WaitForApplicationPatiently("Inbox - ahk_exe outlook.exe")
-	LaunchStdApplicationPatiently("C:\Program Files\Microsoft Office 15\root\office15\onenote.exe", "- OneNote")
-	Sleep 1000
-	Gosub :*:@arrangeEmail
-return
-
-SetupVirtualDesktop5:
-	; TODO: Arrange window dimensions and placements
-	SendInput, #{Tab}
-	Sleep, 330
-	SendInput, {Tab}{Right}{Right}{Right}{Right}{Enter}
-	Sleep, 330
-	LaunchStdApplicationPatiently(userAccountFolder . "\AppData\Local\Wunderlist\Wunderlist.exe", "Inbox - Wunderlist")
-	Sleep, 1000
-return
-
-#!r::
-	SetTitleMatchMode, 2
-	Gosub, SetupVirtualDesktop1
-	Gosub, SetupVirtualDesktop2
-	Gosub, SetupVirtualDesktop3
-	Gosub, SetupVirtualDesktop4
-	Gosub, SetupVirtualDesktop5	
-	SendInput #{Tab}
-	Sleep 330
-	SendInput {Tab}{Enter}
-return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@arrangeGitHub::
-	AppendAhkCmd(":*:@arrangeGitHub")
-	SetTitleMatchMode, 2
-	WinRestore, GitHub
-	WinMove, GitHub, , -1893, 20, 1868, 772
-	Sleep 200
-	WinRestore, PowerShell
-	WinMove, PowerShell, , -1527, 161
-	Sleep 200
-	WinRestore, invokeImmediately
-	WinMove, invokeImmediately, , -1830, 0, 1700, 1040
-	Sleep 200
-	WinRestore, File Explorer
-	WinMove, File Explorer, , 100, 0, 1820, 1040
-	Sleep 200
-	WinActivate, C:\Users
-	Sleep 330
-	WinRestore, C:\Users
-	WinMove, C:\Users, , 0, 0, 1820, 1040
-	Sleep 200
-	WinActivate, PowerShell
-return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@emailFix::
-	WinActivate, % "Inbox ahk_exe chrome.exe"
-	Sleep 100
-	CoordMode, Mouse, Client
-	Sleep 250
-	MouseMove 1757, 135
-	Sleep 100
-	Send {Click}
-	MouseMove 1617, 334
-	Sleep 100
-	Send {Click}
-return
-
-:*:@arrangeEmail::
-	AppendAhkCmd(":*:@arrangeEmail")
-	SetTitleMatchMode, 2
-	WinActivate, % "New Tab"
-	Sleep 330
-	SendInput !{d}
-	Sleep 100
-	SendInput % "mail.google.com{Enter}"
-	Sleep 330
-	SendInput ^t
-	Sleep 100
-	SendInput !{d}
-	Sleep 100
-	SendInput % "mail.live.com{Enter}"
-	Sleep 330
-	SendInput ^t
-	Sleep 100
-	SendInput !{d}
-	Sleep 100
-	SendInput % "biblegateway.com{Enter}"
-	Sleep 330
-	SendInput ^t
-	Sleep 100
-	SendInput !{d}
-	Sleep 100
-	SendInput % "sfgate.com{Enter}"
-	Sleep 330
-	SendInput ^t
-	Sleep 100
-	SendInput !{d}
-	Sleep 100
-	SendInput % "web.wsu.edu{Enter}"
-	Sleep 1000
-
-	SendInput ^{Tab}
-	Sleep 330
-	LaunchStdApplicationPatiently("C:\Program Files\iTunes\iTunes.exe", "iTunes")
-	WinRestore, % "Inbox - ahk_exe outlook.exe"
-	WinMove, % "Inbox - ahk_exe outlook.exe", , -1920, 0, 1820, 1040
-	Sleep 100
-	WinRestore, % "Gmail ahk_exe chrome.exe"
-	WinMove, % "Gmail ahk_exe chrome.exe", , -1820, 0, 1820, 1040
-	Sleep 200
-	WinActivate, % "Gmail ahk_exe chrome.exe"
-	Sleep 200
-	CoordMode, Mouse, Client
-	Sleep 250
-	MouseMove 1757, 135
-	Sleep 100
-	Send {Click}
-	Sleep 3000
-	MouseMove 1617, 340
-	Sleep 100
-	Send {Click}
-	Sleep, 500
-	WinRestore, OneNote
-	WinMove, OneNote, , 0, 0, 1820, 1040
-	Sleep 100
-	WinRestore, % "iTunes ahk_exe iTunes.exe"
-	WinMove, iTunes, , 100, 0, 1820, 1040
-return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@arrangeGimp::
-	AppendAhkCmd(":*:@arrangeGimp")
-	SetTitleMatchMode, 2
-	WinActivate, Toolbox - Tool Options
-	Sleep 100
-	WinMove, Toolbox - Tool Options, , -960, 0, 272, 1040
-	Sleep 100
-	WinActivate, Layers
-	Sleep 100
-	WinMove, Layers, , -699, 0, 356, 1040
-	Sleep 100
-	WinActivate, FG/BG
-	Sleep 100
-	WinMove, FG/BG, , -345, 0, 350, 522
-	Sleep 100
-	WinActivate, Navigation
-	Sleep 100
-	WinMove, Navigation, , -345, 518, 350, 522
-return
-
-; ------------------------------------------------------------------------------------------------------------
-; WORK TIMER scripts for tracking hours and indicating when breaks should be taken
-; ------------------------------------------------------------------------------------------------------------
+;   --------------------------------------------------------------------------------------------------------
+;   WORK TIMER scripts for tracking hours and indicating when breaks should be taken
+;   --------------------------------------------------------------------------------------------------------
 
 :*:@setupWorkTimer::
 	AppendAhkCmd(":*:@setupWorkTimer")
@@ -402,7 +176,7 @@ return
 			workTimerRunning := true
 		}
 	}
-return
+Return
 
 PostWorkBreakMessage:
 	timerEndTime := A_Now
@@ -436,7 +210,7 @@ PostWorkBreakMessage:
 		workTimerRunning := false
 	}
 	workTimeLeftOver := 0
-return
+Return
 
 :*:@stopWorkTimer::
 	AppendAhkCmd(":*:@stopWorkTimer")
@@ -457,7 +231,7 @@ return
 	} else {
 		MsgBox % 1, % "Stop work timer?", % "No work timer is currently running."
 	}
-return
+Return
 
 :*:@checkWorkTimer::
 	AppendAhkCmd(":*:@checkWorkTimer")
@@ -472,7 +246,7 @@ return
 		}
 		MsgBox % 1, % "Check Work Timer", % "There are " . timerTimeLeft . " minutes left on the work timer."
 	}
-return
+Return
 
 :*:@toggleOverlayMode::
 	AppendAhkCmd(":*:@toggleOverlayMode")
@@ -494,7 +268,7 @@ return
 		Sleep, 1500
 		SplashImage, Off
 	}
-return
+Return
 
 :*:@toggleAOT::
 	AppendAhkCmd(":*:@toggleAOT")
@@ -508,91 +282,91 @@ return
 	{
 		WinSet, AlwaysOnTop, on, ahk_id %currentWindowID%
 	}
-return
+Return
 
 
-; ------------------------------------------------------------------------------------------------------------
-; TEXT REPLACEMENT
-; ------------------------------------------------------------------------------------------------------------
+;   --------------------------------------------------------------------------------------------------------
+;   TEXT REPLACEMENT
+;   --------------------------------------------------------------------------------------------------------
 
 :*:@ddd::
 	AppendAhkCmd(":*:@ddd")
 	FormatTime, CurrentDateTime,, yyyy-MM-dd
-	SendInput %CurrentDateTime%
-return
+	SendInput, %CurrentDateTime%
+Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@datetime::
 	AppendAhkCmd(":*:@datetime")
 	FormatTime, CurrentDateTime,, yyyy-MM-dd HH:mm:ss
-	SendInput %CurrentDateTime%
-return
+	SendInput, %CurrentDateTime%
+Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@xsss::
 	AppendAhkCmd(":*:@xsss")
 	FormatTime, CurrentDateTime,, yyyy-MM-dd
-	SendInput (Started %CurrentDateTime%)
-return
+	SendInput, (Started %CurrentDateTime%)
+Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@xccc::
 	AppendAhkCmd(":*:@xccc")
 	FormatTime, CurrentDateTime,, yyyy-MM-dd
-	SendInput / Completed %CurrentDateTime%
-return
+	SendInput, / Completed %CurrentDateTime%
+Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@ppp::
 	AppendAhkCmd(":*:@ppp")
-	SendInput news-events_events_.html{Left 5}
-return
+	SendInput, news-events_events_.html{Left 5}
+Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@add5lineshere::
 	AppendAhkCmd(":*:@add5lineshere")
-	SendInput {Enter 5}
-return
+	SendInput, {Enter 5}
+Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@doRGBa::
 	AppendAhkCmd(":*:@doRGBa")
-	SendInput rgba(@rval, @gval, @bval, );{Left 2}
-return
+	SendInput, rgba(@rval, @gval, @bval, );{Left 2}
+Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@addNrml::{Space}class="oue-normal"
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@addClass::class=""{Space}{Left 2}
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@toggleAccentKey::
 	AppendAhkCmd(":*:@toggleAccentKey")
 	bitAccentToggle := !bitAccentToggle
-return
+Return
 
 ^+`::
 	Gosub :*:@toggleAccentKey
-return
+Return
 
 :*:``::
 	if (bitAccentToggle) {
-		SendInput % accentOverwrite
+		SendInput, % accentOverwrite
 	}
 	else {
-		SendInput ``
+		SendInput, ``
 	}
-return
+Return
 
 :*:@changeAccentOverwrite::
 	AppendAhkCmd(":*:@changeAccentOverwrite")
@@ -600,120 +374,128 @@ return
 	if (!ErrorLevel) {
 		accentOverwrite := inputEntered
 	}
-return
+Return
 
-; ------------------------------------------------------------------------------------------------------------
-; PROGRAM/FILE LAUNCHING SHORTCUTS
-; ------------------------------------------------------------------------------------------------------------
+;   --------------------------------------------------------------------------------------------------------
+;   PROGRAM/FILE LAUNCHING SHORTCUTS
+;   --------------------------------------------------------------------------------------------------------
 
 :R*?:runNotepad::
 	Run C:\Program Files (x86)\Notepad++\notepad++.exe
-return
+Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 #z::
 	Run notepad++.exe, C:\Program Files (x86)\Notepad++, Max
-return
+Return
 
 :*:@checkHTMLSpec::
 	AppendAhkCmd(":*:@checkHTMLSpec")
 	Run % userAccountFolder . "\Documents\Daniel\^WSU-Web-Dev\^Master-VPUE\Anatomy of an HTML5 Document_2016-03-16.jpg"
-return
+Return
 
-; ------------------------------------------------------------------------------------------------------------
-; FILE SYSTEM NAVIGATION
-; ------------------------------------------------------------------------------------------------------------
+;   --------------------------------------------------------------------------------------------------------
+;   FILE SYSTEM NAVIGATION
+;   --------------------------------------------------------------------------------------------------------
 
 :*:@gotoTorah::
 	AppendAhkCmd(":*:@gotoTorah")
-	SendInput C:\Users\CamilleandDaniel\Documents\Daniel\{^}Derek-Haqodesh\{Enter}
+	SendInput, C:\Users\CamilleandDaniel\Documents\Daniel\{^}Derek-Haqodesh\{Enter}
 Return
 
 :*:@gotoCurrent::
 	AppendAhkCmd(":*:@gotoCurrent")
-	SendInput C:\Users\CamilleandDaniel\Documents\Daniel\{^}Derek-Haqodesh\TheMessage.cc\Messages\Message_The-Man-from-Heaven_2015-12-06{Enter}
+	SendInput, C:\Users\CamilleandDaniel\Documents\Daniel\{^}Derek-Haqodesh\TheMessage.cc\Messages\Message_The-Man-from-Heaven_2015-12-06{Enter}
 Return
 
 
 :*:@gotoGithub::
 	AppendAhkCmd(":*:@gotoGithub")
-	SendInput C:\Users\CamilleandDaniel\Documents\GitHub{Enter}
+	SendInput, C:\Users\CamilleandDaniel\Documents\GitHub{Enter}
 Return
 
 :*:@gotoWebdev::
 	AppendAhkCmd(":*:@gotoWebdev")
-	SendInput C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev{Enter}
+	SendInput, C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev{Enter}
 Return
 
 :*:@gotoWdDsp::
     InsertFilePath(":*:@gotoGhDsp", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\DSP") 
-return
+Return
 
 :*:@gotoWdFye::
     InsertFilePath(":*:@gotoGhFye", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\FYE & FYF")
-return
+Return
 
 :*:@gotoWdFyf::
     InsertFilePath(":*:@gotoGhFyf", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\FYE & FYF")
-return
+Return
 
 :*:@gotoWdSurca::
     InsertFilePath(":*:@gotoGhSurca", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\SURCA")
-return
-
-:*:@gotoWdUgr::
-    InsertFilePath(":*:@gotoGhUgr", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\UGR")
-return
-
-:*:@gotoWdXfer::
-    InsertFilePath(":*:@gotoGhXfer", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\xfer")
-return
+Return
 
 :*:@gotoWdSumRes::
     InsertFilePath(":*:@gotoGhSumRes", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\Summer-Res")
-return
+Return
 
 :*:@gotoWdUcrAss::
     InsertFilePath(":*:@gotoGhUcrAss", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\UCORE-Assessment")
-return
+Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+:*:@gotoWdUcore::
+    InsertFilePath(":*:@gotoGhUcore", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\UCORE")
+Return
+
+:*:@gotoWdUgr::
+    InsertFilePath(":*:@gotoGhUgr", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\UGR")
+Return
+
+:*:@gotoWdXfer::
+    InsertFilePath(":*:@gotoGhXfer", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\xfer")
+Return
+
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@openNodeCodes::
 	AppendAhkCmd(":*:@openNodeCodes")
-	SendInput C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev\{^}Master-VPUE\Node\node-commands.bat{Enter}
+	SendInput, C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev\{^}Master-VPUE\Node\node-commands.bat{Enter}
 Return
 
 :*:@openGitCodes::
 	AppendAhkCmd(":*:@openGitCodes")
-	SendInput C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev\GitHub\git-codes.bat{Enter}
+	SendInput, C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev\GitHub\git-codes.bat{Enter}
 Return
 
-; ------------------------------------------------------------------------------------------------------------
-; GOOGLE CHROME SHORTCUTS
-; ------------------------------------------------------------------------------------------------------------
+;   --------------------------------------------------------------------------------------------------------
+;   GOOGLE CHROME SHORTCUTS
+;   --------------------------------------------------------------------------------------------------------
 
 ^!o::
 	WinGet, thisProcess, ProcessName, A
 	if (thisProcess = "chrome.exe") {
-		SendInput ^n
-		Sleep 333
-		SendInput ^+o
-		Sleep 100
-		SendInput ^!m
+		SendInput, ^n
+		Sleep, 333
+		SendInput, ^+o
+		Sleep, 100
+		SendInput, ^!m
 	} else {
 		GoSub, PerformBypassingCtrlAltO
 	}
-return
+Return
 
 PerformBypassingCtrlAltO:
 	Suspend
-	Sleep 10
-	SendInput ^!o
-	Sleep 10
+	Sleep, 10
+	SendInput, ^!o
+	Sleep, 10
 	Suspend, Off
-return
+Return
+
+;   --------------------------------------------------------------------------------------------------------
+;   OTHER SHORTCUTS
+;   --------------------------------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\github.ahk
 
@@ -722,6 +504,12 @@ return
 ;+WheelUp::WheelLeft
 
 #+X::
-SetKeyDelay, 160, 100
-Send {SPACE 16}
+	SetKeyDelay, 160, 100
+	Send {SPACE 16}
 Return
+
+;   --------------------------------------------------------------------------------------------------------
+;   MAIN SUBROUTINE
+;   --------------------------------------------------------------------------------------------------------
+
+#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\desktopMain.ahk
