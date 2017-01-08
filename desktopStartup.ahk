@@ -11,42 +11,10 @@
 ;   --------------------------------------------------------------------------------------------------------
 
 SetupVirtualDesktop1:
-	; Send temperature monitoring programs to desktop #5
-	WinActivate, % "GPU Temp"
-	Sleep, 330
-	Gosub % "^!4"
-	Sleep, 750
-	WinActivate, % "RealTemp"
-	Sleep, 330
-	Gosub % "^!4"
-	Sleep, 750
+	Gosub, :*:@moveTempMonitors
+	Gosub, :*:@startNotepadPp
+	Gosub, :*:@startChrome
 	
-	; Start up Notepad++, open a second instance, and send the initial, primary instance to desktop #2
-	LaunchStdApplicationPatiently("C:\Program Files (x86)\Notepad++\notepad++.exe", "C:\Users ahk_exe notepad++.exe")
-	Sleep, 3000
-	WinActivate, % "C:\Users ahk_exe notepad++.exe"
-	Sleep, 100
-	SendInput, ^{End}
-	Sleep, 500
-	SendInput, !{F6}
-	Sleep, 3000
-	SendInput, !{Tab}
-	Sleep, 750
-	Gosub % "^!1"
-	Sleep, 750
-	Gosub % "^F8"
-	Sleep, 500
-	
-	; Start up Chrome and direct it to a WSU WordPress login page; wait for it to load before proceeding
-	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", "New Tab")
-	Sleep, 1000
-	SendInput, !d
-	Sleep, 20
-	SendInput, https://distinguishedscholarships.wsu.edu/wp-admin/{Enter}
-	Sleep, 100
-	WaitForApplicationPatiently("WSU Distinguished")
-	Gosub % "^F7"
-	Sleep, 1000
 Return
 
 SetupVirtualDesktop2:
@@ -56,17 +24,8 @@ SetupVirtualDesktop2:
 	Sleep, 330
 	SendInput, #e
 	WaitForApplicationPatiently("File Explorer")
-	Sleep, 330
-	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", "New Tab")
-	SendInput, !d
-	Sleep, 100
-	SendInput, https://github.com/invokeImmediately{Enter}
-	Sleep, 1000
-	LaunchStdApplicationPatiently(userAccountFolder . "\AppData\Local\GitHub\Github.appref-ms", "GitHub ahk_exe GitHub.exe")
-	Sleep, 1000
-	LaunchStdApplicationPatiently(userAccountFolder . "\Desktop\Git Shell.lnk", "Powershell")
-	Sleep, 1000
-	Gosub :*:@arrangeGitHub
+	Gosub, :*:@startGithubClients
+	Gosub, :*:@arrangeGitHub
 Return
 
 SetupVirtualDesktop3:
@@ -166,19 +125,6 @@ Return
 
 ;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-:*:@emailFix::
-	WinActivate, % "Inbox ahk_exe chrome.exe"
-	Sleep, 100
-	CoordMode, Mouse, Client
-	Sleep, 250
-	MouseMove 1757, 135
-	Sleep, 100
-	Send {Click}
-	MouseMove 1617, 334
-	Sleep, 100
-	Send {Click}
-Return
-
 :*:@arrangeEmail::
 	AppendAhkCmd(":*:@arrangeEmail")
 	SetTitleMatchMode, 2
@@ -261,4 +207,73 @@ Return
 	WinActivate, Navigation
 	Sleep, 100
 	WinMove, Navigation, , -345, 518, 350, 522
+Return
+
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@moveTempMonitors::
+	; Send temperature monitoring programs to desktop #5 from #1
+	AppendAhkCmd(":*:@moveTempMonitors")
+	WinActivate, % "GPU Temp"
+	Sleep, 330
+	Gosub % "^!4"
+	Sleep, 750
+	WinActivate, % "RealTemp"
+	Sleep, 330
+	Gosub % "^!4"
+	Sleep, 750
+Return
+
+
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@startChrome::
+	; Start up Chrome and direct it to a WSU WordPress login page; wait for it to load before proceeding
+	AppendAhkCmd(":*:@startChrome")
+	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", "New Tab")
+	Sleep, 1000
+	SendInput, !d
+	Sleep, 20
+	SendInput, https://distinguishedscholarships.wsu.edu/wp-admin/{Enter}
+	Sleep, 100
+	WaitForApplicationPatiently("WSU Distinguished")
+	Gosub % "^F7"
+	Sleep, 1000
+Return
+
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@startGithubClients::
+	AppendAhkCmd(":*:@startGithubClients")
+	Sleep, 330
+	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", "New Tab")
+	SendInput, !d
+	Sleep, 100
+	SendInput, https://github.com/invokeImmediately{Enter}
+	Sleep, 1000
+	LaunchStdApplicationPatiently(userAccountFolder . "\AppData\Local\GitHub\Github.appref-ms", "GitHub ahk_exe GitHub.exe")
+	Sleep, 1000
+	LaunchStdApplicationPatiently(userAccountFolder . "\Desktop\Git Shell.lnk", "Powershell")
+	Sleep, 1000
+Return
+
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@startNotepadPp::
+	; Start up Notepad++, open a second instance, and send the initial, primary instance to desktop #2
+	AppendAhkCmd(":*:@startNotepadPp")
+	LaunchStdApplicationPatiently("C:\Program Files (x86)\Notepad++\notepad++.exe", "C:\Users ahk_exe notepad++.exe")
+	Sleep, 3000
+	WinActivate, % "C:\Users ahk_exe notepad++.exe"
+	Sleep, 100
+	SendInput, ^{End}
+	Sleep, 500
+	SendInput, !{F6}
+	Sleep, 3000
+	SendInput, !{Tab}
+	Sleep, 750
+	Gosub % "^!1"
+	Sleep, 750
+	Gosub % "^F8"
+	Sleep, 500
 Return
