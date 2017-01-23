@@ -94,6 +94,13 @@ MoveCursorIntoActiveWindow(ByRef curPosX, ByRef curPosY)
 	}
 }
 
+PasteText(txtToPaste) {
+	if (clipboard != txtToPaste) {
+		clipboard := txtToPaste
+	}
+	SendInput, % "^v"
+}
+
 WaitForApplicationPatiently(title)
 {
     isReady := false
