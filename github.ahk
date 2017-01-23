@@ -151,7 +151,6 @@ PasteTextIntoGitShell(ahkCmdName, shellText) {
 
 :*:@postMinCss::
 	AppendAhkCmd(":*:@postMinCss")
-	CheckForCmdEntryGui()
 	
 	if(!sgIsPostingMinCss) {
 		Gui, guiPostMinCss: New,, % "Post Minified CSS to OUE Websites"
@@ -179,7 +178,6 @@ Return
 
 :*:@postMinJs::
 	AppendAhkCmd(":*:@postMinJs")
-	CheckForCmdEntryGui()
 	
 	if(!sgIsPostingMinJs) {
 		Gui, guiPostMinJs: New,, % "Post Minified JS to OUE Websites"
