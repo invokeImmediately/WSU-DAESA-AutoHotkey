@@ -14,7 +14,6 @@ SetupVirtualDesktop1:
 	Gosub, :*:@moveTempMonitors
 	Gosub, :*:@startNotepadPp
 	Gosub, :*:@startChrome
-	
 Return
 
 SetupVirtualDesktop2:
@@ -106,19 +105,19 @@ Return
 	WinRestore, GitHub
 	WinMove, GitHub, , -1893, 20, 1868, 772
 	Sleep, 200
-	WinRestore, PowerShell
-	WinMove, PowerShell, , -1527, 161
+	WinRestore, % "ahk_exe Powershell.exe"
+	WinMove, % "ahk_exe Powershell.exe", , -1527, 161
 	Sleep, 200
 	WinRestore, invokeImmediately
 	WinMove, invokeImmediately, , -1830, 0, 1700, 1040
 	Sleep, 200
 	WinRestore, File Explorer
-	WinMove, File Explorer, , 100, 0, 1820, 1040
+	WinMove, File Explorer, , 200, 0, 1720, 1040
 	Sleep, 200
 	WinActivate, C:\Users
 	Sleep, 330
 	WinRestore, C:\Users
-	WinMove, C:\Users, , 0, 0, 1820, 1040
+	WinMove, C:\Users, , 0, 0, 1720, 1040
 	Sleep, 200
 	WinActivate, PowerShell
 Return
@@ -268,7 +267,7 @@ Return
 	Sleep, 100
 	SendInput, ^{End}
 	Sleep, 500
-	SendInput, !{F6}
+	SendInput, !+{F6}
 	Sleep, 3000
 	SendInput, !{Tab}
 	Sleep, 750
