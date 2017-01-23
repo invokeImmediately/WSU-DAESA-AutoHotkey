@@ -481,7 +481,7 @@ DoChangeDelimiter(leftDelimiter, rightDelimeter) {
 	Sleep 100
 	Click, 35, 181
 	Sleep 60
-	Click, 391, 125, 2
+	Click, 395, 125, 2
 	SendInput, %leftDelimiter%
 	Sleep 60
 	Click, 547, 157, 2
