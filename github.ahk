@@ -1,4 +1,4 @@
-; ============================================================================================================
+﻿; ============================================================================================================
 ; AUTOHOTKEY SCRIPT IMPORT for Working with Github Desktop for Windows
 ; ============================================================================================================
 ; IMPORT DEPENDENCIES
@@ -182,22 +182,22 @@ Return
 	if(!sgIsPostingMinJs) {
 		Gui, guiPostMinJs: New,, % "Post Minified JS to OUE Websites"
 		Gui, guiPostMinJs: Add, Text,, % "Which OUE Websites would you like to update?"
-		Gui,guiPostMinJs: Add, CheckBox, vPostMinJsToCr, % "https://c&ommonreading.wsu.edu"		
-		Gui,guiPostMinJs: Add, CheckBox, vPostMinJsToDsp Checked, % "https://&distinguishedscholarships.wsu.edu"		
-		Gui,guiPostMinJs: Add, CheckBox, vPostMinJsToFye Checked, % "https://&firstyear.wsu.edu"		
-		Gui,guiPostMinJs: Add, CheckBox, vPostMinJsToFyf Checked, % "https://&learningcommunities.wsu.edu"		
-		Gui,guiPostMinJs: Add, CheckBox, vPostMinJsToPbk Checked, % "https://&phibetakappa.wsu.edu"		
-		Gui,guiPostMinJs: Add, CheckBox, vPostMinJsToSurca Checked, % "https://&surca.wsu.edu"		
-		Gui,guiPostMinJs: Add, CheckBox, vPostMinJsToSumRes Checked, % "https://su&mmerresearch.wsu.edu"		
-		Gui,guiPostMinJs: Add, CheckBox, vPostMinJsToXfer, % "https://&transfercredit.wsu.edu"		
-		Gui,guiPostMinJs: Add, CheckBox, vPostMinJsToUgr Checked, % "https://&undergraduateresearch.wsu.edu"		
-		Gui,guiPostMinJs: Add, CheckBox, vPostMinJsToUcore Checked, % "https://uco&re.wsu.edu"		
-		Gui,guiPostMinJs: Add, CheckBox, vPostMinJsToUcrAss Checked, % "https://ucore.wsu.edu/&assessment"
-		Gui,guiPostMinJs: Add, Button, Default gHandlePostMinJsOK, &OK
-		Gui,guiPostMinJs: Add, Button, gHandlePostMinJsCancel X+5, &Cancel
+		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToCr, % "https://c&ommonreading.wsu.edu"		
+		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToDsp Checked, % "https://&distinguishedscholarships.wsu.edu"		
+		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToFye Checked, % "https://&firstyear.wsu.edu"		
+		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToFyf Checked, % "https://&learningcommunities.wsu.edu"		
+		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToPbk Checked, % "https://&phibetakappa.wsu.edu"		
+		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToSurca Checked, % "https://&surca.wsu.edu"		
+		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToSumRes Checked, % "https://su&mmerresearch.wsu.edu"		
+		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToXfer, % "https://&transfercredit.wsu.edu"		
+		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToUgr Checked, % "https://&undergraduateresearch.wsu.edu"		
+		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToUcore Checked, % "https://uco&re.wsu.edu"		
+		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToUcrAss Checked, % "https://ucore.wsu.edu/&assessment"
+		Gui, guiPostMinJs: Add, Button, Default gHandlePostMinJsOK, &OK
+		Gui, guiPostMinJs: Add, Button, gHandlePostMinJsCancel X+5, &Cancel
 		Gui, guiPostMinJs: Add, Button, gHandlePostJsCheckAllSites X+15, C&heck All
 		Gui, guiPostMinJs: Add, Button, gHandlePostJsUncheckAllSites X+5, Unchec&k All
-		Gui,guiPostMinJs: Show
+		Gui, guiPostMinJs: Show
 	}
 Return
 
@@ -342,7 +342,7 @@ Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-HandlePostCssUncheckAllSites:
+HandlePostJsUncheckAllSites:
 	GuiControl, guiPostMinJs:, PostMinJsToCr, 0
 	GuiControl, guiPostMinJs:, PostMinJsToDsp, 0
 	GuiControl, guiPostMinJs:, PostMinJsToFye, 0
