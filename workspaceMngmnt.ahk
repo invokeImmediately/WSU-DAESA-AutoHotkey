@@ -280,16 +280,16 @@ return
     if (IsWindowOnLeftDualMonitor()) {
         SysGet, Mon2, MonitorWorkArea, 2
         WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
-		newWinX := (Mon2Right - Mon2Left) / 2 - thisWinW / 2 + Mon2Left
-		newWinY := (Mon2Bottom - Mon2Top) / 2 - thisWinH / 2 + Mon2Top
-		WinMove, A, , %newWinX%, %newWinY%, %thisWinW%, %thisWinH%
+		newWinX := (Mon2Right - Mon2Left) / 2 - (thisWinW - 200) / 2 + Mon2Left
+		newWinY := (Mon2Bottom - Mon2Top) / 2 - (thisWinH - 112) / 2 + Mon2Top
+		WinMove, A, , %newWinX%, %newWinY%, % (thisWinW - 200), % (thisWinH - 112)
     }
     else {
         SysGet, Mon1, MonitorWorkArea, 1
         WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
-		newWinX := (Mon1Right - Mon1Left) / 2 - thisWinW / 2 + Mon1Left
-		newWinY := (Mon1Bottom - Mon1Top) / 2 - thisWinH / 2 + Mon1Top
-		WinMove, A, , %newWinX%, %newWinY%, %thisWinW%, %thisWinH%
+		newWinX := (Mon1Right - Mon1Left) / 2 - (thisWinW - 200) / 2 + Mon1Left
+		newWinY := (Mon1Bottom - Mon1Top) / 2 - (thisWinH - 112) / 2 + Mon1Top
+		WinMove, A, , %newWinX%, %newWinY%, % (thisWinW - 200), % (thisWinH - 112)
     }	
 return
 
