@@ -12,7 +12,7 @@
 ;   Location of GitHub               …userAccountFolder (see above dependency)…\Documents\GitHub
 ;   Repositories locally present     All those from https://github.com/invokeImmediately 
 ; ============================================================================================================
-; AUTOHOTKEY SEND LEGEND0
+; AUTOHOTKEY SEND LEGEND
 ; ! = ALT     + = SHIFT     ^ = CONTROL     # = WIN
 ; (see https://autohotkey.com/docs/commands/Send.htm for more info)
 ; ============================================================================================================
@@ -182,22 +182,24 @@ Return
 	CheckForCmdEntryGui()
 	
 	if(!sgIsPostingMinJs) {
-		Gui, New,, % "Post Minified JS to OUE Websites"
-		Gui, Add, Text,, % "Which OUE Websites would you like to update?"
-	GuiControl, , PostMinJsToCr, 1
-	GuiControl, , PostMinJsToDsp, 1
-	GuiControl, , PostMinJsToFye, 1
-	GuiControl, , PostMinJsToFyf, 1
-	GuiControl, , PostMinJsToPbk, 1
-	GuiControl, , PostMinJsToSurca, 1
-	GuiControl, , PostMinJsToSumRes, 1
-	GuiControl, , PostMinJsToXfer, 1
-	GuiControl, , PostMinJsToUgr, 1
-	GuiControl, , PostMinJsToUcore, 1
-	GuiControl, , PostMinJsToUcrAss, 1
-		Gui, Add, Button, Default gHandlePostMinJsOK, &OK
-		Gui, Add, Button, gHandlePostMinJsCancel X+5, &Cancel
-		Gui, Show
+		Gui, guiPostMinJs: New,, % "Post Minified JS to OUE Websites"
+		Gui, guiPostMinJs: Add, Text,, % "Which OUE Websites would you like to update?"
+		Gui,guiPostMinJs: Add, CheckBox, vPostMinJsToCr, % "https://c&ommonreading.wsu.edu"		
+		Gui,guiPostMinJs: Add, CheckBox, vPostMinJsToDsp Checked, % "https://&distinguishedscholarships.wsu.edu"		
+		Gui,guiPostMinJs: Add, CheckBox, vPostMinJsToFye Checked, % "https://&firstyear.wsu.edu"		
+		Gui,guiPostMinJs: Add, CheckBox, vPostMinJsToFyf Checked, % "https://&learningcommunities.wsu.edu"		
+		Gui,guiPostMinJs: Add, CheckBox, vPostMinJsToPbk Checked, % "https://&phibetakappa.wsu.edu"		
+		Gui,guiPostMinJs: Add, CheckBox, vPostMinJsToSurca Checked, % "https://&surca.wsu.edu"		
+		Gui,guiPostMinJs: Add, CheckBox, vPostMinJsToSumRes Checked, % "https://su&mmerresearch.wsu.edu"		
+		Gui,guiPostMinJs: Add, CheckBox, vPostMinJsToXfer, % "https://&transfercredit.wsu.edu"		
+		Gui,guiPostMinJs: Add, CheckBox, vPostMinJsToUgr Checked, % "https://&undergraduateresearch.wsu.edu"		
+		Gui,guiPostMinJs: Add, CheckBox, vPostMinJsToUcore Checked, % "https://uco&re.wsu.edu"		
+		Gui,guiPostMinJs: Add, CheckBox, vPostMinJsToUcrAss Checked, % "https://ucore.wsu.edu/&assessment"
+		Gui,guiPostMinJs: Add, Button, Default gHandlePostMinJsOK, &OK
+		Gui,guiPostMinJs: Add, Button, gHandlePostMinJsCancel X+5, &Cancel
+		Gui, guiPostMinJs: Add, Button, gHandlePostJsCheckAllSites X+15, C&heck All
+		Gui, guiPostMinJs: Add, Button, gHandlePostJsUncheckAllSites X+5, Unchec&k All
+		Gui,guiPostMinJs: Show
 	}
 Return
 
@@ -216,6 +218,22 @@ HandlePostCssCheckAllSites:
 	GuiControl, guiPostMinCss:, PostMinCssToUgr, 1
 	GuiControl, guiPostMinCss:, PostMinCssToUcore, 1
 	GuiControl, guiPostMinCss:, PostMinCssToUcrAss, 1
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+HandlePostJsCheckAllSites:
+	GuiControl, guiPostMinJs:, PostMinJsToCr, 1
+	GuiControl, guiPostMinJs:, PostMinJsToDsp, 1
+	GuiControl, guiPostMinJs:, PostMinJsToFye, 1
+	GuiControl, guiPostMinJs:, PostMinJsToFyf, 1
+	GuiControl, guiPostMinJs:, PostMinJsToPbk, 1
+	GuiControl, guiPostMinJs:, PostMinJsToSurca, 1
+	GuiControl, guiPostMinJs:, PostMinJsToSumRes, 1
+	GuiControl, guiPostMinJs:, PostMinJsToXfer, 1
+	GuiControl, guiPostMinJs:, PostMinJsToUgr, 1
+	GuiControl, guiPostMinJs:, PostMinJsToUcore, 1
+	GuiControl, guiPostMinJs:, PostMinJsToUcrAss, 1
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
@@ -322,6 +340,22 @@ HandlePostCssUncheckAllSites:
 	GuiControl, guiPostMinCss:, PostMinCssToUgr, 0
 	GuiControl, guiPostMinCss:, PostMinCssToUcore, 0
 	GuiControl, guiPostMinCss:, PostMinCssToUcrAss, 0
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+HandlePostCssUncheckAllSites:
+	GuiControl, guiPostMinJs:, PostMinJsToCr, 0
+	GuiControl, guiPostMinJs:, PostMinJsToDsp, 0
+	GuiControl, guiPostMinJs:, PostMinJsToFye, 0
+	GuiControl, guiPostMinJs:, PostMinJsToFyf, 0
+	GuiControl, guiPostMinJs:, PostMinJsToPbk, 0
+	GuiControl, guiPostMinJs:, PostMinJsToSurca, 0
+	GuiControl, guiPostMinJs:, PostMinJsToSumRes, 0
+	GuiControl, guiPostMinJs:, PostMinJsToXfer, 0
+	GuiControl, guiPostMinJs:, PostMinJsToUgr, 0
+	GuiControl, guiPostMinJs:, PostMinJsToUcore, 0
+	GuiControl, guiPostMinJs:, PostMinJsToUcrAss, 0
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
