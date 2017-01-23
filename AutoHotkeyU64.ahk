@@ -469,6 +469,46 @@ Return
 Return
 
 ;   --------------------------------------------------------------------------------------------------------
+;   AUTOHOTKEY SCRIPT WRITING SHORTCUTS
+;   --------------------------------------------------------------------------------------------------------
+
+:*:@insAhkCommentSection::
+	AppendAhkCmd(":*:@insAhkCommentSection")
+	WinGet, thisProcess, ProcessName, A
+	if (thisProcess = "notepad++.exe") {
+		commentTxt := ";   --------------------------------------------------------------------------------------------------------`r"
+			. ";   ***EDIT COMMENT TEXT HERE***`r"
+			. ";   --------------------------------------------------------------------------------------------------------`r"
+		if (clipboard != commentTxt) {
+			clipboard := commentTxt
+		}
+		SendInput, % "^v"
+	} else {
+		MsgBox, 0
+			, % "Error in AHK hotstring: @insAhkCommentSection" ; Title
+			, % "An AutoHotkey comment section can only be inserted if [Notepad++.exe] is the active process. Unfortunately, the currently active process is [" . thisProcess . "]." ; Message
+	}
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@insAhkCommentSeparator::
+	AppendAhkCmd(":*:@insAhkCommentSeparator")
+	WinGet, thisProcess, ProcessName, A
+	if (thisProcess = "notepad++.exe") {
+		commentTxt := "; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---`r"
+		if (clipboard != commentTxt) {
+			clipboard := commentTxt
+		}
+		SendInput, % "^v"
+	} else {
+		MsgBox, 0
+			, % "Error in AHK hotstring: @insAhkCommentSeparator" ; Title
+			, % "An AutoHotkey comment separator can only be inserted if [Notepad++.exe] is the active process. Unfortunately, the currently active process is [" . thisProcess . "]."			; Message
+	}
+Return
+
+;   --------------------------------------------------------------------------------------------------------
 ;   GOOGLE CHROME SHORTCUTS
 ;   --------------------------------------------------------------------------------------------------------
 
