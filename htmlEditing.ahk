@@ -22,12 +22,13 @@
 	Gui, guiInsBldrSctn: Add, Radio, , % "Sidebar &Right"
 	Gui, guiInsBldrSctn: Add, Radio, , % "&Halves"
 	Gui, guiInsBldrSctn: Add, Radio, , % "&Thirds"
+	Gui, guiInsBldrSctn: Add, Radio, , % "Column background &image"
+	Gui, guiInsBldrSctn: Add, Radio, , % "&Blank commenting line"
+	Gui, guiInsBldrSctn: Add, Radio, , % "&Page settings"
 	Gui, guiInsBldrSctn: Add, Button, Default gHandleInsBldrSctnOK, &OK
 	Gui, guiInsBldrSctn: Add, Button, gHandleInsBldrSctnCancel X+5, &Cancel
 	Gui, guiInsBldrSctn: Show
 Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 ; >>> GUI DRIVING FUNCTIONS --  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
@@ -100,7 +101,7 @@ HandleInsBldrSctnOK:
 				. "  -->`r"
 				. "…`r"
 			PasteText(commentTxt)
-		} else {
+		} else if (BldrSctnChosen = 4) {
 			commentTxt := "<!-- ╔═══════════════════════════════════════════════════════════════════════════════════════════════════════╗`r"
 				. "  -- ║ #### BUILDER SECTION --- WSU SPINE THEME FOR WORDPRESS ############################################## ║`r"
 				. "  -- ╠=======================================================================================================╣`r"
@@ -110,7 +111,7 @@ HandleInsBldrSctnOK:
 				. "  -- ║  ╘═» Column title: N/A                                                                           § α… ║`r"
 				. "  -- ╚═══════════════════════════════════════════════════════════════════════════════════════════════════════╝`r"
 				. "  -->`r"
-				. "…`r"
+				. "…`r`r"
 				. "<!-- ╔═══════════════════════════════════════════════════════════════════════════════════════════════════════╗`r"
 				. "  -- ║ #### BUILDER SECTION --- WSU SPINE THEME FOR WORDPRESS ############################################## ║`r"
 				. "  -- ╠=======================================================================================================╣`r"
@@ -120,17 +121,31 @@ HandleInsBldrSctnOK:
 				. "  -- ║  ╘═» Column title: N/A                                                                              … ║`r"
 				. "  -- ╚═══════════════════════════════════════════════════════════════════════════════════════════════════════╝`r"
 				. "  -->`r"
-				. "…`r"
+				. "…`r`r"
 				. "<!-- ╔═══════════════════════════════════════════════════════════════════════════════════════════════════════╗`r"
-				. "--   ║ #### BUILDER SECTION --- WSU SPINE THEME FOR WORDPRESS ############################################## ║`r"
-				. "--   ╠=======================================================================================================╣`r"
-				. "--   ║ THIRDS --- Column Three                                                                        3 of 3 ║`r"
-				. "--   ║  ╞═» Section classes: gutter pad-top                                                                  ║`r"
-				. "--   ║  ╞═» Column classes: N/A                                                                              ║`r"
-				. "--   ║  ╘═» Column title: N/A                                                                           …ω § ║`r"
+				. "  -- ║ #### BUILDER SECTION --- WSU SPINE THEME FOR WORDPRESS ############################################## ║`r"
+				. "  -- ╠=======================================================================================================╣`r"
+				. "  -- ║ THIRDS --- Column Three                                                                        3 of 3 ║`r"
+				. "  -- ║  ╞═» Section classes: gutter pad-top                                                                  ║`r"
+				. "  -- ║  ╞═» Column classes: N/A                                                                              ║`r"
+				. "  -- ║  ╘═» Column title: N/A                                                                           …ω § ║`r"
+				. "  -- ╚═══════════════════════════════════════════════════════════════════════════════════════════════════════╝`r"
+				. "  -->`r"
+				. "…`r"
+			PasteText(commentTxt)
+		} else if (BldrSctnChosen = 5) {
+			commentTxt := "  -- ║  ╞═» Column background image: N/A                                                                     ║`r"
+			PasteText(commentTxt)
+		} else if (BldrSctnChosen = 6) {
+			commentTxt := "  -- ║  │                                                                                                    ║`r"
+			PasteText(commentTxt)
+		} else {
+			commentTxt:= "<!-- ╔═══════════════════════════════════════════════════════════════════════════════════════════════════════╗`r"
+				. "--   ║ #### PAGE SETTINGS ################################################################################## ║`r"
 				. "--   ╚═══════════════════════════════════════════════════════════════════════════════════════════════════════╝`r"
 				. "-->`r"
-				. "…`r"
+				. "TITLE: …`r"
+				. "URL: /…`r"
 			PasteText(commentTxt)
 		}
 	} else {
