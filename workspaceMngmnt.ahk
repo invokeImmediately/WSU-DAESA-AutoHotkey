@@ -280,16 +280,17 @@ return
     if (IsWindowOnLeftDualMonitor()) {
         SysGet, Mon2, MonitorWorkArea, 2
         WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
-		newWinX := (Mon2Right - Mon2Left) / 2 - (thisWinW - 200) / 2 + Mon2Left
-		newWinY := (Mon2Bottom - Mon2Top) / 2 - (thisWinH - 112) / 2 + Mon2Top
-		WinMove, A, , %newWinX%, %newWinY%, % (thisWinW - 200), % (thisWinH - 112)
+		; if (thisWinW < ) 50 vs. 28.125
+		newWinX := (Mon2Right - Mon2Left) / 2 - (Mon2Right - Mon2Left - 200) / 2 + Mon2Left
+		newWinY := (Mon2Bottom - Mon2Top) / 2 - (Mon2Bottom - Mon2Top - 112) / 2 + Mon2Top
+		WinMove, A, , %newWinX%, %newWinY%, % (Mon2Right - Mon2Left - 200), % (Mon2Bottom - Mon2Top - 112)
     }
     else {
         SysGet, Mon1, MonitorWorkArea, 1
         WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
-		newWinX := (Mon1Right - Mon1Left) / 2 - (thisWinW - 200) / 2 + Mon1Left
-		newWinY := (Mon1Bottom - Mon1Top) / 2 - (thisWinH - 112) / 2 + Mon1Top
-		WinMove, A, , %newWinX%, %newWinY%, % (thisWinW - 200), % (thisWinH - 112)
+		newWinX := (Mon1Right - Mon1Left) / 2 - (Mon1Right - Mon1Left - 200) / 2 + Mon1Left
+		newWinY := (Mon1Bottom - Mon1Top) / 2 - (Mon1Bottom - Mon1Top - 112) / 2 + Mon1Top
+		WinMove, A, , %newWinX%, %newWinY%, % (Mon1Right - Mon1Left - 200), % (Mon1Bottom - Mon1Top - 112)
     }	
 return
 
@@ -298,16 +299,16 @@ return
 ^!1::
     if (IsWindowOnLeftDualMonitor()) {
         SendInput, #{Tab}
-        Sleep, 330
+        Sleep, 400
         SendInput, {Tab 2}{AppsKey}{m}{Enter}
-        Sleep, 100
+        Sleep, 120
         SendInput, #{Tab}
     }
     else {
         SendInput, #{Tab}
-        Sleep, 330
+        Sleep, 400
         SendInput, {AppsKey}{m}{Enter}
-        Sleep, 100
+        Sleep, 120
         SendInput, #{Tab}
     }
 	SoundPlay, %windowShiftingSound%
@@ -318,16 +319,16 @@ return
 ^!2::
     if (IsWindowOnLeftDualMonitor()) {
         SendInput, #{Tab}
-        Sleep, 330
+        Sleep, 400
         SendInput, {Tab 2}{AppsKey}{m}{Down}{Enter}
-        Sleep, 100
+        Sleep, 120
         SendInput, #{Tab}
     }
     else {
         SendInput, #{Tab}
-        Sleep, 330
+        Sleep, 400
         SendInput, {AppsKey}{m}{Down}{Enter}
-        Sleep, 100
+        Sleep, 120
         SendInput, #{Tab}
     }
 	SoundPlay, %windowShiftingSound%
@@ -338,16 +339,16 @@ return
 ^!3::
     if (IsWindowOnLeftDualMonitor()) {
         SendInput, #{Tab}
-        Sleep, 330
+        Sleep, 400
         SendInput, {Tab 2}{AppsKey}{m}{Down 2}{Enter}
-        Sleep, 100
+        Sleep, 120
         SendInput, #{Tab}
     }
     else {
         SendInput, #{Tab}
-        Sleep, 330
+        Sleep, 400
         SendInput, {AppsKey}{m}{Down 2}{Enter}
-        Sleep, 100
+        Sleep, 120
         SendInput, #{Tab}
     }
 	SoundPlay, %windowShiftingSound%
@@ -358,16 +359,16 @@ return
 ^!4::
     if (IsWindowOnLeftDualMonitor()) {
         SendInput, #{Tab}
-        Sleep, 330
+        Sleep, 400
         SendInput, {Tab 2}{AppsKey}{m}{Down 3}{Enter}
-        Sleep, 100
+        Sleep, 120
         SendInput, #{Tab}
     }
     else {
         SendInput, #{Tab}
-        Sleep, 330
+        Sleep, 400
         SendInput, {AppsKey}{m}{Down 3}{Enter}
-        Sleep, 100
+        Sleep, 120
         SendInput, #{Tab}
     }
 	SoundPlay, %windowShiftingSound%
@@ -378,16 +379,16 @@ return
 ^!5::
     if (IsWindowOnLeftDualMonitor()) {
         SendInput, #{Tab}
-        Sleep, 330
+        Sleep, 400
         SendInput, {Tab 2}{AppsKey}{m}{Down 4}{Enter}
-        Sleep, 100
+        Sleep, 120
         SendInput, #{Tab}
     }
     else {
         SendInput, #{Tab}
-        Sleep, 330
+        Sleep, 400
         SendInput, {AppsKey}{m}{Down 4}{Enter}
-        Sleep, 100
+        Sleep, 120
         SendInput, #{Tab}
     }
 	SoundPlay, %windowShiftingSound%
@@ -551,10 +552,45 @@ Return
 	MouseGetPos, savedMouseX, savedMouseY
 Return
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 ^!+LButton::
 	global savedMouseX
 	global savedMouseY
 
 	CoordMode, Mouse, Screen
 	MouseMove, %savedMouseX%, %savedMouseY%
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+^!#LButton::
+	CoordMode, Mouse, Screen
+	MouseMove, -1568, 1065
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+^!#RButton::
+	CoordMode, Mouse, Screen
+	MouseMove, 351, 1065
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+#LButton::
+	CoordMode, Mouse, Window
+	WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
+	Sleep 20
+	MouseMove, % (thisWinW / 2), % (thisWinH / 2)
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+^#LButton::
+!SC029::
+	CoordMode, Mouse, Window
+	WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
+	Sleep 20
+	MouseMove, % (thisWinW / 7), % (thisWinH / 2)
 Return
