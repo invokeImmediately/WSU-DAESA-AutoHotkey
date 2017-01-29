@@ -98,6 +98,7 @@ PasteText(txtToPaste) {
 	if (clipboard != txtToPaste) {
 		clipboard := txtToPaste
 	}
+	Sleep, 60
 	SendInput, % "^v"
 }
 
@@ -124,47 +125,19 @@ WaitForApplicationPatiently(title)
 
 :*:@checkIsUnicode::
 	AppendAhkCmd(":*:@checkIsUnicode")
-	Msgbox % "v" A_AhkVersion " " (A_PtrSize = 4 ? 32 : 64) "-bit " (A_IsUnicode ? "Unicode" : "ANSI") (A_IsAdmin ? "(Admin mode)" : "(Not Admin)")
+	Msgbox % "v" . A_AhkVersion . " " . (A_PtrSize = 4 ? 32 : 64) . "-bit " . (A_IsUnicode ? "Unicode" : "ANSI") . " " . (A_IsAdmin ? "(Admin mode)" : "(Not Admin)")
 return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-:*:@getWinTitle::
-	AppendAhkCmd(":*:@getWinTitle")
-	WinGetTitle, thisTitle, A
-	MsgBox, The active window is "%thisTitle%"
+:*:@getCurrentVersion::
+	MsgBox % "Current installed version of AHK: " . A_AhkVersion
 return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-:*:@getWinPos::
-	AppendAhkCmd(":*:@getWinPos")
-	WinGetPos, thisX, thisY, thisW, thisH, A
-	MsgBox, % "The active window is at coordinates " . thisX . ", " . thisY . "`rWindow's width = " . thisW . ", height = " . thisH
-return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@getWinPID::
-	AppendAhkCmd(":*:@getWinPID")
-	WinGet, thisPID, PID, A
-	MsgBox, % "The active window PID is " . thisPID
-return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@getWinHwnd::
-	AppendAhkCmd(":*:@getWinHwnd")
-	WinGet, thisHwnd, ID, A
-	MsgBox, % "The active window ID (HWND) is " . thisHwnd
-return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@getWinProcess::
-	AppendAhkCmd(":*:@getWinProcess")
-	WinGet, thisProcess, ProcessName, A
-	MsgBox, % "The active window process name is " . thisProcess
+:*:@getLastHotStrTime::
+	MsgBox % "The last hotstring took " . (hotStrEndTime - hotStrStartTime) . "ms to run."
 return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
@@ -177,8 +150,42 @@ return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-:*:@getLastHotStrTime::
-	MsgBox % "The last hotstring took " . (hotStrEndTime - hotStrStartTime) . "ms to run."
+:*:@getWinHwnd::
+	AppendAhkCmd(":*:@getWinHwnd")
+	WinGet, thisHwnd, ID, A
+	MsgBox, % "The active window ID (HWND) is " . thisHwnd
+return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@getWinPID::
+	AppendAhkCmd(":*:@getWinPID")
+	WinGet, thisPID, PID, A
+	MsgBox, % "The active window PID is " . thisPID
+return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@getWinPos::
+	AppendAhkCmd(":*:@getWinPos")
+	WinGetPos, thisX, thisY, thisW, thisH, A
+	MsgBox, % "The active window is at coordinates " . thisX . ", " . thisY . "`rWindow's width = " . thisW . ", height = " . thisH
+return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@getWinProcess::
+	AppendAhkCmd(":*:@getWinProcess")
+	WinGet, thisProcess, ProcessName, A
+	MsgBox, % "The active window process name is " . thisProcess
+return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@getWinTitle::
+	AppendAhkCmd(":*:@getWinTitle")
+	WinGetTitle, thisTitle, A
+	MsgBox, The active window is "%thisTitle%"
 return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
