@@ -156,84 +156,96 @@ Return
 ;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!#Left::
+	;Snap the active window to the left edge of its monitor; if already snapped, reduce its width
 	SoundPlay, %windowMovementSound%
-    if (IsWindowOnLeftDualMonitor()) {
-        SysGet, Mon2, MonitorWorkArea, 2
-        WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
-		thisWinH := Mon2Bottom - Mon2Top
-		if (thisWinX = Mon2Left and thisWinW > (Mon2Right - Mon2Left) / 4) {
-			WinMove, A, , %Mon2Left%, 0, % (thisWinW - 100), %thisWinH%        
+	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
+	if (monitorFound) {
+		WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
+		thisWinH := monitorABottom - monitorATop
+		if (thisWinX = monitorALeft and thisWinW > (monitorARight - monitorALeft) / 4) {
+			WinMove, A, , %monitorALeft%, 0, % (thisWinW - 100), %thisWinH%        
+		} else if (thisWinW > (monitorARight - monitorALeft) / 4) {
+			WinMove, A, , %monitorALeft%, 0, %thisWinW%, %thisWinH%        
+		} else {
+			thisWinW := monitorARight - monitorALeft - 100
+			WinMove, A, , %monitorALeft%, 0, %thisWinW%, %thisWinH%        
 		}
-		else if (thisWinW > (Mon2Right - Mon2Left) / 4) {
-			WinMove, A, , %Mon2Left%, 0, %thisWinW%, %thisWinH%        
+	}
+return
+
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+^!+#Left::
+	;Snap the active window to the left edge of its monitor; if already snapped, increase its width
+	SoundPlay, %windowMovementSound%
+	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
+	if (monitorFound) {
+		WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
+		thisWinH := monitorABottom - monitorATop
+		if (thisWinX = monitorALeft and thisWinW < (monitorARight - monitorALeft - 100)) {
+			WinMove, A, , %monitorALeft%, 0, % (thisWinW + 100), %thisWinH%        
+		} else if (thisWinW < (monitorARight - monitorALeft - 100)) {
+			WinMove, A, , %monitorALeft%, 0, %thisWinW%, %thisWinH%        
+		} else {
+			thisWinW := (monitorARight - monitorALeft) / 4
+			WinMove, A, , %monitorALeft%, 0, %thisWinW%, %thisWinH%        
 		}
-		else {
-			thisWinW := Mon2Right - Mon2Left - 100
-			WinMove, A, , %Mon2Left%, 0, %thisWinW%, %thisWinH%        
-		}
-    }
-    else {
-        SysGet, Mon1, MonitorWorkArea, 1
-        WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
-		thisWinH := Mon1Bottom - Mon1Top
-		if (thisWinX = Mon1Left and thisWinW > (Mon1Right - Mon1Left) / 4) {
-			WinMove, A, , %Mon1Left%, 0, % (thisWinW - 100), %thisWinH%			
-		}
-		else if (thisWinW > (Mon1Right - Mon1Left) / 4) {
-			WinMove, A, , %Mon1Left%, 0, %thisWinW%, %thisWinH%			
-		}
-		else {
-			thisWinW := Mon1Right - Mon1Left - 100
-			WinMove, A, , %Mon1Left%, 0, %thisWinW%, %thisWinH%
-		}
-    }
+	}
 return
 
 ;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!#Right::
+	;Snap the active window to the right edge of its monitor; if already snapped, reduce its width
 	SoundPlay, %windowMovementSound%
-    if (IsWindowOnLeftDualMonitor()) {
-        SysGet, Mon2, MonitorWorkArea, 2
-        WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
-        newWinX := Mon2Right - thisWinW
-		thisWinH := Mon2Bottom - Mon2Top
-		if (thisWinX = newWinX and thisWinW > (Mon2Right - Mon2Left) / 4) {
-			newWinX := newWinX + 100
-			WinMove, A, , %newWinX%, 0, % (thisWinW - 100), %thisWinH%
+	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
+	if (monitorFound) {
+		WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
+        newWinX := monitorARight - thisWinW
+		thisWinH := monitorABottom - monitorATop
+		if (thisWinX = newWinX and thisWinW > (monitorARight - monitorALeft) / 4) {
+			newWinX += 100
+			thisWinW -= 100
+			WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%        
+		} else if (thisWinW > (monitorARight - monitorALeft) / 4) {
+			WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%        
+		} else {
+			thisWinW := monitorARight - monitorALeft - 100
+			newWinX := monitorALeft + 100
+			WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%        
 		}
-		else if (thisWinW > (Mon2Right - Mon2Left) / 4) {
+	}
+return
+
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+^!+#Right::
+	;Snap the active window to the right edge of its monitor; if already snapped, increase its width
+	SoundPlay, %windowMovementSound%
+	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
+	if (monitorFound) {
+		WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
+        newWinX := monitorARight - thisWinW
+		thisWinH := monitorABottom - monitorATop
+		if (thisWinX = newWinX and thisWinW < (monitorARight - monitorALeft - 100)) {
+			newWinX -= 100
+			thisWinW += 100
+			WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%        
+		} else if (thisWinW < (monitorARight - monitorALeft - 100)) {
+			newWinX := monitorARight - thisWinW
 			WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%
+		} else {
+			thisWinW := (monitorARight - monitorALeft) / 4
+			newWinX := monitorARight - thisWinW
+			WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%        
 		}
-		else {
-			thisWinW := Mon2Right - Mon2Left - 100
-			newWinX := Mon2Left + 100
-			WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%
-		}
-    }
-    else {
-        SysGet, Mon1, MonitorWorkArea, 1
-        WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
-        newWinX := Mon1Right - thisWinW
-		thisWinH := Mon1Bottom - Mon1Top
-		if (thisWinX = newWinX and thisWinW > (Mon1Right - Mon1Left) / 4) {
-			newWinX := newWinX + 100
-			WinMove, A, , %newWinX%, 0, % (thisWinW - 100), %thisWinH%
-		}
-		else if (thisWinW > (Mon1Right - Mon1Left) / 4) {
-			WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%
-		}
-		else {
-			thisWinW := Mon1Right - Mon1Left - 100
-			newWinX := Mon1Left + 100
-			WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%
-		}
-    }
+	}
 return
 
 ;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!#Down::
+	;TODO: Refactor to rely on global variables that store monitor dimensions
 	SoundPlay, %windowMovementSound%
     if (IsWindowOnLeftDualMonitor()) {
         SysGet, Mon2, MonitorWorkArea, 2
@@ -276,6 +288,10 @@ return
 ;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!#Numpad5::
+	;Snap the center of the active window to the center of its monitor
+	;TODO: Refactor to rely on global variables that store monitor dimensions
+	;TODO: Expand to reduce window dimensions if already snapped
+	;TODO: Add a hotkey variant that increases the window dimensions if already snapped
 	SoundPlay, %windowMovementSound%
     if (IsWindowOnLeftDualMonitor()) {
         SysGet, Mon2, MonitorWorkArea, 2
@@ -293,6 +309,10 @@ return
 		WinMove, A, , %newWinX%, %newWinY%, % (Mon1Right - Mon1Left - 200), % (Mon1Bottom - Mon1Top - 112)
     }	
 return
+
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+;TODO: Add hotkeys for moving the window around on the desktop using the keyboard instead of dragging with mouse
 
 ;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
@@ -435,16 +455,19 @@ Return
 	CheckForCmdEntryGui()
 	WinGet, thisHwnd, ID, A
 	SetTitleMatchMode, 2
-	WinActivate, % "GIMP ahk_exe gimp-2.8.exe"
-	WinWaitActive, % "GIMP ahk_exe gimp-2.8.exe", , 0.25
+	WinActivate, % "GIMP"
+	WinWaitActive, % "GIMP", , 0.25
 	if (ErrorLevel) {
-		WinActivate, % "GNU Image Manipulation Program ahk_exe gimp-2.8.exe"
-		WinWaitActive, % "GNU Image Manipulation Program ahk_exe gimp-2.8.exe", , 0.25
+		WinActivate, % "GNU Image Manipulation Program"
+		WinWaitActive, % "GNU Image Manipulation Program", , 0.25
 		if (!ErrorLevel) {
+			;TODO: make sure we have found gimp-2.8.exe before proceeding
 			SendInput, {Tab}
+		} else {
+			MsgBox, % "Could not find and activate GIMP."
 		}
-	}
-	else {
+	} else {
+		;TODO: make sure we have found gimp-2.8.exe before proceeding
 		SendInput, {Tab}
 	}
 	WinActivate, % "ahk_id" . thisHwnd
@@ -544,6 +567,7 @@ Return
 ; Mouse Hotkeys
 ; ------------------------------------------------------------------------------------------------------------
 
+;TODO: Convert these functions into an array based format
 ^!+RButton::
 	global savedMouseX
 	global savedMouseY
