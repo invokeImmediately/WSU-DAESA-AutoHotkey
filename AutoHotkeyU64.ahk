@@ -10,12 +10,21 @@
 ;   Github Shortcuts: 670
 ; ============================================================================================================
 
-Gosub, MainSubroutine
+; ------------------------------------------------------------------------------------------------------------
+; GLOBAL VARIABLES
+; ------------------------------------------------------------------------------------------------------------
 
-;   --------------------------------------------------------------------------------------------------------
-;   GLOBAL VARIABLES
-;   --------------------------------------------------------------------------------------------------------
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; >>> GLOBAL VARIABLES DEFINED THROUGH SYSGET  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+global SM_CMONITORS := 80		;Constant needed for retreiving the number of display monitors on the desktop via SysGet(...)
+global SM_CXSIZEFRAME := 32			;SysGet(...) constant needed for retreiving the default window border width
+GLOBAL SM_CYSIZEFRAME := 33			;SysGet(...) constant needed for retreiving the default window border height
+global sysNumMonitors			;Number of display monitors on this system
+global sysWinBorderW			;Default border width
+global sysWinBorderH			;Default border height
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; >>> OTHER GLOBAL VARIABLES -  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 global userAccountFolder := "C:\Users\CamilleandDaniel"
 global logFileName := userAccountFolder . "\Documents\Daniel\^WSU-Web-Dev\^Personnel-File\Work-log.txt"
 global workTimerCountdownTime := -1200000
@@ -35,13 +44,16 @@ global hotstrEndTime := 0
 global savedMouseX := 0
 global savedMouseY := 0
 
+Gosub, MainSubroutine
+
 #NoEnv
 #SingleInstance
 
 If not A_IsAdmin
 {
-   Run *RunAs "%A_ScriptFullPath%"
-   ExitApp
+	;" https://autohotkey.com/docs/commands/Run.htm#RunAs: For an executable file, the *RunAs verb is equivalent to selecting Run as administrator from the right-click menu of the file."
+	Run *RunAs "%A_ScriptFullPath%" 
+	ExitApp
 }
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\functions.ahk
@@ -476,13 +488,38 @@ Return
 	AppendAhkCmd(":*:@insAhkCommentSection")
 	WinGet, thisProcess, ProcessName, A
 	if (thisProcess = "notepad++.exe") {
-		commentTxt := ";   --------------------------------------------------------------------------------------------------------`r"
-			. ";   ***EDIT COMMENT TEXT HERE***`r"
-			. ";   --------------------------------------------------------------------------------------------------------`r"
+		commentTxt := "; ------------------------------------------------------------------------------------------------------------`r"
+			. "; ***EDIT COMMENT TEXT HERE***`r"
+			. "; ------------------------------------------------------------------------------------------------------------`r"
+			. "`r"
 		if (clipboard != commentTxt) {
 			clipboard := commentTxt
 		}
 		SendInput, % "^v"
+		Sleep 60
+		SendInput, % "{Up 3}{Right 2}"
+	} else {
+		MsgBox, 0
+			, % "Error in AHK hotstring: @insAhkCommentSection" ; Title
+			, % "An AutoHotkey comment section can only be inserted if [Notepad++.exe] is the active process. Unfortunately, the currently active process is [" . thisProcess . "]." ; Message
+	}
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@insAhkCommentSubSection::
+	AppendAhkCmd(":*:@insAhkCommentSubSection")
+	WinGet, thisProcess, ProcessName, A
+	if (thisProcess = "notepad++.exe") {
+		commentTxt := "; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---`r"
+			. "; >>> ***EDIT COMMENT TEXT HERE ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---`r"
+			. "`r"
+		if (clipboard != commentTxt) {
+			clipboard := commentTxt
+		}
+		SendInput, % "^v"
+		Sleep 60
+		SendInput, % "{Up 2}{Right 6}"
 	} else {
 		MsgBox, 0
 			, % "Error in AHK hotstring: @insAhkCommentSection" ; Title
@@ -497,6 +534,7 @@ Return
 	WinGet, thisProcess, ProcessName, A
 	if (thisProcess = "notepad++.exe") {
 		commentTxt := "; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---`r"
+			. "`r"
 		if (clipboard != commentTxt) {
 			clipboard := commentTxt
 		}
