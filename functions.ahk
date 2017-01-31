@@ -212,3 +212,44 @@ return
 	else
 		Run Notepad
 return
+
+; ------------------------------------------------------------------------------------------------------------
+; Desktop Management Functions
+; ------------------------------------------------------------------------------------------------------------
+GetActiveMonitorWorkArea(ByRef monitorFound, ByRef monitorALeft, ByRef monitorATop, ByRef monitorARight, ByRef monitorABottom) {
+    global
+	local thisWinX
+	local thisWinY
+	local thisWinW
+	local thisWinH
+	local thisMinMax
+
+	monitorFound := false
+	WinGet, thisMinMax, MinMax, A
+	if (thisMinMax != 0) {
+		WinRestore, A
+		Sleep 60
+	}
+	WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
+	Loop, %sysNumMonitors% {
+		if (thisWinX >= mon%A_Index%Bounds_Left && thisWinY >= mon%A_Index%Bounds_Top && (thisWinX + thisWinW) <= mon%A_Index%Bounds_Right && (thisWinY + thisWinH) <= mon%A_Index%Bounds_Bottom) {
+			monitorFound := true
+			monitorALeft := mon%A_Index%WorkArea_Left
+			monitorATop := mon%A_Index%WorkArea_Top
+			monitorARight := mon%A_Index%WorkArea_Right
+			monitorABottom := mon%A_Index%WorkArea_Bottom
+			break
+		}
+	}
+	if (monitorFound = false) {
+		monitorALeft := 0
+		monitorATop := 0
+		monitorARight := 0
+		monitorABottom := 0
+		MsgBox, % "Monitor not found. Window coordinates:`r"
+			. "`tLeft: " . thisWinX . "`r"
+			. "`tTop: " . thisWinY . "`r"
+			. "`tRight: " . (thisWinX + thisWinW) . "`r"
+			. "`tBottom: " . (thisWinY + thisWinH) . "`r"
+	}
+}
