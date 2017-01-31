@@ -1777,11 +1777,17 @@ Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-^!Backspace::
+~^+Backspace::
 	if (IsGitShellActive()) {
 		SendInput {Backspace 120}
-	} else {
-		GoSub, PerformBypassingCtrlAltBS
+	}
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+~^+Delete::
+	if (IsGitShellActive()) {
+		SendInput {Delete 120}
 	}
 Return
 
@@ -1792,16 +1798,6 @@ PerformBypassingCtrlShftV:
 	Suspend
 	Sleep 10
 	SendInput ^+v
-	Sleep 10
-	Suspend, Off
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-PerformBypassingCtrlAltBS:
-	Suspend
-	Sleep 10
-	SendInput ^!{Backspace}
 	Sleep 10
 	Suspend, Off
 Return
