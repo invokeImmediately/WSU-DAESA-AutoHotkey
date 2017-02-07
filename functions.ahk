@@ -28,6 +28,18 @@ isVarDeclared(ByRef v) { ; Requires 1.0.46+
     return &v = &undeclared ? 0 : v = "" ? 0 : 1
 }
 
+InsertFilePath(ahkCmdName, filePath) {
+	AppendAhkCmd(ahkCmdName)
+    if (UserFolderIsSet()) {
+        if (IsGitShellActive()) {
+            SendInput % "cd """ . filePath . """{Enter}"
+        }
+        else {
+            SendInput % filePath . "{Enter}"
+        }
+    }
+}
+
 LaunchApplicationPatiently(path, title)
 {
     Run % path
@@ -60,19 +72,6 @@ LaunchStdApplicationPatiently(path, title)
         else
         {
             Sleep, 250
-        }
-    }
-}
-
-
-InsertFilePath(ahkCmdName, filePath) {
-	AppendAhkCmd(ahkCmdName)
-    if (UserFolderIsSet()) {
-        if (IsGitShellActive()) {
-            SendInput % "cd """ . filePath . """{Enter}"
-        }
-        else {
-            SendInput % filePath . "{Enter}"
         }
     }
 }
@@ -120,25 +119,63 @@ WaitForApplicationPatiently(title)
 }
 
 ; ------------------------------------------------------------------------------------------------------------
+; SORTING functions
+; ------------------------------------------------------------------------------------------------------------
+
+Merge(ByRef arrayObj, l, m, r) {
+	arrayAux := Object()
+	i := m + 1
+	while (i > l) {
+		arrayAux[i - 1] := arrayObj[i - 1]
+		i--
+	}
+	j := m
+	while (j < r) {
+		arrayAux[r + m - j] := arrayObj[j + 1]
+		j++
+	}
+	k := l
+	while (k <= r) {
+		if (arrayAux[j] < arrayAux[i]) {
+			arrayObj[k] := arrayAux[j--]
+		} else {
+			arrayObj[k] := arrayAux[i++]
+		}
+		k++
+	}
+}
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+MergeSort(ByRef arrayObj, l, r) {
+	if (r > l) {
+		m := floor((r + l) / 2)
+		MergeSort(arrayObj, l, m)
+		MergeSort(arrayObj, m + 1, r)
+		Merge(arrayObj, l, m, r)
+	}
+}
+
+; ------------------------------------------------------------------------------------------------------------
 ; UTILITY FUNCTIONS: For working with AutoHotkey
 ; ------------------------------------------------------------------------------------------------------------
 
 :*:@checkIsUnicode::
 	AppendAhkCmd(":*:@checkIsUnicode")
 	Msgbox % "v" . A_AhkVersion . " " . (A_PtrSize = 4 ? 32 : 64) . "-bit " . (A_IsUnicode ? "Unicode" : "ANSI") . " " . (A_IsAdmin ? "(Admin mode)" : "(Not Admin)")
-return
+Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@getCurrentVersion::
 	MsgBox % "Current installed version of AHK: " . A_AhkVersion
-return
+Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@getLastHotStrTime::
 	MsgBox % "The last hotstring took " . (hotStrEndTime - hotStrStartTime) . "ms to run."
-return
+Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
@@ -146,7 +183,7 @@ return
 	AppendAhkCmd(":*:@getMousePos")
 	MouseGetPos, windowMousePosX, windowMousePosY
 	MsgBox % "The mouse cursor is at {x = " . windowMousePosX . ", y = " . windowMousePosY . "} relative to the window."
-return
+Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
@@ -154,7 +191,7 @@ return
 	AppendAhkCmd(":*:@getWinHwnd")
 	WinGet, thisHwnd, ID, A
 	MsgBox, % "The active window ID (HWND) is " . thisHwnd
-return
+Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
@@ -162,7 +199,7 @@ return
 	AppendAhkCmd(":*:@getWinPID")
 	WinGet, thisPID, PID, A
 	MsgBox, % "The active window PID is " . thisPID
-return
+Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
@@ -170,7 +207,7 @@ return
 	AppendAhkCmd(":*:@getWinPos")
 	WinGetPos, thisX, thisY, thisW, thisH, A
 	MsgBox, % "The active window is at coordinates " . thisX . ", " . thisY . "`rWindow's width = " . thisW . ", height = " . thisH
-return
+Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
@@ -178,7 +215,7 @@ return
 	AppendAhkCmd(":*:@getWinProcess")
 	WinGet, thisProcess, ProcessName, A
 	MsgBox, % "The active window process name is " . thisProcess
-return
+Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
@@ -186,23 +223,25 @@ return
 	AppendAhkCmd(":*:@getWinTitle")
 	WinGetTitle, thisTitle, A
 	MsgBox, The active window is "%thisTitle%"
-return
+Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^+F1::
+^!Numpad1::
 	clpbrdLngth := StrLen(clipboard)
 	MsgBox % "The clipboard is " . clpbrdLngth . " characters long."
-return
+Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^+F2::
+^!Numpad2::
 	clpbrdLngth := StrLen(clipboard)
 	SendInput, +{Right %clpbrdLngth%}
 	Sleep, 20
 	SendInput, ^v
-return
+Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
@@ -211,7 +250,7 @@ return
 		WinActivate % "Untitled - Notepad"
 	else
 		Run Notepad
-return
+Return
 
 ; ------------------------------------------------------------------------------------------------------------
 ; Desktop Management Functions
