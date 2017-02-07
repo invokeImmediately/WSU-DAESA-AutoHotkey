@@ -12,6 +12,7 @@
 
 MainSubroutine:
 	SetGlobalVariables()
+	ListAhkFiles()
 	MsgBox, % "Script has been loaded."
 Return
 
@@ -76,4 +77,52 @@ SetWinBorders() {
 	
 	SysGet, sysWinBorderW, %SM_CXSIZEFRAME%
 	SysGet, sysWinBorderH, %SM_CYSIZEFRAME%
+}
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+ListAhkFiles() {
+	FileList := Object()
+	
+	;Get list of file paths to AHK files
+	Loop, % GetGitHubFolder() . "\WSU-OUE-AutoHotkey\*.ahk" {
+		FileList.push(A_LoopFileFullPath)
+	}
+	
+	;Find all hotstrings within files and store to an array
+	allHotStrings := Object()
+	Loop, % FileList.Length() {
+		filePath := FileList.RemoveAt(1)
+		fileObj := FileOpen(filePath, "r")
+		if (fileObj != 0) {
+			fileContents := fileObj.Read()
+			fileObj.Close()
+			foundPos := 1
+			foundLen := 0
+			while (foundPos > 0) {
+				foundPos := RegExMatch(fileContents, "Pm)^:\*:@([^:]+)::$", match, foundPos + foundLen)
+				if (foundPos > 0) {
+					foundLen := match
+					foundHotString := SubStr(fileContents, matchPos1, matchLen1)
+					allHotStrings.Push("@" . foundHotString)
+				}
+			}
+		}
+	}
+	;MsgBox, % allHotStrings.Length() . " hotstrings found."
+	
+	MergeSort(allHotStrings, 1, allHotStrings.Length())
+	hsList := allHotStrings.RemoveAt(1)
+	while (allHotstrings.Length() > 0) {
+		hsList .= "`n" . allHotStrings.RemoveAt(1)
+	}
+	
+	hsFile := GetGitHubFolder() . "\WSU-OUE-AutoHotkey\hotstrings.txt"
+	fileObj := FileOpen(hsFile, "w")
+	if (fileObj != 0) {
+		fileObj.Write(hsList)
+		fileObj.Close()
+	}
+	
+	;TODO: Build a trie object for use with an autocomplete function.
 }
