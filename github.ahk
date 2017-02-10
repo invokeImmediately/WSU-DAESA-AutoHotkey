@@ -3,9 +3,9 @@
 ; ============================================================================================================
 ; IMPORT DEPENDENCIES
 ;   Global Variable Name    Purpose
-;   --------------------    ------------------------------------------------------------------------------
+;   -·-·-·-·-·-·-·-·-·-     -·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·
 ;   userAccountFolder       Contains the path to the Windows user folder for the script runner
-; ============================================================================================================
+; ------------------------------------------------------------------------------------------------------------
 ; IMPORT ASSUMPTIONS
 ;   Environmental Property           State
 ;   ----------------------------     ---------------------------------------------------------------------
@@ -24,31 +24,17 @@ sgIsPostingMinJs := false
 ; SETTINGS accessed via functions for this imported file
 ; ------------------------------------------------------------------------------------------------------------
 
-UserFolderIsSet()
+GetCmdForMoveToCSSFolder(curDir)
 {
-	global userAccountFolder
-	varDeclared := userAccountFolder != thisIsUndeclared
-	if (!varDeclared) {
-		MsgBox, % (0x0 + 0x10), % "ERROR: Upstream dependency missing in github.ahk", % "The global variable specifying the user's account folder has not been declared and set upstream."
+	cmd := ""
+	needleStr := "^" . ToEscapedPath(GetGitHubFolder()) . "(.+)"
+	posFound := RegExMatch(curDir, needleStr, matches)
+	if(posFound > 0) {
+		if(doesVarExist(matches1) && !doesVarExist(matches2)) {
+			cmd := "awesome!"
+		}
 	}
-	Return varDeclared
-}
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-GetGitHubFolder()
-{
-	global userAccountFolder
-	Return userAccountFolder . "\Documents\GitHub"
-}
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-
-ToEscapedPath(path)
-{
-	escapedPath := StrReplace(path, "\", "\\")
-	Return escapedPath
+	Return cmd
 }
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
@@ -65,17 +51,22 @@ GetCurrentDirFromPS()
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-GetCmdForMoveToCSSFolder(curDir)
+GetGitHubFolder()
 {
-	cmd := ""
-	needleStr := "^" . ToEscapedPath(GetGitHubFolder()) . "(.+)"
-	posFound := RegExMatch(curDir, needleStr, matches)
-	if(posFound > 0) {
-		if(doesVarExist(matches1) && !doesVarExist(matches2)) {
-			cmd := "awesome!"
-		}
+	global userAccountFolder
+	Return userAccountFolder . "\Documents\GitHub"
+}
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+UserFolderIsSet()
+{
+	global userAccountFolder
+	varDeclared := userAccountFolder != thisIsUndeclared
+	if (!varDeclared) {
+		MsgBox, % (0x0 + 0x10), % "ERROR: Upstream dependency missing in github.ahk", % "The global variable specifying the user's account folder has not been declared and set upstream."
 	}
-	Return cmd
+	Return varDeclared
 }
 
 ; ------------------------------------------------------------------------------------------------------------
@@ -129,6 +120,7 @@ IsGitShellActive()
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 PasteTextIntoGitShell(ahkCmdName, shellText) {
+	errorMsg := ""
 	if (UserFolderIsSet()) {
 		proceedWithPaste := ActivateGitShell()
 		if (proceedWithPaste) {
@@ -137,11 +129,57 @@ PasteTextIntoGitShell(ahkCmdName, shellText) {
 			clipboard = %shellText%
 			Click right %curPosX%, %curPosY%
 		} else {
-			MsgBox, % (0x0 + 0x10), % "ERROR (" . ahkCmdName . "): GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
+			errorMsg := "Was unable to activate GitHub Powershell; aborting hotstring."
 		}
 	} else {
-		MsgBox, % (0x0 + 0x10), % "ERROR (" . ahkCmdName . "): GitHub process not found", % "Was unable to activate GitHub Powershell; aborting hotstring."
+		errorMsg := "Because user folder is not set, location of GitHub is unknown."
 	}
+	if (errorMsg != "") {
+		MsgBox, % (0x0 + 0x10)
+			, % ahkCmdName . ": Error in Call to PasteTextIntoGitShell"
+			, % errorMsg
+	}
+}
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+ToEscapedPath(path)
+{
+	escapedPath := StrReplace(path, "\", "\\")
+	Return escapedPath
+}
+
+; ------------------------------------------------------------------------------------------------------------
+; FUNCTIONS for interacting with online web design interfaces
+; ------------------------------------------------------------------------------------------------------------
+
+LoadWordPressSiteInChrome(websiteUrl) {
+	WinGet, thisProcess, ProcessName, A
+	if (thisProcess != "chrome.exe") {
+		WinActivate, % "ahk_exe chrome.exe"
+		WinGetPos, thisX, thisY, thisW, thisH, A
+		if (thisX != -1830 or thisY != 0 or thisW != 1700 or thisH != 1040) {
+			WinMove, A, , -1830, 0, 1700, 1040
+		}
+	}
+	Sleep, 330
+	SendInput, ^t
+	Sleep, 1000
+	SendInput, !d
+	Sleep, 200
+	SendInput, % websiteUrl . "{Enter}"
+	Sleep, 5000
+	proceed := false
+	WinGetTitle, thisTitle, A
+	IfNotInString, thisTitle, % "New Tab"
+		proceed := true
+	while (!proceed) {
+		Sleep 1000
+		WinGetTitle, thisTitle, A
+		IfNotInString, thisTitle, % "New Tab"
+			proceed := true
+	}
+	Sleep, 2000
 }
 
 ; ------------------------------------------------------------------------------------------------------------
@@ -153,7 +191,6 @@ PasteTextIntoGitShell(ahkCmdName, shellText) {
 
 :*:@postMinCss::
 	AppendAhkCmd(":*:@postMinCss")
-	
 	if(!sgIsPostingMinCss) {
 		Gui, guiPostMinCss: New,, % "Post Minified CSS to OUE Websites"
 		Gui, guiPostMinCss: Add, Text,, % "Which OUE Websites would you like to update?"
@@ -180,7 +217,6 @@ Return
 
 :*:@postMinJs::
 	AppendAhkCmd(":*:@postMinJs")
-	
 	if(!sgIsPostingMinJs) {
 		Gui, guiPostMinJs: New,, % "Post Minified JS to OUE Websites"
 		Gui, guiPostMinJs: Add, Text,, % "Which OUE Websites would you like to update?"
@@ -222,6 +258,22 @@ Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
+HandlePostCssUncheckAllSites:
+	GuiControl, guiPostMinCss:, PostMinCssToCr, 0
+	GuiControl, guiPostMinCss:, PostMinCssToDsp, 0
+	GuiControl, guiPostMinCss:, PostMinCssToFye, 0
+	GuiControl, guiPostMinCss:, PostMinCssToFyf, 0
+	GuiControl, guiPostMinCss:, PostMinCssToPbk, 0
+	GuiControl, guiPostMinCss:, PostMinCssToSurca, 0
+	GuiControl, guiPostMinCss:, PostMinCssToSumRes, 0
+	GuiControl, guiPostMinCss:, PostMinCssToXfer, 0
+	GuiControl, guiPostMinCss:, PostMinCssToUgr, 0
+	GuiControl, guiPostMinCss:, PostMinCssToUcore, 0
+	GuiControl, guiPostMinCss:, PostMinCssToUcrAss, 0
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 HandlePostJsCheckAllSites:
 	GuiControl, guiPostMinJs:, PostMinJsToCr, 1
 	GuiControl, guiPostMinJs:, PostMinJsToDsp, 1
@@ -238,9 +290,31 @@ Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
+HandlePostJsUncheckAllSites:
+	GuiControl, guiPostMinJs:, PostMinJsToCr, 0
+	GuiControl, guiPostMinJs:, PostMinJsToDsp, 0
+	GuiControl, guiPostMinJs:, PostMinJsToFye, 0
+	GuiControl, guiPostMinJs:, PostMinJsToFyf, 0
+	GuiControl, guiPostMinJs:, PostMinJsToPbk, 0
+	GuiControl, guiPostMinJs:, PostMinJsToSurca, 0
+	GuiControl, guiPostMinJs:, PostMinJsToSumRes, 0
+	GuiControl, guiPostMinJs:, PostMinJsToXfer, 0
+	GuiControl, guiPostMinJs:, PostMinJsToUgr, 0
+	GuiControl, guiPostMinJs:, PostMinJsToUcore, 0
+	GuiControl, guiPostMinJs:, PostMinJsToUcrAss, 0
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+HandlePostMinCssCancel:
+	Gui, guiPostMinCss: Destroy
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 HandlePostMinCssOK:
 	Gui, guiPostMinCss: Submit
-	Gui, guiPostMinCss: Destroy ;Doing this now implicitly allows us to Return to the previously active window.
+	Gui, guiPostMinCss: Destroy
 	sgIsPostingMinCss := true
 	if (PostMinCssToCr) {
 		PasteMinCssToWebsite("https://commonreading.wsu.edu/wp-admin/themes.php?page=editcss", ":*:@copyMinCssCr")
@@ -280,9 +354,15 @@ Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
+HandlePostMinJsCancel:
+	Gui, Destroy
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 HandlePostMinJsOK:
 	Gui, Submit
-	Gui, Destroy ;Doing this now implicitly allows us to Return to the previously active window.
+	Gui, Destroy
 	sgIsPostingMinJs := true
 	if (PostMinJsToCr) {
 		PasteMinJsToWebsite("https://commonreading.wsu.edu/wp-admin/themes.php?page=custom-javascript", ":*:@copyMinJsCr")
@@ -322,119 +402,24 @@ Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-HandlePostMinCssCancel:
-	Gui, guiPostMinCss: Destroy ;Doing this now implicitly allows us to Return to the previously active window.
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-HandlePostCssUncheckAllSites:
-	GuiControl, guiPostMinCss:, PostMinCssToCr, 0
-	GuiControl, guiPostMinCss:, PostMinCssToDsp, 0
-	GuiControl, guiPostMinCss:, PostMinCssToFye, 0
-	GuiControl, guiPostMinCss:, PostMinCssToFyf, 0
-	GuiControl, guiPostMinCss:, PostMinCssToPbk, 0
-	GuiControl, guiPostMinCss:, PostMinCssToSurca, 0
-	GuiControl, guiPostMinCss:, PostMinCssToSumRes, 0
-	GuiControl, guiPostMinCss:, PostMinCssToXfer, 0
-	GuiControl, guiPostMinCss:, PostMinCssToUgr, 0
-	GuiControl, guiPostMinCss:, PostMinCssToUcore, 0
-	GuiControl, guiPostMinCss:, PostMinCssToUcrAss, 0
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-HandlePostJsUncheckAllSites:
-	GuiControl, guiPostMinJs:, PostMinJsToCr, 0
-	GuiControl, guiPostMinJs:, PostMinJsToDsp, 0
-	GuiControl, guiPostMinJs:, PostMinJsToFye, 0
-	GuiControl, guiPostMinJs:, PostMinJsToFyf, 0
-	GuiControl, guiPostMinJs:, PostMinJsToPbk, 0
-	GuiControl, guiPostMinJs:, PostMinJsToSurca, 0
-	GuiControl, guiPostMinJs:, PostMinJsToSumRes, 0
-	GuiControl, guiPostMinJs:, PostMinJsToXfer, 0
-	GuiControl, guiPostMinJs:, PostMinJsToUgr, 0
-	GuiControl, guiPostMinJs:, PostMinJsToUcore, 0
-	GuiControl, guiPostMinJs:, PostMinJsToUcrAss, 0
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
 PasteMinCssToWebsite(websiteUrl, cssCopyCmd)
 {
-	WinGet, thisProcess, ProcessName, A
-	if (thisProcess != "chrome.exe") {
-		WinActivate, % "ahk_exe chrome.exe"
-		WinGetPos, thisX, thisY, thisW, thisH, A
-		if (thisX != -1830 or thisY != 0 or thisW != 1700 or thisH != 1040) {
-			WinMove, A, , -1830, 0, 1700, 1040
-		}
-	}
-	Sleep, 330
-	SendInput, ^t
-	Sleep, 1000
-	SendInput, !d
-	Sleep, 200
-	SendInput, % websiteUrl . "{Enter}"
-	Sleep, 200
+	LoadWordPressSiteInChrome(websiteUrl)
 	Gosub, %cssCopyCmd%
-	Sleep, 5000
-	proceed := false
-	WinGetTitle, thisTitle, A
-	IfNotInString, thisTitle, % "New Tab"
-		proceed := true
-	while (!proceed) {
-		Sleep 1000
-		WinGetTitle, thisTitle, A
-		IfNotInString, thisTitle, % "New Tab"
-			proceed := true
-	}
-	Sleep, 2000
+	Sleep, 100
 	Gosub, ExecuteCssPasteCmds
-	Sleep, 2000
 }
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 PasteMinJsToWebsite(websiteUrl, jsCopyCmd)
 {
-	WinGet, thisProcess, ProcessName, A
-	if (thisProcess != "chrome.exe") {
-		WinActivate, % "ahk_exe chrome.exe"
-		WinGetPos, thisX, thisY, thisW, thisH, A
-		if (thisX != -1830 or thisY != 0 or thisW != 1700 or thisH != 1040) {
-			WinMove, A, , -1830, 0, 1700, 1040
-		}
-	}
-	Sleep, 330
-	SendInput, ^t
+	LoadWordPressSiteInChrome(websiteUrl)
 	Sleep, 1000
-	SendInput, !d
-	Sleep, 200
-	SendInput, % websiteUrl . "{Enter}"
-	Sleep, 200
 	Gosub, %jsCopyCmd%
-	Sleep, 7500
-	proceed := false
-	WinGetTitle, thisTitle, A
-	IfNotInString, thisTitle, % "New Tab"
-		proceed := true
-	while (!proceed) {
-		Sleep 1000
-		WinGetTitle, thisTitle, A
-		IfNotInString, thisTitle, % "New Tab"
-			proceed := true
-	}
-	Sleep, 3000
+	Sleep, 120
 	Gosub, ExecuteJsPasteCmds
-	Sleep, 2000
 }
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-HandlePostMinJsCancel:
-	Gui, Destroy ;Doing this now implicitly allows us to Return to the previously active window.
-Return
 
 ; ------------------------------------------------------------------------------------------------------------
 ; FILE SYSTEM NAVIGATION
@@ -595,13 +580,13 @@ Return
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@doGitStatus::
-	AppendAhkCmd(":*:@doGitStatus")
+	hsName := ":*:@doGitStatus"
+	AppendAhkCmd(hsName)
 	proceedWithCmd := ActivateGitShell()
 	if(proceedWithCmd) {
 		SendInput % "git status{enter}"
-	}
-	else {
-		MsgBox, % (0x0 + 0x10), % "ERROR (" . ":*:@doGitStatus" . "): Could Not Locate Git PowerShell", % "The Git PowerShell process could not be located and activated."
+	} else {
+		MsgBox, % (0x0 + 0x10), % "ERROR (" . hsName . "): Could Not Locate Git PowerShell", % "The Git PowerShell process could not be located and activated."
 	}
 Return
 
@@ -720,9 +705,11 @@ ExecuteCssPasteCmds:
 		Click, 1565, 410
 		Sleep, 60
 		Click, 1565, 455
-	}
-	else {
-		MsgBox, % (0x0 + 0x10), % "ERROR (:*:@doCssPaste): Clipboard Has Unexpected Contents", % "The clipboard does not begin with the expected '@import ...,' and thus may not contain minified CSS."
+		Sleep, 2000
+	} else {
+		MsgBox, % (0x0 + 0x10)
+			, % "ERROR (:*:@doCssPaste): Clipboard Has Unexpected Contents"
+			, % "The clipboard does not begin with the expected '@import ...,' and thus may not contain minified CSS."
 	}			
 Return
 
@@ -745,7 +732,9 @@ ExecuteJsPasteCmds:
 		Sleep 2500
 	}
 	else {
-		MsgBox, % (0x0 + 0x10), % "ERROR (:*:@doJsPaste): Clipboard Has Unexpected Contents", % "The clipboard does not begin with the expected '// Built with Node.js ...,' and thus may not contain minified JS."
+		MsgBox, % (0x0 + 0x10)
+			, % "ERROR (:*:@doJsPaste): Clipboard Has Unexpected Contents"
+			, % "The clipboard does not begin with the expected '// Built with Node.js ...,' and thus may not contain minified JS."
 	}			
 Return
 
@@ -757,11 +746,11 @@ Return
 ; >>> FOR BACKING UP CUSTOM CSS BUILDS -  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@backupCssCr::
-	ahkCmdName := ":*:@backupCssCr"
-	AppendAhkCmd(ahkCmdName)
+	hsName := ":*:@backupCssCr"
+	AppendAhkCmd(hsName)
 	CopyCssFromWebsite("https://commonreading.wsu.edu/wp-admin/themes.php?page=editcss", copiedCss)
-	WriteCssToFile(copiedCss, GetGitHubFolder() . "\commonreading.wsu.edu\CSS\cr-custom.prev.css")
-	PasteTextIntoGitShell(":*:@backupCssCr"
+	WriteCodeToFile(":*:@backupCssCr", copiedCss, GetGitHubFolder() . "\commonreading.wsu.edu\CSS\cr-custom.prev.css")
+	PasteTextIntoGitShell(hsName
 		, "cd """ . GetGitHubFolder() . "\commonreading.wsu.edu\""`r"
 		. "git add CSS\cr-custom.prev.css`r"
 		. "git commit -m ""Updating backup of latest verified custom CSS build""`r"
@@ -771,11 +760,11 @@ Return
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@backupCssDsp::
-	ahkCmdName := ":*:@backupCssDsp"
-	AppendAhkCmd(ahkCmdName)
+	hsName := ":*:@backupCssDsp"
+	AppendAhkCmd(hsName)
 	CopyCssFromWebsite("https://distinguishedscholarships.wsu.edu/wp-admin/themes.php?page=editcss", copiedCss)
-	WriteCssToFile(copiedCss, GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\CSS\dsp-custom.prev.css")
-	PasteTextIntoGitShell(":*:@backupCssDsp"
+	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\CSS\dsp-custom.prev.css")
+	PasteTextIntoGitShell(hsName
 		, "cd """ . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\""`r"
 		. "git add CSS\dsp-custom.prev.css`r"
 		. "git commit -m ""Updating backup of latest verified custom CSS build""`r"
@@ -785,11 +774,11 @@ Return
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@backupCssFye::
-	ahkCmdName := ":*:@backupCssFye"
-	AppendAhkCmd(ahkCmdName)
+	hsName := ":*:@backupCssFye"
+	AppendAhkCmd(hsName)
 	CopyCssFromWebsite("https://firstyear.wsu.edu/wp-admin/themes.php?page=editcss", copiedCss)
-	WriteCssToFile(copiedCss, GetGitHubFolder() . "\firstyear.wsu.edu\CSS\fye-custom.prev.css")
-	PasteTextIntoGitShell(":*:@backupCssFye"
+	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder() . "\firstyear.wsu.edu\CSS\fye-custom.prev.css")
+	PasteTextIntoGitShell(hsName
 		, "cd """ . GetGitHubFolder() . "\firstyear.wsu.edu\""`r"
 		. "git add CSS\fye-custom.prev.css`r"
 		. "git commit -m ""Updating backup of latest verified custom CSS build""`r"
@@ -799,11 +788,11 @@ Return
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@backupCssFyf::
-	ahkCmdName := ":*:@backupCssFyf"
-	AppendAhkCmd(ahkCmdName)
+	hsName := ":*:@backupCssFyf"
+	AppendAhkCmd(hsName)
 	CopyCssFromWebsite("https://learningcommunities.wsu.edu/wp-admin/themes.php?page=editcss", copiedCss)
-	WriteCssToFile(copiedCss, GetGitHubFolder() . "\learningcommunities.wsu.edu\CSS\learningcommunities-custom.prev.css")
-	PasteTextIntoGitShell(":*:@backupCssFyf"
+	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder() . "\learningcommunities.wsu.edu\CSS\learningcommunities-custom.prev.css")
+	PasteTextIntoGitShell(hsName
 		, "cd """ . GetGitHubFolder() . "\learningcommunities.wsu.edu\""`r"
 		. "git add CSS\learningcommunities-custom.prev.css`r"
 		. "git commit -m ""Updating backup of latest verified custom CSS build""`r"
@@ -813,11 +802,11 @@ Return
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@backupCssPbk::
-	ahkCmdName := ":*:@backupCssPbk"
-	AppendAhkCmd(ahkCmdName)
+	hsName := ":*:@backupCssPbk"
+	AppendAhkCmd(hsName)
 	CopyCssFromWebsite("https://phibetakappa.wsu.edu/wp-admin/themes.php?page=editcss", copiedCss)
-	WriteCssToFile(copiedCss, GetGitHubFolder() . "\phibetakappa.wsu.edu\CSS\pbk-custom.prev.css")
-	PasteTextIntoGitShell(":*:@backupCssPbk"
+	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder() . "\phibetakappa.wsu.edu\CSS\pbk-custom.prev.css")
+	PasteTextIntoGitShell(hsName
 		, "cd """ . GetGitHubFolder() . "\phibetakappa.wsu.edu\""`r"
 		. "git add CSS\pbk-custom.prev.css`r"
 		. "git commit -m ""Updating backup of latest verified custom CSS build""`r"
@@ -827,11 +816,11 @@ Return
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@backupCssSurca::
-	ahkCmdName := ":*:@backupCssSurca"
-	AppendAhkCmd(ahkCmdName)
+	hsName := ":*:@backupCssSurca"
+	AppendAhkCmd(hsName)
 	CopyCssFromWebsite("https://surca.wsu.edu/wp-admin/themes.php?page=editcss", copiedCss)
-	WriteCssToFile(copiedCss, GetGitHubFolder() . "\surca.wsu.edu\CSS\surca-custom.prev.css")
-	PasteTextIntoGitShell(":*:@backupCssSurca"
+	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder() . "\surca.wsu.edu\CSS\surca-custom.prev.css")
+	PasteTextIntoGitShell(hsName
 		, "cd """ . GetGitHubFolder() . "\surca.wsu.edu\""`r"
 		. "git add CSS\surca-custom.prev.css`r"
 		. "git commit -m ""Updating backup of latest verified custom CSS build""`r"
@@ -841,11 +830,11 @@ Return
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@backupCssSumRes::
-	ahkCmdName := ":*:@backupCssSumRes"
-	AppendAhkCmd(ahkCmdName)
+	hsName := ":*:@backupCssSumRes"
+	AppendAhkCmd(hsName)
 	CopyCssFromWebsite("https://summerresearch.wsu.edu/wp-admin/themes.php?page=editcss", copiedCss)
-	WriteCssToFile(copiedCss, GetGitHubFolder() . "\summerresearch.wsu.edu\CSS\summerresearch-custom.prev.css")
-	PasteTextIntoGitShell(":*:@backupCssSumRes"
+	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder() . "\summerresearch.wsu.edu\CSS\summerresearch-custom.prev.css")
+	PasteTextIntoGitShell(hsName
 		, "cd """ . GetGitHubFolder() . "\summerresearch.wsu.edu\""`r"
 		. "git add CSS\summerresearch-custom.prev.css`r"
 		. "git commit -m ""Updating backup of latest verified custom CSS build""`r"
@@ -855,11 +844,11 @@ Return
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@backupCssXfer::
-	ahkCmdName := ":*:@backupCssXfer"
-	AppendAhkCmd(ahkCmdName)
+	hsName := ":*:@backupCssXfer"
+	AppendAhkCmd(hsName)
 	CopyCssFromWebsite("https://transfercredit.wsu.edu/wp-admin/themes.php?page=editcss", copiedCss)
-	WriteCssToFile(copiedCss, GetGitHubFolder() . "\transfercredit.wsu.edu\CSS\xfercredit-custom.prev.css")
-	PasteTextIntoGitShell(":*:@backupCssXfer"
+	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder() . "\transfercredit.wsu.edu\CSS\xfercredit-custom.prev.css")
+	PasteTextIntoGitShell(hsName
 		, "cd """ . GetGitHubFolder() . "\transfercredit.wsu.edu\""`r"
 		. "git add CSS\xfercredit-custom.prev.css`r"
 		. "git commit -m ""Updating backup of latest verified custom CSS build""`r"
@@ -869,11 +858,11 @@ Return
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@backupCssUgr::
-	ahkCmdName := ":*:@backupCssUgr"
-	AppendAhkCmd(ahkCmdName)
+	hsName := ":*:@backupCssUgr"
+	AppendAhkCmd(hsName)
 	CopyCssFromWebsite("https://undergraduateresearch.wsu.edu/wp-admin/themes.php?page=editcss", copiedCss)
-	WriteCssToFile(copiedCss, GetGitHubFolder() . "\undergraduateresearch.wsu.edu\CSS\undergraduate-research-custom.prev.css")
-	PasteTextIntoGitShell(":*:@backupCssUgr"
+	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder() . "\undergraduateresearch.wsu.edu\CSS\undergraduate-research-custom.prev.css")
+	PasteTextIntoGitShell(hsName
 		, "cd """ . GetGitHubFolder() . "\undergraduateresearch.wsu.edu\""`r"
 		. "git add CSS\undergraduate-research-custom.prev.css`r"
 		. "git commit -m ""Updating backup of latest verified custom CSS build""`r"
@@ -883,11 +872,11 @@ Return
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@backupCssUcore::
-	ahkCmdName := ":*:@backupCssUcore"
-	AppendAhkCmd(ahkCmdName)
+	hsName := ":*:@backupCssUcore"
+	AppendAhkCmd(hsName)
 	CopyCssFromWebsite("https://ucore.wsu.edu/wp-admin/themes.php?page=editcss", copiedCss)
-	WriteCssToFile(copiedCss, GetGitHubFolder() . "\ucore.wsu.edu\CSS\ucore-custom.prev.css")
-	PasteTextIntoGitShell(":*:@backupCssUcore"
+	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder() . "\ucore.wsu.edu\CSS\ucore-custom.prev.css")
+	PasteTextIntoGitShell(hsName
 		, "cd """ . GetGitHubFolder() . "\ucore.wsu.edu\""`r"
 		. "git add CSS\ucore-custom.prev.css`r"
 		. "git commit -m ""Updating backup of latest verified custom CSS build""`r"
@@ -897,11 +886,11 @@ Return
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@backupCssUcrAss::
-	ahkCmdName := ":*:@backupCssUcrAss"
-	AppendAhkCmd(ahkCmdName)
+	hsName := ":*:@backupCssUcrAss"
+	AppendAhkCmd(hsName)
 	CopyCssFromWebsite("https://ucore.wsu.edu/assessment/wp-admin/themes.php?page=editcss", copiedCss)
-	WriteCssToFile(copiedCss, GetGitHubFolder() . "\ucore.wsu.edu-assessment\CSS\ucore-assessment-custom.prev.css")
-	PasteTextIntoGitShell(":*:@backupCssUcrAss"
+	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder() . "\ucore.wsu.edu-assessment\CSS\ucore-assessment-custom.prev.css")
+	PasteTextIntoGitShell(hsName
 		, "cd """ . GetGitHubFolder() . "\ucore.wsu.edu-assessment\""`r"
 		. "git add CSS\ucore-assessment-custom.prev.css`r"
 		. "git commit -m ""Updating backup of latest verified custom CSS build""`r"
@@ -911,8 +900,8 @@ Return
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@backupCssAll::
-	ahkCmdName := ":*:@backupCssAll"
-	AppendAhkCmd(ahkCmdName)
+	hsName := ":*:@backupCssAll"
+	AppendAhkCmd(hsName)
 	Gosub, :*:@backupCssCr
 	Gosub, :*:@backupCssDsp
 	Gosub, :*:@backupCssFye
@@ -924,7 +913,7 @@ Return
 	Gosub, :*:@backupCssUgr
 	Gosub, :*:@backupCssUcore
 	Gosub, :*:@backupCssUcrAss
-	PasteTextIntoGitShell(ahkCmdName
+	PasteTextIntoGitShell(hsName
 		, "[console]::beep(750,600)`r"
 		. "[console]::beep(375,300)`r")
 Return
@@ -933,70 +922,23 @@ Return
 
 CopyCssFromWebsite(websiteUrl, ByRef copiedCss)
 {
-	WinGet, thisProcess, ProcessName, A
-	if (thisProcess != "chrome.exe") {
-		WinActivate, % "ahk_exe chrome.exe"
-		WinGetPos, thisX, thisY, thisW, thisH, A
-		if (thisX != -1830 or thisY != 0 or thisW != 1700 or thisH != 1040) {
-			WinMove, A, , -1830, 0, 1700, 1040
-		}
-	}
-	Sleep, 330
-	SendInput, ^t
-	Sleep, 1000
-	SendInput, !d
-	Sleep, 200
-	SendInput, % websiteUrl . "{Enter}"
-	Sleep, 5000
-	proceed := false
-	WinGetTitle, thisTitle, A
-	IfNotInString, thisTitle, % "New Tab"
-		proceed := true
-	while (!proceed) {
-		Sleep 1000
-		WinGetTitle, thisTitle, A
-		IfNotInString, thisTitle, % "New Tab"
-			proceed := true
-	}
-	Sleep, 2000
+	LoadWordPressSiteInChrome(websiteUrl)
 	ExecuteCssCopyCmds(copiedCss)
-	Sleep, 2000
 }
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ExecuteCssCopyCmds(ByRef copiedCss) {
-	; Add check for correct CSS in clipboard — the first line is a font import.
-	;posFound := RegExMatch(clipboard, "^/\* Built with the LESS CSS")
-	;if (posFound != 0) {
-		CoordMode, Mouse, Client
-		Click, 768, 570
-		Sleep, 100
-		SendInput, ^a
-		Sleep, 100
-		SendInput, ^c
-		Sleep, 1000
-		SendInput, ^w
-		copiedCss := clipboard
-	;}
-	;else {
-	;	MsgBox, % (0x0 + 0x10), % "ERROR (:*:@doCssPaste): Clipboard Has Unexpected Contents", % "The clipboard does not begin with the expected '@import ...,' and thus may not contain minified CSS."
-	;}			
-}
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-WriteCssToFile(cssCode, srcFileToOverwrite) {
-	if (UserFolderIsSet()) {
-		srcFile := FileOpen(srcFileToOverwrite, "w")
-		if (srcFile != 0) {
-			contents := srcFile.Write(cssCode)
-			srcFile.Close()
-			Sleep 100
-		} else {
-			MsgBox, % (0x0 + 0x10), % errorMsg, % "Failed to open file: " . srcFile
-		}
-	}
+	CoordMode, Mouse, Client
+	Click, 768, 570
+	Sleep, 100
+	SendInput, ^a
+	Sleep, 100
+	SendInput, ^c
+	Sleep, 1000
+	SendInput, ^w
+	copiedCss := clipboard
+	Sleep, 2000
 }
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
@@ -1551,6 +1493,205 @@ Return
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; >>> FOR BACKING UP CUSTOM JS BUILDS --  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@backupJsCr::
+	hsName := ":*:@backupJsCr"
+	AppendAhkCmd(hsName)
+	CopyJsFromWebsite("https://commonreading.wsu.edu/wp-admin/themes.php?page=custom-javascript", copiedJs)
+	WriteCodeToFile(hsName, copiedJs, GetGitHubFolder() . "\commonreading.wsu.edu\JS\wp-custom-js-source.min.prev.js")
+	PasteTextIntoGitShell(hsName
+		, "cd """ . GetGitHubFolder() . "\commonreading.wsu.edu\""`r"
+		. "git add JS\wp-custom-js-source.min.prev.js`r"
+		. "git commit -m ""Updating backup of latest verified custom JS build""`r"
+		. "git push`r")
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@backupJsDsp::
+	hsName := ":*:@backupJsDsp"
+	AppendAhkCmd(hsName)
+	CopyJsFromWebsite("https://distinguishedscholarships.wsu.edu/wp-admin/themes.php?page=custom-javascript", copiedJs)
+	WriteCodeToFile(hsName, copiedJs, GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\JS\wp-custom-js-source.min.prev.js")
+	PasteTextIntoGitShell(hsName
+		, "cd """ . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\""`r"
+		. "git add JS\wp-custom-js-source.min.prev.js`r"
+		. "git commit -m ""Updating backup of latest verified custom JS build""`r"
+		. "git push`r")
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@backupJsFye::
+	hsName := ":*:@backupJsFye"
+	AppendAhkCmd(hsName)
+	CopyJsFromWebsite("https://firstyear.wsu.edu/wp-admin/themes.php?page=custom-javascript", copiedJs)
+	WriteCodeToFile(hsName, copiedJs, GetGitHubFolder() . "\firstyear.wsu.edu\JS\wp-custom-js-source.min.prev.js")
+	PasteTextIntoGitShell(hsName
+		, "cd """ . GetGitHubFolder() . "\firstyear.wsu.edu\""`r"
+		. "git add JS\wp-custom-js-source.min.prev.js`r"
+		. "git commit -m ""Updating backup of latest verified custom JS build""`r"
+		. "git push`r")
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@backupJsFyf::
+	hsName := hsName
+	AppendAhkCmd(hsName)
+	CopyJsFromWebsite("https://learningcommunities.wsu.edu/wp-admin/themes.php?page=custom-javascript", copiedJs)
+	WriteCodeToFile(hsName, copiedJs, GetGitHubFolder() . "\learningcommunities.wsu.edu\JS\wp-custom-js-source.min.prev.js")
+	PasteTextIntoGitShell(hsName
+		, "cd """ . GetGitHubFolder() . "\learningcommunities.wsu.edu\""`r"
+		. "git add JS\wp-custom-js-source.min.prev.`r"
+		. "git commit -m ""Updating backup of latest verified custom JS build""`r"
+		. "git push`r")
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@backupJsPbk::
+	hsName := ":*:@backupJsPbk"
+	AppendAhkCmd(hsName)
+	CopyJsFromWebsite("https://phibetakappa.wsu.edu/wp-admin/themes.php?page=custom-javascript", copiedJs)
+	WriteCodeToFile(hsName, copiedJs, GetGitHubFolder() . "\phibetakappa.wsu.edu\JS\pbk-custom.min.prev.js")
+	PasteTextIntoGitShell(hsName
+		, "cd """ . GetGitHubFolder() . "\phibetakappa.wsu.edu\""`r"
+		. "git add JS\pbk-custom.prev.css`r"
+		. "git commit -m ""Updating backup of latest verified custom JS build""`r"
+		. "git push`r")
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@backupJsSurca::
+	hsName := ":*:@backupJsSurca"
+	AppendAhkCmd(hsName)
+	CopyJsFromWebsite("https://surca.wsu.edu/wp-admin/themes.php?page=custom-javascript", copiedJs)
+	WriteCodeToFile(hsName, copiedJs, GetGitHubFolder() . "\surca.wsu.edu\JS\wp-custom-js-source.min.prev.js")
+	PasteTextIntoGitShell(hsName
+		, "cd """ . GetGitHubFolder() . "\surca.wsu.edu\""`r"
+		. "git add JS\wp-custom-js-source.min.prev.js`r"
+		. "git commit -m ""Updating backup of latest verified custom JS build""`r"
+		. "git push`r")
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@backupJsSumRes::
+	hsName := ":*:@backupJsSumRes"
+	AppendAhkCmd(hsName)
+	CopyJsFromWebsite("https://summerresearch.wsu.edu/wp-admin/themes.php?page=custom-javascript", copiedJs)
+	WriteCodeToFile(hsName, copiedJs, GetGitHubFolder() . "\summerresearch.wsu.edu\JS\wp-custom-js-source.min.prev.js")
+	PasteTextIntoGitShell(hsName
+		, "cd """ . GetGitHubFolder() . "\summerresearch.wsu.edu\""`r"
+		. "git add JS\wp-custom-js-source.min.prev.js`r"
+		. "git commit -m ""Updating backup of latest verified custom JS build""`r"
+		. "git push`r")
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@backupJsXfer::
+	hsName := ":*:@backupJsXfer"
+	AppendAhkCmd(hsName)
+	CopyJsFromWebsite("https://transfercredit.wsu.edu/wp-admin/themes.php?page=custom-javascript", copiedJs)
+	WriteCodeToFile(hsName, copiedJs, GetGitHubFolder() . "\transfercredit.wsu.edu\JS\wp-custom-js-source.min.prev.js")
+	PasteTextIntoGitShell(hsName
+		, "cd """ . GetGitHubFolder() . "\transfercredit.wsu.edu\""`r"
+		. "git add JS\wp-custom-js-source.min.prev.js`r"
+		. "git commit -m ""Updating backup of latest verified custom JS build""`r"
+		. "git push`r")
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@backupJsUgr::
+	hsName := ":*:@backupJsUgr"
+	AppendAhkCmd(hsName)
+	CopyJsFromWebsite("https://undergraduateresearch.wsu.edu/wp-admin/themes.php?page=custom-javascript", copiedJs)
+	WriteCodeToFile(hsName, copiedJs, GetGitHubFolder() . "\undergraduateresearch.wsu.edu\JS\wp-custom-js-source.min.prev.js")
+	PasteTextIntoGitShell(hsName
+		, "cd """ . GetGitHubFolder() . "\undergraduateresearch.wsu.edu\""`r"
+		. "git add JS\wp-custom-js-source.min.prev.js`r"
+		. "git commit -m ""Updating backup of latest verified custom JS build""`r"
+		. "git push`r")
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@backupJsUcore::
+	hsName := ":*:@backupJsUcore"
+	AppendAhkCmd(hsName)
+	CopyJsFromWebsite("https://ucore.wsu.edu/wp-admin/themes.php?page=custom-javascript", copiedJs)
+	WriteCodeToFile(hsName, copiedJs, GetGitHubFolder() . "\ucore.wsu.edu\JS\wp-custom-js-source.min.prev.js")
+	PasteTextIntoGitShell(hsName
+		, "cd """ . GetGitHubFolder() . "\ucore.wsu.edu\""`r"
+		. "git add JS\wp-custom-js-source.min.prev.js`r"
+		. "git commit -m ""Updating backup of latest verified custom JS build""`r"
+		. "git push`r")
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@backupJsUcrAss::
+	hsName := ":*:@backupJsUcrAss"
+	AppendAhkCmd(hsName)
+	CopyJsFromWebsite("https://ucore.wsu.edu/assessment/wp-admin/themes.php?page=custom-javascript", copiedJs)
+	WriteCodeToFile(hsName, copiedJs, GetGitHubFolder() . "\ucore.wsu.edu-assessment\JS\wp-custom-js-source.min.js")
+	PasteTextIntoGitShell(hsName
+		, "cd """ . GetGitHubFolder() . "\ucore.wsu.edu-assessment\""`r"
+		. "git add JS\wp-custom-js-source.min.js`r"
+		. "git commit -m ""Updating backup of latest verified custom JS build""`r"
+		. "git push`r")
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@backupJsAll::
+	hsName := ":*:@backupJsAll"
+	AppendAhkCmd(hsName)
+	Gosub, :*:@backupJsCr
+	Gosub, :*:@backupJsDsp
+	Gosub, :*:@backupJsFye
+	Gosub, :*:@backupJsFyf
+	Gosub, :*:@backupJsPbk
+	Gosub, :*:@backupJsSurca
+	Gosub, :*:@backupJsSumRes
+	Gosub, :*:@backupJsXfer
+	Gosub, :*:@backupJsUgr
+	Gosub, :*:@backupJsUcore
+	Gosub, :*:@backupJsUcrAss
+	PasteTextIntoGitShell(hsName
+		, "[console]::beep(750,600)`r"
+		. "[console]::beep(375,300)`r")
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+CopyJsFromWebsite(websiteUrl, ByRef copiedJs)
+{
+	LoadWordPressSiteInChrome(websiteUrl)
+	ExecuteJsCopyCmds(copiedJs)
+}
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+ExecuteJsCopyCmds(ByRef copiedJs) {
+	CoordMode, Mouse, Client
+	Click, 461, 371
+	Sleep, 330
+	SendInput, ^a
+	Sleep, 2500
+	SendInput, ^c
+	Sleep, 2500
+	SendInput, ^w
+	copiedJs := clipboard
+	Sleep, 2000
+}
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 ; >>> FOR REBUILDING JS SOURCE FILES ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@rebuildJsCr::
@@ -1627,10 +1768,10 @@ Return
 	PasteTextIntoGitShell(ahkCmdName
 		, "cd """ . GetGitHubFolder() . "\phibetakappa.wsu.edu\JS""`r"
 		. "node build-production-file.js`r"
-		. "uglifyjs wp-custom-js-source.js --output wp-custom-js-source.min.js -mt`r"
+		. "uglifyjs pbk-custom.js --output pbk-custom.min.js -mt`r"
 		. "cd """ . GetGitHubFolder() . "\phibetakappa.wsu.edu\""`r"
-		. "git add JS\wp-custom-js-source.js`r"
-		. "git add JS\wp-custom-js-source.min.js`r"
+		. "git add JS\pbk-custom.js`r"
+		. "git add JS\pbk-custom.min.js`r"
 		. "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
 		. "urce code."" `r"
 		. "git push`r")
