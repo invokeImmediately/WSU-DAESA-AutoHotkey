@@ -20,13 +20,19 @@ doesVarExist(ByRef v) { ; Requires 1.0.46+
     return &v = &undeclared ? 0 : 1 
 }
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 isVarEmpty(ByRef v) { ; Requires 1.0.46+ 
     return v = "" ? 1 : 0 
 }
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 isVarDeclared(ByRef v) { ; Requires 1.0.46+ 
     return &v = &undeclared ? 0 : v = "" ? 0 : 1
 }
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 InsertFilePath(ahkCmdName, filePath) {
 	AppendAhkCmd(ahkCmdName)
@@ -39,6 +45,8 @@ InsertFilePath(ahkCmdName, filePath) {
         }
     }
 }
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 LaunchApplicationPatiently(path, title)
 {
@@ -58,6 +66,8 @@ LaunchApplicationPatiently(path, title)
     }
 }
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 LaunchStdApplicationPatiently(path, title)
 {
 	Run, % "explorer.exe """ . path . """"
@@ -76,6 +86,8 @@ LaunchStdApplicationPatiently(path, title)
     }
 }
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 MoveCursorIntoActiveWindow(ByRef curPosX, ByRef curPosY)
 {
 	WinGetPos, winPosX, winPosY, winW, winH, A
@@ -93,6 +105,8 @@ MoveCursorIntoActiveWindow(ByRef curPosX, ByRef curPosY)
 	}
 }
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 PasteText(txtToPaste) {
 	if (clipboard != txtToPaste) {
 		clipboard := txtToPaste
@@ -100,6 +114,8 @@ PasteText(txtToPaste) {
 	Sleep, 60
 	SendInput, % "^v"
 }
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 WaitForApplicationPatiently(title)
 {
@@ -116,6 +132,29 @@ WaitForApplicationPatiently(title)
             Sleep, 250
         }
     }
+}
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+WriteCodeToFile(hsCaller, srcCode, srcFileToOverwrite) {
+	errorMsg := ""
+	if (UserFolderIsSet()) {
+		srcFile := FileOpen(srcFileToOverwrite, "w")
+		if (srcFile != 0) {
+			srcFile.Write(srcCode)
+			srcFile.Close()
+			Sleep 100
+		} else {
+			errorMsg := "Failed to open file: " . srcFileToOverwrite
+		}
+	} else {
+		errorMsg := "User folder is not set."
+	}
+	if (errorMsg != "") {
+		MsgBox, % (0x0 + 0x10)
+			, % "Error in " . hsCaller . " Function Call: WriteCodeToFile(...)"
+			, % errorMsg
+	}
 }
 
 ; ------------------------------------------------------------------------------------------------------------
@@ -255,6 +294,7 @@ Return
 ; ------------------------------------------------------------------------------------------------------------
 ; Desktop Management Functions
 ; ------------------------------------------------------------------------------------------------------------
+
 GetActiveMonitorWorkArea(ByRef monitorFound, ByRef monitorALeft, ByRef monitorATop, ByRef monitorARight, ByRef monitorABottom) {
     global
 	local thisWinX
@@ -271,7 +311,7 @@ GetActiveMonitorWorkArea(ByRef monitorFound, ByRef monitorALeft, ByRef monitorAT
 	}
 	WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
 	Loop, %sysNumMonitors% {
-		if (thisWinX >= mon%A_Index%Bounds_Left && thisWinY >= mon%A_Index%Bounds_Top && (thisWinX + thisWinW) <= mon%A_Index%Bounds_Right && (thisWinY + thisWinH) <= mon%A_Index%Bounds_Bottom) {
+		if (thisWinX >= mon%A_Index%Bounds_Left && thisWinY >= mon%A_Index%Bounds_Top) {
 			monitorFound := true
 			monitorALeft := mon%A_Index%WorkArea_Left
 			monitorATop := mon%A_Index%WorkArea_Top
@@ -285,10 +325,16 @@ GetActiveMonitorWorkArea(ByRef monitorFound, ByRef monitorALeft, ByRef monitorAT
 		monitorATop := 0
 		monitorARight := 0
 		monitorABottom := 0
-		MsgBox, % "Monitor not found. Window coordinates:`r"
+		errorMsg := "Monitor not found. Window coordinates:`r"
 			. "`tLeft: " . thisWinX . "`r"
 			. "`tTop: " . thisWinY . "`r"
 			. "`tRight: " . (thisWinX + thisWinW) . "`r"
 			. "`tBottom: " . (thisWinY + thisWinH) . "`r"
+		Loop, %sysNumMonitors% {
+			errorMsg .= "`r`rMonitor #" . A_Index . " coordinates:`r"
+				. "`tLeft: " . mon%A_Index%Bounds_Left . "`r"
+				. "`tTop: " . mon%A_Index%Bounds_Top . "`r"
+		}
+		MsgBox, % errorMsg
 	}
 }
