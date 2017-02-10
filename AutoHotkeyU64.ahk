@@ -34,8 +34,8 @@ global windowMovementSound := userAccountFolder . "\Documents\Daniel\Sound Libra
 global windowSizingSound := userAccountFolder . "\Documents\Daniel\Sound Library\68222__xtyl33__paper3_-7.5db_faster.wav"
 global windowShiftingSound := userAccountFolder . "\Documents\Daniel\Sound Library\185849__lloydevans09__warping.wav"
 global desktopSwitchingSound := userAccountFolder . "\Documents\Daniel\Sound Library\352719__dalesome__woosh-stick-swung-in-the-air_-15db.wav"
-global bitAccentToggle := false
-global accentOverwrite := "{U+00b7}"
+global bitNumpadSubToggle := false
+global numpadSubOverwrite := "{U+00b7}"
 global ahkCmds := Array()
 global ahkCmdLimit := 36
 global CmdChosen
@@ -52,27 +52,30 @@ Gosub, MainSubroutine
 If not A_IsAdmin
 {
 	;" https://autohotkey.com/docs/commands/Run.htm#RunAs: For an executable file, the *RunAs verb is equivalent to selecting Run as administrator from the right-click menu of the file."
+	MsgBox, % 0x30
+		, % "Error: Admin Privileges Not Detected"
+		, % "AutoHotkeyU64.ahk was started without Admin privileges; now reloading."
 	Run *RunAs "%A_ScriptFullPath%" 
 	ExitApp
 }
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\functions.ahk
 
-;   --------------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------------------------------------
 ;   COMMAND HISTORY
-;   --------------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\commandHistory.ahk
 
-;   --------------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------------------------------------
 ;   WORKSPACE MANAGEMENT
-;   --------------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\workspaceMngmnt.ahk
 
-;   --------------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------------------------------------
 ;   WORK TIMER scripts for tracking hours and indicating when breaks should be taken
-;   --------------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------------------------------------
 
 :*:@setupWorkTimer::
 	AppendAhkCmd(":*:@setupWorkTimer")
@@ -190,6 +193,8 @@ If not A_IsAdmin
 	}
 Return
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 PostWorkBreakMessage:
 	timerEndTime := A_Now
 	timerTimeWorked := timerEndTime
@@ -224,6 +229,8 @@ PostWorkBreakMessage:
 	workTimeLeftOver := 0
 Return
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 :*:@stopWorkTimer::
 	AppendAhkCmd(":*:@stopWorkTimer")
 	if (workTimerRunning) {
@@ -245,6 +252,8 @@ Return
 	}
 Return
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 :*:@checkWorkTimer::
 	AppendAhkCmd(":*:@checkWorkTimer")
 	if (workTimerRunning) {
@@ -259,6 +268,8 @@ Return
 		MsgBox % 1, % "Check Work Timer", % "There are " . timerTimeLeft . " minutes left on the work timer."
 	}
 Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@toggleOverlayMode::
 	AppendAhkCmd(":*:@toggleOverlayMode")
@@ -282,6 +293,8 @@ Return
 	}
 Return
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 :*:@toggleAOT::
 	AppendAhkCmd(":*:@toggleAOT")
 	WinGet, currentWindowID, ID, A
@@ -296,18 +309,67 @@ Return
 	}
 Return
 
-
-;   --------------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------------------------------------
 ;   TEXT REPLACEMENT
-;   --------------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------------------------------------
 
-:*:@ddd::
-	AppendAhkCmd(":*:@ddd")
-	FormatTime, CurrentDateTime,, yyyy-MM-dd
-	SendInput, %CurrentDateTime%
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; >>> Text Replacement HOTKEYS  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+NumpadSub::
+	if (bitNumpadSubToggle) {
+		SendInput, % numpadSubOverwrite
+	}
+	else {
+		SendInput, -
+	}
 Return
 
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+^NumpadSub::
+	Gosub :*:@toggleNumpadSub
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+^+NumpadSub::
+	Gosub :*:@changeNumpadSub
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; >>> Text Replacement HOTSTRINGS -  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@add5lineshere::
+	AppendAhkCmd(":*:@add5lineshere")
+	SendInput, {Enter 5}
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@addClass::class=""{Space}{Left 2}
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@addNrml::{Space}class="oue-normal"
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@changeNumpadSub::
+	AppendAhkCmd(":*:@changeNumpadSub")
+	Inputbox, inputEntered
+		, % "@changeNumpadSub: Change Numpad- Overwrite"
+		, % "Enter a character/string that the Numpad- key will now represent once alternative input is toggled on."
+	if (!ErrorLevel) {
+		numpadSubOverwrite := inputEntered
+	} else {
+		MsgBox, % (0x0 + 0x40)
+			, % "@changeNumpadSub: Numpad- Overwrite Canceled"
+			, % "Alternative input for Numpad- will remain as " . numpadSubOverwrite
+	}
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@datetime::
 	AppendAhkCmd(":*:@datetime")
@@ -315,15 +377,45 @@ Return
 	SendInput, %CurrentDateTime%
 Return
 
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-:*:@xsss::
-	AppendAhkCmd(":*:@xsss")
+:*:@ddd::
+	AppendAhkCmd(":*:@ddd")
 	FormatTime, CurrentDateTime,, yyyy-MM-dd
-	SendInput, (Started %CurrentDateTime%)
+	SendInput, %CurrentDateTime%
 Return
 
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@doRGBa::
+	AppendAhkCmd(":*:@doRGBa")
+	SendInput, rgba(@rval, @gval, @bval, );{Left 2}
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@ppp::
+	AppendAhkCmd(":*:@ppp")
+	SendInput, news-events_events_.html{Left 5}
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@toggleNumpadSub::
+	AppendAhkCmd(":*:@toggleNumpadSub")
+	toggleMsg := "The NumPad- key has been toggled to "
+	bitNumpadSubToggle := !bitNumpadSubToggle
+	if (bitNumpadSubToggle) {
+		toggleMsg .= numpadSubOverwrite
+	} else {
+		toggleMsg .=  "-"
+	}
+	MsgBox, % (0x0 + 0x40)
+		, % "@toggleNumpadSub: NumPad- Toggled"
+		, % toggleMsg
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@xccc::
 	AppendAhkCmd(":*:@xccc")
@@ -331,158 +423,136 @@ Return
 	SendInput, / Completed %CurrentDateTime%
 Return
 
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-:*:@ppp::
-	AppendAhkCmd(":*:@ppp")
-	SendInput, news-events_events_.html{Left 5}
+:*:@xsss::
+	AppendAhkCmd(":*:@xsss")
+	FormatTime, CurrentDateTime,, yyyy-MM-dd
+	SendInput, (Started %CurrentDateTime%)
 Return
 
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@add5lineshere::
-	AppendAhkCmd(":*:@add5lineshere")
-	SendInput, {Enter 5}
-Return
-
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@doRGBa::
-	AppendAhkCmd(":*:@doRGBa")
-	SendInput, rgba(@rval, @gval, @bval, );{Left 2}
-Return
-
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@addNrml::{Space}class="oue-normal"
-
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@addClass::class=""{Space}{Left 2}
-
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@toggleAccentKey::
-	AppendAhkCmd(":*:@toggleAccentKey")
-	bitAccentToggle := !bitAccentToggle
-Return
-
-^+`::
-	Gosub :*:@toggleAccentKey
-Return
-
-:*:``::
-	if (bitAccentToggle) {
-		SendInput, % accentOverwrite
-	}
-	else {
-		SendInput, ``
-	}
-Return
-
-:*:@changeAccentOverwrite::
-	AppendAhkCmd(":*:@changeAccentOverwrite")
-	Inputbox, inputEntered, % "Change Accent Overwrite", % "Enter a character/string that the accent key will now represent when alternative input is toggled."
-	if (!ErrorLevel) {
-		accentOverwrite := inputEntered
-	}
-Return
-
-;   --------------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------------------------------------
 ;   PROGRAM/FILE LAUNCHING SHORTCUTS
-;   --------------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------------------------------------
 
 :R*?:runNotepad::
 	Run C:\Program Files (x86)\Notepad++\notepad++.exe
 Return
 
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 #z::
 	Run notepad++.exe, C:\Program Files (x86)\Notepad++, Max
 Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@checkHTMLSpec::
 	AppendAhkCmd(":*:@checkHTMLSpec")
 	Run % userAccountFolder . "\Documents\Daniel\^WSU-Web-Dev\^Master-VPUE\Anatomy of an HTML5 Document_2016-03-16.jpg"
 Return
 
-;   --------------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------------------------------------
 ;   FILE SYSTEM NAVIGATION
-;   --------------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------------------------------------
 
 :*:@gotoTorah::
 	AppendAhkCmd(":*:@gotoTorah")
 	SendInput, C:\Users\CamilleandDaniel\Documents\Daniel\{^}Derek-Haqodesh\{Enter}
 Return
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 :*:@gotoCurrent::
 	AppendAhkCmd(":*:@gotoCurrent")
 	SendInput, C:\Users\CamilleandDaniel\Documents\Daniel\{^}Derek-Haqodesh\TheMessage.cc\Messages\Message_The-Man-from-Heaven_2015-12-06{Enter}
 Return
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@gotoGithub::
 	AppendAhkCmd(":*:@gotoGithub")
 	SendInput, C:\Users\CamilleandDaniel\Documents\GitHub{Enter}
 Return
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 :*:@gotoWebdev::
 	AppendAhkCmd(":*:@gotoWebdev")
 	SendInput, C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev{Enter}
 Return
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 :*:@gotoWdDsp::
     InsertFilePath(":*:@gotoGhDsp", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\DSP") 
 Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@gotoWdFye::
     InsertFilePath(":*:@gotoGhFye", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\FYE & FYF")
 Return
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 :*:@gotoWdFyf::
     InsertFilePath(":*:@gotoGhFyf", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\FYE & FYF")
 Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@gotoWdSurca::
     InsertFilePath(":*:@gotoGhSurca", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\SURCA")
 Return
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 :*:@gotoWdSumRes::
     InsertFilePath(":*:@gotoGhSumRes", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\Summer-Res")
 Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@gotoWdUcrAss::
     InsertFilePath(":*:@gotoGhUcrAss", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\UCORE-Assessment")
 Return
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 :*:@gotoWdUcore::
     InsertFilePath(":*:@gotoGhUcore", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\UCORE")
 Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@gotoWdUgr::
     InsertFilePath(":*:@gotoGhUgr", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\UGR")
 Return
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 :*:@gotoWdXfer::
     InsertFilePath(":*:@gotoGhXfer", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\xfer")
 Return
 
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@openNodeCodes::
 	AppendAhkCmd(":*:@openNodeCodes")
 	SendInput, C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev\{^}Master-VPUE\Node\node-commands.bat{Enter}
 Return
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 :*:@openGitCodes::
 	AppendAhkCmd(":*:@openGitCodes")
 	SendInput, C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev\GitHub\git-codes.bat{Enter}
 Return
 
-;   --------------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------------------------------------
 ;   AUTOHOTKEY SCRIPT WRITING SHORTCUTS
-;   --------------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------------------------------------
 
 :*:@insAhkCommentSection::
 	AppendAhkCmd(":*:@insAhkCommentSection")
@@ -546,9 +616,9 @@ Return
 	}
 Return
 
-;   --------------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------------------------------------
 ;   GOOGLE CHROME SHORTCUTS
-;   --------------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------------------------------------
 
 ^!o::
 	WinGet, thisProcess, ProcessName, A
@@ -563,6 +633,8 @@ Return
 	}
 Return
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 PerformBypassingCtrlAltO:
 	Suspend
 	Sleep, 10
@@ -571,15 +643,15 @@ PerformBypassingCtrlAltO:
 	Suspend, Off
 Return
 
-;   --------------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------------------------------------
 ;   NOTEPAD++ SHORTCUTS
-;   --------------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\htmlEditing.ahk
 
-;   --------------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------------------------------------
 ;   OTHER SHORTCUTS
-;   --------------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\github.ahk
 
@@ -592,8 +664,15 @@ Return
 	Send {SPACE 16}
 Return
 
-;   --------------------------------------------------------------------------------------------------------
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+^#!r::
+	Run *RunAs "%A_ScriptFullPath%" 
+	ExitApp
+Return
+
+; ------------------------------------------------------------------------------------------------------------
 ;   MAIN SUBROUTINE
-;   --------------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\desktopMain.ahk
