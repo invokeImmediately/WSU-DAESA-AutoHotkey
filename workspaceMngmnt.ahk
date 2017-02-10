@@ -9,11 +9,25 @@
 ; ------------------------------------------------------------------------------------------------------------
 ; DEPENDENCIES
 ; ------------------------------------------------------------------------------------------------------------
+
 #include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\desktopStartup.ahk
 
 ; ------------------------------------------------------------------------------------------------------------
-; FUNCTIONS
+; FUNCTIONS & SUBROUTINES
 ; ------------------------------------------------------------------------------------------------------------
+
+IsWindowOnLeftDualMonitor() {
+    WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
+    
+    if (thisWinX < -8) {
+        return true
+    }
+    else {
+        return false
+    }
+}
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 OpenChromeTab:
     WinGet, thisProcess, ProcessName, A
@@ -36,24 +50,13 @@ OpenChromeTab:
     }
 return
 
-IsWindowOnLeftDualMonitor() {
-    WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
-    
-    if (thisWinX < -8) {
-        return true
-    }
-    else {
-        return false
-    }
-}
-
 ; ------------------------------------------------------------------------------------------------------------
 ; HOTKEYS
 ; ------------------------------------------------------------------------------------------------------------
 
 ^F10::WinSet, Alwaysontop, Toggle, A
 
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!F1::
     SendInput #{Tab}
@@ -62,7 +65,7 @@ IsWindowOnLeftDualMonitor() {
 	SoundPlay, %desktopSwitchingSound%
 Return
 
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!F2::
     SendInput, #{Tab}
@@ -71,7 +74,7 @@ Return
 	SoundPlay, %desktopSwitchingSound%
 Return
 
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!F3::
     SendInput #{Tab}
@@ -80,7 +83,7 @@ Return
 	SoundPlay, %desktopSwitchingSound%
 Return
 
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!F4::
     SendInput #{Tab}
@@ -89,7 +92,7 @@ Return
 	SoundPlay, %desktopSwitchingSound%
 Return
 
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!F5::
     SendInput #{Tab}
@@ -98,7 +101,7 @@ Return
 	SoundPlay, %desktopSwitchingSound%
 Return
 
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!F6::
     SendInput #{Tab}
@@ -107,7 +110,7 @@ Return
 	SoundPlay, %desktopSwitchingSound%
 Return
 
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^F9::
 	SoundPlay, %windowSizingSound%
@@ -118,7 +121,7 @@ Return
     WinMove, A, , 200, 0, %M1Width%, %M1Height%
 Return
 
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^F8::
 	SoundPlay, %windowSizingSound%
@@ -129,7 +132,7 @@ Return
     WinMove, A, , 0, 0, %M1Width%, %M1Height%
 Return
 
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^F7::
 	SoundPlay, %windowSizingSound%
@@ -141,7 +144,7 @@ Return
     WinMove, A, , %M1X%, 0, %M1Width%, %M1Height%
 Return
 
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^F6::
 	SoundPlay, %windowSizingSound%
@@ -153,7 +156,7 @@ Return
     WinMove, A, , %M1X%, 0, %M1Width%, %M1Height%
 Return
 
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!#Left::
 	;Snap the active window to the left edge of its monitor; if already snapped, reduce its width
@@ -173,7 +176,7 @@ Return
 	}
 return
 
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!+#Left::
 	;Snap the active window to the left edge of its monitor; if already snapped, increase its width
@@ -193,7 +196,7 @@ return
 	}
 return
 
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!#Right::
 	;Snap the active window to the right edge of its monitor; if already snapped, reduce its width
@@ -217,7 +220,7 @@ return
 	}
 return
 
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!+#Right::
 	;Snap the active window to the right edge of its monitor; if already snapped, increase its width
@@ -242,7 +245,7 @@ return
 	}
 return
 
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!#Down::
 	;TODO: Refactor to rely on global variables that store monitor dimensions
@@ -285,7 +288,7 @@ return
     }
 return
 
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!#Numpad5::
 	;Snap the center of the active window to the center of its monitor
@@ -310,11 +313,11 @@ return
     }	
 return
 
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ;TODO: Add hotkeys for moving the window around on the desktop using the keyboard instead of dragging with mouse
 
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!1::
     if (IsWindowOnLeftDualMonitor()) {
@@ -334,7 +337,7 @@ return
 	SoundPlay, %windowShiftingSound%
 return
 
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!2::
     if (IsWindowOnLeftDualMonitor()) {
@@ -354,7 +357,7 @@ return
 	SoundPlay, %windowShiftingSound%
 return
 
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!3::
     if (IsWindowOnLeftDualMonitor()) {
@@ -374,7 +377,7 @@ return
 	SoundPlay, %windowShiftingSound%
 return
 
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!4::
     if (IsWindowOnLeftDualMonitor()) {
@@ -394,7 +397,7 @@ return
 	SoundPlay, %windowShiftingSound%
 return
 
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!5::
     if (IsWindowOnLeftDualMonitor()) {
@@ -414,7 +417,7 @@ return
 	SoundPlay, %windowShiftingSound%
 return
 
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!m::
     WinGetPos, thisX, thisY, thisW, thisH, A
@@ -423,25 +426,25 @@ return
 	SoundPlay, %windowMovementSound%
 Return
 
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ~^#Left::
 	SoundPlay, %desktopSwitchingSound%
 Return
 
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ~+#Left::
 	SoundPlay, %windowMovementSound%
 Return
 
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ~^#Right::
 	SoundPlay, %desktopSwitchingSound%
 Return
 
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ~+#Right::
 	SoundPlay, %windowMovementSound%
@@ -473,7 +476,7 @@ Return
 	WinActivate, % "ahk_id" . thisHwnd
 return
 
-;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ;TODO: Implement this for Skype muting regardless of what application is currently active.
 
@@ -514,12 +517,16 @@ DoChangeDelimiter(leftDelimiter, rightDelimeter) {
 	Click, 417, 335
 }
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 ^!+'::
     WinGet, thisProcess, ProcessName, A
     if (thisProcess = "notepad++.exe") {
 		DoChangeDelimiter("""", """")
 	}
 Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!+9::
     WinGet, thisProcess, ProcessName, A
@@ -528,6 +535,8 @@ Return
 	}
 Return
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 ^!+[::
     WinGet, thisProcess, ProcessName, A
     if (thisProcess = "notepad++.exe") {
@@ -535,12 +544,16 @@ Return
 	}
 Return
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 ^![::
     WinGet, thisProcess, ProcessName, A
     if (thisProcess = "notepad++.exe") {
 		DoChangeDelimiter("[", "]")
 	}
 Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 >^t::
     WinGet, thisProcess, ProcessName, A
