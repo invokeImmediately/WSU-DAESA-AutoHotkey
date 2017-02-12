@@ -161,6 +161,31 @@ WriteCodeToFile(hsCaller, srcCode, srcFileToOverwrite) {
 ; SORTING functions
 ; ------------------------------------------------------------------------------------------------------------
 
+InsertionSort(ByRef arrayObj, l, r) {
+	i := r
+	while (i > l) {
+		if (arrayObj[i] < arrayObj[i - 1]) {
+			objCopy := arrayObj[i]
+			arrayObj[i] := arrayObj[i - 1]
+			arrayObj[i - 1] := objCopy
+		}
+		i--
+	}
+	i := l + 2
+	while (i <= r) {
+		j := i
+		objItem := arrayObj[i]
+		while (objItem < arrayObj[j - 1]) {
+			arrayObj[j] := arrayObj[j - 1]
+			j--
+		}
+		arrayObj[j] := objItem
+		i++
+	}
+}
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 Merge(ByRef arrayObj, l, m, r) {
 	arrayAux := Object()
 	i := m + 1
@@ -188,10 +213,14 @@ Merge(ByRef arrayObj, l, m, r) {
 
 MergeSort(ByRef arrayObj, l, r) {
 	if (r > l) {
-		m := floor((r + l) / 2)
-		MergeSort(arrayObj, l, m)
-		MergeSort(arrayObj, m + 1, r)
-		Merge(arrayObj, l, m, r)
+		if (r - l <= 10) {
+			InsertionSort(arrayObj, l, r)
+		} else {
+			m := floor((r + l) / 2)
+			MergeSort(arrayObj, l, m)
+			MergeSort(arrayObj, m + 1, r)
+			Merge(arrayObj, l, m, r)
+		}
 	}
 }
 
