@@ -157,29 +157,33 @@ LoadWordPressSiteInChrome(websiteUrl) {
 	WinGet, thisProcess, ProcessName, A
 	if (thisProcess != "chrome.exe") {
 		WinActivate, % "ahk_exe chrome.exe"
+		WinGet, thisProcess, ProcessName, A
+	}
+	if (thisProcess = "chrome.exe") {
+		WinRestore, A
 		WinGetPos, thisX, thisY, thisW, thisH, A
 		if (thisX != -1830 or thisY != 0 or thisW != 1700 or thisH != 1040) {
 			WinMove, A, , -1830, 0, 1700, 1040
 		}
-	}
-	Sleep, 330
-	SendInput, ^t
-	Sleep, 1000
-	SendInput, !d
-	Sleep, 200
-	SendInput, % websiteUrl . "{Enter}"
-	Sleep, 5000
-	proceed := false
-	WinGetTitle, thisTitle, A
-	IfNotInString, thisTitle, % "New Tab"
-		proceed := true
-	while (!proceed) {
-		Sleep 1000
+		Sleep, 330
+		SendInput, ^t
+		Sleep, 1000
+		SendInput, !d
+		Sleep, 200
+		SendInput, % websiteUrl . "{Enter}"
+		Sleep, 5000
+		proceed := false
 		WinGetTitle, thisTitle, A
 		IfNotInString, thisTitle, % "New Tab"
 			proceed := true
+		while (!proceed) {
+			Sleep 1000
+			WinGetTitle, thisTitle, A
+			IfNotInString, thisTitle, % "New Tab"
+				proceed := true
+		}
+		Sleep, 2000
 	}
-	Sleep, 2000
 }
 
 ; ------------------------------------------------------------------------------------------------------------
@@ -545,6 +549,7 @@ Return
 			}
 			if (proceedWithPaste) {
 				; Add check for expected client coordinates; if not correct, then reset window position
+				WinRestore, A
 				WinGetPos, thisX, thisY, thisW, thisH, A
 				if (thisX != -1830 or thisY != 0 or thisW != 1700 or thisH != 1040) {
 					WinMove, A, , -1830, 0, 1700, 1040
