@@ -426,7 +426,7 @@ PasteMinJsToWebsite(websiteUrl, jsCopyCmd)
 }
 
 ; ------------------------------------------------------------------------------------------------------------
-; FILE SYSTEM NAVIGATION
+; FILE SYSTEM NAVIGATION Hotstrings
 ; ------------------------------------------------------------------------------------------------------------
 
 :*:@gotoGhCr::
@@ -508,6 +508,14 @@ Return
 :*:@gotoGhAhk::
 	InsertFilePath(":*:@gotoGhAhk", GetGitHubFolder() . "\WSU-OUE-AutoHotkey")
 Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:cdcss::cd wsu-ue---css
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:cdjs::cd wsu-ue---js
 
 ; ------------------------------------------------------------------------------------------------------------
 ; UTILITY HOTSTRINGS for working with GitHub Desktop
