@@ -47,6 +47,10 @@ return
     }
 return
 
+>^>+r::
+    Gosub % ":*:@doLastCmd"
+return
+
 :*:@doLastCmd::
     CheckForCmdEntryGui()
     if (ahkCmds.Length() > 0) {
