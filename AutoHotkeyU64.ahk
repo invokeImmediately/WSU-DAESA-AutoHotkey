@@ -477,63 +477,69 @@ Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-:*:@gotoWebdev::
-	AppendAhkCmd(":*:@gotoWebdev")
+:*:@gotoWebDev::
+	AppendAhkCmd(":*:@gotoWebDev")
 	SendInput, C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev{Enter}
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@gotoWdDsp::
-    InsertFilePath(":*:@gotoGhDsp", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\DSP") 
+    InsertFilePath(":*:@gotoWdDsp", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\DSP") 
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@gotoWdFye::
-    InsertFilePath(":*:@gotoGhFye", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\FYE & FYF")
+    InsertFilePath(":*:@gotoWdFye", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\FYE & FYF")
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@gotoWdFyf::
-    InsertFilePath(":*:@gotoGhFyf", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\FYE & FYF")
+    InsertFilePath(":*:@gotoWdFyf", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\FYE & FYF")
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@gotoWdPf::
+    InsertFilePath(":*:@gotoWdPf", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\{^}Personnel-File")
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@gotoWdSurca::
-    InsertFilePath(":*:@gotoGhSurca", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\SURCA")
+    InsertFilePath(":*:@gotoWdSurca", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\SURCA")
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@gotoWdSumRes::
-    InsertFilePath(":*:@gotoGhSumRes", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\Summer-Res")
+    InsertFilePath(":*:@gotoWdSumRes", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\Summer-Res")
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@gotoWdUcrAss::
-    InsertFilePath(":*:@gotoGhUcrAss", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\UCORE-Assessment")
+    InsertFilePath(":*:@gotoWdUcrAss", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\UCORE-Assessment")
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@gotoWdUcore::
-    InsertFilePath(":*:@gotoGhUcore", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\UCORE")
+    InsertFilePath(":*:@gotoWdUcore", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\UCORE")
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@gotoWdUgr::
-    InsertFilePath(":*:@gotoGhUgr", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\UGR")
+    InsertFilePath(":*:@gotoWdUgr", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\UGR")
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@gotoWdXfer::
-    InsertFilePath(":*:@gotoGhXfer", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\xfer")
+    InsertFilePath(":*:@gotoWdXfer", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\xfer")
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
@@ -670,6 +676,45 @@ Return
 	Run *RunAs "%A_ScriptFullPath%" 
 	ExitApp
 Return
+
+; ------------------------------------------------------------------------------------------------------------
+;   CUSTOM HOTSTRINGS
+; ------------------------------------------------------------------------------------------------------------
+
+:*:@copyFromExcel::
+	AppendAhkCmd(":*:@copyFromExcel")
+	CopyTitleFromExcel(1)
+Return
+
+CopyTitleFromExcel(cumulativeCount) {
+	if (cumulativeCount <= 10) {
+		Sleep, 200
+		SendInput, !{Tab}
+		Sleep, 200
+		SendInput, ^c
+		Sleep, 200
+		SendInput, {Down}
+		Sleep, 200
+		SendInput, !{Tab}
+		Sleep, 200
+		SendInput, !h
+		Sleep, 200
+		SendInput, v
+		Sleep, 100
+		SendInput, t
+		Sleep, 100
+		SendInput, ^h
+		Sleep, 100
+		SendInput, {Enter}
+		Sleep, 100
+		SendInput, {Esc}
+		Sleep, 100
+		SendInput, {Right}
+		Sleep, 300
+		cumulativeCount++
+		CopyTitleFromExcel(cumulativeCount)
+	}
+}
 
 ; ------------------------------------------------------------------------------------------------------------
 ;   MAIN SUBROUTINE
