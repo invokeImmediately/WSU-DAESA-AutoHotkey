@@ -98,6 +98,8 @@
 			SetTimer, PostWorkBreakMessage, %workTimeLeftOver%
 			latestTimerStartTime := A_Now
 			workTimerRunning := true
+			Sleep, 1000
+			SetTimer, ChimeMinuteBell, % (1000 * 60)
 		}
 		Else IfMsgBox No
 		{
@@ -113,6 +115,8 @@
 				SetTimer, PostWorkBreakMessage, %workTimerCountdownTime%
 				latestTimerStartTime := A_Now
 				workTimerRunning := true
+				Sleep, 1000
+				SetTimer, ChimeMinuteBell, % (1000 * 60)
 			}			
 		}
 	} else {
