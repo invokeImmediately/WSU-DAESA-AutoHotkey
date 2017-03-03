@@ -128,13 +128,34 @@
 			SetTimer, PostWorkBreakMessage, %workTimerCountdownTime%
 			latestTimerStartTime := A_Now
 			workTimerRunning := true
+			Sleep, 1000
+			SetTimer, ChimeMinuteBell, % (1000 * 60)
 		}
 	}
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
+ChimeMinuteBell() {
+	global workTimerMinutesound
+	global workTimer5MinuteSound
+	global workTimerMinuteCount
+	
+	workTimerMinuteCount++
+	if (workTimerMinuteCount >= 25) {
+		workTimerMinuteCount := 1
+	}
+	if (Mod(workTimerMinuteCount, 5) == 0) {
+		SoundPlay, %workTimer5Minutesound%
+	} else {
+		SoundPlay, %workTimerMinutesound%
+	}
+}
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 PostWorkBreakMessage:
+	SetTimer, ChimeMinuteBell, Off
 	timerEndTime := A_Now
 	timerTimeWorked := timerEndTime
 	EnvSub, timerTimeWorked, %timerStartTime%, seconds
