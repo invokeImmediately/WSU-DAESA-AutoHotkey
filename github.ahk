@@ -1861,7 +1861,9 @@ Return
 	Gosub, :*:@backupJsUcrAss
 	PasteTextIntoGitShell(hsName
 		, "[console]::beep(750,600)`r"
-		. "[console]::beep(375,300)`r")
+		. "[console]::beep(375,150)`r"
+		. "[console]::beep(375,150)`r"
+		. "[console]::beep(375,150)`r")
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
@@ -2104,6 +2106,8 @@ Return
 	Gosub, :*:@rebuildJsCr
 Return
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 :*:@updateJsSubmoduleDsp::
 	ahkCmdName := ":*:@updateJsSubmoduleDsp"
 	AppendAhkCmd(ahkCmdName)
@@ -2118,6 +2122,8 @@ Return
 		. "git push`r")
 	Gosub, :*:@rebuildJsDsp
 Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@updateJsSubmoduleFye::
 	ahkCmdName := ":*:@updateJsSubmoduleFye"
@@ -2134,6 +2140,8 @@ Return
 	Gosub, :*:@rebuildJsFye
 Return
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 :*:@updateJsSubmoduleFyf::
 	ahkCmdName := ":*:@updateJsSubmoduleFyf"
 	AppendAhkCmd(ahkCmdName)
@@ -2149,6 +2157,8 @@ Return
 	Gosub, :*:@rebuildJsFyf
 Return
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 :*:@updateJsSubmodulePbk::
 	ahkCmdName := ":*:@updateJsSubmodulePbk"
 	AppendAhkCmd(ahkCmdName)
@@ -2162,6 +2172,8 @@ Return
 		. "git push`r")
 	Gosub, :*:@rebuildJsPbk
 Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@updateJsSubmoduleSurca::
 	ahkCmdName := ":*:@updateJsSubmoduleSurca"
@@ -2177,6 +2189,8 @@ Return
 	Gosub, :*:@rebuildJsSurca
 Return
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 :*:@updateJsSubmoduleSumRes::
 	ahkCmdName := ":*:@updateJsSubmoduleSumRes"
 	AppendAhkCmd(ahkCmdName)
@@ -2190,6 +2204,8 @@ Return
 		. "git push`r")
 	Gosub, :*:@rebuildJsSumRes
 Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@updateJsSubmoduleXfer::
 	ahkCmdName := ":*:@updateJsSubmoduleXfer"
@@ -2205,6 +2221,8 @@ Return
 	Gosub, :*:@rebuildJsXfer
 Return
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 :*:@updateJsSubmoduleUgr::
 	ahkCmdName := ":*:@updateJsSubmoduleUgr"
 	AppendAhkCmd(ahkCmdName)
@@ -2219,6 +2237,8 @@ Return
 	Gosub, :*:@rebuildJsUgr
 Return
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 :*:@updateJsSubmoduleUcore::
 	ahkCmdName := ":*:@updateJsSubmoduleUcore"
 	AppendAhkCmd(ahkCmdName)
@@ -2232,6 +2252,8 @@ Return
 		. "git push`r")
 	Gosub, :*:@rebuildJsUcore
 Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@updateJsSubmoduleUcrAss::
 	ahkCmdName := ":*:@updateJsSubmoduleUcrAss"
@@ -2261,6 +2283,11 @@ Return
 	Gosub, :*:@updateJsSubmoduleUgr
 	Gosub, :*:@updateJsSubmoduleUcore
 	Gosub, :*:@updateJsSubmoduleUcrAss
+	PasteTextIntoGitShell(ahkCmdName
+		, "[console]::beep(750,600)`r"
+		. "[console]::beep(375,150)`r"
+		. "[console]::beep(375,150)`r"
+		. "[console]::beep(375,150)`r")
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
