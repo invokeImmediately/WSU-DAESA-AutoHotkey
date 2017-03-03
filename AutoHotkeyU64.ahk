@@ -18,7 +18,7 @@
 ; >>> GLOBAL VARIABLES DEFINED THROUGH SYSGET  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 global SM_CMONITORS := 80		;Constant needed for retreiving the number of display monitors on the desktop via SysGet(...)
 global SM_CXSIZEFRAME := 32			;SysGet(...) constant needed for retreiving the default window border width
-GLOBAL SM_CYSIZEFRAME := 33			;SysGet(...) constant needed for retreiving the default window border height
+global SM_CYSIZEFRAME := 33			;SysGet(...) constant needed for retreiving the default window border height
 global sysNumMonitors			;Number of display monitors on this system
 global sysWinBorderW			;Default border width
 global sysWinBorderH			;Default border height
@@ -27,7 +27,7 @@ global sysWinBorderH			;Default border height
 ; >>> OTHER GLOBAL VARIABLES -  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 global userAccountFolder := "C:\Users\CamilleandDaniel"
 global logFileName := userAccountFolder . "\Documents\Daniel\^WSU-Web-Dev\^Personnel-File\Work-log.txt"
-global workTimerCountdownTime := -1200000
+global workTimerCountdownTime := -1500000
 global workTimeLeftOver := 0
 global workTimerNotificationSound := userAccountFolder . "\Documents\Daniel\Sound Library\foghorn.wav"
 global windowMovementSound := userAccountFolder . "\Documents\Daniel\Sound Library\323413__sethroph__glass-slide-3_-12.5db_faster.wav"
@@ -43,6 +43,7 @@ global hotstrStartTime := 0
 global hotstrEndTime := 0
 global savedMouseX := 0
 global savedMouseY := 0
+global lineLength := 110
 
 Gosub, MainSubroutine
 
@@ -72,204 +73,6 @@ If not A_IsAdmin
 ; ------------------------------------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\workspaceMngmnt.ahk
-
-; ------------------------------------------------------------------------------------------------------------
-;   WORK TIMER scripts for tracking hours and indicating when breaks should be taken
-; ------------------------------------------------------------------------------------------------------------
-
-:*:@setupWorkTimer::
-	AppendAhkCmd(":*:@setupWorkTimer")
-	
-	logFile := FileOpen(logFileName, "r `n")
-	lineCount := 0
-	logFileLines := Object()
-	Loop
-	{
-		logFileLines[lineCount] := logFile.ReadLine()
-		if (logFileLines[lineCount] = "") {
-			break
-		}
-		lineCount := lineCount + 1
-	}
-	logFile.Close()
-	FormatTime, todaysDate, A_Now, yyyy-MM-dd
-	lineIndex := lineCount - 1
-	dateFoundInFile := false
-	Loop
-	{
-		if (lineIndex < 0) {
-			break
-		}
-		dateOfLine := SubStr(logFileLines[lineIndex], 1, 10)
-		if (dateOfLine = todaysDate) {
-			dateFoundInFile := true
-			break
-		} else if (dateOfLine < todaysDate) {
-			break
-		}
-		lineIndex := lineIndex - 1
-	}
-	if (dateFoundInFile) {
-		MsgBox % 3, % "Continue Tracking Time?", % "It looks like work time was already logged for today. Would you like to restart the timer, counting the intervening time as a break?"
-		IfMsgBox Yes
-		{
-			; Find the end time, use that for break time.
-			lineSubIndex := lineIndex
-			Loop
-			{
-				if (lineSubIndex < 0) {
-					break
-				}
-				lineSubStr := SubStr(logFileLines[lineSubIndex], 13, 20)
-				if (lineSubStr = "Ended work timer at ") {
-					timerEndTime := A_YYYY . A_MM . A_DD . SubStr(logFileLines[lineSubIndex], 33, 2) . SubStr(logFileLines[lineSubIndex], 36, 2) . SubStr(logFileLines[lineSubIndex], 39, 2)
-					timerTimeWorked := SubStr(logFileLines[lineSubIndex], 73, 8) * 3600
-					break
-				} else if (dateOfLine < todaysDate) {
-					break
-				}
-				lineSubIndex := lineSubIndex - 1
-			}
-			
-			; Find the start time, continuing from before.
-			Loop
-			{
-				if (lineSubIndex < 0) {
-					break
-				}
-				lineSubStr := SubStr(logFileLines[lineSubIndex], 13, 22)
-				if (lineSubStr = "Started work timer at ") {
-					timerStartTime := A_YYYY . A_MM . A_DD . SubStr(logFileLines[lineSubIndex], 35, 2) . SubStr(logFileLines[lineSubIndex], 38, 2) . SubStr(logFileLines[lineSubIndex], 41, 2)
-					break
-				} else if (dateOfLine < todaysDate) {
-					break
-				}
-				lineSubIndex := lineSubIndex - 1
-			}
-			
-			; Back-calculate the total break time, and proceed with the timer.
-			timeElapsed := timerEndTime
-			EnvSub, timeElapsed, %timerStartTime%, seconds
-			timerTotalBreakTime := timeElapsed - timerTimeWorked
-			timerBreakTime := A_Now
-			EnvSub, timerBreakTime, %timerEndTime%, seconds
-			EnvAdd, timerTotalBreakTime, %timerBreakTime%
-			logFile := FileOpen(logFileName, "a `n")
-			logFile.WriteLine(A_YYYY . "-" . A_MM . "-" . A_DD . ": Restarted work timer at " . A_Hour . ":" . A_Min . ":" . A_Sec )
-			logFile.Close()
-			workTimeLeftOver := workTimerCountdownTime + Mod(timerTimeWorked * 1000, -1 * workTimerCountdownTime)
-			SetTimer, PostWorkBreakMessage, %workTimeLeftOver%
-			latestTimerStartTime := A_Now
-			workTimerRunning := true
-		}
-		Else IfMsgBox No
-		{
-			MsgBox, 1, Starting New Work Timer, A new work timer will be set to run for 20 minutes to indicate when you should next take a break.
-			IfMsgBox OK
-			{
-				logFile := FileOpen(logFileName, "a `n")
-				timerStartTime := A_Now
-				timerTotalBreakTime := 0
-				logFile.WriteLine(A_YYYY . "-" . A_MM . "-" . A_DD . ": Started work timer at " . A_Hour . ":" . A_Min . ":" . A_Sec )
-				logFile.Close()
-				SetTimer, PostWorkBreakMessage, %workTimerCountdownTime%
-				latestTimerStartTime := A_Now
-				workTimerRunning := true
-			}			
-		}
-	} else {
-		MsgBox, 1, Starting Work Timer, A work timer will be set to run for 20 minutes to indicate when you should next take a break.
-		IfMsgBox OK
-		{
-			logFile := FileOpen(logFileName, "a `n")
-			timerStartTime := A_Now
-			timerTotalBreakTime := 0
-			logFile.WriteLine(A_YYYY . "-" . A_MM . "-" . A_DD . ": Started work timer at " . A_Hour . ":" . A_Min . ":" . A_Sec )
-			logFile.Close()
-			SetTimer, PostWorkBreakMessage, %workTimerCountdownTime%
-			latestTimerStartTime := A_Now
-			workTimerRunning := true
-		}
-	}
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-PostWorkBreakMessage:
-	timerEndTime := A_Now
-	timerTimeWorked := timerEndTime
-	EnvSub, timerTimeWorked, %timerStartTime%, seconds
-	timerTimeWorked := timerTimeWorked / 3600 - timerTotalBreakTime / 3600    
-	SoundPlay, %workTimerNotificationSound%
-	MsgBox, 4, Work Break Timer, % "You have spent the last 20 minutes working; it's time to take a break.`nTime worked so far: " . timerTimeWorked  . " hours.`nWould you like to start another 20 minute timer?"
-	logFile := FileOpen(logFileName, "a `n")
-	IfMsgBox Yes
-	{
-		timerBreakTime := A_Now
-		EnvSub, timerBreakTime, %timerEndTime%, seconds
-		EnvAdd, timerTotalBreakTime, %timerBreakTime%
-		FormatTime, timerEndTimeHMS, timerEndTime, HH:mm:ss
-		logFile.WriteLine(A_YYYY . "-" . A_MM . "-" . A_DD . ": Ended break at " . timerEndTimeHMS . " for " . (timerBreakTime / 60) . " minutes. Cumulative time worked today: " . timerTimeWorked . " hours")
-		FormatTime, timerRestartHMS, , HH:mm:ss
-		logFile.WriteLine(A_YYYY . "-" . A_MM . "-" . A_DD . ": Restarted work timer at " . timerRestartHMS )
-		logFile.Close()
-		SetTimer, PostWorkBreakMessage, %workTimerCountdownTime%
-		latestTimerStartTime := A_Now
-		workTimerRunning := true
-	}
-	Else {
-		timerBreakTime := timerTimeWorked
-		EnvSub, timerBreakTime, %timerEndTime%, seconds
-		EnvAdd, timerTotalBreakTime, %timerBreakTime%
-		FormatTime, timerEndTimeHMS, timerEndTime, HH:mm:ss
-		logFile.WriteLine(A_YYYY . "-" . A_MM . "-" . A_DD . ": Ended work timer at " . timerEndTimeHMS . ". Cumulative time worked today: " . timerTimeWorked . " hours")
-		logFile.Close()    
-		workTimerRunning := false
-	}
-	workTimeLeftOver := 0
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@stopWorkTimer::
-	AppendAhkCmd(":*:@stopWorkTimer")
-	if (workTimerRunning) {
-		MsgBox % 3, % "Stop work timer?", % "Would you like to stop your 20 minute work timer prematurely?"
-		IfMsgBox Yes
-		{
-			logFile := FileOpen(logFileName, "a `n")
-			timerTimeWorked := A_Now
-			EnvSub, timerTimeWorked, %timerStartTime%, seconds
-			timerTimeWorked := timerTimeWorked / 3600 - timerTotalBreakTime / 3600
-			FormatTime, timerEndTimeHMS, timerEndTime, HH:mm:ss
-			logFile.WriteLine(A_YYYY . "-" . A_MM . "-" . A_DD . ": Ended work timer at " . timerEndTimeHMS . ". Cumulative time worked today: " . timerTimeWorked . " hours")
-			logFile.Close()    
-			SetTimer, PostWorkBreakMessage, Delete
-			workTimerRunning := false
-		}
-	} else {
-		MsgBox % 1, % "Stop work timer?", % "No work timer is currently running."
-	}
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@checkWorkTimer::
-	AppendAhkCmd(":*:@checkWorkTimer")
-	if (workTimerRunning) {
-		timerTimeLeft := A_Now
-		EnvSub, timerTimeLeft, %latestTimerStartTime%, seconds
-		if (workTimeLeftOver != 0) {
-			timerTimeLeft := (-1 * workTimeLeftOver / 1000 - timerTimeLeft) / 60
-		}
-		else {
-			timerTimeLeft := (-1 * workTimerCountdownTime / 1000 - timerTimeLeft) / 60
-		}
-		MsgBox % 1, % "Check Work Timer", % "There are " . timerTimeLeft . " minutes left on the work timer."
-	}
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@toggleOverlayMode::
 	AppendAhkCmd(":*:@toggleOverlayMode")
@@ -308,6 +111,12 @@ Return
 		WinSet, AlwaysOnTop, on, ahk_id %currentWindowID%
 	}
 Return
+
+; ------------------------------------------------------------------------------------------------------------
+;   WORK TIMER scripts for tracking hours and indicating when breaks should be taken
+; ------------------------------------------------------------------------------------------------------------
+
+#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\workTimer.ahk
 
 ; ------------------------------------------------------------------------------------------------------------
 ;   TEXT REPLACEMENT
