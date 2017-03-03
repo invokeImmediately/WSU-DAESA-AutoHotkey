@@ -159,7 +159,8 @@ ChimeMinuteBell() {
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 PostWorkBreakMessage:
-	SetTimer, ChimeMinuteBell, Off
+	SetTimer, ChimeMinuteBell, Delete
+	workTimerMinuteCount := 0
 	timerEndTime := A_Now
 	timerTimeWorked := timerEndTime
 	EnvSub, timerTimeWorked, %timerStartTime%, seconds
@@ -204,6 +205,8 @@ Return
 		MsgBox % 3, % "Stop work timer?", % "Would you like to stop your " . (-1 * workTimerCountdownTime / 1000 / 60) . " minute work timer prematurely?"
 		IfMsgBox Yes
 		{
+			SetTimer, ChimeMinuteBell, Delete
+			workTimerMinuteCount := 0
 			logFile := FileOpen(logFileName, "a `n")
 			timerTimeWorked := A_Now
 			EnvSub, timerTimeWorked, %timerStartTime%, seconds
