@@ -1556,13 +1556,25 @@ Return
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-; >>> FOR COPYING MINIFIED CSS TO CLIPBOARD -  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; >>> FOR COPYING MINIFIED, BACKUP CSS FILES TO CLIPBOARD --  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@copyMinCssCr::
 	ahkCmdName := ":*:@copyMinCssCr"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\commonreading.wsu.edu\CSS\cr-custom.min.css"
+		, "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
+		. "keImmediately/commonreading.wsu.edu] for a repository of source code. */`r`n"
+		, "Couldn't copy minified CSS for Common Reading website.")
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@copyBackupCssCr::
+	ahkCmdName := ":*:@copyBackupCssCr"
+	AppendAhkCmd(ahkCmdName)
+	CopySrcFileToClipboard(ahkCmdName
+		, GetGitHubFolder() . "\commonreading.wsu.edu\CSS\cr-custom.min.prev.css"
 		, "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
 		. "keImmediately/commonreading.wsu.edu] for a repository of source code. */`r`n"
 		, "Couldn't copy minified CSS for Common Reading website.")
@@ -1582,11 +1594,35 @@ Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
+:*:@copyBackupCssDsp::
+	ahkCmdName := ":*:@copyBackupCssDsp"
+	AppendAhkCmd(ahkCmdName)
+	CopySrcFileToClipboard(ahkCmdName
+		, GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\CSS\dsp-custom.prev.css"
+		, "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
+		. "keImmediately/distinguishedscholarships.wsu.edu] for a repository of source code. */`r`n"
+		, "Couldn't copy minified CSS for DSP Website.")
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 :*:@copyMinCssFye::
 	ahkCmdName := ":*:@copyMinCssFye"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\firstyear.wsu.edu\CSS\fye-custom.min.css"
+		, "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
+		. "keImmediately/firstyear.wsu.edu] for a repository of source code. */`r`n"
+		, "Couldn't copy minified CSS for FYE website.")
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@copyBackupCssFye::
+	ahkCmdName := ":*:@copyBackupCssFye"
+	AppendAhkCmd(ahkCmdName)
+	CopySrcFileToClipboard(ahkCmdName
+		, GetGitHubFolder() . "\firstyear.wsu.edu\CSS\fye-custom.prev.css"
 		, "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
 		. "keImmediately/firstyear.wsu.edu] for a repository of source code. */`r`n"
 		, "Couldn't copy minified CSS for FYE website.")
@@ -1606,11 +1642,35 @@ Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
+:*:@copyBackupCssFyf::
+	ahkCmdName := ":*:@copyBackupCssFyf"
+	AppendAhkCmd(ahkCmdName)
+	CopySrcFileToClipboard(ahkCmdName
+		, GetGitHubFolder() . "\learningcommunities.wsu.edu\CSS\learningcommunities-custom.prev.css"
+		, "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
+		. "keImmediately/learningcommunities.wsu.edu] for a repository of source code. */`r`n"
+		, "Couldn't copy minified CSS for First-Year Focus website.")
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 :*:@copyMinCssPbk::
 	ahkCmdName := ":*:@copyMinCssPbk"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\phibetakappa.wsu.edu\CSS\pbk-custom.min.css"
+		, "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
+		. "keImmediately/phibetakappa.wsu.edu] for a repository of source code. */`r`n"
+		, "Couldn't copy minified CSS for Phi Beta Kappa website.")
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@copyBackupCssPbk::
+	ahkCmdName := ":*:@copyBackupCssPbk"
+	AppendAhkCmd(ahkCmdName)
+	CopySrcFileToClipboard(ahkCmdName
+		, GetGitHubFolder() . "\phibetakappa.wsu.edu\CSS\pbk-custom.prev.css"
 		, "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
 		. "keImmediately/phibetakappa.wsu.edu] for a repository of source code. */`r`n"
 		, "Couldn't copy minified CSS for Phi Beta Kappa website.")
@@ -1630,11 +1690,35 @@ Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
+:*:@copyBackupCssSurca::
+	ahkCmdName := ":*:@copyBackupCssSurca"
+	AppendAhkCmd(ahkCmdName)
+	CopySrcFileToClipboard(ahkCmdName
+		, GetGitHubFolder() . "\surca.wsu.edu\CSS\surca-custom.prev.css"
+		, "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
+		. "keImmediately/surca.wsu.edu] for a repository of source code. */`r`n"
+		, "Couldn't copy minified CSS for SURCA website.")
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 :*:@copyMinCssSumRes::
 	ahkCmdName := ":*:@copyMinCssSumRes"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\summerresearch.wsu.edu\CSS\summerresearch-custom.min.css"
+		, "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
+		. "keImmediately/summerresearch.wsu.edu] for a repository of source code. */`r`n"
+		, "Couldn't copy minified CSS for Summer Research website.")
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@copyBackupCssSumRes::
+	ahkCmdName := ":*:@copyBackupCssSumRes"
+	AppendAhkCmd(ahkCmdName)
+	CopySrcFileToClipboard(ahkCmdName
+		, GetGitHubFolder() . "\summerresearch.wsu.edu\CSS\summerresearch-custom.prev.css"
 		, "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
 		. "keImmediately/summerresearch.wsu.edu] for a repository of source code. */`r`n"
 		, "Couldn't copy minified CSS for Summer Research website.")
@@ -1654,11 +1738,35 @@ Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
+:*:@copyBackupCssXfer::
+	ahkCmdName := ":*:@copyBackupCssXfer"
+	AppendAhkCmd(ahkCmdName)
+	CopySrcFileToClipboard(ahkCmdName
+		, GetGitHubFolder() . "\transfercredit.wsu.edu\CSS\xfercredit-custom.prev.css"
+		, "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
+		. "keImmediately/transfercredit.wsu.edu] for a repository of source code. */`r`n"
+		, "Couldn't copy minified CSS for Transfer Credit website.")
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 :*:@copyMinCssUgr::
 	ahkCmdName := ":*:@copyMinCssUgr"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\undergraduateresearch.wsu.edu\CSS\undergraduate-research-custom.min.css"
+		, "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
+		. "keImmediately/undergraduateresearch.wsu.edu] for a repository of source code. */`r`n"
+		, "Couldn't copy minified CSS for UGR website.")
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@copyBackupCssUgr::
+	ahkCmdName := ":*:@copyBackupCssUgr"
+	AppendAhkCmd(ahkCmdName)
+	CopySrcFileToClipboard(ahkCmdName
+		, GetGitHubFolder() . "\undergraduateresearch.wsu.edu\CSS\undergraduate-research-custom.prev.css"
 		, "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
 		. "keImmediately/undergraduateresearch.wsu.edu] for a repository of source code. */`r`n"
 		, "Couldn't copy minified CSS for UGR website.")
@@ -1678,8 +1786,32 @@ Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
+:*:@copyBackupCssUcore::
+	ahkCmdName := ":*:@copyBackupCssUcore"
+	AppendAhkCmd(ahkCmdName)
+	CopySrcFileToClipboard(ahkCmdName
+		, GetGitHubFolder() . "\ucore.wsu.edu\CSS\ucore-custom.prev.css"
+		, "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
+		. "keImmediately/ucore.wsu.edu] for a repository of source code. */`r`n"
+		, "Couldn't copy minified CSS for UCORE website.")
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 :*:@copyMinCssUcrAss::
 	ahkCmdName := ":*:@copyMinCssUcrAss"
+	AppendAhkCmd(ahkCmdName)
+	CopySrcFileToClipboard(ahkCmdName
+		, GetGitHubFolder() . "\ucore.wsu.edu-assessment\CSS\ucore-assessment-custom.min.css"
+		, "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
+		. "keImmediately/ucore.wsu.edu-assessment] for a repository of source code. */`r`n"
+		, "Couldn't copy minified CSS for UCORE Assessment website.")
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@copyBackupCssUcrAss::
+	ahkCmdName := ":*:@copyBackupCssUcrAss"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\ucore.wsu.edu-assessment\CSS\ucore-assessment-custom.min.css"
