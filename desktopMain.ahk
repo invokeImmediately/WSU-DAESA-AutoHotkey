@@ -82,6 +82,8 @@ SetWinBorders() {
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ListAhkFiles() {
+	global hsListPiped
+	global hsCount
 	FileList := Object()
 	
 	;Get list of file paths to AHK files
@@ -109,19 +111,24 @@ ListAhkFiles() {
 			}
 		}
 	}
-	;MsgBox, % allHotStrings.Length() . " hotstrings found."
+	hsCount := allHotStrings.Length()
 	
-	MergeSort(allHotStrings, 1, allHotStrings.Length())
-	hsList := allHotStrings.RemoveAt(1)
-	while (allHotstrings.Length() > 0) {
-		hsList .= "`n" . allHotStrings.RemoveAt(1)
-	}
-	
-	hsFile := GetGitHubFolder() . "\WSU-OUE-AutoHotkey\hotstrings.txt"
-	fileObj := FileOpen(hsFile, "w")
-	if (fileObj != 0) {
-		fileObj.Write(hsList)
-		fileObj.Close()
+	if (hsCount > 0) {
+		MergeSort(allHotStrings, 1, allHotStrings.Length())
+		nextHotStr := allHotStrings.RemoveAt(1)
+		hsList := SubStr(nextHotStr, 2, StrLen(nextHotStr) - 1)
+		while (allHotstrings.Length() > 0) {
+			nextHotStr := allHotStrings.RemoveAt(1)
+			hsList .= "`n" . SubStr(nextHotStr, 2, StrLen(nextHotStr) - 1)
+		}
+		hsListPiped := StrReplace(hsList, "`n", "|")
+		
+		hsFile := GetGitHubFolder() . "\WSU-OUE-AutoHotkey\hotstrings.txt"
+		fileObj := FileOpen(hsFile, "w")
+		if (fileObj != 0) {
+			fileObj.Write(hsList)
+			fileObj.Close()
+		}
 	}
 	
 	;TODO: Build a trie object for use with an autocomplete function.
