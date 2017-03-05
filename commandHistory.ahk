@@ -1,6 +1,8 @@
 global sgCmdBeingEntered := false
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ============================================================================================================
+; FUNCTIONS
+; ============================================================================================================
 
 AppendAhkCmd(whatCmd) {
     CheckForCmdEntryGui()
@@ -21,49 +23,20 @@ AppendAhkCmd(whatCmd) {
 
 CheckForCmdEntryGui() {
     if (sgCmdBeingEntered) {
-        Gosub HandleEnterCmdCancel
+        HandleEnterCmdCancel()
     }
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-HandleEnterCmdCancel:
-    sgCmdBeingEntered := false
-    Gui, AhkGuiEnterCmd:Destroy
-return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-HandleCmdRptOK:
-    Gui, Submit
-    Gui, Destroy ;Doing this now implicitly allows us to return to the previously active window.
-    if (CmdChosen > 0 && CmdChosen <= ahkCmds.Length()) {
-        if IsLabel(ahkCmds[ahkCmds.Length()]) {
-            GoSub % ahkCmds[ahkCmds.Length() - CmdChosen + 1] ;Run hotstring on window that was active when ":*:@rptCmd" was triggered.
-        }
-    }
-return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-HandleCmdRptCancel:
-    Gui, Destroy ;Doing this now implicitly allows us to return to the previously active window.
-return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ============================================================================================================
+; HOTSTRINGS
+; ============================================================================================================
 
 :*:@clearCmdHistory::
     CheckForCmdEntryGui()
     while ahkCmds.Length() > 0 {
         ahkCmds.Pop()
     }
-return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
->^>+r::
-    Gosub % ":*:@doLastCmd"
-return
+Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
@@ -74,13 +47,14 @@ return
             GoSub % ahkCmds[ahkCmds.Length()]
         }
     }
-return
+Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-^!r::
-    Gosub % ":*:@rptCmd"
-return
+:*:@findAhkCmd::
+	AppendAhkCmd(":*:@findAhkCmd")
+	CreateFindCmdGUI()
+Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
@@ -104,17 +78,17 @@ return
             }
             index := index + 1
         }
-        Gui, New,, % "AutoHotkey Command History"
-        Gui, Add, Text,, % "Choose a command from the history:"
-        Gui, Add, ListBox, AltSubmit vCmdChosen H500 W250, % cmdList
-        Gui, Add, Button, Default gHandleCmdRptOK, &OK
-		Gui, Add, Button, gHandleCmdRptCancel X+5, &Cancel
-        Gui, Show
+        Gui, AhkGuiRptCmd:New,, % "AutoHotkey Command History"
+        Gui, AhkGuiRptCmd:Add, Text,, % "Choose a command from the history:"
+        Gui, AhkGuiRptCmd:Add, ListBox, AltSubmit vCmdChosen H500 W250, % cmdList
+        Gui, AhkGuiRptCmd:Add, Button, Default gHandleCmdRptOK, &OK
+		Gui, AhkGuiRptCmd:Add, Button, gHandleCmdRptCancel X+5, &Cancel
+        Gui, AhkGuiRptCmd:Show
     }
     else {
         MsgBox % "The command history is currently empty; there are no commands to repeat."
     }
-return
+Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
@@ -126,7 +100,21 @@ return
     else {
         MsgBox % "The command history is currently empty."
     }
-return
+Return
+
+; ============================================================================================================
+; HOTKEYS
+; ============================================================================================================
+
+>^>+r::
+    Gosub % ":*:@doLastCmd"
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+^!r::
+    Gosub % ":*:@rptCmd"
+Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
@@ -137,4 +125,86 @@ return
     Gui, AhkGuiEnterCmd:Add, Edit, r1 w500 vCmdEntryBox
     Gui, AhkGuiEnterCmd:Add, Button, Default gHandleEnterCmdCancel, &Cancel
     Gui, AhkGuiEnterCmd:Show
-return
+Return
+
+; ============================================================================================================
+; Functions/Labels associated with GUIs
+; ============================================================================================================
+
+;   --------------------------------------------------------------------------------------------------------
+;   GUI: AhkGuiEnterCmd
+;   --------------------------------------------------------------------------------------------------------
+
+HandleEnterCmdCancel() {
+    sgCmdBeingEntered := false
+    Gui, AhkGuiEnterCmd:Destroy
+}
+
+;   --------------------------------------------------------------------------------------------------------
+;   GUI: AhkGuiEnterCmd
+;   --------------------------------------------------------------------------------------------------------
+
+CreateFindCmdGUI() {
+	global hsListPiped
+	global hsCount
+	global FindCmdListBox
+	
+	if (hsListPiped != undefined && hsCount > 0) {
+		Gui, AhkGuiFindCmd:New,, % "AutoHotkey Hotstring Lookup Utility"
+		Gui, AhkGuiFindCmd:Add, Text,, % "Select a command from the list of " . hsCount .  " currently available hotstrings below."
+		Gui, AhkGuiFindCmd:Add, ListBox, w400 h550 vFindCmdListBox, %hsListPiped%
+		Gui, AhkGuiFindCmd:Add, Button, Default gHandleFindCmdOk, &Ok
+		Gui, AhkGuiFindCmd:Add, Button, gHandleFindCmdCancel X+5, &Cancel
+		Gui, AhkGuiFindCmd:Show
+	} else {
+		MsgBox, % 0x10, % "Error in commandHistory.ahk: CreateFindCmdGUI"
+			, % "Could not create the find command GUI because the list of available AHK hotstrings was undefined."
+	}
+}
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+HandleFindCmdOk() {
+	global FindCmdListBox
+	Gui, AhkGuiFindCmd:Submit, NoHide
+	if (FindCmdListBox != "") {
+		Gui, AhkGuiFindCmd:Destroy
+		cmdSelected := ":*:@" . FindCmdListBox
+		if (IsLabel(cmdSelected)) {
+			Gosub, %cmdSelected%
+		} else {
+			MsgBox, % 0x10, "Error in commandHistory.ahk: HandleFindCmdOk()"
+				, "Could not find the selected hotstring: " . cmdSelected
+		}
+	} else {
+		MsgBox, % "Please select a command from the list before proceeding."
+	}
+}
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+HandleFindCmdCancel() {
+    Gui, AhkGuiFindCmd:Destroy
+}
+;   --------------------------------------------------------------------------------------------------------
+;   GUI: AhkGuiRptCmd
+;   --------------------------------------------------------------------------------------------------------
+
+HandleCmdRptOK() {
+    Gui, AhkGuiRptCmd:Submit
+    Gui, AhkGuiRptCmd:Destroy ;Doing this now implicitly allows us to return to the previously active window.
+    if (CmdChosen > 0 && CmdChosen <= ahkCmds.Length()) {
+        if IsLabel(ahkCmds[ahkCmds.Length()]) {
+            GoSub % ahkCmds[ahkCmds.Length() - CmdChosen + 1] ;Run hotstring on window that was active when ":*:@rptCmd" was triggered.
+        }
+    }
+}
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+HandleCmdRptCancel() {
+    Gui, AhkGuiRptCmd:Destroy ;Doing this now implicitly allows us to return to the previously active window.
+}
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
