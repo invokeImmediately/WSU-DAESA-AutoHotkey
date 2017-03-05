@@ -2425,6 +2425,7 @@ Return
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 ; >>> FOR COPYING MINIFIED CSS TO CLIPBOARD -  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
+;TODO: Add scripts for copying JS backups to clipboard (see CSS backup-copying scripts above)
 :*:@copyMinJsCr::
 	ahkCmdName := ":*:@copyMinJsCr"
 	AppendAhkCmd(ahkCmdName)
