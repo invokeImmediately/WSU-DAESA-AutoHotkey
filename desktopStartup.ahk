@@ -16,6 +16,8 @@ SetupVirtualDesktop1:
 	Gosub, :*:@startChrome
 Return
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 SetupVirtualDesktop2:
 	SendInput, #{Tab}
 	Sleep, 330
@@ -26,6 +28,8 @@ SetupVirtualDesktop2:
 	Gosub, :*:@startGithubClients
 	Gosub, :*:@arrangeGitHub
 Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 SetupVirtualDesktop3:
 	SendInput, #{Tab}
@@ -41,6 +45,8 @@ SetupVirtualDesktop3:
 	Sleep, 1000
 Return
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 SetupVirtualDesktop4:
 	SendInput, #{Tab}
 	Sleep, 330
@@ -55,6 +61,8 @@ SetupVirtualDesktop4:
 	Sleep, 1000
 	Gosub :*:@arrangeEmail
 Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 SetupVirtualDesktop5:
 	; TODO: Arrange window dimensions and placements

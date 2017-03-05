@@ -1,5 +1,7 @@
 global sgCmdBeingEntered := false
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 AppendAhkCmd(whatCmd) {
     CheckForCmdEntryGui()
 	if (whatCmd != "") {
@@ -15,16 +17,22 @@ AppendAhkCmd(whatCmd) {
 	}
 }
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 CheckForCmdEntryGui() {
     if (sgCmdBeingEntered) {
         Gosub HandleEnterCmdCancel
     }
 }
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 HandleEnterCmdCancel:
     sgCmdBeingEntered := false
     Gui, AhkGuiEnterCmd:Destroy
 return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 HandleCmdRptOK:
     Gui, Submit
@@ -36,9 +44,13 @@ HandleCmdRptOK:
     }
 return
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 HandleCmdRptCancel:
     Gui, Destroy ;Doing this now implicitly allows us to return to the previously active window.
 return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@clearCmdHistory::
     CheckForCmdEntryGui()
@@ -47,9 +59,13 @@ return
     }
 return
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 >^>+r::
     Gosub % ":*:@doLastCmd"
 return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@doLastCmd::
     CheckForCmdEntryGui()
@@ -60,9 +76,13 @@ return
     }
 return
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 ^!r::
     Gosub % ":*:@rptCmd"
 return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@rptCmd::
     CheckForCmdEntryGui()
@@ -96,6 +116,8 @@ return
     }
 return
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 :*:@showLastCmd::
     CheckForCmdEntryGui()
     if (ahkCmds.Length() > 0) {
@@ -105,6 +127,8 @@ return
         MsgBox % "The command history is currently empty."
     }
 return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!x::
     sgCmdBeingEntered = true
