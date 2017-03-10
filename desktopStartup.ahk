@@ -47,25 +47,26 @@ Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-SetupVirtualDesktop4:
+:*:@setupVirtualDesktop4::
+	CheckForCmdEntryGui()
 	SendInput, #{Tab}
 	Sleep, 330
 	SendInput, {Tab}{Right}{Right}{Right}{Enter}
 	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", "New Tab")
-	Run, % "explorer.exe ""C:\Program Files (x86)\Microsoft Office\Office14\outlook.exe"""
+	Run, % "explorer.exe ""C:\Program Files (x86)\Microsoft Office\root\Office16\outlook.exe"""
 	Sleep, 5000
 	SendInput, {Enter}
 	Sleep, 1500
-	WaitForApplicationPatiently("Inbox - ahk_exe outlook.exe")
-	LaunchStdApplicationPatiently("C:\Program Files\Microsoft Office 15\root\office15\onenote.exe", "- OneNote")
+	WaitForApplicationPatiently("Inbox - ahk_exe OUTLOOK.EXE")
+	LaunchStdApplicationPatiently("C:\Program Files (x86)\Microsoft Office\root\office16\onenote.exe", "ahk_exe ONENOTE.EXE")
 	Sleep, 1000
-	Gosub :*:@arrangeEmail
+	Gosub, :*:@arrangeEmail
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-SetupVirtualDesktop5:
-	; TODO: Arrange window dimensions and placements
+:*:@setupVirtualDesktop5::
+	CheckForCmdEntryGui()
 	SendInput, #{Tab}
 	Sleep, 330
 	SendInput, {Tab}{Right}{Right}{Right}{Right}{Enter}
@@ -94,8 +95,8 @@ Return
 	Gosub, SetupVirtualDesktop1
 	Gosub, SetupVirtualDesktop2
 	Gosub, SetupVirtualDesktop3
-	Gosub, SetupVirtualDesktop4
-	Gosub, SetupVirtualDesktop5	
+	Gosub, :*:@setupVirtualDesktop4
+	Gosub, :*:@setupVirtualDesktop5	
 	SendInput, #{Tab}
 	Sleep, 330
 	SendInput, {Tab}{Enter}
@@ -269,7 +270,7 @@ Return
 :*:@startNotepadPp::
 	; Start up Notepad++, open a second instance, and send the initial, primary instance to desktop #2
 	AppendAhkCmd(":*:@startNotepadPp")
-	LaunchStdApplicationPatiently("C:\Program Files (x86)\Notepad++\notepad++.exe", "C:\Users ahk_exe notepad++.exe")
+	LaunchApplicationPatiently("C:\Program Files (x86)\Notepad++\notepad++.exe", "C:\Users ahk_exe notepad++.exe")
 	Sleep, 3000
 	WinActivate, % "C:\Users ahk_exe notepad++.exe"
 	Sleep, 100
