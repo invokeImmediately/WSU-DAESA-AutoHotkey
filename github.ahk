@@ -2611,7 +2611,18 @@ Return
 		. "sandro.mit-license.org/`r`n"
 		. "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- http://cre"
 		. "ativecommons.org/licenses/by/3.0/`r`n"
-		, "Couldn't Copy Minified JS for WSU Summer Research Website")
+		, "Couldn't copy minified JS for UCORE website")
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@copyBackupJsUcore::
+	ahkCmdName := ":*:@copyBackupJsUcore"
+	AppendAhkCmd(ahkCmdName)
+	CopySrcFileToClipboard(ahkCmdName
+		, GetGitHubFolder() . "\ucore.wsu.edu\JS\wp-custom-js-source.min.prev.js"
+		, ""
+		, "Couldn't copy backup copy of minified JS for UCORE website")
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
