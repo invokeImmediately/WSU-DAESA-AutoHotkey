@@ -458,13 +458,12 @@ Return
 	CheckForCmdEntryGui()
 	WinGet, thisHwnd, ID, A
 	SetTitleMatchMode, 2
-	WinActivate, % "GIMP"
-	WinWaitActive, % "GIMP", , 0.25
+	WinActivate, % "GIMP ahk_class gdkWindowToplevel"
+	WinWaitActive, % "GIMP ahk_class gdkWindowToplevel", , 0.25
 	if (ErrorLevel) {
-		WinActivate, % "GNU Image Manipulation Program"
-		WinWaitActive, % "GNU Image Manipulation Program", , 0.25
+		WinActivate, % "GNU Image ahk_class gdkWindowToplevel"
+		WinWaitActive, % "GNU Image ahk_class gdkWindowToplevel", , 0.25
 		if (!ErrorLevel) {
-			;TODO: make sure we have found gimp-2.8.exe before proceeding
 			SendInput, {Tab}
 		} else {
 			MsgBox, % "Could not find and activate GIMP."
