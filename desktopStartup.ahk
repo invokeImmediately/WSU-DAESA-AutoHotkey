@@ -10,7 +10,7 @@
 ;   FUNCTIONS
 ;   --------------------------------------------------------------------------------------------------------
 
-SetupVirtualDesktop1:
+:*:@setupVirtualDesktop1::
 	Gosub, :*:@moveTempMonitors
 	Gosub, :*:@startNotepadPp
 	Gosub, :*:@startChrome
@@ -18,7 +18,7 @@ Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-SetupVirtualDesktop2:
+:*:@setupVirtualDesktop2::
 	SendInput, #{Tab}
 	Sleep, 330
 	SendInput, {Tab}{Right}{Enter}
@@ -31,7 +31,7 @@ Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-SetupVirtualDesktop3:
+:*:@setupVirtualDesktop3::
 	SendInput, #{Tab}
 	Sleep, 330
 	SendInput, {Tab}{Right}{Right}{Enter}
@@ -53,8 +53,39 @@ Return
 	Sleep, 330
 	SendInput, {Tab}{Right}{Right}{Right}{Enter}
 	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", "New Tab")
-	Run, % "explorer.exe ""C:\Program Files (x86)\Microsoft Office\root\Office16\outlook.exe"""
-	Sleep, 5000
+	Sleep, 330
+	SendInput, !{d}
+	Sleep, 100
+	SendInput, % "mail.google.com{Enter}"
+	Sleep, 330
+	SendInput, ^t
+	Sleep, 100
+	SendInput, !{d}
+	Sleep, 100
+	SendInput, % "mail.live.com{Enter}"
+	Sleep, 330
+	SendInput, ^t
+	Sleep, 100
+	SendInput, !{d}
+	Sleep, 100
+	SendInput, % "biblegateway.com{Enter}"
+	Sleep, 330
+	SendInput, ^t
+	Sleep, 100
+	SendInput, !{d}
+	Sleep, 100
+	SendInput, % "sfgate.com{Enter}"
+	Sleep, 330
+	SendInput, ^t
+	Sleep, 100
+	SendInput, !{d}
+	Sleep, 100
+	SendInput, % "web.wsu.edu{Enter}"
+	Sleep, 1000
+	SendInput, ^{Tab}
+	Sleep, 330
+	LaunchStdApplicationPatiently("C:\Program Files (x86)\Microsoft Office\root\Office16\outlook.exe", "Outlook ahk_class MsoSplash ahk_exe OUTLOOK.EXE")
+	Sleep, 1000
 	SendInput, {Enter}
 	Sleep, 1500
 	WaitForApplicationPatiently("Inbox - ahk_exe OUTLOOK.EXE")
@@ -91,10 +122,9 @@ Return
 ;   --------------------------------------------------------------------------------------------------------
 
 #!r::
-	SetTitleMatchMode, 2
-	Gosub, SetupVirtualDesktop1
-	Gosub, SetupVirtualDesktop2
-	Gosub, SetupVirtualDesktop3
+	Gosub, :*:@setupVirtualDesktop1
+	Gosub, :*:@setupVirtualDesktop2
+	Gosub, :*:@setupVirtualDesktop3
 	Gosub, :*:@setupVirtualDesktop4
 	Gosub, :*:@setupVirtualDesktop5	
 	SendInput, #{Tab}
@@ -110,7 +140,6 @@ Return
 
 :*:@arrangeGitHub::
 	AppendAhkCmd(":*:@arrangeGitHub")
-	SetTitleMatchMode, 2
 	WinRestore, GitHub
 	WinMove, GitHub, , -1893, 20, 1868, 772
 	Sleep, 200
@@ -135,40 +164,6 @@ Return
 
 :*:@arrangeEmail::
 	AppendAhkCmd(":*:@arrangeEmail")
-	SetTitleMatchMode, 2
-	WinActivate, % "New Tab"
-	Sleep, 330
-	SendInput, !{d}
-	Sleep, 100
-	SendInput, % "mail.google.com{Enter}"
-	Sleep, 330
-	SendInput, ^t
-	Sleep, 100
-	SendInput, !{d}
-	Sleep, 100
-	SendInput, % "mail.live.com{Enter}"
-	Sleep, 330
-	SendInput, ^t
-	Sleep, 100
-	SendInput, !{d}
-	Sleep, 100
-	SendInput, % "biblegateway.com{Enter}"
-	Sleep, 330
-	SendInput, ^t
-	Sleep, 100
-	SendInput, !{d}
-	Sleep, 100
-	SendInput, % "sfgate.com{Enter}"
-	Sleep, 330
-	SendInput, ^t
-	Sleep, 100
-	SendInput, !{d}
-	Sleep, 100
-	SendInput, % "web.wsu.edu{Enter}"
-	Sleep, 1000
-
-	SendInput, ^{Tab}
-	Sleep, 330
 	LaunchStdApplicationPatiently("C:\Program Files\iTunes\iTunes.exe", "iTunes")
 	WinRestore, % "Inbox - ahk_exe outlook.exe"
 	WinMove, % "Inbox - ahk_exe outlook.exe", , -1920, 0, 1720, 1040
@@ -199,7 +194,6 @@ Return
 
 :*:@arrangeGimp::
 	AppendAhkCmd(":*:@arrangeGimp")
-	SetTitleMatchMode, 2
 	WinActivate, Toolbox - Tool Options
 	Sleep, 100
 	WinMove, Toolbox - Tool Options, , -960, 0, 272, 1040
