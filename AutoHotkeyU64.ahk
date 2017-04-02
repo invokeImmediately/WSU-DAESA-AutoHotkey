@@ -48,6 +48,7 @@ global savedMouseX := 0
 global savedMouseY := 0
 global lineLength := 110
 
+SetTitleMatchMode, 2
 Gosub, MainSubroutine
 
 #NoEnv
