@@ -176,3 +176,43 @@ HandleInsBldrSctnOK:
 			, % "An HTML comment for documenting Spine Builder tempalate sections can only be inserted if [Notepad++.exe] is the active process. Unfortunately, the currently active process is [" . thisProcess . "]."			; Message
 	}
 Return
+
+; ------------------------------------------------------------------------------------------------------------
+; FUNCTIONS for QC of markup
+; ------------------------------------------------------------------------------------------------------------
+
+TrimAwayBuilderTemplatePageHeader(htmlMarkup) {
+	ahkFuncName := "htmlEditing.ahk: TrimAwayBuilderTemplatePageHeader(htmlMarkup)"
+	remainder := ""
+	if (htmlMarkup != undefined) {
+		regExNeedle := "Pm)^(?:.(?!<div))*.<div(?:.(?!class=""))*.class=""(?:.(?!page))*.page[^>]*>$\r\n"
+		foundPos := RegExMatch(htmlMarkup, regExNeedle, matchLen)
+		if (foundPos > 0) {
+			StringTrimLeft, remainder, htmlMarkup, % (foundPos + matchLen)
+		} else {
+			errorMsg := "Could not find the <div...>...</div> containing page content within htmlMarkup."
+		}
+	} else {
+		errorMsg := "Was passed an empty HTML markup string."
+	}
+	if (errorMsg != "") {
+		MsgBox, % (0x0 + 0x10)
+			, % "Error in " . ahkFuncName
+			, % errorMsg
+	}
+	return remainder
+}
+
+:*:@findHrefsInHtml::
+	AppendAhkCmd(":*:@findHrefsInHtml")
+	pageContent := TrimAwayBuilderTemplatePageHeader(clipboard)
+	if (pageContent != "") {
+		clipboard := pageContent
+	}
+	; Step 2: find where the content section ends.
+	;   Step 2a: search pattern is ^(?:.(?!</div>))*.</div>$\r\n(?:^.*$\r\n){3}^(?:.(?!</main>))*.</main>$
+	;   Step 2b: trim off the right hand side of clipboard as determined by match findPos.
+	;     Step 2b1: AHK command would be StringLeft, OutputVar, InputVar, Count
+	;     Step 2b2: Count would be foundPos - 1
+	; Step 3: TODO: find & catalog href values within page content section.
+Return
