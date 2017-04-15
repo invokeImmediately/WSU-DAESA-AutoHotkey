@@ -10,6 +10,21 @@
 ;   FUNCTIONS
 ;   --------------------------------------------------------------------------------------------------------
 
+:*:@setupCiscoVpn::
+	CheckForCmdEntryGui()
+	WinActivate, % "ahk_exe explorer.exe ahk_class Shell_TrayWnd"
+	Sleep, 200
+	MouseClick, Left, 1715, 16
+	Sleep, 1000
+	WinActivate, % "Cisco ahk_exe vpnui.exe"
+	Sleep, 200	
+	MouseClick, Left, 116, 82
+	Sleep, 200
+	SendInput, % "sslvpn.wsu.edu{Enter}"
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 :*:@setupVirtualDesktop1::
 	Gosub, :*:@moveTempMonitors
 	Gosub, :*:@startNotepadPp
@@ -117,21 +132,35 @@ Return
 	WinActivate, % "Inbox - Wunderlist"
 Return
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@setupVirtualDesktops::
+	Gosub, :*:@setupVirtualDesktop1
+	Gosub, :*:@setupVirtualDesktop2
+	Gosub, :*:@setupVirtualDesktop3
+	Gosub, :*:@setupVirtualDesktop4
+	Gosub, :*:@setupVirtualDesktop5
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@setupWorkEnvironment::
+	Gosub, :*:@setupVirtualDesktops
+	SendInput, #{Tab}
+	Sleep, 330
+	SendInput, {Tab}{Enter}
+	Sleep, 330
+	Gosub, % ":*:@setupCiscoVpn"
+	Sleep 330
+	Gosub, % ":*:@setupWorkTimer"
+Return
+
 ;   --------------------------------------------------------------------------------------------------------
 ;   HOTKEYS
 ;   --------------------------------------------------------------------------------------------------------
 
 #!r::
-	Gosub, :*:@setupVirtualDesktop1
-	Gosub, :*:@setupVirtualDesktop2
-	Gosub, :*:@setupVirtualDesktop3
-	Gosub, :*:@setupVirtualDesktop4
-	Gosub, :*:@setupVirtualDesktop5	
-	SendInput, #{Tab}
-	Sleep, 330
-	SendInput, {Tab}{Enter}
-	Sleep, 330
-	Gosub, % ":*:@setupWorkTimer"
+	Gosub, :*:@setupWorkEnvironment
 Return
 
 ;   --------------------------------------------------------------------------------------------------------
@@ -255,7 +284,7 @@ Return
 	Sleep, 1000
 	LaunchStdApplicationPatiently(userAccountFolder . "\AppData\Local\GitHub\Github.appref-ms", "GitHub ahk_exe GitHub.exe")
 	Sleep, 1000
-	LaunchStdApplicationPatiently(userAccountFolder . "\Desktop\Git Shell.lnk", "Powershell")
+	LaunchStdApplicationPatiently(userAccountFolder . "\Desktop\Git Shell.lnk", "ahk_exe Powershell.exe")
 	Sleep, 1000
 Return
 
