@@ -33,7 +33,7 @@ isVarDeclared(ByRef v) { ; Requires 1.0.46+
 }
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-----------------------------------------------WSU-OUE-AutoHotkey----------------------------------------------
+
 InsertFilePath(ahkCmdName, filePath, headerStr:="") {
 	global lineLength
 	AppendAhkCmd(ahkCmdName)
