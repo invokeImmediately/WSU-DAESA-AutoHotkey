@@ -181,7 +181,7 @@ Return
 ; FUNCTIONS for QC of markup
 ; ------------------------------------------------------------------------------------------------------------
 
-TrimAwayBuilderTemplatePageHeader(htmlMarkup) {
+TrimAwayBuilderTemplateContentPrev(htmlMarkup) {
 	ahkFuncName := "htmlEditing.ahk: TrimAwayBuilderTemplatePageHeader(htmlMarkup)"
 	remainder := ""
 	if (htmlMarkup != undefined) {
@@ -190,10 +190,10 @@ TrimAwayBuilderTemplatePageHeader(htmlMarkup) {
 		if (foundPos > 0) {
 			StringTrimLeft, remainder, htmlMarkup, % (foundPos + matchLen)
 		} else {
-			errorMsg := "Could not find the <div...>...</div> containing page content within htmlMarkup."
+			errorMsg := "I could not find the <div...>...</div> containing page content within htmlMarkup."
 		}
 	} else {
-		errorMsg := "Was passed an empty HTML markup string."
+		errorMsg := "I was passed an empty HTML markup string."
 	}
 	if (errorMsg != "") {
 		MsgBox, % (0x0 + 0x10)
@@ -203,16 +203,89 @@ TrimAwayBuilderTemplatePageHeader(htmlMarkup) {
 	return remainder
 }
 
+TrimAwayBuilderTemplateContentNext(htmlMarkup) {
+	ahkFuncName := "htmlEditing.ahk: TrimAwayBuilderTemplatePageHeader(htmlMarkup)"
+	remainder := ""
+	if (htmlMarkup != undefined) {
+		regExNeedle := "Pm)^(?:.(?!</div>))*.</div>$\r\n(?:^.*$\r\n){3}^(?:.(?!</main>))*.</main>$"
+		foundPos := RegExMatch(htmlMarkup, regExNeedle, matchLen)
+		if (foundPos > 0) {
+			StringLeft, remainder, htmlMarkup, % (foundPos - 1)
+		} else {
+			errorMsg := "I could not find the closing tag of the <div...>...</div> containing page content within htmlMarkup."
+		}
+	} else {
+		errorMsg := "I was passed an empty HTML markup string."
+	}
+	if (errorMsg != "") {
+		MsgBox, % (0x0 + 0x10)
+			, % "Error in " . ahkFuncName
+			, % errorMsg
+	}
+	return remainder
+}
+
+BuildHyperlinkArray(htmlMarkup) {
+	ahkFuncName := "htmlEditing.ahk: BuildHyperlinkArray(htmlMarkup)"
+	hyperlinkArray := undefined
+	if (htmlMarkup != undefined) {
+		regExNeedle := "Pm)<a[^>]*>[^<]*</a>"
+		foundPos := RegExMatch(htmlMarkup, regExNeedle, matchLen)
+		if (foundPos > 0) {
+			hyperlinkArray := [{position: foundPos, length: matchLen, markup: SubStr(htmlMarkup, foundPos, matchLen)}]
+			foundPos := RegExMatch(htmlMarkup, regExNeedle, matchLen, foundPos + matchLen)
+			while (foundPos > 0) {
+				hyperlinkArray[hyperlinkArray.Length() + 1] := {position: foundPos, length: matchLen, markup: SubStr(htmlMarkup, foundPos, matchLen)}
+				foundPos := RegExMatch(htmlMarkup, regExNeedle, matchLen, foundPos + matchLen)
+			}
+			PullHrefsIntoHyperlinkArray(hyperlinkArray)
+		} else {
+			errorMsg := "I found no hyperlinks in the markup passed to me."
+		}
+	} else {
+		errorMsg := "I was passed an empty markup string."
+	}
+	if (errorMsg != "") {
+		MsgBox, % (0x0 + 0x10)
+			, % "Error in " . ahkFuncName
+			, % errorMsg
+	}
+	return hyperlinkArray
+}
+
+PullHrefsIntoHyperlinkArray(ByRef hyperlinkArray) {
+	regExNeedle := "P)href=""([^""]+)"""
+	Loop % hyperlinkArray.Length() {
+		foundPos := RegExMatch(hyperlinkArray[A_Index].markup, regExNeedle, match)
+		hyperlinkArray[A_Index].href := SubStr(hyperlinkArray[A_Index].markup, matchPos1, matchLen1)
+		if (A_Index = hyperlinkArray.Length()) {
+			MsgBox, % matchPos1 . ", " matchLen1 . ", " hyperlinkArray[A_Index].href
+		}
+	}
+	;TODO: determine which line hyperlink appears on, then copy the entire line to contents (to provide context)
+}
+
+ExportHyperlinkArray(hyperlinkArray) {
+	exportStr := ""
+	Loop % hyperlinkArray.Length() {
+		if (A_Index > 1) {
+			exportStr .= "`n"
+		} else {
+			exportStr .= "Character Position`tMatch Length`tMarkup`tHref`n"
+		}
+		exportStr .= hyperlinkArray[A_Index].position . "`t" . hyperlinkArray[A_Index].length . "`t" . hyperlinkArray[A_Index].markup . "`t" . hyperlinkArray[A_Index].href
+	}
+	if (exportStr != "") {
+		clipboard := exportStr
+		MsgBox, 0x0, % ":*:@findHrefsInHtml"
+			, % "I found " . hyperlinkArray.Length() . " hyperlinks in markup copied to clipboard. I then overwrote clipboard with the results of my analysis formatted for import into Excel."
+	}
+}
+
 :*:@findHrefsInHtml::
 	AppendAhkCmd(":*:@findHrefsInHtml")
-	pageContent := TrimAwayBuilderTemplatePageHeader(clipboard)
-	if (pageContent != "") {
-		clipboard := pageContent
-	}
-	; Step 2: find where the content section ends.
-	;   Step 2a: search pattern is ^(?:.(?!</div>))*.</div>$\r\n(?:^.*$\r\n){3}^(?:.(?!</main>))*.</main>$
-	;   Step 2b: trim off the right hand side of clipboard as determined by match findPos.
-	;     Step 2b1: AHK command would be StringLeft, OutputVar, InputVar, Count
-	;     Step 2b2: Count would be foundPos - 1
-	; Step 3: TODO: find & catalog href values within page content section.
+	pageContent := TrimAwayBuilderTemplateContentPrev(clipboard)
+	pageContent := TrimAwayBuilderTemplateContentNext(pageContent)
+	hyperlinkArray := BuildHyperlinkArray(pageContent)
+	ExportHyperlinkArray(hyperlinkArray)
 Return
