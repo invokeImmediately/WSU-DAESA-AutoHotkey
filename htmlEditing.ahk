@@ -1,27 +1,28 @@
-﻿; ============================================================================================================
+﻿; ===========================================================================================================================
 ; AUTOHOTKEY SCRIPT IMPORT for Working with Github Desktop for Windows
-; ============================================================================================================
+; ===========================================================================================================================
 ; AUTOHOTKEY SEND LEGEND
 ; ! = ALT     + = SHIFT     ^ = CONTROL     # = WIN
 ; (see https://autohotkey.com/docs/commands/Send.htm for more info)
-; ============================================================================================================
+; ===========================================================================================================================
 
-; ------------------------------------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------------------------------------------------------
 ; HOTSTRINGS for text replacement
-; ------------------------------------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------------------------------------------------------
 
 :R*:@cssShorthandBg::bg-color bg-image position/bg-size bg-repeat bg-origin bg-clip bg-attachment initial|inherit;
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :R*:@findStrBldrSctns::(?<=^  -->\r\n)^.*$(?:\r\n^(?!<!--).+$)*
 
-; ------------------------------------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------------------------------------------------------
 ; GUI FUNCTIONS for handling user interactions with scripts
-; ------------------------------------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------------------------------------------------------
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-; >>> GUI DRIVEN HOTSTRINGS --  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; >>> GUI triggering HOTSTRINGS
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@insBldrSctn::
 	AppendAhkCmd(":*:@insBldrSctn")
@@ -41,16 +42,17 @@
 	Gui, guiInsBldrSctn: Show
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-; >>> GUI DRIVING FUNCTIONS --  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; >>> GUI driving FUNCTIONS
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-HandleInsBldrSctnCancel:
+HandleInsBldrSctnCancel() {
 	Gui, guiInsBldrSctn: Destroy
-Return
+}
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-HandleInsBldrSctnOK:
+HandleInsBldrSctnOK() {
 	Gui, guiInsBldrSctn: Submit
 	Gui, guiInsBldrSctn: Destroy
 
@@ -175,11 +177,25 @@ HandleInsBldrSctnOK:
 			, % "Error in AHK function: HandleInsBldrSctnOK" ; Title
 			, % "An HTML comment for documenting Spine Builder tempalate sections can only be inserted if [Notepad++.exe] is the active process. Unfortunately, the currently active process is [" . thisProcess . "]."			; Message
 	}
+}
+
+; ---------------------------------------------------------------------------------------------------------------------------
+; FUNCTIONS for Quality Control of markup
+; ---------------------------------------------------------------------------------------------------------------------------
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; >>> HYPERLINK CHECKING hotstring
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@findHrefsInHtml::
+	AppendAhkCmd(":*:@findHrefsInHtml")
+	pageContent := TrimAwayBuilderTemplateContentPrev(clipboard)
+	pageContent := TrimAwayBuilderTemplateContentNext(pageContent)
+	hyperlinkArray := BuildHyperlinkArray(pageContent)
+	ExportHyperlinkArray(hyperlinkArray)
 Return
 
-; ------------------------------------------------------------------------------------------------------------
-; FUNCTIONS for QC of markup
-; ------------------------------------------------------------------------------------------------------------
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 TrimAwayBuilderTemplateContentPrev(htmlMarkup) {
 	ahkFuncName := "htmlEditing.ahk: TrimAwayBuilderTemplatePageHeader(htmlMarkup)"
@@ -203,6 +219,8 @@ TrimAwayBuilderTemplateContentPrev(htmlMarkup) {
 	return remainder
 }
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 TrimAwayBuilderTemplateContentNext(htmlMarkup) {
 	ahkFuncName := "htmlEditing.ahk: TrimAwayBuilderTemplatePageHeader(htmlMarkup)"
 	remainder := ""
@@ -224,6 +242,8 @@ TrimAwayBuilderTemplateContentNext(htmlMarkup) {
 	}
 	return remainder
 }
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 BuildHyperlinkArray(htmlMarkup) {
 	ahkFuncName := "htmlEditing.ahk: BuildHyperlinkArray(htmlMarkup)"
@@ -253,6 +273,8 @@ BuildHyperlinkArray(htmlMarkup) {
 	return hyperlinkArray
 }
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 PullHrefsIntoHyperlinkArray(ByRef hyperlinkArray) {
 	regExNeedle := "P)href=""([^""]+)"""
 	Loop % hyperlinkArray.Length() {
@@ -264,6 +286,8 @@ PullHrefsIntoHyperlinkArray(ByRef hyperlinkArray) {
 	}
 	;TODO: determine which line hyperlink appears on, then copy the entire line to contents (to provide context)
 }
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ExportHyperlinkArray(hyperlinkArray) {
 	exportStr := ""
@@ -277,15 +301,8 @@ ExportHyperlinkArray(hyperlinkArray) {
 	}
 	if (exportStr != "") {
 		clipboard := exportStr
+		; TODO: Replace the following MsgBox with a GUI containing a ListView.
 		MsgBox, 0x0, % ":*:@findHrefsInHtml"
 			, % "I found " . hyperlinkArray.Length() . " hyperlinks in markup copied to clipboard. I then overwrote clipboard with the results of my analysis formatted for import into Excel."
 	}
 }
-
-:*:@findHrefsInHtml::
-	AppendAhkCmd(":*:@findHrefsInHtml")
-	pageContent := TrimAwayBuilderTemplateContentPrev(clipboard)
-	pageContent := TrimAwayBuilderTemplateContentNext(pageContent)
-	hyperlinkArray := BuildHyperlinkArray(pageContent)
-	ExportHyperlinkArray(hyperlinkArray)
-Return
