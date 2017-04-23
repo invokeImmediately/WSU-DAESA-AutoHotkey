@@ -24,8 +24,7 @@ sgIsPostingMinJs := false
 ; SETTINGS accessed via functions for this imported file
 ; ------------------------------------------------------------------------------------------------------------
 
-GetCmdForMoveToCSSFolder(curDir)
-{
+GetCmdForMoveToCSSFolder(curDir) {
 	cmd := ""
 	needleStr := "^" . ToEscapedPath(GetGitHubFolder()) . "(.+)"
 	posFound := RegExMatch(curDir, needleStr, matches)
@@ -39,8 +38,7 @@ GetCmdForMoveToCSSFolder(curDir)
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-GetCurrentDirFromPS()
-{
+GetCurrentDirFromPS() {
 	copyDirCmd := "(get-location).ToString() | clip`r`n"
 	PasteTextIntoGitShell("", copyDirCmd)
 	while(Clipboard = copyDirCmd) {
@@ -51,16 +49,14 @@ GetCurrentDirFromPS()
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-GetGitHubFolder()
-{
+GetGitHubFolder() {
 	global userAccountFolder
 	Return userAccountFolder . "\Documents\GitHub"
 }
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-UserFolderIsSet()
-{
+UserFolderIsSet() {
 	global userAccountFolder
 	varDeclared := userAccountFolder != thisIsUndeclared
 	if (!varDeclared) {
@@ -74,8 +70,7 @@ UserFolderIsSet()
 ; FUNCTIONS for working with GitHub Desktop
 ; ------------------------------------------------------------------------------------------------------------
 
-ActivateGitShell()
-{
+ActivateGitShell() {
 	WinGet, thisProcess, ProcessName, A
 	shellActivated := false
 	if (thisProcess != "PowerShell.exe") {
@@ -141,8 +136,7 @@ CopySrcFileToClipboard(ahkCmdName, srcFileToCopy, strToPrepend, errorMsg) {
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-IsGitShellActive()
-{
+IsGitShellActive() {
 	WinGet, thisProcess, ProcessName, A
 	shellIsActive := thisProcess = "PowerShell.exe"
 	Return shellIsActive
@@ -174,14 +168,13 @@ PasteTextIntoGitShell(ahkCmdName, shellText) {
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-ToEscapedPath(path)
-{
+ToEscapedPath(path) {
 	escapedPath := StrReplace(path, "\", "\\")
 	Return escapedPath
 }
 
 ; ------------------------------------------------------------------------------------------------------------
-; FUNCTIONS for interacting with online web design interfaces
+; FUNCTIONS for interacting with online WEB DESIGN INTERFACES
 ; ------------------------------------------------------------------------------------------------------------
 
 LoadWordPressSiteInChrome(websiteUrl) {
@@ -277,7 +270,7 @@ Return
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 ; >>> GUI DRIVING FUNCTIONS --  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-HandlePostCssCheckAllSites:
+HandlePostCssCheckAllSites() {
 	GuiControl, guiPostMinCss:, PostMinCssToCr, 1
 	GuiControl, guiPostMinCss:, PostMinCssToDsp, 1
 	GuiControl, guiPostMinCss:, PostMinCssToFye, 1
@@ -289,11 +282,11 @@ HandlePostCssCheckAllSites:
 	GuiControl, guiPostMinCss:, PostMinCssToUgr, 1
 	GuiControl, guiPostMinCss:, PostMinCssToUcore, 1
 	GuiControl, guiPostMinCss:, PostMinCssToUcrAss, 1
-Return
+}
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-HandlePostCssUncheckAllSites:
+HandlePostCssUncheckAllSites() {
 	GuiControl, guiPostMinCss:, PostMinCssToCr, 0
 	GuiControl, guiPostMinCss:, PostMinCssToDsp, 0
 	GuiControl, guiPostMinCss:, PostMinCssToFye, 0
@@ -305,11 +298,11 @@ HandlePostCssUncheckAllSites:
 	GuiControl, guiPostMinCss:, PostMinCssToUgr, 0
 	GuiControl, guiPostMinCss:, PostMinCssToUcore, 0
 	GuiControl, guiPostMinCss:, PostMinCssToUcrAss, 0
-Return
+}
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-HandlePostJsCheckAllSites:
+HandlePostJsCheckAllSites() {
 	GuiControl, guiPostMinJs:, PostMinJsToCr, 1
 	GuiControl, guiPostMinJs:, PostMinJsToDsp, 1
 	GuiControl, guiPostMinJs:, PostMinJsToFye, 1
@@ -321,11 +314,11 @@ HandlePostJsCheckAllSites:
 	GuiControl, guiPostMinJs:, PostMinJsToUgr, 1
 	GuiControl, guiPostMinJs:, PostMinJsToUcore, 1
 	GuiControl, guiPostMinJs:, PostMinJsToUcrAss, 1
-Return
+}
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-HandlePostJsUncheckAllSites:
+HandlePostJsUncheckAllSites() {
 	GuiControl, guiPostMinJs:, PostMinJsToCr, 0
 	GuiControl, guiPostMinJs:, PostMinJsToDsp, 0
 	GuiControl, guiPostMinJs:, PostMinJsToFye, 0
@@ -337,17 +330,17 @@ HandlePostJsUncheckAllSites:
 	GuiControl, guiPostMinJs:, PostMinJsToUgr, 0
 	GuiControl, guiPostMinJs:, PostMinJsToUcore, 0
 	GuiControl, guiPostMinJs:, PostMinJsToUcrAss, 0
-Return
+}
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-HandlePostMinCssCancel:
+HandlePostMinCssCancel() {
 	Gui, guiPostMinCss: Destroy
-Return
+}
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-HandlePostMinCssOK:
+HandlePostMinCssOK() {
 	Gui, guiPostMinCss: Submit
 	Gui, guiPostMinCss: Destroy
 	sgIsPostingMinCss := true
@@ -385,17 +378,17 @@ HandlePostMinCssOK:
 		PasteMinCssToWebsite("https://ucore.wsu.edu/assessment/wp-admin/themes.php?page=editcss", ":*:@copyMinCssUcrAss")
 	}
 	sgIsPostingMinCss := false
-Return
+}
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-HandlePostMinJsCancel:
+HandlePostMinJsCancel() {
 	Gui, Destroy
-Return
+}
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-HandlePostMinJsOK:
+HandlePostMinJsOK() {
 	Gui, Submit
 	Gui, Destroy
 	sgIsPostingMinJs := true
@@ -433,32 +426,35 @@ HandlePostMinJsOK:
 		PasteMinJsToWebsite("https://ucore.wsu.edu/assessment/wp-admin/themes.php?page=custom-javascript", ":*:@copyMinJsUcrAss")
 	}
 	sgIsPostingMinJs := false
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-PasteMinCssToWebsite(websiteUrl, cssCopyCmd)
-{
-	LoadWordPressSiteInChrome(websiteUrl)
-	Gosub, %cssCopyCmd%
-	Sleep, 100
-	Gosub, ExecuteCssPasteCmds
 }
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-PasteMinJsToWebsite(websiteUrl, jsCopyCmd)
-{
+PasteMinCssToWebsite(websiteUrl, cssCopyCmd) {
+	LoadWordPressSiteInChrome(websiteUrl)
+	Gosub, %cssCopyCmd%
+	Sleep, 100
+	ExecuteCssPasteCmds()
+}
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+PasteMinJsToWebsite(websiteUrl, jsCopyCmd) {
 	LoadWordPressSiteInChrome(websiteUrl)
 	Sleep, 1000
 	Gosub, %jsCopyCmd%
 	Sleep, 120
-	Gosub, ExecuteJsPasteCmds
+	ExecuteJsPasteCmds()
 }
 
 ; ------------------------------------------------------------------------------------------------------------
 ; FILE SYSTEM NAVIGATION Hotstrings
 ; ------------------------------------------------------------------------------------------------------------
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; >>> Navigation within GITHUB DIRECTORIES
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 
 :*:@gotoGhCr::
 	InsertFilePath(":*:@gotoGhCr", GetGitHubFolder() . "\commonreading.wsu.edu", "commonreading.wsu.edu") 
@@ -558,8 +554,132 @@ Return
 ; UTILITY HOTSTRINGS for working with GitHub Desktop
 ; ------------------------------------------------------------------------------------------------------------
 
-:*:@doCssPaste::
-	; DESCRIPTION: Paste copied CSS into WordPress window
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; >>> FILE COMMITTING
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@gitAddThis::
+	AppendAhkCmd(":*:@gitAddThis")
+	WinGet, thisProcess, ProcessName, A
+	if (thisProcess = "notepad++.exe") {
+		SendInput !e
+		Sleep 100
+		SendInput {Down 8}
+		Sleep 100
+		SendInput {Right}
+		Sleep 100
+		SendInput {Down}
+		Sleep 100
+		SendInput {Enter}
+		Sleep 100
+		commitText := RegExReplace(clipboard, "^(.*)", "git add $1")
+		clipboard = %commitText%
+	}
+	else {
+		MsgBox, % (0x0 + 0x10), % "ERROR: Clipboard does not contain valid file name", % "Please select the file within NotePad++.exe that you would like to create a 'git add …' "
+		 . "string for."
+	}
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@doGitCommit::
+	AppendAhkCmd(":*:@doGitCommit")
+	proceedWithCmd := ActivateGitShell()
+	if(proceedWithCmd) {
+		SendInput git commit -m "" -m ""{Left 7}
+	}
+	else {
+		MsgBox, % (0x0 + 0x10), % "ERROR (" . ":*:@doGitCommit" . "): Could Not Locate Git PowerShell", % "The Git PowerShell process could not be located and activated."
+	}
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@dogc::
+	Gosub, :*:@doGitCommit
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@doSnglGitCommit::
+	AppendAhkCmd(":*:@doSnglGitCommit")
+	proceedWithCmd := ActivateGitShell()
+	if(proceedWithCmd) {
+		SendInput git commit -m ""{Left 1}
+	}
+	else {
+		MsgBox, % (0x0 + 0x10), % "ERROR (" . ":*:@doSnglGitCommit" . "): Could Not Locate Git PowerShell", % "The Git PowerShell process could not be located and activated."
+	}
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@dosgc::
+	Gosub, :*:@doSnglGitCommit
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@swapSlashes::
+	; DESCRIPTION: For reversing forward slashes within a copied file name reported by 'git status' in
+	;  PowerShell and then pasting the result into PowerShell.
+	AppendAhkCmd(":*:@swapSlashes")
+	WinGet, thisProcess, ProcessName, A
+	if (thisProcess = "PowerShell.exe") {
+		newText := RegExReplace(clipboard, "/", "\")
+		clipboard := newText
+		Click right 44, 55 ;TODO: Check to see if the mouse cursor is already within the PowerShell bounding rectangle 
+	}    
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; >>> STATUS CHECKING
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@doGitStatus::
+	hsName := ":*:@doGitStatus"
+	AppendAhkCmd(hsName)
+	proceedWithCmd := ActivateGitShell()
+	if(proceedWithCmd) {
+		SendInput % "git status{enter}"
+	} else {
+		MsgBox, % (0x0 + 0x10), % "ERROR (" . hsName . "): Could Not Locate Git PowerShell", % "The Git PowerShell process could not be located and activated."
+	}
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@dogs::
+	Gosub, :*:@doGitStatus
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; >>> Automated PASTING OF CSS into online web interfaces
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@initCssPaste::
+;	prevTitleMatchMode := A_TitleMatchMode
+;	SetTitleMatchMode, RegEx
+;	SetTitleMatchMode, prevTitleMatchMode
+	global hwndCssPasteWindow
+	global titleCssPasteWindowTab
+	AppendAhkCmd(":*:@initCssPaste")
+	WinGetTitle, thisTitle, A
+	posFound := RegExMatch(thisTitle, "i)^CSS[^" . Chr(0x2014) . "]+" . Chr(0x2014) . " WordPress - Google Chrome$")
+	if(posFound) {
+		WinGet, hwndCssPasteWindow, ID, A
+		titleCssPasteWindowTab := thisTitle
+		MsgBox, % "HWND for window containing CSS stylsheet editor set to " . hwndCssPasteWindow
+	}
+	else {
+		MsgBox, % (0x0 + 0x10), % "ERROR (:*:@setCssPasteWindow): CSS Stylesheet Editor Not Active", % "Please select your CSS stylesheet editor tab in Chrome as the currently active window."
+	}
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@doCssPaste::		;Paste copied CSS into WordPress window
 	global hwndCssPasteWindow
 	global titleCssPasteWindowTab
 	AppendAhkCmd(":*:@doCssPaste")
@@ -599,115 +719,12 @@ Return
 				if (thisX != -1830 or thisY != 0 or thisW != 1700 or thisH != 1040) {
 					WinMove, A, , -1830, 0, 1700, 1040
 				}
-				Gosub, ExecuteCssPasteCmds
+				ExecuteCssPasteCmds()
 			}
 		}
 	}
 	else {
 		MsgBox, % (0x0 + 0x10), % "ERROR (:*:@doCssPaste): HWND Not Set Yet", % "You haven't yet used the @setCssPasteWindow hotstring to set the HWND for the Chrome window containing a tab with the CSS stylsheet editor."
-	}
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@dogc::
-	Gosub, :*:@doGitCommit
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@doGitCommit::
-	AppendAhkCmd(":*:@doGitCommit")
-	proceedWithCmd := ActivateGitShell()
-	if(proceedWithCmd) {
-		SendInput git commit -m "" -m ""{Left 7}
-	}
-	else {
-		MsgBox, % (0x0 + 0x10), % "ERROR (" . ":*:@doGitCommit" . "): Could Not Locate Git PowerShell", % "The Git PowerShell process could not be located and activated."
-	}
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@doGitStatus::
-	hsName := ":*:@doGitStatus"
-	AppendAhkCmd(hsName)
-	proceedWithCmd := ActivateGitShell()
-	if(proceedWithCmd) {
-		SendInput % "git status{enter}"
-	} else {
-		MsgBox, % (0x0 + 0x10), % "ERROR (" . hsName . "): Could Not Locate Git PowerShell", % "The Git PowerShell process could not be located and activated."
-	}
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@dogs::
-	Gosub, :*:@doGitStatus
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@dosgc::
-	Gosub, :*:@doSnglGitCommit
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@doSnglGitCommit::
-	AppendAhkCmd(":*:@doSnglGitCommit")
-	proceedWithCmd := ActivateGitShell()
-	if(proceedWithCmd) {
-		SendInput git commit -m ""{Left 1}
-	}
-	else {
-		MsgBox, % (0x0 + 0x10), % "ERROR (" . ":*:@doSnglGitCommit" . "): Could Not Locate Git PowerShell", % "The Git PowerShell process could not be located and activated."
-	}
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@gitAddThis::
-	AppendAhkCmd(":*:@gitAddThis")
-	WinGet, thisProcess, ProcessName, A
-	if (thisProcess = "notepad++.exe") {
-		SendInput !e
-		Sleep 20
-		SendInput {Down 8}
-		Sleep 20
-		SendInput {Right}
-		Sleep 20
-		SendInput {Down}
-		Sleep 20
-		SendInput {Enter}
-		Sleep 20
-		commitText := RegExReplace(clipboard, "^(.*)", "git add $1")
-		clipboard = %commitText%
-	}
-	else {
-		MsgBox, % (0x0 + 0x10), % "ERROR: Clipboard does not contain valid file name", % "Please select the file within NotePad++.exe that you would like to create a 'git add …' "
-		 . "string for."
-	}
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@initCssPaste::
-;	prevTitleMatchMode := A_TitleMatchMode
-;	SetTitleMatchMode, RegEx
-;	SetTitleMatchMode, prevTitleMatchMode
-	global hwndCssPasteWindow
-	global titleCssPasteWindowTab
-	AppendAhkCmd(":*:@initCssPaste")
-	WinGetTitle, thisTitle, A
-	posFound := RegExMatch(thisTitle, "i)^CSS[^" . Chr(0x2014) . "]+" . Chr(0x2014) . " WordPress - Google Chrome$")
-	if(posFound) {
-		WinGet, hwndCssPasteWindow, ID, A
-		titleCssPasteWindowTab := thisTitle
-		MsgBox, % "HWND for window containing CSS stylsheet editor set to " . hwndCssPasteWindow
-	}
-	else {
-		MsgBox, % (0x0 + 0x10), % "ERROR (:*:@setCssPasteWindow): CSS Stylesheet Editor Not Active", % "Please select your CSS stylesheet editor tab in Chrome as the currently active window."
 	}
 Return
 
@@ -725,21 +742,7 @@ Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-:*:@swapSlashes::
-	; DESCRIPTION: For reversing forward slashes within a copied file name reported by 'git status' in
-	;  PowerShell and then pasting the result into PowerShell.
-	AppendAhkCmd(":*:@swapSlashes")
-	WinGet, thisProcess, ProcessName, A
-	if (thisProcess = "PowerShell.exe") {
-		newText := RegExReplace(clipboard, "/", "\")
-		clipboard := newText
-		Click right 44, 55 ;TODO: Check to see if the mouse cursor is already within the PowerShell bounding rectangle 
-	}    
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-ExecuteCssPasteCmds:
+ExecuteCssPasteCmds() {
 	; Add check for correct CSS in clipboard — the first line is a font import.
 	posFound := RegExMatch(clipboard, "^/\* Built with the LESS CSS")
 	if (posFound != 0) {
@@ -761,11 +764,11 @@ ExecuteCssPasteCmds:
 			, % "ERROR (:*:@doCssPaste): Clipboard Has Unexpected Contents"
 			, % "The clipboard does not begin with the expected '@import ...,' and thus may not contain minified CSS."
 	}			
-Return
+}
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-ExecuteJsPasteCmds:
+ExecuteJsPasteCmds()
 	; Add check for correct CSS in clipboard — the first line is a font import.
 	posFound := RegExMatch(clipboard, "^// Built with Node.js")
 	if (posFound != 0) {
@@ -786,7 +789,7 @@ ExecuteJsPasteCmds:
 			, % "ERROR (:*:@doJsPaste): Clipboard Has Unexpected Contents"
 			, % "The clipboard does not begin with the expected '// Built with Node.js ...,' and thus may not contain minified JS."
 	}			
-Return
+}
 
 ; ------------------------------------------------------------------------------------------------------------
 ; COMMAND LINE INPUT GENERATION as triggered by HotStrings for working with GitHub Desktop
