@@ -768,7 +768,7 @@ ExecuteCssPasteCmds() {
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-ExecuteJsPasteCmds()
+ExecuteJsPasteCmds() {
 	; Add check for correct CSS in clipboard — the first line is a font import.
 	posFound := RegExMatch(clipboard, "^// Built with Node.js")
 	if (posFound != 0) {
