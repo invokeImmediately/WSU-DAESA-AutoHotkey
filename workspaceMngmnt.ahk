@@ -503,17 +503,20 @@ DoChangeDelimiter(leftDelimiter, rightDelimeter) {
 	CoordMode, Mouse, Client
 	Sleep 20
 	Click, 311, -9
-	Sleep 200
+	Sleep 400
 	Click, 179, 11
-	Sleep 120
+	Sleep 200
 	Click, 35, 178
-	Sleep 100
+	Sleep 200
 	Click, 389, 225, 2
+	Sleep 100
 	SendInput, %leftDelimiter%
+	Sleep 200
+	;Click, 501, 225, 2
+	Click, 546, 255, 2 ; When allowed on several lines
 	Sleep 100
-	Click, 501, 225, 2
 	SendInput, %rightDelimeter%
-	Sleep 100
+	Sleep 200
 	Click, 417, 335
 }
 
