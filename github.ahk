@@ -50,15 +50,15 @@ GetCurrentDirFromPS() {
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 GetGitHubFolder() {
-	global userAccountFolder
-	Return userAccountFolder . "\Documents\GitHub"
+	global userAccountFolderSSD
+	Return userAccountFolderSSD . "\Documents\GitHub"
 }
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 UserFolderIsSet() {
-	global userAccountFolder
-	varDeclared := userAccountFolder != thisIsUndeclared
+	global userAccountFolderSSD
+	varDeclared := userAccountFolderSSD != thisIsUndeclared
 	if (!varDeclared) {
 		MsgBox, % (0x0 + 0x10), % "ERROR: Upstream dependency missing in github.ahk"
 			, % "The global variable specifying the user's account folder has not been declared and set upstream."
@@ -222,7 +222,7 @@ LoadWordPressSiteInChrome(websiteUrl) {
 	if(!sgIsPostingMinCss) {
 		Gui, guiPostMinCss: New,, % "Post Minified CSS to OUE Websites"
 		Gui, guiPostMinCss: Add, Text,, % "Which OUE Websites would you like to update?"
-		Gui, guiPostMinCss: Add, CheckBox, vPostMinCssToCr, % "https://c&ommonreading.wsu.edu"
+		Gui, guiPostMinCss: Add, CheckBox, vPostMinCssToCr, % "https://commonread&ing.wsu.edu"
 		Gui, guiPostMinCss: Add, CheckBox, vPostMinCssToDsp Checked, % "https://&distinguishedscholarships.wsu.edu"
 		Gui, guiPostMinCss: Add, CheckBox, vPostMinCssToFye Checked, % "https://&firstyear.wsu.edu"
 		Gui, guiPostMinCss: Add, CheckBox, vPostMinCssToFyf Checked, % "https://&learningcommunities.wsu.edu"
@@ -341,6 +341,7 @@ HandlePostMinCssCancel() {
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 HandlePostMinCssOK() {
+	global
 	Gui, guiPostMinCss: Submit
 	Gui, guiPostMinCss: Destroy
 	sgIsPostingMinCss := true
@@ -389,6 +390,7 @@ HandlePostMinJsCancel() {
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 HandlePostMinJsOK() {
+	global
 	Gui, Submit
 	Gui, Destroy
 	sgIsPostingMinJs := true
