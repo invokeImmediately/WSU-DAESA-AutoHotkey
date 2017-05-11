@@ -117,7 +117,7 @@ Return
 	Sleep, 330
 	SendInput, {Tab}{Right}{Right}{Right}{Right}{Enter}
 	Sleep, 330
-	LaunchStdApplicationPatiently(userAccountFolder . "\AppData\Local\Wunderlist\Wunderlist.exe", "Inbox - Wunderlist")
+	LaunchStdApplicationPatiently(userAccountFolderSSD . "\AppData\Local\Wunderlist\Wunderlist.exe", "Inbox - Wunderlist")
 	Sleep, 1000
 	LaunchStdApplicationPatiently("C:\Windows\System32\taskmgr.exe", "Task Manager")
 	Sleep, 1000
@@ -161,6 +161,7 @@ Return
 
 #!r::
 	Gosub, :*:@setupWorkEnvironment
+	SoundPlay, %desktopArrangedSound%
 Return
 
 ;   --------------------------------------------------------------------------------------------------------
@@ -282,9 +283,9 @@ Return
 	Sleep, 100
 	SendInput, https://github.com/invokeImmediately{Enter}
 	Sleep, 1000
-	LaunchStdApplicationPatiently(userAccountFolder . "\AppData\Local\GitHub\Github.appref-ms", "GitHub ahk_exe GitHub.exe")
+	LaunchStdApplicationPatiently(userAccountFolderSSD . "\AppData\Local\GitHub\Github.appref-ms", "GitHub ahk_exe GitHub.exe")
 	Sleep, 1000
-	LaunchStdApplicationPatiently(userAccountFolder . "\Desktop\Git Shell.lnk", "ahk_exe Powershell.exe")
+	LaunchStdApplicationPatiently(userAccountFolderSSD . "\Desktop\Git Shell.lnk", "ahk_exe Powershell.exe")
 	Sleep, 1000
 Return
 
