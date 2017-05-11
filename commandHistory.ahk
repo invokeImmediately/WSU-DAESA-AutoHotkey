@@ -14,7 +14,7 @@ AppendAhkCmd(whatCmd) {
 			}
 		}
 		else {
-			MsgBox % "Failed to append purported command: " . whatCmd
+			ErrorBox(A_ThisFunc, "Failed to append purported command: " . whatCmd)
 		}
 	}
 }
@@ -25,6 +25,58 @@ CheckForCmdEntryGui() {
     if (sgCmdBeingEntered) {
         HandleEnterCmdCancel()
     }
+}
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+LoadAhkCmdHistory() {
+	global cmdHistoryLog
+	global ahkCmds
+	
+	while(ahkCmds.Length() > 0) {
+		ahkCmds.Pop()
+	}
+	logFile := FileOpen(cmdHistoryLog, "r `n")
+	if (logFile) {
+		Loop
+		{
+			logFileLine := logFile.ReadLine()
+			if (logFileLine = "") {
+				break
+			} else {
+				ahkCmds.Push(logFileLine)
+			}
+		}
+		logFile.Close()
+	} else {
+		ErrorBox(A_ThisFunc, "Could not open command history log file '" . cmdHistoryLog
+			. "'. Error code reported by FileOpen: '" . A_LastError . "'")
+	}
+}
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+SaveAhkCmdHistory() {
+	global cmdHistoryLog
+	global ahkCmds
+	
+	logFile := FileOpen(cmdHistoryLog, "w `n")
+	if (logFile) {
+		idx := 1 
+		while (idx <= ahkCmds.Length())
+		{
+			numBytes := logFile.WriteLine(ahkCmds[idx])
+			if (!numBytes) {
+				ErrorBox(A_ThisFunc, "Attempt to write line '" . ahkCmds[idx] . "' to '" . cmdHistoryLog . "' failed; aborting function.")
+				break
+			}
+			idx++
+		}
+		logFile.Close()
+	} else {
+		ErrorBox(A_ThisFunc, "Could not open command history log file '" . cmdHistoryLog
+			. "'. Error code reported by FileOpen: '" . A_LastError . "'")
+	}
 }
 
 ; ============================================================================================================
@@ -88,6 +140,12 @@ Return
     else {
         MsgBox % "The command history is currently empty; there are no commands to repeat."
     }
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@saveAhkCmdHistory::
+	SaveAhkCmdHistory()
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
@@ -157,8 +215,7 @@ CreateFindCmdGUI() {
 		Gui, AhkGuiFindCmd:Add, Button, gHandleFindCmdCancel X+5, &Cancel
 		Gui, AhkGuiFindCmd:Show
 	} else {
-		MsgBox, % 0x10, % "Error in commandHistory.ahk: CreateFindCmdGUI"
-			, % "Could not create the find command GUI because the list of available AHK hotstrings was undefined."
+		ErrorBox(A_ThisFunc, "Could not create the find command GUI because the list of available AHK hotstrings was undefined.")
 	}
 }
 
@@ -173,8 +230,7 @@ HandleFindCmdOk() {
 		if (IsLabel(cmdSelected)) {
 			Gosub, %cmdSelected%
 		} else {
-			MsgBox, % 0x10, "Error in commandHistory.ahk: HandleFindCmdOk()"
-				, "Could not find the selected hotstring: " . cmdSelected
+			ErrorBox(A_ThisFunc, "Could not find the selected hotstring: " . cmdSelected)				
 		}
 	} else {
 		MsgBox, % "Please select a command from the list before proceeding."
@@ -205,6 +261,3 @@ HandleCmdRptOK() {
 HandleCmdRptCancel() {
     Gui, AhkGuiRptCmd:Destroy ;Doing this now implicitly allows us to return to the previously active window.
 }
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
