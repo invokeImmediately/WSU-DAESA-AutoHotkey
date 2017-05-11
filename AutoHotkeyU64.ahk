@@ -25,18 +25,21 @@ global sysWinBorderH			;Default border height
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 ; >>> OTHER GLOBAL VARIABLES -  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-global userAccountFolder := "C:\Users\CamilleandDaniel"
-global logFileName := userAccountFolder . "\Documents\Daniel\^WSU-Web-Dev\^Personnel-File\Work-log.txt"
+global userAccountFolderSSD := "C:\Users\CamilleandDaniel"
+global userAccountFolderHDD := "F:\Users\CamilleandDaniel"
+global webDevFolder := "\Documents\Daniel\{^}WSU-Web-Dev"
+global logFileName := userAccountFolderHDD . "\Documents\Daniel\^WSU-Web-Dev\^Personnel-File\Work-log.txt"
+global cmdHistoryLog := userAccountFolderHDD . "\Documents\Daniel\^WSU-Web-Dev\^Personnel-File\ahk-cmd-history.txt"
 global workTimerCountdownTime := -1500000
 global workTimeLeftOver := 0
-global workTimerNotificationSound := userAccountFolder . "\Documents\Daniel\Sound Library\chinese-gong-daniel_simon.wav"
-global workTimerMinutesound := userAccountFolder . "\Documents\Daniel\Sound Library\Bell-tone_C-4.wav"
-global workTimer5MinuteSound := userAccountFolder . "\Documents\Daniel\Sound Library\Metal_Gong-Dianakc-109711828.wav"
+global workTimerNotificationSound := userAccountFolderSSD . "\Documents\Daniel\Sound Library\chinese-gong-daniel_simon.wav"
+global workTimerMinutesound := userAccountFolderSSD . "\Documents\Daniel\Sound Library\Bell-tone_C-4.wav"
+global workTimer5MinuteSound := userAccountFolderSSD . "\Documents\Daniel\Sound Library\Metal_Gong-Dianakc-109711828.wav"
 global workTimerMinuteCount := 0
-global windowMovementSound := userAccountFolder . "\Documents\Daniel\Sound Library\323413__sethroph__glass-slide-3_-12.5db_faster.wav"
-global windowSizingSound := userAccountFolder . "\Documents\Daniel\Sound Library\68222__xtyl33__paper3_-7.5db_faster.wav"
-global windowShiftingSound := userAccountFolder . "\Documents\Daniel\Sound Library\185849__lloydevans09__warping.wav"
-global desktopSwitchingSound := userAccountFolder . "\Documents\Daniel\Sound Library\352719__dalesome__woosh-stick-swung-in-the-air_-15db.wav"
+global windowMovementSound := userAccountFolderSSD . "\Documents\Daniel\Sound Library\323413__sethroph__glass-slide-3_-12.5db_faster.wav"
+global windowSizingSound := userAccountFolderSSD . "\Documents\Daniel\Sound Library\68222__xtyl33__paper3_-7.5db_faster.wav"
+global windowShiftingSound := userAccountFolderSSD . "\Documents\Daniel\Sound Library\185849__lloydevans09__warping.wav"
+global desktopSwitchingSound := userAccountFolderSSD . "\Documents\Daniel\Sound Library\352719__dalesome__woosh-stick-swung-in-the-air_-15db.wav"
 global bitNumpadSubToggle := false
 global numpadSubOverwrite := "{U+00b7}"
 global ahkCmds := Array()
@@ -46,9 +49,12 @@ global hotstrStartTime := 0
 global hotstrEndTime := 0
 global savedMouseX := 0
 global savedMouseY := 0
-global lineLength := 110
+global lineLength := 125
+global scriptLoadedSound := userAccountFolderSSD . "\Documents\Daniel\Sound Library\Storm_exclamation.wav"
+global desktopArrangedSound := userAccountFolderSSD . "\Documents\Daniel\Sound Library\zelda_lttp-mstr-swrd.wav"
 
 SetTitleMatchMode, 2
+FileEncoding, UTF-8
 Gosub, MainSubroutine
 
 #NoEnv
@@ -207,6 +213,10 @@ Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
+:R*:@findStrFnctns::^[^{\r\n]+{$\r\n(?:^(?<!\}).+$\r\n)+^\}$
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 :*:@ppp::
 	AppendAhkCmd(":*:@ppp")
 	SendInput, news-events_events_.html{Left 5}
@@ -262,7 +272,7 @@ Return
 
 :*:@checkHTMLSpec::
 	AppendAhkCmd(":*:@checkHTMLSpec")
-	Run % userAccountFolder . "\Documents\Daniel\^WSU-Web-Dev\^Master-VPUE\Anatomy of an HTML5 Document_2016-03-16.jpg"
+	Run % userAccountFolderHHD . "\Documents\Daniel\^WSU-Web-Dev\^Master-VPUE\Anatomy of an HTML5 Document_2016-03-16.jpg"
 Return
 
 ; ------------------------------------------------------------------------------------------------------------
@@ -271,14 +281,14 @@ Return
 
 :*:@gotoTorah::
 	AppendAhkCmd(":*:@gotoTorah")
-	SendInput, C:\Users\CamilleandDaniel\Documents\Daniel\{^}Derek-Haqodesh\{Enter}
+	SendInput, F:\Users\CamilleandDaniel\Documents\Daniel\{^}Derek-Haqodesh\{Enter}
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@gotoCurrent::
 	AppendAhkCmd(":*:@gotoCurrent")
-	SendInput, C:\Users\CamilleandDaniel\Documents\Daniel\{^}Derek-Haqodesh\TheMessage.cc\Messages\Message_The-Man-from-Heaven_2015-12-06{Enter}
+	SendInput, F:\Users\CamilleandDaniel\Documents\Daniel\{^}Derek-Haqodesh\TheMessage.cc\Messages\Message_The-Man-from-Heaven_2015-12-06{Enter}
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
@@ -292,81 +302,81 @@ Return
 
 :*:@gotoWebDev::
 	AppendAhkCmd(":*:@gotoWebDev")
-	SendInput, C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev{Enter}
+	SendInput, % userAccountFolderHDD . webDevFolder . "{Enter}"
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@gotoWdDsp::
-    InsertFilePath(":*:@gotoWdDsp", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\DSP") 
+    InsertFilePath(":*:@gotoWdDsp", userAccountFolderHDD . webDevFolder . "\DSP") 
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@gotoWdFye::
-    InsertFilePath(":*:@gotoWdFye", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\FYE & FYF")
+    InsertFilePath(":*:@gotoWdFye", userAccountFolderHDD . webDevFolder . "\FYE & FYF")
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@gotoWdFyf::
-    InsertFilePath(":*:@gotoWdFyf", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\FYE & FYF")
+    InsertFilePath(":*:@gotoWdFyf", userAccountFolderHDD . webDevFolder . "\FYE & FYF")
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@gotoWdPf::
-    InsertFilePath(":*:@gotoWdPf", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\{^}Personnel-File")
+    InsertFilePath(":*:@gotoWdPf", userAccountFolderHDD . webDevFolder . "\{^}Personnel-File")
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@gotoWdSurca::
-    InsertFilePath(":*:@gotoWdSurca", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\SURCA")
+    InsertFilePath(":*:@gotoWdSurca", userAccountFolderHDD . webDevFolder . "\SURCA")
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@gotoWdSumRes::
-    InsertFilePath(":*:@gotoWdSumRes", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\Summer-Res")
+    InsertFilePath(":*:@gotoWdSumRes", userAccountFolderHDD . webDevFolder . "\Summer-Res")
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@gotoWdUcrAss::
-    InsertFilePath(":*:@gotoWdUcrAss", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\UCORE-Assessment")
+    InsertFilePath(":*:@gotoWdUcrAss", userAccountFolderHDD . webDevFolder . "\UCORE-Assessment")
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@gotoWdUcore::
-    InsertFilePath(":*:@gotoWdUcore", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\UCORE")
+    InsertFilePath(":*:@gotoWdUcore", userAccountFolderHDD . webDevFolder . "\UCORE")
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@gotoWdUgr::
-    InsertFilePath(":*:@gotoWdUgr", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\UGR")
+    InsertFilePath(":*:@gotoWdUgr", userAccountFolderHDD . webDevFolder . "\UGR")
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@gotoWdXfer::
-    InsertFilePath(":*:@gotoWdXfer", "C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev" . "\xfer")
+    InsertFilePath(":*:@gotoWdXfer", userAccountFolderHDD . webDevFolder . "\xfer")
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@openNodeCodes::
 	AppendAhkCmd(":*:@openNodeCodes")
-	SendInput, C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev\{^}Master-VPUE\Node\node-commands.bat{Enter}
+	SendInput, F:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev\{^}Master-VPUE\Node\node-commands.bat{Enter}
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@openGitCodes::
 	AppendAhkCmd(":*:@openGitCodes")
-	SendInput, C:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev\GitHub\git-codes.bat{Enter}
+	SendInput, F:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev\GitHub\git-codes.bat{Enter}
 Return
 
 ; ------------------------------------------------------------------------------------------------------------
@@ -486,6 +496,7 @@ Return
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^#!r::
+	SaveAhkCmdHistory()
 	Run *RunAs "%A_ScriptFullPath%" 
 	ExitApp
 Return
@@ -534,3 +545,10 @@ CopyTitleFromExcel(cumulativeCount) {
 ; ------------------------------------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\desktopMain.ahk
+
+:*:@testTabRpt::
+	AppendAhkCmd(":*:@testTabRpt")
+	numRpts := 3
+	Send !{TAB %numRpts%}
+Return
+
