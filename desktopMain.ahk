@@ -13,6 +13,8 @@
 MainSubroutine:
 	SetGlobalVariables()
 	ListAhkFiles()
+	LoadAhkCmdHistory()
+	SoundPlay, %scriptLoadedSound%
 	MsgBox, % "Script has been loaded."
 Return
 
