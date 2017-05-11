@@ -34,6 +34,12 @@ isVarDeclared(ByRef v) { ; Requires 1.0.46+
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
+ErrorBox(whichFunc, errorMsg) {
+	MsgBox, % 0x10, % "Error in " . whichFunc, % errorMsg
+}
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 InsertFilePath(ahkCmdName, filePath, headerStr:="") {
 	global lineLength
 	AppendAhkCmd(ahkCmdName)
