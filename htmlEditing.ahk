@@ -14,7 +14,7 @@
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-:R*:@findStrBldrSctns::(?<=^  -->\r\n)^.*$(?:\r\n^(?!<!--).+$)*
+:R*:@findStrBldrSctns::(?<=^---->\r\n)^.*$(?:\r\n^(?!<!--).+$)*
 
 ; ---------------------------------------------------------------------------------------------------------------------------
 ; GUI FUNCTIONS for handling user interactions with scripts
@@ -33,6 +33,7 @@
 	Gui, guiInsBldrSctn: Add, Radio, , % "Sidebar &Right"
 	Gui, guiInsBldrSctn: Add, Radio, , % "&Halves"
 	Gui, guiInsBldrSctn: Add, Radio, , % "&Thirds"
+	Gui, guiInsBldrSctn: Add, Radio, , % "H&eader"
 	Gui, guiInsBldrSctn: Add, Radio, , % "&Post"
 	Gui, guiInsBldrSctn: Add, Radio, , % "Column background &image"
 	Gui, guiInsBldrSctn: Add, Radio, , % "&Blank commenting line"
@@ -159,9 +160,21 @@ HandleInsBldrSctnOK() {
 				. "---->`r"
 			PasteText(commentTxt)
 		} else if (BldrSctnChosen = 6) {
-			commentTxt := "---- ║  ╞═» Column background image: N/A                                                                                    ║`r"
+			commentText := "<!-- ╔═══════════════════════════════════════════════════════════════════════════════════════════════════════╗`r"
+				. "---- ║ #### BUILDER SECTION --- WSU SPINE THEME FOR WORDPRESS ############################################## ║`r"
+				. "---- ╠=======================================================================================================╣`r"
+				. "---- ║ HEADER --- Column One                                                                          1 of 1 ║`r"
+				. "---- ║  ╞═» Section classes: gutter pad-top                                                                  ║`r"
+				. "---- ║  ╞═» Header level: h1                                                                                 ║`r"
+				. "---- ║  ╞═» Column classes: N/A                                                                              ║`r"
+				. "---- ║  ╘═» Column title: N/A                                                                        § α…ω § ║`r"
+				. "---- ╚═══════════════════════════════════════════════════════════════════════════════════════════════════════╝`r"
+				. "---->`r"
 			PasteText(commentTxt)
 		} else if (BldrSctnChosen = 7) {
+			commentTxt := "---- ║  ╞═» Column background image: N/A                                                                                    ║`r"
+			PasteText(commentTxt)
+		} else if (BldrSctnChosen = 8) {
 			commentTxt := "---- ║  │                                                                                                                   ║`r"
 			PasteText(commentTxt)
 		} else {
