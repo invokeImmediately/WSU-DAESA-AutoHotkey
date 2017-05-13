@@ -44,7 +44,10 @@ LoadAhkCmdHistory() {
 			if (logFileLine = "") {
 				break
 			} else {
-				ahkCmds.Push(logFileLine)
+				logFileLine := StrReplace(logFileLine, "`n", "")
+				if (logFileLine != "") {
+					ahkCmds.Push(logFileLine)
+				}
 			}
 		}
 		logFile.Close()
@@ -145,6 +148,7 @@ Return
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@saveAhkCmdHistory::
+    CheckForCmdEntryGui()
 	SaveAhkCmdHistory()
 Return
 
@@ -247,6 +251,7 @@ HandleFindCmdCancel() {
 ;   --------------------------------------------------------------------------------------------------------
 
 HandleCmdRptOK() {
+	global
     Gui, AhkGuiRptCmd:Submit
     Gui, AhkGuiRptCmd:Destroy ;Doing this now implicitly allows us to return to the previously active window.
     if (CmdChosen > 0 && CmdChosen <= ahkCmds.Length()) {
