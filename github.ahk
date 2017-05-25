@@ -2409,7 +2409,9 @@ Return
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@updateJsSubmoduleAll::
-	AppendAhkCmd(":*:@updateJsSubmoduleAll")
+	ahkCmdName := ":*:@updateJsSubmoduleAll"
+	AppendAhkCmd(ahkCmdName)
+	Gosub, :*:@updateJsSubmoduleCr
 	Gosub, :*:@updateJsSubmoduleDsp
 	Gosub, :*:@updateJsSubmoduleFye
 	Gosub, :*:@updateJsSubmoduleFyf
@@ -2670,6 +2672,11 @@ Return
 		. "Write-Host ""``n-------------------------------------------------WSU-OUE---JS---------------------"
 		. "----------------------------"" -ForegroundColor ""green""`r`n"
 		. "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\WSU-UE---JS\""`r`n"
+		. "git status`r`n"
+		. "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\""`r`n"
+		. "Write-Host ""``n--------------------------------------------commonreading.wsu.edu-----------------"
+		. "----------------------------"" -ForegroundColor ""green""`r`n"
+		. "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\commonreading.wsu.edu\""`r`n"
 		. "git status`r`n"
 		. "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\""`r`n"
 		. "Write-Host ""``n--------------------------------------distinguishedscholarships.wsu.edu-----------"
