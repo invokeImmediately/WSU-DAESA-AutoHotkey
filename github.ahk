@@ -1130,7 +1130,7 @@ Return
 	PasteTextIntoGitShell(ahkCmdName
 		, "cd """ . GetGitHubFolder() . "\phibetakappa.wsu.edu\CSS""`r"
 		. "lessc pbk-custom.less pbk-custom.css`r"
-		. "gulp cmq`r"
+		. "gulp`r"
 		. "lessc --clean-css pbk-custom.less pbk-custom.min.css`r"
 		. "[console]::beep(1500,300)`r")
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssPbk")
