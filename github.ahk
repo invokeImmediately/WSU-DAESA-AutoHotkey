@@ -1044,7 +1044,6 @@ Return
 		, "cd """ . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\CSS""`r"
 		. "lessc dsp-custom.less dsp-custom.css`r"
 		. "gulp`r"
-		. "lessc --clean-css dsp-custom.less dsp-custom.min.css`r"
 		. "[console]::beep(1500,300)`r")
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssDsp")
 Return
@@ -1593,8 +1592,7 @@ Return
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\CSS\dsp-custom.min.css"
-		, "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
-		. "keImmediately/distinguishedscholarships.wsu.edu] for a repository of source code. */`r`n"
+		, ""
 		, "Couldn't copy minified CSS for DSP Website.")
 Return
 
