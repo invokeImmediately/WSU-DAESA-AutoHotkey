@@ -1043,7 +1043,7 @@ Return
 	PasteTextIntoGitShell(ahkCmdName
 		, "cd """ . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\CSS""`r"
 		. "lessc dsp-custom.less dsp-custom.css`r"
-		. "gulp`r"
+		. "gulp buildMinCss`r"
 		. "[console]::beep(1500,300)`r")
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssDsp")
 Return
