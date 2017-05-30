@@ -1,21 +1,21 @@
-﻿; ============================================================================================================
+﻿; ===========================================================================================================================
 ; LEGEND
 ; ! = ALT     + = SHIFT     ^ = CONTROL     # = WIN
 ; (see https://autohotkey.com/docs/commands/Send.htm for more info)
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 ; TABLE OF CONTENTS
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 ;   Global Variables: 19  •  Workspace Management: 27  •  Utility Functions: 289  •  Text Replacement: 517
 ;   Program/File Launching Shortcuts: 577  •  File System Navigation: 595  •  Google Chrome Shorctuts: 645
 ;   Github Shortcuts: 670
-; ============================================================================================================
+; ===========================================================================================================================
 
-; ------------------------------------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------------------------------------------------------
 ; GLOBAL VARIABLES
-; ------------------------------------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------------------------------------------------------
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-; >>> GLOBAL VARIABLES DEFINED THROUGH SYSGET  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; >>> GLOBAL VARIABLES DEFINED THROUGH SYSGET  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 global SM_CMONITORS := 80		;Constant needed for retreiving the number of display monitors on the desktop via SysGet(...)
 global SM_CXSIZEFRAME := 32			;SysGet(...) constant needed for retreiving the default window border width
 global SM_CYSIZEFRAME := 33			;SysGet(...) constant needed for retreiving the default window border height
@@ -23,23 +23,28 @@ global sysNumMonitors			;Number of display monitors on this system
 global sysWinBorderW			;Default border width
 global sysWinBorderH			;Default border height
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-; >>> OTHER GLOBAL VARIABLES -  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; >>> OTHER GLOBAL VARIABLES -  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 global userAccountFolderSSD := "C:\Users\CamilleandDaniel"
 global userAccountFolderHDD := "F:\Users\CamilleandDaniel"
-global webDevFolder := "\Documents\Daniel\{^}WSU-Web-Dev"
-global logFileName := userAccountFolderHDD . "\Documents\Daniel\^WSU-Web-Dev\^Personnel-File\Work-log.txt"
-global cmdHistoryLog := userAccountFolderHDD . "\Documents\Daniel\^WSU-Web-Dev\^Personnel-File\ahk-cmd-history.txt"
+global relWorkFolder := "\Documents\Daniel"
+global ssdWorkFolder := userAccountFolderSSD . relWorkFolder
+global hhdWorkFolder := userAccountFolderHDD . relWorkFolder
+global webDevFolder := hhdWorkFolder . "\{^}WSU-Web-Dev"
+global logFileName := hhdWorkFolder . "\^WSU-Web-Dev\^Personnel-File\Work-log.txt"
+global cmdHistoryLog := hhdWorkFolder . "\^WSU-Web-Dev\^Personnel-File\ahk-cmd-history.txt"
 global workTimerCountdownTime := -1500000
 global workTimeLeftOver := 0
-global workTimerNotificationSound := userAccountFolderSSD . "\Documents\Daniel\Sound Library\chinese-gong-daniel_simon.wav"
-global workTimerMinutesound := userAccountFolderSSD . "\Documents\Daniel\Sound Library\Bell-tone_C-4.wav"
-global workTimer5MinuteSound := userAccountFolderSSD . "\Documents\Daniel\Sound Library\Metal_Gong-Dianakc-109711828.wav"
 global workTimerMinuteCount := 0
-global windowMovementSound := userAccountFolderSSD . "\Documents\Daniel\Sound Library\323413__sethroph__glass-slide-3_-12.5db_faster.wav"
-global windowSizingSound := userAccountFolderSSD . "\Documents\Daniel\Sound Library\68222__xtyl33__paper3_-7.5db_faster.wav"
-global windowShiftingSound := userAccountFolderSSD . "\Documents\Daniel\Sound Library\185849__lloydevans09__warping.wav"
-global desktopSwitchingSound := userAccountFolderSSD . "\Documents\Daniel\Sound Library\352719__dalesome__woosh-stick-swung-in-the-air_-15db.wav"
+global workTimerNotificationSound := ssdWorkFolder . "\Sound Library\chinese-gong-daniel_simon.wav"
+global workTimerMinutesound := ssdWorkFolder . "\Sound Library\Bell-tone_C-4.wav"
+global workTimer5MinuteSound := ssdWorkFolder . "\Sound Library\Metal_Gong-Dianakc-109711828.wav"
+global windowMovementSound := ssdWorkFolder . "\Sound Library\323413__sethroph__glass-slide-3_-12.5db_faster.wav"
+global windowSizingSound := ssdWorkFolder . "\Sound Library\68222__xtyl33__paper3_-7.5db_faster.wav"
+global windowShiftingSound := ssdWorkFolder . "\Sound Library\185849__lloydevans09__warping.wav"
+global desktopSwitchingSound := ssdWorkFolder . "\Sound Library\352719__dalesome__woosh-stick-swung-in-the-air_-15db.wav"
+global scriptLoadedSound := ssdWorkFolder . "\Sound Library\Storm_exclamation.wav"
+global desktopArrangedSound := ssdWorkFolder . "\Sound Library\zelda_lttp-mstr-swrd.wav"
 global bitNumpadSubToggle := false
 global numpadSubOverwrite := "{U+00b7}"
 global ahkCmds := Array()
@@ -50,8 +55,6 @@ global hotstrEndTime := 0
 global savedMouseX := 0
 global savedMouseY := 0
 global lineLength := 125
-global scriptLoadedSound := userAccountFolderSSD . "\Documents\Daniel\Sound Library\Storm_exclamation.wav"
-global desktopArrangedSound := userAccountFolderSSD . "\Documents\Daniel\Sound Library\zelda_lttp-mstr-swrd.wav"
 
 SetTitleMatchMode, 2
 FileEncoding, UTF-8
@@ -72,15 +75,15 @@ If not A_IsAdmin
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\functions.ahk
 
-; ------------------------------------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------------------------------------------------------
 ;   COMMAND HISTORY
-; ------------------------------------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\commandHistory.ahk
 
-; ------------------------------------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------------------------------------------------------
 ;   WORKSPACE MANAGEMENT
-; ------------------------------------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\workspaceMngmnt.ahk
 
@@ -106,7 +109,7 @@ If not A_IsAdmin
 	}
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@toggleAOT::
 	AppendAhkCmd(":*:@toggleAOT")
@@ -122,18 +125,18 @@ Return
 	}
 Return
 
-; ------------------------------------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------------------------------------------------------
 ;   WORK TIMER scripts for tracking hours and indicating when breaks should be taken
-; ------------------------------------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\workTimer.ahk
 
-; ------------------------------------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------------------------------------------------------
 ;   TEXT REPLACEMENT
-; ------------------------------------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------------------------------------------------------
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-; >>> Text Replacement HOTKEYS  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; >>> Text Replacement HOTKEYS  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 NumpadSub::
 	if (bitNumpadSubToggle) {
@@ -144,35 +147,35 @@ NumpadSub::
 	}
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^NumpadSub::
 	Gosub :*:@toggleNumpadSub
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^+NumpadSub::
 	Gosub :*:@changeNumpadSub
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-; >>> Text Replacement HOTSTRINGS -  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; >>> Text Replacement HOTSTRINGS -  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@add5lineshere::
 	AppendAhkCmd(":*:@add5lineshere")
 	SendInput, {Enter 5}
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@addClass::class=""{Space}{Left 2}
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@addNrml::{Space}class="oue-normal"
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@changeNumpadSub::
 	AppendAhkCmd(":*:@changeNumpadSub")
@@ -188,7 +191,7 @@ Return
 	}
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@datetime::
 	AppendAhkCmd(":*:@datetime")
@@ -196,7 +199,7 @@ Return
 	SendInput, %CurrentDateTime%
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@ddd::
 	AppendAhkCmd(":*:@ddd")
@@ -204,25 +207,25 @@ Return
 	SendInput, %CurrentDateTime%
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@doRGBa::
 	AppendAhkCmd(":*:@doRGBa")
 	SendInput, rgba(@rval, @gval, @bval, );{Left 2}
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :R*:@findStrFnctns::^[^{\r\n]+{$\r\n(?:^(?<!\}).+$\r\n)+^\}$
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@ppp::
 	AppendAhkCmd(":*:@ppp")
 	SendInput, news-events_events_.html{Left 5}
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@toggleNumpadSub::
 	AppendAhkCmd(":*:@toggleNumpadSub")
@@ -238,7 +241,7 @@ Return
 		, % toggleMsg
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@xccc::
 	AppendAhkCmd(":*:@xccc")
@@ -246,7 +249,7 @@ Return
 	SendInput, / Completed %CurrentDateTime%
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@xsss::
 	AppendAhkCmd(":*:@xsss")
@@ -254,134 +257,36 @@ Return
 	SendInput, (Started %CurrentDateTime%)
 Return
 
-; ------------------------------------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------------------------------------------------------
 ;   PROGRAM/FILE LAUNCHING SHORTCUTS
-; ------------------------------------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------------------------------------------------------
 
 :R*?:runNotepad::
 	Run C:\Program Files (x86)\Notepad++\notepad++.exe
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 #z::
 	Run notepad++.exe, C:\Program Files (x86)\Notepad++, Max
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@checkHTMLSpec::
 	AppendAhkCmd(":*:@checkHTMLSpec")
 	Run % userAccountFolderHHD . "\Documents\Daniel\^WSU-Web-Dev\^Master-VPUE\Anatomy of an HTML5 Document_2016-03-16.jpg"
 Return
 
-; ------------------------------------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------------------------------------------------------
 ;   FILE SYSTEM NAVIGATION
-; ------------------------------------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------------------------------------------------------
 
-:*:@gotoTorah::
-	AppendAhkCmd(":*:@gotoTorah")
-	SendInput, F:\Users\CamilleandDaniel\Documents\Daniel\{^}Derek-Haqodesh\{Enter}
-Return
+#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\fileSystem.ahk
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@gotoCurrent::
-	AppendAhkCmd(":*:@gotoCurrent")
-	SendInput, F:\Users\CamilleandDaniel\Documents\Daniel\{^}Derek-Haqodesh\TheMessage.cc\Messages\Message_The-Man-from-Heaven_2015-12-06{Enter}
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@gotoGithub::
-	AppendAhkCmd(":*:@gotoGithub")
-	SendInput, C:\Users\CamilleandDaniel\Documents\GitHub{Enter}
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@gotoWebDev::
-	AppendAhkCmd(":*:@gotoWebDev")
-	SendInput, % userAccountFolderHDD . webDevFolder . "{Enter}"
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@gotoWdDsp::
-    InsertFilePath(":*:@gotoWdDsp", userAccountFolderHDD . webDevFolder . "\DSP") 
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@gotoWdFye::
-    InsertFilePath(":*:@gotoWdFye", userAccountFolderHDD . webDevFolder . "\FYE & FYF")
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@gotoWdFyf::
-    InsertFilePath(":*:@gotoWdFyf", userAccountFolderHDD . webDevFolder . "\FYE & FYF")
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@gotoWdPf::
-    InsertFilePath(":*:@gotoWdPf", userAccountFolderHDD . webDevFolder . "\{^}Personnel-File")
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@gotoWdSurca::
-    InsertFilePath(":*:@gotoWdSurca", userAccountFolderHDD . webDevFolder . "\SURCA")
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@gotoWdSumRes::
-    InsertFilePath(":*:@gotoWdSumRes", userAccountFolderHDD . webDevFolder . "\Summer-Res")
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@gotoWdUcrAss::
-    InsertFilePath(":*:@gotoWdUcrAss", userAccountFolderHDD . webDevFolder . "\UCORE-Assessment")
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@gotoWdUcore::
-    InsertFilePath(":*:@gotoWdUcore", userAccountFolderHDD . webDevFolder . "\UCORE")
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@gotoWdUgr::
-    InsertFilePath(":*:@gotoWdUgr", userAccountFolderHDD . webDevFolder . "\UGR")
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@gotoWdXfer::
-    InsertFilePath(":*:@gotoWdXfer", userAccountFolderHDD . webDevFolder . "\xfer")
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@openNodeCodes::
-	AppendAhkCmd(":*:@openNodeCodes")
-	SendInput, F:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev\{^}Master-VPUE\Node\node-commands.bat{Enter}
-Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-:*:@openGitCodes::
-	AppendAhkCmd(":*:@openGitCodes")
-	SendInput, F:\Users\CamilleandDaniel\Documents\Daniel\{^}WSU-Web-Dev\GitHub\git-codes.bat{Enter}
-Return
-
-; ------------------------------------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------------------------------------------------------
 ;   AUTOHOTKEY SCRIPT WRITING SHORTCUTS
-; ------------------------------------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------------------------------------------------------
 
 :*:@insAhkCommentSection::
 	AppendAhkCmd(":*:@insAhkCommentSection")
@@ -404,7 +309,7 @@ Return
 	}
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@insAhkCommentSubSection::
 	AppendAhkCmd(":*:@insAhkCommentSubSection")
@@ -426,7 +331,7 @@ Return
 	}
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@insAhkCommentSeparator::
 	AppendAhkCmd(":*:@insAhkCommentSeparator")
@@ -445,9 +350,9 @@ Return
 	}
 Return
 
-; ------------------------------------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------------------------------------------------------
 ;   GOOGLE CHROME SHORTCUTS
-; ------------------------------------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------------------------------------------------------
 
 ^!o::
 	WinGet, thisProcess, ProcessName, A
@@ -462,7 +367,7 @@ Return
 	}
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 PerformBypassingCtrlAltO:
 	Suspend
@@ -472,15 +377,15 @@ PerformBypassingCtrlAltO:
 	Suspend, Off
 Return
 
-; ------------------------------------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------------------------------------------------------
 ;   NOTEPAD++ SHORTCUTS
-; ------------------------------------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\htmlEditing.ahk
 
-; ------------------------------------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------------------------------------------------------
 ;   OTHER SHORTCUTS
-; ------------------------------------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\github.ahk
 
@@ -493,7 +398,7 @@ Return
 	Send {SPACE 16}
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^#!r::
 	SaveAhkCmdHistory()
@@ -501,9 +406,9 @@ Return
 	ExitApp
 Return
 
-; ------------------------------------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------------------------------------------------------
 ;   CUSTOM HOTSTRINGS
-; ------------------------------------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------------------------------------------------------
 
 :*:@copyFromExcel::
 	AppendAhkCmd(":*:@copyFromExcel")
@@ -540,9 +445,9 @@ CopyTitleFromExcel(cumulativeCount) {
 	}
 }
 
-; ------------------------------------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------------------------------------------------------
 ;   MAIN SUBROUTINE
-; ------------------------------------------------------------------------------------------------------------
+; ---------------------------------------------------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\desktopMain.ahk
 
