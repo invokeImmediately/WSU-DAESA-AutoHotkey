@@ -152,6 +152,7 @@ Return
 	Sleep, 330
 	Gosub, % ":*:@setupCiscoVpn"
 	Sleep 330
+	SoundPlay, %desktopArrangedSound%
 	Gosub, % ":*:@setupWorkTimer"
 Return
 
@@ -161,7 +162,6 @@ Return
 
 #!r::
 	Gosub, :*:@setupWorkEnvironment
-	SoundPlay, %desktopArrangedSound%
 Return
 
 ;   --------------------------------------------------------------------------------------------------------
@@ -246,11 +246,11 @@ Return
 :*:@moveTempMonitors::
 	; Send temperature monitoring programs to desktop #5 from #1
 	AppendAhkCmd(":*:@moveTempMonitors")
-	WinActivate, % "GPU Temp"
+	WinActivate, % "GPU Temp ahk_exe GPUTemp.exe"
 	Sleep, 330
 	Gosub % "^!4"
 	Sleep, 750
-	WinActivate, % "RealTemp"
+	WinActivate, % "RealTemp ahk_exe RealTemp.exe"
 	Sleep, 330
 	Gosub % "^!4"
 	Sleep, 750
