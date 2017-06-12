@@ -99,8 +99,8 @@ Return
 	Sleep, 1000
 	SendInput, ^{Tab}
 	Sleep, 330
-	LaunchStdApplicationPatiently("C:\Program Files (x86)\Microsoft Office\root\Office16\outlook.exe", "Outlook ahk_class MsoSplash ahk_exe OUTLOOK.EXE")
-	Sleep, 1000
+	LaunchStdApplicationPatiently("C:\Program Files (x86)\Microsoft Office\root\Office16\outlook.exe", "ahk_class MsoSplash ahk_exe OUTLOOK.EXE")
+	Sleep, 5000
 	SendInput, {Enter}
 	Sleep, 1500
 	WaitForApplicationPatiently("Inbox - ahk_exe OUTLOOK.EXE")
