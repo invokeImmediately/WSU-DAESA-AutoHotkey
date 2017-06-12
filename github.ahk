@@ -243,6 +243,32 @@ Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
+:*:@postBackupCss::
+	AppendAhkCmd(":*:@postBackupCss")
+	if(!sgIsPostingBackupCss) {
+		Gui, guiPostBackupCss: New,, % "Post Minified CSS to OUE Websites"
+		Gui, guiPostBackupCss: Add, Text,, % "Which OUE Websites would you like to update?"
+		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToCr, % "https://commonread&ing.wsu.edu"
+		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToDsp Checked, % "https://&distinguishedscholarships.wsu.edu"
+		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToFye Checked, % "https://&firstyear.wsu.edu"
+		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToFyf Checked, % "https://&learningcommunities.wsu.edu"
+		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToPbk Checked, % "https://&phibetakappa.wsu.edu"
+		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToSurca Checked, % "https://&surca.wsu.edu"
+		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToSumRes Checked, % "https://su&mmerresearch.wsu.edu"
+		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToXfer, % "https://&transfercredit.wsu.edu"
+		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToUgr Checked, % "https://&undergraduateresearch.wsu.edu"
+		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToUcore Checked, % "https://uco&re.wsu.edu"
+		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToUcrAss Checked, % "https://ucore.wsu.edu/&assessment"
+		Gui, guiPostBackupCss: Add, Button, Default gHandlePostBackupCssOK, &OK
+		Gui, guiPostBackupCss: Add, Button, gHandlePostBackupCssCancel X+5, &Cancel
+		Gui, guiPostBackupCss: Add, Button, gHandlePostBackupCssCheckAllSites X+15, C&heck All
+		Gui, guiPostBackupCss: Add, Button, gHandlePostBackupCssUncheckAllSites X+5, Unchec&k All
+		Gui, guiPostBackupCss: Show
+	}
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 :*:@postMinJs::
 	AppendAhkCmd(":*:@postMinJs")
 	if(!sgIsPostingMinJs) {
@@ -271,6 +297,7 @@ Return
 ; >>> GUI DRIVING FUNCTIONS --  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 HandlePostCssCheckAllSites() {
+	global
 	GuiControl, guiPostMinCss:, PostMinCssToCr, 1
 	GuiControl, guiPostMinCss:, PostMinCssToDsp, 1
 	GuiControl, guiPostMinCss:, PostMinCssToFye, 1
@@ -286,7 +313,25 @@ HandlePostCssCheckAllSites() {
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
+HandlePostBackupCssCheckAllSites() {
+	global
+	GuiControl, guiPostBackupCss:, PostBackupCssToCr, 1
+	GuiControl, guiPostBackupCss:, PostBackupCssToDsp, 1
+	GuiControl, guiPostBackupCss:, PostBackupCssToFye, 1
+	GuiControl, guiPostBackupCss:, PostBackupCssToFyf, 1
+	GuiControl, guiPostBackupCss:, PostBackupCssToPbk, 1
+	GuiControl, guiPostBackupCss:, PostBackupCssToSurca, 1
+	GuiControl, guiPostBackupCss:, PostBackupCssToSumRes, 1
+	GuiControl, guiPostBackupCss:, PostBackupCssToXfer, 1
+	GuiControl, guiPostBackupCss:, PostBackupCssToUgr, 1
+	GuiControl, guiPostBackupCss:, PostBackupCssToUcore, 1
+	GuiControl, guiPostBackupCss:, PostBackupCssToUcrAss, 1
+}
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 HandlePostCssUncheckAllSites() {
+	global
 	GuiControl, guiPostMinCss:, PostMinCssToCr, 0
 	GuiControl, guiPostMinCss:, PostMinCssToDsp, 0
 	GuiControl, guiPostMinCss:, PostMinCssToFye, 0
@@ -302,7 +347,25 @@ HandlePostCssUncheckAllSites() {
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
+HandlePostBackupCssUncheckAllSites() {
+	global
+	GuiControl, guiPostBackupCss:, PostBackupCssToCr, 0
+	GuiControl, guiPostBackupCss:, PostBackupCssToDsp, 0
+	GuiControl, guiPostBackupCss:, PostBackupCssToFye, 0
+	GuiControl, guiPostBackupCss:, PostBackupCssToFyf, 0
+	GuiControl, guiPostBackupCss:, PostBackupCssToPbk, 0
+	GuiControl, guiPostBackupCss:, PostBackupCssToSurca, 0
+	GuiControl, guiPostBackupCss:, PostBackupCssToSumRes, 0
+	GuiControl, guiPostBackupCss:, PostBackupCssToXfer, 0
+	GuiControl, guiPostBackupCss:, PostBackupCssToUgr, 0
+	GuiControl, guiPostBackupCss:, PostBackupCssToUcore, 0
+	GuiControl, guiPostBackupCss:, PostBackupCssToUcrAss, 0
+}
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 HandlePostJsCheckAllSites() {
+	global
 	GuiControl, guiPostMinJs:, PostMinJsToCr, 1
 	GuiControl, guiPostMinJs:, PostMinJsToDsp, 1
 	GuiControl, guiPostMinJs:, PostMinJsToFye, 1
@@ -319,6 +382,7 @@ HandlePostJsCheckAllSites() {
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 HandlePostJsUncheckAllSites() {
+	global
 	GuiControl, guiPostMinJs:, PostMinJsToCr, 0
 	GuiControl, guiPostMinJs:, PostMinJsToDsp, 0
 	GuiControl, guiPostMinJs:, PostMinJsToFye, 0
@@ -366,7 +430,7 @@ HandlePostMinCssOK() {
 	if (PostMinCssToSumRes) {
 		PasteMinCssToWebsite("https://summerresearch.wsu.edu/wp-admin/themes.php?page=editcss", ":*:@copyMinCssSumRes")
 	}
-	if (PostMinCssToXfer,) {
+	if (PostMinCssToXfer) {
 		PasteMinCssToWebsite("https://transfercredit.wsu.edu/wp-admin/themes.php?page=editcss", ":*:@copyMinCssXfer")
 	}
 	if (PostMinCssToUgr) {
@@ -379,6 +443,55 @@ HandlePostMinCssOK() {
 		PasteMinCssToWebsite("https://ucore.wsu.edu/assessment/wp-admin/themes.php?page=editcss", ":*:@copyMinCssUcrAss")
 	}
 	sgIsPostingMinCss := false
+}
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+HandlePostBackupCssCancel() {
+	Gui, guiPostBackupCss: Destroy
+}
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+HandlePostBackupCssOK() {
+	global
+	Gui, guiPostBackupCss: Submit
+	Gui, guiPostBackupCss: Destroy
+	sgIsPostingBackupCss := true
+	if (PostMinCssToCr) {
+		PasteMinCssToWebsite("https://commonreading.wsu.edu/wp-admin/themes.php?page=editcss", ":*:@copyBackupCssCr")
+	}
+	if (PostBackupCssToDsp) {
+		PasteMinCssToWebsite("https://distinguishedscholarships.wsu.edu/wp-admin/themes.php?page=editcss", ":*:@copyBackupCssDsp")
+	}
+	if (PostBackupCssToFye) {
+		PasteMinCssToWebsite("https://firstyear.wsu.edu/wp-admin/themes.php?page=editcss", ":*:@copyBackupCssFye")
+	}
+	if (PostBackupCssToFyf) {
+		PasteMinCssToWebsite("https://learningcommunities.wsu.edu/wp-admin/themes.php?page=editcss", ":*:@copyBackupCssFyf")
+	}
+	if (PostBackupCssToPbk) {
+		PasteMinCssToWebsite("https://phibetakappa.wsu.edu/wp-admin/themes.php?page=editcss", ":*:@copyBackupCssPbk")
+	}
+	if (PostBackupCssToSurca) {
+		PasteMinCssToWebsite("https://surca.wsu.edu/wp-admin/themes.php?page=editcss", ":*:@copyBackupCssSurca")
+	}
+	if (PostBackupCssToSumRes) {
+		PasteMinCssToWebsite("https://summerresearch.wsu.edu/wp-admin/themes.php?page=editcss", ":*:@copyBackupCssSumRes")
+	}
+	if (PostBackupCssToXfer,) {
+		PasteMinCssToWebsite("https://transfercredit.wsu.edu/wp-admin/themes.php?page=editcss", ":*:@copyBackupCssXfer")
+	}
+	if (PostBackupCssToUgr) {
+		PasteMinCssToWebsite("https://undergraduateresearch.wsu.edu/wp-admin/themes.php?page=editcss", ":*:@copyBackupCssUgr")
+	}
+	if (PostBackupCssToUcore) {
+		PasteMinCssToWebsite("https://ucore.wsu.edu/wp-admin/themes.php?page=editcss", ":*:@copyBackupCssUcore")
+	}
+	if (PostBackupCssToUcrAss) {
+		PasteMinCssToWebsite("https://ucore.wsu.edu/assessment/wp-admin/themes.php?page=editcss", ":*:@copyBackupCssUcrAss")
+	}
+	sgIsPostingBackupCss := false
 }
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
@@ -476,6 +589,12 @@ Return
 
 :*:@gotoGhFyf::
 	InsertFilePath(":*:@gotoGhFyf", GetGitHubFolder() . "\learningcommunities.wsu.edu", "learningcommunities.wsu.edu")
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@gotoGhOue::
+	InsertFilePath(":*:@gotoGhPbk", GetGitHubFolder() . "\oue.wsu.edu", "oue.wsu.edu")
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
@@ -856,6 +975,20 @@ Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
+:*:@backupCssOue::
+	hsName := ":*:@backupCssOue"
+	AppendAhkCmd(hsName)
+	CopyCssFromWebsite("https://oue.wsu.edu/wp-admin/themes.php?page=editcss", copiedCss)
+	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder() . "\oue.wsu.edu\CSS\oue-custom.prev.css")
+	PasteTextIntoGitShell(hsName
+		, "cd """ . GetGitHubFolder() . "\oue.wsu.edu\""`r"
+		. "git add CSS\oue-custom.prev.css`r"
+		. "git commit -m ""Updating backup of latest verified custom CSS build""`r"
+		. "git push`r")
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 :*:@backupCssPbk::
 	hsName := ":*:@backupCssPbk"
 	AppendAhkCmd(hsName)
@@ -1028,8 +1161,8 @@ Return
 		, "cd """ . GetGitHubFolder() . "\commonreading.wsu.edu\""`r"
 		. "git add CSS\cr-custom.css`r"
 		. "git add CSS\cr-custom.min.css`r"
-		. "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
-		. "urce code""`r"
+		. "git commit -m ""Updating custom CSS build"" -m ""Rebuilt production files to incorporate recent changes to source"
+		. " code and/or dependencies."" `r"
 		. "git push`r"
 		. "[console]::beep(2000,150)`r"
 		. "[console]::beep(2000,150)`r")
@@ -1041,8 +1174,7 @@ Return
 	ahkCmdName := ":*:@rebuildCssDsp"
 	AppendAhkCmd(ahkCmdName)
 	PasteTextIntoGitShell(ahkCmdName
-		, "cd """ . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\CSS""`r"
-		. "lessc dsp-custom.less dsp-custom.css`r"
+		, "cd """ . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\""`r"
 		. "gulp buildMinCss`r"
 		. "[console]::beep(1500,300)`r")
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssDsp")
@@ -1057,8 +1189,8 @@ Return
 		, "cd """ . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\""`r"
 		. "git add CSS\dsp-custom.css`r"
 		. "git add CSS\dsp-custom.min.css`r"
-		. "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
-		. "urce code""`r"
+		. "git commit -m ""Updating custom CSS build"" -m ""Rebuilt production files to incorporate recent changes to source"
+		. " code and/or dependencies."" `r"
 		. "git push`r"
 		. "[console]::beep(2000,150)`r"
 		. "[console]::beep(2000,150)`r")
@@ -1086,8 +1218,8 @@ Return
 		, "cd """ . GetGitHubFolder() . "\firstyear.wsu.edu\""`r"
 		. "git add CSS\fye-custom.css`r"
 		. "git add CSS\fye-custom.min.css`r"
-		. "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
-		. "urce code""`r"
+		. "git commit -m ""Updating custom CSS build"" -m ""Rebuilt production files to incorporate recent changes to source"
+		. " code and/or dependencies."" `r"
 		. "git push`r"
 		. "[console]::beep(2000,150)`r"
 		. "[console]::beep(2000,150)`r")
@@ -1115,8 +1247,36 @@ Return
 		, "cd """ . GetGitHubFolder() . "\learningcommunities.wsu.edu\""`r"
 		. "git add CSS\learningcommunities-custom.css`r"
 		. "git add CSS\learningcommunities-custom.min.css`r"
-		. "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
-		. "urce code."" `r"
+		. "git commit -m ""Updating custom CSS build"" -m ""Rebuilt production files to incorporate recent changes to source"
+		. " code and/or dependencies."" `r"
+		. "git push`r"
+		. "[console]::beep(2000,150)`r"
+		. "[console]::beep(2000,150)`r")
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@rebuildCssOue::
+	ahkCmdName := ":*:@rebuildCssOue"
+	AppendAhkCmd(ahkCmdName)
+	PasteTextIntoGitShell(ahkCmdName
+		, "cd """ . GetGitHubFolder() . "\oue.wsu.edu\""`r"
+		. "gulp buildMinCss`r"
+		. "[console]::beep(1500,300)`r")
+	CommitAfterBuild(ahkCmdName, ":*:@commitCssOue")
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@commitCssOue::
+	ahkCmdName := ":*:@commitCssOue"
+	AppendAhkCmd(ahkCmdName)
+	PasteTextIntoGitShell(ahkCmdName
+		, "cd """ . GetGitHubFolder() . "\oue.wsu.edu\""`r"
+		. "git add CSS\oue-custom.css`r"
+		. "git add CSS\oue-custom.min.css`r"
+		. "git commit -m ""Updating custom CSS build"" -m ""Rebuilt production files to incorporate recent changes to source"
+		. " code and/or dependencies."" `r"
 		. "git push`r"
 		. "[console]::beep(2000,150)`r"
 		. "[console]::beep(2000,150)`r")
@@ -1128,10 +1288,8 @@ Return
 	ahkCmdName := ":*:@rebuildCssPbk"
 	AppendAhkCmd(ahkCmdName)
 	PasteTextIntoGitShell(ahkCmdName
-		, "cd """ . GetGitHubFolder() . "\phibetakappa.wsu.edu\CSS""`r"
-		. "lessc pbk-custom.less pbk-custom.css`r"
-		. "gulp`r"
-		. "lessc --clean-css pbk-custom.less pbk-custom.min.css`r"
+		, "cd """ . GetGitHubFolder() . "\phibetakappa.wsu.edu\""`r"
+		. "gulp buildMinCss`r"
 		. "[console]::beep(1500,300)`r")
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssPbk")
 Return
@@ -1145,8 +1303,8 @@ Return
 		, "cd """ . GetGitHubFolder() . "\phibetakappa.wsu.edu\""`r"
 		. "git add CSS\pbk-custom.css`r"
 		. "git add CSS\pbk-custom.min.css`r"
-		. "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
-		. "urce code."" `r"
+		. "git commit -m ""Updating custom CSS build"" -m ""Rebuilt production files to incorporate recent changes to source"
+		. " code and/or dependencies."" `r"
 		. "git push`r"
 		. "[console]::beep(2000,150)`r"
 		. "[console]::beep(2000,150)`r")
@@ -1174,8 +1332,8 @@ Return
 		, "cd """ . GetGitHubFolder() . "\surca.wsu.edu\""`r"
 		. "git add CSS\surca-custom.css`r"
 		. "git add CSS\surca-custom.min.css`r"
-		. "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
-		. "urce code"" `r"
+		. "git commit -m ""Updating custom CSS build"" -m ""Rebuilt production files to incorporate recent changes to source"
+		. " code and/or dependencies."" `r"
 		. "git push`r"
 		. "[console]::beep(2000,150)`r"
 		. "[console]::beep(2000,150)`r")
@@ -1203,8 +1361,8 @@ Return
 		, "cd """ . GetGitHubFolder() . "\summerresearch.wsu.edu\""`r"
 		. "git add CSS\summerresearch-custom.css`r"
 		. "git add CSS\summerresearch-custom.min.css`r"
-		. "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
-		. "urce code."" `r"
+		. "git commit -m ""Updating custom CSS build"" -m ""Rebuilt production files to incorporate recent changes to source"
+		. " code and/or dependencies."" `r"
 		. "git push`r"
 		. "[console]::beep(2000,150)`r"
 		. "[console]::beep(2000,150)`r")
@@ -1232,8 +1390,8 @@ Return
 		, "cd """ . GetGitHubFolder() . "\transfercredit.wsu.edu\""`r"
 		. "git add CSS\xfercredit-custom.css`r"
 		. "git add CSS\xfercredit-custom.min.css`r"
-		. "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
-		. "urce code."" `r"
+		. "git commit -m ""Updating custom CSS build"" -m ""Rebuilt production files to incorporate recent changes to source"
+		. " code and/or dependencies."" `r"
 		. "git push`r"
 		. "[console]::beep(2000,150)`r"
 		. "[console]::beep(2000,150)`r")
@@ -1261,8 +1419,8 @@ Return
 		, "cd """ . GetGitHubFolder() . "\undergraduateresearch.wsu.edu\""`r"
 		. "git add CSS\undergraduate-research-custom.css`r"
 		. "git add CSS\undergraduate-research-custom.min.css`r"
-		. "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
-		. "urce code"" `r"
+		. "git commit -m ""Updating custom CSS build"" -m ""Rebuilt production files to incorporate recent changes to source"
+		. " code and/or dependencies."" `r"
 		. "git push`r"
 		. "[console]::beep(2000,150)`r"
 		. "[console]::beep(2000,150)`r")
@@ -1290,8 +1448,8 @@ Return
 		, "cd """ . GetGitHubFolder() . "\ucore.wsu.edu\""`r"
 		. "git add CSS\ucore-custom.css`r"
 		. "git add CSS\ucore-custom.min.css`r"
-		. "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
-		. "urce code."" `r"
+		. "git commit -m ""Updating custom CSS build"" -m ""Rebuilt production files to incorporate recent changes to source"
+		. " code and/or dependencies."" `r"
 		. "git push`r"
 		. "[console]::beep(2000,150)`r"
 		. "[console]::beep(2000,150)`r")
@@ -1319,8 +1477,8 @@ Return
 		, "cd """ . GetGitHubFolder() . "\ucore.wsu.edu-assessment\""`r"
 		. "git add CSS\ucore-assessment-custom.css`r"
 		. "git add CSS\ucore-assessment-custom.min.css`r"
-		. "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
-		. "urce code."" `r"
+		. "git commit -m ""Updating custom CSS build"" -m ""Rebuilt production files to incorporate recent changes to source"
+		. " code and/or dependencies."" `r"
 		. "git push`r"
 		. "[console]::beep(2000,150)`r"
 		. "[console]::beep(2000,150)`r")
@@ -1335,6 +1493,7 @@ Return
 	Gosub, :*:@rebuildCssDsp
 	Gosub, :*:@rebuildCssFye
 	Gosub, :*:@rebuildCssFyf
+	Gosub, :*:@rebuildCssOue
 	Gosub, :*:@rebuildCssPbk
 	Gosub, :*:@rebuildCssSurca
 	Gosub, :*:@rebuildCssSumRes
@@ -1361,8 +1520,8 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---CSS`r"
-		. "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent chang"
-		. "es in project source code""`r"
+		. "git commit -m ""Updating custom CSS master submodule for OUE websites"" -m ""Incorporating recent changes in "
+		. "project source code""`r"
 		. "git push`r")
 	Gosub, :*:@rebuildCssCr
 Return
@@ -1378,8 +1537,8 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---CSS`r"
-		. "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent chang"
-		. "es in project source code""`r"
+		. "git commit -m ""Updating custom CSS master submodule for OUE websites"" -m ""Incorporating recent changes in "
+		. "project source code""`r"
 		. "git push`r")
 	Gosub, :*:@rebuildCssDsp
 Return
@@ -1395,8 +1554,8 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---CSS`r"
-		. "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent chang"
-		. "es in project source code""`r"
+		. "git commit -m ""Updating custom CSS master submodule for OUE websites"" -m ""Incorporating recent changes in "
+		. "project source code""`r"
 		. "git push`r")
 	Gosub, :*:@rebuildCssFye
 Return
@@ -1412,10 +1571,27 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---CSS`r"
-		. "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent chang"
-		. "es in project source code""`r"
+		. "git commit -m ""Updating custom CSS master submodule for OUE websites"" -m ""Incorporating recent changes in "
+		. "project source code""`r"
 		. "git push`r")
 	Gosub, :*:@rebuildCssFyf
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@updateCssSubmoduleOue::
+	ahkCmdName := ":*:@updateCssSubmoduleOue"
+	AppendAhkCmd(ahkCmdName)
+	PasteTextIntoGitShell(ahkCmdName
+		, "cd """ . GetGitHubFolder() . "\oue.wsu.edu\WSU-UE---CSS""`r"
+		. "git fetch`r"
+		. "git merge origin/master`r"
+		. "cd ..`r"
+		. "git add WSU-UE---CSS`r"
+		. "git commit -m ""Updating custom CSS master submodule for OUE websites"" -m ""Incorporating recent changes in "
+		. "project source code""`r"
+		. "git push`r")
+	Gosub, :*:@rebuildCssOue
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
@@ -1429,8 +1605,8 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---CSS`r"
-		. "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent chang"
-		. "es in project source code""`r"
+		. "git commit -m ""Updating custom CSS master submodule for OUE websites"" -m ""Incorporating recent changes in "
+		. "project source code""`r"
 		. "git push`r")
 	Gosub, :*:@rebuildCssPbk
 Return
@@ -1446,8 +1622,8 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---CSS`r"
-		. "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent chang"
-		. "es in project source code""`r"
+		. "git commit -m ""Updating custom CSS master submodule for OUE websites"" -m ""Incorporating recent changes in "
+		. "project source code""`r"
 		. "git push`r")
 	Gosub, :*:@rebuildCssSurca
 Return
@@ -1463,8 +1639,8 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---CSS`r"
-		. "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent chang"
-		. "es in project source code""`r"
+		. "git commit -m ""Updating custom CSS master submodule for OUE websites"" -m ""Incorporating recent changes in "
+		. "project source code""`r"
 		. "git push`r")
 	Gosub, :*:@rebuildCssSumRes
 Return
@@ -1480,8 +1656,8 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---CSS`r"
-		. "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent chang"
-		. "es in project source code""`r"
+		. "git commit -m ""Updating custom CSS master submodule for OUE websites"" -m ""Incorporating recent changes in "
+		. "project source code""`r"
 		. "git push`r")
 	Gosub, :*:@rebuildCssXfer
 Return
@@ -1497,8 +1673,8 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---CSS`r"
-		. "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent chang"
-		. "es in project source code""`r"
+		. "git commit -m ""Updating custom CSS master submodule for OUE websites"" -m ""Incorporating recent changes in "
+		. "project source code""`r"
 		. "git push`r")
 	Gosub, :*:@rebuildCssUgr
 Return
@@ -1514,8 +1690,8 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---CSS`r"
-		. "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent chang"
-		. "es in project source code""`r"
+		. "git commit -m ""Updating custom CSS master submodule for OUE websites"" -m ""Incorporating recent changes in "
+		. "project source code""`r"
 		. "git push`r")
 	Gosub, :*:@rebuildCssUcore
 Return
@@ -1531,8 +1707,8 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---CSS`r"
-		. "git commit -m ""Updating submodule"" -m ""Updated master CSS submodule to incorporate recent chang"
-		. "es in project source code""`r"
+		. "git commit -m ""Updating custom CSS master submodule for OUE websites"" -m ""Incorporating recent changes in "
+		. "project source code""`r"
 		. "git push`r")
 	Gosub, :*:@rebuildCssUcrAss
 Return
@@ -1546,6 +1722,7 @@ Return
 	Gosub, :*:@updateCssSubmoduleDsp
 	Gosub, :*:@updateCssSubmoduleFye
 	Gosub, :*:@updateCssSubmoduleFyf
+	Gosub, :*:@updateCssSubmoduleOue
 	Gosub, :*:@updateCssSubmodulePbk
 	Gosub, :*:@updateCssSubmoduleSurca
 	Gosub, :*:@updateCssSubmoduleSumRes
@@ -1580,8 +1757,7 @@ Return
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\commonreading.wsu.edu\CSS\cr-custom.min.prev.css"
-		, "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
-		. "keImmediately/commonreading.wsu.edu] for a repository of source code. */`r`n"
+		, ""
 		, "Couldn't copy minified CSS for Common Reading website.")
 Return
 
@@ -1603,8 +1779,7 @@ Return
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\CSS\dsp-custom.prev.css"
-		, "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
-		. "keImmediately/distinguishedscholarships.wsu.edu] for a repository of source code. */`r`n"
+		, ""
 		, "Couldn't copy minified CSS for DSP Website.")
 Return
 
@@ -1627,8 +1802,7 @@ Return
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\firstyear.wsu.edu\CSS\fye-custom.prev.css"
-		, "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
-		. "keImmediately/firstyear.wsu.edu] for a repository of source code. */`r`n"
+		, ""
 		, "Couldn't copy minified CSS for FYE website.")
 Return
 
@@ -1651,9 +1825,19 @@ Return
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\learningcommunities.wsu.edu\CSS\learningcommunities-custom.prev.css"
-		, "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
-		. "keImmediately/learningcommunities.wsu.edu] for a repository of source code. */`r`n"
+		, ""
 		, "Couldn't copy minified CSS for First-Year Focus website.")
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@copyMinCssOue::
+	ahkCmdName := ":*:@copyMinCssOue"
+	AppendAhkCmd(ahkCmdName)
+	CopySrcFileToClipboard(ahkCmdName
+		, GetGitHubFolder() . "\oue.wsu.edu\CSS\oue-custom.min.css"
+		, ""
+		, "Couldn't copy minified CSS for Phi Beta Kappa website.")
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
@@ -1663,8 +1847,7 @@ Return
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\phibetakappa.wsu.edu\CSS\pbk-custom.min.css"
-		, "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
-		. "keImmediately/phibetakappa.wsu.edu] for a repository of source code. */`r`n"
+		, ""
 		, "Couldn't copy minified CSS for Phi Beta Kappa website.")
 Return
 
@@ -1675,8 +1858,7 @@ Return
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\phibetakappa.wsu.edu\CSS\pbk-custom.prev.css"
-		, "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
-		. "keImmediately/phibetakappa.wsu.edu] for a repository of source code. */`r`n"
+		, ""
 		, "Couldn't copy minified CSS for Phi Beta Kappa website.")
 Return
 
@@ -1699,8 +1881,7 @@ Return
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\surca.wsu.edu\CSS\surca-custom.prev.css"
-		, "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
-		. "keImmediately/surca.wsu.edu] for a repository of source code. */`r`n"
+		, ""
 		, "Couldn't copy minified CSS for SURCA website.")
 Return
 
@@ -1723,8 +1904,7 @@ Return
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\summerresearch.wsu.edu\CSS\summerresearch-custom.prev.css"
-		, "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
-		. "keImmediately/summerresearch.wsu.edu] for a repository of source code. */`r`n"
+		, ""
 		, "Couldn't copy minified CSS for Summer Research website.")
 Return
 
@@ -1747,8 +1927,7 @@ Return
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\transfercredit.wsu.edu\CSS\xfercredit-custom.prev.css"
-		, "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
-		. "keImmediately/transfercredit.wsu.edu] for a repository of source code. */`r`n"
+		, ""
 		, "Couldn't copy minified CSS for Transfer Credit website.")
 Return
 
@@ -1771,8 +1950,7 @@ Return
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\undergraduateresearch.wsu.edu\CSS\undergraduate-research-custom.prev.css"
-		, "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
-		. "keImmediately/undergraduateresearch.wsu.edu] for a repository of source code. */`r`n"
+		, ""
 		, "Couldn't copy minified CSS for UGR website.")
 Return
 
@@ -1795,8 +1973,7 @@ Return
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\ucore.wsu.edu\CSS\ucore-custom.prev.css"
-		, "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
-		. "keImmediately/ucore.wsu.edu] for a repository of source code. */`r`n"
+		, ""
 		, "Couldn't copy minified CSS for UCORE website.")
 Return
 
@@ -1819,8 +1996,7 @@ Return
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\ucore.wsu.edu-assessment\CSS\ucore-assessment-custom.min.css"
-		, "/* Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
-		. "keImmediately/ucore.wsu.edu-assessment] for a repository of source code. */`r`n"
+		, ""
 		, "Couldn't copy minified CSS for UCORE Assessment website.")
 Return
 
@@ -1883,6 +2059,20 @@ Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
+:*:@backupJsOue::
+	hsName := ":*:@backupJsOue"
+	AppendAhkCmd(hsName)
+	CopyJsFromWebsite("https://oue.wsu.edu/wp-admin/themes.php?page=custom-javascript", copiedJs)
+	WriteCodeToFile(hsName, copiedJs, GetGitHubFolder() . "\oue.wsu.edu\JS\oue-custom.min.prev.js")
+	PasteTextIntoGitShell(hsName
+		, "cd """ . GetGitHubFolder() . "\oue.wsu.edu\""`r"
+		. "git add JS\oue-custom.min.prev.js`r"
+		. "git commit -m ""Updating backup of latest verified custom JS build""`r"
+		. "git push`r")
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 :*:@backupJsPbk::
 	hsName := ":*:@backupJsPbk"
 	AppendAhkCmd(hsName)
@@ -1890,7 +2080,7 @@ Return
 	WriteCodeToFile(hsName, copiedJs, GetGitHubFolder() . "\phibetakappa.wsu.edu\JS\pbk-custom.min.prev.js")
 	PasteTextIntoGitShell(hsName
 		, "cd """ . GetGitHubFolder() . "\phibetakappa.wsu.edu\""`r"
-		. "git add JS\wp-custom-js-source.min.prev`r"
+		. "git add JS\pbk-custom.min.prev.js`r"
 		. "git commit -m ""Updating backup of latest verified custom JS build""`r"
 		. "git push`r")
 Return
@@ -1988,6 +2178,7 @@ Return
 	Gosub, :*:@backupJsDsp
 	Gosub, :*:@backupJsFye
 	Gosub, :*:@backupJsFyf
+	Gosub, :*:@backupJsOue
 	Gosub, :*:@backupJsPbk
 	Gosub, :*:@backupJsSurca
 	Gosub, :*:@backupJsSumRes
@@ -2039,8 +2230,8 @@ ExecuteJsCopyCmds(ByRef copiedJs) {
 		. "cd """ . GetGitHubFolder() . "\commonreading.wsu.edu\""`r"
 		. "git add JS\wp-custom-js-source.js`r"
 		. "git add JS\wp-custom-js-source.min.js`r"
-		. "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
-		. "urce code""`r"
+		. "git commit -m ""Updating custom JS build"" -m ""Rebuilt production files to incorporate recent changes to source "
+		. "code and/or dependencies"" `r"
 		. "git push`r")
 Return
 
@@ -2057,8 +2248,8 @@ Return
 		. "cd """ . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\""`r"
 		. "git add JS\wp-custom-javascript-source.dsp.js`r"
 		. "git add JS\wp-custom-js-source.min.dsp.js`r"
-		. "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
-		. "urce code""`r"
+		. "git commit -m ""Updating custom JS build"" -m ""Rebuilt production files to incorporate recent changes to source "
+		. "code and/or dependencies"" `r"
 		. "git push`r")
 Return
 
@@ -2075,8 +2266,8 @@ Return
 		. "cd """ . GetGitHubFolder() . "\firstyear.wsu.edu\""`r"
 		. "git add JS\wp-custom-js-source.js`r"
 		. "git add JS\wp-custom-js-source.min.js`r"
-		. "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
-		. "urce code""`r"
+		. "git commit -m ""Updating custom JS build"" -m ""Rebuilt production files to incorporate recent changes to source "
+		. "code and/or dependencies"" `r"
 		. "git push`r")
 Return
 
@@ -2093,8 +2284,26 @@ Return
 		. "cd """ . GetGitHubFolder() . "\learningcommunities.wsu.edu\""`r"
 		. "git add JS\wp-custom-js-source.js`r"
 		. "git add JS\wp-custom-js-source.min.js`r"
-		. "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
-		. "urce code""`r"
+		. "git commit -m ""Updating custom JS build"" -m ""Rebuilt production files to incorporate recent changes to source "
+		. "code and/or dependencies"" `r"
+		. "git push`r")
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@rebuildJsOue::
+	ahkCmdName := ":*:@rebuildJsOue"
+	AppendAhkCmd(ahkCmdName)
+	PasteTextIntoGitShell(ahkCmdName
+		, "cd """ . GetGitHubFolder() . "\oue.wsu.edu\JS""`r"
+		. "node build-production-file.js`r"
+		. "uglifyjs oue-custom.js --output oue-custom.min.js -mt`r"
+		. "[console]::beep(1500,300)`r"
+		. "cd """ . GetGitHubFolder() . "\oue.wsu.edu\""`r"
+		. "git add JS\oue-custom.js`r"
+		. "git add JS\oue-custom.min.js`r"
+		. "git commit -m ""Updating custom JS build"" -m ""Rebuilt production files to incorporate recent changes to source "
+		. "code and/or dependencies"" `r"
 		. "git push`r")
 Return
 
@@ -2111,8 +2320,8 @@ Return
 		. "cd """ . GetGitHubFolder() . "\phibetakappa.wsu.edu\""`r"
 		. "git add JS\pbk-custom.js`r"
 		. "git add JS\pbk-custom.min.js`r"
-		. "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
-		. "urce code."" `r"
+		. "git commit -m ""Updating custom JS build"" -m ""Rebuilt production files to incorporate recent changes to source "
+		. "code and/or dependencies"" `r"
 		. "git push`r")
 Return
 
@@ -2129,8 +2338,8 @@ Return
 		. "cd """ . GetGitHubFolder() . "\surca.wsu.edu\""`r"
 		. "git add JS\wp-custom-js-source.js`r"
 		. "git add JS\wp-custom-js-source.min.js`r"
-		. "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
-		. "urce code"" `r"
+		. "git commit -m ""Updating custom JS build"" -m ""Rebuilt production files to incorporate recent changes to source "
+		. "code and/or dependencies"" `r"
 		. "git push`r")
 Return
 
@@ -2147,8 +2356,8 @@ Return
 		. "cd """ . GetGitHubFolder() . "\summerresearch.wsu.edu\""`r"
 		. "git add JS\wp-custom-js-source.js`r"
 		. "git add JS\wp-custom-js-source.min.js`r"
-		. "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
-		. "urce code."" `r"
+		. "git commit -m ""Updating custom JS build"" -m ""Rebuilt production files to incorporate recent changes to source "
+		. "code and/or dependencies"" `r"
 		. "git push`r")
 Return
 
@@ -2165,8 +2374,8 @@ Return
 		. "cd """ . GetGitHubFolder() . "\transfercredit.wsu.edu\""`r"
 		. "git add JS\wp-custom-js-source.js`r"
 		. "git add JS\wp-custom-js-source.min.js`r"
-		. "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
-		. "urce code."" `r"
+		. "git commit -m ""Updating custom JS build"" -m ""Rebuilt production files to incorporate recent changes to source "
+		. "code and/or dependencies"" `r"
 		. "git push`r")
 Return
 
@@ -2183,8 +2392,8 @@ Return
 		. "cd """ . GetGitHubFolder() . "\undergraduateresearch.wsu.edu\""`r"
 		. "git add JS\wp-custom-js-source.js`r"
 		. "git add JS\wp-custom-js-source.min.js`r"
-		. "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
-		. "urce code"" `r"
+		. "git commit -m ""Updating custom JS build"" -m ""Rebuilt production files to incorporate recent changes to source "
+		. "code and/or dependencies"" `r"
 		. "git push`r")
 Return
 
@@ -2201,8 +2410,8 @@ Return
 		. "cd """ . GetGitHubFolder() . "\ucore.wsu.edu\""`r"
 		. "git add JS\wp-custom-js-source.js`r"
 		. "git add JS\wp-custom-js-source.min.js`r"
-		. "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
-		. "urce code."" `r"
+		. "git commit -m ""Updating custom JS build"" -m ""Rebuilt production files to incorporate recent changes to source "
+		. "code and/or dependencies"" `r"
 		. "git push`r")
 Return
 
@@ -2219,8 +2428,8 @@ Return
 		. "cd """ . GetGitHubFolder() . "\ucore.wsu.edu-assessment\""`r"
 		. "git add JS\wp-custom-js-source.js`r"
 		. "git add JS\wp-custom-js-source.min.js`r"
-		. "git commit -m ""Updating build"" -m ""Rebuilt production files to incorporate recent changes to so"
-		. "urce code."" `r"
+		. "git commit -m ""Updating custom JS build"" -m ""Rebuilt production files to incorporate recent changes to source "
+		. "code and/or dependencies"" `r"
 		. "git push`r")
 Return
 
@@ -2236,8 +2445,8 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---JS`r"
-		. "git commit -m ""Updating submodule"" -m ""Updated master JS submodule to incorporate recent change"
-		. "s in project source code""`r"
+		. "git commit -m ""Updating custom JS master submodule for OUE websites"" -m ""Incorporating recent changes in "
+		. "project source code""`r"
 		. "git push`r")
 	Gosub, :*:@rebuildJsCr
 Return
@@ -2253,8 +2462,8 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---JS`r"
-		. "git commit -m ""Updating submodule"" -m ""Updated master JS submodule to incorporate recent change"
-		. "s in project source code""`r"
+		. "git commit -m ""Updating custom JS master submodule for OUE websites"" -m ""Incorporating recent changes in "
+		. "project source code""`r"
 		. "git push`r")
 	Gosub, :*:@rebuildJsDsp
 Return
@@ -2270,8 +2479,8 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---JS`r"
-		. "git commit -m ""Updating submodule"" -m ""Updated master JS submodule to incorporate recent change"
-		. "s in project source code""`r"
+		. "git commit -m ""Updating custom JS master submodule for OUE websites"" -m ""Incorporating recent changes in "
+		. "project source code""`r"
 		. "git push`r")
 	Gosub, :*:@rebuildJsFye
 Return
@@ -2287,10 +2496,27 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---JS`r"
-		. "git commit -m ""Updating submodule"" -m ""Updated master JS submodule to incorporate recent change"
-		. "s in project source code""`r"
+		. "git commit -m ""Updating custom JS master submodule for OUE websites"" -m ""Incorporating recent changes in "
+		. "project source code""`r"
 		. "git push`r")
 	Gosub, :*:@rebuildJsFyf
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@updateJsSubmoduleOue::
+	ahkCmdName := ":*:@updateJsSubmoduleOue"
+	AppendAhkCmd(ahkCmdName)
+	PasteTextIntoGitShell(ahkCmdName
+		, "cd """ . GetGitHubFolder() . "\oue.wsu.edu\WSU-UE---JS""`r"
+		. "git fetch`r"
+		. "git merge origin/master`r"
+		. "cd ..`r"
+		. "git add WSU-UE---JS`r"
+		. "git commit -m ""Updating custom JS master submodule for OUE websites"" -m ""Incorporating recent changes in "
+		. "project source code""`r"
+		. "git push`r")
+	Gosub, :*:@rebuildJsOue
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
@@ -2304,7 +2530,8 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---JS`r"
-		. "git commit -m ""Updating submodule"" -m ""Updated master JS submodule to incorporate recent changes in project source code""`r"
+		. "git commit -m ""Updating custom JS master submodule for OUE websites"" -m ""Incorporating recent changes in "
+		. "project source code""`r"
 		. "git push`r")
 	Gosub, :*:@rebuildJsPbk
 Return
@@ -2320,7 +2547,8 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---JS`r"
-		. "git commit -m ""Updating submodule"" -m ""Updated master JS submodule to incorporate recent changes in project source code""`r"
+		. "git commit -m ""Updating custom JS master submodule for OUE websites"" -m ""Incorporating recent changes in "
+		. "project source code""`r"
 		. "git push`r")
 	Gosub, :*:@rebuildJsSurca
 Return
@@ -2336,7 +2564,8 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---JS`r"
-		. "git commit -m ""Updating submodule"" -m ""Updated master JS submodule to incorporate recent changes in project source code""`r"
+		. "git commit -m ""Updating custom JS master submodule for OUE websites"" -m ""Incorporating recent changes in "
+		. "project source code""`r"
 		. "git push`r")
 	Gosub, :*:@rebuildJsSumRes
 Return
@@ -2352,7 +2581,8 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---JS`r"
-		. "git commit -m ""Updating submodule"" -m ""Updated master JS submodule to incorporate recent changes in project source code""`r"
+		. "git commit -m ""Updating custom JS master submodule for OUE websites"" -m ""Incorporating recent changes in "
+		. "project source code""`r"
 		. "git push`r")
 	Gosub, :*:@rebuildJsXfer
 Return
@@ -2368,7 +2598,8 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---JS`r"
-		. "git commit -m ""Updating submodule"" -m ""Updated master JS submodule to incorporate recent changes in project source code""`r"
+		. "git commit -m ""Updating custom JS master submodule for OUE websites"" -m ""Incorporating recent changes in "
+		. "project source code""`r"
 		. "git push`r")
 	Gosub, :*:@rebuildJsUgr
 Return
@@ -2384,7 +2615,8 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---JS`r"
-		. "git commit -m ""Updating submodule"" -m ""Updated master JS submodule to incorporate recent changes in project source code""`r"
+		. "git commit -m ""Updating custom JS master submodule for OUE websites"" -m ""Incorporating recent changes in "
+		. "project source code""`r"
 		. "git push`r")
 	Gosub, :*:@rebuildJsUcore
 Return
@@ -2400,7 +2632,8 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---JS`r"
-		. "git commit -m ""Updating submodule"" -m ""Updated master JS submodule to incorporate recent changes in project source code""`r"
+		. "git commit -m ""Updating custom JS master submodule for OUE websites"" -m ""Incorporating recent changes in "
+		. "project source code""`r"
 		. "git push`r")
 	Gosub, :*:@rebuildJsUcrAss
 Return
@@ -2414,6 +2647,7 @@ Return
 	Gosub, :*:@updateJsSubmoduleDsp
 	Gosub, :*:@updateJsSubmoduleFye
 	Gosub, :*:@updateJsSubmoduleFyf
+	Gosub, :*:@updateJsSubmoduleOue
 	Gosub, :*:@updateJsSubmodulePbk
 	Gosub, :*:@updateJsSubmoduleSurca
 	Gosub, :*:@updateJsSubmoduleSumRes
@@ -2510,6 +2744,29 @@ Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
+:*:@copyMinJsOue::
+	ahkCmdName := ":*:@copyMinJsOue"
+	AppendAhkCmd(ahkCmdName)
+	CopySrcFileToClipboard(ahkCmdName
+		, GetGitHubFolder() . "\phibetakappa.wsu.edu\JS\oue-custom.min.js"
+		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo/UglifyJS]. "
+		. "Please see [https://github.com/invokeImmediately/oue.wsu.edu] for a repository of source code.`r`n"
+		, "Couldn't Copy Minified JS for WSU OUE Website")
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@copyBackupJsOue::
+	ahkCmdName := ":*:@copyBackupJsOue"
+	AppendAhkCmd(ahkCmdName)
+	CopySrcFileToClipboard(ahkCmdName
+		, GetGitHubFolder() . "\oue.wsu.edu\JS\oue-custom.min.prev.js"
+		, ""
+		, "Couldn't copy backup copy of minified JS for WSU OUE website")
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 :*:@copyMinJsPbk::
 	ahkCmdName := ":*:@copyMinJsPbk"
 	AppendAhkCmd(ahkCmdName)
@@ -2543,7 +2800,7 @@ Return
 		. "sandro.mit-license.org/`r`n"
 		. "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- http://cre"
 		. "ativecommons.org/licenses/by/3.0/`r`n"
-		, "Couldn't Copy Minified JS for SURCA")
+		, "Couldn't Copy Minified JS for SURCA Website")
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
@@ -2693,6 +2950,11 @@ Return
 		. "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\learningcommunities.wsu.edu\""`r`n"
 		. "git status`r`n"
 		. "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\""`r`n"
+		. "Write-Host ""``n-------------------------------------------------oue.wsu.edu----------------------"
+		. "----------------------------"" -ForegroundColor ""green""`r`n"
+		. "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\oue.wsu.edu\""`r`n"
+		. "git status`r`n"
+		. "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\""`r`n"
 		. "Write-Host ""``n------------------------------------------------surca.wsu.edu---------------------"
 		. "----------------------------"" -ForegroundColor ""green""`r`n"
 		. "cd ""C:\Users\CamilleandDaniel\Documents\GitHub\surca.wsu.edu\""`r`n"
@@ -2732,7 +2994,8 @@ Return
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 ; >>> SHORTCUTS  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-^+v::
+^+v::	
+
 	if (IsGitShellActive()) {
 		PasteTextIntoGitShell("", clipboard)
 	} else {
