@@ -60,6 +60,12 @@ Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
+:*:@gotoWdOue::
+    InsertFilePath(":*:@gotoWdOue", webDevFolder . "\OUE") 
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 :*:@gotoWdPf::
     InsertFilePath(":*:@gotoWdPf", webDevFolder . "\{^}Personnel-File")
 Return
