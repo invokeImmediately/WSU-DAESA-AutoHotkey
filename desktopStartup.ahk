@@ -198,10 +198,10 @@ Return
 	WinRestore, % "Inbox - ahk_exe outlook.exe"
 	WinMove, % "Inbox - ahk_exe outlook.exe", , -1920, 0, 1720, 1040
 	Sleep, 100
-	WinRestore, % "Gmail ahk_exe chrome.exe"
-	WinMove, % "Gmail ahk_exe chrome.exe", , -1720, 0, 1720, 1040
+	WinRestore, % "Inbox ahk_exe chrome.exe"
+	WinMove, % "Inbox ahk_exe chrome.exe", , -1720, 0, 1720, 1040
 	Sleep, 200
-	WinActivate, % "Gmail ahk_exe chrome.exe"
+	WinActivate, % "Inbox ahk_exe chrome.exe"
 	Sleep, 200
 	CoordMode, Mouse, Client
 	Sleep, 250
