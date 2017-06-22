@@ -45,8 +45,6 @@ global windowShiftingSound := ssdWorkFolder . "\Sound Library\185849__lloydevans
 global desktopSwitchingSound := ssdWorkFolder . "\Sound Library\352719__dalesome__woosh-stick-swung-in-the-air_-15db.wav"
 global scriptLoadedSound := ssdWorkFolder . "\Sound Library\Storm_exclamation.wav"
 global desktopArrangedSound := ssdWorkFolder . "\Sound Library\zelda_lttp-mstr-swrd.wav"
-global bitNumpadSubToggle := false
-global numpadSubOverwrite := "{U+00b7}"
 global ahkCmds := Array()
 global ahkCmdLimit := 36
 global CmdChosen
@@ -55,6 +53,12 @@ global hotstrEndTime := 0
 global savedMouseX := 0
 global savedMouseY := 0
 global lineLength := 125
+
+global bitNumpadSubToggle := false
+global numpadSubOverwrite := "{U+00b7}"
+global bitNumpadDivToggle := false
+global numpadDivOverwrite := "{U+00b7}"
+
 
 SetTitleMatchMode, 2
 FileEncoding, UTF-8
@@ -138,6 +142,29 @@ Return
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 ; >>> Text Replacement HOTKEYS  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
+NumpadDiv::
+	if (bitNumpadDivToggle) {
+		SendInput, % numpadDivOverwrite
+	}
+	else {
+		SendInput, /
+	}
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+^NumpadDiv::
+	Gosub :*:@toggleNumpadDiv
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+^+NumpadDiv::
+	Gosub :*:@changeNumpadDiv
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 NumpadSub::
 	if (bitNumpadSubToggle) {
 		SendInput, % numpadSubOverwrite
@@ -174,6 +201,22 @@ Return
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@addNrml::{Space}class="oue-normal"
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@changeNumpadDiv::
+	AppendAhkCmd(":*:@changeNumpadDiv")
+	Inputbox, inputEntered
+		, % "@changeNumpadDiv: Change Numpad / Overwrite"
+		, % "Enter a character/string that the Numpad- key will now represent once alternative input is toggled on."
+	if (!ErrorLevel) {
+		numpadDivOverwrite := inputEntered
+	} else {
+		MsgBox, % (0x0 + 0x40)
+			, % "@changeNumpadDiv: Numpad / Overwrite Canceled"
+			, % "Alternative input for Numpad / will remain as " . numpadDivOverwrite
+	}
+Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
@@ -223,6 +266,22 @@ Return
 :*:@ppp::
 	AppendAhkCmd(":*:@ppp")
 	SendInput, news-events_events_.html{Left 5}
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@toggleNumpadDiv::
+	AppendAhkCmd(":*:@toggleNumpadDiv")
+	toggleMsg := "The NumPad / key has been toggled to "
+	bitNumpadDivToggle := !bitNumpadDivToggle
+	if (bitNumpadDivToggle) {
+		toggleMsg .= numpadDivOverwrite
+	} else {
+		toggleMsg .=  "/"
+	}
+	MsgBox, % (0x0 + 0x40)
+		, % "@toggleNumpadDiv: NumPad / Toggled"
+		, % toggleMsg
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
