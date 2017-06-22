@@ -18,6 +18,17 @@
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
+:R*:@gotoUrlNseAdmin::https://nse.wsu.edu/wp-admin/
+:R*:@gotoUrlNseUpload::https://nse.wsu.edu/wp-admin/upload.php
+:R*:@gotoUrlNseCss::https://nse.wsu.edu/wp-admin/themes.php?page=editcss
+:R*:@gotoUrlNseJs::https://nse.wsu.edu/wp-admin/themes.php?page=custom-javascript
+:R*:@gotoUrlNsePages::https://nse.wsu.edu/wp-admin/edit.php?post_type=page
+:R*:@gotoUrlNsePosts::https://nse.wsu.edu/wp-admin/edit.php
+:R*:@gotoUrlNseDocs::https://nse.wsu.edu/wp-admin/edit.php?post_type=document
+:R*:@gotoUrlNseRedirects::https://nse.wsu.edu/wp-admin/edit.php?post_type=redirect_rule
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 :R*:@gotoUrlSumResAdmin::https://summerresearch.wsu.edu/wp-admin/
 :R*:@gotoUrlSumResUpload::https://summerresearch.wsu.edu/wp-admin/upload.php
 :R*:@gotoUrlSumResCss::https://summerresearch.wsu.edu/wp-admin/themes.php?page=editcss
@@ -25,7 +36,7 @@
 :R*:@gotoUrlSumResPages::https://summerresearch.wsu.edu/wp-admin/edit.php?post_type=page
 :R*:@gotoUrlSumResPosts::https://summerresearch.wsu.edu/wp-admin/edit.php
 :R*:@gotoUrlSumResDocs::https://summerresearch.wsu.edu/wp-admin/edit.php?post_type=document
-:R*:@gotoUrlSumResRedirects::https://distinguishedscholarships.wsu.edu/wp-admin/edit.php?post_type=redirect_rule
+:R*:@gotoUrlSumResRedirects::https://summerresearch.wsu.edu/wp-admin/edit.php?post_type=redirect_rule
 
 ; ---------------------------------------------------------------------------------------------------------------------------
 ; GUI FUNCTIONS for handling user interactions with scripts
