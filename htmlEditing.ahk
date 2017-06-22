@@ -16,6 +16,17 @@
 
 :R*:@findStrBldrSctns::(?<=^---->\r\n)^.*$(?:\r\n^(?!<!--|\r\n<!--|\Z).*$)*
 
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:R*:@gotoUrlSumResAdmin::https://summerresearch.wsu.edu/wp-admin/
+:R*:@gotoUrlSumResUpload::https://summerresearch.wsu.edu/wp-admin/upload.php
+:R*:@gotoUrlSumResCss::https://summerresearch.wsu.edu/wp-admin/themes.php?page=editcss
+:R*:@gotoUrlSumResJs::https://summerresearch.wsu.edu/wp-admin/themes.php?page=custom-javascript
+:R*:@gotoUrlSumResPages::https://summerresearch.wsu.edu/wp-admin/edit.php?post_type=page
+:R*:@gotoUrlSumResPosts::https://summerresearch.wsu.edu/wp-admin/edit.php
+:R*:@gotoUrlSumResDocs::https://summerresearch.wsu.edu/wp-admin/edit.php?post_type=document
+:R*:@gotoUrlSumResRedirects::https://distinguishedscholarships.wsu.edu/wp-admin/edit.php?post_type=redirect_rule
+
 ; ---------------------------------------------------------------------------------------------------------------------------
 ; GUI FUNCTIONS for handling user interactions with scripts
 ; ---------------------------------------------------------------------------------------------------------------------------
