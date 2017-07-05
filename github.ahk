@@ -891,7 +891,7 @@ Return
 
 ExecuteCssPasteCmds() {
 	; Add check for correct CSS in clipboard — the first line is a font import.
-	posFound := RegExMatch(clipboard, "^/\* Built with the LESS CSS")
+	posFound := RegExMatch(clipboard, "^/\*!? Built with the LESS CSS")
 	if (posFound != 0) {
 		CoordMode, Mouse, Client
 		Click, 768, 570
@@ -1924,9 +1924,8 @@ Return
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\nse.wsu.edu\CSS\nse-custom.min.css"
-		, "/*! Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
-		. "keImmediately/nse.wsu.edu] for a repository of source code. */`r`n`r`n"
-		, "Couldn't copy minified CSS for First-Year Focus website.")
+		, ""
+		, "Couldn't copy minified CSS for NSE Focus website.")
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
