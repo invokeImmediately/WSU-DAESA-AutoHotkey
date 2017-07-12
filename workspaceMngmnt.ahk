@@ -458,8 +458,67 @@ Return
 Return
 
 ; ------------------------------------------------------------------------------------------------------------
-; GNU Image Manipulation Program: Photo Editing & Graphic Design Enhancement Hotkeys & Scripts
+;   MOUSE HOTKEYS
 ; ------------------------------------------------------------------------------------------------------------
+
+;TODO: Convert these functions into an array based format
+^!+RButton::
+	global savedMouseX
+	global savedMouseY
+	
+	CoordMode, Mouse, Screen
+	MouseGetPos, savedMouseX, savedMouseY
+Return
+
+; ············································································································
+
+^!+LButton::
+	global savedMouseX
+	global savedMouseY
+
+	CoordMode, Mouse, Screen
+	MouseMove, %savedMouseX%, %savedMouseY%
+Return
+
+; ············································································································
+
+^!#LButton::
+	CoordMode, Mouse, Screen
+	MouseMove, -1568, 1065
+Return
+
+; ············································································································
+
+^!#RButton::
+	CoordMode, Mouse, Screen
+	MouseMove, 351, 1065
+Return
+
+; ············································································································
+
+#LButton::
+	CoordMode, Mouse, Window
+	WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
+	Sleep 20
+	MouseMove, % (thisWinW / 2), % (thisWinH / 2)
+Return
+
+; ············································································································
+
+^#LButton::
+!SC029::
+	CoordMode, Mouse, Window
+	WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
+	Sleep 20
+	MouseMove, % (thisWinW / 7), % (thisWinH / 2)
+Return
+
+; ------------------------------------------------------------------------------------------------------------
+;   APP SPECIFIC WORKSPACE MANAGEMENT SCRIPTS
+; ------------------------------------------------------------------------------------------------------------
+
+; ············································································································
+; >>> GNU Image Manipulation Program: Photo Editing & Graphic Design Enhancement Hotkeys & Scripts
 
 :*:@toggleGimp::
 	CheckForCmdEntryGui()
@@ -502,9 +561,8 @@ PeformBypassingCtrlM:
     Suspend, Off
 Return
 
-; ------------------------------------------------------------------------------------------------------------
-; Notepad++: Text Editing Enhancement Hotkeys & Scripts
-; ------------------------------------------------------------------------------------------------------------
+; ············································································································
+; >>> Notepad++: Text Editing Enhancement Hotkeys & Scripts
 
 DoChangeDelimiter(leftDelimiter, rightDelimeter) {
 	CoordMode, Mouse, Client
@@ -586,58 +644,3 @@ Return
 	}
 Return
 
-; ------------------------------------------------------------------------------------------------------------
-;   MOUSE HOTKEYS
-; ------------------------------------------------------------------------------------------------------------
-
-;TODO: Convert these functions into an array based format
-^!+RButton::
-	global savedMouseX
-	global savedMouseY
-	
-	CoordMode, Mouse, Screen
-	MouseGetPos, savedMouseX, savedMouseY
-Return
-
-; ············································································································
-
-^!+LButton::
-	global savedMouseX
-	global savedMouseY
-
-	CoordMode, Mouse, Screen
-	MouseMove, %savedMouseX%, %savedMouseY%
-Return
-
-; ············································································································
-
-^!#LButton::
-	CoordMode, Mouse, Screen
-	MouseMove, -1568, 1065
-Return
-
-; ············································································································
-
-^!#RButton::
-	CoordMode, Mouse, Screen
-	MouseMove, 351, 1065
-Return
-
-; ············································································································
-
-#LButton::
-	CoordMode, Mouse, Window
-	WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
-	Sleep 20
-	MouseMove, % (thisWinW / 2), % (thisWinH / 2)
-Return
-
-; ············································································································
-
-^#LButton::
-!SC029::
-	CoordMode, Mouse, Window
-	WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
-	Sleep 20
-	MouseMove, % (thisWinW / 7), % (thisWinH / 2)
-Return
