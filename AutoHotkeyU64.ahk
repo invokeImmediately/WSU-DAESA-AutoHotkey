@@ -11,11 +11,11 @@
 ; ===========================================================================================================================
 
 ; ---------------------------------------------------------------------------------------------------------------------------
-; GLOBAL VARIABLES
+;   GLOBAL VARIABLES
 ; ---------------------------------------------------------------------------------------------------------------------------
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-; >>> GLOBAL VARIABLES DEFINED THROUGH SYSGET  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ···························································································································
+; >>> SYSTEM PROPERTY GLOBALS
 global SM_CMONITORS := 80		;Constant needed for retreiving the number of display monitors on the desktop via SysGet(...)
 global SM_CXSIZEFRAME := 32			;SysGet(...) constant needed for retreiving the default window border width
 global SM_CYSIZEFRAME := 33			;SysGet(...) constant needed for retreiving the default window border height
@@ -23,33 +23,40 @@ global sysNumMonitors			;Number of display monitors on this system
 global sysWinBorderW			;Default border width
 global sysWinBorderH			;Default border height
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-; >>> OTHER GLOBAL VARIABLES -  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ···························································································································
+; >>> GLOBALS FOR LOCATIONS OF IMPORTANT FOLDERS & FILES
 global userAccountFolderSSD := "C:\Users\CamilleandDaniel"
 global userAccountFolderHDD := "F:\Users\CamilleandDaniel"
 global relWorkFolder := "\Documents\Daniel"
 global ssdWorkFolder := userAccountFolderSSD . relWorkFolder
 global hhdWorkFolder := userAccountFolderHDD . relWorkFolder
 global webDevFolder := hhdWorkFolder . "\{^}WSU-Web-Dev"
+
+; ···························································································································
+; >>> POMODORO WORK TIMER GLOBALS
 global logFileName := hhdWorkFolder . "\^WSU-Web-Dev\^Personnel-File\Work-log.txt"
-global cmdHistoryLog := hhdWorkFolder . "\^WSU-Web-Dev\^Personnel-File\ahk-cmd-history.txt"
 global workTimerCountdownTime := -1500000
 global workTimeLeftOver := 0
 global workTimerMinuteCount := 0
 global workTimerNotificationSound := ssdWorkFolder . "\Sound Library\chinese-gong-daniel_simon.wav"
 global workTimerMinutesound := ssdWorkFolder . "\Sound Library\Bell-tone_C-4.wav"
 global workTimer5MinuteSound := ssdWorkFolder . "\Sound Library\Metal_Gong-Dianakc-109711828.wav"
+
+; ···························································································································
+; >>> DESKTOP ARRANGEMENT AUDITORY CUE GLOBALS
 global windowMovementSound := ssdWorkFolder . "\Sound Library\323413__sethroph__glass-slide-3_-12.5db_faster.wav"
 global windowSizingSound := ssdWorkFolder . "\Sound Library\68222__xtyl33__paper3_-7.5db_faster.wav"
 global windowShiftingSound := ssdWorkFolder . "\Sound Library\185849__lloydevans09__warping.wav"
 global desktopSwitchingSound := ssdWorkFolder . "\Sound Library\352719__dalesome__woosh-stick-swung-in-the-air_-15db.wav"
 global scriptLoadedSound := ssdWorkFolder . "\Sound Library\Storm_exclamation.wav"
 global desktopArrangedSound := ssdWorkFolder . "\Sound Library\zelda_lttp-mstr-swrd.wav"
+
+; ···························································································································
+; >>> DESKTOP ARRANGEMENT AUDITORY CUE GLOBALS
+global cmdHistoryLog := hhdWorkFolder . "\^WSU-Web-Dev\^Personnel-File\ahk-cmd-history.txt"
 global ahkCmds := Array()
 global ahkCmdLimit := 36
 global CmdChosen
-global hotstrStartTime := 0
-global hotstrEndTime := 0
 global savedMouseX := 0
 global savedMouseY := 0
 global lineLength := 125
@@ -59,14 +66,18 @@ global numpadSubOverwrite := "{U+00b7}"
 global bitNumpadDivToggle := false
 global numpadDivOverwrite := "{U+00b7}"
 
+global hotstrStartTime := 0
+global hotstrEndTime := 0
 
-SetTitleMatchMode, 2
-FileEncoding, UTF-8
-Gosub, MainSubroutine
+; ---------------------------------------------------------------------------------------------------------------------------
+;   SET UP SCRIPT & CALL MAIN SUBROUTINE
+; ---------------------------------------------------------------------------------------------------------------------------
 
 #NoEnv
 #SingleInstance
-
+SetTitleMatchMode, 2
+FileEncoding, UTF-8
+Gosub, MainSubroutine
 If not A_IsAdmin
 {
 	;" https://autohotkey.com/docs/commands/Run.htm#RunAs: For an executable file, the *RunAs verb is equivalent to selecting Run as administrator from the right-click menu of the file."
@@ -76,6 +87,10 @@ If not A_IsAdmin
 	Run *RunAs "%A_ScriptFullPath%" 
 	ExitApp
 }
+
+; ---------------------------------------------------------------------------------------------------------------------------
+;   IMPORT: COMMON FUNCTIONS
+; ---------------------------------------------------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\functions.ahk
 
@@ -90,6 +105,8 @@ If not A_IsAdmin
 ; ---------------------------------------------------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\workspaceMngmnt.ahk
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@toggleOverlayMode::
 	AppendAhkCmd(":*:@toggleOverlayMode")
@@ -130,7 +147,7 @@ Return
 Return
 
 ; ---------------------------------------------------------------------------------------------------------------------------
-;   WORK TIMER scripts for tracking hours and indicating when breaks should be taken
+;   IMPORT: WORK TIMER scripts for tracking hours and indicating when breaks should be taken
 ; ---------------------------------------------------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\workTimer.ahk
@@ -338,7 +355,7 @@ Return
 Return
 
 ; ---------------------------------------------------------------------------------------------------------------------------
-;   FILE SYSTEM NAVIGATION
+;   IMPORT: FILE SYSTEM NAVIGATION
 ; ---------------------------------------------------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\fileSystem.ahk
@@ -437,16 +454,20 @@ PerformBypassingCtrlAltO:
 Return
 
 ; ---------------------------------------------------------------------------------------------------------------------------
-;   NOTEPAD++ SHORTCUTS
+;   IMPORT: NOTEPAD++ SHORTCUTS
 ; ---------------------------------------------------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\htmlEditing.ahk
 
 ; ---------------------------------------------------------------------------------------------------------------------------
-;   OTHER SHORTCUTS
+;   IMPORT: GITHUB SHORTCUTS
 ; ---------------------------------------------------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\github.ahk
+
+; ---------------------------------------------------------------------------------------------------------------------------
+;   OTHER SHORTCUTS
+; ---------------------------------------------------------------------------------------------------------------------------
 
 ; Shift + Wheel for horizontal scrolling
 ;+WheelDown::WheelRight
@@ -473,6 +494,8 @@ Return
 	AppendAhkCmd(":*:@copyFromExcel")
 	CopyTitleFromExcel(1)
 Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 CopyTitleFromExcel(cumulativeCount) {
 	if (cumulativeCount <= 10) {
