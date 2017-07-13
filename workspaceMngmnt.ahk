@@ -518,7 +518,7 @@ Return
 ; ------------------------------------------------------------------------------------------------------------
 
 ; ············································································································
-; >>> GNU Image Manipulation Program: Photo Editing & Graphic Design Enhancement Hotkeys & Scripts
+; >>> GNU IMAGE MANIPULATION PROGRAM: PHOTO EDITING & GRAPHIC DESIGN ENHANCEMENT HOTKEYS & SCRIPTS
 
 :*:@toggleGimp::
 	CheckForCmdEntryGui()
@@ -562,7 +562,7 @@ PeformBypassingCtrlM:
 Return
 
 ; ············································································································
-; >>> Notepad++: Text Editing Enhancement Hotkeys & Scripts
+; >>> NOTEPAD++: TEXT EDITING ENHANCEMENT HOTKEYS & SCRIPTS
 
 DoChangeDelimiter(leftDelimiter, rightDelimeter) {
 	CoordMode, Mouse, Client
@@ -644,3 +644,37 @@ Return
 	}
 Return
 
+; ············································································································
+; >>> STICKY NOTES FOR CHROME
+
+:*:@initStickyNoteToggle::
+	global hwndStickyNoteWindow
+	ahkCmdName := ":*:@initStickyNoteToggle"
+	AppendAhkCmd(ahkCmdName)
+	WinGet, hwndStickyNoteWindow, ID, A
+	MsgBox, 0, % ":*:@initStickyNoteSwitcher", % "Sticky note window with HWND " . hwndStickyNoteWindow . " can now be toggled via the hotstring @toggleStickyNote."
+Return
+
+; ············································································································
+
+:*:@toggleStickyNote::
+	global hwndStickyNoteWindow
+	global hwndActiveBeforeStickyNote
+	ahkCmdName := ":*:@toggleStickyNote"
+	AppendAhkCmd(ahkCmdName)
+	if (hwndStickyNoteWindow != undefined) {
+		WinGet, thisHwnd, ID, A
+		if (thisHwnd = hwndStickyNoteWindow) {
+			if (hwndActiveBeforeStickyNote != undefined) {
+				WinActivate, % "ahk_id " . hwndActiveBeforeStickyNote
+			} else {
+				ErrorBox(ahkCmdName, "Unable to switch away from Sticky Notes for Chrome because the app that was previously active is unknown.")
+			}
+		} else {
+			WinGet, hwndActiveBeforeStickyNote, ID, A
+			WinActivate, % "ahk_id " . hwndStickyNoteWindow
+		}
+	} else {
+		ErrorBox(ahkCmdName, "A sticky note window has not yet been initialized via @initStickyNoteSwitcher for use with this hotstring.")
+	}
+Return
