@@ -30,6 +30,12 @@ Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
+:*:@gotoWdAscc::
+    InsertFilePath(":*:@gotoWdCr", webDevFolder . "\ASCC") 
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 :*:@gotoWdCr::
     InsertFilePath(":*:@gotoWdCr", webDevFolder . "\CR") 
 Return
