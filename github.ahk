@@ -2230,6 +2230,14 @@ Return
 	AppendAhkCmd(hsName)
 	CopyJsFromWebsite("https://summerresearch.wsu.edu/wp-admin/themes.php?page=custom-javascript", copiedJs)
 	WriteCodeToFile(hsName, copiedJs, GetGitHubFolder() . "\summerresearch.wsu.edu\JS\wp-custom-js-source.min.prev.js")
+	GoSub, :*:@commitBackupJsSumRes
+Return
+
+; ············································································································
+
+:*:@commitBackupJsSumRes::
+	hsName := ":*:@commitBackupJsSumRes"
+	AppendAhkCmd(hsName)
 	PasteTextIntoGitShell(hsName
 		, "cd """ . GetGitHubFolder() . "\summerresearch.wsu.edu\""`r"
 		. "git add JS\wp-custom-js-source.min.prev.js`r"
