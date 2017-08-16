@@ -228,6 +228,7 @@ LoadWordPressSiteInChrome(websiteUrl) {
 	if(!sgIsPostingMinCss) {
 		Gui, guiPostMinCss: New,, % "Post Minified CSS to OUE Websites"
 		Gui, guiPostMinCss: Add, Text,, % "Which OUE Websites would you like to update?"
+		Gui, guiPostMinCss: Add, CheckBox, vPostMinCssToAscc, % "https://&ascc.wsu.edu"
 		Gui, guiPostMinCss: Add, CheckBox, vPostMinCssToCr, % "https://commonread&ing.wsu.edu"
 		Gui, guiPostMinCss: Add, CheckBox, vPostMinCssToDsp Checked
 			, % "https://&distinguishedscholarships.wsu.edu"
@@ -241,7 +242,7 @@ LoadWordPressSiteInChrome(websiteUrl) {
 		Gui, guiPostMinCss: Add, CheckBox, vPostMinCssToUgr Checked
 			, % "https://&undergraduateresearch.wsu.edu"
 		Gui, guiPostMinCss: Add, CheckBox, vPostMinCssToUcore Checked, % "https://uco&re.wsu.edu"
-		Gui, guiPostMinCss: Add, CheckBox, vPostMinCssToUcrAss Checked, % "https://ucore.wsu.edu/&assessment"
+		Gui, guiPostMinCss: Add, CheckBox, vPostMinCssToUcrAss Checked, % "https://ucor&e.wsu.edu/assessment"
 		Gui, guiPostMinCss: Add, Button, Default gHandlePostMinCssOK, &OK
 		Gui, guiPostMinCss: Add, Button, gHandlePostMinCssCancel X+5, &Cancel
 		Gui, guiPostMinCss: Add, Button, gHandlePostCssCheckAllSites X+15, C&heck All
@@ -259,6 +260,8 @@ Return
 			, % "Post Minified CSS to OUE Websites"
 		Gui, guiPostBackupCss: Add, Text,
 			, % "Which OUE Websites would you like to update?"
+		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToAscc
+			, % "https://&ascc.wsu.edu"
 		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToCr
 			, % "https://commonread&ing.wsu.edu"
 		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToDsp Checked
@@ -282,7 +285,7 @@ Return
 		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToUcore Checked
 			, % "https://uco&re.wsu.edu"
 		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToUcrAss Checked
-			, % "https://ucore.wsu.edu/&assessment"
+			, % "https://ucor&e.wsu.edu/assessment"
 		Gui, guiPostBackupCss: Add, Button, Default gHandlePostBackupCssOK, &OK
 		Gui, guiPostBackupCss: Add, Button, gHandlePostBackupCssCancel X+5, &Cancel
 		Gui, guiPostBackupCss: Add, Button, gHandlePostBackupCssCheckAllSites X+15, C&heck All
@@ -300,8 +303,10 @@ Return
 			, % "Post Minified JS to OUE Websites"
 		Gui, guiPostMinJs: Add, Text,
 			, % "Which OUE Websites would you like to update?"
+		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToAscc
+			, % "https://&ascc.wsu.edu"		
 		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToCr
-			, % "https://c&ommonreading.wsu.edu"		
+			, % "https://commonread&ing.wsu.edu"		
 		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToDsp Checked
 			, % "https://&distinguishedscholarships.wsu.edu"		
 		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToFye Checked
@@ -337,6 +342,7 @@ Return
 
 HandlePostCssCheckAllSites() {
 	global
+	GuiControl, guiPostMinCss:, PostMinCssToAscc, 1
 	GuiControl, guiPostMinCss:, PostMinCssToCr, 1
 	GuiControl, guiPostMinCss:, PostMinCssToDsp, 1
 	GuiControl, guiPostMinCss:, PostMinCssToFye, 1
@@ -355,6 +361,7 @@ HandlePostCssCheckAllSites() {
 
 HandlePostBackupCssCheckAllSites() {
 	global
+	GuiControl, guiPostBackupCss:, PostBackupCssToAscc, 1
 	GuiControl, guiPostBackupCss:, PostBackupCssToCr, 1
 	GuiControl, guiPostBackupCss:, PostBackupCssToDsp, 1
 	GuiControl, guiPostBackupCss:, PostBackupCssToFye, 1
@@ -373,6 +380,7 @@ HandlePostBackupCssCheckAllSites() {
 
 HandlePostCssUncheckAllSites() {
 	global
+	GuiControl, guiPostMinCss:, PostMinCssToAscc, 0
 	GuiControl, guiPostMinCss:, PostMinCssToCr, 0
 	GuiControl, guiPostMinCss:, PostMinCssToDsp, 0
 	GuiControl, guiPostMinCss:, PostMinCssToFye, 0
@@ -391,6 +399,7 @@ HandlePostCssUncheckAllSites() {
 
 HandlePostBackupCssUncheckAllSites() {
 	global
+	GuiControl, guiPostBackupCss:, PostBackupCssToAscc, 0
 	GuiControl, guiPostBackupCss:, PostBackupCssToCr, 0
 	GuiControl, guiPostBackupCss:, PostBackupCssToDsp, 0
 	GuiControl, guiPostBackupCss:, PostBackupCssToFye, 0
@@ -409,6 +418,7 @@ HandlePostBackupCssUncheckAllSites() {
 
 HandlePostJsCheckAllSites() {
 	global
+	GuiControl, guiPostMinJs:, PostMinJsToAscc, 1
 	GuiControl, guiPostMinJs:, PostMinJsToCr, 1
 	GuiControl, guiPostMinJs:, PostMinJsToDsp, 1
 	GuiControl, guiPostMinJs:, PostMinJsToFye, 1
@@ -427,6 +437,7 @@ HandlePostJsCheckAllSites() {
 
 HandlePostJsUncheckAllSites() {
 	global
+	GuiControl, guiPostMinJs:, PostMinJsToAscc, 0
 	GuiControl, guiPostMinJs:, PostMinJsToCr, 0
 	GuiControl, guiPostMinJs:, PostMinJsToDsp, 0
 	GuiControl, guiPostMinJs:, PostMinJsToFye, 0
@@ -454,6 +465,10 @@ HandlePostMinCssOK() {
 	Gui, guiPostMinCss: Submit
 	Gui, guiPostMinCss: Destroy
 	sgIsPostingMinCss := true
+	if (PostMinCssToAscc) {
+		PasteMinCssToWebsite("https://ascc.wsu.edu/wp-admin/themes.php?page=editcss"
+			, ":*:@copyMinCssAscc")
+	}
 	if (PostMinCssToCr) {
 		PasteMinCssToWebsite("https://commonreading.wsu.edu/wp-admin/themes.php?page=editcss"
 			, ":*:@copyMinCssCr")
@@ -518,6 +533,10 @@ HandlePostBackupCssOK() {
 	Gui, guiPostBackupCss: Submit
 	Gui, guiPostBackupCss: Destroy
 	sgIsPostingBackupCss := true
+	if (PostMinCssToAscc) {
+		PasteMinCssToWebsite("https://ascc.wsu.edu/wp-admin/themes.php?page=editcss"
+			, ":*:@copyBackupCssAscc")
+	}
 	if (PostMinCssToCr) {
 		PasteMinCssToWebsite("https://commonreading.wsu.edu/wp-admin/themes.php?page=editcss"
 			, ":*:@copyBackupCssCr")
@@ -582,6 +601,10 @@ HandlePostMinJsOK() {
 	Gui, Submit
 	Gui, Destroy
 	sgIsPostingMinJs := true
+	if (PostMinJsToAscc) {
+		PasteMinJsToWebsite("https://ascc.wsu.edu/wp-admin/themes.php?page=custom-javascript"
+			, ":*:@copyMinJsAscc")
+	}
 	if (PostMinJsToCr) {
 		PasteMinJsToWebsite("https://commonreading.wsu.edu/wp-admin/themes.php?page=custom-javascript"
 			, ":*:@copyMinJsCr")
@@ -660,6 +683,11 @@ PasteMinJsToWebsite(websiteUrl, jsCopyCmd) {
 ; >>> Navigation within GITHUB DIRECTORIES
 ; ············································································································
 
+:*:@gotoGhAscc::
+	InsertFilePath(":*:@gotoGhAscc", GetGitHubFolder() . "\ascc.wsu.edu", "ascc.wsu.edu") 
+Return
+
+; ············································································································
 
 :*:@gotoGhCr::
 	InsertFilePath(":*:@gotoGhCr", GetGitHubFolder() . "\commonreading.wsu.edu", "commonreading.wsu.edu") 
@@ -1036,12 +1064,25 @@ ExecuteJsPasteCmds() {
 ; ············································································································
 ; >>> FOR BACKING UP CUSTOM CSS BUILDS -  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
+:*:@backupCssAscc::
+	hsName := ":*:@backupCssAscc"
+	AppendAhkCmd(hsName)
+	CopyCssFromWebsite("https://ascc.wsu.edu/wp-admin/themes.php?page=editcss", copiedCss)
+	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder() . "\ascc.wsu.edu\CSS\ascc-custom.prev.css")
+	PasteTextIntoGitShell(hsName
+		, "cd """ . GetGitHubFolder() . "\ascc.wsu.edu\""`r"
+		. "git add CSS\ascc-custom.prev.css`r"
+		. "git commit -m ""Updating backup of latest verified custom CSS build""`r"
+		. "git push`r")
+Return
+
+; ············································································································
+
 :*:@backupCssCr::
 	hsName := ":*:@backupCssCr"
 	AppendAhkCmd(hsName)
 	CopyCssFromWebsite("https://commonreading.wsu.edu/wp-admin/themes.php?page=editcss", copiedCss)
-	WriteCodeToFile(":*:@backupCssCr", copiedCss, GetGitHubFolder()
-		. "\commonreading.wsu.edu\CSS\cr-custom.prev.css")
+	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder() . "\commonreading.wsu.edu\CSS\cr-custom.prev.css")
 	PasteTextIntoGitShell(hsName
 		, "cd """ . GetGitHubFolder() . "\commonreading.wsu.edu\""`r"
 		. "git add CSS\cr-custom.prev.css`r"
@@ -1229,6 +1270,7 @@ Return
 :*:@backupCssAll::
 	hsName := ":*:@backupCssAll"
 	AppendAhkCmd(hsName)
+	Gosub, :*:@backupCssAscc
 	Gosub, :*:@backupCssCr
 	Gosub, :*:@backupCssDsp
 	Gosub, :*:@backupCssFye
@@ -1277,6 +1319,35 @@ ExecuteCssCopyCmds(ByRef copiedCss) {
 	if (GetCmdForMoveToCSSFolder(currentDir) = "awesome!") {
 		MsgBox % "Current location: " . currentDir
 	}
+Return
+
+; ············································································································
+
+:*:@rebuildCssAscc::
+	ahkCmdName := ":*:@rebuildCssAscc"
+	AppendAhkCmd(ahkCmdName)
+	PasteTextIntoGitShell(ahkCmdName
+		, "cd """ . GetGitHubFolder() . "\ascc.wsu.edu\CSS""`r"
+		. "lessc ascc-custom.less ascc-custom.css`r"
+		. "lessc --clean-css ascc-custom.less ascc-custom.min.css`r"
+		. "[console]::beep(1500,300)`r")
+	CommitAfterBuild(ahkCmdName, ":*:@commitCssAscc")
+Return
+
+; ············································································································
+
+:*:@commitCssAscc::
+	ahkCmdName := ":*:@commitCssAscc"
+	AppendAhkCmd(ahkCmdName)
+	PasteTextIntoGitShell(ahkCmdName
+		, "cd """ . GetGitHubFolder() . "\ascc.wsu.edu\""`r"
+		. "git add CSS\ascc-custom.css`r"
+		. "git add CSS\ascc-custom.min.css`r"
+		. "git commit -m ""Updating custom CSS build"" -m ""Rebuilt production files to incorporate recent"
+		. " changes to source code and/or dependencies."" `r"
+		. "git push`r"
+		. "[console]::beep(2000,150)`r"
+		. "[console]::beep(2000,150)`r")
 Return
 
 ; ············································································································
@@ -1680,6 +1751,23 @@ Return
 ; ············································································································
 ; >>> FOR UPDATING CSS SUBMODULES -  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
+:*:@updateCssSubmoduleAscc::
+	ahkCmdName := ":*:@updateCssSubmoduleAscc"
+	AppendAhkCmd(ahkCmdName)
+	PasteTextIntoGitShell(ahkCmdName
+		, "cd """ . GetGitHubFolder() . "\ascc.wsu.edu\WSU-UE---CSS""`r"
+		. "git fetch`r"
+		. "git merge origin/master`r"
+		. "cd ..`r"
+		. "git add WSU-UE---CSS`r"
+		. "git commit -m ""Updating custom CSS master submodule for OUE websites"" -m ""Incorporating recent"
+		. " changes in project source code""`r"
+		. "git push`r")
+	Gosub, :*:@rebuildCssCr
+Return
+
+; ············································································································
+
 :*:@updateCssSubmoduleCr::
 	ahkCmdName := ":*:@updateCssSubmoduleCr"
 	AppendAhkCmd(ahkCmdName)
@@ -1904,6 +1992,7 @@ Return
 :*:@updateCssSubmoduleAll::
 	ahkCmdName := ":*:@updateCssSubmoduleAll"
 	AppendAhkCmd(ahkCmdName)
+	Gosub, :*:@updateCssSubmoduleAscc
 	Gosub, :*:@updateCssSubmoduleCr
 	Gosub, :*:@updateCssSubmoduleDsp
 	Gosub, :*:@updateCssSubmoduleFye
@@ -1927,6 +2016,29 @@ Return
 ; ············································································································
 ; >>> FOR COPYING MINIFIED, BACKUP CSS FILES TO CLIPBOARD --  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
+:*:@copyMinCssAscc::
+	ahkCmdName := ":*:@copyMinCssAscc"
+	AppendAhkCmd(ahkCmdName)
+	CopySrcFileToClipboard(ahkCmdName
+		, GetGitHubFolder() . "\ascc.wsu.edu\CSS\ascc-custom.min.css"
+		, "/*! Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/inv"
+		. "okeImmediately/ascc.wsu.edu] for a repository of source code. */`r`n`r`n"
+		, "Couldn't copy minified CSS for ASCC website.")
+Return
+
+; ············································································································
+
+:*:@copyBackupCssAscc::
+	ahkCmdName := ":*:@copyBackupCssAscc"
+	AppendAhkCmd(ahkCmdName)
+	CopySrcFileToClipboard(ahkCmdName
+		, GetGitHubFolder() . "\ascc.wsu.edu\CSS\ascc-custom.min.prev.css"
+		, ""
+		, "Couldn't copy backup CSS for ASCC Reading website.")
+Return
+
+; ············································································································
+
 :*:@copyMinCssCr::
 	ahkCmdName := ":*:@copyMinCssCr"
 	AppendAhkCmd(ahkCmdName)
@@ -1945,7 +2057,7 @@ Return
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\commonreading.wsu.edu\CSS\cr-custom.min.prev.css"
 		, ""
-		, "Couldn't copy minified CSS for Common Reading website.")
+		, "Couldn't copy backup CSS for Common Reading website.")
 Return
 
 ; ············································································································
@@ -1967,7 +2079,7 @@ Return
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\CSS\dsp-custom.prev.css"
 		, ""
-		, "Couldn't copy minified CSS for DSP Website.")
+		, "Couldn't copy backup CSS for DSP Website.")
 Return
 
 ; ············································································································
@@ -1990,7 +2102,7 @@ Return
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\firstyear.wsu.edu\CSS\fye-custom.prev.css"
 		, ""
-		, "Couldn't copy minified CSS for FYE website.")
+		, "Couldn't copy backup CSS for FYE website.")
 Return
 
 ; ············································································································
@@ -2013,7 +2125,7 @@ Return
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\learningcommunities.wsu.edu\CSS\learningcommunities-custom.prev.css"
 		, ""
-		, "Couldn't copy minified CSS for First-Year Focus website.")
+		, "Couldn't copy backup CSS for First-Year Focus website.")
 Return
 
 ; ············································································································
@@ -2024,7 +2136,7 @@ Return
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\nse.wsu.edu\CSS\nse-custom.min.css"
 		, ""
-		, "Couldn't copy minified CSS for NSE Focus website.")
+		, "Couldn't copy minified CSS for NSE website.")
 Return
 
 ; ············································································································
@@ -2035,7 +2147,7 @@ Return
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\nse.wsu.edu\CSS\nse-custom.prev.css"
 		, ""
-		, "Couldn't copy minified CSS for First-Year Focus website.")
+		, "Couldn't copy backup CSS for NSE website.")
 Return
 
 ; ············································································································
@@ -2046,7 +2158,7 @@ Return
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\oue.wsu.edu\CSS\oue-custom.min.css"
 		, ""
-		, "Couldn't copy minified CSS for Phi Beta Kappa website.")
+		, "Couldn't copy minified CSS for OUE website.")
 Return
 
 ; ············································································································
@@ -2068,7 +2180,7 @@ Return
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\phibetakappa.wsu.edu\CSS\pbk-custom.prev.css"
 		, ""
-		, "Couldn't copy minified CSS for Phi Beta Kappa website.")
+		, "Couldn't copy backup CSS for Phi Beta Kappa website.")
 Return
 
 ; ············································································································
@@ -2091,7 +2203,7 @@ Return
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\surca.wsu.edu\CSS\surca-custom.prev.css"
 		, ""
-		, "Couldn't copy minified CSS for SURCA website.")
+		, "Couldn't copy backup CSS for SURCA website.")
 Return
 
 ; ············································································································
@@ -2114,7 +2226,7 @@ Return
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\summerresearch.wsu.edu\CSS\summerresearch-custom.prev.css"
 		, ""
-		, "Couldn't copy minified CSS for Summer Research website.")
+		, "Couldn't copy backup CSS for Summer Research website.")
 Return
 
 ; ············································································································
@@ -2137,7 +2249,7 @@ Return
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\transfercredit.wsu.edu\CSS\xfercredit-custom.prev.css"
 		, ""
-		, "Couldn't copy minified CSS for Transfer Credit website.")
+		, "Couldn't copy backup CSS for Transfer Credit website.")
 Return
 
 ; ············································································································
@@ -2160,7 +2272,7 @@ Return
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\undergraduateresearch.wsu.edu\CSS\undergraduate-research-custom.prev.css"
 		, ""
-		, "Couldn't copy minified CSS for UGR website.")
+		, "Couldn't copy backup CSS for UGR website.")
 Return
 
 ; ············································································································
@@ -2183,7 +2295,7 @@ Return
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\ucore.wsu.edu\CSS\ucore-custom.prev.css"
 		, ""
-		, "Couldn't copy minified CSS for UCORE website.")
+		, "Couldn't copy backup CSS for UCORE website.")
 Return
 
 ; ············································································································
@@ -2206,11 +2318,26 @@ Return
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\ucore.wsu.edu-assessment\CSS\ucore-assessment-custom.min.css"
 		, ""
-		, "Couldn't copy minified CSS for UCORE Assessment website.")
+		, "Couldn't copy backup CSS for UCORE Assessment website.")
 Return
 
 ; ············································································································
 ; >>> FOR BACKING UP CUSTOM JS BUILDS --  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@backupJsAscc::
+	hsName := ":*:@backupJsAscc"
+	AppendAhkCmd(hsName)
+	CopyJsFromWebsite("https://ascc.wsu.edu/wp-admin/themes.php?page=custom-javascript", copiedJs)
+	WriteCodeToFile(hsName, copiedJs, GetGitHubFolder()
+		. "\ascc.wsu.edu\JS\ascc-custom.min.prev.js")
+	PasteTextIntoGitShell(hsName
+		, "cd """ . GetGitHubFolder() . "\ascc.wsu.edu\""`r"
+		. "git add JS\ascc-custom.min.prev.js`r"
+		. "git commit -m ""Updating backup of latest verified custom JS build""`r"
+		. "git push`r")
+Return
+
+; ············································································································
 
 :*:@backupJsCr::
 	hsName := ":*:@backupJsCr"
@@ -2416,6 +2543,7 @@ Return
 :*:@backupJsAll::
 	hsName := ":*:@backupJsAll"
 	AppendAhkCmd(hsName)
+	Gosub, :*:@backupJsAscc
 	Gosub, :*:@backupJsCr
 	Gosub, :*:@backupJsDsp
 	Gosub, :*:@backupJsFye
@@ -2461,6 +2589,24 @@ ExecuteJsCopyCmds(ByRef copiedJs) {
 
 ; ············································································································
 ; >>> FOR REBUILDING JS SOURCE FILES ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@rebuildJsAscc::
+	ahkCmdName := ":*:@rebuildJsAscc"
+	AppendAhkCmd(ahkCmdName)
+	PasteTextIntoGitShell(ahkCmdName
+		, "cd """ . GetGitHubFolder() . "\ascc.wsu.edu\JS""`r"
+		. "node build-production-file.js`r"
+		. "uglifyjs ascc-custom.js --output ascc-custom.min.js -mt`r"
+		. "[console]::beep(1500,300)`r"
+		. "cd """ . GetGitHubFolder() . "\ascc.wsu.edu\""`r"
+		. "git add JS\ascc-custom.js`r"
+		. "git add JS\ascc-custom.min.js`r"
+		. "git commit -m ""Updating custom JS build"" -m ""Rebuilt production files to incorporate recent"
+		. " changes to source code and/or dependencies"" `r"
+		. "git push`r")
+Return
+
+; ············································································································
 
 :*:@rebuildJsCr::
 	ahkCmdName := ":*:@rebuildJsCr"
@@ -2697,6 +2843,23 @@ Return
 ; ············································································································
 ; >>> FOR UPDATING JS SUBMODULES --  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
+:*:@updateJsSubmoduleAscc::
+	ahkCmdName := ":*:@updateJsSubmoduleAscc"
+	AppendAhkCmd(ahkCmdName)
+	PasteTextIntoGitShell(ahkCmdName
+		, "cd """ . GetGitHubFolder() . "\ascc.wsu.edu\WSU-UE---JS""`r"
+		. "git fetch`r"
+		. "git merge origin/master`r"
+		. "cd ..`r"
+		. "git add WSU-UE---JS`r"
+		. "git commit -m ""Updating custom JS master submodule for OUE websites"" -m ""Incorporating recent"
+		. " changes in project source code""`r"
+		. "git push`r")
+	Gosub, :*:@rebuildJsCr
+Return
+
+; ············································································································
+
 :*:@updateJsSubmoduleCr::
 	ahkCmdName := ":*:@updateJsSubmoduleCr"
 	AppendAhkCmd(ahkCmdName)
@@ -2921,6 +3084,7 @@ Return
 :*:@updateJsSubmoduleAll::
 	ahkCmdName := ":*:@updateJsSubmoduleAll"
 	AppendAhkCmd(ahkCmdName)
+	Gosub, :*:@updateJsSubmoduleAscc
 	Gosub, :*:@updateJsSubmoduleCr
 	Gosub, :*:@updateJsSubmoduleDsp
 	Gosub, :*:@updateJsSubmoduleFye
@@ -2945,6 +3109,19 @@ Return
 ; >>> FOR COPYING MINIFIED CSS TO CLIPBOARD -  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ;TODO: Add scripts for copying JS backups to clipboard (see CSS backup-copying scripts above)
+:*:@copyMinJsAscc::
+	ahkCmdName := ":*:@copyMinJsAscc"
+	AppendAhkCmd(ahkCmdName)
+	CopySrcFileToClipboard(ahkCmdName
+		, GetGitHubFolder() . "\ascc.wsu.edu\JS\ascc-custom.min.js"
+		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo/"
+		. "UglifyJS]. Please see [https://github.com/invokeImmediately/commonreading.wsu.edu] for "
+		. "a repository of source code.`r`n"
+		, "Couldn't Copy Minified JS for ASCC Website")
+Return
+
+; ············································································································
+
 :*:@copyMinJsCr::
 	ahkCmdName := ":*:@copyMinJsCr"
 	AppendAhkCmd(ahkCmdName)
