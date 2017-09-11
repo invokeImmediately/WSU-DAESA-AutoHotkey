@@ -1653,16 +1653,21 @@ Return
 
 :*:@commitCssUgr::
 	ahkCmdName := ":*:@commitCssUgr"
+	dfltCommitMsg := "Rebuilt production files to incorporate recent changes to source code and/or dependencies."
 	AppendAhkCmd(ahkCmdName)
-	PasteTextIntoGitShell(ahkCmdName
-		, "cd """ . GetGitHubFolder() . "\undergraduateresearch.wsu.edu\""`r"
-		. "git add CSS\undergraduate-research-custom.css`r"
-		. "git add CSS\undergraduate-research-custom.min.css`r"
-		. "git commit -m ""Updating custom CSS build"" -m ""Rebuilt production files to incorporate recent"
-		. " changes to source code and/or dependencies."" `r"
-		. "git push`r"
-		. "[console]::beep(2000,150)`r"
-		. "[console]::beep(2000,150)`r")
+	;TODO: refactor; build function for defining git commit messages
+	InputBox, commitMsg, % ahkCmdName .	" Commit Message", % "Specify a commit message:",, 800,128,,,,
+		, %dfltCommitMsg%
+	if (commitMsg != "") {
+		PasteTextIntoGitShell(ahkCmdName
+			, "cd """ . GetGitHubFolder() . "\undergraduateresearch.wsu.edu\""`r"
+			. "git add CSS\undergraduate-research-custom.css`r"
+			. "git add CSS\undergraduate-research-custom.min.css`r"
+			. "git commit -m ""Updating custom CSS build"" -m """ . commitMsg . """ `r"
+			. "git push`r"
+			. "[console]::beep(2000,150)`r"
+			. "[console]::beep(2000,150)`r")
+	}
 Return
 
 ; ············································································································
