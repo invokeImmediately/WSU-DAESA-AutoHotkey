@@ -122,6 +122,161 @@ CommitAfterBuild(ahkBuildCmd, ahkCommitCmd) {
 
 ; ············································································································
 
+; Sets up a GUI to automate committing of CSS build files.
+CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssbuild, fnMinCssBuild) {
+	; Global variable declarations
+	global commitCssVars := Object()
+	global ctrlCommitCssAlsoCommitLessSrc
+	global ctrlCommitCss1stMsg
+	global ctrlCommitCss2ndMsg
+	global ctrlCommitCss1stLessMsg
+	global commitCssDflt1stCommitMsg
+	global ctrlCommitCss2ndLessMsg
+	
+	; Variable initializations
+	commitCssVars.ahkCmdName := ahkCmdName
+	commitCssVars.fpGitFolder := fpGitFolder
+	commitCssVars.fnLessSrcFile := fnLessSrcFile
+	commitCssVars.fnCssbuild := fnCssbuild
+	commitCssVars.fnMinCssBuild := fnMinCssBuild
+	commitCssVars.dflt1stCommitMsg := "Updating custom CSS build with recent submodule changes"
+	commitCssVars.dflt1stCommitMsgAlt := "Updating custom CSS build w/ source & submodule changes"
+	commitCssVars.dflt2ndCommitMsg := "Rebuilding custom CSS production files to incorporate recent changes "
+		. "to OUE-wide build dependencies."
+	commitCssVars.dflt2ndCommitMsgAlt := "Rebuilding custom CSS production files to incorporate recent "
+		. "changes to site-specific and OUE-wide build dependencies."
+	
+	; GUI initialization & display to user
+	Gui, guiCommitCssBuild: New, , % ahkCmdName . " Commit Message Specification"
+	Gui, guiCommitCssBuild: Add, Text, , % "&Primary commit message:"
+	Gui, guiCommitCssBuild: Add, Edit, vctrlCommitCss1stMsg X+5 W606, % commitCssVars.dflt1stCommitMsg
+	Gui, guiCommitCssBuild: Add, Text, xm, % "&Secondary commit message:"
+	Gui, guiCommitCssBuild: Add, Edit, vctrlCommitCss2ndMsg X+5 W589, % commitCssVars.dflt2ndCommitMsg
+	Gui, guiCommitCssBuild: Add, Checkbox
+		, vctrlCommitCssAlsoCommitLessSrc gHandleCommitCssCheckLessFileCommit xm
+		, % "&Also commit less source " . commitCssVars.fnLessSrcFile . "?"
+	Gui, guiCommitCssBuild: Add, Text, xm, % "Message for &LESS file changes:"
+	Gui, guiCommitCssBuild: Add, Edit, vctrlCommitCss1stLessMsg X+5 W573 Disabled
+	Gui, guiCommitCssBuild: Add, Text, xm, % "Secondary L&ESS message (optional):"
+	Gui, guiCommitCssBuild: Add, Edit, vctrlCommitCss2ndLessMsg X+5 W549 Disabled
+	Gui, guiCommitCssBuild: Add, Button, Default gHandleCommitCssOk xm, &Ok
+	Gui, guiCommitCssBuild: Add, Button, gHandleCommitCssCancel X+5, &Cancel
+	Gui, guiCommitCssBuild: Show
+}
+
+; Triggered by state changes in checkbox control in guiCommitCssBuild GUI.
+HandleCommitCssCheckLessFileCommit() {
+	; Make global variable declarations.
+	global commitCssVars
+	global ctrlCommitCss1stMsg
+	global ctrlCommitCss2ndMsg
+	global ctrlCommitCss1stLessMsg
+	global ctrlCommitCss2ndLessMsg
+	global ctrlCommitCssAlsoCommitLessSrc
+	
+	; Submit GUI without hiding to update variables storing states of controls.
+	Gui, guiCommitCssBuild: Submit, NoHide
+	
+	; Respond to user input.
+	if (ctrlCommitCssAlsoCommitLessSrc) {
+		GuiControl, Enable, ctrlCommitCss1stLessMsg
+		GuiControl, Enable, ctrlCommitCss2ndLessMsg
+		if (ctrlCommitCss1stMsg == commitCssVars.dflt1stCommitMsg) {
+			GuiControl,, ctrlCommitCss1stMsg, % commitCssVars.dflt1stCommitMsgAlt
+		}
+		if (ctrlCommitCss2ndMsg == commitCssVars.dflt2ndCommitMsg) {
+			GuiControl,, ctrlCommitCss2ndMsg, % commitCssVars.dflt2ndCommitMsgAlt
+		}
+	} else {
+		GuiControl, Disable, ctrlCommitCss1stLessMsg
+		GuiControl, Disable, ctrlCommitCss2ndLessMsg
+		if (ctrlCommitCss1stMsg == commitCssVars.dflt1stCommitMsgAlt) {
+			GuiControl,, ctrlCommitCss1stMsg, % commitCssVars.dflt1stCommitMsg
+		}
+		if (ctrlCommitCss2ndMsg == commitCssVars.dflt2ndCommitMsgAlt) {
+			GuiControl,, ctrlCommitCss2ndMsg, % commitCssVars.dflt2ndCommitMsg
+		}
+	}
+}
+
+; Triggered by OK button in guiCommitCssBuild GUI.
+HandleCommitCssOk() {
+	global commitCssVars
+	global ctrlCommitCss1stMsg
+	global ctrlCommitCss2ndMsg
+	global ctrlCommitCssAlsoCommitLessSrc
+	global ctrlCommitCss1stLessMsg
+	global ctrlCommitCss2ndLessMsg
+	
+	; Submit GUI to finalize variables storing user input.
+	Gui, guiCommitCssBuild: Submit, NoHide
+	
+	; Ensure that state of global variables is consistent with a valid GUI submission.
+	gVarCheck := commitCssVars.ahkCmdName == undefined
+	gVarCheck := (gVarCheck << 1) | (commitCssVars.fpGitFolder == undefined)
+	gVarCheck := (gVarCheck << 1) | (commitCssVars.fnLessSrcFile == undefined)
+	gVarCheck := (gVarCheck << 1) | (commitCssVars.fnCssbuild == undefined)
+	gVarCheck := (gVarCheck << 1) | (commitCssVars.fnMinCssBuild == undefined)
+	gVarCheck := (gVarCheck << 1) | (ctrlCommitCss1stMsg == undefined)
+	gVarCheck := (gVarCheck << 1) | (ctrlCommitCssAlsoCommitLessSrc && ctrlCommitCss1stLessMsg == undefined)
+	
+	if (!gVarCheck) {
+		; Close the GUI since the condition of our variables passed muster.
+		Gui, guiCommitCssBuild: Destroy
+		
+		; Build the command line inputs for commiting the code to the appropriate git repository.
+		commandLineInput := "cd """ . GetGitHubFolder() . "\" . commitCssVars.fpGitFolder . "\""`r"
+			. "git add CSS\" . commitCssVars.fnCssBuild . "`r"
+			. "git add CSS\" . commitCssVars.fnMinCssBuild . "`r"
+			. "git commit -m """ . ctrlCommitCss1stMsg . """"
+		if (ctrlCommitCss2ndMsg != "") {
+			commandLineInput .= " -m """ . ctrlCommitCss2ndMsg . """ `r"
+		}
+		commandLineInput .= "git push`r"
+		if (ctrlCommitCssAlsoCommitLessSrc) {
+			commandLineInput .= "git add CSS\" . commitCssVars.fnLessSrcFile . "`r"
+				. "git commit -m """ . ctrlCommitCss1stLessMsg . """"
+			if (ctrlCommitCss2ndLessMsg != "") {
+				commandLineInput .= " -m """ . ctrlCommitCss2ndLessMsg . """ `r"
+			}
+			commandLineInput .= "git push`r"			
+		}
+		commandLineInput .= "[console]::beep(2000,150)`r"
+			. "[console]::beep(2000,150)`r"
+
+		; Paste the code into the command console.
+		PasteTextIntoGitShell(commitCssVars.ahkCmdName, commandLineInput)
+	} else {
+		; Determine what went wrong, notify user, and handle accordingly.
+		ProcessHandleCommitCssOkError(gVarCheck)
+	}
+}
+
+; Called by HandleCommitCssOk() to handle error processing.
+ProcessHandleCommitCssOkError(gVarCheck) {
+	functionName := "github.ahk / HandleCommitCssOk()"
+	if (gVarCheck == 1) {
+		ErrorBox(functionName
+			, "Please enter a primary git commit message regarding changes in the LESS source file.")
+	} else if (gVarCheck == 2) {
+		ErrorBox(functionName
+			, "Please enter a primary git commit message regarding changes in the CSS builds.")	
+	} else if (gVarCheck == 3) {
+		ErrorBox(functionName
+			, "Please enter primary git commit messages regarding changes in the CSS builds and the LESS source file.")
+	} else {
+		Gui, guiCommitCssBuild: Destroy
+		ErrorBox(functionName
+			, "An undefined global variable was encountered; function terminating. Variable checking bitmask was equal to " . gVarCheck . ".")
+	}
+}
+
+HandleCommitCssCancel() {
+	Gui, guiCommitCssBuild: Destroy
+}
+
+; ············································································································
+
 CopySrcFileToClipboard(ahkCmdName, srcFileToCopy, strToPrepend, errorMsg) {
 	if (UserFolderIsSet()) {
 		srcFile := FileOpen(srcFileToCopy, "r")
@@ -1337,17 +1492,16 @@ Return
 ; ············································································································
 
 :*:@commitCssAscc::
+	; Variable declarations
 	ahkCmdName := ":*:@commitCssAscc"
+	fpGitFolder := "ascc.wsu.edu" ; fp = file path
+	fnLessSource := "ascc-custom.less" ; fn = file name
+	fnCssBuild := "ascc-custom.css"
+	fnMinCssBuild := "ascc-custom.min.css"
+	
+	; Register this hotkey with command history interface & process instructions for committomg the CSS build. 
 	AppendAhkCmd(ahkCmdName)
-	PasteTextIntoGitShell(ahkCmdName
-		, "cd """ . GetGitHubFolder() . "\ascc.wsu.edu\""`r"
-		. "git add CSS\ascc-custom.css`r"
-		. "git add CSS\ascc-custom.min.css`r"
-		. "git commit -m ""Updating custom CSS build"" -m ""Rebuilt production files to incorporate recent"
-		. " changes to source code and/or dependencies."" `r"
-		. "git push`r"
-		. "[console]::beep(2000,150)`r"
-		. "[console]::beep(2000,150)`r")
+	CommitCssBuild(ahkCmdName, fpGitFilder, fnLessSrcFile, fnCssBuild, fnMinCssBuild)
 Return
 
 ; ············································································································
@@ -1652,22 +1806,16 @@ Return
 ; ············································································································
 
 :*:@commitCssUgr::
+	; Variable declarations
 	ahkCmdName := ":*:@commitCssUgr"
-	dfltCommitMsg := "Rebuilt production files to incorporate recent changes to source code and/or dependencies."
+	fpGitFolder := "undergraduateresearch.wsu.edu" ; fp = file path
+	fnLessSource := "undergraduate-research-custom.less" ; fn = file name
+	fnCssBuild := "undergraduate-research-custom.css"
+	fnMinCssBuild := "undergraduate-research-custom.min.css"
+	
+	; Register this hotkey with command history interface & process instructions for committomg the CSS build. 
 	AppendAhkCmd(ahkCmdName)
-	;TODO: refactor; build function for defining git commit messages
-	InputBox, commitMsg, % ahkCmdName .	" Commit Message", % "Specify a commit message:",, 800,128,,,,
-		, %dfltCommitMsg%
-	if (commitMsg != "") {
-		PasteTextIntoGitShell(ahkCmdName
-			, "cd """ . GetGitHubFolder() . "\undergraduateresearch.wsu.edu\""`r"
-			. "git add CSS\undergraduate-research-custom.css`r"
-			. "git add CSS\undergraduate-research-custom.min.css`r"
-			. "git commit -m ""Updating custom CSS build"" -m """ . commitMsg . """ `r"
-			. "git push`r"
-			. "[console]::beep(2000,150)`r"
-			. "[console]::beep(2000,150)`r")
-	}
+	CommitCssBuild(ahkCmdName, fpGitFilder, fnLessSrcFile, fnCssBuild, fnMinCssBuild)
 Return
 
 ; ············································································································
