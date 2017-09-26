@@ -1495,7 +1495,7 @@ Return
 	; Variable declarations
 	ahkCmdName := ":*:@commitCssAscc"
 	fpGitFolder := "ascc.wsu.edu" ; fp = file path
-	fnLessSrcFile := "ascc-custom.less" ; fn = file name
+	fnLessSrcFile := "ascc-custom_new.less" ; fn = file name
 	fnCssBuild := "ascc-custom.css"
 	fnMinCssBuild := "ascc-custom.min.css"
 	
@@ -1523,7 +1523,7 @@ Return
 	; Variable declarations
 	ahkCmdName := ":*:@commitCssCr"
 	fpGitFolder := "commonreading.wsu.edu" ; fp = file path
-	fnLessSrcFile := "cr-custom.less" ; fn = file name
+	fnLessSrcFile := "src_cr-new.less" ; fn = file name
 	fnCssBuild := "cr-custom.css"
 	fnMinCssBuild := "cr-custom.min.css"
 	
