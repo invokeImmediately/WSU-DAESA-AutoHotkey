@@ -231,6 +231,8 @@ HandleCommitCssOk() {
 			. "git commit -m """ . ctrlCommitCss1stMsg . """"
 		if (ctrlCommitCss2ndMsg != "") {
 			commandLineInput .= " -m """ . ctrlCommitCss2ndMsg . """ `r"
+		} else {
+			commandLineInput .= "`r"
 		}
 		commandLineInput .= "git push`r"
 		if (ctrlCommitCssAlsoCommitLessSrc) {
@@ -238,6 +240,8 @@ HandleCommitCssOk() {
 				. "git commit -m """ . ctrlCommitCss1stLessMsg . """"
 			if (ctrlCommitCss2ndLessMsg != "") {
 				commandLineInput .= " -m """ . ctrlCommitCss2ndLessMsg . """ `r"
+			} else {
+				commandLineInput .= "`r"
 			}
 			commandLineInput .= "git push`r"			
 		}
@@ -1915,7 +1919,7 @@ Return
 		. "git commit -m ""Updating custom CSS master submodule for OUE websites"" -m ""Incorporating recent"
 		. " changes in project source code""`r"
 		. "git push`r")
-	Gosub, :*:@rebuildCssCr
+	Gosub, :*:@rebuildCssAscc
 Return
 
 ; ············································································································
