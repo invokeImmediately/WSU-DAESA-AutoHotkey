@@ -3008,7 +3008,7 @@ Return
 		. "git commit -m ""Updating custom JS master submodule for OUE websites"" -m ""Incorporating recent"
 		. " changes in project source code""`r"
 		. "git push`r")
-	Gosub, :*:@rebuildJsCr
+	Gosub, :*:@rebuildJsAscc
 Return
 
 ; ············································································································
