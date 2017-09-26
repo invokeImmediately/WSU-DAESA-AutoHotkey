@@ -1495,13 +1495,13 @@ Return
 	; Variable declarations
 	ahkCmdName := ":*:@commitCssAscc"
 	fpGitFolder := "ascc.wsu.edu" ; fp = file path
-	fnLessSource := "ascc-custom.less" ; fn = file name
+	fnLessSrcFile := "ascc-custom.less" ; fn = file name
 	fnCssBuild := "ascc-custom.css"
 	fnMinCssBuild := "ascc-custom.min.css"
 	
 	; Register this hotkey with command history interface & process instructions for committomg the CSS build. 
 	AppendAhkCmd(ahkCmdName)
-	CommitCssBuild(ahkCmdName, fpGitFilder, fnLessSrcFile, fnCssBuild, fnMinCssBuild)
+	CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssBuild, fnMinCssBuild)
 Return
 
 ; ············································································································
@@ -1523,13 +1523,13 @@ Return
 	; Variable declarations
 	ahkCmdName := ":*:@commitCssCr"
 	fpGitFolder := "commonreading.wsu.edu" ; fp = file path
-	fnLessSource := "cr-custom.less" ; fn = file name
+	fnLessSrcFile := "cr-custom.less" ; fn = file name
 	fnCssBuild := "cr-custom.css"
 	fnMinCssBuild := "cr-custom.min.css"
 	
 	; Register this hotkey with command history interface & process instructions for committomg the CSS build. 
 	AppendAhkCmd(ahkCmdName)
-	CommitCssBuild(ahkCmdName, fpGitFilder, fnLessSrcFile, fnCssBuild, fnMinCssBuild)
+	CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssBuild, fnMinCssBuild)
 Return
 
 ; ············································································································
@@ -1808,13 +1808,13 @@ Return
 	; Variable declarations
 	ahkCmdName := ":*:@commitCssUgr"
 	fpGitFolder := "undergraduateresearch.wsu.edu" ; fp = file path
-	fnLessSource := "undergraduate-research-custom.less" ; fn = file name
+	fnLessSrcFile := "undergraduate-research-custom.less" ; fn = file name
 	fnCssBuild := "undergraduate-research-custom.css"
 	fnMinCssBuild := "undergraduate-research-custom.min.css"
 	
 	; Register this hotkey with command history interface & process instructions for committomg the CSS build. 
 	AppendAhkCmd(ahkCmdName)
-	CommitCssBuild(ahkCmdName, fpGitFilder, fnLessSrcFile, fnCssBuild, fnMinCssBuild)
+	CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssBuild, fnMinCssBuild)
 Return
 
 ; ············································································································
