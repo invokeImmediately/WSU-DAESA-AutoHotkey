@@ -1520,17 +1520,16 @@ Return
 ; ············································································································
 
 :*:@commitCssCr::
+	; Variable declarations
 	ahkCmdName := ":*:@commitCssCr"
+	fpGitFolder := "commonreading.wsu.edu" ; fp = file path
+	fnLessSource := "cr-custom.less" ; fn = file name
+	fnCssBuild := "cr-custom.css"
+	fnMinCssBuild := "cr-custom.min.css"
+	
+	; Register this hotkey with command history interface & process instructions for committomg the CSS build. 
 	AppendAhkCmd(ahkCmdName)
-	PasteTextIntoGitShell(ahkCmdName
-		, "cd """ . GetGitHubFolder() . "\commonreading.wsu.edu\""`r"
-		. "git add CSS\cr-custom.css`r"
-		. "git add CSS\cr-custom.min.css`r"
-		. "git commit -m ""Updating custom CSS build"" -m ""Rebuilt production files to incorporate recent"
-		. " changes to source code and/or dependencies."" `r"
-		. "git push`r"
-		. "[console]::beep(2000,150)`r"
-		. "[console]::beep(2000,150)`r")
+	CommitCssBuild(ahkCmdName, fpGitFilder, fnLessSrcFile, fnCssBuild, fnMinCssBuild)
 Return
 
 ; ············································································································
