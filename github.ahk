@@ -126,6 +126,7 @@ CommitAfterBuild(ahkBuildCmd, ahkCommitCmd) {
 CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssbuild, fnMinCssBuild) {
 	; Global variable declarations
 	global commitCssVars := Object()
+	global commitCssLastLessCommit
 	global ctrlCommitCssAlsoCommitLessSrc
 	global ctrlCommitCssLessChangesOnly
 	global ctrlCommitCss1stMsg
@@ -155,7 +156,17 @@ CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssbuild, fnMinCssBuild
 		. "changes to site-specific build dependency; please see matching " . commitCssVars.fnLessSrcFile . " commit for more details."
 	msgLen1st := StrLen(commitCssVars.dflt1stCommitMsg)
 	msgLen2nd := StrLen(commitCssVars.dflt2ndCommitMsg)
-	
+	lastLessMsg1st := ""
+	msgLenLess1st := 0
+	lastLessMsg2nd := ""
+	msgLenLess2nd := 0
+	if (commitCssLastLessCommit != undefined) {
+		lessMsgs := commitCssLastLessCommit[commitCssVars.fnLessSrcFile]
+		if (lessMsgs != undefined) {
+			lastLessMsg1st := lessMsgs.primary
+			lastLessMsg2nd := lessMsgs.secondary
+		}
+	}
 	
 	; GUI initialization & display to user
 	Gui, guiCommitCssBuild: New, , % ahkCmdName . " Commit Message Specification"
@@ -172,11 +183,11 @@ CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssbuild, fnMinCssBuild
 		, vctrlCommitCssLessChangesOnly gHandleCommitCssCheckLessChangesOnly xm Disabled
 		, % "Less source &is only changed dependency"
 	Gui, guiCommitCssBuild: Add, Text, xm, % "Message for &LESS file changes:"
-	Gui, guiCommitCssBuild: Add, Edit, vctrlCommitCss1stLessMsg gHandleCommitCss1stLessMsgChange X+5 W573 Disabled
-	Gui, guiCommitCssbuild: Add, Text, vctrlCommitCss1stLessMsgCharCount Y+1 W500, % "Length = 0 characters"
+	Gui, guiCommitCssBuild: Add, Edit, vctrlCommitCss1stLessMsg gHandleCommitCss1stLessMsgChange X+5 W573 Disabled, % lastLessMsg1st
+	Gui, guiCommitCssbuild: Add, Text, vctrlCommitCss1stLessMsgCharCount Y+1 W500, % "Length = " . msgLenLess1st . " characters"
 	Gui, guiCommitCssBuild: Add, Text, xm Y+12, % "Secondary L&ESS message (optional):"
-	Gui, guiCommitCssBuild: Add, Edit, vctrlCommitCss2ndLessMsg gHandleCommitCss2ndLessMsgChange X+5 W549 Disabled
-	Gui, guiCommitCssbuild: Add, Text, vctrlCommitCss2ndLessMsgCharCount Y+1 W500, % "Length = 0 characters"
+	Gui, guiCommitCssBuild: Add, Edit, vctrlCommitCss2ndLessMsg gHandleCommitCss2ndLessMsgChange X+5 W549 Disabled, % lastLessMsg2nd
+	Gui, guiCommitCssbuild: Add, Text, vctrlCommitCss2ndLessMsgCharCount Y+1 W500, % "Length = " . msgLenLess2nd . " characters"
 	Gui, guiCommitCssBuild: Add, Button, Default gHandleCommitCssOk xm, &Ok
 	Gui, guiCommitCssBuild: Add, Button, gHandleCommitCssCancel X+5, &Cancel
 	Gui, guiCommitCssBuild: Show
@@ -331,6 +342,7 @@ HandleCommitCss2ndLessMsgChange() {
 ; Triggered by OK button in guiCommitCssBuild GUI.
 HandleCommitCssOk() {
 	global commitCssVars
+	global commitCssLastLessCommit
 	global ctrlCommitCss1stMsg
 	global ctrlCommitCss2ndMsg
 	global ctrlCommitCssAlsoCommitLessSrc
@@ -372,7 +384,15 @@ HandleCommitCssOk() {
 			} else {
 				commandLineInput .= "`r"
 			}
-			commandLineInput .= "git push`r"			
+			commandLineInput .= "git push`r"
+			
+			; Store commit for later use as a guide
+			if (commitCssLastLessCommit == undefined) {
+				commitCssLastLessCommit := Object()
+			}
+			commitCssLastLessCommit[commitCssVars.fnLessSrcFile] := Object()
+			commitCssLastLessCommit[commitCssVars.fnLessSrcFile].primary := ctrlCommitCss1stLessMsg
+			commitCssLastLessCommit[commitCssVars.fnLessSrcFile].secondary := ctrlCommitCss2ndLessMsg
 		}
 		commandLineInput .= "[console]::beep(2000,150)`r"
 			. "[console]::beep(2000,150)`r"
