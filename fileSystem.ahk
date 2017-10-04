@@ -16,6 +16,18 @@ Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
+:*:@gotoDocs::
+	AppendAhkCmd(":*:@gotoDocs")
+	SendInput, %userAccountFolderHDD%\Documents\{Enter}
+Return
+
+:*:@gotoSsdDocs::
+	AppendAhkCmd(":*:@gotoSsdDocs")
+	SendInput, %userAccountFolderSSD%\Documents\{Enter}
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 :*:@gotoGithub::
 	AppendAhkCmd(":*:@gotoGithub")
 	SendInput, %userAccountFolderSSD%\Documents\GitHub{Enter}
