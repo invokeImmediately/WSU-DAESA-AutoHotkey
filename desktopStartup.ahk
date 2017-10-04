@@ -55,6 +55,12 @@ Return
 	Sleep, 100
 	SendInput, http://www.colorhexa.com/{Enter}
 	Sleep, 330
+	SendInput, ^t
+	Sleep, 100
+	SendInput, !{d}
+	Sleep, 100
+	SendInput, % "brand.wsu.edu/visual/colors/{Enter}"
+	Sleep, 330
 	Gosub % "^!#Left"
 	LaunchStdApplicationPatiently("C:\Program Files\GIMP 2\bin\gimp-2.8.exe", "GNU Image")
 	Sleep, 1000
@@ -104,7 +110,7 @@ Return
 	SendInput, {Enter}
 	Sleep, 1500
 	WaitForApplicationPatiently("Inbox - ahk_exe OUTLOOK.EXE")
-	LaunchStdApplicationPatiently("C:\Program Files (x86)\Microsoft Office\root\office16\onenote.exe", "ahk_exe ONENOTE.EXE")
+	LaunchStdApplicationPatiently(userAccountFolderSSD . "\AppData\Local\Wunderlist\Wunderlist.exe", "Inbox - Wunderlist")
 	Sleep, 1000
 	Gosub, :*:@arrangeEmail
 Return
@@ -117,8 +123,6 @@ Return
 	Sleep, 330
 	SendInput, {Tab}{Right}{Right}{Right}{Right}{Enter}
 	Sleep, 330
-	LaunchStdApplicationPatiently(userAccountFolderSSD . "\AppData\Local\Wunderlist\Wunderlist.exe", "Inbox - Wunderlist")
-	Sleep, 1000
 	LaunchStdApplicationPatiently("C:\Windows\System32\taskmgr.exe", "Task Manager")
 	Sleep, 1000
 	WinMove, % "Inbox - Wunderlist", , 136, 88, 1648, 874
@@ -165,7 +169,7 @@ Return
 Return
 
 ;   --------------------------------------------------------------------------------------------------------
-;   HOTSTRINGS
+;   STARTUP HOTSTRINGS
 ;   --------------------------------------------------------------------------------------------------------
 
 :*:@arrangeGitHub::
@@ -309,3 +313,31 @@ Return
 	Gosub % "^F8"
 	Sleep, 500
 Return
+
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+;   --------------------------------------------------------------------------------------------------------
+;   SHUTDOWN/RESTART HOTSTRINGS & Functions
+;   --------------------------------------------------------------------------------------------------------
+
+:*:@quitAhk::
+	AppendAhkCmd(":*:@quitAhk")
+	PerformScriptShutdownTasks()
+	ExitApp
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+^#!r::
+	PerformScriptShutdownTasks()
+	Run *RunAs "%A_ScriptFullPath%" 
+	ExitApp
+Return
+
+;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+PerformScriptShutdownTasks() {
+	SaveAhkCmdHistory()
+	SaveCommitCssLessMsgHistory()
+	SaveCommitAnyFileMsgHistory()
+}
