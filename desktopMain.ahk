@@ -14,6 +14,8 @@ MainSubroutine:
 	SetGlobalVariables()
 	ListAhkFiles()
 	LoadAhkCmdHistory()
+	LoadCommitCssLessMsgHistory()
+	LoadCommitAnyFileMsgHistory()
 	SoundPlay, %scriptLoadedSound%
 	MsgBox, % "Script has been loaded."
 Return
