@@ -565,7 +565,6 @@ Return
 ; >>> NOTEPAD++: TEXT EDITING ENHANCEMENT HOTKEYS & SCRIPTS
 
 DoChangeDelimiter(leftDelimiter, rightDelimeter) {
-	CoordMode, Mouse, Client
 	Sleep 20
 	Click, 311, -9
 	Sleep 400
