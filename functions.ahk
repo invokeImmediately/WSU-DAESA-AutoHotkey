@@ -114,16 +114,21 @@ MoveCursorIntoActiveWindow(ByRef curPosX, ByRef curPosY)
 	WinGetPos, winPosX, winPosY, winW, winH, A
 	if (curPosX < 0) {
 		curPosX := 50
-	}
-	else if(curPosX > winW - 100) {
+	} else if(curPosX > winW - 100) {
 		curPosX := winW - 100
 	}
 	if (curPosY < 0) {
 		curPosY := 100
-	}
-	else if(curPosY > winH - 100) {
+	} else if(curPosY > winH - 100) {
 		curPosY := winH - 100
 	}
+}
+
+GetCursorCoordsToCenterInActiveWindow(ByRef newPosX, ByRef newPosY)
+{
+	WinGetPos, winPosX, winPosY, winW, winH, A
+	newPosX := winW / 2
+	newPosY := winH / 2
 }
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
