@@ -125,7 +125,7 @@ HandleCommitAnyFileOk() {
 	if (!gVarCheck) {
 		commitMsgTxt := """" . ctrlCommitAnyFile1stMsg . """"
 		if (ctrlCommitAnyFile2ndMsg) {
-			commitMsgTxt .= "`n`nSECONDARY MESSAGE: """ . ctrlCommitAnyFile2ndMsg . """"
+			commitMsgTxt .= "`n`nSECONDARY MESSAGE:`n""" . ctrlCommitAnyFile2ndMsg . """"
 		}
 		MsgBox, 4, % "Ready to Proceed?", % "Are you sure you want to push the git commit message:`n`n"
 			. "PRIMARY MESSAGE:`n" . commitMsgTxt 
