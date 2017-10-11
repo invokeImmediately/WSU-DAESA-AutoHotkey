@@ -15,7 +15,7 @@
 		filePathEndPos := RegExMatch(fnFileToCommit, "\\(?![A-Za-z0-9\-\.'^()]*\\)")
 		fpGitfolder := SubStr(fnFileToCommit, 1, filePathEndPos)
 		fnFileToCommit := SubStr(fnFileToCommit, filePathEndPos + 1)
-		
+
 		; Verify that the file is contained within a valid git folder
 		gitFolderPos := (fpGitFolder = GetGitHubFolder() . "\")
 			? 0
@@ -39,7 +39,7 @@ CommitAnyFile(ahkCmdName, fpGitFolder, fnFileToCommit) {
 	global ctrlCommitAnyFile1stMsgCharCount
 	global ctrlCommitAnyFile2ndMsg
 	global ctrlCommitAnyFile2ndMsgCharCount
-	
+
 	; Variable initializations
 	commitAnyFileVars.ahkCmdName := ahkCmdName
 	commitAnyFileVars.fpGitFolder := fpGitFolder
@@ -57,7 +57,7 @@ CommitAnyFile(ahkCmdName, fpGitFolder, fnFileToCommit) {
 			msgLenAnyFile2nd := StrLen(lastAnyFileMsg2nd)
 		}
 	}
-	
+
 	; GUI initialization & display to user
 	Gui, guiCommitAnyFile: New, , % ahkCmdName . " Commit Message Specification"
 	Gui, guiCommitAnyFile: Font, bold
@@ -78,7 +78,6 @@ CommitAnyFile(ahkCmdName, fpGitFolder, fnFileToCommit) {
 	Gui, guiCommitAnyFile: Show
 }
 
-
 ; Triggered when the primary git commit message for the selected file is changed.
 HandleCommitAnyFile1stMsgChange() {
 	; Make global variable declarations.
@@ -87,7 +86,7 @@ HandleCommitAnyFile1stMsgChange() {
 
 	; Submit GUI without hiding to update variables storing states of controls.
 	Gui, guiCommitAnyFile: Submit, NoHide
-	
+
 	; Update character count field
 	msgLen := StrLen(ctrlCommitAnyFile1stMsg)
 	GuiControl, , ctrlCommitAnyFile1stMsgCharCount, % "Length = " . msgLen . " characters"
@@ -101,12 +100,11 @@ HandleCommitAnyFile2ndMsgChange() {
 
 	; Submit GUI without hiding to update variables storing states of controls.
 	Gui, guiCommitAnyFile: Submit, NoHide
-	
+
 	; Update character count field
 	msgLen := StrLen(ctrlCommitAnyFile2ndMsg)
 	GuiControl, , ctrlCommitAnyFile2ndMsgCharCount, % "Length = " . msgLen . " characters"
 }
-
 
 ; Triggered by OK button in guiCommitAnyFile GUI.
 HandleCommitAnyFileOk() {
@@ -114,10 +112,10 @@ HandleCommitAnyFileOk() {
 	global commitAnyFileLastMsg
 	global ctrlCommitAnyFile1stMsg
 	global ctrlCommitAnyFile2ndMsg
-	
+
 	; Submit GUI to finalize variables storing user input.
 	Gui, guiCommitAnyFile: Submit, NoHide
-	
+
 	; Ensure that state of global variables is consistent with a valid GUI submission.
 	gVarCheck := commitAnyFileVars.ahkCmdName == undefined
 	gVarCheck := (gVarCheck << 1) | (commitAnyFileVars.fpGitFolder == undefined)
@@ -125,33 +123,48 @@ HandleCommitAnyFileOk() {
 	gVarCheck := (gVarCheck << 1) | (ctrlCommitAnyFile1stMsg == undefined)
 
 	if (!gVarCheck) {
-		; Close the GUI since the condition of our variables passed muster.
-		Gui, guiCommitAnyFile: Destroy
-		
-		; Build the command line inputs for commiting the code to the appropriate git repository.
-		commandLineInput := "cd """ . commitAnyFileVars.fpGitFolder . """`r"
-			. "git add " . commitAnyFileVars.fnFileToCommit . "`r"
-			. "git commit -m """ . ctrlCommitAnyFile1stMsg . """"
-		if (ctrlCommitAnyFile2ndMsg != "") {
-			commandLineInput .= " -m """ . ctrlCommitAnyFile2ndMsg . """ `r"
-		} else {
-			commandLineInput .= "`r"
+		commitMsgTxt := """" . ctrlCommitAnyFile1stMsg . """"
+		if (ctrlCommitAnyFile2ndMsg) {
+			commitMsgTxt .= "`nSecondary message: """ . ctrlCommitAnyFile2ndMsg . """"
 		}
-		commandLineInput .= "git push`r"
+		MsgBox, 4, % "Ready to Proceed?", % "Are you sure you want to push the git commit message:`n"
+			. commitMsgTxt 
+		IfMsgBox, Yes
+		{
+			; Close the GUI since the condition of our variables passed muster.
+			Gui, guiCommitAnyFile: Destroy
 
-		; Store commit for later use as a guide
-		if (commitAnyFileLastMsg == undefined) {
-			commitAnyFileLastMsg := Object()
+			; Build the command line inputs for commiting the code to the appropriate git repository.
+			commandLineInput := "cd """ . commitAnyFileVars.fpGitFolder . """`r"
+				. "git add " . commitAnyFileVars.fnFileToCommit . "`r"
+				. "git commit -m """ . ctrlCommitAnyFile1stMsg . """"
+			if (ctrlCommitAnyFile2ndMsg != "") {
+				commandLineInput .= " -m """ . ctrlCommitAnyFile2ndMsg . """ `r"
+			} else {
+				commandLineInput .= "`r"
+			}
+			commandLineInput .= "git push`r"
+
+			; Store commit for later use as a guide
+			if (commitAnyFileLastMsg == undefined) {
+				commitAnyFileLastMsg := Object()
+			}
+			key := commitAnyFileVars.fpGitFolder . commitAnyFileVars.fnFileToCommit
+			commitAnyFileLastMsg[key] := Object()
+			commitAnyFileLastMsg[key].primary := ctrlCommitAnyFile1stMsg
+			commitAnyFileLastMsg[key].secondary := ctrlCommitAnyFile2ndMsg
+			commandLineInput .= "[console]::beep(2000,150)`r"
+				. "[console]::beep(2000,150)`r"
+
+			; Paste the code into the command console.
+			PasteTextIntoGitShell(commitAnyFileVars.ahkCmdName, commandLineInput)
 		}
-		key := commitAnyFileVars.fpGitFolder . commitAnyFileVars.fnFileToCommit
-		commitAnyFileLastMsg[key] := Object()
-		commitAnyFileLastMsg[key].primary := ctrlCommitAnyFile1stMsg
-		commitAnyFileLastMsg[key].secondary := ctrlCommitAnyFile2ndMsg
-		commandLineInput .= "[console]::beep(2000,150)`r"
-			. "[console]::beep(2000,150)`r"
-
-		; Paste the code into the command console.
-		PasteTextIntoGitShell(commitAnyFileVars.ahkCmdName, commandLineInput)
+		IfMsgBox, No
+		{
+			commitAnyFileLastMsg[key] := Object()
+			commitAnyFileLastMsg[key].primary := ctrlCommitAnyFile1stMsg
+			commitAnyFileLastMsg[key].secondary := ctrlCommitAnyFile2ndMsg
+		}
 	} else {
 		; Determine what went wrong, notify user, and handle accordingly.
 		ProcessHandleCommitAnyFileOkError(gVarCheck)
@@ -218,7 +231,7 @@ LoadCommitAnyFileMsgHistory() {
 	if (commitAnyFileLastMsg == undefined) {
 		commitAnyFileLastMsg := Object()
 	}
-	
+
 	logFile := FileOpen(commitAnyFileMsgLog, "r `n")
 	if (logFile) {
 		Loop {
