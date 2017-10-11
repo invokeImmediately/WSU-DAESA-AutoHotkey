@@ -164,10 +164,9 @@ PasteTextIntoGitShell(ahkCmdName, shellText) {
 		if (proceedWithPaste) {
 			SendInput, {Esc}
 			Sleep, 20
-			MouseGetPos, curPosX, curPosY
-			MoveCursorIntoActiveWindow(curPosX, curPosY)
+			GetCursorCoordsToCenterInActiveWindow(newPosX, newPosY)
 			clipboard = %shellText%
-			Click right %curPosX%, %curPosY%
+			Click right %newPosX%, %newPosY%
 		} else {
 			errorMsg := "Was unable to activate GitHub Powershell; aborting hotstring."
 		}
