@@ -52,7 +52,7 @@ global scriptLoadedSound := ssdWorkFolder . "\Sound Library\Storm_exclamation.wa
 global desktopArrangedSound := ssdWorkFolder . "\Sound Library\zelda_lttp-mstr-swrd.wav"
 
 ; ···························································································································
-; >>> DESKTOP ARRANGEMENT AUDITORY CUE GLOBALS
+; >>> SIMULATED MEMORY OF USER ACTIONS
 global cmdHistoryLog := hhdWorkFolder . "\^WSU-Web-Dev\^Personnel-File\ahk-cmd-history.txt"
 global ahkCmds := Array()
 global ahkCmdLimit := 36
@@ -61,6 +61,11 @@ global savedMouseX := 0
 global savedMouseY := 0
 global lineLength := 125
 
+global commitCssLessMsgLog := hhdWorkFolder . "\^WSU-Web-Dev\^Personnel-File\commit-css-less-msg-history.txt"
+global commitAnyFileMsgLog := hhdWorkFolder . "\^WSU-Web-Dev\^Personnel-File\commit-any-file-msg-history.txt"
+
+; ···························································································································
+; >>> KEYBOARD OVERRIDING
 global bitNumpadSubToggle := false
 global numpadSubOverwrite := "{U+00b7}"
 global bitNumpadDivToggle := false
@@ -76,6 +81,7 @@ global hotstrEndTime := 0
 #NoEnv
 #SingleInstance
 SetTitleMatchMode, 2
+CoordMode, Mouse, Client
 FileEncoding, UTF-8
 Gosub, MainSubroutine
 If not A_IsAdmin
@@ -478,14 +484,6 @@ Return
 	Send {SPACE 16}
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-^#!r::
-	SaveAhkCmdHistory()
-	Run *RunAs "%A_ScriptFullPath%" 
-	ExitApp
-Return
-
 ; ---------------------------------------------------------------------------------------------------------------------------
 ;   CUSTOM HOTSTRINGS
 ; ---------------------------------------------------------------------------------------------------------------------------
@@ -539,3 +537,20 @@ CopyTitleFromExcel(cumulativeCount) {
 	Send !{TAB %numRpts%}
 Return
 
+:*:@deleteSectionBreak::
+	AppendAhkCmd(":*:@deleteSectionBreak")
+	SendInput, {Enter}
+	Sleep, 200
+	SendInput, !{Tab}
+	Sleep, 200
+	SendInput, {Delete}
+	Sleep, 100
+	SendInput, ^{Enter}
+	Sleep, 100
+	SendInput, {Left 2}
+	Sleep, 100
+	SendInput, {Delete}
+	Sleep, 100
+	SendInput, !{Tab}
+	Sleep, 200
+Return
