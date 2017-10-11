@@ -125,10 +125,10 @@ HandleCommitAnyFileOk() {
 	if (!gVarCheck) {
 		commitMsgTxt := """" . ctrlCommitAnyFile1stMsg . """"
 		if (ctrlCommitAnyFile2ndMsg) {
-			commitMsgTxt .= "`nSecondary message: """ . ctrlCommitAnyFile2ndMsg . """"
+			commitMsgTxt .= "`nSECONDARY MESSAGE: """ . ctrlCommitAnyFile2ndMsg . """"
 		}
 		MsgBox, 4, % "Ready to Proceed?", % "Are you sure you want to push the git commit message:`n"
-			. commitMsgTxt 
+			. "PRIMARY MESSAGE:`n" . commitMsgTxt 
 		IfMsgBox, Yes
 		{
 			; Close the GUI since the condition of our variables passed muster.
@@ -158,12 +158,6 @@ HandleCommitAnyFileOk() {
 
 			; Paste the code into the command console.
 			PasteTextIntoGitShell(commitAnyFileVars.ahkCmdName, commandLineInput)
-		}
-		IfMsgBox, No
-		{
-			commitAnyFileLastMsg[key] := Object()
-			commitAnyFileLastMsg[key].primary := ctrlCommitAnyFile1stMsg
-			commitAnyFileLastMsg[key].secondary := ctrlCommitAnyFile2ndMsg
 		}
 	} else {
 		; Determine what went wrong, notify user, and handle accordingly.
