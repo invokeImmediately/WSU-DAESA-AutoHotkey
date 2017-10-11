@@ -14,7 +14,7 @@
 	CheckForCmdEntryGui()
 	WinActivate, % "ahk_exe explorer.exe ahk_class Shell_TrayWnd"
 	Sleep, 200
-	MouseClick, Left, 1715, 16
+	MouseClick, Left, 1678, 16
 	Sleep, 1000
 	WinActivate, % "Cisco ahk_exe vpnui.exe"
 	Sleep, 200	
@@ -23,15 +23,11 @@
 	SendInput, % "sslvpn.wsu.edu{Enter}"
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
 :*:@setupVirtualDesktop1::
 	Gosub, :*:@moveTempMonitors
 	Gosub, :*:@startNotepadPp
 	Gosub, :*:@startChrome
 Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@setupVirtualDesktop2::
 	SendInput, #{Tab}
@@ -43,8 +39,6 @@ Return
 	Gosub, :*:@startGithubClients
 	Gosub, :*:@arrangeGitHub
 Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@setupVirtualDesktop3::
 	SendInput, #{Tab}
@@ -65,8 +59,6 @@ Return
 	LaunchStdApplicationPatiently("C:\Program Files\GIMP 2\bin\gimp-2.8.exe", "GNU Image")
 	Sleep, 1000
 Return
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@setupVirtualDesktop4::
 	CheckForCmdEntryGui()
@@ -115,8 +107,6 @@ Return
 	Gosub, :*:@arrangeEmail
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
 :*:@setupVirtualDesktop5::
 	CheckForCmdEntryGui()
 	SendInput, #{Tab}
@@ -125,15 +115,28 @@ Return
 	Sleep, 330
 	LaunchStdApplicationPatiently("C:\Windows\System32\taskmgr.exe", "Task Manager")
 	Sleep, 1000
-	WinMove, % "Inbox - Wunderlist", , 136, 88, 1648, 874
-	Sleep, 200
 	WinMove, % "GPU Temp", , -541, 59, 480, 400
 	Sleep, 200
 	WinMove, % "RealTemp", , -537, 477, 318, 409
 	Sleep, 200
 	WinMove, % "Task Manager", , -1528, 184, 976, 600
-	Sleep, 200
-	WinActivate, % "Inbox - Wunderlist"
+	Sleep 200
+	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe", "New Tab")
+	Sleep, 330
+	SendInput, !{d}
+	Sleep, 100
+	SendInput, % "scripturetyper.com{Enter}"
+	Sleep, 330
+	SendInput, ^t
+	Sleep, 100
+	SendInput, !{d}
+	Sleep, 100
+	SendInput, % "www.blueletterbible.org{Enter}"
+	Sleep, 1000
+	SendInput, ^{Tab}
+	Sleep, 330
+	WinRestore, % "Free Bible ahk_exe chrome.exe"
+	WinMove, % "Free Bible ahk_exe chrome.exe", , 136, 88, 1648, 874
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
@@ -206,9 +209,7 @@ Return
 	WinMove, % "Inbox ahk_exe chrome.exe", , -1720, 0, 1720, 1040
 	Sleep, 200
 	WinActivate, % "Inbox ahk_exe chrome.exe"
-	Sleep, 200
-	CoordMode, Mouse, Client
-	Sleep, 250
+	Sleep, 450
 	MouseMove 1657, 135
 	Sleep, 100
 	Send {Click}
@@ -217,11 +218,11 @@ Return
 	Sleep, 100
 	Send {Click}
 	Sleep, 500
-	WinRestore, OneNote
-	WinMove, OneNote, , 0, 0, 1720, 1040
+	WinRestore, % "Inbox - Wunderlist"
+	WinMove, % "Inbox - Wunderlist", , 0, 0, 1720, 1040
 	Sleep, 100
 	WinRestore, % "iTunes ahk_exe iTunes.exe"
-	WinMove, iTunes, , 200, 0, 1720, 1040
+	WinMove, % "iTunes ahk_exe iTunes.exe", , 200, 0, 1720, 1040
 Return
 
 ;   ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
