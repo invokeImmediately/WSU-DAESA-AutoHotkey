@@ -16,6 +16,8 @@ MainSubroutine:
 	LoadAhkCmdHistory()
 	LoadCommitCssLessMsgHistory()
 	LoadCommitAnyFileMsgHistory()
+	SetupLogAutoSaving()
+	OnExit("ScriptExitFunc")
 	SoundPlay, %scriptLoadedSound%
 	MsgBox, % "Script has been loaded."
 Return
@@ -23,19 +25,6 @@ Return
 ; ------------------------------------------------------------------------------------------------------------
 ; STARTUP FUNCTIONS CALLED BY MAIN SUBROUTINE
 ; ------------------------------------------------------------------------------------------------------------
-
-ReportMonitorDimensions() {
-	global
-	local msg := "The system has " . sysNumMonitors . " monitors."
-	Loop, % sysNumMonitors {
-		msg := msg . "`rMonitor #" . A_Index . " bounds: (" . mon%A_Index%Bounds_Left . ", " . mon%A_Index%Bounds_Top . "), (" . mon%A_Index%Bounds_Right . ", " . mon%A_Index%Bounds_Bottom . ")"
-		msg := msg . "`rMonitor #" . A_Index . " work area: (" . mon%A_Index%WorkArea_Left . ", " . mon%A_Index%WorkArea_Top . "), (" . mon%A_Index%WorkArea_Right . ", " . mon%A_Index%WorkArea_Bottom . ")"
-	}
-	msg := msg . "`rWindow border thickness: (" . sysWinBorderW . "," . sysWinBorderH . ")"
-	MsgBox, % msg
-}
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 SetGlobalVariables() {
 	SetNumMonitors()
@@ -45,7 +34,11 @@ SetGlobalVariables() {
 	;ReportMonitorDimensions() ; Diagnostic function
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+SetNumMonitors() {
+	global SM_CMONITORS
+	global sysNumMonitors
+	SysGet, sysNumMonitors, %SM_CMONITORS%
+}
 
 SetMonitorBounds() {
 	global
@@ -54,24 +47,12 @@ SetMonitorBounds() {
 	}
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
 SetMonitorWorkAreas() {
 	global
 	Loop, % sysNumMonitors {
 		SysGet, mon%A_Index%WorkArea_, MonitorWorkArea, %A_Index%
 	}
 }
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-SetNumMonitors() {
-	global SM_CMONITORS
-	global sysNumMonitors
-	SysGet, sysNumMonitors, %SM_CMONITORS%
-}
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 SetWinBorders() {
 	global SM_CXSIZEFRAME
@@ -136,4 +117,23 @@ ListAhkFiles() {
 	}
 	
 	;TODO: Build a trie object for use with an autocomplete function.
+}
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+SetupLogAutoSaving() {
+	SetTimer, PerformScriptShutdownTasks, 900000 ; 1000 * 60 * 15 = 15 minutes
+}
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+ReportMonitorDimensions() {
+	global
+	local msg := "The system has " . sysNumMonitors . " monitors."
+	Loop, % sysNumMonitors {
+		msg := msg . "`rMonitor #" . A_Index . " bounds: (" . mon%A_Index%Bounds_Left . ", " . mon%A_Index%Bounds_Top . "), (" . mon%A_Index%Bounds_Right . ", " . mon%A_Index%Bounds_Bottom . ")"
+		msg := msg . "`rMonitor #" . A_Index . " work area: (" . mon%A_Index%WorkArea_Left . ", " . mon%A_Index%WorkArea_Top . "), (" . mon%A_Index%WorkArea_Right . ", " . mon%A_Index%WorkArea_Bottom . ")"
+	}
+	msg := msg . "`rWindow border thickness: (" . sysWinBorderW . "," . sysWinBorderH . ")"
+	MsgBox, % msg
 }
