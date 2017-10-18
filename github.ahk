@@ -220,7 +220,7 @@ LoadWordPressSiteInChrome(websiteUrl) {
 			IfNotInString, thisTitle, % "New Tab"
 				proceed := true
 		}
-		Sleep, 2000
+		Sleep, 1000
 	}
 }
 
@@ -310,6 +310,12 @@ Return
 		Gui, guiPostMinJs: New,
 			, % "Post Minified JS to OUE Websites"
 		Gui, guiPostMinJs: Add, Text,
+			, % "Post minified JS in:"
+		Gui, guiPostMinJs: Add, Radio, Checked Y+0 vRadioGroupPasteJsAutoMode
+			, % "Automatic mode (&1)`n"
+		Gui, guiPostMinJs: Add, Radio, Y+0
+			, % "Manual mode (&2)"
+		Gui, guiPostMinJs: Add, Text, Y+16
 			, % "Which OUE Websites would you like to update?"
 		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToAscc
 			, % "https://&ascc.wsu.edu"		
@@ -337,7 +343,7 @@ Return
 			, % "https://uco&re.wsu.edu"		
 		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToUcrAss Checked
 			, % "https://ucore.wsu.edu/&assessment"
-		Gui, guiPostMinJs: Add, Button, Default gHandlePostMinJsOK, &OK
+		Gui, guiPostMinJs: Add, Button, Default Y+16 gHandlePostMinJsOK, &OK
 		Gui, guiPostMinJs: Add, Button, gHandlePostMinJsCancel X+5, &Cancel
 		Gui, guiPostMinJs: Add, Button, gHandlePostJsCheckAllSites X+15, C&heck All
 		Gui, guiPostMinJs: Add, Button, gHandlePostJsUncheckAllSites X+5, Unchec&k All
@@ -609,64 +615,68 @@ HandlePostMinJsOK() {
 	Gui, Submit
 	Gui, Destroy
 	sgIsPostingMinJs := true
+	local postMinJsAutoMode := false
+	if (RadioGroupPostMinJsAutoMode == 2) {
+		postMinJsAutoMode := true
+	}
 	if (PostMinJsToAscc) {
 		PasteMinJsToWebsite("https://ascc.wsu.edu/wp-admin/themes.php?page=custom-javascript"
-			, ":*:@copyMinJsAscc")
+			, ":*:@copyMinJsAscc", postMinJsAutoMode)
 	}
 	if (PostMinJsToCr) {
 		PasteMinJsToWebsite("https://commonreading.wsu.edu/wp-admin/themes.php?page=custom-javascript"
-			, ":*:@copyMinJsCr")
+			, ":*:@copyMinJsCr", postMinJsAutoMode)
 	}
 	if (PostMinJsToDsp) {
 		PasteMinJsToWebsite("https://distinguishedscholarships.wsu.edu/wp-admin/themes.php?page=custom-javascript"
-			, ":*:@copyMinJsDsp")
+			, ":*:@copyMinJsDsp", postMinJsAutoMode)
 	}
 	if (PostMinJsToFye) {
 		PasteMinJsToWebsite("https://firstyear.wsu.edu/wp-admin/themes.php?page=custom-javascript"
-			, ":*:@copyMinJsFye")
+			, ":*:@copyMinJsFye", postMinJsAutoMode)
 	}
 	if (PostMinJsToFyf) {
 		PasteMinJsToWebsite("https://learningcommunities.wsu.edu/wp-admin/themes.php?page=custom-javascript"
-			, ":*:@copyMinJsFyf")
+			, ":*:@copyMinJsFyf", postMinJsAutoMode)
 	}
 	if (PostMinJsToNse) {
 		PasteMinJsToWebsite("https://nse.wsu.edu/wp-admin/themes.php?page=custom-javascript"
-			, ":*:@copyMinJsNse")
+			, ":*:@copyMinJsNse", postMinJsAutoMode)
 	}
 	if (PostMinJsToPbk) {
 		PasteMinJsToWebsite("https://phibetakappa.wsu.edu/wp-admin/themes.php?page=custom-javascript"
-			, ":*:@copyMinJsPbk")
+			, ":*:@copyMinJsPbk", postMinJsAutoMode)
 	}
 	if (PostMinJsToSurca) {
 		PasteMinJsToWebsite("https://surca.wsu.edu/wp-admin/themes.php?page=custom-javascript"
-			, ":*:@copyMinJsSurca")
+			, ":*:@copyMinJsSurca", postMinJsAutoMode)
 	}
 	if (PostMinJsToSumRes) {
 		PasteMinJsToWebsite("https://summerresearch.wsu.edu/wp-admin/themes.php?page=custom-javascript"
-			, ":*:@copyMinJsSumRes")
+			, ":*:@copyMinJsSumRes", postMinJsAutoMode)
 	}
 	if (PostMinJsToXfer,) {
 		PasteMinJsToWebsite("https://transfercredit.wsu.edu/wp-admin/themes.php?page=custom-javascript"
-			, ":*:@copyMinJsXfer")
+			, ":*:@copyMinJsXfer", postMinJsAutoMode)
 	}
 	if (PostMinJsToUgr) {
 		PasteMinJsToWebsite("https://undergraduateresearch.wsu.edu/wp-admin/themes.php?page=custom-javascript"
-			, ":*:@copyMinJsUgr")
+			, ":*:@copyMinJsUgr", postMinJsAutoMode)
 	}
 	if (PostMinJsToUcore) {
 		PasteMinJsToWebsite("https://ucore.wsu.edu/wp-admin/themes.php?page=custom-javascript"
-			, ":*:@copyMinJsUcore")
+			, ":*:@copyMinJsUcore", postMinJsAutoMode)
 	}
 	if (PostMinJsToUcrAss) {
 		PasteMinJsToWebsite("https://ucore.wsu.edu/assessment/wp-admin/themes.php?page=custom-javascript"
-			, ":*:@copyMinJsUcrAss")
+			, ":*:@copyMinJsUcrAss", postMinJsAutoMode)
 	}
 	sgIsPostingMinJs := false
 }
 
 ; ············································································································
 
-PasteMinCssToWebsite(websiteUrl, cssCopyCmd) {
+PasteMinCssToWebsite(websiteUrl, cssCopyCmd, manualProcession := false) {
 	LoadWordPressSiteInChrome(websiteUrl)
 	Gosub, %cssCopyCmd%
 	Sleep, 100
@@ -675,9 +685,13 @@ PasteMinCssToWebsite(websiteUrl, cssCopyCmd) {
 
 ; ············································································································
 
-PasteMinJsToWebsite(websiteUrl, jsCopyCmd) {
+PasteMinJsToWebsite(websiteUrl, jsCopyCmd, manualProcession := false) {
 	LoadWordPressSiteInChrome(websiteUrl)
-	Sleep, 1000
+	if (manualProcession) {
+		MsgBox, % "Press OK to proceed with " . jsCopyCmd . " command."
+	} else {
+		Sleep, 1000
+	}
 	Gosub, %jsCopyCmd%
 	Sleep, 120
 	ExecuteJsPasteCmds()
@@ -1014,22 +1028,32 @@ Return
 
 ; ············································································································
 
-ExecuteCssPasteCmds() {
+ExecuteCssPasteCmds(manualProcession := false) {
 	; Add check for correct CSS in clipboard — the first line is a font import.
 	posFound := RegExMatch(clipboard, "^/\*!? Built with the LESS CSS")
 	if (posFound != 0) {
 		Click, 768, 570
 		Sleep, 100
 		SendInput, ^a
-		Sleep, 100
+		if (manualProcession) {
+			Sleep 330
+			MsgBox, % "Press OK to proceed with paste command."
+		} else {
+			Sleep, 330
+		}
 		SendInput, ^v
-		Sleep, 1000
+		if (manualProcession) {
+			Sleep 330
+			MsgBox, % "Press OK to proceed with update button selection."
+		} else {
+			Sleep, 1000
+		}
 		Click, 1565, 370
 		Sleep, 60
 		Click, 1565, 410
 		Sleep, 60
 		Click, 1565, 455
-		Sleep, 2000
+		Sleep, 1000
 	} else {
 		MsgBox, % (0x0 + 0x10)
 			, % "ERROR (:*:@doCssPaste): Clipboard Has Unexpected Contents"
@@ -1040,20 +1064,30 @@ ExecuteCssPasteCmds() {
 
 ; ············································································································
 
-ExecuteJsPasteCmds() {
+ExecuteJsPasteCmds(manualProcession := false) {
 	; Add check for correct CSS in clipboard — the first line is a font import.
 	posFound := RegExMatch(clipboard, "^// Built with Node.js")
 	if (posFound != 0) {
 		Click, 461, 371
 		Sleep, 330
 		SendInput, ^a
-		Sleep, 2500
+		if (manualProcession) {
+			Sleep 330
+			MsgBox, % "Press OK to proceed with paste command."
+		} else {
+			Sleep, 2500
+		}
 		SendInput, ^v
-		Sleep, 10000
+		if (manualProcession) {
+			Sleep 330
+			MsgBox, % "Press OK to proceed with update button selection."
+		} else {
+			Sleep, 10000
+		}
 		Click, 214, 565
 		Sleep, 60
 		Click, 214, 615
-		Sleep 2500
+		Sleep 1000
 	}
 	else {
 		MsgBox, % (0x0 + 0x10)
