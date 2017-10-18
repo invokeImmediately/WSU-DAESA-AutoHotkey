@@ -342,3 +342,10 @@ PerformScriptShutdownTasks() {
 	SaveCommitCssLessMsgHistory()
 	SaveCommitAnyFileMsgHistory()
 }
+
+ScriptExitFunc(ExitReason, ExitCode) {
+	if ExitReason in Logoff, Shutdown, Menu
+	{
+		PerformScriptShutdownTasks()
+	}
+}
