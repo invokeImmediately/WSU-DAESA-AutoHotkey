@@ -1,4 +1,4 @@
-﻿; ============================================================================================================
+﻿	; ============================================================================================================
 ; AUTOHOTKEY SCRIPT IMPORT for Working with Github Desktop for Windows
 ; ============================================================================================================
 ; IMPORT DEPENDENCIES
@@ -259,101 +259,6 @@ LoadWordPressSiteInChrome(websiteUrl) {
 	}
 Return
 
-; ············································································································
-
-:*:@postBackupCss::
-	AppendAhkCmd(":*:@postBackupCss")
-	if(!sgIsPostingBackupCss) {
-		Gui, guiPostBackupCss: New,
-			, % "Post Minified CSS to OUE Websites"
-		Gui, guiPostBackupCss: Add, Text,
-			, % "Which OUE Websites would you like to update?"
-		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToAscc
-			, % "https://&ascc.wsu.edu"
-		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToCr
-			, % "https://commonread&ing.wsu.edu"
-		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToDsp Checked
-			, % "https://&distinguishedscholarships.wsu.edu"
-		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToFye Checked
-			, % "https://&firstyear.wsu.edu"
-		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToFyf Checked
-			, % "https://&learningcommunities.wsu.edu"
-		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToNse Checked
-			, % "https://&nse.wsu.edu"
-		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToPbk Checked
-			, % "https://&phibetakappa.wsu.edu"
-		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToSurca Checked
-			, % "https://&surca.wsu.edu"
-		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToSumRes Checked
-			, % "https://su&mmerresearch.wsu.edu"
-		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToXfer
-			, % "https://&transfercredit.wsu.edu"
-		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToUgr Checked
-			, % "https://&undergraduateresearch.wsu.edu"
-		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToUcore Checked
-			, % "https://uco&re.wsu.edu"
-		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToUcrAss Checked
-			, % "https://ucor&e.wsu.edu/assessment"
-		Gui, guiPostBackupCss: Add, Button, Default gHandlePostBackupCssOK, &OK
-		Gui, guiPostBackupCss: Add, Button, gHandlePostBackupCssCancel X+5, &Cancel
-		Gui, guiPostBackupCss: Add, Button, gHandlePostBackupCssCheckAllSites X+15, C&heck All
-		Gui, guiPostBackupCss: Add, Button, gHandlePostBackupCssUncheckAllSites X+5, Unchec&k All
-		Gui, guiPostBackupCss: Show
-	}
-Return
-
-; ············································································································
-
-:*:@postMinJs::
-	AppendAhkCmd(":*:@postMinJs")
-	if(!sgIsPostingMinJs) {
-		Gui, guiPostMinJs: New,
-			, % "Post Minified JS to OUE Websites"
-		Gui, guiPostMinJs: Add, Text,
-			, % "Post minified JS in:"
-		Gui, guiPostMinJs: Add, Radio, Checked Y+0 vRadioGroupPasteJsAutoMode
-			, % "Automatic mode (&1)`n"
-		Gui, guiPostMinJs: Add, Radio, Y+0
-			, % "Manual mode (&2)"
-		Gui, guiPostMinJs: Add, Text, Y+16
-			, % "Which OUE Websites would you like to update?"
-		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToAscc
-			, % "https://&ascc.wsu.edu"		
-		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToCr
-			, % "https://commonread&ing.wsu.edu"		
-		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToDsp Checked
-			, % "https://&distinguishedscholarships.wsu.edu"		
-		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToFye Checked
-			, % "https://&firstyear.wsu.edu"		
-		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToFyf Checked
-			, % "https://&learningcommunities.wsu.edu"		
-		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToNse Checked
-			, % "https://&nse.wsu.edu"		
-		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToPbk Checked
-			, % "https://&phibetakappa.wsu.edu"		
-		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToSurca Checked
-			, % "https://&surca.wsu.edu"		
-		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToSumRes Checked
-			, % "https://su&mmerresearch.wsu.edu"		
-		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToXfer
-			, % "https://&transfercredit.wsu.edu"		
-		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToUgr Checked
-			, % "https://&undergraduateresearch.wsu.edu"		
-		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToUcore Checked
-			, % "https://uco&re.wsu.edu"		
-		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToUcrAss Checked
-			, % "https://ucore.wsu.edu/&assessment"
-		Gui, guiPostMinJs: Add, Button, Default Y+16 gHandlePostMinJsOK, &OK
-		Gui, guiPostMinJs: Add, Button, gHandlePostMinJsCancel X+5, &Cancel
-		Gui, guiPostMinJs: Add, Button, gHandlePostJsCheckAllSites X+15, C&heck All
-		Gui, guiPostMinJs: Add, Button, gHandlePostJsUncheckAllSites X+5, Unchec&k All
-		Gui, guiPostMinJs: Show
-	}
-Return
-
-; ············································································································
-; >>> GUI DRIVING FUNCTIONS --  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
 HandlePostCssCheckAllSites() {
 	global
 	GuiControl, guiPostMinCss:, PostMinCssToAscc, 1
@@ -370,27 +275,6 @@ HandlePostCssCheckAllSites() {
 	GuiControl, guiPostMinCss:, PostMinCssToUcore, 1
 	GuiControl, guiPostMinCss:, PostMinCssToUcrAss, 1
 }
-
-; ············································································································
-
-HandlePostBackupCssCheckAllSites() {
-	global
-	GuiControl, guiPostBackupCss:, PostBackupCssToAscc, 1
-	GuiControl, guiPostBackupCss:, PostBackupCssToCr, 1
-	GuiControl, guiPostBackupCss:, PostBackupCssToDsp, 1
-	GuiControl, guiPostBackupCss:, PostBackupCssToFye, 1
-	GuiControl, guiPostBackupCss:, PostBackupCssToFyf, 1
-	GuiControl, guiPostBackupCss:, PostBackupCssToNse, 1
-	GuiControl, guiPostBackupCss:, PostBackupCssToPbk, 1
-	GuiControl, guiPostBackupCss:, PostBackupCssToSurca, 1
-	GuiControl, guiPostBackupCss:, PostBackupCssToSumRes, 1
-	GuiControl, guiPostBackupCss:, PostBackupCssToXfer, 1
-	GuiControl, guiPostBackupCss:, PostBackupCssToUgr, 1
-	GuiControl, guiPostBackupCss:, PostBackupCssToUcore, 1
-	GuiControl, guiPostBackupCss:, PostBackupCssToUcrAss, 1
-}
-
-; ············································································································
 
 HandlePostCssUncheckAllSites() {
 	global
@@ -409,70 +293,9 @@ HandlePostCssUncheckAllSites() {
 	GuiControl, guiPostMinCss:, PostMinCssToUcrAss, 0
 }
 
-; ············································································································
-
-HandlePostBackupCssUncheckAllSites() {
-	global
-	GuiControl, guiPostBackupCss:, PostBackupCssToAscc, 0
-	GuiControl, guiPostBackupCss:, PostBackupCssToCr, 0
-	GuiControl, guiPostBackupCss:, PostBackupCssToDsp, 0
-	GuiControl, guiPostBackupCss:, PostBackupCssToFye, 0
-	GuiControl, guiPostBackupCss:, PostBackupCssToFyf, 0
-	GuiControl, guiPostBackupCss:, PostBackupCssToNse, 0
-	GuiControl, guiPostBackupCss:, PostBackupCssToPbk, 0
-	GuiControl, guiPostBackupCss:, PostBackupCssToSurca, 0
-	GuiControl, guiPostBackupCss:, PostBackupCssToSumRes, 0
-	GuiControl, guiPostBackupCss:, PostBackupCssToXfer, 0
-	GuiControl, guiPostBackupCss:, PostBackupCssToUgr, 0
-	GuiControl, guiPostBackupCss:, PostBackupCssToUcore, 0
-	GuiControl, guiPostBackupCss:, PostBackupCssToUcrAss, 0
-}
-
-; ············································································································
-
-HandlePostJsCheckAllSites() {
-	global
-	GuiControl, guiPostMinJs:, PostMinJsToAscc, 1
-	GuiControl, guiPostMinJs:, PostMinJsToCr, 1
-	GuiControl, guiPostMinJs:, PostMinJsToDsp, 1
-	GuiControl, guiPostMinJs:, PostMinJsToFye, 1
-	GuiControl, guiPostMinJs:, PostMinJsToFyf, 1
-	GuiControl, guiPostMinJs:, PostMinJsToNse, 1
-	GuiControl, guiPostMinJs:, PostMinJsToPbk, 1
-	GuiControl, guiPostMinJs:, PostMinJsToSurca, 1
-	GuiControl, guiPostMinJs:, PostMinJsToSumRes, 1
-	GuiControl, guiPostMinJs:, PostMinJsToXfer, 1
-	GuiControl, guiPostMinJs:, PostMinJsToUgr, 1
-	GuiControl, guiPostMinJs:, PostMinJsToUcore, 1
-	GuiControl, guiPostMinJs:, PostMinJsToUcrAss, 1
-}
-
-; ············································································································
-
-HandlePostJsUncheckAllSites() {
-	global
-	GuiControl, guiPostMinJs:, PostMinJsToAscc, 0
-	GuiControl, guiPostMinJs:, PostMinJsToCr, 0
-	GuiControl, guiPostMinJs:, PostMinJsToDsp, 0
-	GuiControl, guiPostMinJs:, PostMinJsToFye, 0
-	GuiControl, guiPostMinJs:, PostMinJsToFyf, 0
-	GuiControl, guiPostMinJs:, PostMinJsToNse, 0
-	GuiControl, guiPostMinJs:, PostMinJsToPbk, 0
-	GuiControl, guiPostMinJs:, PostMinJsToSurca, 0
-	GuiControl, guiPostMinJs:, PostMinJsToSumRes, 0
-	GuiControl, guiPostMinJs:, PostMinJsToXfer, 0
-	GuiControl, guiPostMinJs:, PostMinJsToUgr, 0
-	GuiControl, guiPostMinJs:, PostMinJsToUcore, 0
-	GuiControl, guiPostMinJs:, PostMinJsToUcrAss, 0
-}
-
-; ············································································································
-
 HandlePostMinCssCancel() {
 	Gui, guiPostMinCss: Destroy
 }
-
-; ············································································································
 
 HandlePostMinCssOK() {
 	global
@@ -534,13 +357,93 @@ HandlePostMinCssOK() {
 	sgIsPostingMinCss := false
 }
 
+PasteMinCssToWebsite(websiteUrl, cssCopyCmd, manualProcession := false) {
+	LoadWordPressSiteInChrome(websiteUrl)
+	Gosub, %cssCopyCmd%
+	Sleep, 100
+	ExecuteCssPasteCmds()
+}
+
 ; ············································································································
+
+:*:@postBackupCss::
+	AppendAhkCmd(":*:@postBackupCss")
+	if(!sgIsPostingBackupCss) {
+		Gui, guiPostBackupCss: New,
+			, % "Post Minified CSS to OUE Websites"
+		Gui, guiPostBackupCss: Add, Text,
+			, % "Which OUE Websites would you like to update?"
+		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToAscc
+			, % "https://&ascc.wsu.edu"
+		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToCr
+			, % "https://commonread&ing.wsu.edu"
+		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToDsp Checked
+			, % "https://&distinguishedscholarships.wsu.edu"
+		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToFye Checked
+			, % "https://&firstyear.wsu.edu"
+		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToFyf Checked
+			, % "https://&learningcommunities.wsu.edu"
+		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToNse Checked
+			, % "https://&nse.wsu.edu"
+		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToPbk Checked
+			, % "https://&phibetakappa.wsu.edu"
+		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToSurca Checked
+			, % "https://&surca.wsu.edu"
+		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToSumRes Checked
+			, % "https://su&mmerresearch.wsu.edu"
+		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToXfer
+			, % "https://&transfercredit.wsu.edu"
+		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToUgr Checked
+			, % "https://&undergraduateresearch.wsu.edu"
+		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToUcore Checked
+			, % "https://uco&re.wsu.edu"
+		Gui, guiPostBackupCss: Add, CheckBox, vPostBackupCssToUcrAss Checked
+			, % "https://ucor&e.wsu.edu/assessment"
+		Gui, guiPostBackupCss: Add, Button, Default gHandlePostBackupCssOK, &OK
+		Gui, guiPostBackupCss: Add, Button, gHandlePostBackupCssCancel X+5, &Cancel
+		Gui, guiPostBackupCss: Add, Button, gHandlePostBackupCssCheckAllSites X+15, C&heck All
+		Gui, guiPostBackupCss: Add, Button, gHandlePostBackupCssUncheckAllSites X+5, Unchec&k All
+		Gui, guiPostBackupCss: Show
+	}
+Return
+
+HandlePostBackupCssCheckAllSites() {
+	global
+	GuiControl, guiPostBackupCss:, PostBackupCssToAscc, 1
+	GuiControl, guiPostBackupCss:, PostBackupCssToCr, 1
+	GuiControl, guiPostBackupCss:, PostBackupCssToDsp, 1
+	GuiControl, guiPostBackupCss:, PostBackupCssToFye, 1
+	GuiControl, guiPostBackupCss:, PostBackupCssToFyf, 1
+	GuiControl, guiPostBackupCss:, PostBackupCssToNse, 1
+	GuiControl, guiPostBackupCss:, PostBackupCssToPbk, 1
+	GuiControl, guiPostBackupCss:, PostBackupCssToSurca, 1
+	GuiControl, guiPostBackupCss:, PostBackupCssToSumRes, 1
+	GuiControl, guiPostBackupCss:, PostBackupCssToXfer, 1
+	GuiControl, guiPostBackupCss:, PostBackupCssToUgr, 1
+	GuiControl, guiPostBackupCss:, PostBackupCssToUcore, 1
+	GuiControl, guiPostBackupCss:, PostBackupCssToUcrAss, 1
+}
+
+HandlePostBackupCssUncheckAllSites() {
+	global
+	GuiControl, guiPostBackupCss:, PostBackupCssToAscc, 0
+	GuiControl, guiPostBackupCss:, PostBackupCssToCr, 0
+	GuiControl, guiPostBackupCss:, PostBackupCssToDsp, 0
+	GuiControl, guiPostBackupCss:, PostBackupCssToFye, 0
+	GuiControl, guiPostBackupCss:, PostBackupCssToFyf, 0
+	GuiControl, guiPostBackupCss:, PostBackupCssToNse, 0
+	GuiControl, guiPostBackupCss:, PostBackupCssToPbk, 0
+	GuiControl, guiPostBackupCss:, PostBackupCssToSurca, 0
+	GuiControl, guiPostBackupCss:, PostBackupCssToSumRes, 0
+	GuiControl, guiPostBackupCss:, PostBackupCssToXfer, 0
+	GuiControl, guiPostBackupCss:, PostBackupCssToUgr, 0
+	GuiControl, guiPostBackupCss:, PostBackupCssToUcore, 0
+	GuiControl, guiPostBackupCss:, PostBackupCssToUcrAss, 0
+}
 
 HandlePostBackupCssCancel() {
 	Gui, guiPostBackupCss: Destroy
 }
-
-; ············································································································
 
 HandlePostBackupCssOK() {
 	global
@@ -604,11 +507,90 @@ HandlePostBackupCssOK() {
 
 ; ············································································································
 
+:*:@postMinJs::
+	AppendAhkCmd(":*:@postMinJs")
+	if(!sgIsPostingMinJs) {
+		Gui, guiPostMinJs: New,
+			, % "Post Minified JS to OUE Websites"
+		Gui, guiPostMinJs: Add, Text,
+			, % "Post minified JS in:"
+		Gui, guiPostMinJs: Add, Radio, Checked Y+0 vRadioGroupPostMinJsAutoMode
+			, % "Automatic mode (&1)`n"
+		Gui, guiPostMinJs: Add, Radio, Y+0
+			, % "Manual mode (&2)"
+		Gui, guiPostMinJs: Add, Text, Y+16
+			, % "Which OUE Websites would you like to update?"
+		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToAscc
+			, % "https://&ascc.wsu.edu"		
+		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToCr
+			, % "https://commonread&ing.wsu.edu"		
+		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToDsp Checked
+			, % "https://&distinguishedscholarships.wsu.edu"		
+		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToFye Checked
+			, % "https://&firstyear.wsu.edu"		
+		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToFyf Checked
+			, % "https://&learningcommunities.wsu.edu"		
+		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToNse Checked
+			, % "https://&nse.wsu.edu"		
+		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToPbk Checked
+			, % "https://&phibetakappa.wsu.edu"		
+		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToSurca Checked
+			, % "https://&surca.wsu.edu"		
+		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToSumRes Checked
+			, % "https://su&mmerresearch.wsu.edu"		
+		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToXfer
+			, % "https://&transfercredit.wsu.edu"		
+		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToUgr Checked
+			, % "https://&undergraduateresearch.wsu.edu"		
+		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToUcore Checked
+			, % "https://uco&re.wsu.edu"		
+		Gui, guiPostMinJs: Add, CheckBox, vPostMinJsToUcrAss Checked
+			, % "https://ucore.wsu.edu/&assessment"
+		Gui, guiPostMinJs: Add, Button, Default Y+16 gHandlePostMinJsOK, &OK
+		Gui, guiPostMinJs: Add, Button, gHandlePostMinJsCancel X+5, &Cancel
+		Gui, guiPostMinJs: Add, Button, gHandlePostJsCheckAllSites X+15, C&heck All
+		Gui, guiPostMinJs: Add, Button, gHandlePostJsUncheckAllSites X+5, Unchec&k All
+		Gui, guiPostMinJs: Show
+	}
+Return
+
+HandlePostJsCheckAllSites() {
+	global
+	GuiControl, guiPostMinJs:, PostMinJsToAscc, 1
+	GuiControl, guiPostMinJs:, PostMinJsToCr, 1
+	GuiControl, guiPostMinJs:, PostMinJsToDsp, 1
+	GuiControl, guiPostMinJs:, PostMinJsToFye, 1
+	GuiControl, guiPostMinJs:, PostMinJsToFyf, 1
+	GuiControl, guiPostMinJs:, PostMinJsToNse, 1
+	GuiControl, guiPostMinJs:, PostMinJsToPbk, 1
+	GuiControl, guiPostMinJs:, PostMinJsToSurca, 1
+	GuiControl, guiPostMinJs:, PostMinJsToSumRes, 1
+	GuiControl, guiPostMinJs:, PostMinJsToXfer, 1
+	GuiControl, guiPostMinJs:, PostMinJsToUgr, 1
+	GuiControl, guiPostMinJs:, PostMinJsToUcore, 1
+	GuiControl, guiPostMinJs:, PostMinJsToUcrAss, 1
+}
+
+HandlePostJsUncheckAllSites() {
+	global
+	GuiControl, guiPostMinJs:, PostMinJsToAscc, 0
+	GuiControl, guiPostMinJs:, PostMinJsToCr, 0
+	GuiControl, guiPostMinJs:, PostMinJsToDsp, 0
+	GuiControl, guiPostMinJs:, PostMinJsToFye, 0
+	GuiControl, guiPostMinJs:, PostMinJsToFyf, 0
+	GuiControl, guiPostMinJs:, PostMinJsToNse, 0
+	GuiControl, guiPostMinJs:, PostMinJsToPbk, 0
+	GuiControl, guiPostMinJs:, PostMinJsToSurca, 0
+	GuiControl, guiPostMinJs:, PostMinJsToSumRes, 0
+	GuiControl, guiPostMinJs:, PostMinJsToXfer, 0
+	GuiControl, guiPostMinJs:, PostMinJsToUgr, 0
+	GuiControl, guiPostMinJs:, PostMinJsToUcore, 0
+	GuiControl, guiPostMinJs:, PostMinJsToUcrAss, 0
+}
+
 HandlePostMinJsCancel() {
 	Gui, Destroy
 }
-
-; ············································································································
 
 HandlePostMinJsOK() {
 	global
@@ -655,7 +637,7 @@ HandlePostMinJsOK() {
 		PasteMinJsToWebsite("https://summerresearch.wsu.edu/wp-admin/themes.php?page=custom-javascript"
 			, ":*:@copyMinJsSumRes", postMinJsAutoMode)
 	}
-	if (PostMinJsToXfer,) {
+	if (PostMinJsToXfer) {
 		PasteMinJsToWebsite("https://transfercredit.wsu.edu/wp-admin/themes.php?page=custom-javascript"
 			, ":*:@copyMinJsXfer", postMinJsAutoMode)
 	}
@@ -674,28 +656,19 @@ HandlePostMinJsOK() {
 	sgIsPostingMinJs := false
 }
 
-; ············································································································
-
-PasteMinCssToWebsite(websiteUrl, cssCopyCmd, manualProcession := false) {
-	LoadWordPressSiteInChrome(websiteUrl)
-	Gosub, %cssCopyCmd%
-	Sleep, 100
-	ExecuteCssPasteCmds()
-}
-
-; ············································································································
-
 PasteMinJsToWebsite(websiteUrl, jsCopyCmd, manualProcession := false) {
 	LoadWordPressSiteInChrome(websiteUrl)
 	if (manualProcession) {
-		MsgBox, % "Press OK to proceed with " . jsCopyCmd . " command."
+		MsgBox, 48, % "ExecuteJsPasteCmds", % "Press OK to proceed with " . jsCopyCmd . " command."
 	} else {
 		Sleep, 1000
 	}
 	Gosub, %jsCopyCmd%
 	Sleep, 120
-	ExecuteJsPasteCmds()
+	ExecuteJsPasteCmds(manualProcession)
 }
+
+; ············································································································
 
 ; ------------------------------------------------------------------------------------------------------------
 ; FILE SYSTEM NAVIGATION Hotstrings
@@ -1073,14 +1046,14 @@ ExecuteJsPasteCmds(manualProcession := false) {
 		SendInput, ^a
 		if (manualProcession) {
 			Sleep 330
-			MsgBox, % "Press OK to proceed with paste command."
+			MsgBox, 48, % "ExecuteJsPasteCmds", % "Press OK to proceed with paste command."
 		} else {
 			Sleep, 2500
 		}
 		SendInput, ^v
 		if (manualProcession) {
 			Sleep 330
-			MsgBox, % "Press OK to proceed with update button selection."
+			MsgBox, 48, % "ExecuteJsPasteCmds", % "Press OK to proceed with update button selection."
 		} else {
 			Sleep, 10000
 		}
@@ -1383,7 +1356,7 @@ Return
 	fnLessSrcFile := "ascc-custom_new.less" ; fn = file name
 	fnCssBuild := "ascc-custom.css"
 	fnMinCssBuild := "ascc-custom.min.css"
-	
+
 	; Register this hotkey with command history interface & process instructions for committomg the CSS build. 
 	AppendAhkCmd(ahkCmdName)
 	CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssBuild, fnMinCssBuild)
@@ -1411,7 +1384,7 @@ Return
 	fnLessSrcFile := "src_cr-new.less" ; fn = file name
 	fnCssBuild := "cr-custom.css"
 	fnMinCssBuild := "cr-custom.min.css"
-	
+
 	; Register this hotkey with command history interface & process instructions for committomg the CSS build. 
 	AppendAhkCmd(ahkCmdName)
 	CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssBuild, fnMinCssBuild)
@@ -1524,7 +1497,7 @@ Return
 	fnLessSrcFile := "nse-custom.less" ; fn = file name
 	fnCssBuild := "nse-custom.css"
 	fnMinCssBuild := "nse-custom.min.css"
-	
+
 	; Register this hotkey with command history interface & process instructions for committomg the CSS build. 
 	AppendAhkCmd(ahkCmdName)
 	CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssBuild, fnMinCssBuild)
@@ -1695,7 +1668,7 @@ Return
 	fnLessSrcFile := "undergraduate-research-custom.less" ; fn = file name
 	fnCssBuild := "undergraduate-research-custom.css"
 	fnMinCssBuild := "undergraduate-research-custom.min.css"
-	
+
 	; Register this hotkey with command history interface & process instructions for committomg the CSS build. 
 	AppendAhkCmd(ahkCmdName)
 	CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssBuild, fnMinCssBuild)
