@@ -10,11 +10,15 @@
 ; HOTSTRINGS for text replacement
 ; ---------------------------------------------------------------------------------------------------------------------------
 
-:R*:@cssShorthandBg::bg-color bg-image position/bg-size bg-repeat bg-origin bg-clip bg-attachment initial|inherit;
+:*:@cssShorthandBg::
+	SendInput, % "bg-color bg-image position/bg-size bg-repeat bg-origin bg-clip bg-attachment initial|inherit;"
+Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-:R*:@findStrBldrSctns::(?<=^---->\r\n)^.*$(?:\r\n^(?!<!--|\r\n<!--|\Z).*$)*
+:*:@findStrBldrSctns::
+	SendInput, % "(?<={^}---->\r\n){^}.*$(?:\r\n{^}(?{!}<{!}--|\r\n<{!}--|\Z).*$)*"
+Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
