@@ -87,11 +87,11 @@ ListAhkFiles() {
 			foundPos := 1
 			foundLen := 0
 			while (foundPos > 0) {
-				foundPos := RegExMatch(fileContents, "Pm)^:\*:@([^:]+)::$", match, foundPos + foundLen)
+				foundPos := RegExMatch(fileContents, "Pm)^:R?\*:(@[^:]+)::", match, foundPos + foundLen)
 				if (foundPos > 0) {
 					foundLen := match
 					foundHotString := SubStr(fileContents, matchPos1, matchLen1)
-					allHotStrings.Push("@" . foundHotString)
+					allHotStrings.Push(foundHotString)
 				}
 			}
 		}
