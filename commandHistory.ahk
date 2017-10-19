@@ -234,7 +234,13 @@ HandleFindCmdOk() {
 		if (IsLabel(cmdSelected)) {
 			Gosub, %cmdSelected%
 		} else {
-			ErrorBox(A_ThisFunc, "Could not find the selected hotstring: " . cmdSelected)				
+			cmdSelected := ":R*:@" . FindCmdListBox
+			if (IsLabel(cmdSelected)) {
+				ErrorBox(A_ThisFunc, "The hotstring you selected, " . cmdSelected ", is a replacement hotstring; you must trigger it manually.")
+			}
+			else {
+				ErrorBox(A_ThisFunc, "Could not find the selected hotstring: " . cmdSelected)
+			}
 		}
 	} else {
 		MsgBox, % "Please select a command from the list before proceeding."
