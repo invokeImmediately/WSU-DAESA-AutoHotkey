@@ -830,9 +830,10 @@ Return
 		clipboard = %commitText%
 	} else {
 		MsgBox, % (0x0 + 0x10), % "ERROR: Notepad++ Not Active"
-			, % "Please activate Notepad++ before attempting to utilize this hotstring, which is designed "
-			. "to create a 'git add' command for pasting into PowerShell based on Notepad++'s Edit > Copy "
-			. "to Clipboard > Current Full File Path to Clipboard menu command."
+			, % "Please activate Notepad++ and ensure the correct file is selected before attempting to "
+			. "utilize this hotstring, which is designed to create a 'git add' command for pasting into "
+			. "PowerShell based on Notepad++'s Edit > Copy to Clipboard > Current Full File Path to "
+			. "Clipboard menu command."
 	}
 Return
 
