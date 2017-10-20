@@ -828,11 +828,11 @@ Return
 		Sleep 100
 		commitText := RegExReplace(clipboard, "^(.*)", "git add $1")
 		clipboard = %commitText%
-	}
-	else {
-		MsgBox, % (0x0 + 0x10), % "ERROR: Clipboard does not contain valid file name"
-			, % "Please select the file within NotePad++.exe that you would like to create a 'git add …' "
-			. " string for."
+	} else {
+		MsgBox, % (0x0 + 0x10), % "ERROR: Notepad++ Not Active"
+			, % "Please activate Notepad++ before attempting to utilize this hotstring, which is designed "
+			. "to create a 'git add' command for pasting into PowerShell based on Notepad++'s Edit > Copy "
+			. "to Clipboard > Current Full File Path to Clipboard menu command."
 	}
 Return
 
