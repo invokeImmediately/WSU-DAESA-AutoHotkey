@@ -134,7 +134,7 @@ Return
 	SendInput, % "www.blueletterbible.org{Enter}"
 	Sleep, 1000
 	SendInput, ^{Tab}
-	Sleep, 330
+	Sleep, 1000
 	WinRestore, % "Free Bible ahk_exe chrome.exe"
 	WinMove, % "Free Bible ahk_exe chrome.exe", , 136, 88, 1648, 874
 Return
