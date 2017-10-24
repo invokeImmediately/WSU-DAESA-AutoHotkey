@@ -209,18 +209,18 @@ LoadWordPressSiteInChrome(websiteUrl) {
 		SendInput, !d
 		Sleep, 200
 		SendInput, % websiteUrl . "{Enter}"
-		Sleep, 5000
+		Sleep, 500
 		proceed := false
 		WinGetTitle, thisTitle, A
 		IfNotInString, thisTitle, % "New Tab"
 			proceed := true
 		while (!proceed) {
-			Sleep 1000
+			Sleep 500
 			WinGetTitle, thisTitle, A
 			IfNotInString, thisTitle, % "New Tab"
 				proceed := true
 		}
-		Sleep, 1000
+		Sleep, 500
 	}
 }
 
@@ -235,6 +235,9 @@ LoadWordPressSiteInChrome(websiteUrl) {
 	AppendAhkCmd(":*:@postMinCss")
 	if(!sgIsPostingMinCss) {
 		Gui, guiPostMinCss: New,, % "Post Minified CSS to OUE Websites"
+		Gui, guiPostMinCss: Add, Text, , % "Post minified CSS in:"
+		Gui, guiPostMinCss: Add, Radio, Checked Y+0 vRadioGroupPostMinCssAutoMode, % "Automatic mode (&1)`n"
+		Gui, guiPostMinCss: Add, Radio, Y+0, % "Manual mode (&2)"
 		Gui, guiPostMinCss: Add, Text,, % "Which OUE Websites would you like to update?"
 		Gui, guiPostMinCss: Add, CheckBox, vPostMinCssToAscc, % "https://&ascc.wsu.edu"
 		Gui, guiPostMinCss: Add, CheckBox, vPostMinCssToCr, % "https://commonread&ing.wsu.edu"
@@ -302,57 +305,61 @@ HandlePostMinCssOK() {
 	Gui, guiPostMinCss: Submit
 	Gui, guiPostMinCss: Destroy
 	sgIsPostingMinCss := true
+	local postMinCssAutoMode := false
+	if (RadioGroupPostMinCssAutoMode == 2) {
+		postMinCssAutoMode := true
+	}
 	if (PostMinCssToAscc) {
 		PasteMinCssToWebsite("https://ascc.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyMinCssAscc")
+			, ":*:@copyMinCssAscc", postMinCssAutoMode)
 	}
 	if (PostMinCssToCr) {
 		PasteMinCssToWebsite("https://commonreading.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyMinCssCr")
+			, ":*:@copyMinCssCr", postMinCssAutoMode)
 	}
 	if (PostMinCssToDsp) {
 		PasteMinCssToWebsite("https://distinguishedscholarships.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyMinCssDsp")
+			, ":*:@copyMinCssDsp", postMinCssAutoMode)
 	}
 	if (PostMinCssToFye) {
 		PasteMinCssToWebsite("https://firstyear.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyMinCssFye")
+			, ":*:@copyMinCssFye", postMinCssAutoMode)
 	}
 	if (PostMinCssToFyf) {
 		PasteMinCssToWebsite("https://learningcommunities.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyMinCssFyf")
+			, ":*:@copyMinCssFyf", postMinCssAutoMode)
 	}
 	if (PostMinCssToNse) {
 		PasteMinCssToWebsite("https://nse.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyMinCssNse")
+			, ":*:@copyMinCssNse", postMinCssAutoMode)
 	}
 	if (PostMinCssToPbk) {
 		PasteMinCssToWebsite("https://phibetakappa.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyMinCssPbk")
+			, ":*:@copyMinCssPbk", postMinCssAutoMode)
 	}
 	if (PostMinCssToSurca) {
 		PasteMinCssToWebsite("https://surca.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyMinCssSurca")
+			, ":*:@copyMinCssSurca", postMinCssAutoMode)
 	}
 	if (PostMinCssToSumRes) {
 		PasteMinCssToWebsite("https://summerresearch.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyMinCssSumRes")
+			, ":*:@copyMinCssSumRes", postMinCssAutoMode)
 	}
 	if (PostMinCssToXfer) {
 		PasteMinCssToWebsite("https://transfercredit.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyMinCssXfer")
+			, ":*:@copyMinCssXfer", postMinCssAutoMode)
 	}
 	if (PostMinCssToUgr) {
 		PasteMinCssToWebsite("https://undergraduateresearch.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyMinCssUgr")
+			, ":*:@copyMinCssUgr", postMinCssAutoMode)
 	}
 	if (PostMinCssToUcore) {
 		PasteMinCssToWebsite("https://ucore.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyMinCssUcore")
+			, ":*:@copyMinCssUcore", postMinCssAutoMode)
 	}
 	if (PostMinCssToUcrAss) {
 		PasteMinCssToWebsite("https://ucore.wsu.edu/assessment/wp-admin/themes.php?page=editcss"
-			, ":*:@copyMinCssUcrAss")
+			, ":*:@copyMinCssUcrAss", postMinCssAutoMode)
 	}
 	sgIsPostingMinCss := false
 }
@@ -361,7 +368,7 @@ PasteMinCssToWebsite(websiteUrl, cssCopyCmd, manualProcession := false) {
 	LoadWordPressSiteInChrome(websiteUrl)
 	Gosub, %cssCopyCmd%
 	Sleep, 100
-	ExecuteCssPasteCmds()
+	ExecuteCssPasteCmds(manualProcession)
 }
 
 ; ············································································································
@@ -1017,14 +1024,14 @@ ExecuteCssPasteCmds(manualProcession := false) {
 		SendInput, ^a
 		if (manualProcession) {
 			Sleep 330
-			MsgBox, % "Press OK to proceed with paste command."
+			MsgBox, 48, % "Press OK to proceed with paste command."
 		} else {
 			Sleep, 330
 		}
 		SendInput, ^v
 		if (manualProcession) {
 			Sleep 330
-			MsgBox, % "Press OK to proceed with update button selection."
+			MsgBox, 48, % "Press OK to proceed with update button selection."
 		} else {
 			Sleep, 1000
 		}
