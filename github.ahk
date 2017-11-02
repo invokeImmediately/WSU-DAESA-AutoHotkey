@@ -1,4 +1,4 @@
-﻿	; ============================================================================================================
+﻿; ============================================================================================================
 ; AUTOHOTKEY SCRIPT IMPORT for Working with Github Desktop for Windows
 ; ============================================================================================================
 ; IMPORT DEPENDENCIES
@@ -814,7 +814,20 @@ Return
 ; ············································································································
 
 :*:@findGitChangesRegEx::
-	SendInput, % "{^}(?:[{^} -].*| (?{!} {{}7{}}).*|-(?{!}-{{}7{}}).*)?$(?:\r\n)?"
+	thisAhkCmd :=":*:@findGitChangesRegEx" 
+	AppendAhkCmd(thisAhkCmd)
+	WinGet, thisWin, ProcessName, A
+	if (thisWin = "notepad++.exe") {
+		SendInput, % "^h"
+		Sleep, 200
+		SendInput, % "{^}(?:[{^} -].*| (?{!} {{}7{}}).*|-(?{!}-{{}7{}}).*)?$(?:\r\n)?"
+		Sleep, 20
+		SendInput, % "{Tab}"
+		Sleep, 20
+		SendInput, % "{Del}"
+	} else {
+		ErrorBox(thisAhkCmd, "Pleasure ensure Notepad++ is active before activating this hotstring.")
+	}
 Return
 
 ; ············································································································
