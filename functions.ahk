@@ -16,6 +16,17 @@
 ; General FUNCTIONS used for multiple purposes
 ; ------------------------------------------------------------------------------------------------------------
 
+isTargetProcessActive(whichProcess, caller := "", notActiveErrMsg := "") {
+	WinGet, thisWin, ProcessName, A
+	targetProcessIsActive := thisWin = targetProcess
+	if (!targetProcessIsActive && caller != "" && notActiveErrMsg != "") {
+		ErrorBox(caller, notActiveErrMsg)		
+	}
+	return targetProcessIsActive
+}
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
 doesVarExist(ByRef v) { ; Requires 1.0.46+ 
     return &v = &undeclared ? 0 : 1 
 }
