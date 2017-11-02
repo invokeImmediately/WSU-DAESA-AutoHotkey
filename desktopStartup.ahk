@@ -299,7 +299,7 @@ Return
 :*:@startNotepadPp::
 	; Start up Notepad++, open a second instance, and send the initial, primary instance to desktop #2
 	AppendAhkCmd(":*:@startNotepadPp")
-	LaunchApplicationPatiently("C:\Program Files (x86)\Notepad++\notepad++.exe", "C:\Users ahk_exe notepad++.exe")
+	LaunchApplicationPatiently("C:\Program Files\Notepad++\notepad++.exe", "C:\Users ahk_exe notepad++.exe")
 	Sleep, 3000
 	WinActivate, % "C:\Users ahk_exe notepad++.exe"
 	Sleep, 100
