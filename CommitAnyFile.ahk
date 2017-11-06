@@ -9,19 +9,24 @@
 :*:@gcAnyFile::
 	ahkCmdName := ":*:@gcAnyFile"
 	AppendAhkCmd(ahkCmdName)
-	FileSelectFile, fnFileToCommit, 1, , % "Select a file to be committed."
-	if (fnFileToCommit) {
-		; Extract file path from output
-		filePathEndPos := RegExMatch(fnFileToCommit, "\\(?![A-Za-z0-9\-\.'^()]*\\)")
-		fpGitfolder := SubStr(fnFileToCommit, 1, filePathEndPos)
-		fnFileToCommit := SubStr(fnFileToCommit, filePathEndPos + 1)
+	FileSelectFile, selectedFiles, M3, , % "Select (a) file(s) to be committed."
+	if (selectedFiles != "") {
+		filesToCommit := Object()
+		Loop, Parse, selectedFiles, `n
+		{
+			if (a_index = 1) {
+				gitFolder := A_LoopField . "\"
+			} else {
+				filesToCommit.Push(A_LoopField)
+			}
+		}
 
 		; Verify that the file is contained within a valid git folder
-		gitFolderPos := (fpGitFolder = GetGitHubFolder() . "\")
+		isGitFolder := (gitFolder = GetGitHubFolder() . "\")
 			? 0
-			: InStr(fpGitFolder, GetGitHubFolder())
-		if (gitFolderPos) {
-			CommitAnyFile(ahkCmdName, fpGitFolder, fnFileToCommit)
+			: InStr(gitFolder, GetGitHubFolder())
+		if (isGitFolder) {
+			CommitAnyFile(ahkCmdName, gitFolder, filesToCommit)
 		} else {
 			ErrorBox(ahkCmdName, "Unfortunately, you did not select a file contained within a valid git "
 				. "repository folder. Canceling hotkey; please try again.")
@@ -31,7 +36,7 @@
 Return
 
 ; Sets up a GUI to automate committing of CSS build files.
-CommitAnyFile(ahkCmdName, fpGitFolder, fnFileToCommit) {
+CommitAnyFile(ahkCmdName, gitFolder, filesToCommit) {
 	; Global variable declarations
 	global commitAnyFileVars := Object()
 	global commitAnyFileLastMsg
@@ -42,14 +47,14 @@ CommitAnyFile(ahkCmdName, fpGitFolder, fnFileToCommit) {
 
 	; Variable initializations
 	commitAnyFileVars.ahkCmdName := ahkCmdName
-	commitAnyFileVars.fpGitFolder := fpGitFolder
-	commitAnyFileVars.fnFileToCommit := fnFileToCommit
+	commitAnyFileVars.gitFolder := gitFolder
+	commitAnyFileVars.filesToCommit := filesToCommit
 	lastAnyFileMsg1st := ""
 	msgLenAnyFile1st := 0
 	lastAnyFileMsg2nd := ""
 	msgLenAnyFile2nd := 0
 	if (commitAnyFileLastMsg != undefined) {
-		lastMsgs := commitAnyFileLastMsg[commitAnyFileVars.fpGitFolder . commitAnyFileVars.fnFileToCommit]
+		lastMsgs := commitAnyFileLastMsg[commitAnyFileVars.gitFolder . commitAnyFileVars.filesToCommit[1]]
 		if (lastMsgs != undefined) {
 			lastAnyFileMsg1st := lastMsgs.primary
 			msgLenAnyFile1st := StrLen(lastAnyFileMsg1st)
@@ -57,13 +62,21 @@ CommitAnyFile(ahkCmdName, fpGitFolder, fnFileToCommit) {
 			msgLenAnyFile2nd := StrLen(lastAnyFileMsg2nd)
 		}
 	}
+	filesToCommitStr := ""
+	Loop % commitAnyFilesVars.filesToCommit.Length()
+	{
+		if (A_Index != 1) {
+			filesToCommitStr .= "`n"
+		}
+		filesToCommitStr .= commitAnyFilesVars.gitFolder . commitAnyFilesVars.filesToCommit[A_Index]
+	}
 
 	; GUI initialization & display to user
 	Gui, guiCommitAnyFile: New, , % ahkCmdName . " Commit Message Specification"
 	Gui, guiCommitAnyFile: Font, bold
-	Gui, guiCommitAnyFile: Add, Text, , % "File to be committed: "
+	Gui, guiCommitAnyFile: Add, Text, , % "File(s) to be committed: "
 	Gui, guiCommitAnyFile: Font
-	Gui, guiCommitAnyFile: Add, Text, Y+1, % commitAnyFileVars.fpGitFolder . commitAnyFileVars.fnFileToCommit
+	Gui, guiCommitAnyFile: Add, Text, Y+1, % filesToCommitStr
 	Gui, guiCommitAnyFile: Font, bold
 	Gui, guiCommitAnyFile: Add, Text, Y+12, % "Message(s) to be used for commit: "
 	Gui, guiCommitAnyFile: Font
@@ -118,8 +131,8 @@ HandleCommitAnyFileOk() {
 
 	; Ensure that state of global variables is consistent with a valid GUI submission.
 	gVarCheck := commitAnyFileVars.ahkCmdName == undefined
-	gVarCheck := (gVarCheck << 1) | (commitAnyFileVars.fpGitFolder == undefined)
-	gVarCheck := (gVarCheck << 1) | (commitAnyFileVars.fnFileToCommit == undefined)
+	gVarCheck := (gVarCheck << 1) | (commitAnyFileVars.gitFolder == undefined)
+	gVarCheck := (gVarCheck << 1) | (commitAnyFileVars.filesToCommit == undefined)
 	gVarCheck := (gVarCheck << 1) | (ctrlCommitAnyFile1stMsg == undefined)
 
 	if (!gVarCheck) {
@@ -135,9 +148,10 @@ HandleCommitAnyFileOk() {
 			Gui, guiCommitAnyFile: Destroy
 
 			; Build the command line inputs for commiting the code to the appropriate git repository.
-			commandLineInput := "cd """ . commitAnyFileVars.fpGitFolder . """`r"
-				. "git add " . commitAnyFileVars.fnFileToCommit . "`r"
-				. "git commit -m """ . ctrlCommitAnyFile1stMsg . """"
+			commandLineInput := "cd """ . commitAnyFileVars.gitFolder . """`r"
+			Loop % commitAnyFileVars.filesToCommit.Length()
+				commandLineInput .= "git add " . commitAnyFileVars.filesToCommit[A_Index] . "`r"
+			commandLineInput .= "git commit -m """ . ctrlCommitAnyFile1stMsg . """"
 			if (ctrlCommitAnyFile2ndMsg != "") {
 				commandLineInput .= " -m """ . ctrlCommitAnyFile2ndMsg . """ `r"
 			} else {
@@ -149,10 +163,13 @@ HandleCommitAnyFileOk() {
 			if (commitAnyFileLastMsg == undefined) {
 				commitAnyFileLastMsg := Object()
 			}
-			key := commitAnyFileVars.fpGitFolder . commitAnyFileVars.fnFileToCommit
-			commitAnyFileLastMsg[key] := Object()
-			commitAnyFileLastMsg[key].primary := ctrlCommitAnyFile1stMsg
-			commitAnyFileLastMsg[key].secondary := ctrlCommitAnyFile2ndMsg
+			Loop % commitAnyFileVars.filesToCommit.Length()
+			{
+				key := commitAnyFileVars.gitFolder . commitAnyFileVars.filesToCommit[A_Index]
+				commitAnyFileLastMsg[key] := Object()
+				commitAnyFileLastMsg[key].primary := ctrlCommitAnyFile1stMsg
+				commitAnyFileLastMsg[key].secondary := ctrlCommitAnyFile2ndMsg
+			}
 			commandLineInput .= "[console]::beep(2000,150)`r"
 				. "[console]::beep(2000,150)`r"
 
