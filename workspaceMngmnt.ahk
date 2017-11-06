@@ -154,7 +154,55 @@ Return
     M1Height := Mon1Bottom - Mon1Top
     WinRestore, A
     WinMove, A, , %M1X%, 0, %M1Width%, %M1Height%
+	TriggerWinWidthAdjustGui(0, 320, M1Width)
 Return
+
+TriggerWinWidthAdjustGui(snapEdge, minWidth, maxWidth) {
+	global guiWinWidthAdjustVars
+	global guiWinWidthAdjustSlider
+	
+	WinGet, whichHwnd, ID, A
+	guiWinWidthAdjustVars := Object()
+	guiWinWidthAdjustVars.whichHwnd := whichHwnd
+	guiWinWidthAdjustVars.minWidth := minWidth
+	guiWinWidthAdjustVars.maxWidth := maxWidth
+	guiWinWidthAdjustVars.snapEdge := snapEdge
+	
+	Gui, guiWinWidthAdjust: New,
+		, % "Adjust Active Window Width"
+	Gui, guiWinWidthAdjust: Add, Slider, vguiWinWidthAdjustSlider gHandleWinWidthSliderPosChange AltSubmit W300, 100
+	Gui, guiWinWidthAdjust: Add, Button, Default gHandleGuiWinWidthAdjustOK, &OK
+	Gui, guiWinWidthAdjust: Show
+	if (snapEdge < 2) {
+		SysGet, Mon2, MonitorWorkArea, 2
+		WinGet, guiHwnd, ID, A
+		WinGetPos, posX, posY, posW, posH, ahk_id %guiHwnd%
+		posX := Mon2Left + posX
+		WinMove, ahk_id %guiHwnd%, , %posX%, %posY%, %posW%, %posH%
+	}
+}
+
+HandleWinWidthSliderPosChange() {
+	global guiWinWidthAdjustVars
+	global guiWinWidthAdjustSlider
+	
+	Gui, guiWinWidthAdjust: Submit, NoHide
+	whichHwnd := guiWinWidthAdjustVars.whichHwnd
+	WinGetPos, posX, posY, posW, posH, ahk_id %whichHwnd%
+	newWidth := guiWinWidthAdjustVars.minWidth + (guiWinWidthAdjustVars.maxWidth - guiWinWidthAdjustVars.minWidth)
+		* (guiWinWidthAdjustSlider / 100)
+	if (guiWinWidthAdjustVars.snapEdge = 0 || guiWinWidthAdjustVars.snapEdge = 2) {
+		WinMove, ahk_id %whichHwnd%, , %posX%, %posY%, %newWidth%, %posH%
+	}
+}
+
+HandleGuiWinWidthAdjustOK() {
+	Gui, guiWinWidthAdjust: Destroy
+}
+
+guiWinWidthAdjustGuiEscape() {
+	Gui, guiWinWidthAdjust: Destroy
+}
 
 ; ············································································································
 
