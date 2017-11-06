@@ -1,6 +1,14 @@
 ;testFunction(":*:@commitCssUgr", "undergraduateresearch.wsu.edu", "undergraduate-research-custom.less", "undergraduate-research-custom.css", "undergraduate-research-custom.min.css")
 
-testFunction4()
+testFunction5()
+
+testFunction5() {
+	value1 := 5
+	value2 := "This is a string"
+	testObj := { one: value1, two: value2 }
+	MsgBox, % "One: " . testObj.one . "`nTwo: " . testObj.two
+	ExitApp
+}
 
 testFunction4() {
 	WinActivate, % "Free Bible ahk_exe chrome.exe"
