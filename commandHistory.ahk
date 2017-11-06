@@ -121,13 +121,15 @@ Return
         index := index + 1
         while index <= ahkCmds.Length() {
             if (index - 1 > 9) {
-                cmdList := cmdList . "|" . Chr(index + 86) . ") " . ahkCmds[ahkCmds.Length() - index + 1]
-            }
-            else {
+				indexMod := Mod(index - 10, 26)
+				if (indexMod = 0) {
+					indexMod := 26
+				}
+                cmdList := cmdList . "|" . Chr(indexMod + 96) . ") " . ahkCmds[ahkCmds.Length() - index + 1]
+            } else {
 				if (index - 1 < 9) {
 					cmdList := cmdList . "|" . index . ") " . ahkCmds[ahkCmds.Length() - index + 1]
-				}
-				else {
+				} else {
 					cmdList := cmdList . "|0) " . ahkCmds[ahkCmds.Length() - index + 1]
 				}
             }
@@ -139,8 +141,7 @@ Return
         Gui, AhkGuiRptCmd:Add, Button, Default gHandleCmdRptOK, &OK
 		Gui, AhkGuiRptCmd:Add, Button, gHandleCmdRptCancel X+5, &Cancel
         Gui, AhkGuiRptCmd:Show
-    }
-    else {
+    } else {
         MsgBox % "The command history is currently empty; there are no commands to repeat."
     }
 Return

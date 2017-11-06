@@ -55,7 +55,7 @@ global desktopArrangedSound := ssdWorkFolder . "\Sound Library\zelda_lttp-mstr-s
 ; >>> SIMULATED MEMORY OF USER ACTIONS
 global cmdHistoryLog := hhdWorkFolder . "\^WSU-Web-Dev\^Personnel-File\ahk-cmd-history.txt"
 global ahkCmds := Array()
-global ahkCmdLimit := 36
+global ahkCmdLimit := 140
 global CmdChosen
 global savedMouseX := 0
 global savedMouseY := 0
