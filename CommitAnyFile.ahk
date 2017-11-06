@@ -63,12 +63,13 @@ CommitAnyFile(ahkCmdName, gitFolder, filesToCommit) {
 		}
 	}
 	filesToCommitStr := ""
-	Loop % commitAnyFilesVars.filesToCommit.Length()
+	fileCount := commitAnyFileVars.filesToCommit.Length()
+	Loop, %fileCount%
 	{
 		if (A_Index != 1) {
 			filesToCommitStr .= "`n"
 		}
-		filesToCommitStr .= commitAnyFilesVars.gitFolder . commitAnyFilesVars.filesToCommit[A_Index]
+		filesToCommitStr .= commitAnyFileVars.gitFolder . commitAnyFileVars.filesToCommit[A_Index]
 	}
 
 	; GUI initialization & display to user
