@@ -813,11 +813,22 @@ Return
 ; >>> FILE COMMITTING
 ; ············································································································
 
-:*:@findGitChangesRegEx::
-	thisAhkCmd :=":*:@findGitChangesRegEx" 
+:*:@grabGitCommitLog::
+	thisAhkCmd :=":*:@grabGitCommitLog" 
+
 	AppendAhkCmd(thisAhkCmd)
-	WinGet, thisWin, ProcessName, A
-	if (thisWin = "notepad++.exe") {
+	PasteTextIntoGitShell(thisAhkCmd, "git log -p --since=""last month"" --pretty=format:'%h|%an|%ar|%s|%b' > git-log.txt{Enter}")
+Return
+
+; ············································································································
+
+:*:@findGitChangesRegEx::
+	thisAhkCmd :=":*:@findGitChangesRegEx"
+	targetProcess := "notepad++.exe"
+	notActiveErrMsg := "Pleasure ensure Notepad++ is active before activating this hotstring."
+
+	AppendAhkCmd(thisAhkCmd)
+	if (isTargetProcessActive(targetProcess, thisAhkCmd, notActiveErrMsg)) {
 		SendInput, % "^h"
 		Sleep, 200
 		SendInput, % "{^}(?:[{^} -].*| (?{!} {{}7{}}).*|-(?{!}-{{}7{}}).*)?$(?:\r\n)?"
@@ -825,8 +836,6 @@ Return
 		SendInput, % "{Tab}"
 		Sleep, 20
 		SendInput, % "{Del}"
-	} else {
-		ErrorBox(thisAhkCmd, "Pleasure ensure Notepad++ is active before activating this hotstring.")
 	}
 Return
 
