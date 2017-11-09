@@ -120,6 +120,8 @@ CommitAfterBuild(ahkBuildCmd, ahkCommitCmd) {
 	}
 }
 
+; ············································································································
+
 EscapeCommitMessage(msgToEscape) {
 	escapedMsg := StrReplace(msgToEscape, "'", "\'")
 	return escapedMsg
@@ -1616,17 +1618,16 @@ Return
 ; ············································································································
 
 :*:@commitCssSurca::
-	ahkCmdName := ":*:@commitCssSurca"
+	; Variable declarations
+	ahkCmdName := ":*:@commitCssNse"
+	gitFolder := "surca.wsu.edu" ; fp = file path
+	lessSrcFile := "surca-custom.less" ; fn = file name
+	cssBuildFile := "surca-custom.css"
+	minCssBuildFile := "surca-custom.min.css"
+
+	; Register this hotkey with command history interface & process instructions for committomg the CSS build. 
 	AppendAhkCmd(ahkCmdName)
-	PasteTextIntoGitShell(ahkCmdName
-		, "cd '" . GetGitHubFolder() . "\surca.wsu.edu\'`r"
-		. "git add CSS\surca-custom.css`r"
-		. "git add CSS\surca-custom.min.css`r"
-		. "git commit -m 'Updating custom CSS build' -m 'Rebuilt production files to incorporate recent"
-		. " changes to source code and/or dependencies.' `r"
-		. "git push`r"
-		. "[console]::beep(2000,150)`r"
-		. "[console]::beep(2000,150)`r")
+	CommitCssBuild(ahkCmdName, gitFolder, lessSrcFile, cssBuildFile, minCssBuildFile)
 Return
 
 ; ············································································································
