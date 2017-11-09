@@ -40,6 +40,7 @@ CommitAnyFile(ahkCmdName, gitFolder, filesToCommit) {
 	; Global variable declarations
 	global commitAnyFileVars := Object()
 	global commitAnyFileLastMsg
+	global ctrlCommitAnyFilesLV
 	global ctrlCommitAnyFile1stMsg
 	global ctrlCommitAnyFile1stMsgCharCount
 	global ctrlCommitAnyFile2ndMsg
@@ -62,22 +63,29 @@ CommitAnyFile(ahkCmdName, gitFolder, filesToCommit) {
 			msgLenAnyFile2nd := StrLen(lastAnyFileMsg2nd)
 		}
 	}
-	filesToCommitStr := ""
-	fileCount := commitAnyFileVars.filesToCommit.Length()
-	Loop, %fileCount%
-	{
-		if (A_Index != 1) {
-			filesToCommitStr .= "`n"
-		}
-		filesToCommitStr .= commitAnyFileVars.gitFolder . commitAnyFileVars.filesToCommit[A_Index]
-	}
+;	filesToCommitStr := ""
+;	fileCount := commitAnyFileVars.filesToCommit.Length()
+;	Loop, %fileCount%
+;	{
+;		if (A_Index != 1) {
+;			filesToCommitStr .= "`n"
+;		}
+;		filesToCommitStr .= commitAnyFileVars.gitFolder . commitAnyFileVars.filesToCommit[A_Index]
+;	}
 
 	; GUI initialization & display to user
 	Gui, guiCommitAnyFile: New, , % ahkCmdName . " Commit Message Specification"
 	Gui, guiCommitAnyFile: Font, bold
 	Gui, guiCommitAnyFile: Add, Text, , % "File(s) to be committed: "
 	Gui, guiCommitAnyFile: Font
-	Gui, guiCommitAnyFile: Add, Text, Y+1, % filesToCommitStr
+	Gui, guiCommitAnyFile: Add, Text, Y+1, % "Folder: " . commitAnyFileVars.gitFolder
+	Gui, guiCommitAnyFile: Add, ListView, vctrlCommitAnyFilesLV r5 W626 Y+1, % "File Name"
+	fileCount := commitAnyFileVars.filesToCommit.Length()
+	Loop, %fileCount%
+	{
+		LV_Add(, commitAnyFileVars.filesToCommit[A_Index])
+	}
+	Gui, guiCommitAnyFile: Add, Button, gHandleCommitAnyFileAddFiles xm Y+1, &Add More Files
 	Gui, guiCommitAnyFile: Font, bold
 	Gui, guiCommitAnyFile: Add, Text, Y+12, % "Message(s) to be used for commit: "
 	Gui, guiCommitAnyFile: Font
@@ -89,7 +97,43 @@ CommitAnyFile(ahkCmdName, gitFolder, filesToCommit) {
 	Gui, guiCommitAnyFile: Add, Text, vctrlCommitAnyFile2ndMsgCharCount Y+1 W500, % "Length = " . msgLenAnyFile2nd . " characters"
 	Gui, guiCommitAnyFile: Add, Button, Default gHandleCommitAnyFileOk xm, &Ok
 	Gui, guiCommitAnyFile: Add, Button, gHandleCommitAnyFileCancel X+5, &Cancel
+	Gui, guiCommitAnyFile: Default
 	Gui, guiCommitAnyFile: Show
+}
+
+; Triggered when the primary git commit message for the selected file is changed.
+HandleCommitAnyFileAddFiles() {
+	thisFuncName := "HandleCommitAnyFileAddFiles()"
+	global commitAnyFileVars
+	FileSelectFile, selectedFiles, M3, , % "Select (a) file(s) to be committed."
+	if (selectedFiles != "") {
+		newFilesToCommit := Object()
+		Loop, Parse, selectedFiles, `n
+		{
+			if (a_index = 1) {
+				gitSubFolder := A_LoopField . "\"
+			} else {
+				newFilesToCommit.Push(A_LoopField)
+			}
+		}
+
+		; Verify that we are in a sub folder of the original git folder
+		foundPos := InStr(gitSubFolder, commitAnyFileVars.gitFolder)
+		if (foundPos) {
+			; Proceed with addition of files to list view, commit file list
+			gitSubFolder := StrReplace(gitSubFolder, commitAnyFileVars.gitFolder, "") ; This should result in an empty string if the root folder was selected
+			fileCount := newFilesToCommit.Length()
+			Gui, guiCommitAnyFile: Default ; Ensure the proper GUI is default to LV_Add function works as expected
+			Loop, %fileCount%
+			{
+				(commitAnyFileVars.filesToCommit).Push(gitSubFolder . newFilesToCommit[A_Index])
+				LV_Add(, gitSubFolder . newFilesToCommit[A_Index])
+			}
+		} else {
+			ErrorBox(thisFuncName, "Unfortunately, you did not select files contained within the root "
+				. "folder of the git repository you previously selected. Please try again.")
+		}
+	}		
 }
 
 ; Triggered when the primary git commit message for the selected file is changed.
