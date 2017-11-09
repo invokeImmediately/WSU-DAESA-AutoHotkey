@@ -58,7 +58,7 @@ InsertFilePath(ahkCmdName, filePath, headerStr:="") {
         if (IsGitShellActive()) {
 			if (headerStr != "" && StrLen(headerStr) <= 108 && lineLength != undefined) {
 				leftLength := Floor(lineLength / 2) - Floor(StrLen(headerStr) / 2)
-				fullHeader := "write-host ""``n"
+				fullHeader := "write-host '``n"
 				Loop, %leftLength% {
 					fullHeader .= "-"
 				}
@@ -67,10 +67,10 @@ InsertFilePath(ahkCmdName, filePath, headerStr:="") {
 				Loop, %rightLength% {
 					fullHeader .= "-"
 				}
-				fullHeader .= """ -foreground ""green""{Enter}"
+				fullHeader .= "' -foreground 'green'{Enter}"
 				SendInput, % fullHeader
 			}
-            SendInput, % "cd """ . filePath . """{Enter}"
+            SendInput, % "cd '" . filePath . "'{Enter}"
         }
         else {
             SendInput, % filePath . "{Enter}"

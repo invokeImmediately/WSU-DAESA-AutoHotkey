@@ -137,9 +137,9 @@ HandleCommitAnyFileOk() {
 	gVarCheck := (gVarCheck << 1) | (ctrlCommitAnyFile1stMsg == undefined)
 
 	if (!gVarCheck) {
-		commitMsgTxt := """" . ctrlCommitAnyFile1stMsg . """"
+		commitMsgTxt := "'" . ctrlCommitAnyFile1stMsg . "'"
 		if (ctrlCommitAnyFile2ndMsg) {
-			commitMsgTxt .= "`n`nSECONDARY MESSAGE:`n""" . ctrlCommitAnyFile2ndMsg . """"
+			commitMsgTxt .= "`n`nSECONDARY MESSAGE:`n'" . ctrlCommitAnyFile2ndMsg . "'"
 		}
 		MsgBox, 4, % "Ready to Proceed?", % "Are you sure you want to push the git commit message:`n`n"
 			. "PRIMARY MESSAGE:`n" . commitMsgTxt 
@@ -149,12 +149,14 @@ HandleCommitAnyFileOk() {
 			Gui, guiCommitAnyFile: Destroy
 
 			; Build the command line inputs for commiting the code to the appropriate git repository.
-			commandLineInput := "cd """ . commitAnyFileVars.gitFolder . """`r"
+			commandLineInput := "cd '" . commitAnyFileVars.gitFolder . "'`r"
 			Loop % commitAnyFileVars.filesToCommit.Length()
 				commandLineInput .= "git add " . commitAnyFileVars.filesToCommit[A_Index] . "`r"
-			commandLineInput .= "git commit -m """ . ctrlCommitAnyFile1stMsg . """"
+			escaped1stMsg := EscapeCommitMessage(ctrlCommitAnyFile1stMsg)
+			commandLineInput .= "git commit -m '" . escaped1stMsg . "'"
 			if (ctrlCommitAnyFile2ndMsg != "") {
-				commandLineInput .= " -m """ . ctrlCommitAnyFile2ndMsg . """ `r"
+				escaped2ndMsg := EscapeCommitMessage(ctrlCommitAnyFile2ndMsg)
+				commandLineInput .= " -m '" . escaped2ndMsg . "' `r"
 			} else {
 				commandLineInput .= "`r"
 			}

@@ -253,21 +253,25 @@ HandleCommitCssOk() {
 		Gui, guiCommitCssBuild: Destroy
 		
 		; Build the command line inputs for commiting the code to the appropriate git repository.
-		commandLineInput := "cd """ . GetGitHubFolder() . "\" . commitCssVars.fpGitFolder . "\""`r"
+		escaped1stCssMsg := EscapeCommitMessage(ctrlCommitCss1stMsg)
+		commandLineInput := "cd '" . GetGitHubFolder() . "\" . commitCssVars.fpGitFolder . "\'`r"
 			. "git add CSS\" . commitCssVars.fnCssBuild . "`r"
 			. "git add CSS\" . commitCssVars.fnMinCssBuild . "`r"
-			. "git commit -m """ . ctrlCommitCss1stMsg . """"
+			. "git commit -m '" . escaped1stCssMsg . "'"
 		if (ctrlCommitCss2ndMsg != "") {
-			commandLineInput .= " -m """ . ctrlCommitCss2ndMsg . """ `r"
+			escaped2ndCssMsg := EscapeCommitMessage(ctrlCommitCss2ndMsg)
+			commandLineInput .= " -m '" . escaped2ndCssMsg . "'`r"
 		} else {
 			commandLineInput .= "`r"
 		}
 		commandLineInput .= "git push`r"
 		if (ctrlCommitCssAlsoCommitLessSrc) {
+			escaped1stLessMsg := EscapeCommitMessage(ctrlCommitCss1stLessMsg)
 			commandLineInput .= "git add CSS\" . commitCssVars.fnLessSrcFile . "`r"
-				. "git commit -m """ . ctrlCommitCss1stLessMsg . """"
+				. "git commit -m '" . escaped1stLessMsg . "'"
 			if (ctrlCommitCss2ndLessMsg != "") {
-				commandLineInput .= " -m """ . ctrlCommitCss2ndLessMsg . """ `r"
+				escaped2ndLessMsg := EscapeCommitMessage(ctrlCommitCss2ndLessMsg)
+				commandLineInput .= " -m '" . escaped2ndLessMsg . "'`r"
 			} else {
 				commandLineInput .= "`r"
 			}
