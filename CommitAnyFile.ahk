@@ -78,14 +78,17 @@ CommitAnyFile(ahkCmdName, gitFolder, filesToCommit) {
 	Gui, guiCommitAnyFile: Font, bold
 	Gui, guiCommitAnyFile: Add, Text, , % "File(s) to be committed: "
 	Gui, guiCommitAnyFile: Font
-	Gui, guiCommitAnyFile: Add, Text, Y+1, % "Folder: " . commitAnyFileVars.gitFolder
-	Gui, guiCommitAnyFile: Add, ListView, vctrlCommitAnyFilesLV r5 W626 Y+1, % "File Name"
+	Gui, guiCommitAnyFile: Font, italic
+	Gui, guiCommitAnyFile: Add, Text, Y+3, % "Folder: "
+	Gui, guiCommitAnyFile: Font
+	Gui, guiCommitAnyFile: Add, Text, X+3, % commitAnyFileVars.gitFolder
+	Gui, guiCommitAnyFile: Add, ListView, vctrlCommitAnyFilesLV grid BackgroundEBF8FE NoSortHdr r5 W728 xm+1 Y+3, % "File Name"
 	fileCount := commitAnyFileVars.filesToCommit.Length()
 	Loop, %fileCount%
 	{
 		LV_Add(, commitAnyFileVars.filesToCommit[A_Index])
 	}
-	Gui, guiCommitAnyFile: Add, Button, gHandleCommitAnyFileAddFiles xm Y+1, &Add More Files
+	Gui, guiCommitAnyFile: Add, Button, gHandleCommitAnyFileAddFiles xm Y+3, &Add More Files
 	Gui, guiCommitAnyFile: Font, bold
 	Gui, guiCommitAnyFile: Add, Text, Y+12, % "Message(s) to be used for commit: "
 	Gui, guiCommitAnyFile: Font
