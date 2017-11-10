@@ -123,7 +123,7 @@ CommitAfterBuild(ahkBuildCmd, ahkCommitCmd) {
 ; ············································································································
 
 EscapeCommitMessage(msgToEscape) {
-	escapedMsg := StrReplace(msgToEscape, "'", "\'")
+	escapedMsg := RegExReplace(msgToEscape, "m)('|"")", "\$1")
 	return escapedMsg
 }
 
