@@ -1,28 +1,28 @@
-﻿; ============================================================================================================
+﻿; ==================================================================================================
 ; AUTOHOTKEY SCRIPT IMPORT for Working with Github Desktop for Windows
-; ============================================================================================================
+; ==================================================================================================
 ; IMPORT DEPENDENCIES
 ;   Global Variable Name    Purpose
-;   -·-·-·-·-·-·-·-·-·-     -·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·
+;   -·-·-·-·-·-·-·-·-·-     -·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·
 ;   userAccountFolder       Contains the path to the Windows user folder for the script runner
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 ; IMPORT ASSUMPTIONS
 ;   Environmental Property           State
-;   ----------------------------     ---------------------------------------------------------------------
+;   ----------------------------     ---------------------------------------------------------------
 ;   Location of GitHub               …userAccountFolder (see above dependency)…\Documents\GitHub
 ;   Repositories locally present     All those from https://github.com/invokeImmediately 
-; ============================================================================================================
+; ==================================================================================================
 ; AUTOHOTKEY SEND LEGEND
 ; ! = ALT     + = SHIFT     ^ = CONTROL     # = WIN
 ; (see https://autohotkey.com/docs/commands/Send.htm for more info)
-; ============================================================================================================
+; ==================================================================================================
 
 sgIsPostingMinCss := false
 sgIsPostingMinJs := false
 
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 ; SETTINGS accessed via functions for this imported file
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 
 GetCmdForMoveToCSSFolder(curDir) {
 	cmd := ""
@@ -36,7 +36,7 @@ GetCmdForMoveToCSSFolder(curDir) {
 	Return cmd
 }
 
-; ············································································································
+; ··································································································
 
 GetCurrentDirFromPS() {
 	copyDirCmd := "(get-location).ToString() | clip`r`n"
@@ -47,29 +47,29 @@ GetCurrentDirFromPS() {
 	Return Clipboard
 }
 
-; ············································································································
+; ··································································································
 
 GetGitHubFolder() {
 	global userAccountFolderSSD
 	Return userAccountFolderSSD . "\Documents\GitHub"
 }
 
-; ············································································································
+; ··································································································
 
 UserFolderIsSet() {
 	global userAccountFolderSSD
 	varDeclared := userAccountFolderSSD != thisIsUndeclared
 	if (!varDeclared) {
 		MsgBox, % (0x0 + 0x10), % "ERROR: Upstream dependency missing in github.ahk"
-			, % "The global variable specifying the user's account folder has not been declared and set "
-			. "upstream."
+			, % "The global variable specifying the user's account folder has not been declared "
+			. "and set upstream."
 	}
 	Return varDeclared
 }
 
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 ; FUNCTIONS for working with GitHub Desktop
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 
 ActivateGitShell() {
 	WinGet, thisProcess, ProcessName, A
@@ -87,7 +87,7 @@ ActivateGitShell() {
 	Return shellActivated
 }
 
-; ············································································································
+; ··································································································
 
 CommitAfterBuild(ahkBuildCmd, ahkCommitCmd) {
 	ahkFuncName := "github.ahk: CommitAfterBuild"
@@ -102,15 +102,16 @@ CommitAfterBuild(ahkBuildCmd, ahkCommitCmd) {
 			Gosub, %ahkCommitCmd%
 	} else {
 		if (!qcAhkBuildCmd) {
-			errorMsg .= "Function was called with an invalid argument for the calling build command: "
-				. ahkBuildCmd . "."
+			errorMsg .= "Function was called with an invalid argument for the calling build "
+				. "command: " . ahkBuildCmd . "."
 			if (!qcAhkCommitCmd) {
 				errorMsg .= "The argument for the commit command to call next was also invalid: "
 					. ahkCommitCmd . "."
 			}		
 		} else {
 			errorMsg .= "Function was called from the build command " . ahkBuildCmd
-				. ", but an invalid argument for the commit command was found: " . ahkCommitCmd . "."
+				. ", but an invalid argument for the commit command was found: " . ahkCommitCmd
+				. "."
 		}
 	}
 	if (errorMsg != "") {
@@ -120,21 +121,21 @@ CommitAfterBuild(ahkBuildCmd, ahkCommitCmd) {
 	}
 }
 
-; ············································································································
+; ··································································································
 
 EscapeCommitMessage(msgToEscape) {
 	escapedMsg := RegExReplace(msgToEscape, "m)('|"")", "\$1")
 	return escapedMsg
 }
 
-; ············································································································
+; ··································································································
 ; Git Commit GUIs
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\CommitCssBuild.ahk
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\CommitAnyFile.ahk
 
-; ············································································································
+; ··································································································
 
 CopySrcFileToClipboard(ahkCmdName, srcFileToCopy, strToPrepend, errorMsg) {
 	if (UserFolderIsSet()) {
@@ -154,7 +155,7 @@ CopySrcFileToClipboard(ahkCmdName, srcFileToCopy, strToPrepend, errorMsg) {
 	}
 }
 
-; ············································································································
+; ··································································································
 
 IsGitShellActive() {
 	WinGet, thisProcess, ProcessName, A
@@ -162,7 +163,7 @@ IsGitShellActive() {
 	Return shellIsActive
 }
 
-; ············································································································
+; ··································································································
 
 PasteTextIntoGitShell(ahkCmdName, shellText) {
 	errorMsg := ""
@@ -187,16 +188,16 @@ PasteTextIntoGitShell(ahkCmdName, shellText) {
 	}
 }
 
-; ············································································································
+; ··································································································
 
 ToEscapedPath(path) {
 	escapedPath := StrReplace(path, "\", "\\")
 	Return escapedPath
 }
 
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 ; FUNCTIONS for interacting with online WEB DESIGN INTERFACES
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 
 LoadWordPressSiteInChrome(websiteUrl) {
 	WinGet, thisProcess, ProcessName, A
@@ -231,19 +232,20 @@ LoadWordPressSiteInChrome(websiteUrl) {
 	}
 }
 
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 ; GUI FUNCTIONS for handling user interactions with scripts
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 
-; ············································································································
-; >>> GUI DRIVEN HOTSTRINGS --  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ··································································································
+; >>> GUI DRIVEN HOTSTRINGS --  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@postMinCss::
 	AppendAhkCmd(":*:@postMinCss")
 	if(!sgIsPostingMinCss) {
 		Gui, guiPostMinCss: New,, % "Post Minified CSS to OUE Websites"
 		Gui, guiPostMinCss: Add, Text, , % "Post minified CSS in:"
-		Gui, guiPostMinCss: Add, Radio, Checked Y+0 vRadioGroupPostMinCssAutoMode, % "Automatic mode (&1)`n"
+		Gui, guiPostMinCss: Add, Radio, Checked Y+0 vRadioGroupPostMinCssAutoMode
+			, % "Automatic mode (&1)`n"
 		Gui, guiPostMinCss: Add, Radio, Y+0, % "Manual mode (&2)"
 		Gui, guiPostMinCss: Add, Text,, % "Which OUE Websites would you like to update?"
 		Gui, guiPostMinCss: Add, CheckBox, vPostMinCssToAscc, % "https://&ascc.wsu.edu"
@@ -251,16 +253,20 @@ LoadWordPressSiteInChrome(websiteUrl) {
 		Gui, guiPostMinCss: Add, CheckBox, vPostMinCssToDsp Checked
 			, % "https://&distinguishedscholarships.wsu.edu"
 		Gui, guiPostMinCss: Add, CheckBox, vPostMinCssToFye Checked, % "https://&firstyear.wsu.edu"
-		Gui, guiPostMinCss: Add, CheckBox, vPostMinCssToFyf Checked, % "https://&learningcommunities.wsu.edu"
+		Gui, guiPostMinCss: Add, CheckBox, vPostMinCssToFyf Checked
+			, % "https://&learningcommunities.wsu.edu"
 		Gui, guiPostMinCss: Add, CheckBox, vPostMinCssToNse Checked, % "https://&nse.wsu.edu"
-		Gui, guiPostMinCss: Add, CheckBox, vPostMinCssToPbk Checked, % "https://&phibetakappa.wsu.edu"
+		Gui, guiPostMinCss: Add, CheckBox, vPostMinCssToPbk Checked
+			, % "https://&phibetakappa.wsu.edu"
 		Gui, guiPostMinCss: Add, CheckBox, vPostMinCssToSurca Checked, % "https://&surca.wsu.edu"
-		Gui, guiPostMinCss: Add, CheckBox, vPostMinCssToSumRes Checked, % "https://su&mmerresearch.wsu.edu"
+		Gui, guiPostMinCss: Add, CheckBox, vPostMinCssToSumRes Checked
+			, % "https://su&mmerresearch.wsu.edu"
 		Gui, guiPostMinCss: Add, CheckBox, vPostMinCssToXfer, % "https://&transfercredit.wsu.edu"
 		Gui, guiPostMinCss: Add, CheckBox, vPostMinCssToUgr Checked
 			, % "https://&undergraduateresearch.wsu.edu"
 		Gui, guiPostMinCss: Add, CheckBox, vPostMinCssToUcore Checked, % "https://uco&re.wsu.edu"
-		Gui, guiPostMinCss: Add, CheckBox, vPostMinCssToUcrAss Checked, % "https://ucor&e.wsu.edu/assessment"
+		Gui, guiPostMinCss: Add, CheckBox, vPostMinCssToUcrAss Checked
+			, % "https://ucor&e.wsu.edu/assessment"
 		Gui, guiPostMinCss: Add, Button, Default gHandlePostMinCssOK, &OK
 		Gui, guiPostMinCss: Add, Button, gHandlePostMinCssCancel X+5, &Cancel
 		Gui, guiPostMinCss: Add, Button, gHandlePostCssCheckAllSites X+15, C&heck All
@@ -325,8 +331,8 @@ HandlePostMinCssOK() {
 			, ":*:@copyMinCssCr", postMinCssAutoMode)
 	}
 	if (PostMinCssToDsp) {
-		PasteMinCssToWebsite("https://distinguishedscholarships.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyMinCssDsp", postMinCssAutoMode)
+		PasteMinCssToWebsite("https://distinguishedscholarships.wsu.edu/wp-admin/"
+			. "themes.php?page=editcss", ":*:@copyMinCssDsp", postMinCssAutoMode)
 	}
 	if (PostMinCssToFye) {
 		PasteMinCssToWebsite("https://firstyear.wsu.edu/wp-admin/themes.php?page=editcss"
@@ -357,8 +363,8 @@ HandlePostMinCssOK() {
 			, ":*:@copyMinCssXfer", postMinCssAutoMode)
 	}
 	if (PostMinCssToUgr) {
-		PasteMinCssToWebsite("https://undergraduateresearch.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyMinCssUgr", postMinCssAutoMode)
+		PasteMinCssToWebsite("https://undergraduateresearch.wsu.edu/wp-admin/"
+			. "themes.php?page=editcss", ":*:@copyMinCssUgr", postMinCssAutoMode)
 	}
 	if (PostMinCssToUcore) {
 		PasteMinCssToWebsite("https://ucore.wsu.edu/wp-admin/themes.php?page=editcss"
@@ -378,7 +384,7 @@ PasteMinCssToWebsite(websiteUrl, cssCopyCmd, manualProcession := false) {
 	ExecuteCssPasteCmds(manualProcession)
 }
 
-; ············································································································
+; ··································································································
 
 :*:@postBackupCss::
 	AppendAhkCmd(":*:@postBackupCss")
@@ -473,8 +479,8 @@ HandlePostBackupCssOK() {
 			, ":*:@copyBackupCssCr")
 	}
 	if (PostBackupCssToDsp) {
-		PasteMinCssToWebsite("https://distinguishedscholarships.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyBackupCssDsp")
+		PasteMinCssToWebsite("https://distinguishedscholarships.wsu.edu/wp-admin/"
+		. "themes.php?page=editcss", ":*:@copyBackupCssDsp")
 	}
 	if (PostBackupCssToFye) {
 		PasteMinCssToWebsite("https://firstyear.wsu.edu/wp-admin/themes.php?page=editcss"
@@ -505,8 +511,8 @@ HandlePostBackupCssOK() {
 			, ":*:@copyBackupCssXfer")
 	}
 	if (PostBackupCssToUgr) {
-		PasteMinCssToWebsite("https://undergraduateresearch.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyBackupCssUgr")
+		PasteMinCssToWebsite("https://undergraduateresearch.wsu.edu/wp-admin/"
+			. "themes.php?page=editcss", ":*:@copyBackupCssUgr")
 	}
 	if (PostBackupCssToUcore) {
 		PasteMinCssToWebsite("https://ucore.wsu.edu/wp-admin/themes.php?page=editcss"
@@ -519,7 +525,7 @@ HandlePostBackupCssOK() {
 	sgIsPostingBackupCss := false
 }
 
-; ············································································································
+; ··································································································
 
 :*:@postMinJs::
 	AppendAhkCmd(":*:@postMinJs")
@@ -620,52 +626,52 @@ HandlePostMinJsOK() {
 			, ":*:@copyMinJsAscc", postMinJsAutoMode)
 	}
 	if (PostMinJsToCr) {
-		PasteMinJsToWebsite("https://commonreading.wsu.edu/wp-admin/themes.php?page=custom-javascript"
-			, ":*:@copyMinJsCr", postMinJsAutoMode)
+		PasteMinJsToWebsite("https://commonreading.wsu.edu/wp-admin/"
+			. "themes.php?page=custom-javascript", ":*:@copyMinJsCr", postMinJsAutoMode)
 	}
 	if (PostMinJsToDsp) {
-		PasteMinJsToWebsite("https://distinguishedscholarships.wsu.edu/wp-admin/themes.php?page=custom-javascript"
-			, ":*:@copyMinJsDsp", postMinJsAutoMode)
+		PasteMinJsToWebsite("https://distinguishedscholarships.wsu.edu/wp-admin/"
+			. "themes.php?page=custom-javascript", ":*:@copyMinJsDsp", postMinJsAutoMode)
 	}
 	if (PostMinJsToFye) {
 		PasteMinJsToWebsite("https://firstyear.wsu.edu/wp-admin/themes.php?page=custom-javascript"
 			, ":*:@copyMinJsFye", postMinJsAutoMode)
 	}
 	if (PostMinJsToFyf) {
-		PasteMinJsToWebsite("https://learningcommunities.wsu.edu/wp-admin/themes.php?page=custom-javascript"
-			, ":*:@copyMinJsFyf", postMinJsAutoMode)
+		PasteMinJsToWebsite("https://learningcommunities.wsu.edu/wp-admin/"
+			. "themes.php?page=custom-javascript", ":*:@copyMinJsFyf", postMinJsAutoMode)
 	}
 	if (PostMinJsToNse) {
 		PasteMinJsToWebsite("https://nse.wsu.edu/wp-admin/themes.php?page=custom-javascript"
 			, ":*:@copyMinJsNse", postMinJsAutoMode)
 	}
 	if (PostMinJsToPbk) {
-		PasteMinJsToWebsite("https://phibetakappa.wsu.edu/wp-admin/themes.php?page=custom-javascript"
-			, ":*:@copyMinJsPbk", postMinJsAutoMode)
+		PasteMinJsToWebsite("https://phibetakappa.wsu.edu/wp-admin/"
+			. "themes.php?page=custom-javascript", ":*:@copyMinJsPbk", postMinJsAutoMode)
 	}
 	if (PostMinJsToSurca) {
 		PasteMinJsToWebsite("https://surca.wsu.edu/wp-admin/themes.php?page=custom-javascript"
 			, ":*:@copyMinJsSurca", postMinJsAutoMode)
 	}
 	if (PostMinJsToSumRes) {
-		PasteMinJsToWebsite("https://summerresearch.wsu.edu/wp-admin/themes.php?page=custom-javascript"
-			, ":*:@copyMinJsSumRes", postMinJsAutoMode)
+		PasteMinJsToWebsite("https://summerresearch.wsu.edu/wp-admin/"
+			. "themes.php?page=custom-javascript", ":*:@copyMinJsSumRes", postMinJsAutoMode)
 	}
 	if (PostMinJsToXfer) {
-		PasteMinJsToWebsite("https://transfercredit.wsu.edu/wp-admin/themes.php?page=custom-javascript"
-			, ":*:@copyMinJsXfer", postMinJsAutoMode)
+		PasteMinJsToWebsite("https://transfercredit.wsu.edu/wp-admin/"
+			. "themes.php?page=custom-javascript", ":*:@copyMinJsXfer", postMinJsAutoMode)
 	}
 	if (PostMinJsToUgr) {
-		PasteMinJsToWebsite("https://undergraduateresearch.wsu.edu/wp-admin/themes.php?page=custom-javascript"
-			, ":*:@copyMinJsUgr", postMinJsAutoMode)
+		PasteMinJsToWebsite("https://undergraduateresearch.wsu.edu/wp-admin/"
+			. "themes.php?page=custom-javascript", ":*:@copyMinJsUgr", postMinJsAutoMode)
 	}
 	if (PostMinJsToUcore) {
 		PasteMinJsToWebsite("https://ucore.wsu.edu/wp-admin/themes.php?page=custom-javascript"
 			, ":*:@copyMinJsUcore", postMinJsAutoMode)
 	}
 	if (PostMinJsToUcrAss) {
-		PasteMinJsToWebsite("https://ucore.wsu.edu/assessment/wp-admin/themes.php?page=custom-javascript"
-			, ":*:@copyMinJsUcrAss", postMinJsAutoMode)
+		PasteMinJsToWebsite("https://ucore.wsu.edu/assessment/wp-admin/"
+			. "themes.php?page=custom-javascript", ":*:@copyMinJsUcrAss", postMinJsAutoMode)
 	}
 	sgIsPostingMinJs := false
 }
@@ -682,152 +688,156 @@ PasteMinJsToWebsite(websiteUrl, jsCopyCmd, manualProcession := false) {
 	ExecuteJsPasteCmds(manualProcession)
 }
 
-; ············································································································
+; ··································································································
 
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 ; FILE SYSTEM NAVIGATION Hotstrings
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 
-; ············································································································
+; ··································································································
 ; >>> Navigation within GITHUB DIRECTORIES
-; ············································································································
+; ··································································································
 
 :*:@gotoGhAscc::
 	InsertFilePath(":*:@gotoGhAscc", GetGitHubFolder() . "\ascc.wsu.edu", "ascc.wsu.edu") 
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@gotoGhCr::
-	InsertFilePath(":*:@gotoGhCr", GetGitHubFolder() . "\commonreading.wsu.edu", "commonreading.wsu.edu") 
+	InsertFilePath(":*:@gotoGhCr", GetGitHubFolder() . "\commonreading.wsu.edu"
+		, "commonreading.wsu.edu") 
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@gotoGhDsp::
 	InsertFilePath(":*:@gotoGhDsp", GetGitHubFolder() . "\distinguishedscholarships.wsu.edu"
 		, "distinguishedscholarships.wsu.edu") 
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@gotoGhFye::
 	InsertFilePath(":*:@gotoGhFye", GetGitHubFolder() . "\firstyear.wsu.edu", "firstyear.wsu.edu")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@gotoGhFyf::
 	InsertFilePath(":*:@gotoGhFyf", GetGitHubFolder() . "\learningcommunities.wsu.edu"
 		, "learningcommunities.wsu.edu")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@gotoGhNse::
 	InsertFilePath(":*:@gotoGhNse", GetGitHubFolder() . "\nse.wsu.edu", "nse.wsu.edu")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@gotoGhOue::
 	InsertFilePath(":*:@gotoGhPbk", GetGitHubFolder() . "\oue.wsu.edu", "oue.wsu.edu")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@gotoGhPbk::
-	InsertFilePath(":*:@gotoGhPbk", GetGitHubFolder() . "\phibetakappa.wsu.edu", "phibetakappa.wsu.edu")
+	InsertFilePath(":*:@gotoGhPbk", GetGitHubFolder() . "\phibetakappa.wsu.edu"
+		, "phibetakappa.wsu.edu")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@gotoGhRsp::
 	InsertFilePath(":*:@gotoGhRsp", GetGitHubFolder() . "\admissions.wsu.edu-research-scholars"
 		, "admissions.wsu.edu/research-scholars")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@gotoGhSurca::
 	InsertFilePath(":*:@gotoGhSurca", GetGitHubFolder() . "\surca.wsu.edu", "surca.wsu.edu")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@gotoGhSumRes::
 	InsertFilePath(":*:@gotoGhSumRes", GetGitHubFolder() . "\summerresearch.wsu.edu"
 		, "summerresearch.wsu.edu")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@gotoGhXfer::
-	InsertFilePath(":*:@gotoGhXfer", GetGitHubFolder() . "\transfercredit.wsu.edu", "transfercredit.wsu.edu")
+	InsertFilePath(":*:@gotoGhXfer", GetGitHubFolder() . "\transfercredit.wsu.edu"
+		, "transfercredit.wsu.edu")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@gotoGhUgr::
 	InsertFilePath(":*:@gotoGhUgr", GetGitHubFolder() . "\undergraduateresearch.wsu.edu"
 		, "undergraduateresearch.wsu.edu")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@gotoGhUcore::
 	InsertFilePath(":*:@gotoGhUcore", GetGitHubFolder() . "\ucore.wsu.edu", "ucore.wsu.edu")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@gotoGhUcrAss::
 	InsertFilePath(":*:@gotoGhUcrAss", GetGitHubFolder() . "\ucore.wsu.edu-assessment"
 		, "ucore.wsu.edu-assessment")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@gotoGhCSS::
 	InsertFilePath(":*:@gotoGhCSS", GetGitHubFolder() . "\WSU-UE---CSS", "WSU-UE---CSS")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@gotoGhJS::
 	InsertFilePath(":*:@gotoGhJS", GetGitHubFolder() . "\WSU-UE---JS", "WSU-UE---JS")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@gotoGhAhk::
 	InsertFilePath(":*:@gotoGhAhk", GetGitHubFolder() . "\WSU-OUE-AutoHotkey", "WSU-OUE-AutoHotkey")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:cdcss::cd wsu-ue---css
 
-; ············································································································
+; ··································································································
 
 :*:cdjs::cd wsu-ue---js
 
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 ; UTILITY HOTSTRINGS for working with GitHub Desktop
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 
-; ············································································································
+; ··································································································
 ; >>> FILE COMMITTING
-; ············································································································
+; ··································································································
 
 :*:@grabGitCommitLog::
 	thisAhkCmd :=":*:@grabGitCommitLog" 
 
 	AppendAhkCmd(thisAhkCmd)
-	PasteTextIntoGitShell(thisAhkCmd, "git log -p --since='last month' --pretty=format:'%h|%an|%ar|%s|%b' > git-log.txt{Enter}")
+	PasteTextIntoGitShell(thisAhkCmd, "git log -p --since='last month' "
+		. "--pretty=format:'%h|%an|%ar|%s|%b' > git-log.txt{Enter}")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@findGitChangesRegEx::
 	thisAhkCmd :=":*:@findGitChangesRegEx"
@@ -846,7 +856,7 @@ Return
 	}
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@gitAddThis::
 	AppendAhkCmd(":*:@gitAddThis")
@@ -866,14 +876,14 @@ Return
 		clipboard = %commitText%
 	} else {
 		MsgBox, % (0x0 + 0x10), % "ERROR: Notepad++ Not Active"
-			, % "Please activate Notepad++ and ensure the correct file is selected before attempting to "
-			. "utilize this hotstring, which is designed to create a 'git add' command for pasting into "
-			. "PowerShell based on Notepad++'s Edit > Copy to Clipboard > Current Full File Path to "
-			. "Clipboard menu command."
+			, % "Please activate Notepad++ and ensure the correct file is selected before "
+			. "attempting to utilize this hotstring, which is designed to create a 'git add' "
+			. "command for pasting into PowerShell based on Notepad++'s Edit > Copy to Clipboard "
+			. "> Current Full File Path to Clipboard menu command."
 	}
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@doGitCommit::
 	AppendAhkCmd(":*:@doGitCommit")
@@ -882,18 +892,18 @@ Return
 		SendInput git commit -m '' -m ''{Left 7}
 	}
 	else {
-		MsgBox, % (0x0 + 0x10), % "ERROR (" . ":*:@doGitCommit" . "): Could Not Locate Git PowerShell"
-			, % "The Git PowerShell process could not be located and activated."
+		MsgBox, % (0x0 + 0x10), % "ERROR (" . ":*:@doGitCommit" . "): Could Not Locate Git "
+			. "PowerShell", % "The Git PowerShell process could not be located and activated."
 	}
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@dogc::
 	Gosub, :*:@doGitCommit
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@doSnglGitCommit::
 	AppendAhkCmd(":*:@doSnglGitCommit")
@@ -902,34 +912,37 @@ Return
 		SendInput git commit -m ''{Left 1}
 	}
 	else {
-		MsgBox, % (0x0 + 0x10), % "ERROR (" . ":*:@doSnglGitCommit" . "): Could Not Locate Git PowerShell"
-			, % "The Git PowerShell process could not be located and activated."
+		MsgBox, % (0x0 + 0x10), % "ERROR (" . ":*:@doSnglGitCommit" . "): Could Not Locate Git "
+			. "PowerShell", % "The Git PowerShell process could not be located and activated."
 	}
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@dosgc::
 	Gosub, :*:@doSnglGitCommit
 Return
 
-; ············································································································
+; ··································································································
 
+; For reversing forward slashes within a copied file name reported by 'git status' in PowerShell 
+; and then pasting the result into PowerShell.
 :*:@swapSlashes::
-	; DESCRIPTION: For reversing forward slashes within a copied file name reported by 'git status' in
-	;  PowerShell and then pasting the result into PowerShell.
 	AppendAhkCmd(":*:@swapSlashes")
 	WinGet, thisProcess, ProcessName, A
 	if (thisProcess = "PowerShell.exe") {
 		newText := RegExReplace(clipboard, "/", "\")
 		clipboard := newText
-		Click right 44, 55 ;TODO: Check to see if the mouse cursor is already within the PowerShell bounding rectangle 
+
+		;TODO: Check to see if the mouse cursor is already within the PowerShell bounding rectangle 
+		Click right 44, 55
+
 	}    
 Return
 
-; ············································································································
+; ··································································································
 ; >>> STATUS CHECKING
-; ············································································································
+; ··································································································
 
 :*:@doGitStatus::
 	hsName := ":*:@doGitStatus"
@@ -943,15 +956,15 @@ Return
 	}
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@dogs::
 	Gosub, :*:@doGitStatus
 Return
 
-; ············································································································
+; ··································································································
 ; >>> Automated PASTING OF CSS into online web interfaces
-; ············································································································
+; ··································································································
 
 :*:@initCssPaste::
 ;	prevTitleMatchMode := A_TitleMatchMode
@@ -970,11 +983,12 @@ Return
 	}
 	else {
 		MsgBox, % (0x0 + 0x10), % "ERROR (:*:@setCssPasteWindow): CSS Stylesheet Editor Not Active"
-			, % "Please select your CSS stylesheet editor tab in Chrome as the currently active window."
+			, % "Please select your CSS stylesheet editor tab in Chrome as the currently active "
+			. "window."
 	}
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@doCssPaste::		;Paste copied CSS into WordPress window
 	global hwndCssPasteWindow
@@ -986,8 +1000,8 @@ Return
 		WinWaitActive, % "ahk_id " . hwndCssPasteWindow, , 1
 		if (ErrorLevel) {
 			MsgBox, % (0x0 + 0x10), % "ERROR (:*:@doCssPaste): Could Not Find Process"
-				, % "The HWND set for the chrome window containing the tab in which the CSS stylesheet"
-				. " editor was loaded can no longer be found."
+				, % "The HWND set for the chrome window containing the tab in which the CSS "
+				. "stylesheet editor was loaded can no longer be found."
 		}
 		else {
 			WinGetTitle, thisTitle, A
@@ -1013,7 +1027,8 @@ Return
 				proceedWithPaste := true
 			}
 			if (proceedWithPaste) {
-				; Add check for expected client coordinates; if not correct, then reset window position
+				; Add check for expected client coordinates; if not correct, then reset window 
+				; position
 				WinRestore, A
 				WinGetPos, thisX, thisY, thisW, thisH, A
 				if (thisX != -1830 or thisY != 0 or thisW != 1700 or thisH != 1040) {
@@ -1025,12 +1040,12 @@ Return
 	}
 	else {
 		MsgBox, % (0x0 + 0x10), % "ERROR (:*:@doCssPaste): HWND Not Set Yet"
-			, % "You haven't yet used the @setCssPasteWindow hotstring to set the HWND for the Chrome window"
-			. " containing a tab with the CSS stylsheet editor."
+			, % "You haven't yet used the @setCssPasteWindow hotstring to set the HWND for the "
+			. "Chrome window containing a tab with the CSS stylsheet editor."
 	}
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@pasteGitCommitMsg::
 	AppendAhkCmd(":*:@pasteGitCommitMsg")
@@ -1042,7 +1057,7 @@ Return
 	}
 Return
 
-; ············································································································
+; ··································································································
 
 ExecuteCssPasteCmds(manualProcession := false) {
 	; Add check for correct CSS in clipboard — the first line is a font import.
@@ -1073,12 +1088,12 @@ ExecuteCssPasteCmds(manualProcession := false) {
 	} else {
 		MsgBox, % (0x0 + 0x10)
 			, % "ERROR (:*:@doCssPaste): Clipboard Has Unexpected Contents"
-			, % "The clipboard does not begin with the expected '@import ...,' and thus may not contain"
-			. " minified CSS."
+			, % "The clipboard does not begin with the expected '@import ...,' and thus may not "
+			. "contain minified CSS."
 	}			
 }
 
-; ············································································································
+; ··································································································
 
 ExecuteJsPasteCmds(manualProcession := false) {
 	; Add check for correct CSS in clipboard — the first line is a font import.
@@ -1096,7 +1111,8 @@ ExecuteJsPasteCmds(manualProcession := false) {
 		SendInput, ^v
 		if (manualProcession) {
 			Sleep 330
-			MsgBox, 48, % "ExecuteJsPasteCmds", % "Press OK to proceed with update button selection."
+			MsgBox, 48, % "ExecuteJsPasteCmds", % "Press OK to proceed with update button "
+				. "selection."
 		} else {
 			Sleep, 10000
 		}
@@ -1108,17 +1124,17 @@ ExecuteJsPasteCmds(manualProcession := false) {
 	else {
 		MsgBox, % (0x0 + 0x10)
 			, % "ERROR (:*:@doJsPaste): Clipboard Has Unexpected Contents"
-			, % "The clipboard does not begin with the expected '// Built with Node.js ...,' and thus may"
-			. " not contain minified JS."
+			, % "The clipboard does not begin with the expected '// Built with Node.js ...,' and "
+			. "thus may not contain minified JS."
 	}			
 }
 
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 ; COMMAND LINE INPUT GENERATION as triggered by HotStrings for working with GitHub Desktop
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 
-; ············································································································
-; >>> FOR BACKING UP CUSTOM CSS BUILDS -  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ··································································································
+; >>> FOR BACKING UP CUSTOM CSS BUILDS -  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@backupCssAscc::
 	hsName := ":*:@backupCssAscc"
@@ -1132,13 +1148,14 @@ ExecuteJsPasteCmds(manualProcession := false) {
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@backupCssCr::
 	hsName := ":*:@backupCssCr"
 	AppendAhkCmd(hsName)
 	CopyCssFromWebsite("https://commonreading.wsu.edu/wp-admin/themes.php?page=editcss", copiedCss)
-	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder() . "\commonreading.wsu.edu\CSS\cr-custom.prev.css")
+	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
+		. "\commonreading.wsu.edu\CSS\cr-custom.prev.css")
 	PasteTextIntoGitShell(hsName
 		, "cd '" . GetGitHubFolder() . "\commonreading.wsu.edu\'`r"
 		. "git add CSS\cr-custom.prev.css`r"
@@ -1146,7 +1163,7 @@ Return
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@backupCssDsp::
 	hsName := ":*:@backupCssDsp"
@@ -1162,13 +1179,14 @@ Return
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@backupCssFye::
 	hsName := ":*:@backupCssFye"
 	AppendAhkCmd(hsName)
 	CopyCssFromWebsite("https://firstyear.wsu.edu/wp-admin/themes.php?page=editcss", copiedCss)
-	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder() . "\firstyear.wsu.edu\CSS\fye-custom.prev.css")
+	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
+		. "\firstyear.wsu.edu\CSS\fye-custom.prev.css")
 	PasteTextIntoGitShell(hsName
 		, "cd '" . GetGitHubFolder() . "\firstyear.wsu.edu\'`r"
 		. "git add CSS\fye-custom.prev.css`r"
@@ -1176,12 +1194,13 @@ Return
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@backupCssFyf::
 	hsName := ":*:@backupCssFyf"
 	AppendAhkCmd(hsName)
-	CopyCssFromWebsite("https://learningcommunities.wsu.edu/wp-admin/themes.php?page=editcss", copiedCss)
+	CopyCssFromWebsite("https://learningcommunities.wsu.edu/wp-admin/themes.php?page=editcss"
+		, copiedCss)
 	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
 		. "\learningcommunities.wsu.edu\CSS\learningcommunities-custom.prev.css")
 	PasteTextIntoGitShell(hsName
@@ -1191,7 +1210,7 @@ Return
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@backupCssNse::
 	hsName := ":*:@backupCssNse"
@@ -1205,7 +1224,7 @@ Return
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@backupCssOue::
 	hsName := ":*:@backupCssOue"
@@ -1219,13 +1238,14 @@ Return
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@backupCssPbk::
 	hsName := ":*:@backupCssPbk"
 	AppendAhkCmd(hsName)
 	CopyCssFromWebsite("https://phibetakappa.wsu.edu/wp-admin/themes.php?page=editcss", copiedCss)
-	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder() . "\phibetakappa.wsu.edu\CSS\pbk-custom.prev.css")
+	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
+		. "\phibetakappa.wsu.edu\CSS\pbk-custom.prev.css")
 	PasteTextIntoGitShell(hsName
 		, "cd '" . GetGitHubFolder() . "\phibetakappa.wsu.edu\'`r"
 		. "git add CSS\pbk-custom.prev.css`r"
@@ -1233,13 +1253,14 @@ Return
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@backupCssSurca::
 	hsName := ":*:@backupCssSurca"
 	AppendAhkCmd(hsName)
 	CopyCssFromWebsite("https://surca.wsu.edu/wp-admin/themes.php?page=editcss", copiedCss)
-	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder() . "\surca.wsu.edu\CSS\surca-custom.prev.css")
+	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
+		. "\surca.wsu.edu\CSS\surca-custom.prev.css")
 	PasteTextIntoGitShell(hsName
 		, "cd '" . GetGitHubFolder() . "\surca.wsu.edu\'`r"
 		. "git add CSS\surca-custom.prev.css`r"
@@ -1247,7 +1268,7 @@ Return
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@backupCssSumRes::
 	hsName := ":*:@backupCssSumRes"
@@ -1262,7 +1283,7 @@ Return
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@backupCssXfer::
 	hsName := ":*:@backupCssXfer"
@@ -1277,12 +1298,13 @@ Return
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@backupCssUgr::
 	hsName := ":*:@backupCssUgr"
 	AppendAhkCmd(hsName)
-	CopyCssFromWebsite("https://undergraduateresearch.wsu.edu/wp-admin/themes.php?page=editcss", copiedCss)
+	CopyCssFromWebsite("https://undergraduateresearch.wsu.edu/wp-admin/themes.php?page=editcss"
+		, copiedCss)
 	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
 		. "\undergraduateresearch.wsu.edu\CSS\undergraduate-research-custom.prev.css")
 	PasteTextIntoGitShell(hsName
@@ -1292,13 +1314,14 @@ Return
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@backupCssUcore::
 	hsName := ":*:@backupCssUcore"
 	AppendAhkCmd(hsName)
 	CopyCssFromWebsite("https://ucore.wsu.edu/wp-admin/themes.php?page=editcss", copiedCss)
-	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder() . "\ucore.wsu.edu\CSS\ucore-custom.prev.css")
+	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
+		. "\ucore.wsu.edu\CSS\ucore-custom.prev.css")
 	PasteTextIntoGitShell(hsName
 		, "cd '" . GetGitHubFolder() . "\ucore.wsu.edu\'`r"
 		. "git add CSS\ucore-custom.prev.css`r"
@@ -1306,12 +1329,13 @@ Return
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@backupCssUcrAss::
 	hsName := ":*:@backupCssUcrAss"
 	AppendAhkCmd(hsName)
-	CopyCssFromWebsite("https://ucore.wsu.edu/assessment/wp-admin/themes.php?page=editcss", copiedCss)
+	CopyCssFromWebsite("https://ucore.wsu.edu/assessment/wp-admin/themes.php?page=editcss"
+		, copiedCss)
 	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
 		. "\ucore.wsu.edu-assessment\CSS\ucore-assessment-custom.prev.css")
 	PasteTextIntoGitShell(hsName
@@ -1321,7 +1345,7 @@ Return
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@backupCssAll::
 	hsName := ":*:@backupCssAll"
@@ -1344,7 +1368,7 @@ Return
 		. "[console]::beep(375,300)`r")
 Return
 
-; ············································································································
+; ··································································································
 
 CopyCssFromWebsite(websiteUrl, ByRef copiedCss)
 {
@@ -1352,7 +1376,7 @@ CopyCssFromWebsite(websiteUrl, ByRef copiedCss)
 	ExecuteCssCopyCmds(copiedCss)
 }
 
-; ············································································································
+; ··································································································
 
 ExecuteCssCopyCmds(ByRef copiedCss) {
 	CoordMode, Mouse, Client
@@ -1367,8 +1391,8 @@ ExecuteCssCopyCmds(ByRef copiedCss) {
 	Sleep, 2000
 }
 
-; ············································································································
-; >>> FOR REBUILDING & COMMITTING CUSTOM CSS FILES  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ··································································································
+; >>> FOR REBUILDING & COMMITTING CUSTOM CSS FILES  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@rebuildCssHere::
 	currentDir := GetCurrentDirFromPS()
@@ -1377,7 +1401,7 @@ ExecuteCssCopyCmds(ByRef copiedCss) {
 	}
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@rebuildCssAscc::
 	ahkCmdName := ":*:@rebuildCssAscc"
@@ -1390,7 +1414,7 @@ Return
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssAscc")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@commitCssAscc::
 	; Variable declarations
@@ -1400,12 +1424,13 @@ Return
 	fnCssBuild := "ascc-custom.css"
 	fnMinCssBuild := "ascc-custom.min.css"
 
-	; Register this hotkey with command history interface & process instructions for committomg the CSS build. 
+	; Register this hotkey with command history interface & process instructions for committing the 
+	; CSS build
 	AppendAhkCmd(ahkCmdName)
 	CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssBuild, fnMinCssBuild)
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@rebuildCssCr::
 	ahkCmdName := ":*:@rebuildCssCr"
@@ -1418,7 +1443,7 @@ Return
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssCr")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@commitCssCr::
 	; Variable declarations
@@ -1428,12 +1453,13 @@ Return
 	fnCssBuild := "cr-custom.css"
 	fnMinCssBuild := "cr-custom.min.css"
 
-	; Register this hotkey with command history interface & process instructions for committomg the CSS build. 
+	; Register this hotkey with command history interface & process instructions for committing the 
+	;CSS build
 	AppendAhkCmd(ahkCmdName)
 	CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssBuild, fnMinCssBuild)
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@rebuildCssDsp::
 	ahkCmdName := ":*:@rebuildCssDsp"
@@ -1445,7 +1471,7 @@ Return
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssDsp")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@commitCssDsp::
 	ahkCmdName := ":*:@commitCssDsp"
@@ -1454,14 +1480,14 @@ Return
 		, "cd '" . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\'`r"
 		. "git add CSS\dsp-custom.css`r"
 		. "git add CSS\dsp-custom.min.css`r"
-		. "git commit -m 'Updating custom CSS build' -m 'Rebuilt production files to incorporate recent"
-		. " changes to source code and/or dependencies.' `r"
+		. "git commit -m 'Updating custom CSS build' -m 'Rebuilt production files to incorporate "
+		. "recent changes to source code and/or dependencies.' `r"
 		. "git push`r"
 		. "[console]::beep(2000,150)`r"
 		. "[console]::beep(2000,150)`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@rebuildCssFye::
 	ahkCmdName := ":*:@rebuildCssFye"
@@ -1474,7 +1500,7 @@ Return
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssFye")	
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@commitCssFye::
 	ahkCmdName := ":*:@commitCssFye"
@@ -1483,14 +1509,14 @@ Return
 		, "cd '" . GetGitHubFolder() . "\firstyear.wsu.edu\'`r"
 		. "git add CSS\fye-custom.css`r"
 		. "git add CSS\fye-custom.min.css`r"
-		. "git commit -m 'Updating custom CSS build' -m 'Rebuilt production files to incorporate recent"
-		. " changes to source code and/or dependencies.' `r"
+		. "git commit -m 'Updating custom CSS build' -m 'Rebuilt production files to incorporate "
+		. "recent changes to source code and/or dependencies.' `r"
 		. "git push`r"
 		. "[console]::beep(2000,150)`r"
 		. "[console]::beep(2000,150)`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@rebuildCssFyf::
 	ahkCmdName := ":*:@rebuildCssFyf"
@@ -1503,7 +1529,7 @@ Return
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssFyf")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@commitCssFyf::
 	ahkCmdName := ":*:@commitCssFyf"
@@ -1512,14 +1538,14 @@ Return
 		, "cd '" . GetGitHubFolder() . "\learningcommunities.wsu.edu\'`r"
 		. "git add CSS\learningcommunities-custom.css`r"
 		. "git add CSS\learningcommunities-custom.min.css`r"
-		. "git commit -m 'Updating custom CSS build' -m 'Rebuilt production files to incorporate recent"
-		. " changes to source code and/or dependencies.' `r"
+		. "git commit -m 'Updating custom CSS build' -m 'Rebuilt production files to incorporate "
+		. "recent changes to source code and/or dependencies.' `r"
 		. "git push`r"
 		. "[console]::beep(2000,150)`r"
 		. "[console]::beep(2000,150)`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@rebuildCssNse::
 	ahkCmdName := ":*:@rebuildCssNse"
@@ -1531,7 +1557,7 @@ Return
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssNse")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@commitCssNse::
 	; Variable declarations
@@ -1541,12 +1567,13 @@ Return
 	fnCssBuild := "nse-custom.css"
 	fnMinCssBuild := "nse-custom.min.css"
 
-	; Register this hotkey with command history interface & process instructions for committomg the CSS build. 
+	; Register this hotkey with command history interface & process instructions for committing the
+	; CSS build
 	AppendAhkCmd(ahkCmdName)
 	CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssBuild, fnMinCssBuild)
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@rebuildCssOue::
 	ahkCmdName := ":*:@rebuildCssOue"
@@ -1558,7 +1585,7 @@ Return
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssOue")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@commitCssOue::
 	ahkCmdName := ":*:@commitCssOue"
@@ -1567,14 +1594,14 @@ Return
 		, "cd '" . GetGitHubFolder() . "\oue.wsu.edu\'`r"
 		. "git add CSS\oue-custom.css`r"
 		. "git add CSS\oue-custom.min.css`r"
-		. "git commit -m 'Updating custom CSS build' -m 'Rebuilt production files to incorporate recent"
-		. " changes to source code and/or dependencies.' `r"
+		. "git commit -m 'Updating custom CSS build' -m 'Rebuilt production files to incorporate "
+		. "recent changes to source code and/or dependencies.' `r"
 		. "git push`r"
 		. "[console]::beep(2000,150)`r"
 		. "[console]::beep(2000,150)`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@rebuildCssPbk::
 	ahkCmdName := ":*:@rebuildCssPbk"
@@ -1586,7 +1613,7 @@ Return
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssPbk")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@commitCssPbk::
 	ahkCmdName := ":*:@commitCssPbk"
@@ -1595,14 +1622,14 @@ Return
 		, "cd '" . GetGitHubFolder() . "\phibetakappa.wsu.edu\'`r"
 		. "git add CSS\pbk-custom.css`r"
 		. "git add CSS\pbk-custom.min.css`r"
-		. "git commit -m 'Updating custom CSS build' -m 'Rebuilt production files to incorporate recent"
-		. " changes to source code and/or dependencies.' `r"
+		. "git commit -m 'Updating custom CSS build' -m 'Rebuilt production files to incorporate "
+		. "recent changes to source code and/or dependencies.' `r"
 		. "git push`r"
 		. "[console]::beep(2000,150)`r"
 		. "[console]::beep(2000,150)`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@rebuildCssSurca::
 	ahkCmdName := ":*:@rebuildCssSurca"
@@ -1615,7 +1642,7 @@ Return
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssSurca")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@commitCssSurca::
 	; Variable declarations
@@ -1625,12 +1652,13 @@ Return
 	cssBuildFile := "surca-custom.css"
 	minCssBuildFile := "surca-custom.min.css"
 
-	; Register this hotkey with command history interface & process instructions for committomg the CSS build. 
+	; Register this hotkey with command history interface & process instructions for committing the
+	; CSS build
 	AppendAhkCmd(ahkCmdName)
 	CommitCssBuild(ahkCmdName, gitFolder, lessSrcFile, cssBuildFile, minCssBuildFile)
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@rebuildCssSumRes::
 	ahkCmdName := ":*:@rebuildCssSumRes"
@@ -1643,7 +1671,7 @@ Return
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssSumRes")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@commitCssSumRes::
 	ahkCmdName := ":*:@commitCssSumRes"
@@ -1652,14 +1680,14 @@ Return
 		, "cd '" . GetGitHubFolder() . "\summerresearch.wsu.edu\'`r"
 		. "git add CSS\summerresearch-custom.css`r"
 		. "git add CSS\summerresearch-custom.min.css`r"
-		. "git commit -m 'Updating custom CSS build' -m 'Rebuilt production files to incorporate recent"
-		. " changes to source code and/or dependencies.' `r"
+		. "git commit -m 'Updating custom CSS build' -m 'Rebuilt production files to incorporate "
+		. "recent changes to source code and/or dependencies.' `r"
 		. "git push`r"
 		. "[console]::beep(2000,150)`r"
 		. "[console]::beep(2000,150)`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@rebuildCssXfer::
 	ahkCmdName := ":*:@rebuildCssXfer"
@@ -1672,7 +1700,7 @@ Return
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssXfer")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@commitCssXfer::
 	ahkCmdName := ":*:@commitCssXfer"
@@ -1681,14 +1709,14 @@ Return
 		, "cd '" . GetGitHubFolder() . "\transfercredit.wsu.edu\'`r"
 		. "git add CSS\xfercredit-custom.css`r"
 		. "git add CSS\xfercredit-custom.min.css`r"
-		. "git commit -m 'Updating custom CSS build' -m 'Rebuilt production files to incorporate recent"
-		. " changes to source code and/or dependencies.' `r"
+		. "git commit -m 'Updating custom CSS build' -m 'Rebuilt production files to incorporate "
+		. "recent changes to source code and/or dependencies.' `r"
 		. "git push`r"
 		. "[console]::beep(2000,150)`r"
 		. "[console]::beep(2000,150)`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@rebuildCssUgr::
 	ahkCmdName := ":*:@rebuildCssUgr"
@@ -1696,12 +1724,13 @@ Return
 	PasteTextIntoGitShell(ahkCmdName
 		, "cd '" . GetGitHubFolder() . "\undergraduateresearch.wsu.edu\CSS'`r"
 		. "lessc undergraduate-research-custom.less undergraduate-research-custom.css`r"
-		. "lessc --clean-css undergraduate-research-custom.less undergraduate-research-custom.min.css`r"
+		. "lessc --clean-css undergraduate-research-custom.less "
+		. "undergraduate-research-custom.min.css`r"
 		. "[console]::beep(1500,300)`r")
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssUgr")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@commitCssUgr::
 	; Variable declarations
@@ -1711,12 +1740,13 @@ Return
 	fnCssBuild := "undergraduate-research-custom.css"
 	fnMinCssBuild := "undergraduate-research-custom.min.css"
 
-	; Register this hotkey with command history interface & process instructions for committomg the CSS build. 
+	; Register this hotkey with command history interface & process instructions for committing the
+	; CSS build
 	AppendAhkCmd(ahkCmdName)
 	CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssBuild, fnMinCssBuild)
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@rebuildCssUcore::
 	ahkCmdName := ":*:@rebuildCssUcore"
@@ -1729,7 +1759,7 @@ Return
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssUcore")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@commitCssUcore::
 	ahkCmdName := ":*:@commitCssUcore"
@@ -1738,14 +1768,14 @@ Return
 		, "cd '" . GetGitHubFolder() . "\ucore.wsu.edu\'`r"
 		. "git add CSS\ucore-custom.css`r"
 		. "git add CSS\ucore-custom.min.css`r"
-		. "git commit -m 'Updating custom CSS build' -m 'Rebuilt production files to incorporate recent"
-		. " changes to source code and/or dependencies.' `r"
+		. "git commit -m 'Updating custom CSS build' -m 'Rebuilt production files to incorporate "
+		. "recent changes to source code and/or dependencies.' `r"
 		. "git push`r"
 		. "[console]::beep(2000,150)`r"
 		. "[console]::beep(2000,150)`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@rebuildCssUcrAss::
 	ahkCmdName := ":*:@rebuildCssUcrAss"
@@ -1758,7 +1788,7 @@ Return
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssUcrAss")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@commitCssUcrAss::
 	ahkCmdName := ":*:@commitCssUcrAss"
@@ -1767,14 +1797,14 @@ Return
 		, "cd '" . GetGitHubFolder() . "\ucore.wsu.edu-assessment\'`r"
 		. "git add CSS\ucore-assessment-custom.css`r"
 		. "git add CSS\ucore-assessment-custom.min.css`r"
-		. "git commit -m 'Updating custom CSS build' -m 'Rebuilt production files to incorporate recent"
-		. " changes to source code and/or dependencies.' `r"
+		. "git commit -m 'Updating custom CSS build' -m 'Rebuilt production files to incorporate "
+		. "recent changes to source code and/or dependencies.' `r"
 		. "git push`r"
 		. "[console]::beep(2000,150)`r"
 		. "[console]::beep(2000,150)`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@rebuildCssAll::
 	ahkCmdName := ":*:@rebuildCssAll"
@@ -1799,8 +1829,8 @@ Return
 		. "[console]::beep(375,150)`r")
 Return
 
-; ············································································································
-; >>> FOR UPDATING CSS SUBMODULES -  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ··································································································
+; >>> FOR UPDATING CSS SUBMODULES -  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@updateCssSubmoduleAscc::
 	ahkCmdName := ":*:@updateCssSubmoduleAscc"
@@ -1811,13 +1841,13 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---CSS`r"
-		. "git commit -m 'Updating custom CSS master submodule for OUE websites' -m 'Incorporating recent"
-		. " changes in project source code'`r"
+		. "git commit -m 'Updating custom CSS master submodule for OUE websites' -m 'Incorporating "
+		. "recent changes in project source code'`r"
 		. "git push`r")
 	Gosub, :*:@rebuildCssAscc
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@updateCssSubmoduleCr::
 	ahkCmdName := ":*:@updateCssSubmoduleCr"
@@ -1828,13 +1858,13 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---CSS`r"
-		. "git commit -m 'Updating custom CSS master submodule for OUE websites' -m 'Incorporating recent"
-		. " changes in project source code'`r"
+		. "git commit -m 'Updating custom CSS master submodule for OUE websites' -m 'Incorporating "
+		. "recent changes in project source code'`r"
 		. "git push`r")
 	Gosub, :*:@rebuildCssCr
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@updateCssSubmoduleDsp::
 	ahkCmdName := ":*:@updateCssSubmoduleDsp"
@@ -1851,7 +1881,7 @@ Return
 	Gosub, :*:@rebuildCssDsp
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@updateCssSubmoduleFye::
 	ahkCmdName := ":*:@updateCssSubmoduleFye"
@@ -1862,13 +1892,13 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---CSS`r"
-		. "git commit -m 'Updating custom CSS master submodule for OUE websites' -m 'Incorporating recent"
-		. " changes in project source code'`r"
+		. "git commit -m 'Updating custom CSS master submodule for OUE websites' -m 'Incorporating "
+		. "recent changes in project source code'`r"
 		. "git push`r")
 	Gosub, :*:@rebuildCssFye
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@updateCssSubmoduleFyf::
 	ahkCmdName := ":*:@updateCssSubmoduleFyf"
@@ -1879,13 +1909,13 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---CSS`r"
-		. "git commit -m 'Updating custom CSS master submodule for OUE websites' -m 'Incorporating recent"
-		. " changes in project source code'`r"
+		. "git commit -m 'Updating custom CSS master submodule for OUE websites' -m 'Incorporating "
+		. "recent changes in project source code'`r"
 		. "git push`r")
 	Gosub, :*:@rebuildCssFyf
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@updateCssSubmoduleNse::
 	ahkCmdName := ":*:@updateCssSubmoduleNse"
@@ -1896,13 +1926,13 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---CSS`r"
-		. "git commit -m 'Updating custom CSS master submodule for OUE websites' -m 'Incorporating recent"
-		. " changes in project source code'`r"
+		. "git commit -m 'Updating custom CSS master submodule for OUE websites' -m 'Incorporating "
+		. "recent changes in project source code'`r"
 		. "git push`r")
 	Gosub, :*:@rebuildCssNse
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@updateCssSubmoduleOue::
 	ahkCmdName := ":*:@updateCssSubmoduleOue"
@@ -1913,13 +1943,13 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---CSS`r"
-		. "git commit -m 'Updating custom CSS master submodule for OUE websites' -m 'Incorporating recent"
-		. " changes in project source code'`r"
+		. "git commit -m 'Updating custom CSS master submodule for OUE websites' -m 'Incorporating "
+		. "recent changes in project source code'`r"
 		. "git push`r")
 	Gosub, :*:@rebuildCssOue
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@updateCssSubmodulePbk::
 	ahkCmdName := ":*:@updateCssSubmodulePbk"
@@ -1930,13 +1960,13 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---CSS`r"
-		. "git commit -m 'Updating custom CSS master submodule for OUE websites' -m 'Incorporating recent"
-		. " changes in project source code'`r"
+		. "git commit -m 'Updating custom CSS master submodule for OUE websites' -m 'Incorporating "
+		. "recent changes in project source code'`r"
 		. "git push`r")
 	Gosub, :*:@rebuildCssPbk
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@updateCssSubmoduleSurca::
 	ahkCmdName := ":*:@updateCssSubmoduleSurca"
@@ -1947,13 +1977,13 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---CSS`r"
-		. "git commit -m 'Updating custom CSS master submodule for OUE websites' -m 'Incorporating recent"
-		. " changes in project source code'`r"
+		. "git commit -m 'Updating custom CSS master submodule for OUE websites' -m 'Incorporating "
+		. "recent changes in project source code'`r"
 		. "git push`r")
 	Gosub, :*:@rebuildCssSurca
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@updateCssSubmoduleSumRes::
 	ahkCmdName := ":*:@updateCssSubmoduleSumRes"
@@ -1964,13 +1994,13 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---CSS`r"
-		. "git commit -m 'Updating custom CSS master submodule for OUE websites' -m 'Incorporating recent"
-		. " changes in project source code'`r"
+		. "git commit -m 'Updating custom CSS master submodule for OUE websites' -m 'Incorporating "
+		. "recent changes in project source code'`r"
 		. "git push`r")
 	Gosub, :*:@rebuildCssSumRes
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@updateCssSubmoduleXfer::
 	ahkCmdName := ":*:@updateCssSubmoduleXfer"
@@ -1981,13 +2011,13 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---CSS`r"
-		. "git commit -m 'Updating custom CSS master submodule for OUE websites' -m 'Incorporating recent"
-		. " changes in project source code'`r"
+		. "git commit -m 'Updating custom CSS master submodule for OUE websites' -m 'Incorporating "
+		. "recent changes in project source code'`r"
 		. "git push`r")
 	Gosub, :*:@rebuildCssXfer
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@updateCssSubmoduleUgr::
 	ahkCmdName := ":*:@updateCssSubmoduleUgr"
@@ -1998,13 +2028,13 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---CSS`r"
-		. "git commit -m 'Updating custom CSS master submodule for OUE websites' -m 'Incorporating recent"
-		. " changes in project source code'`r"
+		. "git commit -m 'Updating custom CSS master submodule for OUE websites' -m 'Incorporating "
+		. "recent changes in project source code'`r"
 		. "git push`r")
 	Gosub, :*:@rebuildCssUgr
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@updateCssSubmoduleUcore::
 	ahkCmdName := ":*:@updateCssSubmoduleUcore"
@@ -2015,13 +2045,13 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---CSS`r"
-		. "git commit -m 'Updating custom CSS master submodule for OUE websites' -m 'Incorporating recent"
-		. " changes in project source code'`r"
+		. "git commit -m 'Updating custom CSS master submodule for OUE websites' -m 'Incorporating "
+		. "recent changes in project source code'`r"
 		. "git push`r")
 	Gosub, :*:@rebuildCssUcore
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@updateCssSubmoduleUcrAss::
 	ahkCmdName := ":*:@updateCssSubmoduleUcrAss"
@@ -2032,13 +2062,13 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---CSS`r"
-		. "git commit -m 'Updating custom CSS master submodule for OUE websites' -m 'Incorporating recent"
-		. " changes in project source code'`r"
+		. "git commit -m 'Updating custom CSS master submodule for OUE websites' -m 'Incorporating "
+		. "recent changes in project source code'`r"
 		. "git push`r")
 	Gosub, :*:@rebuildCssUcrAss
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@updateCssSubmoduleAll::
 	ahkCmdName := ":*:@updateCssSubmoduleAll"
@@ -2064,281 +2094,267 @@ Return
 		. "[console]::beep(375,150)`r")
 Return
 
-; ············································································································
-; >>> FOR COPYING MINIFIED, BACKUP CSS FILES TO CLIPBOARD --  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ··································································································
+; >>> FOR COPYING MINIFIED, BACKUP CSS FILES TO CLIPBOARD --  ---  ---  ---  ---  ---  ---  ---  --
 
 :*:@copyMinCssAscc::
 	ahkCmdName := ":*:@copyMinCssAscc"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\ascc.wsu.edu\CSS\ascc-custom.min.css"
-		, "/*! Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/inv"
-		. "okeImmediately/ascc.wsu.edu] for a repository of source code. */`r`n`r`n"
-		, "Couldn't copy minified CSS for ASCC website.")
+		, "/*! Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see "
+		. "[https://github.com/invokeImmediately/ascc.wsu.edu] for a repository of source code. "
+		. "*/`r`n`r`n", "Couldn't copy minified CSS for ASCC website.")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyBackupCssAscc::
 	ahkCmdName := ":*:@copyBackupCssAscc"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\ascc.wsu.edu\CSS\ascc-custom.min.prev.css"
-		, ""
-		, "Couldn't copy backup CSS for ASCC Reading website.")
+		, "", "Couldn't copy backup CSS for ASCC Reading website.")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyMinCssCr::
 	ahkCmdName := ":*:@copyMinCssCr"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\commonreading.wsu.edu\CSS\cr-custom.min.css"
-		, "/*! Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/inv"
-		. "okeImmediately/commonreading.wsu.edu] for a repository of source code. */`r`n`r`n"
-		, "Couldn't copy minified CSS for Common Reading website.")
+		, "/*! Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see "
+		. "[https://github.com/invokeImmediately/commonreading.wsu.edu] for a repository of source "
+		. "code. */`r`n`r`n", "Couldn't copy minified CSS for Common Reading website.")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyBackupCssCr::
 	ahkCmdName := ":*:@copyBackupCssCr"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\commonreading.wsu.edu\CSS\cr-custom.min.prev.css"
-		, ""
-		, "Couldn't copy backup CSS for Common Reading website.")
+		, "", "Couldn't copy backup CSS for Common Reading website.")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyMinCssDsp::
 	ahkCmdName := ":*:@copyMinCssDsp"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\CSS\dsp-custom.min.css"
-		, ""
-		, "Couldn't copy minified CSS for DSP Website.")
+		, "", "Couldn't copy minified CSS for DSP Website.")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyBackupCssDsp::
 	ahkCmdName := ":*:@copyBackupCssDsp"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\CSS\dsp-custom.prev.css"
-		, ""
-		, "Couldn't copy backup CSS for DSP Website.")
+		, "", "Couldn't copy backup CSS for DSP Website.")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyMinCssFye::
 	ahkCmdName := ":*:@copyMinCssFye"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\firstyear.wsu.edu\CSS\fye-custom.min.css"
-		, "/*! Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/inv"
-		. "okeImmediately/firstyear.wsu.edu] for a repository of source code. */`r`n`r`n"
-		, "Couldn't copy minified CSS for FYE website.")
+		, "/*! Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see "
+		. "[https://github.com/invokeImmediately/firstyear.wsu.edu] for a repository of source "
+		. "code. */`r`n`r`n", "Couldn't copy minified CSS for FYE website.")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyBackupCssFye::
 	ahkCmdName := ":*:@copyBackupCssFye"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\firstyear.wsu.edu\CSS\fye-custom.prev.css"
-		, ""
-		, "Couldn't copy backup CSS for FYE website.")
+		, "", "Couldn't copy backup CSS for FYE website.")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyMinCssFyf::
 	ahkCmdName := ":*:@copyMinCssFyf"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\learningcommunities.wsu.edu\CSS\learningcommunities-custom.min.css"
-		, "/*! Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/inv"
-		. "okeImmediately/learningcommunities.wsu.edu] for a repository of source code. */`r`n`r`n"
-		, "Couldn't copy minified CSS for First-Year Focus website.")
+		, "/*! Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see "
+		. "[https://github.com/invokeImmediately/learningcommunities.wsu.edu] for a repository of "
+		. "source code. */`r`n`r`n", "Couldn't copy minified CSS for First-Year Focus website.")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyBackupCssFyf::
 	ahkCmdName := ":*:@copyBackupCssFyf"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\learningcommunities.wsu.edu\CSS\learningcommunities-custom.prev.css"
-		, ""
-		, "Couldn't copy backup CSS for First-Year Focus website.")
+		, "", "Couldn't copy backup CSS for First-Year Focus website.")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyMinCssNse::
 	ahkCmdName := ":*:@copyMinCssNse"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\nse.wsu.edu\CSS\nse-custom.min.css"
-		, ""
-		, "Couldn't copy minified CSS for NSE website.")
+		, "", "Couldn't copy minified CSS for NSE website.")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyBackupCssNse::
 	ahkCmdName := ":*:@copyBackupCssNse"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\nse.wsu.edu\CSS\nse-custom.prev.css"
-		, ""
-		, "Couldn't copy backup CSS for NSE website.")
+		, "", "Couldn't copy backup CSS for NSE website.")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyMinCssOue::
 	ahkCmdName := ":*:@copyMinCssOue"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\oue.wsu.edu\CSS\oue-custom.min.css"
-		, ""
-		, "Couldn't copy minified CSS for OUE website.")
+		, "", "Couldn't copy minified CSS for OUE website.")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyMinCssPbk::
 	ahkCmdName := ":*:@copyMinCssPbk"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\phibetakappa.wsu.edu\CSS\pbk-custom.min.css"
-		, ""
-		, "Couldn't copy minified CSS for Phi Beta Kappa website.")
+		, "", "Couldn't copy minified CSS for Phi Beta Kappa website.")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyBackupCssPbk::
 	ahkCmdName := ":*:@copyBackupCssPbk"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\phibetakappa.wsu.edu\CSS\pbk-custom.prev.css"
-		, ""
-		, "Couldn't copy backup CSS for Phi Beta Kappa website.")
+		, "", "Couldn't copy backup CSS for Phi Beta Kappa website.")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyMinCssSurca::
 	ahkCmdName := ":*:@copyMinCssSurca"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\surca.wsu.edu\CSS\surca-custom.min.css"
-		, "/*! Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/inv"
-		. "okeImmediately/surca.wsu.edu] for a repository of source code. */`r`n`r`n"
-		, "Couldn't copy minified CSS for SURCA website.")
+		, "/*! Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see "
+		. "[https://github.com/invokeImmediately/surca.wsu.edu] for a repository of source code. "
+		. "*/`r`n`r`n", "Couldn't copy minified CSS for SURCA website.")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyBackupCssSurca::
 	ahkCmdName := ":*:@copyBackupCssSurca"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\surca.wsu.edu\CSS\surca-custom.prev.css"
-		, ""
-		, "Couldn't copy backup CSS for SURCA website.")
+		, "", "Couldn't copy backup CSS for SURCA website.")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyMinCssSumRes::
 	ahkCmdName := ":*:@copyMinCssSumRes"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\summerresearch.wsu.edu\CSS\summerresearch-custom.min.css"
-		, "/*! Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/inv"
-		. "okeImmediately/summerresearch.wsu.edu] for a repository of source code. */`r`n`r`n"
-		, "Couldn't copy minified CSS for Summer Research website.")
+		, "/*! Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see "
+		. "[https://github.com/invokeImmediately/summerresearch.wsu.edu] for a repository of "
+		. "source code. */`r`n`r`n", "Couldn't copy minified CSS for Summer Research website.")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyBackupCssSumRes::
 	ahkCmdName := ":*:@copyBackupCssSumRes"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\summerresearch.wsu.edu\CSS\summerresearch-custom.prev.css"
-		, ""
-		, "Couldn't copy backup CSS for Summer Research website.")
+		, "", "Couldn't copy backup CSS for Summer Research website.")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyMinCssXfer::
 	ahkCmdName := ":*:@copyMinCssXfer"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\transfercredit.wsu.edu\CSS\xfercredit-custom.min.css"
-		, "/*! Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/inv"
-		. "okeImmediately/transfercredit.wsu.edu] for a repository of source code. */`r`n`r`n"
-		, "Couldn't copy minified CSS for Transfer Credit website.")
+		, "/*! Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see "
+		. "[https://github.com/invokeImmediately/transfercredit.wsu.edu] for a repository of "
+		. "source code. */`r`n`r`n", "Couldn't copy minified CSS for Transfer Credit website.")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyBackupCssXfer::
 	ahkCmdName := ":*:@copyBackupCssXfer"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\transfercredit.wsu.edu\CSS\xfercredit-custom.prev.css"
-		, ""
-		, "Couldn't copy backup CSS for Transfer Credit website.")
+		, "", "Couldn't copy backup CSS for Transfer Credit website.")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyMinCssUgr::
 	ahkCmdName := ":*:@copyMinCssUgr"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
-		, GetGitHubFolder() . "\undergraduateresearch.wsu.edu\CSS\undergraduate-research-custom.min.css"
-		, "/*! Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/inv"
-		. "okeImmediately/undergraduateresearch.wsu.edu] for a repository of source code. */`r`n`r`n"
+		, GetGitHubFolder() . "\undergraduateresearch.wsu.edu\CSS\"
+		. "undergraduate-research-custom.min.css", "/*! Built with the LESS CSS preprocessor "
+		. "[http://lesscss.org/]. Please see [https://github.com/invokeImmediately/undergraduateres"
+		. "earch.wsu.edu] for a repository of source code. */`r`n`r`n"
 		, "Couldn't copy minified CSS for UGR website.")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyBackupCssUgr::
 	ahkCmdName := ":*:@copyBackupCssUgr"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
-		, GetGitHubFolder() . "\undergraduateresearch.wsu.edu\CSS\undergraduate-research-custom.prev.css"
-		, ""
-		, "Couldn't copy backup CSS for UGR website.")
+		, GetGitHubFolder() . "\undergraduateresearch.wsu.edu\CSS\undergraduate-research-custom.pre"
+		. "v.css", "", "Couldn't copy backup CSS for UGR website.")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyMinCssUcore::
 	ahkCmdName := ":*:@copyMinCssUcore"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\ucore.wsu.edu\CSS\ucore-custom.min.css"
-		, "/*! Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/invo"
-		. "keImmediately/ucore.wsu.edu] for a repository of source code. */`r`n`r`n"
+		, "/*! Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/inv"
+		. "okeImmediately/ucore.wsu.edu] for a repository of source code. */`r`n`r`n"
 		, "Couldn't copy minified CSS for UCORE website.")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyBackupCssUcore::
 	ahkCmdName := ":*:@copyBackupCssUcore"
@@ -2349,19 +2365,19 @@ Return
 		, "Couldn't copy backup CSS for UCORE website.")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyMinCssUcrAss::
 	ahkCmdName := ":*:@copyMinCssUcrAss"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\ucore.wsu.edu-assessment\CSS\ucore-assessment-custom.min.css"
-		, "/*! Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://github.com/inv"
-		. "okeImmediately/ucore.wsu.edu-assessment] for a repository of source code. */`r`n`r`n"
-		, "Couldn't copy minified CSS for UCORE Assessment website.")
+		, "/*! Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see [https://gith"
+		. "ub.com/invokeImmediately/ucore.wsu.edu-assessment] for a repository of source code. */`r"
+		, "`n`r`nCouldn't copy minified CSS for UCORE Assessment website.")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyBackupCssUcrAss::
 	ahkCmdName := ":*:@copyBackupCssUcrAss"
@@ -2372,8 +2388,8 @@ Return
 		, "Couldn't copy backup CSS for UCORE Assessment website.")
 Return
 
-; ············································································································
-; >>> FOR BACKING UP CUSTOM JS BUILDS --  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ··································································································
+; >>> FOR BACKING UP CUSTOM JS BUILDS --  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@backupJsAscc::
 	hsName := ":*:@backupJsAscc"
@@ -2388,12 +2404,13 @@ Return
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@backupJsCr::
 	hsName := ":*:@backupJsCr"
 	AppendAhkCmd(hsName)
-	CopyJsFromWebsite("https://commonreading.wsu.edu/wp-admin/themes.php?page=custom-javascript", copiedJs)
+	CopyJsFromWebsite("https://commonreading.wsu.edu/wp-admin/themes.php?page=custom-javascript"
+		, copiedJs)
 	WriteCodeToFile(hsName, copiedJs, GetGitHubFolder()
 		. "\commonreading.wsu.edu\JS\wp-custom-js-source.min.prev.js")
 	PasteTextIntoGitShell(hsName
@@ -2403,13 +2420,13 @@ Return
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@backupJsDsp::
 	hsName := ":*:@backupJsDsp"
 	AppendAhkCmd(hsName)
-	CopyJsFromWebsite("https://distinguishedscholarships.wsu.edu/wp-admin/themes.php?page=custom-javascript"
-		, copiedJs)
+	CopyJsFromWebsite("https://distinguishedscholarships.wsu.edu/wp-admin/themes.php?page=custom-ja"
+		. "vascript", copiedJs)
 	WriteCodeToFile(hsName, copiedJs, GetGitHubFolder()
 		. "\distinguishedscholarships.wsu.edu\JS\wp-custom-js-source.min.prev.js")
 	PasteTextIntoGitShell(hsName
@@ -2419,12 +2436,13 @@ Return
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@backupJsFye::
 	hsName := ":*:@backupJsFye"
 	AppendAhkCmd(hsName)
-	CopyJsFromWebsite("https://firstyear.wsu.edu/wp-admin/themes.php?page=custom-javascript", copiedJs)
+	CopyJsFromWebsite("https://firstyear.wsu.edu/wp-admin/themes.php?page=custom-javascript"
+		, copiedJs)
 	WriteCodeToFile(hsName, copiedJs, GetGitHubFolder()
 		. "\firstyear.wsu.edu\JS\wp-custom-js-source.min.prev.js")
 	PasteTextIntoGitShell(hsName
@@ -2434,13 +2452,13 @@ Return
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@backupJsFyf::
 	hsName := hsName
 	AppendAhkCmd(hsName)
-	CopyJsFromWebsite("https://learningcommunities.wsu.edu/wp-admin/themes.php?page=custom-javascript"
-		, copiedJs)
+	CopyJsFromWebsite("https://learningcommunities.wsu.edu/wp-admin/themes.php?page=custom-javascri"
+		. "pt", copiedJs)
 	WriteCodeToFile(hsName, copiedJs, GetGitHubFolder()
 		. "\learningcommunities.wsu.edu\JS\wp-custom-js-source.min.prev.js")
 	PasteTextIntoGitShell(hsName
@@ -2450,7 +2468,7 @@ Return
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@backupJsNse::
 	hsName := hsName
@@ -2464,7 +2482,7 @@ Return
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@backupJsOue::
 	hsName := ":*:@backupJsOue"
@@ -2478,13 +2496,15 @@ Return
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@backupJsPbk::
 	hsName := ":*:@backupJsPbk"
 	AppendAhkCmd(hsName)
-	CopyJsFromWebsite("https://phibetakappa.wsu.edu/wp-admin/themes.php?page=custom-javascript", copiedJs)
-	WriteCodeToFile(hsName, copiedJs, GetGitHubFolder() . "\phibetakappa.wsu.edu\JS\pbk-custom.min.prev.js")
+	CopyJsFromWebsite("https://phibetakappa.wsu.edu/wp-admin/themes.php?page=custom-javascript"
+		, copiedJs)
+	WriteCodeToFile(hsName, copiedJs, GetGitHubFolder()
+		. "\phibetakappa.wsu.edu\JS\pbk-custom.min.prev.js")
 	PasteTextIntoGitShell(hsName
 		, "cd '" . GetGitHubFolder() . "\phibetakappa.wsu.edu\'`r"
 		. "git add JS\pbk-custom.min.prev.js`r"
@@ -2492,13 +2512,14 @@ Return
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@backupJsSurca::
 	hsName := ":*:@backupJsSurca"
 	AppendAhkCmd(hsName)
 	CopyJsFromWebsite("https://surca.wsu.edu/wp-admin/themes.php?page=custom-javascript", copiedJs)
-	WriteCodeToFile(hsName, copiedJs, GetGitHubFolder() . "\surca.wsu.edu\JS\wp-custom-js-source.min.prev.js")
+	WriteCodeToFile(hsName, copiedJs, GetGitHubFolder()
+		. "\surca.wsu.edu\JS\wp-custom-js-source.min.prev.js")
 	PasteTextIntoGitShell(hsName
 		, "cd '" . GetGitHubFolder() . "\surca.wsu.edu\'`r"
 		. "git add JS\wp-custom-js-source.min.prev.js`r"
@@ -2506,18 +2527,19 @@ Return
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@backupJsSumRes::
 	hsName := ":*:@backupJsSumRes"
 	AppendAhkCmd(hsName)
-	CopyJsFromWebsite("https://summerresearch.wsu.edu/wp-admin/themes.php?page=custom-javascript", copiedJs)
+	CopyJsFromWebsite("https://summerresearch.wsu.edu/wp-admin/themes.php?page=custom-javascript"
+		, copiedJs)
 	WriteCodeToFile(hsName, copiedJs, GetGitHubFolder()
 		. "\summerresearch.wsu.edu\JS\wp-custom-js-source.min.prev.js")
 	GoSub, :*:@commitBackupJsSumRes
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@commitBackupJsSumRes::
 	hsName := ":*:@commitBackupJsSumRes"
@@ -2529,12 +2551,13 @@ Return
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@backupJsXfer::
 	hsName := ":*:@backupJsXfer"
 	AppendAhkCmd(hsName)
-	CopyJsFromWebsite("https://transfercredit.wsu.edu/wp-admin/themes.php?page=custom-javascript", copiedJs)
+	CopyJsFromWebsite("https://transfercredit.wsu.edu/wp-admin/themes.php?page=custom-javascript"
+		, copiedJs)
 	WriteCodeToFile(hsName, copiedJs, GetGitHubFolder()
 		. "\transfercredit.wsu.edu\JS\wp-custom-js-source.min.prev.js")
 	PasteTextIntoGitShell(hsName
@@ -2544,13 +2567,13 @@ Return
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@backupJsUgr::
 	hsName := ":*:@backupJsUgr"
 	AppendAhkCmd(hsName)
-	CopyJsFromWebsite("https://undergraduateresearch.wsu.edu/wp-admin/themes.php?page=custom-javascript"
-		, copiedJs)
+	CopyJsFromWebsite("https://undergraduateresearch.wsu.edu/wp-admin/themes.php?page=custom-javasc"
+		. "ript", copiedJs)
 	WriteCodeToFile(hsName, copiedJs, GetGitHubFolder()
 		. "\undergraduateresearch.wsu.edu\JS\wp-custom-js-source.min.prev.js")
 	PasteTextIntoGitShell(hsName
@@ -2560,13 +2583,14 @@ Return
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@backupJsUcore::
 	hsName := ":*:@backupJsUcore"
 	AppendAhkCmd(hsName)
 	CopyJsFromWebsite("https://ucore.wsu.edu/wp-admin/themes.php?page=custom-javascript", copiedJs)
-	WriteCodeToFile(hsName, copiedJs, GetGitHubFolder() . "\ucore.wsu.edu\JS\wp-custom-js-source.min.prev.js")
+	WriteCodeToFile(hsName, copiedJs, GetGitHubFolder() . "\ucore.wsu.edu\JS\wp-custom-js-source.mi"
+		. "n.prev.js")
 	PasteTextIntoGitShell(hsName
 		, "cd '" . GetGitHubFolder() . "\ucore.wsu.edu\'`r"
 		. "git add JS\wp-custom-js-source.min.prev.js`r"
@@ -2574,12 +2598,13 @@ Return
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@backupJsUcrAss::
 	hsName := ":*:@backupJsUcrAss"
 	AppendAhkCmd(hsName)
-	CopyJsFromWebsite("https://ucore.wsu.edu/assessment/wp-admin/themes.php?page=custom-javascript", copiedJs)
+	CopyJsFromWebsite("https://ucore.wsu.edu/assessment/wp-admin/themes.php?page=custom-javascript"
+		, copiedJs)
 	WriteCodeToFile(hsName, copiedJs, GetGitHubFolder()
 		. "\ucore.wsu.edu-assessment\JS\wp-custom-js-source.min.js")
 	PasteTextIntoGitShell(hsName
@@ -2589,7 +2614,7 @@ Return
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@backupJsAll::
 	hsName := ":*:@backupJsAll"
@@ -2615,7 +2640,7 @@ Return
 		. "[console]::beep(375,150)`r")
 Return
 
-; ············································································································
+; ··································································································
 
 CopyJsFromWebsite(websiteUrl, ByRef copiedJs)
 {
@@ -2623,7 +2648,7 @@ CopyJsFromWebsite(websiteUrl, ByRef copiedJs)
 	ExecuteJsCopyCmds(copiedJs)
 }
 
-; ············································································································
+; ··································································································
 
 ExecuteJsCopyCmds(ByRef copiedJs) {
 	CoordMode, Mouse, Client
@@ -2638,8 +2663,8 @@ ExecuteJsCopyCmds(ByRef copiedJs) {
 	Sleep, 2000
 }
 
-; ············································································································
-; >>> FOR REBUILDING JS SOURCE FILES ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ··································································································
+; >>> FOR REBUILDING JS SOURCE FILES ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@rebuildJsAscc::
 	ahkCmdName := ":*:@rebuildJsAscc"
@@ -2652,12 +2677,12 @@ ExecuteJsCopyCmds(ByRef copiedJs) {
 		. "cd '" . GetGitHubFolder() . "\ascc.wsu.edu\'`r"
 		. "git add JS\ascc-custom.js`r"
 		. "git add JS\ascc-custom.min.js`r"
-		. "git commit -m 'Updating custom JS build' -m 'Rebuilt production files to incorporate recent"
-		. " changes to source code and/or dependencies' `r"
+		. "git commit -m 'Updating custom JS build' -m 'Rebuilt production files to incorporate "
+		. "recent changes to source code and/or dependencies' `r"
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@rebuildJsCr::
 	ahkCmdName := ":*:@rebuildJsCr"
@@ -2670,12 +2695,12 @@ Return
 		. "cd '" . GetGitHubFolder() . "\commonreading.wsu.edu\'`r"
 		. "git add JS\wp-custom-js-source.js`r"
 		. "git add JS\wp-custom-js-source.min.js`r"
-		. "git commit -m 'Updating custom JS build' -m 'Rebuilt production files to incorporate recent"
-		. " changes to source code and/or dependencies' `r"
+		. "git commit -m 'Updating custom JS build' -m 'Rebuilt production files to incorporate "
+		. "recent changes to source code and/or dependencies' `r"
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@rebuildJsDsp::
 	ahkCmdName := ":*:@rebuildJsDsp"
@@ -2683,17 +2708,17 @@ Return
 	PasteTextIntoGitShell(ahkCmdName
 		, "cd '" . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\JS'`r"
 		. "node build-production-file.js`r"
-		. "uglifyjs wp-custom-javascript-source.dsp.js --output wp-custom-js-source.min.dsp.js -mt`r"
-		. "[console]::beep(1500,300)`r"
+		. "uglifyjs wp-custom-javascript-source.dsp.js --output wp-custom-js-source.min.dsp.js -mt"
+		. "`r[console]::beep(1500,300)`r"
 		. "cd '" . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\'`r"
 		. "git add JS\wp-custom-javascript-source.dsp.js`r"
 		. "git add JS\wp-custom-js-source.min.dsp.js`r"
-		. "git commit -m 'Updating custom JS build' -m 'Rebuilt production files to incorporate recent"
-		. " changes to source code and/or dependencies' `r"
+		. "git commit -m 'Updating custom JS build' -m 'Rebuilt production files to incorporate "
+		. "recent changes to source code and/or dependencies' `r"
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@rebuildJsFye::
 	ahkCmdName := ":*:@rebuildJsFye"
@@ -2706,12 +2731,12 @@ Return
 		. "cd '" . GetGitHubFolder() . "\firstyear.wsu.edu\'`r"
 		. "git add JS\wp-custom-js-source.js`r"
 		. "git add JS\wp-custom-js-source.min.js`r"
-		. "git commit -m 'Updating custom JS build' -m 'Rebuilt production files to incorporate recent"
-		. " changes to source code and/or dependencies' `r"
+		. "git commit -m 'Updating custom JS build' -m 'Rebuilt production files to incorporate "
+		. "recent changes to source code and/or dependencies' `r"
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@rebuildJsFyf::
 	ahkCmdName := ":*:@rebuildJsFyf"
@@ -2724,12 +2749,12 @@ Return
 		. "cd '" . GetGitHubFolder() . "\learningcommunities.wsu.edu\'`r"
 		. "git add JS\wp-custom-js-source.js`r"
 		. "git add JS\wp-custom-js-source.min.js`r"
-		. "git commit -m 'Updating custom JS build' -m 'Rebuilt production files to incorporate recent"
-		. " changes to source code and/or dependencies' `r"
+		. "git commit -m 'Updating custom JS build' -m 'Rebuilt production files to incorporate "
+		. "recent changes to source code and/or dependencies' `r"
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@rebuildJsNse::
 	ahkCmdName := ":*:@rebuildJsNse"
@@ -2742,12 +2767,12 @@ Return
 		. "cd '" . GetGitHubFolder() . "\nse.wsu.edu\'`r"
 		. "git add JS\nse-custom.js`r"
 		. "git add JS\nse-custom.min.js`r"
-		. "git commit -m 'Updating custom JS build' -m 'Rebuilt production files to incorporate recent"
-		. " changes to source code and/or dependencies' `r"
+		. "git commit -m 'Updating custom JS build' -m 'Rebuilt production files to incorporate "
+		. "recent changes to source code and/or dependencies' `r"
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@rebuildJsOue::
 	ahkCmdName := ":*:@rebuildJsOue"
@@ -2760,12 +2785,12 @@ Return
 		. "cd '" . GetGitHubFolder() . "\oue.wsu.edu\'`r"
 		. "git add JS\oue-custom.js`r"
 		. "git add JS\oue-custom.min.js`r"
-		. "git commit -m 'Updating custom JS build' -m 'Rebuilt production files to incorporate recent"
-		. " changes to source code and/or dependencies' `r"
+		. "git commit -m 'Updating custom JS build' -m 'Rebuilt production files to incorporate "
+		. "recent changes to source code and/or dependencies' `r"
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@rebuildJsPbk::
 	ahkCmdName := ":*:@rebuildJsPbk"
@@ -2778,12 +2803,12 @@ Return
 		. "cd '" . GetGitHubFolder() . "\phibetakappa.wsu.edu\'`r"
 		. "git add JS\pbk-custom.js`r"
 		. "git add JS\pbk-custom.min.js`r"
-		. "git commit -m 'Updating custom JS build' -m 'Rebuilt production files to incorporate recent"
-		. " changes to source code and/or dependencies' `r"
+		. "git commit -m 'Updating custom JS build' -m 'Rebuilt production files to incorporate "
+		. "recent changes to source code and/or dependencies' `r"
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@rebuildJsSurca::
 	ahkCmdName := ":*:@rebuildJsSurca"
@@ -2796,12 +2821,12 @@ Return
 		. "cd '" . GetGitHubFolder() . "\surca.wsu.edu\'`r"
 		. "git add JS\wp-custom-js-source.js`r"
 		. "git add JS\wp-custom-js-source.min.js`r"
-		. "git commit -m 'Updating custom JS build' -m 'Rebuilt production files to incorporate recent"
-		. " changes to source code and/or dependencies' `r"
+		. "git commit -m 'Updating custom JS build' -m 'Rebuilt production files to incorporate "
+		. "recent changes to source code and/or dependencies' `r"
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@rebuildJsSumRes::
 	ahkCmdName := ":*:@rebuildJsSumRes"
@@ -2814,12 +2839,12 @@ Return
 		. "cd '" . GetGitHubFolder() . "\summerresearch.wsu.edu\'`r"
 		. "git add JS\wp-custom-js-source.js`r"
 		. "git add JS\wp-custom-js-source.min.js`r"
-		. "git commit -m 'Updating custom JS build' -m 'Rebuilt production files to incorporate recent"
-		. " changes to source code and/or dependencies' `r"
+		. "git commit -m 'Updating custom JS build' -m 'Rebuilt production files to incorporate "
+		. "recent changes to source code and/or dependencies' `r"
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@rebuildJsXfer::
 	ahkCmdName := ":*:@rebuildJsXfer"
@@ -2832,12 +2857,12 @@ Return
 		. "cd '" . GetGitHubFolder() . "\transfercredit.wsu.edu\'`r"
 		. "git add JS\wp-custom-js-source.js`r"
 		. "git add JS\wp-custom-js-source.min.js`r"
-		. "git commit -m 'Updating custom JS build' -m 'Rebuilt production files to incorporate recent"
-		. " changes to source code and/or dependencies' `r"
+		. "git commit -m 'Updating custom JS build' -m 'Rebuilt production files to incorporate "
+		. "recent changes to source code and/or dependencies' `r"
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@rebuildJsUgr::
 	ahkCmdName := ":*:@rebuildJsUgr"
@@ -2850,12 +2875,12 @@ Return
 		. "cd '" . GetGitHubFolder() . "\undergraduateresearch.wsu.edu\'`r"
 		. "git add JS\wp-custom-js-source.js`r"
 		. "git add JS\wp-custom-js-source.min.js`r"
-		. "git commit -m 'Updating custom JS build' -m 'Rebuilt production files to incorporate recent"
-		. " changes to source code and/or dependencies' `r"
+		. "git commit -m 'Updating custom JS build' -m 'Rebuilt production files to incorporate "
+		. "recent changes to source code and/or dependencies' `r"
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@rebuildJsUcore::
 	ahkCmdName := ":*:@rebuildJsUcore"
@@ -2868,12 +2893,12 @@ Return
 		. "cd '" . GetGitHubFolder() . "\ucore.wsu.edu\'`r"
 		. "git add JS\wp-custom-js-source.js`r"
 		. "git add JS\wp-custom-js-source.min.js`r"
-		. "git commit -m 'Updating custom JS build' -m 'Rebuilt production files to incorporate recent"
-		. " changes to source code and/or dependencies' `r"
+		. "git commit -m 'Updating custom JS build' -m 'Rebuilt production files to incorporate "
+		. "recent changes to source code and/or dependencies' `r"
 		. "git push`r")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@rebuildJsUcrAss::
 	ahkCmdName := ":*:@rebuildJsUcrAss"
@@ -2886,13 +2911,13 @@ Return
 		. "cd '" . GetGitHubFolder() . "\ucore.wsu.edu-assessment\'`r"
 		. "git add JS\wp-custom-js-source.js`r"
 		. "git add JS\wp-custom-js-source.min.js`r"
-		. "git commit -m 'Updating custom JS build' -m 'Rebuilt production files to incorporate recent"
-		. " changes to source code and/or dependencies' `r"
+		. "git commit -m 'Updating custom JS build' -m 'Rebuilt production files to incorporate "
+		. "recent changes to source code and/or dependencies' `r"
 		. "git push`r")
 Return
 
-; ············································································································
-; >>> FOR UPDATING JS SUBMODULES --  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ··································································································
+; >>> FOR UPDATING JS SUBMODULES --  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@updateJsSubmoduleAscc::
 	ahkCmdName := ":*:@updateJsSubmoduleAscc"
@@ -2903,13 +2928,13 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---JS`r"
-		. "git commit -m 'Updating custom JS master submodule for OUE websites' -m 'Incorporating recent"
-		. " changes in project source code'`r"
+		. "git commit -m 'Updating custom JS master submodule for OUE websites' -m 'Incorporating "
+		. "recent changes in project source code'`r"
 		. "git push`r")
 	Gosub, :*:@rebuildJsAscc
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@updateJsSubmoduleCr::
 	ahkCmdName := ":*:@updateJsSubmoduleCr"
@@ -2920,13 +2945,13 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---JS`r"
-		. "git commit -m 'Updating custom JS master submodule for OUE websites' -m 'Incorporating recent"
-		. " changes in project source code'`r"
+		. "git commit -m 'Updating custom JS master submodule for OUE websites' -m 'Incorporating "
+		. "recent changes in project source code'`r"
 		. "git push`r")
 	Gosub, :*:@rebuildJsCr
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@updateJsSubmoduleDsp::
 	ahkCmdName := ":*:@updateJsSubmoduleDsp"
@@ -2937,13 +2962,13 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---JS`r"
-		. "git commit -m 'Updating custom JS master submodule for OUE websites' -m 'Incorporating recent"
-		. " changes in project source code'`r"
+		. "git commit -m 'Updating custom JS master submodule for OUE websites' -m 'Incorporating "
+		. "recent changes in project source code'`r"
 		. "git push`r")
 	Gosub, :*:@rebuildJsDsp
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@updateJsSubmoduleFye::
 	ahkCmdName := ":*:@updateJsSubmoduleFye"
@@ -2954,13 +2979,13 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---JS`r"
-		. "git commit -m 'Updating custom JS master submodule for OUE websites' -m 'Incorporating recent"
-		. " changes in project source code'`r"
+		. "git commit -m 'Updating custom JS master submodule for OUE websites' -m 'Incorporating "
+		. "recent changes in project source code'`r"
 		. "git push`r")
 	Gosub, :*:@rebuildJsFye
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@updateJsSubmoduleFyf::
 	ahkCmdName := ":*:@updateJsSubmoduleFyf"
@@ -2971,13 +2996,13 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---JS`r"
-		. "git commit -m 'Updating custom JS master submodule for OUE websites' -m 'Incorporating recent"
-		. " changes in project source code'`r"
+		. "git commit -m 'Updating custom JS master submodule for OUE websites' -m 'Incorporating "
+		. "recent changes in project source code'`r"
 		. "git push`r")
 	Gosub, :*:@rebuildJsFyf
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@updateJsSubmoduleNse::
 	ahkCmdName := ":*:@updateJsSubmoduleNse"
@@ -2988,13 +3013,13 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---JS`r"
-		. "git commit -m 'Updating custom JS master submodule for OUE websites' -m 'Incorporating recent"
-		. " changes in project source code'`r"
+		. "git commit -m 'Updating custom JS master submodule for OUE websites' -m 'Incorporating "
+		. "recent changes in project source code'`r"
 		. "git push`r")
 	Gosub, :*:@rebuildJsFyf
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@updateJsSubmoduleOue::
 	ahkCmdName := ":*:@updateJsSubmoduleOue"
@@ -3005,13 +3030,13 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---JS`r"
-		. "git commit -m 'Updating custom JS master submodule for OUE websites' -m 'Incorporating recent"
-		. " changes in project source code'`r"
+		. "git commit -m 'Updating custom JS master submodule for OUE websites' -m 'Incorporating "
+		. "recent changes in project source code'`r"
 		. "git push`r")
 	Gosub, :*:@rebuildJsOue
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@updateJsSubmodulePbk::
 	ahkCmdName := ":*:@updateJsSubmodulePbk"
@@ -3022,13 +3047,13 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---JS`r"
-		. "git commit -m 'Updating custom JS master submodule for OUE websites' -m 'Incorporating recent"
-		. " changes in project source code'`r"
+		. "git commit -m 'Updating custom JS master submodule for OUE websites' -m 'Incorporating "
+		. "recent changes in project source code'`r"
 		. "git push`r")
 	Gosub, :*:@rebuildJsPbk
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@updateJsSubmoduleSurca::
 	ahkCmdName := ":*:@updateJsSubmoduleSurca"
@@ -3039,13 +3064,13 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---JS`r"
-		. "git commit -m 'Updating custom JS master submodule for OUE websites' -m 'Incorporating recent"
-		. " changes in project source code'`r"
+		. "git commit -m 'Updating custom JS master submodule for OUE websites' -m 'Incorporating "
+		. "recent changes in project source code'`r"
 		. "git push`r")
 	Gosub, :*:@rebuildJsSurca
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@updateJsSubmoduleSumRes::
 	ahkCmdName := ":*:@updateJsSubmoduleSumRes"
@@ -3056,13 +3081,13 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---JS`r"
-		. "git commit -m 'Updating custom JS master submodule for OUE websites' -m 'Incorporating recent"
-		. " changes in project source code'`r"
+		. "git commit -m 'Updating custom JS master submodule for OUE websites' -m 'Incorporating "
+		. "recent changes in project source code'`r"
 		. "git push`r")
 	Gosub, :*:@rebuildJsSumRes
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@updateJsSubmoduleXfer::
 	ahkCmdName := ":*:@updateJsSubmoduleXfer"
@@ -3073,13 +3098,13 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---JS`r"
-		. "git commit -m 'Updating custom JS master submodule for OUE websites' -m 'Incorporating recent"
-		. " changes in project source code'`r"
+		. "git commit -m 'Updating custom JS master submodule for OUE websites' -m 'Incorporating "
+		. "recent changes in project source code'`r"
 		. "git push`r")
 	Gosub, :*:@rebuildJsXfer
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@updateJsSubmoduleUgr::
 	ahkCmdName := ":*:@updateJsSubmoduleUgr"
@@ -3090,13 +3115,13 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---JS`r"
-		. "git commit -m 'Updating custom JS master submodule for OUE websites' -m 'Incorporating recent"
-		. " changes in project source code'`r"
+		. "git commit -m 'Updating custom JS master submodule for OUE websites' -m 'Incorporating "
+		. "recent changes in project source code'`r"
 		. "git push`r")
 	Gosub, :*:@rebuildJsUgr
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@updateJsSubmoduleUcore::
 	ahkCmdName := ":*:@updateJsSubmoduleUcore"
@@ -3107,13 +3132,13 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---JS`r"
-		. "git commit -m 'Updating custom JS master submodule for OUE websites' -m 'Incorporating recent"
-		. " changes in project source code'`r"
+		. "git commit -m 'Updating custom JS master submodule for OUE websites' -m 'Incorporating "
+		. "recent changes in project source code'`r"
 		. "git push`r")
 	Gosub, :*:@rebuildJsUcore
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@updateJsSubmoduleUcrAss::
 	ahkCmdName := ":*:@updateJsSubmoduleUcrAss"
@@ -3124,13 +3149,13 @@ Return
 		. "git merge origin/master`r"
 		. "cd ..`r"
 		. "git add WSU-UE---JS`r"
-		. "git commit -m 'Updating custom JS master submodule for OUE websites' -m 'Incorporating recent"
-		. " changes in project source code'`r"
+		. "git commit -m 'Updating custom JS master submodule for OUE websites' -m 'Incorporating "
+		. "recent changes in project source code'`r"
 		. "git push`r")
 	Gosub, :*:@rebuildJsUcrAss
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@updateJsSubmoduleAll::
 	ahkCmdName := ":*:@updateJsSubmoduleAll"
@@ -3156,8 +3181,8 @@ Return
 		. "[console]::beep(375,150)`r")
 Return
 
-; ············································································································
-; >>> FOR COPYING MINIFIED CSS TO CLIPBOARD -  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ··································································································
+; >>> FOR COPYING MINIFIED CSS TO CLIPBOARD -  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ;TODO: Add scripts for copying JS backups to clipboard (see CSS backup-copying scripts above)
 :*:@copyMinJsAscc::
@@ -3165,117 +3190,117 @@ Return
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\ascc.wsu.edu\JS\ascc-custom.min.js"
-		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo/"
-		. "UglifyJS]. Please see [https://github.com/invokeImmediately/commonreading.wsu.edu] for "
-		. "a repository of source code.`r`n"
+		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.c"
+		. "om/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/commonreading.wsu."
+		. "edu] for a repository of source code.`r`n"
 		, "Couldn't Copy Minified JS for ASCC Website")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyMinJsCr::
 	ahkCmdName := ":*:@copyMinJsCr"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\commonreading.wsu.edu\JS\wp-custom-js-source.min.js"
-		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo/"
-		. "UglifyJS]. Please see [https://github.com/invokeImmediately/commonreading.wsu.edu] for "
-		. "a repository of source code.`r`n"
+		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.c"
+		. "om/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/commonreading.wsu."
+		. "edu] for a repository of source code.`r`n"
 		, "Couldn't Copy Minified JS for CR Website")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyMinJsDsp::
 	ahkCmdName := ":*:@copyMinJsDsp"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\JS\wp-custom-js-source.min.dsp.js"
-		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo/"
-		. "UglifyJS]. Please see [https://github.com/invokeImmediately/distinguishedscholarship.wsu.edu] for "
-		. "a repository of source code.`r`n"
+		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.c"
+		. "om/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/distinguishedschol"
+		. "arship.wsu.edu] for a repository of source code.`r`n"
 		. "// Third-party, open-source JavaScript plugins used by this website:`r`n"
-		. "//   cycle2, (c) 2012-2014 M. Alsup. | https://github.com/malsup/cycle2 | MIT license -- http://ma"
-		. "lsup.github.io/mit-license.txt && GPL license -- http://malsup.github.io/gpl-license-v2.txt`r`n"
-		. "//   FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatron5000/Fit"
-		. "Text.js | GNU GPLv2 -- http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html`r`n"
-		. "//   imagesLoaded, (c) David DeSandro 2016 | http://imagesloaded.desandro.com/ | MIT license -- ht"
-		. "tp://desandro.mit-license.org/`r`n"
-		. "//   Masonry JS, (c) David DeSandro 2016 | http://masonry.desandro.com/ | MIT license -- http://de"
-		. "sandro.mit-license.org/`r`n"
-		. "//   jQuery Media Plugin, (c) 2007-2010 M. Alsup. | http://malsup.com/jquery/media/ | MIT license "
-		. "-- https://opensource.org/licenses/mit-license.php  && GPL license -- http://www.gnu.org/licenses/"
-		. "gpl.html`r`n"
-		. "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- http://cre"
-		. "ativecommons.org/licenses/by/3.0/`r`n"
+		. "//   cycle2, (c) 2012-2014 M. Alsup. | https://github.com/malsup/cycle2 | MIT license --"
+		. " http://malsup.github.io/mit-license.txt && GPL license -- http://malsup.github.io/gpl-l"
+		. "icense-v2.txt`r`n//   FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://"
+		. "github.com/davatron5000/FitText.js | GNU GPLv2 -- http://www.gnu.org/licenses/old-licens"
+		. "es/gpl-2.0.en.html`r`n//   imagesLoaded, (c) David DeSandro 2016 | http://imagesloaded.d"
+		. "esandro.com/ | MIT license -- http://desandro.mit-license.org/`r`n"
+		. "//   Masonry JS, (c) David DeSandro 2016 | http://masonry.desandro.com/ | MIT license --"
+		. " http://desandro.mit-license.org/`r`n"
+		. "//   jQuery Media Plugin, (c) 2007-2010 M. Alsup. | http://malsup.com/jquery/media/ | MI"
+		. "T license -- https://opensource.org/licenses/mit-license.php  && GPL license -- http://w"
+		. "ww.gnu.org/licenses/gpl.html`r`n"
+		. "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- "
+		. "http://creativecommons.org/licenses/by/3.0/`r`n"
 		, "Couldn't Copy Minified JS for DSP Website")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyMinJsFye::
 	ahkCmdName := ":*:@copyMinJsFye"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\firstyear.wsu.edu\JS\wp-custom-js-source.min.js"
-		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo/"
-		. "UglifyJS]. Please see [https://github.com/invokeImmediately/firstyear.wsu.edu] for a repository of"
-		. "source code.`r`n"
+		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.c"
+		. "om/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/firstyear.wsu.edu]"
+		. " for a repository ofsource code.`r`n"
 		. "// Third-party, open-source JavaScript plugins used by this website:`r`n"
-		. "//   FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatron5000/Fit"
-		. "Text.js | GNU GPLv2 -- http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html`r`n"
-		. "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- http://cre"
-		. "ativecommons.org/licenses/by/3.0/`r`n"
+		. "//   FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatr"
+		. "on5000/FitText.js | GNU GPLv2 -- http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.htm"
+		. "l`r`n//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 licens"
+		. "e -- http://creativecommons.org/licenses/by/3.0/`r`n"
 		, "Couldn't Copy Minified JS for FYE Website")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyMinJsFyf::
 	ahkCmdName := ":*:@copyMinJsFyf"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\learningcommunities.wsu.edu\JS\wp-custom-js-source.min.js"
-		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo/"
-		. "UglifyJS]. Please see [https://github.com/invokeImmediately/learningcommunities.wsu.edu] for a rep"
-		. "ository of source code.`r`n"
+		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.c"
+		. "om/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/learningcommunitie"
+		. "s.wsu.edu] for a repository of source code.`r`n"
 		. "// Third-party, open-source JavaScript plugins used by this website:`r`n"
-		. "//   FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatron5000/Fit"
-		. "Text.js | GNU GPLv2 -- http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html`r`n"
-		. "//   Masonry JS, (c) David DeSandro 2016 | http://masonry.desandro.com/ | MIT license -- http://de"
-		. "sandro.mit-license.org/`r`n"
-		. "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- http://cre"
-		. "ativecommons.org/licenses/by/3.0/`r`n"
+		. "//   FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatr"
+		. "on5000/FitText.js | GNU GPLv2 -- http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.htm"
+		. "l`r`n//   Masonry JS, (c) David DeSandro 2016 | http://masonry.desandro.com/ | MIT licen"
+		. "se -- http://desandro.mit-license.org/`r`n"
+		. "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- "
+		. "http://creativecommons.org/licenses/by/3.0/`r`n"
 		, "Couldn't Copy Minified JS for FYF Website")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyMinJsNse::
 	ahkCmdName := ":*:@copyMinJsNse"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\nse.wsu.edu\JS\nse-custom.min.js"
-		, "/*! Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo"
-		. "/UglifyJS]. Please see [https://github.com/invokeImmediately/nse.wsu.edu] for a rep"
-		. "ository of source code.`r`n`r`n"
+		, "/*! Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github."
+		. "com/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/nse.wsu.edu] for "
+		. "a repository of source code.`r`n`r`n"
 		, "Couldn't Copy Minified JS for Nse Website")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyMinJsOue::
 	ahkCmdName := ":*:@copyMinJsOue"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\phibetakappa.wsu.edu\JS\oue-custom.min.js"
-		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo/"
-		. "UglifyJS]. Please see [https://github.com/invokeImmediately/oue.wsu.edu] for a repository of sourc"
-		. "e code.`r`n"
+		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.c"
+		. "om/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/oue.wsu.edu] for a"
+		. " repository of source code.`r`n"
 		, "Couldn't Copy Minified JS for WSU OUE Website")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyBackupJsOue::
 	ahkCmdName := ":*:@copyBackupJsOue"
@@ -3286,119 +3311,119 @@ Return
 		, "Couldn't copy backup copy of minified JS for WSU OUE website")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyMinJsPbk::
 	ahkCmdName := ":*:@copyMinJsPbk"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\phibetakappa.wsu.edu\JS\wp-custom-js-source.min.js"
-		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo/"
-		. "UglifyJS]. Please see [https://github.com/invokeImmediately/phibetakappa.wsu.edu] for a reposito"
-		. "ry of source code.`r`n"
+		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.c"
+		. "om/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/phibetakappa.wsu.e"
+		. "du] for a repository of source code.`r`n"
 		. "// Third-party, open-source JavaScript plugins used by this website:`r`n"
-		. "//   FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatron5000/Fit"
-		. "//   Masonry JS, (c) David DeSandro 2016 | http://masonry.desandro.com/ | MIT license -- http://de"
-		. "sandro.mit-license.org/`r`n"
-		. "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- http://cre"
-		. "ativecommons.org/licenses/by/3.0/`r`n"
+		. "// FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatron"
+		. "5000/FitFitText.js`r`n//   Masonry JS, (c) David DeSandro 2016 | http://masonry.desandro"
+		. ".com/ | MIT license -- http://desandro.mit-license.org/`r`n"
+		. "// qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- "
+		. "http://creativecommons.org/licenses/by/3.0/`r`n"
 		, "Couldn't Copy Minified JS for WSU Phi Beta Kappa Website")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyMinJsSurca::
 	ahkCmdName := ":*:@copyMinJsSurca"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\surca.wsu.edu\JS\wp-custom-js-source.min.js"
-		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo/"
-		. "UglifyJS]. Please see [https://github.com/invokeImmediately/surca.wsu.edu] for a reposito"
-		. "ry of source code.`r`n"
+		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.c"
+		. "om/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/surca.wsu.edu] for"
+		. " a repository of source code.`r`n"
 		. "// Third-party, open-source JavaScript plugins used by this website:`r`n"
-		. "//   FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatron5000/Fit"
-		. "//   Masonry JS, (c) David DeSandro 2016 | http://masonry.desandro.com/ | MIT license -- http://de"
-		. "sandro.mit-license.org/`r`n"
-		. "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- http://cre"
-		. "ativecommons.org/licenses/by/3.0/`r`n"
+		. "// FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatron"
+		. "5000/FitFitText.js`r`n//   Masonry JS, (c) David DeSandro 2016 | http://masonry.desandro"
+		. ".com/ | MIT license -- http://desandro.mit-license.org/`r`n"
+		. "// qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- "
+		. "http://creativecommons.org/licenses/by/3.0/`r`n"
 		, "Couldn't Copy Minified JS for SURCA Website")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyMinJsSumRes::
 	ahkCmdName := ":*:@copyMinJsSumRes"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\summerresearch.wsu.edu\JS\wp-custom-js-source.min.js"
-		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo/"
-		. "UglifyJS]. Please see [https://github.com/invokeImmediately/summerresearch.wsu.edu] for a reposito"
-		. "ry of source code.`r`n"
+		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.c"
+		. "om/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/summerresearch.wsu"
+		. ".edu] for a repository of source code.`r`n"
 		. "// Third-party, open-source JavaScript plugins used by this website:`r`n"
-		. "//   FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatron5000/Fit"
-		. "//   Masonry JS, (c) David DeSandro 2016 | http://masonry.desandro.com/ | MIT license -- http://de"
-		. "sandro.mit-license.org/`r`n"
-		. "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- http://cre"
-		. "ativecommons.org/licenses/by/3.0/`r`n"
+		. "// FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatron"
+		. "5000/FitFitText.js`r`n//   Masonry JS, (c) David DeSandro 2016 | http://masonry.desandro"
+		. ".com/ | MIT license -- http://desandro.mit-license.org/`r`n"
+		. "// qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- "
+		. "http://creativecommons.org/licenses/by/3.0/`r`n"
 		, "Couldn't Copy Minified JS for WSU Summer Research Website")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyMinJsXfer::
 	ahkCmdName := ":*:@copyMinJsXfer"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\transfercredit.wsu.edu\JS\wp-custom-js-source.min.js"
-		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo/"
-		. "UglifyJS]. Please see [https://github.com/invokeImmediately/transfercredit.wsu.edu] for a reposito"
-		. "ry of source code.`r`n"
+		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.c"
+		. "om/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/transfercredit.wsu"
+		. ".edu] for a repository of source code.`r`n"
 		. "// Third-party, open-source JavaScript plugins used by this website:`r`n"
-		. "//   FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatron5000/Fit"
-		. "Text.js | GNU GPLv2 -- http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html`r`n"
-		. "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- http://cre"
-		. "ativecommons.org/licenses/by/3.0/`r`n"
+		. "//   FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatr"
+		. "on5000/FitText.js | GNU GPLv2 -- http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.htm"
+		. "l`r`n// qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license "
+		. "-- http://creativecommons.org/licenses/by/3.0/`r`n"
 		, "Couldn't Copy Minified JS for WSU Transfer Credit Website")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyMinJsUgr::
 	ahkCmdName := ":*:@copyMinJsUgr"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\undergraduateresearch.wsu.edu\JS\wp-custom-js-source.min.js"
-		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo/"
-		. "UglifyJS]. Please see [https://github.com/invokeImmediately/undergraduateresearch.wsu.edu] for a r"
-		. "epository of source code.`r`n"
+		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.c"
+		. "om/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/undergraduateresea"
+		. "rch.wsu.edu] for a repository of source code.`r`n"
 		. "// Third-party, open-source JavaScript plugins used by this website:`r`n"
-		. "//   FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatron5000/Fit"
-		. "Text.js | GNU GPLv2 -- http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html`r`n"
-		. "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- http://cre"
-		. "ativecommons.org/licenses/by/3.0/`r`n"
+		. "// FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatron"
+		. "5000/FitText.js | GNU GPLv2 -- http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html`r"
+		. "`n// qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- "
+		. "http://creativecommons.org/licenses/by/3.0/`r`n"
 		, "Couldn't Copy Minified JS for UGR Website")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyMinJsUcore::
 	ahkCmdName := ":*:@copyMinJsUcore"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\ucore.wsu.edu\JS\wp-custom-js-source.min.js"
-		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo/"
-		. "UglifyJS]. Please see [https://github.com/invokeImmediately/ucore.wsu.edu] for a reposito"
-		. "ry of source code.`r`n"
+		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.c"
+		. "om/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/ucore.wsu.edu] for"
+		. " a repository of source code.`r`n"
 		. "// Third-party, open-source JavaScript plugins used by this website:`r`n"
-		. "//   FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatron5000/Fit"
-		. "//   Masonry JS, (c) David DeSandro 2016 | http://masonry.desandro.com/ | MIT license -- http://de"
-		. "sandro.mit-license.org/`r`n"
-		. "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- http://cre"
-		. "ativecommons.org/licenses/by/3.0/`r`n"
+		. "// FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatron"
+		. "5000/FitFitText.js`r`n// Masonry JS, (c) David DeSandro 2016 | http://masonry.desandro.c"
+		. "om/ | MIT license -- http://desandro.mit-license.org/`r`n"
+		. "// qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- ht"
+		. "tp://creativecommons.org/licenses/by/3.0/`r`n"
 		, "Couldn't copy minified JS for UCORE website")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyBackupJsUcore::
 	ahkCmdName := ":*:@copyBackupJsUcore"
@@ -3409,116 +3434,116 @@ Return
 		, "Couldn't copy backup copy of minified JS for UCORE website")
 Return
 
-; ············································································································
+; ··································································································
 
 :*:@copyMinJsUcrAss::
 	ahkCmdName := ":*:@copyMinJsUcrAss"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\ucore.wsu.edu-assessment\JS\wp-custom-js-source.min.js"
-		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.com/mishoo/"
-		. "UglifyJS]. Please see [https://github.com/invokeImmediately/ucore.wsu.edu-assessment] for a reposi"
-		. "tory of source code.`r`n"
+		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.c"
+		. "UglifyJS]. Please see [https://github.com/invokeImmediately/ucore.wsu.edu-assessment] fo"
+		. "r a reposiom/mishoo/tory of source code.`r`n"
 		. "// Third-party, open-source JavaScript plugins used by this website:`r`n"
-		. "//   FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatron5000/Fit"
-		. "//   Masonry JS, (c) David DeSandro 2016 | http://masonry.desandro.com/ | MIT license -- http://de"
-		. "sandro.mit-license.org/`r`n"
-		. "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- http://cre"
-		. "ativecommons.org/licenses/by/3.0/`r`n"
+		. "// FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatron"
+		. "5000/FitFitText.js`r`n// Masonry JS, (c) David DeSandro 2016 | http://masonry.desandro.c"
+		. "om/ | MIT license -- http://desandro.mit-license.org/`r`n"
+		. "// qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- ht"
+		. "tp://creativecommons.org/licenses/by/3.0/`r`n"
 		, "Couldn't Copy Minified JS for WSU Summer Research Website")
 Return
 
-; ············································································································
-; >>> FOR CHECKING GIT STATUS ON ALL PROJECTS  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ··································································································
+; >>> FOR CHECKING GIT STATUS ON ALL PROJECTS  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@checkGitStatus::
 	ahkCmdName := ":*:@checkGitStatus"
 	AppendAhkCmd(ahkCmdName)
 	PasteTextIntoGitShell(ahkCmdName
 		, "cd 'C:\Users\CamilleandDaniel\Documents\GitHub\'`r`n"
-		. "Write-Host '``n----------------------------------------------WSU-OUE-AutoHotkey------------------"
-		. "----------------------------' -ForegroundColor 'green'`r`n"
+		. "Write-Host '``n----------------------------------------------WSU-OUE-AutoHotkey---------"
+		. "-------------------------------------' -ForegroundColor 'green'`r`n"
 		. "cd 'C:\Users\CamilleandDaniel\Documents\GitHub\WSU-OUE-AutoHotkey\'`r`n"
 		. "git status`r`n"
 		. "cd 'C:\Users\CamilleandDaniel\Documents\GitHub\'`r`n"
-		. "Write-Host '``n------------------------------------------------WSU-OUE---CSS---------------------"
-		. "----------------------------' -ForegroundColor 'green'`r`n"
+		. "Write-Host '``n------------------------------------------------WSU-OUE---CSS------------"
+		. "-------------------------------------' -ForegroundColor 'green'`r`n"
 		. "cd 'C:\Users\CamilleandDaniel\Documents\GitHub\WSU-UE---CSS\'`r`n"
 		. "git status`r`n"
 		. "cd 'C:\Users\CamilleandDaniel\Documents\GitHub\'`r`n"
-		. "Write-Host '``n-------------------------------------------------WSU-OUE---JS---------------------"
-		. "----------------------------' -ForegroundColor 'green'`r`n"
+		. "Write-Host '``n-------------------------------------------------WSU-OUE---JS------------"
+		. "-------------------------------------' -ForegroundColor 'green'`r`n"
 		. "cd 'C:\Users\CamilleandDaniel\Documents\GitHub\WSU-UE---JS\'`r`n"
 		. "git status`r`n"
 		. "cd 'C:\Users\CamilleandDaniel\Documents\GitHub\'`r`n"
-		. "Write-Host '``n-------------------------------------------------ascc.wsu.edu---------------------"
-		. "----------------------------' -ForegroundColor 'green'`r`n"
+		. "Write-Host '``n-------------------------------------------------ascc.wsu.edu------------"
+		. "-------------------------------------' -ForegroundColor 'green'`r`n"
 		. "cd 'C:\Users\CamilleandDaniel\Documents\GitHub\ascc.wsu.edu\'`r`n"
 		. "git status`r`n"
 		. "cd 'C:\Users\CamilleandDaniel\Documents\GitHub\'`r`n"
-		. "Write-Host '``n--------------------------------------------commonreading.wsu.edu-----------------"
-		. "----------------------------' -ForegroundColor 'green'`r`n"
+		. "Write-Host '``n--------------------------------------------commonreading.wsu.edu--------"
+		. "-------------------------------------' -ForegroundColor 'green'`r`n"
 		. "cd 'C:\Users\CamilleandDaniel\Documents\GitHub\commonreading.wsu.edu\'`r`n"
 		. "git status`r`n"
 		. "cd 'C:\Users\CamilleandDaniel\Documents\GitHub\'`r`n"
-		. "Write-Host '``n--------------------------------------distinguishedscholarships.wsu.edu-----------"
-		. "----------------------------' -ForegroundColor 'green'`r`n"
+		. "Write-Host '``n--------------------------------------distinguishedscholarships.wsu.edu--"
+		. "-------------------------------------' -ForegroundColor 'green'`r`n"
 		. "cd 'C:\Users\CamilleandDaniel\Documents\GitHub\distinguishedscholarships.wsu.edu\'`r`n"
 		. "git status`r`n"
 		. "cd 'C:\Users\CamilleandDaniel\Documents\GitHub\'`r`n"
-		. "Write-Host '``n----------------------------------------------firstyear.wsu.edu-------------------"
-		. "----------------------------' -ForegroundColor 'green'`r`n"
+		. "Write-Host '``n----------------------------------------------firstyear.wsu.edu----------"
+		. "-------------------------------------' -ForegroundColor 'green'`r`n"
 		. "cd 'C:\Users\CamilleandDaniel\Documents\GitHub\firstyear.wsu.edu\'`r`n"
 		. "git status`r`n"
 		. "cd 'C:\Users\CamilleandDaniel\Documents\GitHub\'`r`n"
-		. "Write-Host '``n-----------------------------------------learningcommunities.wsu.edu--------------"
-		. "----------------------------' -ForegroundColor 'green'`r`n"
+		. "Write-Host '``n-----------------------------------------learningcommunities.wsu.edu-----"
+		. "-------------------------------------' -ForegroundColor 'green'`r`n"
 		. "cd 'C:\Users\CamilleandDaniel\Documents\GitHub\learningcommunities.wsu.edu\'`r`n"
 		. "git status`r`n"
 		. "cd 'C:\Users\CamilleandDaniel\Documents\GitHub\'`r`n"
-		. "Write-Host '``n-------------------------------------------------oue.wsu.edu----------------------"
-		. "----------------------------' -ForegroundColor 'green'`r`n"
+		. "Write-Host '``n-------------------------------------------------oue.wsu.edu-------------"
+		. "-------------------------------------' -ForegroundColor 'green'`r`n"
 		. "cd 'C:\Users\CamilleandDaniel\Documents\GitHub\oue.wsu.edu\'`r`n"
 		. "git status`r`n"
 		. "cd 'C:\Users\CamilleandDaniel\Documents\GitHub\'`r`n"
-		. "Write-Host '``n------------------------------------------------surca.wsu.edu---------------------"
-		. "----------------------------' -ForegroundColor 'green'`r`n"
+		. "Write-Host '``n------------------------------------------------surca.wsu.edu------------"
+		. "-------------------------------------' -ForegroundColor 'green'`r`n"
 		. "cd 'C:\Users\CamilleandDaniel\Documents\GitHub\surca.wsu.edu\'`r`n"
 		. "git status`r`n"
 		. "cd 'C:\Users\CamilleandDaniel\Documents\GitHub\'`r`n"
-		. "Write-Host '``n----------------------------------------undergraduateresearch.wsu.edu-------------"
-		. "----------------------------' -ForegroundColor 'green'`r`n"
+		. "Write-Host '``n----------------------------------------undergraduateresearch.wsu.edu----"
+		. "-------------------------------------' -ForegroundColor 'green'`r`n"
 		. "cd 'C:\Users\CamilleandDaniel\Documents\GitHub\undergraduateresearch.wsu.edu\'`r`n"
 		. "git status`r`n"
 		. "cd 'C:\Users\CamilleandDaniel\Documents\GitHub\'`r`n"
-		. "Write-Host '``n--------------------------------------------transfercredit.wsu.edu----------------"
-		. "----------------------------' -ForegroundColor 'green'`r`n"
+		. "Write-Host '``n--------------------------------------------transfercredit.wsu.edu-------"
+		. "-------------------------------------' -ForegroundColor 'green'`r`n"
 		. "cd 'C:\Users\CamilleandDaniel\Documents\GitHub\transfercredit.wsu.edu\'`r`n"
 		. "git status`r`n"
 		. "cd 'C:\Users\CamilleandDaniel\Documents\GitHub\'`r`n"
-		. "Write-Host '``n--------------------------------------------summerresearch.wsu.edu----------------"
-		. "----------------------------' -ForegroundColor 'green'`r`n"
+		. "Write-Host '``n--------------------------------------------summerresearch.wsu.edu-------"
+		. "-------------------------------------' -ForegroundColor 'green'`r`n"
 		. "cd 'C:\Users\CamilleandDaniel\Documents\GitHub\summerresearch.wsu.edu\'`r`n"
 		. "git status`r`n"
 		. "cd 'C:\Users\CamilleandDaniel\Documents\GitHub\'`r`n"
-		. "Write-Host '``n------------------------------------------------ucore.wsu.edu---------------------"
-		. "----------------------------' -ForegroundColor 'green'`r`n"
+		. "Write-Host '``n------------------------------------------------ucore.wsu.edu------------"
+		. "-------------------------------------' -ForegroundColor 'green'`r`n"
 		. "cd 'C:\Users\CamilleandDaniel\Documents\GitHub\ucore.wsu.edu\'`r`n"
 		. "git status`r`n"
 		. "cd 'C:\Users\CamilleandDaniel\Documents\GitHub\'`r`n"
-		. "Write-Host '``n-------------------------------------------ucore.wsu.edu/assessment---------------"
-		. "----------------------------' -ForegroundColor 'green'`r`n"
+		. "Write-Host '``n-------------------------------------------ucore.wsu.edu/assessment------"
+		. "-------------------------------------' -ForegroundColor 'green'`r`n"
 		. "cd 'C:\Users\CamilleandDaniel\Documents\GitHub\ucore.wsu.edu-assessment\'`r`n"
 		. "git status`r`n"
 		. "cd 'C:\Users\CamilleandDaniel\Documents\GitHub\'`r`n")
 Return
 
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 ; KEYBOARD SHORTCUTS FOR POWERSHELL
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 
-; ············································································································
-; >>> SHORTCUTS  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ··································································································
+; >>> SHORTCUTS  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^+v::	
 	if (IsGitShellActive()) {
@@ -3528,7 +3553,7 @@ Return
 	}
 Return
 
-; ············································································································
+; ··································································································
 
 ~^+Backspace::
 	if (IsGitShellActive()) {
@@ -3536,7 +3561,7 @@ Return
 	}
 Return
 
-; ············································································································
+; ··································································································
 
 ~^+Delete::
 	if (IsGitShellActive()) {
@@ -3544,8 +3569,8 @@ Return
 	}
 Return
 
-; ············································································································
-; >>> SUPPORTING FUNCTIONS ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ··································································································
+; >>> SUPPORTING FUNCTIONS ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 PerformBypassingCtrlShftV:
 	Suspend
