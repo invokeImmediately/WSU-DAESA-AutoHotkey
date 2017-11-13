@@ -110,6 +110,8 @@ If not A_IsAdmin
 ;   WORKSPACE MANAGEMENT
 ; ---------------------------------------------------------------------------------------------------------------------------
 
+#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\virtualDesktops.ahk
+
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\workspaceMngmnt.ahk
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---

@@ -17,6 +17,8 @@ MainSubroutine:
 	LoadCommitCssLessMsgHistory()
 	LoadCommitAnyFileMsgHistory()
 	SetupLogAutoSaving()
+	mapDesktopsFromRegistry()
+	OutputDebug, [loading] desktops: %DesktopCount% current: %CurrentDesktop%
 	OnExit("ScriptExitFunc")
 	SoundPlay, %scriptLoadedSound%
 	MsgBox, % "Script has been loaded."

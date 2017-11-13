@@ -59,54 +59,45 @@ return
 ; ············································································································
 
 ^!F1::
-    SendInput #{Tab}
-    Sleep 330
-    SendInput {Tab}{Enter}
+	switchDesktopByNumber(1)
 	SoundPlay, %desktopSwitchingSound%
 Return
 
 ; ············································································································
 
 ^!F2::
-    SendInput, #{Tab}
-    Sleep, 330
-    SendInput, {Tab}{Right}{Enter}
+	switchDesktopByNumber(2)
 	SoundPlay, %desktopSwitchingSound%
 Return
 
 ; ············································································································
 
 ^!F3::
-    SendInput #{Tab}
-    Sleep 330
-    SendInput {Tab}{Right}{Right}{Enter}
+	switchDesktopByNumber(3)
 	SoundPlay, %desktopSwitchingSound%
 Return
 
 ; ············································································································
 
 ^!F4::
-    SendInput #{Tab}
-    Sleep 330
-    SendInput {Tab}{Right}{Right}{Right}{Enter}
+	switchDesktopByNumber(4)
 	SoundPlay, %desktopSwitchingSound%
 Return
 
 ; ············································································································
 
 ^!F5::
-    SendInput #{Tab}
-    Sleep 330
-    SendInput {Tab}{Right}{Right}{Right}{Right}{Enter}
+	switchDesktopByNumber(5)
 	SoundPlay, %desktopSwitchingSound%
 Return
 
 ; ············································································································
 
 ^!F6::
-    SendInput #{Tab}
-    Sleep 330
-    SendInput {Tab}{Right}{Right}{Right}{Right}{Right}{Enter}
+	switchDesktopByNumber(6)
+;	SendInput #{Tab}
+;	Sleep 330
+;	SendInput {Tab}{Right}{Right}{Right}{Right}{Right}{Enter}
 	SoundPlay, %desktopSwitchingSound%
 Return
 
