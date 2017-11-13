@@ -98,6 +98,8 @@ If not A_IsAdmin
 ;   IMPORT: COMMON FUNCTIONS
 ; ---------------------------------------------------------------------------------------------------------------------------
 
+#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\guiMsgBox.ahk
+
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\functions.ahk
 
 ; ---------------------------------------------------------------------------------------------------------------------------

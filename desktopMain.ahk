@@ -21,7 +21,8 @@ MainSubroutine:
 	OutputDebug, [loading] desktops: %DesktopCount% current: %CurrentDesktop%
 	OnExit("ScriptExitFunc")
 	SoundPlay, %scriptLoadedSound%
-	MsgBox, % "Script has been loaded."
+	newMsgBox := New GuiMsgBox("Script has been loaded.", Func("HandleGuiMsgBoxOk"), "ScriptLoaded")
+	newMsgBox.ShowGui()
 Return
 
 ; ------------------------------------------------------------------------------------------------------------

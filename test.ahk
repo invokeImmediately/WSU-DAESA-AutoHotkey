@@ -1,10 +1,72 @@
 ;testFunction(":*:@commitCssUgr", "undergraduateresearch.wsu.edu", "undergraduate-research-custom.less", "undergraduate-research-custom.css", "undergraduate-research-custom.min.css")
 
-testFunction5()
+#include %A_ScriptDir%\guiMsgBox.ahk
+
+testFunction9()
+
+testFunction9() {
+	testMsgBox := New GuiMsgBox("This is a test", Func("HandleGuiMsgBoxOk"))
+	testMsgBox2 := New GuiMsgBox("This is another test", Func("HandleGuiMsgBoxOk"), "Default2"
+		, "Oh look, a title!")
+	testMsgBox3 := New GuiMsgBox("This should wipe out the other box", Func("HandleGuiMsgBoxOk"))
+	testMsgBox.ShowGui()
+	testMsgBox2.ShowGui()
+	testMsgBox3.ShowGui()
+	MsgBox, Testing 4 5 6
+}
+
+testFunction8() {
+	junkObj := New Junk("testing 1 2 3")
+	junkObj.testMe()
+	ExitApp
+}
+
+class Junk
+{
+	myStr := ""
+	__New(str) {
+		this.myStr := str
+	}
+	testMe() {
+		str := this.myStr
+		MsgBox %str%
+	}
+}
+
+testFunction7(Name) {
+	gGuiName := Name
+	Gui gui%Name%: New
+	Gui gui%Name%: Add, Text, , % "This is a test."
+	Gui gui%Name%: Add, Button, gHandleOkButtonPress, % "&Ok"
+	Gui gui%Name%: Show, w500, % Name
+}
+
+HandleOkButtonPress() {
+	Gui guiSendMsg: Submit
+	Gui guiSendMsg: Destroy
+	SetTimer, ExitTimer, -1000
+}
+
+ExitTimer() {
+	MsgBox, Exiting now.
+	ExitApp
+}
+
+testFunction6() {
+	value := "This is our test's ""string""; it should be displayed right now with escaped quotation marks"
+	escapedValue := EscapeCommitMessage(value)
+	MsgBox, % escapedValue
+	ExitApp
+}
+
+EscapeCommitMessage(msgToEscape) {
+	escapedMsg := RegExReplace(msgToEscape, "m)('|"")", "\$1")
+	return escapedMsg
+}
 
 testFunction5() {
 	value1 := 5
-	value2 := "This is a string"
+	value2 := "'This is a test's ""string"""
 	testObj := { one: value1, two: value2 }
 	MsgBox, % "One: " . testObj.one . "`nTwo: " . testObj.two
 	ExitApp
