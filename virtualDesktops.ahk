@@ -110,6 +110,52 @@ switchDesktopByNumber(targetDesktop)
 	SetKeyDelay, prevKeyDelay
 }
 
+moveActiveWindowToVirtualDesktop(targetDesktop) {
+	global CurrentDesktop
+	global DesktopCount
+	prevKeyDelay := A_KeyDelay
+
+	; Re-generate the list of desktops and where we fit in that. We do this because
+	; the user may have switched desktops via some other means than the script.
+	mapDesktopsFromRegistry()
+	
+	; Don't attempt to move to an invalid desktop
+	if (targetDesktop > DesktopCount || targetDesktop < 1) {
+		OutputDebug, [invalid] target: %targetDesktop% current: %CurrentDesktop%
+		return
+	}
+	
+	; No need to move a window that's already located on the targeted desktop; otherwise, prep the
+	; interface for movement of the window
+	if (CurrentDesktop == targetDesktop) {
+		return
+	} else {
+		if (IsWindowOnLeftDualMonitor()) {
+			SendInput, #{Tab}
+			Sleep, 400
+			SendInput, {Tab 2}{AppsKey}{m}
+		} else {
+			SendInput, #{Tab}
+			Sleep, 400
+			SendInput, {AppsKey}{m}
+		}
+	}
+
+	SetKeyDelay, 75
+	
+	iDesktop := 1
+	while(iDesktop < targetDesktop) {
+		if (iDesktop != CurrentDesktop) {
+			Send {Down}
+		}
+		iDesktop++
+	}
+	Send {Enter}
+	Send #{Tab}
+
+	SetKeyDelay, prevKeyDelay
+}
+
 createVirtualDesktop() {
 	global CurrentDesktop, DesktopCount
 	prevKeyDelay := A_KeyDelay

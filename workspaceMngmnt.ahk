@@ -363,102 +363,48 @@ return
 ; ------------------------------------------------------------------------------------------------------------
 
 ^!1::
-    if (IsWindowOnLeftDualMonitor()) {
-        SendInput, #{Tab}
-        Sleep, 400
-        SendInput, {Tab 2}{AppsKey}{m}{Enter}
-        Sleep, 120
-        SendInput, #{Tab}
-    }
-    else {
-        SendInput, #{Tab}
-        Sleep, 400
-        SendInput, {AppsKey}{m}{Enter}
-        Sleep, 120
-        SendInput, #{Tab}
-    }
+	moveActiveWindowToVirtualDesktop(1)
 	SoundPlay, %windowShiftingSound%
 return
-
-; ············································································································
 
 ^!2::
-    if (IsWindowOnLeftDualMonitor()) {
-        SendInput, #{Tab}
-        Sleep, 400
-        SendInput, {Tab 2}{AppsKey}{m}{Down}{Enter}
-        Sleep, 120
-        SendInput, #{Tab}
-    }
-    else {
-        SendInput, #{Tab}
-        Sleep, 400
-        SendInput, {AppsKey}{m}{Down}{Enter}
-        Sleep, 120
-        SendInput, #{Tab}
-    }
+	moveActiveWindowToVirtualDesktop(2)
 	SoundPlay, %windowShiftingSound%
 return
-
-; ············································································································
 
 ^!3::
-    if (IsWindowOnLeftDualMonitor()) {
-        SendInput, #{Tab}
-        Sleep, 400
-        SendInput, {Tab 2}{AppsKey}{m}{Down 2}{Enter}
-        Sleep, 120
-        SendInput, #{Tab}
-    }
-    else {
-        SendInput, #{Tab}
-        Sleep, 400
-        SendInput, {AppsKey}{m}{Down 2}{Enter}
-        Sleep, 120
-        SendInput, #{Tab}
-    }
+	moveActiveWindowToVirtualDesktop(3)
 	SoundPlay, %windowShiftingSound%
 return
-
-; ············································································································
 
 ^!4::
-    if (IsWindowOnLeftDualMonitor()) {
-        SendInput, #{Tab}
-        Sleep, 400
-        SendInput, {Tab 2}{AppsKey}{m}{Down 3}{Enter}
-        Sleep, 120
-        SendInput, #{Tab}
-    }
-    else {
-        SendInput, #{Tab}
-        Sleep, 400
-        SendInput, {AppsKey}{m}{Down 3}{Enter}
-        Sleep, 120
-        SendInput, #{Tab}
-    }
+	moveActiveWindowToVirtualDesktop(4)
 	SoundPlay, %windowShiftingSound%
 return
-
-; ············································································································
 
 ^!5::
-    if (IsWindowOnLeftDualMonitor()) {
-        SendInput, #{Tab}
-        Sleep, 400
-        SendInput, {Tab 2}{AppsKey}{m}{Down 4}{Enter}
-        Sleep, 120
-        SendInput, #{Tab}
-    }
-    else {
-        SendInput, #{Tab}
-        Sleep, 400
-        SendInput, {AppsKey}{m}{Down 4}{Enter}
-        Sleep, 120
-        SendInput, #{Tab}
-    }
+	moveActiveWindowToVirtualDesktop(5)
+    ; if (IsWindowOnLeftDualMonitor()) {
+        ; SendInput, #{Tab}
+        ; Sleep, 400
+        ; SendInput, {Tab 2}{AppsKey}{m}{Down 4}{Enter}
+        ; Sleep, 120
+        ; SendInput, #{Tab}
+    ; }
+    ; else {
+        ; SendInput, #{Tab}
+        ; Sleep, 400
+        ; SendInput, {AppsKey}{m}{Down 4}{Enter}
+        ; Sleep, 120
+        ; SendInput, #{Tab}
+    ; }
 	SoundPlay, %windowShiftingSound%
 return
+
+^!6::
+	moveActiveWindowToVirtualDesktop(6)
+	SoundPlay, %windowShiftingSound%
+Return
 
 ; ------------------------------------------------------------------------------------------------------------
 ;   AUDITORY CUE BINDING
