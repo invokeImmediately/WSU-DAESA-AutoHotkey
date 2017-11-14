@@ -151,7 +151,8 @@ moveActiveWindowToVirtualDesktop(targetDesktop) {
 		iDesktop++
 	}
 	Send {Enter}
-	Send #{Tab}
+	Sleep, 120
+	SendInput, #{Tab}
 
 	SetKeyDelay, prevKeyDelay
 }
