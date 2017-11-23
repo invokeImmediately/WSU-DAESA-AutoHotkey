@@ -47,30 +47,31 @@ class Trie {
 	}
 
 	GetWordsArray(key := "") {
-		wordsList :=False
+		wordsArray := False
 		if (key == "" || key == this.node) {
-			wordsList := Object()
+			wordsArray := Object()
 			trieArray := this.children
 			; Proceed only if node value is contained within key
 			For key, subTrie in trieArray
 			{
 				if (subTrie.isEndOfWord) {
-					wordsList.Push(subTrie.node)
+					wordsArray.Push(subTrie.node)
 				}
-				childWordsList := subTrie.GetWordsArray()
-				For key, value in childWordsList
+				childWordsArray := subTrie.GetWordsArray()
+				For key, value in childWordsArray
 				{
-					wordsList.Push(value)				
+					wordsArray.Push(value)				
 				}
 			}
 		} else {
 			subTrie := this.Search(key)
 			if (subTrie) {
-				wordsList := subTrie.GetWordsArray()
+				wordsArray := subTrie.GetWordsArray()
 			}
 		}
-		return wordsList
+		return wordsArray
 	}
+
 	children[]
 	{
 		get {
@@ -80,6 +81,7 @@ class Trie {
 			return this._children := value
 		}
 	}
+
 	node[]
 	{
 		get {
@@ -89,6 +91,7 @@ class Trie {
 			return this._node := value
 		}
 	}
+
 	isEndOfWord[]
 	{
 		get {
