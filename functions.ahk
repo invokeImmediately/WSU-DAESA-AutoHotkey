@@ -1,20 +1,20 @@
-; ============================================================================================================
+; ==================================================================================================
 ; AUTOHOTKEY SCRIPT IMPORT for Working with Github Desktop for Windows
-; ============================================================================================================
+; ==================================================================================================
 ; IMPORT DEPENDENCIES
 ;   This file has no import dependencies.
-; ============================================================================================================
+; ==================================================================================================
 ; IMPORT ASSUMPTIONS
 ;   This file makes no import assumptions.
-; ============================================================================================================
+; ==================================================================================================
 ; AUTOHOTKEY SEND LEGEND
 ; ! = ALT     + = SHIFT     ^ = CONTROL     # = WIN
 ; (see https://autohotkey.com/docs/commands/Send.htm for more info)
-; ============================================================================================================
+; ==================================================================================================
 
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 ; General FUNCTIONS used for multiple purposes
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 
 isTargetProcessActive(targetProcess, caller := "", notActiveErrMsg := "") {
 	WinGet, thisWin, ProcessName, A
@@ -25,31 +25,31 @@ isTargetProcessActive(targetProcess, caller := "", notActiveErrMsg := "") {
 	return targetProcessIsActive
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 doesVarExist(ByRef v) { ; Requires 1.0.46+ 
     return &v = &undeclared ? 0 : 1 
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 isVarEmpty(ByRef v) { ; Requires 1.0.46+ 
     return v = "" ? 1 : 0 
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 isVarDeclared(ByRef v) { ; Requires 1.0.46+ 
     return &v = &undeclared ? 0 : v = "" ? 0 : 1
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ErrorBox(whichFunc, errorMsg) {
 	MsgBox, % 0x10, % "Error in " . whichFunc, % errorMsg
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 InsertFilePath(ahkCmdName, filePath, headerStr:="") {
 	global lineLength
@@ -78,10 +78,15 @@ InsertFilePath(ahkCmdName, filePath, headerStr:="") {
     }
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-LaunchApplicationPatiently(path, title)
+LaunchApplicationPatiently(path, title, matchMode := 2)
 {
+	oldMatchMode := 0
+	if (A_TitleMatchMode != matchMode) {
+		oldMatchMode := A_TitleMatchMode
+		SetTitleMatchMode, % matchMode
+	}
     Run % path
     isReady := false
     while !isReady
@@ -96,12 +101,20 @@ LaunchApplicationPatiently(path, title)
             Sleep, 250
         }
     }
+    if (oldMatchMode) {
+    	SetTitleMatchMode, % oldMatchMode
+    }
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-LaunchStdApplicationPatiently(path, title)
+LaunchStdApplicationPatiently(path, title, matchMode := 2)
 {
+	oldMatchMode := 0
+	if (A_TitleMatchMode != matchMode) {
+		oldMatchMode := A_TitleMatchMode
+		SetTitleMatchMode, % matchMode
+	}
 	Run, % "explorer.exe """ . path . """"
     isReady := false
     while !isReady
@@ -116,9 +129,12 @@ LaunchStdApplicationPatiently(path, title)
             Sleep, 250
         }
     }
+    if (oldMatchMode) {
+    	SetTitleMatchMode, % oldMatchMode
+    }
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 MoveCursorIntoActiveWindow(ByRef curPosX, ByRef curPosY)
 {
@@ -142,7 +158,7 @@ GetCursorCoordsToCenterInActiveWindow(ByRef newPosX, ByRef newPosY)
 	newPosY := winH / 2
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 PasteText(txtToPaste) {
 	if (clipboard != txtToPaste) {
@@ -152,7 +168,7 @@ PasteText(txtToPaste) {
 	SendInput, % "^v"
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 WaitForApplicationPatiently(title)
 {
@@ -171,7 +187,7 @@ WaitForApplicationPatiently(title)
     }
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 WriteCodeToFile(hsCaller, srcCode, srcFileToOverwrite) {
 	errorMsg := ""
@@ -194,9 +210,9 @@ WriteCodeToFile(hsCaller, srcCode, srcFileToOverwrite) {
 	}
 }
 
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 ; SORTING functions
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 
 InsertionSort(ByRef arrayObj, l, r) {
 	i := r
@@ -221,7 +237,7 @@ InsertionSort(ByRef arrayObj, l, r) {
 	}
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 Merge(ByRef arrayObj, l, m, r) {
 	arrayAux := Object()
@@ -246,7 +262,7 @@ Merge(ByRef arrayObj, l, m, r) {
 	}
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 MergeSort(ByRef arrayObj, l, r) {
 	if (r > l) {
@@ -261,36 +277,38 @@ MergeSort(ByRef arrayObj, l, r) {
 	}
 }
 
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 ; UTILITY FUNCTIONS: For working with AutoHotkey
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 
 :*:@checkIsUnicode::
 	AppendAhkCmd(":*:@checkIsUnicode")
-	Msgbox % "v" . A_AhkVersion . " " . (A_PtrSize = 4 ? 32 : 64) . "-bit " . (A_IsUnicode ? "Unicode" : "ANSI") . " " . (A_IsAdmin ? "(Admin mode)" : "(Not Admin)")
+	Msgbox % "v" . A_AhkVersion . " " . (A_PtrSize = 4 ? 32 : 64) . "-bit " 
+		. (A_IsUnicode ? "Unicode" : "ANSI") . " " . (A_IsAdmin ? "(Admin mode)" : "(Not Admin)")
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@getCurrentVersion::
 	MsgBox % "Current installed version of AHK: " . A_AhkVersion
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@getLastHotStrTime::
 	MsgBox % "The last hotstring took " . (hotStrEndTime - hotStrStartTime) . "ms to run."
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@getMousePos::
 	AppendAhkCmd(":*:@getMousePos")
 	MouseGetPos, windowMousePosX, windowMousePosY
-	MsgBox % "The mouse cursor is at {x = " . windowMousePosX . ", y = " . windowMousePosY . "} relative to the window."
+	MsgBox % "The mouse cursor is at {x = " . windowMousePosX . ", y = " . windowMousePosY 
+		. "} relative to the window."
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@getWinHwnd::
 	AppendAhkCmd(":*:@getWinHwnd")
@@ -298,7 +316,7 @@ Return
 	MsgBox, % "The active window ID (HWND) is " . thisHwnd
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@getWinPID::
 	AppendAhkCmd(":*:@getWinPID")
@@ -306,15 +324,16 @@ Return
 	MsgBox, % "The active window PID is " . thisPID
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@getWinPos::
 	AppendAhkCmd(":*:@getWinPos")
 	WinGetPos, thisX, thisY, thisW, thisH, A
-	MsgBox, % "The active window is at coordinates " . thisX . ", " . thisY . "`rWindow's width = " . thisW . ", height = " . thisH
+	MsgBox, % "The active window is at coordinates " . thisX . ", " . thisY . "`rWindow's width = " 
+		. thisW . ", height = " . thisH
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@getWinProcess::
 	AppendAhkCmd(":*:@getWinProcess")
@@ -322,7 +341,7 @@ Return
 	MsgBox, % "The active window process name is " . thisProcess
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@getWinTitle::
 	AppendAhkCmd(":*:@getWinTitle")
@@ -330,7 +349,7 @@ Return
 	MsgBox, The active window is "%thisTitle%"
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^+F1::
 ^!Numpad1::
@@ -338,7 +357,7 @@ Return
 	MsgBox % "The clipboard is " . clpbrdLngth . " characters long."
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^+F2::
 ^!Numpad2::
@@ -348,7 +367,7 @@ Return
 	SendInput, ^v
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ^!q::
 	IfWinExist % "Untitled - Notepad"
@@ -357,11 +376,12 @@ Return
 		Run Notepad
 Return
 
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 ; Desktop Management Functions
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 
-GetActiveMonitorWorkArea(ByRef monitorFound, ByRef monitorALeft, ByRef monitorATop, ByRef monitorARight, ByRef monitorABottom) {
+GetActiveMonitorWorkArea(ByRef monitorFound, ByRef monitorALeft, ByRef monitorATop
+		, ByRef monitorARight, ByRef monitorABottom) {
     global
 	local thisWinX
 	local thisWinY
