@@ -7,19 +7,17 @@
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
-; FUNCTIONS
+; HOTSTRINGS & SUPPORTING FUNCTIONS
 ; --------------------------------------------------------------------------------------------------
 
 :*:@setupWorkEnvironment::
 	Gosub, :*:@setupVirtualDesktops
-	SendInput, #{Tab}
-	Sleep, 330
-	SendInput, {Tab}{Enter}
-	Sleep, 330
+	switchDesktopByNumber(1)
 	Gosub, % ":*:@setupCiscoVpn"
 	Sleep 330
 	SoundPlay, %desktopArrangedSound%
 	Gosub, % ":*:@setupWorkTimer"
+	switchDesktopByNumber(5)
 Return
 
 :*:@setupVirtualDesktops::
@@ -50,7 +48,7 @@ Return
 	switchDesktopByNumber(1)
 	Sleep, 150
 	Gosub, :*:@moveTempMonitors
-	Gosub, :*:@startNotepadPp
+	Gosub, :*:@startSublimeText3
 	Gosub, :*:@startChrome
 Return
 
@@ -69,26 +67,26 @@ Return
 
 Return
 
-:*:@startNotepadPp::
+:*:@startSublimeText3::
 
-	; Start up Notepad++, open a second instance, and send the initial, primary instance to desktop 
-	; #2
-	AppendAhkCmd(":*:@startNotepadPp")
-	LaunchApplicationPatiently("C:\Program Files\Notepad++\notepad++.exe"
-		, "C:\Users ahk_exe notepad++.exe")
-	Sleep, 3000
-	WinActivate, % "C:\Users ahk_exe notepad++.exe"
-	Sleep, 100
-	SendInput, ^{End}
+	; Start up Sublime Text, open a new window, and send the initial, primary instance to desktop #2
+	AppendAhkCmd(":*:@startSublimeText3")
+	titleToMatch = Sublime Text ahk_exe sublime_text\.exe
+	LaunchApplicationPatiently("C:\Program Files\Sublime Text 3\sublime_text.exe"
+		, titleToMatch, "RegEx")
+	Sleep, 150
+	SetTitleMatchMode, RegEx
+	WinActivate, % titleToMatch
+	SetTitleMatchMode, 2
+	Sleep, 75
+	SendInput, ^+n
 	Sleep, 500
-	SendInput, !+{F6}
-	Sleep, 3000
 	SendInput, !{Tab}
 	Sleep, 750
 	moveActiveWindowToVirtualDesktop(2)
 	Sleep, 750
 	Gosub % "^F8"
-	Sleep, 500
+	Sleep, 300
 
 Return
 
@@ -224,13 +222,19 @@ Return
 	Sleep, 100
 	SendInput, !{d}
 	Sleep, 100
-	SendInput, % "biblegateway.com{Enter}"
+	SendInput, % "sfgate.com{Enter}"
 	Sleep, 330
 	SendInput, ^t
 	Sleep, 100
 	SendInput, !{d}
 	Sleep, 100
-	SendInput, % "sfgate.com{Enter}"
+	SendInput, % "news.wsu.edu{Enter}"
+	Sleep, 330
+	SendInput, ^t
+	Sleep, 100
+	SendInput, !{d}
+	Sleep, 100
+	SendInput, % "dailyevergreen.com{Enter}"
 	Sleep, 330
 	SendInput, ^t
 	Sleep, 100
@@ -297,6 +301,18 @@ Return
 	Sleep, 330
 	SendInput, !{d}
 	Sleep, 100
+	SendInput, % "biblegateway.com{Enter}"
+	Sleep, 330
+	SendInput, ^t
+	Sleep, 100
+	SendInput, !{d}
+	Sleep, 100
+	SendInput, % "hebrew4christians.com{Enter}"
+	Sleep, 330
+	SendInput, ^t
+	Sleep, 100
+	SendInput, !{d}
+	Sleep, 100
 	SendInput, % "scripturetyper.com{Enter}"
 	Sleep, 330
 	SendInput, ^t
@@ -309,6 +325,31 @@ Return
 	Sleep, 1000
 	WinRestore, % "Free Bible ahk_exe chrome.exe"
 	WinMove, % "Free Bible ahk_exe chrome.exe", , 136, 88, 1648, 874
+Return
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+
+:*:@startNotepadPp::
+
+	; Start up Notepad++, open a second instance, and send the initial, primary instance to desktop 
+	; #2
+	AppendAhkCmd(":*:@startNotepadPp")
+	LaunchApplicationPatiently("C:\Program Files\Notepad++\notepad++.exe"
+		, "C:\Users ahk_exe notepad++.exe")
+	Sleep, 3000
+	WinActivate, % "C:\Users ahk_exe notepad++.exe"
+	Sleep, 100
+	SendInput, ^{End}
+	Sleep, 500
+	SendInput, !+{F6}
+	Sleep, 3000
+	SendInput, !{Tab}
+	Sleep, 750
+	moveActiveWindowToVirtualDesktop(2)
+	Sleep, 750
+	Gosub % "^F8"
+	Sleep, 500
+
 Return
 
 ; --------------------------------------------------------------------------------------------------
