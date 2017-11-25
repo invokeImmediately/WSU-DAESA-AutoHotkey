@@ -239,6 +239,19 @@ InsertionSort(ByRef arrayObj, l, r) {
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
+MergeSort(ByRef arrayObj, l, r) {
+	if (r > l) {
+		if (r - l <= 10) {
+			InsertionSort(arrayObj, l, r)
+		} else {
+			m := floor((r + l) / 2)
+			MergeSort(arrayObj, l, m)
+			MergeSort(arrayObj, m + 1, r)
+			Merge(arrayObj, l, m, r)
+		}
+	}
+}
+
 Merge(ByRef arrayObj, l, m, r) {
 	arrayAux := Object()
 	i := m + 1
@@ -259,21 +272,6 @@ Merge(ByRef arrayObj, l, m, r) {
 			arrayObj[k] := arrayAux[i++]
 		}
 		k++
-	}
-}
-
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
-
-MergeSort(ByRef arrayObj, l, r) {
-	if (r > l) {
-		if (r - l <= 10) {
-			InsertionSort(arrayObj, l, r)
-		} else {
-			m := floor((r + l) / 2)
-			MergeSort(arrayObj, l, m)
-			MergeSort(arrayObj, m + 1, r)
-			Merge(arrayObj, l, m, r)
-		}
 	}
 }
 
