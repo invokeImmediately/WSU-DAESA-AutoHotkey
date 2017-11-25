@@ -141,7 +141,7 @@ moveActiveWindowToVirtualDesktop(targetDesktop) {
 		}
 	}
 
-	SetKeyDelay, 75
+	SetKeyDelay, 100
 	
 	iDesktop := 1
 	while(iDesktop < targetDesktop) {
@@ -180,46 +180,3 @@ deleteVirtualDesktop() {
 	SetKeyDelay, prevKeyDelay
 	OutputDebug, [delete] desktops: %DesktopCount% current: %CurrentDesktop%
 }
-
-; User config!
-; This section binds the key combo to the switch/create/delete actions
-;LWin & 1::switchDesktopByNumber(1)
-;LWin & 2::switchDesktopByNumber(2)
-;LWin & 3::switchDesktopByNumber(3)
-;LWin & 4::switchDesktopByNumber(4)
-;LWin & 5::switchDesktopByNumber(5)
-;LWin & 6::switchDesktopByNumber(6)
-;LWin & 7::switchDesktopByNumber(7)
-;LWin & 8::switchDesktopByNumber(8)
-;LWin & 9::switchDesktopByNumber(9)
-;CapsLock & 1::switchDesktopByNumber(1)
-;CapsLock & 2::switchDesktopByNumber(2)
-;CapsLock & 3::switchDesktopByNumber(3)
-;CapsLock & 4::switchDesktopByNumber(4)
-;CapsLock & 5::switchDesktopByNumber(5)
-;CapsLock & 6::switchDesktopByNumber(6)
-;CapsLock & 7::switchDesktopByNumber(7)
-;CapsLock & 8::switchDesktopByNumber(8)
-;CapsLock & 9::switchDesktopByNumber(9)
-;CapsLock & n::switchDesktopByNumber(CurrentDesktop + 1)
-;CapsLock & p::switchDesktopByNumber(CurrentDesktop - 1)
-;CapsLock & s::switchDesktopByNumber(CurrentDesktop + 1)
-;CapsLock & a::switchDesktopByNumber(CurrentDesktop - 1)
-;CapsLock & c::createVirtualDesktop()
-;CapsLock & d::deleteVirtualDesktop()
-; Alternate keys for this config. Adding these because DragonFly (python) doesn't send CapsLock correctly.
-;^!1::switchDesktopByNumber(1)
-;^!2::switchDesktopByNumber(2)
-;^!3::switchDesktopByNumber(3)
-;^!4::switchDesktopByNumber(4)
-;^!5::switchDesktopByNumber(5)
-;^!6::switchDesktopByNumber(6)
-;^!7::switchDesktopByNumber(7)
-;^!8::switchDesktopByNumber(8)
-;^!9::switchDesktopByNumber(9)
-;^!n::switchDesktopByNumber(CurrentDesktop + 1)
-;^!p::switchDesktopByNumber(CurrentDesktop - 1)
-;^!s::switchDesktopByNumber(CurrentDesktop + 1)
-;^!a::switchDesktopByNumber(CurrentDesktop - 1)
-;^!c::createVirtualDesktop()
-;^!d::deleteVirtualDesktop()
