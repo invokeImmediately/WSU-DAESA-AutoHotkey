@@ -95,12 +95,14 @@ If not A_IsAdmin
 }
 
 ; ---------------------------------------------------------------------------------------------------------------------------
-;   IMPORT: COMMON FUNCTIONS
+;   IMPORT: COMMON FUNCTIONS & CLASSES
 ; ---------------------------------------------------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\guiMsgBox.ahk
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\functions.ahk
+
+#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\trie.ahk
 
 ; ---------------------------------------------------------------------------------------------------------------------------
 ;   COMMAND HISTORY
