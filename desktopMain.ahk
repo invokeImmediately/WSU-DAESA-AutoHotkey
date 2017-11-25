@@ -1,14 +1,14 @@
-; ============================================================================================================
+; ==================================================================================================
 ; DESKTOP: MAIN SUBROUTINE
-; ============================================================================================================
+; ==================================================================================================
 ; LEGEND
 ; ! = ALT     + = SHIFT     ^ = CONTROL     # = WIN
 ; (see https://autohotkey.com/docs/commands/Send.htm for more info)
-; ============================================================================================================
+; ==================================================================================================
 
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 ; MAIN SUBROUTINE
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 
 MainSubroutine:
 	SetGlobalVariables()
@@ -25,9 +25,9 @@ MainSubroutine:
 	newMsgBox.ShowGui()
 Return
 
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 ; STARTUP FUNCTIONS CALLED BY MAIN SUBROUTINE
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 
 SetGlobalVariables() {
 	SetNumMonitors()
@@ -67,11 +67,12 @@ SetWinBorders() {
 	SysGet, sysWinBorderH, %SM_CYSIZEFRAME%
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ListAhkFiles() {
 	global hsListPiped
 	global hsCount
+	global hsTrie := New Trie("", False)
 	FileList := Object()
 	
 	;Get list of file paths to AHK files
@@ -90,7 +91,8 @@ ListAhkFiles() {
 			foundPos := 1
 			foundLen := 0
 			while (foundPos > 0) {
-				foundPos := RegExMatch(fileContents, "Pm)^:R?\*:(@[^:]+)::", match, foundPos + foundLen)
+				foundPos := RegExMatch(fileContents, "Pm)^:R?\*:(@[^:]+)::", match
+					, foundPos + foundLen)
 				if (foundPos > 0) {
 					foundLen := match
 					foundHotString := SubStr(fileContents, matchPos1, matchLen1)
@@ -107,7 +109,9 @@ ListAhkFiles() {
 		hsList := SubStr(nextHotStr, 2, StrLen(nextHotStr) - 1)
 		while (allHotstrings.Length() > 0) {
 			nextHotStr := allHotStrings.RemoveAt(1)
-			hsList .= "`n" . SubStr(nextHotStr, 2, StrLen(nextHotStr) - 1)
+			nextHotStr := SubStr(nextHotStr, 2, StrLen(nextHotStr) - 1)
+			hsList .= "`n" . nextHotStr
+			hsTrie.Insert(nextHotStr)
 		}
 		hsListPiped := StrReplace(hsList, "`n", "|")
 		
@@ -122,20 +126,34 @@ ListAhkFiles() {
 	;TODO: Build a trie object for use with an autocomplete function.
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+:*:@PrintHsTrie::
+	PrintHsTrie()
+Return
+
+PrintHsTrie() {
+	global hsTrie
+	hsWordsArray := hsTrie.GetWordsArray()
+	MsgBox, % hsWordsArray[1]
+}
+
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 SetupLogAutoSaving() {
 	SetTimer, PerformScriptShutdownTasks, 900000 ; 1000 * 60 * 15 = 15 minutes
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 ReportMonitorDimensions() {
 	global
 	local msg := "The system has " . sysNumMonitors . " monitors."
 	Loop, % sysNumMonitors {
-		msg := msg . "`rMonitor #" . A_Index . " bounds: (" . mon%A_Index%Bounds_Left . ", " . mon%A_Index%Bounds_Top . "), (" . mon%A_Index%Bounds_Right . ", " . mon%A_Index%Bounds_Bottom . ")"
-		msg := msg . "`rMonitor #" . A_Index . " work area: (" . mon%A_Index%WorkArea_Left . ", " . mon%A_Index%WorkArea_Top . "), (" . mon%A_Index%WorkArea_Right . ", " . mon%A_Index%WorkArea_Bottom . ")"
+		msg .= "`rMonitor #" . A_Index . " bounds: (" . mon%A_Index%Bounds_Left . ", " 
+			. mon%A_Index%Bounds_Top . "), (" . mon%A_Index%Bounds_Right . ", " 
+			. mon%A_Index%Bounds_Bottom . ")"
+		msg .= "`rMonitor #" . A_Index . " work area: (" . mon%A_Index%WorkArea_Left . ", " 
+			. mon%A_Index%WorkArea_Top . "), (" . mon%A_Index%WorkArea_Right . ", " 
+			. mon%A_Index%WorkArea_Bottom . ")"
 	}
 	msg := msg . "`rWindow border thickness: (" . sysWinBorderW . "," . sysWinBorderH . ")"
 	MsgBox, % msg
