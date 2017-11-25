@@ -315,13 +315,14 @@ HandleInsBldrSctnOK() {
 ; >>> ESSENTIAL MARKUP BACKUP Hostring
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
-:*:@backupOueHtml::
+:*:@backupOuePage::
 	ahkThisCmd := A_ThisLabel
 	keyDelay := 100
 	webBrowserProcess := "chrome.exe"
 	correctTitleNeedle := "\| Washington State University"
 	viewSourceTitle := "view-source ahk_exe " . webBrowserProcess
 	sublimeTextTitle := "Sublime Text ahk_exe sublime_text.exe"
+	workingFilePath := "C:\Users\CamilleandDaniel\Documents\GitHub\backupOuePage-workfile.html"
 
 	AppendAhkCmd(ahkThisCmd)
 
@@ -380,6 +381,24 @@ HandleInsBldrSctnOK() {
 			Sleep, (%keyDelay% * 2)
 			Send, {Esc}
 			Send, ^v
+
+			; Save the contents to the working file
+			Send, ^+s
+			Sleep, (%keyDelay% * 5)
+			SendInput, % "{BackSpace}" . workingFilePath
+			Sleep, %keyDelay%
+			Send, {Enter}{Left}{Enter}
+			Sleep, (%keyDelay% * 5)
+
+			; Fix any problems with bad markup
+			Send, ^h
+			Sleep, (%keyDelay% * 2)
+			SendInput, % "(<br ?/?> ?)\n[\t ]{{}0,{}}"
+			Send, {Tab}^a{Del}
+			SendInput, % "\1"
+			Send, ^!{Enter}
+			Sleep, (%keyDelay% * 2)
+			Send, {Esc}{Right}
 
 			; Trigger the Beautify HTML package to clean up markup and prepare it for RegEx 
 			Send, ^!+f
