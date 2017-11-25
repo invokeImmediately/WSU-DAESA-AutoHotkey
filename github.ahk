@@ -1,4 +1,4 @@
-﻿; ==================================================================================================
+; ==================================================================================================
 ; AUTOHOTKEY SCRIPT IMPORT for Working with Github Desktop for Windows
 ; ==================================================================================================
 ; IMPORT DEPENDENCIES
@@ -240,7 +240,8 @@ LoadWordPressSiteInChrome(websiteUrl) {
 ; >>> GUI DRIVEN HOTSTRINGS --  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 :*:@postMinCss::
-	AppendAhkCmd(":*:@postMinCss")
+	thisAhkCmd := A_ThisLabel
+	AppendAhkCmd(thisAhkCmd)
 	if(!sgIsPostingMinCss) {
 		Gui, guiPostMinCss: New,, % "Post Minified CSS to OUE Websites"
 		Gui, guiPostMinCss: Add, Text, , % "Post minified CSS in:"
@@ -387,7 +388,8 @@ PasteMinCssToWebsite(websiteUrl, cssCopyCmd, manualProcession := false) {
 ; ··································································································
 
 :*:@postBackupCss::
-	AppendAhkCmd(":*:@postBackupCss")
+	thisAhkCmd := A_ThisLabel
+	AppendAhkCmd(thisAhkCmd)
 	if(!sgIsPostingBackupCss) {
 		Gui, guiPostBackupCss: New,
 			, % "Post Minified CSS to OUE Websites"
@@ -528,7 +530,8 @@ HandlePostBackupCssOK() {
 ; ··································································································
 
 :*:@postMinJs::
-	AppendAhkCmd(":*:@postMinJs")
+	thisAhkCmd := A_ThisLabel
+	AppendAhkCmd(thisAhkCmd)
 	if(!sgIsPostingMinJs) {
 		Gui, guiPostMinJs: New,
 			, % "Post Minified JS to OUE Websites"
@@ -829,18 +832,28 @@ Return
 ; >>> FILE COMMITTING
 ; ··································································································
 
-:*:@grabGitCommitLog::
-	thisAhkCmd :=":*:@grabGitCommitLog" 
+:*:@getGitCommitLog::
+	thisAhkCmd := A_ThisLabel
 
 	AppendAhkCmd(thisAhkCmd)
 	PasteTextIntoGitShell(thisAhkCmd, "git log -p --since='last month' "
-		. "--pretty=format:'%h|%an|%ar|%s|%b' > git-log.txt{Enter}")
+		. "--pretty=format:'%h|%an|%ar|%s|%b' > git-log.txt`r")
+Return
+
+:*:@getNoDiffGitCommitLog::
+	thisAhkCmd := A_ThisLabel
+
+	AppendAhkCmd(thisAhkCmd)
+	PasteTextIntoGitShell(thisAhkCmd, "git log --since='last month' "
+		. "--pretty=format:'%h|%an|%ar|%s|%b' > git-log.txt`r")
 Return
 
 ; ··································································································
 
+; ··································································································
+
 :*:@findGitChangesRegEx::
-	thisAhkCmd :=":*:@findGitChangesRegEx"
+	thisAhkCmd := A_ThisLabel
 	targetProcess := "notepad++.exe"
 	notActiveErrMsg := "Pleasure ensure Notepad++ is active before activating this hotstring."
 
@@ -859,7 +872,8 @@ Return
 ; ··································································································
 
 :*:@gitAddThis::
-	AppendAhkCmd(":*:@gitAddThis")
+	thisAhkCmd := A_ThisLabel
+	AppendAhkCmd(thisAhkCmd)
 	WinGet, thisProcess, ProcessName, A
 	if (thisProcess = "notepad++.exe") {
 		SendInput !e
@@ -886,7 +900,8 @@ Return
 ; ··································································································
 
 :*:@doGitCommit::
-	AppendAhkCmd(":*:@doGitCommit")
+	thisAhkCmd := A_ThisLabel
+	AppendAhkCmd(thisAhkCmd)
 	proceedWithCmd := ActivateGitShell()
 	if(proceedWithCmd) {
 		SendInput git commit -m '' -m ''{Left 7}
@@ -906,7 +921,8 @@ Return
 ; ··································································································
 
 :*:@doSnglGitCommit::
-	AppendAhkCmd(":*:@doSnglGitCommit")
+	thisAhkCmd := A_ThisLabel
+	AppendAhkCmd(thisAhkCmd)
 	proceedWithCmd := ActivateGitShell()
 	if(proceedWithCmd) {
 		SendInput git commit -m ''{Left 1}
@@ -928,7 +944,8 @@ Return
 ; For reversing forward slashes within a copied file name reported by 'git status' in PowerShell 
 ; and then pasting the result into PowerShell.
 :*:@swapSlashes::
-	AppendAhkCmd(":*:@swapSlashes")
+	thisAhkCmd := A_ThisLabel
+	AppendAhkCmd(thisAhkCmd)
 	WinGet, thisProcess, ProcessName, A
 	if (thisProcess = "PowerShell.exe") {
 		newText := RegExReplace(clipboard, "/", "\")
@@ -972,7 +989,8 @@ Return
 ;	SetTitleMatchMode, prevTitleMatchMode
 	global hwndCssPasteWindow
 	global titleCssPasteWindowTab
-	AppendAhkCmd(":*:@initCssPaste")
+	thisAhkCmd := A_ThisLabel
+	AppendAhkCmd(thisAhkCmd)
 	WinGetTitle, thisTitle, A
 	posFound := RegExMatch(thisTitle, "i)^CSS[^" . Chr(0x2014) . "]+" . Chr(0x2014)
 		. " WordPress - Google Chrome$")
@@ -993,7 +1011,8 @@ Return
 :*:@doCssPaste::		;Paste copied CSS into WordPress window
 	global hwndCssPasteWindow
 	global titleCssPasteWindowTab
-	AppendAhkCmd(":*:@doCssPaste")
+	thisAhkCmd := A_ThisLabel
+	AppendAhkCmd(thisAhkCmd)
 	if(isVarDeclared(hwndCssPasteWindow)) {
 		; Attempt to switch to chrome
 		WinActivate, % "ahk_id " . hwndCssPasteWindow
@@ -1048,7 +1067,8 @@ Return
 ; ··································································································
 
 :*:@pasteGitCommitMsg::
-	AppendAhkCmd(":*:@pasteGitCommitMsg")
+	thisAhkCmd := A_ThisLabel
+	AppendAhkCmd(thisAhkCmd)
 	WinGet, thisProcess, ProcessName, A
 	if (thisProcess = "PowerShell.exe") {
 		commitText := RegExReplace(clipboard, Chr(0x2026) "\R" Chr(0x2026), "")
@@ -1414,20 +1434,17 @@ Return
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssAscc")
 Return
 
-; ··································································································
-
 :*:@commitCssAscc::
-	; Variable declarations
 	ahkCmdName := ":*:@commitCssAscc"
-	fpGitFolder := "ascc.wsu.edu" ; fp = file path
-	fnLessSrcFile := "ascc-custom_new.less" ; fn = file name
-	fnCssBuild := "ascc-custom.css"
-	fnMinCssBuild := "ascc-custom.min.css"
+	gitFolder := "ascc.wsu.edu" ; fp = file path
+	lessSrcFile := "ascc-custom_new.less" ; fn = file name
+	cssBuildFile := "ascc-custom.css"
+	minCssBuildFile := "ascc-custom.min.css"
 
 	; Register this hotkey with command history interface & process instructions for committing the 
 	; CSS build
 	AppendAhkCmd(ahkCmdName)
-	CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssBuild, fnMinCssBuild)
+	CommitCssBuild(ahkCmdName, gitFolder, lessSrcFile, cssBuildFile, minCssBuildFile)
 Return
 
 ; ··································································································
@@ -1443,20 +1460,17 @@ Return
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssCr")
 Return
 
-; ··································································································
-
 :*:@commitCssCr::
-	; Variable declarations
 	ahkCmdName := ":*:@commitCssCr"
-	fpGitFolder := "commonreading.wsu.edu" ; fp = file path
-	fnLessSrcFile := "src_cr-new.less" ; fn = file name
-	fnCssBuild := "cr-custom.css"
-	fnMinCssBuild := "cr-custom.min.css"
+	gitFolder := "commonreading.wsu.edu" ; fp = file path
+	lessSrcFile := "src_cr-new.less" ; fn = file name
+	cssBuildFile := "cr-custom.css"
+	minCssBuildFile := "cr-custom.min.css"
 
 	; Register this hotkey with command history interface & process instructions for committing the 
 	;CSS build
 	AppendAhkCmd(ahkCmdName)
-	CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssBuild, fnMinCssBuild)
+	CommitCssBuild(ahkCmdName, gitFolder, lessSrcFile, cssBuildFile, minCssBuildFile)
 Return
 
 ; ··································································································
@@ -1471,20 +1485,17 @@ Return
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssDsp")
 Return
 
-; ··································································································
-
 :*:@commitCssDsp::
 	ahkCmdName := ":*:@commitCssDsp"
+	gitFolder := "distinguishedscholarships.wsu.edu" ; fp = file path
+	lessSrcFile := "dsp-custom.less" ; fn = file name
+	cssBuildFile := "dsp-custom.css"
+	minCssBuildFile := "dsp-custom.min.css"
+
+	; Register this hotkey with command history interface & process instructions for committing the
+	; CSS build
 	AppendAhkCmd(ahkCmdName)
-	PasteTextIntoGitShell(ahkCmdName
-		, "cd '" . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\'`r"
-		. "git add CSS\dsp-custom.css`r"
-		. "git add CSS\dsp-custom.min.css`r"
-		. "git commit -m 'Updating custom CSS build' -m 'Rebuilt production files to incorporate "
-		. "recent changes to source code and/or dependencies.' `r"
-		. "git push`r"
-		. "[console]::beep(2000,150)`r"
-		. "[console]::beep(2000,150)`r")
+	CommitCssBuild(ahkCmdName, gitFolder, lessSrcFile, cssBuildFile, minCssBuildFile)
 Return
 
 ; ··································································································
@@ -1499,8 +1510,6 @@ Return
 		. "[console]::beep(1500,300)`r")
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssFye")	
 Return
-
-; ··································································································
 
 :*:@commitCssFye::
 	ahkCmdName := ":*:@commitCssFye"
@@ -1529,8 +1538,6 @@ Return
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssFyf")
 Return
 
-; ··································································································
-
 :*:@commitCssFyf::
 	ahkCmdName := ":*:@commitCssFyf"
 	AppendAhkCmd(ahkCmdName)
@@ -1557,20 +1564,17 @@ Return
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssNse")
 Return
 
-; ··································································································
-
 :*:@commitCssNse::
-	; Variable declarations
 	ahkCmdName := ":*:@commitCssNse"
-	fpGitFolder := "nse.wsu.edu" ; fp = file path
-	fnLessSrcFile := "nse-custom.less" ; fn = file name
-	fnCssBuild := "nse-custom.css"
-	fnMinCssBuild := "nse-custom.min.css"
+	gitFolder := "nse.wsu.edu" ; fp = file path
+	lessSrcFile := "nse-custom.less" ; fn = file name
+	cssBuildFile := "nse-custom.css"
+	minCssBuildFile := "nse-custom.min.css"
 
 	; Register this hotkey with command history interface & process instructions for committing the
 	; CSS build
 	AppendAhkCmd(ahkCmdName)
-	CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssBuild, fnMinCssBuild)
+	CommitCssBuild(ahkCmdName, gitFolder, lessSrcFile, cssBuildFile, minCssBuildFile)
 Return
 
 ; ··································································································
@@ -1584,8 +1588,6 @@ Return
 		. "[console]::beep(1500,300)`r")
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssOue")
 Return
-
-; ··································································································
 
 :*:@commitCssOue::
 	ahkCmdName := ":*:@commitCssOue"
@@ -1612,8 +1614,6 @@ Return
 		. "[console]::beep(1500,300)`r")
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssPbk")
 Return
-
-; ··································································································
 
 :*:@commitCssPbk::
 	ahkCmdName := ":*:@commitCssPbk"
@@ -1642,11 +1642,8 @@ Return
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssSurca")
 Return
 
-; ··································································································
-
 :*:@commitCssSurca::
-	; Variable declarations
-	ahkCmdName := ":*:@commitCssNse"
+	ahkCmdName := ":*:@commitCssSurca"
 	gitFolder := "surca.wsu.edu" ; fp = file path
 	lessSrcFile := "surca-custom.less" ; fn = file name
 	cssBuildFile := "surca-custom.css"
@@ -1670,8 +1667,6 @@ Return
 		. "[console]::beep(1500,300)`r")
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssSumRes")
 Return
-
-; ··································································································
 
 :*:@commitCssSumRes::
 	ahkCmdName := ":*:@commitCssSumRes"
@@ -1699,8 +1694,6 @@ Return
 		. "[console]::beep(1500,300)`r")
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssXfer")
 Return
-
-; ··································································································
 
 :*:@commitCssXfer::
 	ahkCmdName := ":*:@commitCssXfer"
@@ -1730,20 +1723,17 @@ Return
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssUgr")
 Return
 
-; ··································································································
-
 :*:@commitCssUgr::
-	; Variable declarations
 	ahkCmdName := ":*:@commitCssUgr"
-	fpGitFolder := "undergraduateresearch.wsu.edu" ; fp = file path
-	fnLessSrcFile := "undergraduate-research-custom.less" ; fn = file name
-	fnCssBuild := "undergraduate-research-custom.css"
-	fnMinCssBuild := "undergraduate-research-custom.min.css"
+	gitFolder := "undergraduateresearch.wsu.edu" ; fp = file path
+	lessSrcFile := "undergraduate-research-custom.less" ; fn = file name
+	cssBuildFile := "undergraduate-research-custom.css"
+	minCssBuildFile := "undergraduate-research-custom.min.css"
 
 	; Register this hotkey with command history interface & process instructions for committing the
 	; CSS build
 	AppendAhkCmd(ahkCmdName)
-	CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssBuild, fnMinCssBuild)
+	CommitCssBuild(ahkCmdName, gitFolder, lessSrcFile, cssBuildFile, minCssBuildFile)
 Return
 
 ; ··································································································
@@ -1758,8 +1748,6 @@ Return
 		. "[console]::beep(1500,300)`r")
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssUcore")
 Return
-
-; ··································································································
 
 :*:@commitCssUcore::
 	ahkCmdName := ":*:@commitCssUcore"
@@ -1787,8 +1775,6 @@ Return
 		. "[console]::beep(1500,300)`r")
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssUcrAss")
 Return
-
-; ··································································································
 
 :*:@commitCssUcrAss::
 	ahkCmdName := ":*:@commitCssUcrAss"
