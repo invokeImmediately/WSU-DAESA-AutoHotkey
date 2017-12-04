@@ -25,6 +25,23 @@ isTargetProcessActive(targetProcess, caller := "", notActiveErrMsg := "") {
 	return targetProcessIsActive
 }
 
+areTargetProcessesActive(targetProcesses, caller := "", notActiveErrMsg := "") {
+	WinGet, thisWin, ProcessName, A
+	oneOfTargetProcessesIsActive := False
+	numPossibleProcesses := targetProcess.Length()
+	Loop, %numPossibleProcesses%
+	{
+		oneOfTargetProcessesIsActive := thisWin = targetProcess
+		if (oneOfTargetProcessesIsActive) {
+			Break
+		}
+	}
+	if (!oneOfTargetProcessesIsActive && caller != "" && notActiveErrMsg != "") {
+		ErrorBox(caller, notActiveErrMsg)		
+	}
+	return oneOfTargetProcessesIsActive
+}
+
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
 
 doesVarExist(ByRef v) { ; Requires 1.0.46+ 
