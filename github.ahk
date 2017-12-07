@@ -850,24 +850,52 @@ Return
 
 ; ··································································································
 
-; ··································································································
-
 :*:@findGitChangesRegEx::
 	thisAhkCmd := A_ThisLabel
-	targetProcess := "notepad++.exe"
-	notActiveErrMsg := "Pleasure ensure Notepad++ is active before activating this hotstring."
+	targetProcesses := ["notepad++.exe", "sublime_text.exe"]
+	notActiveErrMsg := "Please ensure Notepad++ or Sublime Text are active before activating this "
+		. "hotstring."
 
 	AppendAhkCmd(thisAhkCmd)
-	if (isTargetProcessActive(targetProcess, thisAhkCmd, notActiveErrMsg)) {
-		SendInput, % "^h"
-		Sleep, 200
-		SendInput, % "{^}(?:[{^} -].*| (?{!} {{}7{}}).*|-(?{!}-{{}7{}}).*)?$(?:\r\n)?"
-		Sleep, 20
-		SendInput, % "{Tab}"
-		Sleep, 20
-		SendInput, % "{Del}"
+	activeProcessName := areTargetProcessesActive(targetProcesses, thisAhkCmd, notActiveErrMsg)
+	if (activeProcessName == targetProcess[1]) {
+		FindGitChangesRegExNotepadPp()
+	} else {
+		FindGitChangesRegExSublimeText()		
 	}
 Return
+
+FindGitChangesRegExNotepadPp() {
+	SendInput, % "^h"
+	Sleep, 200
+	SendInput, % "{^}(?:[{^} -].*| (?{!} {{}7{}}).*|-(?{!}-{{}7{}}).*)?$(?:\r\n)?"
+	Sleep, 20
+	SendInput, % "{Tab}"
+	Sleep, 20
+	SendInput, % "{Del}"
+}
+
+FindGitChangesRegExSublimeText() {
+	SendInput, % "{Esc}"
+	Sleep, 20
+	SendInput, % "^h"
+	Sleep, 200
+	SendInput, % "``n"
+	Sleep, 20
+	SendInput, % "{Tab}"
+	Sleep, 20
+	SendInput, % "{Del}"
+	Sleep, 20
+	SendInput, % "^!{Enter}"
+	Sleep, 200
+	SendInput, % "^h"
+	Sleep, 200
+	SendInput, % "{^}(?:[{^}\n -].*| (?{!} {{}7{}}).*|-(?{!}-{{}7{}}).*)?$(?:\n)"
+	Sleep, 20
+	SendInput, % "{Tab}"
+	Sleep, 20
+	SendInput, % "{Del}"
+}
 
 ; ··································································································
 
