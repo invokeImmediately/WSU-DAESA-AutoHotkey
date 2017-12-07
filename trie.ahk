@@ -46,19 +46,40 @@ class Trie {
 		Return child
 	}
 
+	CalculateWordCount(key := "") {
+		wordCount := 0
+		if (key == "" || key == this.node) {
+			trieArray := this.children
+			For key, subTrie in trieArray
+			{
+				if (subTrie.isEndOfWord) {
+					wordCount++
+				}
+				childWordCount := subTrie.CalculateWordCount()
+				wordCount += childWordCount
+			}
+		} else {
+			subTrie := this.Search(key)
+			if (subTrie) {
+				wordsArray := subTrie.CalculateWordCount()
+			}
+		}
+		return wordCount
+	}
+
 	GetWordsArray(key := "") {
 		wordsArray := False
 		if (key == "" || key == this.node) {
 			wordsArray := Object()
 			trieArray := this.children
 			; Proceed only if node value is contained within key
-			For key, subTrie in trieArray
+			For keyI, subTrie in trieArray
 			{
 				if (subTrie.isEndOfWord) {
 					wordsArray.Push(subTrie.node)
 				}
 				childWordsArray := subTrie.GetWordsArray()
-				For key, value in childWordsArray
+				For keyJ, value in childWordsArray
 				{
 					wordsArray.Push(value)				
 				}
@@ -70,6 +91,27 @@ class Trie {
 			}
 		}
 		return wordsArray
+	}
+
+	GetPipedWordsList(key := "") {
+		wordsList := ""
+		if (key == "" || key == this.node) {
+			trieArray := this.children
+			For keyI, subTrie in trieArray
+			{
+				if (subTrie.isEndOfWord) {
+					wordsList .= "|" . subTrie.node
+				}
+				childWordsList := subTrie.GetPipedWordsList()
+				wordsList .= childWordsList
+			}
+		} else {
+			subTrie := this.Search(key)
+			if (subTrie) {
+				wordsList .= subTrie.GetPipedWordsList()
+			}
+		}
+		return wordsList
 	}
 
 	children[]
