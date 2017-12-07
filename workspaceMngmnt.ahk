@@ -59,42 +59,42 @@ return
 ; ············································································································
 
 ^!F1::
-	switchDesktopByNumber(1)
+	SwitchDesktopByNumber(1)
 	SoundPlay, %desktopSwitchingSound%
 Return
 
 ; ············································································································
 
 ^!F2::
-	switchDesktopByNumber(2)
+	SwitchDesktopByNumber(2)
 	SoundPlay, %desktopSwitchingSound%
 Return
 
 ; ············································································································
 
 ^!F3::
-	switchDesktopByNumber(3)
+	SwitchDesktopByNumber(3)
 	SoundPlay, %desktopSwitchingSound%
 Return
 
 ; ············································································································
 
 ^!F4::
-	switchDesktopByNumber(4)
+	SwitchDesktopByNumber(4)
 	SoundPlay, %desktopSwitchingSound%
 Return
 
 ; ············································································································
 
 ^!F5::
-	switchDesktopByNumber(5)
+	SwitchDesktopByNumber(5)
 	SoundPlay, %desktopSwitchingSound%
 Return
 
 ; ············································································································
 
 ^!F6::
-	switchDesktopByNumber(6)
+	SwitchDesktopByNumber(6)
 ;	SendInput #{Tab}
 ;	Sleep 330
 ;	SendInput {Tab}{Right}{Right}{Right}{Right}{Right}{Enter}
@@ -363,27 +363,27 @@ return
 ; ------------------------------------------------------------------------------------------------------------
 
 ^!1::
-	moveActiveWindowToVirtualDesktop(1)
+	MoveActiveWindowToVirtualDesktop(1)
 	SoundPlay, %windowShiftingSound%
 return
 
 ^!2::
-	moveActiveWindowToVirtualDesktop(2)
+	MoveActiveWindowToVirtualDesktop(2)
 	SoundPlay, %windowShiftingSound%
 return
 
 ^!3::
-	moveActiveWindowToVirtualDesktop(3)
+	MoveActiveWindowToVirtualDesktop(3)
 	SoundPlay, %windowShiftingSound%
 return
 
 ^!4::
-	moveActiveWindowToVirtualDesktop(4)
+	MoveActiveWindowToVirtualDesktop(4)
 	SoundPlay, %windowShiftingSound%
 return
 
 ^!5::
-	moveActiveWindowToVirtualDesktop(5)
+	MoveActiveWindowToVirtualDesktop(5)
     ; if (IsWindowOnLeftDualMonitor()) {
         ; SendInput, #{Tab}
         ; Sleep, 400
@@ -402,7 +402,7 @@ return
 return
 
 ^!6::
-	moveActiveWindowToVirtualDesktop(6)
+	MoveActiveWindowToVirtualDesktop(6)
 	SoundPlay, %windowShiftingSound%
 Return
 

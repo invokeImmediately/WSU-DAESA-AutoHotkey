@@ -10,17 +10,18 @@ global CurrentDesktop = 1 ; Desktop count is 1-indexed (Microsoft numbers them t
 ; Current desktop UUID appears to be in HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\SessionInfo\1\VirtualDesktops
 ; List of desktops appears to be in HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VirtualDesktops
 ;
-mapDesktopsFromRegistry() {
+MapDesktopsFromRegistry() {
 	global CurrentDesktop, DesktopCount
 
 	; Get the current desktop UUID. Length should be 32 always, but there's no guarantee this
 	; couldn't change in a later Windows release so we check.
 	IdLength := 32
-	SessionId := getSessionId()
+	SessionId := GetSessionId()
 	if (SessionId) {
 		RegRead, CurrentDesktopId
-			, HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\SessionInfo\%SessionId%\VirtualDesktops
-			, CurrentVirtualDesktop
+			, % "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\SessionInfo\"
+			. SessionId . "\VirtualDesktops"
+			, % "CurrentVirtualDesktop"
 		if (CurrentDesktopId) {
 			IdLength := StrLen(CurrentDesktopId)
 		}
@@ -28,7 +29,8 @@ mapDesktopsFromRegistry() {
 
 	; Get a list of the UUIDs for all virtual desktops on the system
 	RegRead, DesktopList
-		, HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VirtualDesktops, VirtualDesktopIDs
+		, HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VirtualDesktops
+		, VirtualDesktopIDs
 	if (DesktopList) {
 		DesktopListLength := StrLen(DesktopList)
 
@@ -58,8 +60,7 @@ mapDesktopsFromRegistry() {
 	}
 }
 
-getSessionId()
-{
+GetSessionId() {
 	ProcessId := DllCall("GetCurrentProcessId", "UInt")
 	if ErrorLevel {
 		OutputDebug, Error getting current process id: %ErrorLevel%
@@ -73,8 +74,7 @@ getSessionId()
 	return SessionId
 }
 
-switchDesktopByNumber(targetDesktop)
-{
+SwitchDesktopByNumber(targetDesktop) {
 	global CurrentDesktop
 	global DesktopCount
 	global alreadySwitchingDesktop
@@ -85,7 +85,7 @@ switchDesktopByNumber(targetDesktop)
 
 		; Re-generate the list of desktops and where we fit in that. We do this because
 		; the user may have switched desktops via some other means than the script.
-		mapDesktopsFromRegistry()
+		MapDesktopsFromRegistry()
 
 		; Don't attempt to switch to an invalid desktop
 		if (targetDesktop > DesktopCount || targetDesktop < 1) {
@@ -99,7 +99,7 @@ switchDesktopByNumber(targetDesktop)
 			while(CurrentDesktop < targetDesktop) {
 				SendInput, ^#{Right}
 				Sleep, %keyDelay%
-				mapDesktopsFromRegistry()
+				MapDesktopsFromRegistry()
 				iCounter++
 				if (iCounter > DesktopCount * 2) {
 					Break
@@ -111,7 +111,7 @@ switchDesktopByNumber(targetDesktop)
 			while(CurrentDesktop > targetDesktop) {
 				SendInput, ^#{Left}
 				Sleep, %keyDelay%
-				mapDesktopsFromRegistry()
+				MapDesktopsFromRegistry()
 				iCounter++
 				if (iCounter > DesktopCount * 2) {
 					Break
@@ -122,14 +122,14 @@ switchDesktopByNumber(targetDesktop)
 	}
 }
 
-moveActiveWindowToVirtualDesktop(targetDesktop) {
+MoveActiveWindowToVirtualDesktop(targetDesktop) {
 	global CurrentDesktop
 	global DesktopCount
 	prevKeyDelay := A_KeyDelay
 
 	; Re-generate the list of desktops and where we fit in that. We do this because
 	; the user may have switched desktops via some other means than the script.
-	mapDesktopsFromRegistry()
+	MapDesktopsFromRegistry()
 	
 	; Don't attempt to move to an invalid desktop
 	if (targetDesktop > DesktopCount || targetDesktop < 1) {
@@ -169,26 +169,24 @@ moveActiveWindowToVirtualDesktop(targetDesktop) {
 	SetKeyDelay, prevKeyDelay
 }
 
-createVirtualDesktop() {
+CreateVirtualDesktop() {
 	global CurrentDesktop, DesktopCount
 	prevKeyDelay := A_KeyDelay
 
 	SetKeyDelay, 75
 	Send, #^d
-	DesktopCount++
-	CurrentDesktop = %DesktopCount%
+	MapDesktopsFromRegistry()
 	SetKeyDelay, prevKeyDelay
 	OutputDebug, [create] desktops: %DesktopCount% current: %CurrentDesktop%
 }
 
-deleteVirtualDesktop() {
+DeleteVirtualDesktop() {
 	global CurrentDesktop, DesktopCount
 	prevKeyDelay := A_KeyDelay
 
 	SetKeyDelay, 75
 	Send, #^{F4}
-	DesktopCount--
-	CurrentDesktop--
+	MapDesktopsFromRegistry()
 	SetKeyDelay, prevKeyDelay
 	OutputDebug, [delete] desktops: %DesktopCount% current: %CurrentDesktop%
 }
