@@ -44,13 +44,13 @@ mapDesktopsFromRegistry() {
 	while (CurrentDesktopId and i < DesktopCount) {
 		StartPos := (i * IdLength) + 1
 		DesktopIter := SubStr(DesktopList, StartPos, IdLength)
-		OutputDebug, The iterator is pointing at %DesktopIter% and count is %i%.
+		; OutputDebug, The iterator is pointing at %DesktopIter% and count is %i%.
 
 		; Break out if we find a match in the list. If we didn't find anything, keep the
 		; old guess and pray we're still correct :-D.
 		if (DesktopIter = CurrentDesktopId) {
 			CurrentDesktop := i + 1
-			OutputDebug, Current desktop number is %CurrentDesktop% with an ID of %DesktopIter%.
+			; OutputDebug, Current desktop number is %CurrentDesktop% with an ID of %DesktopIter%.
 			break
 		}
 
@@ -65,13 +65,11 @@ getSessionId()
 		OutputDebug, Error getting current process id: %ErrorLevel%
 		return
 	}
-	OutputDebug, Current Process Id: %ProcessId%
-		DllCall("ProcessIdToSessionId", "UInt", ProcessId, "UInt*", SessionId)
-		if ErrorLevel {
+	DllCall("ProcessIdToSessionId", "UInt", ProcessId, "UInt*", SessionId)
+	if ErrorLevel {
 		OutputDebug, Error getting session id: %ErrorLevel%
 		return
 	}
-	OutputDebug, Current Session Id: %SessionId%
 	return SessionId
 }
 
@@ -79,35 +77,49 @@ switchDesktopByNumber(targetDesktop)
 {
 	global CurrentDesktop
 	global DesktopCount
-	prevKeyDelay := A_KeyDelay
+	global alreadySwitchingDesktop
+	keyDelay := 100
 
-	; Re-generate the list of desktops and where we fit in that. We do this because
-	; the user may have switched desktops via some other means than the script.
-	mapDesktopsFromRegistry()
+	if (!alreadySwitchingDesktop) {
+		alreadySwitchingDesktop := True
 
-	; Don't attempt to switch to an invalid desktop
-	if (targetDesktop > DesktopCount || targetDesktop < 1) {
-		OutputDebug, [invalid] target: %targetDesktop% current: %CurrentDesktop%
-		return
+		; Re-generate the list of desktops and where we fit in that. We do this because
+		; the user may have switched desktops via some other means than the script.
+		mapDesktopsFromRegistry()
+
+		; Don't attempt to switch to an invalid desktop
+		if (targetDesktop > DesktopCount || targetDesktop < 1) {
+			OutputDebug, [invalid] target: %targetDesktop% current: %CurrentDesktop%
+			return
+		}
+
+		if (CurrentDesktop < targetDesktop) {
+			; Go right until we reach the desktop we want
+			iCounter := 0
+			while(CurrentDesktop < targetDesktop) {
+				SendInput, ^#{Right}
+				Sleep, %keyDelay%
+				mapDesktopsFromRegistry()
+				iCounter++
+				if (iCounter > DesktopCount * 2) {
+					Break
+				}
+			}
+		} else if (CurrentDesktop > targetDesktop) {
+			; Go left until we reach the desktop we want
+			iCounter := 0
+			while(CurrentDesktop > targetDesktop) {
+				SendInput, ^#{Left}
+				Sleep, %keyDelay%
+				mapDesktopsFromRegistry()
+				iCounter++
+				if (iCounter > DesktopCount * 2) {
+					Break
+				}
+			}
+		}
+		alreadySwitchingDesktop := False
 	}
-
-	SetKeyDelay, 75
-
-	; Go right until we reach the desktop we want
-	while(CurrentDesktop < targetDesktop) {
-		Send ^#{Right}
-		CurrentDesktop++
-		OutputDebug, [right] target: %targetDesktop% current: %CurrentDesktop%
-	}
-
-	; Go left until we reach the desktop we want
-	while(CurrentDesktop > targetDesktop) {
-		Send ^#{Left}
-		CurrentDesktop--
-		OutputDebug, [left] target: %targetDesktop% current: %CurrentDesktop%
-	}
-
-	SetKeyDelay, prevKeyDelay
 }
 
 moveActiveWindowToVirtualDesktop(targetDesktop) {
