@@ -56,14 +56,14 @@ Return
 
 	; Send temperature monitoring programs to desktop #5 from #1
 	AppendAhkCmd(":*:@moveTempMonitors")
-	WinActivate, % "GPU Temp ahk_exe GPUTemp.exe"
-	Sleep, 330
-	moveActiveWindowToVirtualDesktop(5)
-	Sleep, 240
 	WinActivate, % "RealTemp ahk_exe RealTemp.exe"
-	Sleep, 330
+	Sleep, 400
 	moveActiveWindowToVirtualDesktop(5)
-	Sleep, 240
+	Sleep, 100
+	WinActivate, % "GPU Temp ahk_exe GPUTemp.exe"
+	Sleep, 400
+	moveActiveWindowToVirtualDesktop(5)
+	Sleep, 100
 
 Return
 
@@ -323,8 +323,8 @@ Return
 	Sleep, 1000
 	SendInput, ^{Tab}
 	Sleep, 1000
-	WinRestore, % "Free Bible ahk_exe chrome.exe"
-	WinMove, % "Free Bible ahk_exe chrome.exe", , 136, 88, 1648, 874
+	WinRestore, % "BibleGateway ahk_exe chrome.exe"
+	WinMove, % "BibleGateway ahk_exe chrome.exe", , 136, 88, 1648, 874
 Return
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
