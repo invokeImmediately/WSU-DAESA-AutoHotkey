@@ -106,7 +106,9 @@ ListAhkFiles() {
 	if (hsCount > 0) {
 		MergeSort(allHotStrings, 1, allHotStrings.Length())
 		nextHotStr := allHotStrings.RemoveAt(1)
-		hsList := SubStr(nextHotStr, 2, StrLen(nextHotStr) - 1)
+		nextHotStr := SubStr(nextHotStr, 2, StrLen(nextHotStr) - 1)
+		hsList := nextHotStr
+		hsTrie.Insert(nextHotStr)
 		while (allHotstrings.Length() > 0) {
 			nextHotStr := allHotStrings.RemoveAt(1)
 			nextHotStr := SubStr(nextHotStr, 2, StrLen(nextHotStr) - 1)
