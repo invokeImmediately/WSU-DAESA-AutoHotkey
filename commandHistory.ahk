@@ -121,35 +121,96 @@ Return
 ; FIND A SPECIFIC AHK COMMAND FROM THE LIST OF THOSE AVAILABLE
 ; ==================================================================================================
 
+:*:@getAhkCmdCount::
+	thisAhkCmd := A_ThisLabel 
+	AppendAhkCmd(thisAhkCmd)
+	GetAhkCmdCount()
+Return
+
+GetAhkCmdCount() {
+	global hsTrie
+	global hsCount
+	wordCount := hsTrie.CalculateWordCount()
+	MsgBox, % "A total of " hsCount . " AHK commands were counted upon loading of the script.`n"
+		. "Moreover, " . wordCount . " commands are logged in the AHK command Trie. "
+}
+
 :*:@findAhkCmd::
-	AppendAhkCmd(":*:@findAhkCmd")
+	thisAhkCmd := A_ThisLabel 
+	AppendAhkCmd(thisAhkCmd)
 	CreateFindCmdGUI()
+Return
+
+^!f::
+	Gosub, :*:@findAhkCmd
 Return
 
 CreateFindCmdGUI() {
 	global hsListPiped
 	global hsCount
+	global FindCmdEditBox
 	global FindCmdListBox
+	global FindCmdEditBoxHwnd
+	;global FindCmdComboBox
+	WM_KEYUP := 0x101
 	
 	if (hsListPiped != undefined && hsCount > 0) {
 		Gui, AhkGuiFindCmd:New,, % "AutoHotkey Hotstring Lookup Utility"
-		Gui, AhkGuiFindCmd:Add, Text,, % "Select a command from the list of " . hsCount 
-			. " currently available hotstrings below."
+		Gui, AhkGuiFindCmd:Add, Text, w400, % "Select a command from the list of " . hsCount 
+			. " currently available hotstrings below. The edit box can be used to quickly search "
+			. "through existing commands."
+		Gui, AhkGuiFindCmd:Add, Edit
+			, w400 vFindCmdEditBox HwndFindCmdEditBoxHwnd gFindCmdEditBoxChanged
 		Gui, AhkGuiFindCmd:Add, ListBox, w400 h550 vFindCmdListBox, %hsListPiped%
+		;Gui, AhkGuiFindCmd:Add, ComboBox, w400 h550 vFindCmdComboBox Simple, %hsListPiped%
 		Gui, AhkGuiFindCmd:Add, Button, Default gHandleFindCmdOk, &Ok
 		Gui, AhkGuiFindCmd:Add, Button, gHandleFindCmdCancel X+5, &Cancel
 		Gui, AhkGuiFindCmd:Show
+		OnMessage(WM_KEYUP, "FindCmdEditBoxKeyup")
 	} else {
 		ErrorBox(A_ThisFunc, "Could not create the find command GUI because the list of available A"
 			. "HK hotstrings was undefined.")
 	}
 }
 
+FindCmdEditBoxChanged() {
+	global FindCmdEditBox
+	global FindCmdListBox
+	global hsTrie
+	global hsTrieArray
+
+	Gui, AhkGuiFindCmd:Submit, NoHide
+
+	cmdsAutoCompleteList := hsTrie.GetPipedWordsList(FindCmdEditBox)
+
+	GuiControl, , FindCmdListBox, % cmdsAutoCompleteList
+	GuiControl, Choose, FindCmdListBox, 1
+	GuiControl, Focus, FindCmdEditBox
+}
+
+FindCmdEditBoxKeyup(wParam, lParam, msg, hwnd) {
+	global FindCmdEditBoxHwnd
+	global FindCmdListBox
+	VK_DOWN := 0x28
+
+	if (hwnd == FindCmdEditBoxHwnd && wParam == VK_DOWN) {
+		GuiControl, +AltSubmit, FindCmdListBox
+		Gui, AhkGuiFindCmd:Submit, NoHide
+		cmdToSelect := FindCmdListBox + 1
+		GuiControl, -AltSubmit, FindCmdListBox
+		GuiControl, Choose, FindCmdListBox, %cmdToSelect%
+		GuiControl, Focus, FindCmdListBox
+	}
+}
+
 HandleFindCmdOk() {
 	global FindCmdListBox
+	WM_KEYUP := 0x101
+
 	Gui, AhkGuiFindCmd:Submit, NoHide
 	if (FindCmdListBox != "") {
 		Gui, AhkGuiFindCmd:Destroy
+		OnMessage(WM_KEYUP, "")
 		cmdSelected := ":*:@" . FindCmdListBox
 		if (IsLabel(cmdSelected)) {
 			Gosub, %cmdSelected%
