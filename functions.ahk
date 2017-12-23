@@ -27,19 +27,22 @@ isTargetProcessActive(targetProcess, caller := "", notActiveErrMsg := "") {
 
 areTargetProcessesActive(targetProcesses, caller := "", notActiveErrMsg := "") {
 	WinGet, thisWin, ProcessName, A
-	oneOfTargetProcessesIsActive := False
-	numPossibleProcesses := targetProcess.Length()
+	numPossibleProcesses := targetProcesses.Length()
+	activeProcessIndex := 0
+	activeProcessName := ""
 	Loop, %numPossibleProcesses%
 	{
-		oneOfTargetProcessesIsActive := thisWin = targetProcess
-		if (oneOfTargetProcessesIsActive) {
+		if (thisWin = targetProcesses[A_Index]) {
+			activeProcessIndex := A_Index
 			Break
 		}
 	}
-	if (!oneOfTargetProcessesIsActive && caller != "" && notActiveErrMsg != "") {
+	if (!activeProcessIndex && caller != "" && notActiveErrMsg != "") {
 		ErrorBox(caller, notActiveErrMsg)		
+	} else {
+		activeProcessName := targetProcesses[activeProcessIndex]
 	}
-	return oneOfTargetProcessesIsActive
+	return activeProcessName
 }
 
 ; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
