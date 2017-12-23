@@ -15,13 +15,13 @@
 		. "ial|inherit;"
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@findStrBldrSctns::
 	SendInput, % "(?<={^}---->\r\n){^}.*$(?:\r\n{^}(?{!}<{!}--|\r\n<{!}--|\Z).*$)*"
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@gotoUrlNseAdmin::
 	SendInput https://nse.wsu.edu/wp-admin/
@@ -55,7 +55,7 @@ Return
 	SendInput https://nse.wsu.edu/wp-admin/edit.php?post_type=redirect_rule
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@gotoUrlSumResAdmin::
 	SendInput https://summerresearch.wsu.edu/wp-admin/
@@ -93,9 +93,9 @@ Return
 ; GUI FUNCTIONS for handling user interactions with scripts
 ; --------------------------------------------------------------------------------------------------
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 ; >>> GUI triggering HOTSTRINGS
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@insBldrSctn::
 	AppendAhkCmd(":*:@insBldrSctn")
@@ -116,15 +116,15 @@ Return
 	Gui, guiInsBldrSctn: Show
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 ; >>> GUI driving FUNCTIONS
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 HandleInsBldrSctnCancel() {
 	Gui, guiInsBldrSctn: Destroy
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 HandleInsBldrSctnOK() {
 	global
@@ -311,9 +311,9 @@ HandleInsBldrSctnOK() {
 ; FUNCTIONS for Quality Control of markup
 ; --------------------------------------------------------------------------------------------------
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 ; >>> ESSENTIAL MARKUP BACKUP Hostring
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@backupOuePage::
 	ahkThisCmd := A_ThisLabel
@@ -445,9 +445,9 @@ Return
 ; Regex to match latest update: <ul class="post-revisions">.*?\.php\?revision=[0-9]{1,}">([^<]+)
 ; After overwriting code with what was found, replace with /1 to isolate 
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 ; >>> HYPERLINK CHECKING hotstring
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@findHrefsInHtml::
 	AppendAhkCmd(":*:@findHrefsInHtml")
@@ -457,7 +457,7 @@ Return
 	ExportHyperlinkArray(hyperlinkArray)
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 TrimAwayBuilderTemplateContentPrev(htmlMarkup) {
 	ahkFuncName := "htmlEditing.ahk: TrimAwayBuilderTemplatePageHeader(htmlMarkup)"
@@ -483,7 +483,7 @@ TrimAwayBuilderTemplateContentPrev(htmlMarkup) {
 	return remainder
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 TrimAwayBuilderTemplateContentNext(htmlMarkup) {
 	ahkFuncName := "htmlEditing.ahk: TrimAwayBuilderTemplatePageHeader(htmlMarkup)"
@@ -508,7 +508,7 @@ TrimAwayBuilderTemplateContentNext(htmlMarkup) {
 	return remainder
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 BuildHyperlinkArray(htmlMarkup) {
 	ahkFuncName := "htmlEditing.ahk: BuildHyperlinkArray(htmlMarkup)"
@@ -540,7 +540,7 @@ BuildHyperlinkArray(htmlMarkup) {
 	return hyperlinkArray
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 PullHrefsIntoHyperlinkArray(ByRef hyperlinkArray) {
 	regExNeedle := "P)href=""([^""]+)"""
@@ -555,7 +555,7 @@ PullHrefsIntoHyperlinkArray(ByRef hyperlinkArray) {
 	; provide context)
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ExportHyperlinkArray(hyperlinkArray) {
 	exportStr := ""

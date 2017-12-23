@@ -41,7 +41,7 @@ Return
 	SendInput, % "sslvpn.wsu.edu{Enter}"
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@setupVirtualDesktop1::
 	CheckForCmdEntryGui()
@@ -106,7 +106,7 @@ Return
 	Sleep, 1000
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@setupVirtualDesktop2::
 	CheckForCmdEntryGui()
@@ -157,7 +157,7 @@ Return
 	WinActivate, PowerShell
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@setupVirtualDesktop3::
 	CheckForCmdEntryGui()
@@ -199,7 +199,7 @@ Return
 	WinMove, Navigation, , -345, 518, 350, 522
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@setupVirtualDesktop4::
 	CheckForCmdEntryGui()
@@ -282,7 +282,7 @@ Return
 	WinMove, % "iTunes ahk_exe iTunes.exe", , 200, 0, 1720, 1040
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@setupVirtualDesktop5::
 	CheckForCmdEntryGui()
@@ -327,7 +327,7 @@ Return
 	WinMove, % "BibleGateway ahk_exe chrome.exe", , 136, 88, 1648, 874
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@startNotepadPp::
 
@@ -376,7 +376,7 @@ PerformScriptShutdownTasks() {
 	SaveCommitAnyFileMsgHistory()
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ^#!r::
 	PerformScriptShutdownTasks()
@@ -384,7 +384,7 @@ PerformScriptShutdownTasks() {
 	ExitApp
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ScriptExitFunc(ExitReason, ExitCode) {
 	if ExitReason in Logoff, Shutdown, Menu

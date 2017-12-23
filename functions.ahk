@@ -45,31 +45,31 @@ areTargetProcessesActive(targetProcesses, caller := "", notActiveErrMsg := "") {
 	return activeProcessName
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 doesVarExist(ByRef v) { ; Requires 1.0.46+ 
     return &v = &undeclared ? 0 : 1 
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 isVarEmpty(ByRef v) { ; Requires 1.0.46+ 
     return v = "" ? 1 : 0 
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 isVarDeclared(ByRef v) { ; Requires 1.0.46+ 
     return &v = &undeclared ? 0 : v = "" ? 0 : 1
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ErrorBox(whichFunc, errorMsg) {
 	MsgBox, % 0x10, % "Error in " . whichFunc, % errorMsg
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 InsertFilePath(ahkCmdName, filePath, headerStr:="") {
 	global lineLength
@@ -98,7 +98,7 @@ InsertFilePath(ahkCmdName, filePath, headerStr:="") {
     }
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 LaunchApplicationPatiently(path, title, matchMode := 2)
 {
@@ -126,7 +126,7 @@ LaunchApplicationPatiently(path, title, matchMode := 2)
     }
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 LaunchStdApplicationPatiently(path, title, matchMode := 2)
 {
@@ -154,7 +154,7 @@ LaunchStdApplicationPatiently(path, title, matchMode := 2)
     }
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 MoveCursorIntoActiveWindow(ByRef curPosX, ByRef curPosY)
 {
@@ -178,7 +178,7 @@ GetCursorCoordsToCenterInActiveWindow(ByRef newPosX, ByRef newPosY)
 	newPosY := winH / 2
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 PasteText(txtToPaste) {
 	if (clipboard != txtToPaste) {
@@ -188,7 +188,7 @@ PasteText(txtToPaste) {
 	SendInput, % "^v"
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 WaitForApplicationPatiently(title)
 {
@@ -207,7 +207,7 @@ WaitForApplicationPatiently(title)
     }
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 WriteCodeToFile(hsCaller, srcCode, srcFileToOverwrite) {
 	errorMsg := ""
@@ -257,7 +257,7 @@ InsertionSort(ByRef arrayObj, l, r) {
 	}
 }
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 MergeSort(ByRef arrayObj, l, r) {
 	if (r > l) {
@@ -305,19 +305,19 @@ Merge(ByRef arrayObj, l, m, r) {
 		. (A_IsUnicode ? "Unicode" : "ANSI") . " " . (A_IsAdmin ? "(Admin mode)" : "(Not Admin)")
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@getCurrentVersion::
 	MsgBox % "Current installed version of AHK: " . A_AhkVersion
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@getLastHotStrTime::
 	MsgBox % "The last hotstring took " . (hotStrEndTime - hotStrStartTime) . "ms to run."
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@getMousePos::
 	AppendAhkCmd(":*:@getMousePos")
@@ -326,7 +326,7 @@ Return
 		. "} relative to the window."
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@getWinHwnd::
 	AppendAhkCmd(":*:@getWinHwnd")
@@ -334,7 +334,7 @@ Return
 	MsgBox, % "The active window ID (HWND) is " . thisHwnd
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@getWinPID::
 	AppendAhkCmd(":*:@getWinPID")
@@ -342,7 +342,7 @@ Return
 	MsgBox, % "The active window PID is " . thisPID
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@getWinPos::
 	AppendAhkCmd(":*:@getWinPos")
@@ -351,7 +351,7 @@ Return
 		. thisW . ", height = " . thisH
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@getWinProcess::
 	AppendAhkCmd(":*:@getWinProcess")
@@ -359,7 +359,7 @@ Return
 	MsgBox, % "The active window process name is " . thisProcess
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@getWinTitle::
 	AppendAhkCmd(":*:@getWinTitle")
@@ -367,7 +367,7 @@ Return
 	MsgBox, The active window is "%thisTitle%"
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ^+F1::
 ^!Numpad1::
@@ -375,7 +375,7 @@ Return
 	MsgBox % "The clipboard is " . clpbrdLngth . " characters long."
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ^+F2::
 ^!Numpad2::
@@ -385,7 +385,7 @@ Return
 	SendInput, ^v
 Return
 
-; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ^!q::
 	IfWinExist % "Untitled - Notepad"
