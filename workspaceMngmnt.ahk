@@ -1,97 +1,87 @@
-; ============================================================================================================
+; ==================================================================================================
 ; WORKSPACE MANAGEMENT SCRIPTS
-; ============================================================================================================
+; ==================================================================================================
 ; LEGEND
 ; ! = ALT     + = SHIFT     ^ = CONTROL     # = WIN
 ; (see https://autohotkey.com/docs/commands/Send.htm for more info)
-; ============================================================================================================
+; ==================================================================================================
 
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 ; DEPENDENCIES
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 
 #include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\desktopStartup.ahk
 
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 ; FUNCTIONS & SUBROUTINES
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 
 IsWindowOnLeftDualMonitor() {
-    WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
-    
-    if (thisWinX < -8) {
-        return true
-    }
-    else {
-        return false
-    }
+	WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
+	
+	if (thisWinX < -8) {
+		return true
+	}
+	else {
+		return false
+	}
 }
 
-; ············································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 OpenChromeTab:
-    WinGet, thisProcess, ProcessName, A
-    if (thisProcess = "chrome.exe") {
-        SendInput ^n
-        Sleep 250
-        isReady := false
-        while !isReady
-        {
-            IfWinExist, % "New Tab"
-            {
-                isReady := true
-                Sleep, 500
-            }
-            else
-            {
-                Sleep, 250
-            }
-        }
-    }
+	WinGet, thisProcess, ProcessName, A
+	if (thisProcess = "chrome.exe") {
+		SendInput ^n
+		Sleep 250
+		isReady := false
+		while !isReady
+		{
+			IfWinExist, % "New Tab"
+			{
+				isReady := true
+				Sleep, 500
+			}
+			else
+			{
+				Sleep, 250
+			}
+		}
+	}
 return
 
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 ;   WINDOW POSITIONING HOTKEYS
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 
 ^F10::WinSet, Alwaysontop, Toggle, A
 
-; ············································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ^!F1::
 	SwitchDesktopByNumber(1)
 	SoundPlay, %desktopSwitchingSound%
 Return
 
-; ············································································································
-
 ^!F2::
 	SwitchDesktopByNumber(2)
 	SoundPlay, %desktopSwitchingSound%
 Return
-
-; ············································································································
 
 ^!F3::
 	SwitchDesktopByNumber(3)
 	SoundPlay, %desktopSwitchingSound%
 Return
 
-; ············································································································
-
 ^!F4::
 	SwitchDesktopByNumber(4)
 	SoundPlay, %desktopSwitchingSound%
 Return
 
-; ············································································································
-
 ^!F5::
 	SwitchDesktopByNumber(5)
 	SoundPlay, %desktopSwitchingSound%
 Return
-
-; ············································································································
 
 ^!F6::
 	SwitchDesktopByNumber(6)
@@ -101,52 +91,48 @@ Return
 	SoundPlay, %desktopSwitchingSound%
 Return
 
-; ············································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ^F9::
 	SoundPlay, %windowSizingSound%
-    SysGet, Mon1, MonitorWorkArea, 1
-    M1Width := Mon1Right - Mon1Left - 200
-    M1Height := Mon1Bottom - Mon1Top
-    WinRestore, A
-    WinMove, A, , 200, 0, %M1Width%, %M1Height%
+	SysGet, Mon1, MonitorWorkArea, 1
+	M1Width := Mon1Right - Mon1Left - 200
+	M1Height := Mon1Bottom - Mon1Top
+	WinRestore, A
+	WinMove, A, , 200, 0, %M1Width%, %M1Height%
 Return
-
-; ············································································································
 
 ^F8::
 	SoundPlay, %windowSizingSound%
-    SysGet, Mon1, MonitorWorkArea, 1
-    M1Width := Mon1Right - Mon1Left - 200
-    M1Height := Mon1Bottom - Mon1Top
-    WinRestore, A
-    WinMove, A, , 0, 0, %M1Width%, %M1Height%
+	SysGet, Mon1, MonitorWorkArea, 1
+	M1Width := Mon1Right - Mon1Left - 200
+	M1Height := Mon1Bottom - Mon1Top
+	WinRestore, A
+	WinMove, A, , 0, 0, %M1Width%, %M1Height%
 Return
-
-; ············································································································
 
 ^F7::
 	SoundPlay, %windowSizingSound%
-    SysGet, Mon1, MonitorWorkArea, 1
-    M1Width := Mon1Right - Mon1Left - 200
-    M1X := -M1Width
-    M1Height := Mon1Bottom - Mon1Top
-    WinRestore, A
-    WinMove, A, , %M1X%, 0, %M1Width%, %M1Height%
+	SysGet, Mon1, MonitorWorkArea, 1
+	M1Width := Mon1Right - Mon1Left - 200
+	M1X := -M1Width
+	M1Height := Mon1Bottom - Mon1Top
+	WinRestore, A
+	WinMove, A, , %M1X%, 0, %M1Width%, %M1Height%
 Return
-
-; ············································································································
 
 ^F6::
 	SoundPlay, %windowSizingSound%
-    SysGet, Mon1, MonitorWorkArea, 1
-    M1X := -(Mon1Right - Mon1Left)
-    M1Width := Mon1Right - Mon1Left - 200
-    M1Height := Mon1Bottom - Mon1Top
-    WinRestore, A
-    WinMove, A, , %M1X%, 0, %M1Width%, %M1Height%
+	SysGet, Mon1, MonitorWorkArea, 1
+	M1X := -(Mon1Right - Mon1Left)
+	M1Width := Mon1Right - Mon1Left - 200
+	M1Height := Mon1Bottom - Mon1Top
+	WinRestore, A
+	WinMove, A, , %M1X%, 0, %M1Width%, %M1Height%
 	TriggerWinWidthAdjustGui(0, 320, M1Width)
 Return
+
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 TriggerWinWidthAdjustGui(snapEdge, minWidth, maxWidth) {
 	global guiWinWidthAdjustVars
@@ -161,7 +147,8 @@ TriggerWinWidthAdjustGui(snapEdge, minWidth, maxWidth) {
 	
 	Gui, guiWinWidthAdjust: New,
 		, % "Adjust Active Window Width"
-	Gui, guiWinWidthAdjust: Add, Slider, vguiWinWidthAdjustSlider gHandleWinWidthSliderPosChange AltSubmit W300, 100
+	Gui, guiWinWidthAdjust: Add, Slider
+		, vguiWinWidthAdjustSlider gHandleWinWidthSliderPosChange AltSubmit W300, 100
 	Gui, guiWinWidthAdjust: Add, Button, Default gHandleGuiWinWidthAdjustOK, &OK
 	Gui, guiWinWidthAdjust: Show
 	if (snapEdge < 2) {
@@ -180,8 +167,8 @@ HandleWinWidthSliderPosChange() {
 	Gui, guiWinWidthAdjust: Submit, NoHide
 	whichHwnd := guiWinWidthAdjustVars.whichHwnd
 	WinGetPos, posX, posY, posW, posH, ahk_id %whichHwnd%
-	newWidth := guiWinWidthAdjustVars.minWidth + (guiWinWidthAdjustVars.maxWidth - guiWinWidthAdjustVars.minWidth)
-		* (guiWinWidthAdjustSlider / 100)
+	newWidth := guiWinWidthAdjustVars.minWidth + (guiWinWidthAdjustVars.maxWidth 
+		- guiWinWidthAdjustVars.minWidth) * (guiWinWidthAdjustSlider / 100)
 	if (guiWinWidthAdjustVars.snapEdge = 0 || guiWinWidthAdjustVars.snapEdge = 2) {
 		WinMove, ahk_id %whichHwnd%, , %posX%, %posY%, %newWidth%, %posH%
 	}
@@ -195,7 +182,7 @@ guiWinWidthAdjustGuiEscape() {
 	Gui, guiWinWidthAdjust: Destroy
 }
 
-; ············································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ^!#Left::
 	;Snap the active window to the left edge of its monitor; if already snapped, reduce its width
@@ -215,8 +202,6 @@ guiWinWidthAdjustGuiEscape() {
 	}
 return
 
-; ············································································································
-
 ^!+#Left::
 	;Snap the active window to the left edge of its monitor; if already snapped, increase its width
 	SoundPlay, %windowMovementSound%
@@ -235,7 +220,7 @@ return
 	}
 return
 
-; ············································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ^!#Right::
 	;Snap the active window to the right edge of its monitor; if already snapped, reduce its width
@@ -243,7 +228,7 @@ return
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
-        newWinX := monitorARight - thisWinW
+		newWinX := monitorARight - thisWinW
 		thisWinH := monitorABottom - monitorATop
 		if (thisWinX = newWinX and thisWinW > (monitorARight - monitorALeft) / 4) {
 			newWinX += 100
@@ -259,15 +244,13 @@ return
 	}
 return
 
-; ············································································································
-
 ^!+#Right::
 	;Snap the active window to the right edge of its monitor; if already snapped, increase its width
 	SoundPlay, %windowMovementSound%
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
-        newWinX := monitorARight - thisWinW
+		newWinX := monitorARight - thisWinW
 		thisWinH := monitorABottom - monitorATop
 		if (thisWinX = newWinX and thisWinW < (monitorARight - monitorALeft - 100)) {
 			newWinX -= 100
@@ -284,15 +267,15 @@ return
 	}
 return
 
-; ············································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ^!#Down::
 	;TODO: Refactor to rely on global variables that store monitor dimensions
 	SoundPlay, %windowMovementSound%
-    if (IsWindowOnLeftDualMonitor()) {
-        SysGet, Mon2, MonitorWorkArea, 2
-        WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
-        newWinY := Mon2Bottom - thisWinH
+	if (IsWindowOnLeftDualMonitor()) {
+		SysGet, Mon2, MonitorWorkArea, 2
+		WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
+		newWinY := Mon2Bottom - thisWinH
 		newWinW := Mon2Right - Mon2Left
 		if (thisWinY = newWinY and thisWinH > (Mon2Bottom - Mon2Top) / 4) {
 			newWinY := newWinY + 100
@@ -306,11 +289,11 @@ return
 			newWinY := 100
 			WinMove, A, , %Mon2Left%, %newWinY%, %newWinW%, %thisWinH%
 		}
-    }
-    else {
-        SysGet, Mon1, MonitorWorkArea, 1
-        WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
-        newWinY := Mon1Bottom - thisWinH
+	}
+	else {
+		SysGet, Mon1, MonitorWorkArea, 1
+		WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
+		newWinY := Mon1Bottom - thisWinH
 		newWinW := Mon1Right - Mon1Left
 		if (thisWinY = newWinY and thisWinH > (Mon1Bottom - Mon1Top) / 4) {
 			newWinY := newWinY + 100
@@ -324,10 +307,10 @@ return
 			newWinY := 100
 			WinMove, A, , %Mon1Left%, 0, %newWinW%, %thisWinH%
 		}
-    }
+	}
 return
 
-; ············································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ^!#Numpad5::
 	;Snap the center of the active window to the center of its monitor
@@ -335,32 +318,35 @@ return
 	;TODO: Expand to reduce window dimensions if already snapped
 	;TODO: Add a hotkey variant that increases the window dimensions if already snapped
 	SoundPlay, %windowMovementSound%
-    if (IsWindowOnLeftDualMonitor()) {
-        SysGet, Mon2, MonitorWorkArea, 2
-        WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
+	if (IsWindowOnLeftDualMonitor()) {
+		SysGet, Mon2, MonitorWorkArea, 2
+		WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
 		; if (thisWinW < ) 50 vs. 28.125
 		newWinX := (Mon2Right - Mon2Left) / 2 - (Mon2Right - Mon2Left - 200) / 2 + Mon2Left
 		newWinY := (Mon2Bottom - Mon2Top) / 2 - (Mon2Bottom - Mon2Top - 112) / 2 + Mon2Top
-		WinMove, A, , %newWinX%, %newWinY%, % (Mon2Right - Mon2Left - 200), % (Mon2Bottom - Mon2Top - 112)
-    }
-    else {
-        SysGet, Mon1, MonitorWorkArea, 1
-        WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
+		WinRestore, A
+		WinMove, A, , %newWinX%, %newWinY%, % (Mon2Right - Mon2Left - 200), % (Mon2Bottom 
+			- Mon2Top - 112)
+	}
+	else {
+		SysGet, Mon1, MonitorWorkArea, 1
+		WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
 		newWinX := (Mon1Right - Mon1Left) / 2 - (Mon1Right - Mon1Left - 200) / 2 + Mon1Left
 		newWinY := (Mon1Bottom - Mon1Top) / 2 - (Mon1Bottom - Mon1Top - 112) / 2 + Mon1Top
-		WinMove, A, , %newWinX%, %newWinY%, % (Mon1Right - Mon1Left - 200), % (Mon1Bottom - Mon1Top - 112)
-    }	
+		WinRestore, A
+		WinMove, A, , %newWinX%, %newWinY%, % (Mon1Right - Mon1Left - 200), % (Mon1Bottom 
+			- Mon1Top - 112)
+	}	
 return
 
-; ············································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
-;TODO: Add hotkeys for moving the window around on the desktop using the keyboard instead of dragging with mouse
+; TODO: Add hotkeys for moving the window around on the desktop using the keyboard instead of 
+; dragging with mouse
 
-; ············································································································
-
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 ;   VIRTUAL DESKTOP HOTKEYS
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 
 ^!1::
 	MoveActiveWindowToVirtualDesktop(1)
@@ -384,20 +370,20 @@ return
 
 ^!5::
 	MoveActiveWindowToVirtualDesktop(5)
-    ; if (IsWindowOnLeftDualMonitor()) {
-        ; SendInput, #{Tab}
-        ; Sleep, 400
-        ; SendInput, {Tab 2}{AppsKey}{m}{Down 4}{Enter}
-        ; Sleep, 120
-        ; SendInput, #{Tab}
-    ; }
-    ; else {
-        ; SendInput, #{Tab}
-        ; Sleep, 400
-        ; SendInput, {AppsKey}{m}{Down 4}{Enter}
-        ; Sleep, 120
-        ; SendInput, #{Tab}
-    ; }
+	; if (IsWindowOnLeftDualMonitor()) {
+		; SendInput, #{Tab}
+		; Sleep, 400
+		; SendInput, {Tab 2}{AppsKey}{m}{Down 4}{Enter}
+		; Sleep, 120
+		; SendInput, #{Tab}
+	; }
+	; else {
+		; SendInput, #{Tab}
+		; Sleep, 400
+		; SendInput, {AppsKey}{m}{Down 4}{Enter}
+		; Sleep, 120
+		; SendInput, #{Tab}
+	; }
 	SoundPlay, %windowShiftingSound%
 return
 
@@ -406,45 +392,45 @@ return
 	SoundPlay, %windowShiftingSound%
 Return
 
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 ;   AUDITORY CUE BINDING
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 
 
 ^!m::
-    WinGetPos, thisX, thisY, thisW, thisH, A
-    thisX := -thisX - thisW
-    WinMove, A, , %thisX%, %thisY%, %thisW%, %thisH%
+	WinGetPos, thisX, thisY, thisW, thisH, A
+	thisX := -thisX - thisW
+	WinMove, A, , %thisX%, %thisY%, %thisW%, %thisH%
 	SoundPlay, %windowMovementSound%
 Return
 
-; ············································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ~^#Left::
 	SoundPlay, %desktopSwitchingSound%
 Return
 
-; ············································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ~+#Left::
 	SoundPlay, %windowMovementSound%
 Return
 
-; ············································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ~^#Right::
 	SoundPlay, %desktopSwitchingSound%
 Return
 
-; ············································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ~+#Right::
 	SoundPlay, %windowMovementSound%
 Return
 
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 ;   MOUSE HOTKEYS
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 
 ;TODO: Convert these functions into an array based format
 ^!+RButton::
@@ -455,7 +441,7 @@ Return
 	MouseGetPos, savedMouseX, savedMouseY
 Return
 
-; ············································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ^!+LButton::
 	global savedMouseX
@@ -465,21 +451,21 @@ Return
 	MouseMove, %savedMouseX%, %savedMouseY%
 Return
 
-; ············································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ^!#LButton::
 	CoordMode, Mouse, Screen
 	MouseMove, -1568, 1065
 Return
 
-; ············································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ^!#RButton::
 	CoordMode, Mouse, Screen
 	MouseMove, 351, 1065
 Return
 
-; ············································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 #LButton::
 	CoordMode, Mouse, Window
@@ -488,7 +474,7 @@ Return
 	MouseMove, % (thisWinW / 2), % (thisWinH / 2)
 Return
 
-; ············································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ^#LButton::
 !SC029::
@@ -498,11 +484,11 @@ Return
 	MouseMove, % (thisWinW / 7), % (thisWinH / 2)
 Return
 
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 ;   APP SPECIFIC WORKSPACE MANAGEMENT SCRIPTS
-; ------------------------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------------
 
-; ············································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 ; >>> GNU IMAGE MANIPULATION PROGRAM: PHOTO EDITING & GRAPHIC DESIGN ENHANCEMENT HOTKEYS & SCRIPTS
 
 :*:@toggleGimp::
@@ -526,7 +512,7 @@ Return
 	WinActivate, % "ahk_id" . thisHwnd
 return
 
-; ············································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ;TODO: Implement this for Skype muting regardless of what application is currently active.
 
@@ -539,14 +525,14 @@ return
 ;Return
 
 PeformBypassingCtrlM:
-    Suspend
-    Sleep 10
-    SendInput ^m
-    Sleep 10
-    Suspend, Off
+	Suspend
+	Sleep 10
+	SendInput ^m
+	Sleep 10
+	Suspend, Off
 Return
 
-; ············································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 ; >>> NOTEPAD++: TEXT EDITING ENHANCEMENT HOTKEYS & SCRIPTS
 
 DoChangeDelimiter(leftDelimiter, rightDelimeter) {
@@ -569,47 +555,47 @@ DoChangeDelimiter(leftDelimiter, rightDelimeter) {
 	Click, 417, 335
 }
 
-; ············································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ^!+'::
-    WinGet, thisProcess, ProcessName, A
-    if (thisProcess = "notepad++.exe") {
+	WinGet, thisProcess, ProcessName, A
+	if (thisProcess = "notepad++.exe") {
 		DoChangeDelimiter("""", """")
 	}
 Return
 
-; ············································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ^!+9::
-    WinGet, thisProcess, ProcessName, A
-    if (thisProcess = "notepad++.exe") {
+	WinGet, thisProcess, ProcessName, A
+	if (thisProcess = "notepad++.exe") {
 		DoChangeDelimiter("(", ")")
 	}
 Return
 
-; ············································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ^!+[::
-    WinGet, thisProcess, ProcessName, A
-    if (thisProcess = "notepad++.exe") {
+	WinGet, thisProcess, ProcessName, A
+	if (thisProcess = "notepad++.exe") {
 		DoChangeDelimiter("{{}", "{}}")
 	}
 Return
 
-; ············································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ^![::
-    WinGet, thisProcess, ProcessName, A
-    if (thisProcess = "notepad++.exe") {
+	WinGet, thisProcess, ProcessName, A
+	if (thisProcess = "notepad++.exe") {
 		DoChangeDelimiter("[", "]")
 	}
 Return
 
-; ············································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 >^t::
-    WinGet, thisProcess, ProcessName, A
-    if (thisProcess = "notepad++.exe") {
+	WinGet, thisProcess, ProcessName, A
+	if (thisProcess = "notepad++.exe") {
 		SendInput, % "{Esc}"
 		Sleep, 10
 		SendInput, % "^f"
@@ -628,7 +614,7 @@ Return
 	}
 Return
 
-; ············································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 ; >>> STICKY NOTES FOR CHROME
 
 :*:@initStickyNoteToggle::
@@ -636,10 +622,11 @@ Return
 	ahkCmdName := ":*:@initStickyNoteToggle"
 	AppendAhkCmd(ahkCmdName)
 	WinGet, hwndStickyNoteWindow, ID, A
-	MsgBox, 0, % ":*:@initStickyNoteSwitcher", % "Sticky note window with HWND " . hwndStickyNoteWindow . " can now be toggled via the hotstring @toggleStickyNote."
+	MsgBox, 0, % ":*:@initStickyNoteSwitcher", % "Sticky note window with HWND " 
+		. hwndStickyNoteWindow . " can now be toggled via the hotstring @toggleStickyNote."
 Return
 
-; ············································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@toggleStickyNote::
 	global hwndStickyNoteWindow
@@ -652,13 +639,15 @@ Return
 			if (hwndActiveBeforeStickyNote != undefined) {
 				WinActivate, % "ahk_id " . hwndActiveBeforeStickyNote
 			} else {
-				ErrorBox(ahkCmdName, "Unable to switch away from Sticky Notes for Chrome because the app that was previously active is unknown.")
+				ErrorBox(ahkCmdName, "Unable to switch away from Sticky Notes for Chrome because "
+					. "the app that was previously active is unknown.")
 			}
 		} else {
 			WinGet, hwndActiveBeforeStickyNote, ID, A
 			WinActivate, % "ahk_id " . hwndStickyNoteWindow
 		}
 	} else {
-		ErrorBox(ahkCmdName, "A sticky note window has not yet been initialized via @initStickyNoteSwitcher for use with this hotstring.")
+		ErrorBox(ahkCmdName, "A sticky note window has not yet been initialized via "
+			. "@initStickyNoteSwitcher for use with this hotstring.")
 	}
 Return
