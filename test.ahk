@@ -1,10 +1,116 @@
-;testFunction(":*:@commitCssUgr", "undergraduateresearch.wsu.edu", "undergraduate-research-custom.less", "undergraduate-research-custom.css", "undergraduate-research-custom.min.css")
+;testFunction(":*:@commitCssUgr", "undergraduateresearch.wsu.edu"
+;	, "undergraduate-research-custom.less", "undergraduate-research-custom.css"
+;	, "undergraduate-research-custom.min.css")
 
 #include %A_ScriptDir%\guiMsgBox.ahk
+#include %A_ScriptDir%\trie.ahk
 
-testFunction9()
+testFunction13()
+
+testFunction14() {
+	string = "The Quick Brown Fox Jumps Over the Lazy Dog"
+	MsgBox, % string[2]
+	ExitApp
+}
+
+testFunction13() {
+	myTrie := New Trie("", false)
+	myTrie.Insert("tea")
+	myTrie.Insert("teavana")
+	myTrie.Insert("teava")
+	myTrie.Insert("burritos")
+	myTrie.Insert("bulls")
+	myTrie.Insert("bullspit")
+	myTrie.Insert("caca")
+	trieWords := myTrie.GetPipedWordsList("te")
+	MsgBox, % trieWords
+	; PrintArray(trieWords)
+	; trieWords := myTrie.GetWordsArray("b")
+	; PrintArray(trieWords)
+	ExitApp
+}
+
+PrintArray(arrayToPrint) {
+	msg := ""
+	For key, value in arrayToPrint
+	{
+		if (A_Index != 1) {
+			msg .= "`n"
+		}
+		msg .= value
+	}
+	MsgBox, % msg
+}
+
+testFunction12() {
+	testA := New Test()
+	testA.foo := 5
+	array := testA.children
+	array["taco"] := "beef"
+	array["burrito"] := "chicken"
+	array["enchilada"] := "crab"
+	testA.PrintChildren()
+	MsgBox, % testA.foo
+	ExitApp
+}
+
+class Test {
+	_children := Object()
+	PrintChildren() {
+		msg := ""
+		idx := 0
+		For key, value in (this._children)
+		{
+			if (idx != 0) {
+				msg .= "`n"
+			}
+			msg .= key . " = " . value
+			idx++
+		}
+		MsgBox, % msg
+	}
+	children[]
+	{
+		get {
+			return this._children
+		}
+		set {
+			return undefined
+		}
+	}
+	foo[]
+	{
+		get {
+			return this._foo
+		}
+		set {
+			return this._foo := value
+		}
+	}
+}
+
+testFunction11() {
+	obj := Object()
+	obj["taco"] := "beef"
+	msg := "Type of taco = " . obj["taco"] . "`nType of burrito = " . obj["burrito"]
+	MsgBox, % msg
+	if (obj["burrito"]) {
+		MsgBox, % "Burrito exists."
+	}
+	ExitApp
+}
+
+testFunction10() {
+	delay := 100
+	Sleep (%delay% * 5)
+	MsgBox % "Just a test."
+	SetTitleMatchMode RegEx
+	WinActivate | Washington State University ahk_exe chrome\.exe
+	ExitApp	
+}
 
 testFunction9() {
+	SetTitleMatchMode, RegEx
 	testMsgBox := New GuiMsgBox("This is a test", Func("HandleGuiMsgBoxOk"))
 	testMsgBox2 := New GuiMsgBox("This is another test", Func("HandleGuiMsgBoxOk"), "Default2"
 		, "Oh look, a title!")
@@ -53,7 +159,8 @@ ExitTimer() {
 }
 
 testFunction6() {
-	value := "This is our test's ""string""; it should be displayed right now with escaped quotation marks"
+	value := "This is our test's ""string""; it should be displayed right now with escaped quotatio"
+		. "n marks"
 	escapedValue := EscapeCommitMessage(value)
 	MsgBox, % escapedValue
 	ExitApp
@@ -116,10 +223,10 @@ testFunction(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssbuild, fnMinCssBuild) 
 	commitCssVars.fnMinCssBuild := fnMinCssBuild
 	commitCssVars.dflt1stCommitMsg := "Updating custom CSS build with recent submodule changes"
 	commitCssVars.dflt1stCommitMsgAlt := "Updating custom CSS build w/ source & submodule changes"
-	commitCssVars.dflt2ndCommitMsg := "Rebuilding custom CSS production files to incorporate recent changes "
-		. "to OUE-wide build dependencies."
-	commitCssVars.dflt2ndCommitMsgAlt := "Rebuilding custom CSS production files to incorporate recent "
-		. "changes to site-specific and OUE-wide build dependencies."
+	commitCssVars.dflt2ndCommitMsg := "Rebuilding custom CSS production files to incorporate "
+		. "recent changes to OUE-wide build dependencies."
+	commitCssVars.dflt2ndCommitMsgAlt := "Rebuilding custom CSS production files to incorporate "
+		. "recent changes to site-specific and OUE-wide build dependencies."
 	msgLen1st := StrLen(commitCssVars.dflt1stCommitMsg)
 	msgLen2nd := StrLen(commitCssVars.dflt2ndCommitMsg)
 	
@@ -127,11 +234,15 @@ testFunction(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssbuild, fnMinCssBuild) 
 	; GUI initialization & display to user
 	Gui, guiCommitCssBuild: New, , % ahkCmdName . " Commit Message Specification"
 	Gui, guiCommitCssBuild: Add, Text, , % "&Primary commit message:"
-	Gui, guiCommitCssBuild: Add, Edit, vctrlCommitCss1stMsg gHandleCommitCss1stMsgChange X+5 W606, % commitCssVars.dflt1stCommitMsg
-	Gui, guiCommitCssbuild: Add, Text, vctrlCommitCss1stMsgCharCount Y+1 W500, % "Length = " . msgLen1st . " characters"
+	Gui, guiCommitCssBuild: Add, Edit, vctrlCommitCss1stMsg gHandleCommitCss1stMsgChange X+5 W606
+		, % commitCssVars.dflt1stCommitMsg
+	Gui, guiCommitCssbuild: Add, Text, vctrlCommitCss1stMsgCharCount Y+1 W500, % "Length = " 
+		. msgLen1st . " characters"
 	Gui, guiCommitCssBuild: Add, Text, xm Y+12, % "&Secondary commit message:"
-	Gui, guiCommitCssBuild: Add, Edit, vctrlCommitCss2ndMsg gHandleCommitCss2ndMsgChange X+5 W589, % commitCssVars.dflt2ndCommitMsg
-	Gui, guiCommitCssbuild: Add, Text, vctrlCommitCss2ndMsgCharCount Y+1, % "Length = " . msgLen2nd . " characters"
+	Gui, guiCommitCssBuild: Add, Edit, vctrlCommitCss2ndMsg gHandleCommitCss2ndMsgChange X+5 W589
+		, % commitCssVars.dflt2ndCommitMsg
+	Gui, guiCommitCssbuild: Add, Text, vctrlCommitCss2ndMsgCharCount Y+1, % "Length = " 
+		. msgLen2nd . " characters"
 	Gui, guiCommitCssBuild: Add, Checkbox
 		, vctrlCommitCssAlsoCommitLessSrc gHandleCommitCssCheckLessFileCommit xm Y+12
 		, % "&Also commit less source " . commitCssVars.fnLessSrcFile . "?"
