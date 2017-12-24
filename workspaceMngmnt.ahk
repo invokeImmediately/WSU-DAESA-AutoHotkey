@@ -156,24 +156,46 @@ TriggerWindowAdjustmentGui(edgeSnapping, minWidth, maxWidth, initialWidth, minHe
 	local whichHwnd
 	local onLeftMonitor := IsWindowOnLeftDualMonitor()
 	local sliderPos := (initialWidth - minWidth) / (maxWidth - minWidth) * 100
+	local xSnapOptL
+	local xSnapOptC
+	local xSnapOptR
+	local ySnapOptT
+	local ySnapOptC
+	local ySnapOptB
 
+	; Store persistent data in GUI's associated global object
 	WinGet, whichHwnd, ID, A
-	guiWindowAdjustVars := Object()
-	guiWindowAdjustVars.whichHwnd := whichHwnd
-	guiWindowAdjustVars.minWidth := minWidth
-	guiWindowAdjustVars.maxWidth := maxWidth
-	guiWindowAdjustVars.minHeight := minHeight
-	guiWindowAdjustVars.maxHeight := maxHeight
-	guiWindowAdjustVars.edgeSnapping := edgeSnapping
-	
-	Gui, guiWindowAdjust: New,
+	guiWinAdjVars := Object()
+	guiWinAdjVars.whichHwnd := whichHwnd
+	guiWinAdjVars.minWidth := minWidth
+	guiWinAdjVars.maxWidth := maxWidth
+	guiWinAdjVars.minHeight := minHeight
+	guiWinAdjVars.maxHeight := maxHeight
+	guiWinAdjVars.edgeSnapping := edgeSnapping
+
+	; Process edgeSnapping bitmask
+	xSnapOptL := edgeSnapping & 1
+	xSnapOptC := edgeSnapping & (1 << 1)
+	xSnapOptR := edgeSnapping & (1 << 2)
+	ySnapOptT := edgeSnapping & (1 << 3)
+	ySnapOptC := edgeSnapping & (1 << 4)
+	ySnapOptB := edgeSnapping & (1 << 5)
+
+	; Setup GUI & display to user	
+	Gui, guiWinAdj: New,
 		, % "Adjust Active Window Width"
-	Gui, guiWindowAdjust: Add, Text, , Window width:
-	Gui, guiWindowAdjust: Add, Slider
-		, vguiWindowAdjustWidthSlider gHandleGuiWindowAdjustWidthSliderChange AltSubmit W300 X+5
+	Gui, guiWinAdj: Add, Text, , Window width:
+	Gui, guiWinAdj: Add, Slider
+		, vguiWinAdjWidthSlider gHandleGuiWinAdjWidthSliderChange AltSubmit W300 x+5
 		, %sliderPos%
-	Gui, guiWindowAdjust: Add, Button, Default gHandleGuiWindowAdjustOK, &OK
-	Gui, guiWindowAdjust: Show
+	Gui, guiWinAdj: Add, Text, xm, Horizontal snapping:
+	Gui, guiWinAdj: Add, Radio, vguiWinAdjXSnapOpts x+5 Checked%xSnapOptL%, Left
+	Gui, guiWinAdj: Add, Radio, x+5 Checked%xSnapOptC%, Center
+	Gui, guiWinAdj: Add, Radio, x+5 Checked%xSnapOptR%, Right	
+	Gui, guiWinAdj: Add, Button, Default gHandleGuiWinAdjOK xm y+15, &OK
+	Gui, guiWinAdj: Show
+
+	; GUI always loads on primary, right monitor; switch to left monitor if appropriate
 	if (onLeftMonitor) {
 		SysGet, Mon2, MonitorWorkArea, 2
 		WinGet, guiHwnd, ID, A
@@ -183,30 +205,49 @@ TriggerWindowAdjustmentGui(edgeSnapping, minWidth, maxWidth, initialWidth, minHe
 	}
 }
 
-HandleGuiWindowAdjustWidthSliderChange() {
-	global guiWindowAdjustVars
-	global guiWindowAdjustWidthSlider
+HandleGuiWinAdjWidthSliderChange() {
+	global guiWinAdjVars
+	global guiWinAdjWidthSlider
+	global guiWinAdjXSnapOpts
 
 	; Add test to ensure window still exists.
-	Gui, guiWindowAdjust: Submit, NoHide
-	whichHwnd := guiWindowAdjustVars.whichHwnd
+
+	Gui, guiWinAdj: Submit, NoHide
+
+	; Update edgeSnapping as needed
+	bitMask := 56 ; 0b111000
+	if (guiWinAdjXSnapOpts == 1) {
+		bitSwitch := 1 ; 0b000001
+	} else if (guiWinAdjXSnapOpts == 2) {
+		bitSwitch := 2 ; 0b000010
+	} else {
+		bitSwitch := 4 ; 0b000100
+	}
+	guiWinAdjVars.edgeSnapping &= bitMask
+	guiWinAdjVars.edgeSnapping += bitSwitch
+
+	; Move window as dictated by snapping choice and slider position
+	whichHwnd := guiWinAdjVars.whichHwnd
 	WinGetPos, posX, posY, posW, posH, ahk_id %whichHwnd%
-	newWidth := guiWindowAdjustVars.minWidth + (guiWindowAdjustVars.maxWidth 
-		- guiWindowAdjustVars.minWidth) * (guiWindowAdjustWidthSlider / 100)
-	if (guiWindowAdjustVars.edgeSnapping & 1) {
+	newWidth := guiWinAdjVars.minWidth + (guiWinAdjVars.maxWidth 
+		- guiWinAdjVars.minWidth) * (guiWinAdjWidthSlider / 100)
+	if (guiWinAdjVars.edgeSnapping & 1) {
 		WinMove, ahk_id %whichHwnd%, , %posX%, %posY%, %newWidth%, %posH%
-	} else if (guiWindowAdjustVars.edgeSnapping & (1 << 1)) {
+	} else if (guiWinAdjVars.edgeSnapping & (1 << 1)) {
 		posXNew := posX - (newWidth - posW)
 		WinMove, ahk_id %whichHwnd%, , %posXNew%, %posY%, %newWidth%, %posH%
+	} else if (guiWinAdjVars.edgeSnapping & (1 << 2)) {
+		posXNew := posX - (newWidth - posW) / 2
+		WinMove, ahk_id %whichHwnd%, , %posXNew%, %posY%, %newWidth%, %posH%		
 	}
 }
 
-HandleguiWindowAdjustOK() {
-	Gui, guiWindowAdjust: Destroy
+HandleguiWinAdjOK() {
+	Gui, guiWinAdj: Destroy
 }
 
-guiWindowAdjustGuiEscape() {
-	Gui, guiWindowAdjust: Destroy
+guiWinAdjGuiEscape() {
+	Gui, guiWinAdj: Destroy
 }
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
