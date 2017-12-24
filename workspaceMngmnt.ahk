@@ -96,62 +96,85 @@ Return
 ^F9::
 	SoundPlay, %windowSizingSound%
 	SysGet, Mon1, MonitorWorkArea, 1
-	M1Width := Mon1Right - Mon1Left - 200
-	M1Height := Mon1Bottom - Mon1Top
+	maxWidth := Mon1Right - Mon1Left 
+	newWidth := maxWidth - 200
+	maxHeight := Mon1Bottom - Mon1Top 
 	WinRestore, A
-	WinMove, A, , 200, 0, %M1Width%, %M1Height%
+	WinMove, A, , 200, 0, %newWidth%, %maxHeight%
+	TriggerWindowAdjustmentGui(2, 320, maxWidth, newWidth, 180, maxHeight, maxHeight)
 Return
 
 ^F8::
 	SoundPlay, %windowSizingSound%
 	SysGet, Mon1, MonitorWorkArea, 1
-	M1Width := Mon1Right - Mon1Left - 200
-	M1Height := Mon1Bottom - Mon1Top
+	maxWidth := Mon1Right - Mon1Left 
+	newWidth := maxWidth - 200
+	maxHeight := Mon1Bottom - Mon1Top
 	WinRestore, A
-	WinMove, A, , 0, 0, %M1Width%, %M1Height%
+	WinMove, A, , 0, 0, %newWidth%, %maxHeight%
+	TriggerWindowAdjustmentGui(1, 320, maxWidth, newWidth, 180, maxHeight, maxHeight)
 Return
 
 ^F7::
 	SoundPlay, %windowSizingSound%
 	SysGet, Mon1, MonitorWorkArea, 1
-	M1Width := Mon1Right - Mon1Left - 200
-	M1X := -M1Width
-	M1Height := Mon1Bottom - Mon1Top
+	maxWidth := Mon1Right - Mon1Left
+	newWidth := maxWidth - 200
+	newPosX := -newWidth
+	maxHeight := Mon1Bottom - Mon1Top
 	WinRestore, A
-	WinMove, A, , %M1X%, 0, %M1Width%, %M1Height%
+	WinMove, A, , %newPosX%, 0, %newWidth%, %maxHeight%
+	TriggerWindowAdjustmentGui(2, 320, maxWidth, newWidth, 180, maxHeight, maxHeight)
 Return
 
 ^F6::
 	SoundPlay, %windowSizingSound%
 	SysGet, Mon1, MonitorWorkArea, 1
-	M1X := -(Mon1Right - Mon1Left)
-	M1Width := Mon1Right - Mon1Left - 200
-	M1Height := Mon1Bottom - Mon1Top
+	maxWidth := Mon1Right - Mon1Left
+	newWidth := maxWidth - 200
+	newPosX := -maxWidth
+	maxHeight := Mon1Bottom - Mon1Top
 	WinRestore, A
-	WinMove, A, , %M1X%, 0, %M1Width%, %M1Height%
-	TriggerWinWidthAdjustGui(0, 320, M1Width)
+	WinMove, A, , %newPosX%, 0, %newWidth%, %maxHeight%
+	TriggerWindowAdjustmentGui(1, 320, maxWidth, newWidth, 180, maxHeight, maxHeight)
 Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
-TriggerWinWidthAdjustGui(snapEdge, minWidth, maxWidth) {
-	global guiWinWidthAdjustVars
-	global guiWinWidthAdjustSlider
-	
+; Edge snapping values & meaning:
+;   0b000001 = snap left
+;   0b000010 = snap right
+;   0b000100 = snap horizontal center
+;   0b001000 = snap top
+;   0b010000 = snap bottom
+;   0b000100 = snap vertical center
+; For mixed values, effects are triggered from top to bottom as listed above; thus, if left and 
+; right snapping bits are both set to true, left snapping will override right snapping.
+TriggerWindowAdjustmentGui(edgeSnapping, minWidth, maxWidth, initialWidth, minHeight, maxHeight
+		, initialHeight) {
+	global
+	local whichHwnd
+	local onLeftMonitor := IsWindowOnLeftDualMonitor()
+	local sliderPos := (initialWidth - minWidth) / (maxWidth - minWidth) * 100
+
 	WinGet, whichHwnd, ID, A
-	guiWinWidthAdjustVars := Object()
-	guiWinWidthAdjustVars.whichHwnd := whichHwnd
-	guiWinWidthAdjustVars.minWidth := minWidth
-	guiWinWidthAdjustVars.maxWidth := maxWidth
-	guiWinWidthAdjustVars.snapEdge := snapEdge
+	guiWindowAdjustVars := Object()
+	guiWindowAdjustVars.whichHwnd := whichHwnd
+	guiWindowAdjustVars.minWidth := minWidth
+	guiWindowAdjustVars.maxWidth := maxWidth
+	guiWindowAdjustVars.minHeight := minHeight
+	guiWindowAdjustVars.maxHeight := maxHeight
+	guiWindowAdjustVars.edgeSnapping := edgeSnapping
 	
-	Gui, guiWinWidthAdjust: New,
+	Gui, guiWindowAdjust: New,
 		, % "Adjust Active Window Width"
-	Gui, guiWinWidthAdjust: Add, Slider
-		, vguiWinWidthAdjustSlider gHandleWinWidthSliderPosChange AltSubmit W300, 100
-	Gui, guiWinWidthAdjust: Add, Button, Default gHandleGuiWinWidthAdjustOK, &OK
-	Gui, guiWinWidthAdjust: Show
-	if (snapEdge < 2) {
+	Gui, guiWindowAdjust: Add, Text, , Window width:
+	Gui, guiWindowAdjust: Add, Slider
+		, vguiWindowAdjustWidthSlider gHandleGuiWindowAdjustWidthSliderChange AltSubmit W300 X+5
+		, %sliderPos%
+	Gui, guiWindowAdjust: Add, Button, Default gHandleGuiWindowAdjustOK, &OK
+	Gui, guiWindowAdjust: Show
+	if (onLeftMonitor) {
 		SysGet, Mon2, MonitorWorkArea, 2
 		WinGet, guiHwnd, ID, A
 		WinGetPos, posX, posY, posW, posH, ahk_id %guiHwnd%
@@ -160,26 +183,30 @@ TriggerWinWidthAdjustGui(snapEdge, minWidth, maxWidth) {
 	}
 }
 
-HandleWinWidthSliderPosChange() {
-	global guiWinWidthAdjustVars
-	global guiWinWidthAdjustSlider
-	
-	Gui, guiWinWidthAdjust: Submit, NoHide
-	whichHwnd := guiWinWidthAdjustVars.whichHwnd
+HandleGuiWindowAdjustWidthSliderChange() {
+	global guiWindowAdjustVars
+	global guiWindowAdjustWidthSlider
+
+	; Add test to ensure window still exists.
+	Gui, guiWindowAdjust: Submit, NoHide
+	whichHwnd := guiWindowAdjustVars.whichHwnd
 	WinGetPos, posX, posY, posW, posH, ahk_id %whichHwnd%
-	newWidth := guiWinWidthAdjustVars.minWidth + (guiWinWidthAdjustVars.maxWidth 
-		- guiWinWidthAdjustVars.minWidth) * (guiWinWidthAdjustSlider / 100)
-	if (guiWinWidthAdjustVars.snapEdge = 0 || guiWinWidthAdjustVars.snapEdge = 2) {
+	newWidth := guiWindowAdjustVars.minWidth + (guiWindowAdjustVars.maxWidth 
+		- guiWindowAdjustVars.minWidth) * (guiWindowAdjustWidthSlider / 100)
+	if (guiWindowAdjustVars.edgeSnapping & 1) {
 		WinMove, ahk_id %whichHwnd%, , %posX%, %posY%, %newWidth%, %posH%
+	} else if (guiWindowAdjustVars.edgeSnapping & (1 << 1)) {
+		posXNew := posX - (newWidth - posW)
+		WinMove, ahk_id %whichHwnd%, , %posXNew%, %posY%, %newWidth%, %posH%
 	}
 }
 
-HandleGuiWinWidthAdjustOK() {
-	Gui, guiWinWidthAdjust: Destroy
+HandleguiWindowAdjustOK() {
+	Gui, guiWindowAdjust: Destroy
 }
 
-guiWinWidthAdjustGuiEscape() {
-	Gui, guiWinWidthAdjust: Destroy
+guiWindowAdjustGuiEscape() {
+	Gui, guiWindowAdjust: Destroy
 }
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
