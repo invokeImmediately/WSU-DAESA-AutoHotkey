@@ -16,16 +16,38 @@
 ; FUNCTIONS & SUBROUTINES
 ; --------------------------------------------------------------------------------------------------
 
-IsWindowOnLeftDualMonitor() {
-	WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
-	
-	if (thisWinX < -8) {
+IsWindowOnLeftDualMonitor(title := "A") {
+	global sysWinBorderW
+
+	WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, %title%
+	SysGet, Mon2, Monitor, 2
+
+	if (thisWinX < Mon2Right - sysWinBorderW) {
 		return true
 	}
 	else {
 		return false
 	}
 }
+
+:*:@getInfoOnSystemMonitors::
+	AppendAhkCmd(A_ThisLabel)	
+	SysGet, numMonitors, MonitorCount
+	msg := "The system has " . numMonitors . " installed."
+	Loop, %numMonitors%
+	{
+		SysGet, iMon, Monitor, %A_Index%
+		msg .= "`n`nInfo on monitor #" . A_Index . ":`nLeft = " . iMonLeft . ", Top = " . iMonTop
+			. "`nRight = " . iMonRight . ", Bottom = " . iMonBottom
+		SysGet, iMon, MonitorWorkArea, %A_Index%
+		msg .= "`nWork Area:`nLeft = " . iMonLeft . ", Top = " . iMonTop
+			. "`nRight = " . iMonRight . ", Bottom = " . iMonBottom
+	}
+	SysGet, xEdgeWidth, 32
+	SysGet, yEdgeWidth, 33
+	msg .= "`n`nResizeable window border widths:`nHorizontal = " . xEdgeWidth . ", Vertical: " . yEdgeWidth
+	MsgBox, % msg
+Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
@@ -97,57 +119,63 @@ Return
 	SoundPlay, %windowSizingSound%
 	SysGet, Mon1, MonitorWorkArea, 1
 	maxWidth := Mon1Right - Mon1Left 
-	newWidth := maxWidth - 200
-	maxHeight := Mon1Bottom - Mon1Top 
+	newWidth := maxWidth - 200 + sysWinBorderW * 2
+	newPosX := 200 - sysWinBorderW
+	maxHeight := Mon1Bottom - Mon1Top
+	newHeight := maxHeight + sysWinBorderH
 	WinRestore, A
-	WinMove, A, , 200, 0, %newWidth%, %maxHeight%
-	TriggerWindowAdjustmentGui(2, 320, maxWidth, newWidth, 180, maxHeight, maxHeight)
+	WinMove, A, , %newPosX%, 0, %newWidth%, %maxHeight%
+	TriggerWindowAdjustmentGui(4, 320, maxWidth, newWidth, 180, maxHeight, newHeight)
 Return
 
 ^F8::
 	SoundPlay, %windowSizingSound%
 	SysGet, Mon1, MonitorWorkArea, 1
 	maxWidth := Mon1Right - Mon1Left 
-	newWidth := maxWidth - 200
+	newWidth := maxWidth - 200 + sysWinBorderW * 2
+	newPosX := -sysWinBorderW + 1
 	maxHeight := Mon1Bottom - Mon1Top
+	newHeight := maxHeight + sysWinBorderH
 	WinRestore, A
-	WinMove, A, , 0, 0, %newWidth%, %maxHeight%
-	TriggerWindowAdjustmentGui(1, 320, maxWidth, newWidth, 180, maxHeight, maxHeight)
+	WinMove, A, , %newPosX%, 0, %newWidth%, %maxHeight%
+	TriggerWindowAdjustmentGui(1, 320, maxWidth, newWidth, 180, maxHeight, newHeight)
 Return
 
 ^F7::
 	SoundPlay, %windowSizingSound%
 	SysGet, Mon1, MonitorWorkArea, 1
 	maxWidth := Mon1Right - Mon1Left
-	newWidth := maxWidth - 200
-	newPosX := -newWidth
+	newWidth := maxWidth - 200 + sysWinBorderW * 2
+	newPosX := -(maxWidth - 200) - sysWinBorderW - 1
 	maxHeight := Mon1Bottom - Mon1Top
+	newHeight := maxHeight + sysWinBorderH
 	WinRestore, A
 	WinMove, A, , %newPosX%, 0, %newWidth%, %maxHeight%
-	TriggerWindowAdjustmentGui(2, 320, maxWidth, newWidth, 180, maxHeight, maxHeight)
+	TriggerWindowAdjustmentGui(4, 320, maxWidth, newWidth, 180, maxHeight, newHeight)
 Return
 
 ^F6::
 	SoundPlay, %windowSizingSound%
 	SysGet, Mon1, MonitorWorkArea, 1
 	maxWidth := Mon1Right - Mon1Left
-	newWidth := maxWidth - 200
-	newPosX := -maxWidth
+	newWidth := maxWidth - 200 + sysWinBorderW * 2
+	newPosX := -maxWidth - sysWinBorderW + 1
 	maxHeight := Mon1Bottom - Mon1Top
+	newHeight := maxHeight + sysWinBorderH
 	WinRestore, A
-	WinMove, A, , %newPosX%, 0, %newWidth%, %maxHeight%
-	TriggerWindowAdjustmentGui(1, 320, maxWidth, newWidth, 180, maxHeight, maxHeight)
+	WinMove, A, , %newPosX%, 0, %newWidth%, %newHeight%
+	TriggerWindowAdjustmentGui(1, 320, maxWidth, newWidth, 180, maxHeight, newHeight)
 Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ; Edge snapping values & meaning:
 ;   0b000001 = snap left
-;   0b000010 = snap right
-;   0b000100 = snap horizontal center
+;   0b000010 = snap horizontal center
+;   0b000100 = snap right
 ;   0b001000 = snap top
-;   0b010000 = snap bottom
-;   0b000100 = snap vertical center
+;   0b010000 = snap vertical center
+;   0b000100 = snap bottom
 ; For mixed values, effects are triggered from top to bottom as listed above; thus, if left and 
 ; right snapping bits are both set to true, left snapping will override right snapping.
 TriggerWindowAdjustmentGui(edgeSnapping, minWidth, maxWidth, initialWidth, minHeight, maxHeight
@@ -179,7 +207,7 @@ TriggerWindowAdjustmentGui(edgeSnapping, minWidth, maxWidth, initialWidth, minHe
 	xSnapOptR := edgeSnapping & (1 << 2)
 	ySnapOptT := edgeSnapping & (1 << 3)
 	ySnapOptC := edgeSnapping & (1 << 4)
-	ySnapOptB := edgeSnapping & (1 << 5)
+	ySnapOptR := edgeSnapping & (1 << 5)
 
 	; Setup GUI & display to user	
 	Gui, guiWinAdj: New,
@@ -209,12 +237,46 @@ HandleGuiWinAdjWidthSliderChange() {
 	global guiWinAdjVars
 	global guiWinAdjWidthSlider
 	global guiWinAdjXSnapOpts
+	global sysWinBorderW
 
 	; Add test to ensure window still exists.
+	whichHwnd := guiWinAdjVars.whichHwnd
 
-	Gui, guiWinAdj: Submit, NoHide
+	if (WinExist("ahk_id " . whichHwnd)) {
+		Gui, guiWinAdj: Submit, NoHide
+		GuiWinAdjUpdateEdgeSnapping()
 
-	; Update edgeSnapping as needed
+		; Move window as dictated by snapping choice and slider position
+		WinGetPos, posX, posY, posW, posH, ahk_id %whichHwnd%
+		newWidth := guiWinAdjVars.minWidth + (guiWinAdjVars.maxWidth 
+			- guiWinAdjVars.minWidth) * (guiWinAdjWidthSlider / 100) + sysWinBorderW * 2
+		if (guiWinAdjVars.edgeSnapping & 1) {
+			posXNew := posX
+		} else if (guiWinAdjVars.edgeSnapping & (1 << 1)) {
+			posXNew := posX - (newWidth - posW) / 2
+		} else if (guiWinAdjVars.edgeSnapping & (1 << 2)) {
+			posXNew := posX - (newWidth - posW)
+		}
+		GuiWinAdjCheckNewPosition(whichHwnd, posXNew, posY, newWidth, posH)
+		WinMove, ahk_id %whichHwnd%, , %posXNew%, %posY%, %newWidth%, %posH%
+	} else {
+		MsgBox, % "The window you were adjusting has closed; GUI will now exit."
+		Gui, guiWinAdj: Destroy
+	}
+}
+
+HandleGuiWinAdjOK() {
+	Gui, guiWinAdj: Destroy
+}
+
+guiWinAdjGuiEscape() {
+	Gui, guiWinAdj: Destroy
+}
+
+GuiWinAdjUpdateEdgeSnapping() {
+	global guiWinAdjVars
+	global guiWinAdjXSnapOpts
+
 	bitMask := 56 ; 0b111000
 	if (guiWinAdjXSnapOpts == 1) {
 		bitSwitch := 1 ; 0b000001
@@ -225,29 +287,29 @@ HandleGuiWinAdjWidthSliderChange() {
 	}
 	guiWinAdjVars.edgeSnapping &= bitMask
 	guiWinAdjVars.edgeSnapping += bitSwitch
+	edgeSnap := guiWinAdjVars.edgeSnapping
+}
 
-	; Move window as dictated by snapping choice and slider position
-	whichHwnd := guiWinAdjVars.whichHwnd
-	WinGetPos, posX, posY, posW, posH, ahk_id %whichHwnd%
-	newWidth := guiWinAdjVars.minWidth + (guiWinAdjVars.maxWidth 
-		- guiWinAdjVars.minWidth) * (guiWinAdjWidthSlider / 100)
-	if (guiWinAdjVars.edgeSnapping & 1) {
-		WinMove, ahk_id %whichHwnd%, , %posX%, %posY%, %newWidth%, %posH%
-	} else if (guiWinAdjVars.edgeSnapping & (1 << 1)) {
-		posXNew := posX - (newWidth - posW)
-		WinMove, ahk_id %whichHwnd%, , %posXNew%, %posY%, %newWidth%, %posH%
-	} else if (guiWinAdjVars.edgeSnapping & (1 << 2)) {
-		posXNew := posX - (newWidth - posW) / 2
-		WinMove, ahk_id %whichHwnd%, , %posXNew%, %posY%, %newWidth%, %posH%		
+GuiWinAdjCheckNewPosition(whichHwnd, ByRef posX, ByRef posY, ByRef winWidth, ByRef winHeight) {
+	global sysWinBorderW
+	if (IsWindowOnLeftDualMonitor("ahk_id " . whichHwnd)) {
+		SysGet, iMon, MonitorWorkArea, 2
+	} else {
+		SysGet, iMon, MonitorWorkArea, 1
 	}
-}
-
-HandleguiWinAdjOK() {
-	Gui, guiWinAdj: Destroy
-}
-
-guiWinAdjGuiEscape() {
-	Gui, guiWinAdj: Destroy
+	leftEdge := iMonLeft - (sysWinBorderW - 1)
+	rightEdge := iMonRight + (sysWinBorderW - 1)
+	topEdge := iMonTop
+	bottomEdge := iMonBottom
+	if (winWidth - (sysWinBorderW - 1) * 2 > iMonRight - iMonLeft) {
+		winWidth := iMonRight - iMonLeft + (sysWinBorderW - 1) * 2
+	}
+	if (posX < leftEdge) {
+		posX := leftEdge
+	}
+	if (posX + winWidth > rightEdge) {
+		posX -= (posX + winWidth) - rightEdge
+	}
 }
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
