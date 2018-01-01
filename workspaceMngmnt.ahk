@@ -24,8 +24,7 @@ IsWindowOnLeftDualMonitor(title := "A") {
 
 	if (thisWinX < Mon2Right - sysWinBorderW) {
 		return true
-	}
-	else {
+	} else {
 		return false
 	}
 }
@@ -115,10 +114,12 @@ Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
+; TODO: fix these window positioning scripts so that initial, minimum, and maximum window widths are
+; determined by percentages relative to monitor work area rather than hard coded.
 ^F9::
 	SoundPlay, %windowSizingSound%
 	SysGet, Mon1, MonitorWorkArea, 1
-	maxWidth := Mon1Right - Mon1Left 
+	maxWidth := Mon1Right - Mon1Left
 	newWidth := maxWidth - 200 + sysWinBorderW * 2
 	newPosX := 200 - sysWinBorderW
 	maxHeight := Mon1Bottom - Mon1Top
@@ -131,7 +132,7 @@ Return
 ^F8::
 	SoundPlay, %windowSizingSound%
 	SysGet, Mon1, MonitorWorkArea, 1
-	maxWidth := Mon1Right - Mon1Left 
+	maxWidth := Mon1Right - Mon1Left
 	newWidth := maxWidth - 200 + sysWinBorderW * 2
 	newPosX := -sysWinBorderW + 1
 	maxHeight := Mon1Bottom - Mon1Top
@@ -168,6 +169,10 @@ Return
 Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
+
+; TODO: Add horizontal window positioning slider. Will need to update handling functions to 
+; correctly compensate for new cases where changes in window position cause the active window's 
+; bounding rectangle to break the edges of the appropriate monitor's work area.
 
 ; Edge snapping values & meaning:
 ;   0b000001 = snap left
@@ -322,12 +327,12 @@ GuiWinAdjCheckNewPosition(whichHwnd, ByRef posX, ByRef posY, ByRef winWidth, ByR
 		WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
 		thisWinH := monitorABottom - monitorATop
 		if (thisWinX = monitorALeft and thisWinW > (monitorARight - monitorALeft) / 4) {
-			WinMove, A, , %monitorALeft%, 0, % (thisWinW - 100), %thisWinH%        
+			WinMove, A, , %monitorALeft%, 0, % (thisWinW - 100), %thisWinH%
 		} else if (thisWinW > (monitorARight - monitorALeft) / 4) {
-			WinMove, A, , %monitorALeft%, 0, %thisWinW%, %thisWinH%        
+			WinMove, A, , %monitorALeft%, 0, %thisWinW%, %thisWinH%
 		} else {
 			thisWinW := monitorARight - monitorALeft - 100
-			WinMove, A, , %monitorALeft%, 0, %thisWinW%, %thisWinH%        
+			WinMove, A, , %monitorALeft%, 0, %thisWinW%, %thisWinH%
 		}
 	}
 return
@@ -340,12 +345,12 @@ return
 		WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
 		thisWinH := monitorABottom - monitorATop
 		if (thisWinX = monitorALeft and thisWinW < (monitorARight - monitorALeft - 100)) {
-			WinMove, A, , %monitorALeft%, 0, % (thisWinW + 100), %thisWinH%        
+			WinMove, A, , %monitorALeft%, 0, % (thisWinW + 100), %thisWinH%
 		} else if (thisWinW < (monitorARight - monitorALeft - 100)) {
-			WinMove, A, , %monitorALeft%, 0, %thisWinW%, %thisWinH%        
+			WinMove, A, , %monitorALeft%, 0, %thisWinW%, %thisWinH%
 		} else {
 			thisWinW := (monitorARight - monitorALeft) / 4
-			WinMove, A, , %monitorALeft%, 0, %thisWinW%, %thisWinH%        
+			WinMove, A, , %monitorALeft%, 0, %thisWinW%, %thisWinH%
 		}
 	}
 return
@@ -363,13 +368,13 @@ return
 		if (thisWinX = newWinX and thisWinW > (monitorARight - monitorALeft) / 4) {
 			newWinX += 100
 			thisWinW -= 100
-			WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%        
+			WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%
 		} else if (thisWinW > (monitorARight - monitorALeft) / 4) {
-			WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%        
+			WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%
 		} else {
 			thisWinW := monitorARight - monitorALeft - 100
 			newWinX := monitorALeft + 100
-			WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%        
+			WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%
 		}
 	}
 return
@@ -385,14 +390,14 @@ return
 		if (thisWinX = newWinX and thisWinW < (monitorARight - monitorALeft - 100)) {
 			newWinX -= 100
 			thisWinW += 100
-			WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%        
+			WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%
 		} else if (thisWinW < (monitorARight - monitorALeft - 100)) {
 			newWinX := monitorARight - thisWinW
 			WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%
 		} else {
 			thisWinW := (monitorARight - monitorALeft) / 4
 			newWinX := monitorARight - thisWinW
-			WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%        
+			WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%
 		}
 	}
 return
