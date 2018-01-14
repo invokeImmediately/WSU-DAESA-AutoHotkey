@@ -63,6 +63,10 @@ SetMonitorWorkAreas() {
 	global
 	Loop, % sysNumMonitors {
 		SysGet, mon%A_Index%WorkArea_, MonitorWorkArea, %A_Index%
+		mon%A_Index%WorkArea_Left -= sysWinBorderW
+		mon%A_Index%WorkArea_Right += sysWinBorderW
+		mon%A_Index%WorkArea_Top -= sysWinBorderH
+		mon%A_Index%WorkArea_Bottom += sysWinBorderH
 	}
 }
 
