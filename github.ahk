@@ -123,8 +123,10 @@ CommitAfterBuild(ahkBuildCmd, ahkCommitCmd) {
 
 ; ··································································································
 
+; Escape commit message strings for use in PowerShell. Assumes that double quotes are used to
+; enclose the string.
 EscapeCommitMessage(msgToEscape) {
-	escapedMsg := RegExReplace(msgToEscape, "m)('|"")", "\$1")
+	escapedMsg := RegExReplace(msgToEscape, "m)("")", "`$1")
 	return escapedMsg
 }
 
