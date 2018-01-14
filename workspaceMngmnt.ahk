@@ -44,7 +44,8 @@ IsWindowOnLeftDualMonitor(title := "A") {
 	}
 	SysGet, xEdgeWidth, 32
 	SysGet, yEdgeWidth, 33
-	msg .= "`n`nResizeable window border widths:`nHorizontal = " . xEdgeWidth . ", Vertical: " . yEdgeWidth
+	msg .= "`n`nResizeable window border widths:`nHorizontal = " . xEdgeWidth . ", Vertical: " 
+		. yEdgeWidth
 	MsgBox, % msg
 Return
 
