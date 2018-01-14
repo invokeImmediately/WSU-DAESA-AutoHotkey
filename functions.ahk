@@ -415,7 +415,8 @@ GetActiveMonitorWorkArea(ByRef monitorFound, ByRef monitorALeft, ByRef monitorAT
 	}
 	WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
 	Loop, %sysNumMonitors% {
-		if (thisWinX >= mon%A_Index%Bounds_Left && thisWinY >= mon%A_Index%Bounds_Top) {
+		if (thisWinX >= mon%A_Index%Bounds_Left && thisWinY >= mon%A_Index%Bounds_Top
+				&& thisWinX < mon%A_Index%Bounds_Right && thisWinY < mon%A_Index%Bounds_Bottom) {
 			monitorFound := true
 			monitorALeft := mon%A_Index%WorkArea_Left
 			monitorATop := mon%A_Index%WorkArea_Top
@@ -439,6 +440,6 @@ GetActiveMonitorWorkArea(ByRef monitorFound, ByRef monitorALeft, ByRef monitorAT
 				. "`tLeft: " . mon%A_Index%Bounds_Left . "`r"
 				. "`tTop: " . mon%A_Index%Bounds_Top . "`r"
 		}
-		MsgBox, % errorMsg
+		MsgBox, 48, % A_ThisFunc, % errorMsg
 	}
 }
