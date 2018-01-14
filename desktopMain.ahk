@@ -30,10 +30,10 @@ Return
 ; --------------------------------------------------------------------------------------------------
 
 SetGlobalVariables() {
+	SetWinBorders()
 	SetNumMonitors()
 	SetMonitorBounds()
 	SetMonitorWorkAreas()
-	SetWinBorders()
 	;ReportMonitorDimensions() ; Diagnostic function
 }
 
