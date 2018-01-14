@@ -38,8 +38,7 @@ SetGlobalVariables() {
 }
 
 SetNumMonitors() {
-	global SM_CMONITORS
-	global sysNumMonitors
+	global
 	SysGet, sysNumMonitors, %SM_CMONITORS%
 }
 
