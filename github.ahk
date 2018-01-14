@@ -1109,6 +1109,38 @@ Return
 
 ; ··································································································
 
+ExecuteCssPasteCmds(manualProcession := false) {
+	; Add check for correct CSS in clipboard — the first line is a font import.
+	posFound := RegExMatch(clipboard, "^/\*!? Built with the LESS CSS")
+	if (posFound != 0) {
+		Click, 768, 570
+		Sleep, 100
+		SendInput, ^a
+		Sleep 330
+		if (manualProcession) {
+			MsgBox, 48, % A_ThisFunc, % "Press OK to proceed with paste command."
+		}
+		SendInput, ^v
+		Sleep 330
+		if (manualProcession) {
+			MsgBox, 48, % A_ThisFunc, % "Press OK to proceed with update button selection."
+		}
+		Click, 1565, 370
+		Sleep, 60
+		Click, 1565, 410
+		Sleep, 60
+		Click, 1565, 455
+		Sleep, 1000
+	} else {
+		MsgBox, % (0x0 + 0x10)
+			, % "ERROR (" . A_ThisFunc .  "): Clipboard Has Unexpected Contents"
+			, % "The clipboard does not begin with the expected '@import ...,' and thus may not "
+			. "contain minified CSS."
+	}			
+}
+
+; ··································································································
+
 ExecuteJsPasteCmds(manualProcession := false) {
 	; Add check for correct CSS in clipboard — the first line is a font import.
 	posFound := RegExMatch(clipboard, "^// Built with Node.js")
@@ -1138,42 +1170,6 @@ ExecuteJsPasteCmds(manualProcession := false) {
 	else {
 		MsgBox, % (0x0 + 0x10)
 			, % "ERROR (" . A_ThisFunc . "): Clipboard Has Unexpected Contents"
-			, % "The clipboard does not begin with the expected '// Built with Node.js ...,' and "
-			. "thus may not contain minified JS."
-	}			
-}
-
-; ··································································································
-
-ExecuteJsPasteCmds(manualProcession := false) {
-	; Add check for correct CSS in clipboard — the first line is a font import.
-	posFound := RegExMatch(clipboard, "^// Built with Node.js")
-	if (posFound != 0) {
-		Click, 461, 371
-		Sleep, 330
-		SendInput, ^a
-		if (manualProcession) {
-			Sleep 330
-			MsgBox, 48, % "ExecuteJsPasteCmds", % "Press OK to proceed with paste command."
-		} else {
-			Sleep, 2500
-		}
-		SendInput, ^v
-		if (manualProcession) {
-			Sleep 330
-			MsgBox, 48, % "ExecuteJsPasteCmds", % "Press OK to proceed with update button "
-				. "selection."
-		} else {
-			Sleep, 10000
-		}
-		Click, 214, 565
-		Sleep, 60
-		Click, 214, 615
-		Sleep 1000
-	}
-	else {
-		MsgBox, % (0x0 + 0x10)
-			, % "ERROR (:*:@doJsPaste): Clipboard Has Unexpected Contents"
 			, % "The clipboard does not begin with the expected '// Built with Node.js ...,' and "
 			. "thus may not contain minified JS."
 	}			
