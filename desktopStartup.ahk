@@ -103,6 +103,8 @@ Return
 	Sleep, 100
 	WaitForApplicationPatiently("WSU Distinguished")
 	Gosub % "^F7"
+	Sleep, 140
+	SendInput, {Enter}	
 	Sleep, 1000
 Return
 
