@@ -38,11 +38,7 @@ SetGlobalVariables() {
 }
 
 SetWinBorders() {
-	global SM_CXSIZEFRAME
-	global SM_CYSIZEFRAME
-	global sysWinBorderW
-	global sysWinBorderH
-	
+	global
 	SysGet, sysWinBorderW, %SM_CXSIZEFRAME%
 	SysGet, sysWinBorderH, %SM_CYSIZEFRAME%
 }
