@@ -257,10 +257,10 @@ HandleCommitCssOk() {
 		commandLineInput := "cd '" . GetGitHubFolder() . "\" . commitCssVars.fpGitFolder . "\'`r"
 			. "git add CSS\" . commitCssVars.fnCssBuild . "`r"
 			. "git add CSS\" . commitCssVars.fnMinCssBuild . "`r"
-			. "git commit -m '" . escaped1stCssMsg . "'"
+			. "git commit -m """ . escaped1stCssMsg . """"
 		if (ctrlCommitCss2ndMsg != "") {
 			escaped2ndCssMsg := EscapeCommitMessage(ctrlCommitCss2ndMsg)
-			commandLineInput .= " -m '" . escaped2ndCssMsg . "'`r"
+			commandLineInput .= " -m """ . escaped2ndCssMsg . """`r"
 		} else {
 			commandLineInput .= "`r"
 		}
@@ -268,10 +268,10 @@ HandleCommitCssOk() {
 		if (ctrlCommitCssAlsoCommitLessSrc) {
 			escaped1stLessMsg := EscapeCommitMessage(ctrlCommitCss1stLessMsg)
 			commandLineInput .= "git add CSS\" . commitCssVars.fnLessSrcFile . "`r"
-				. "git commit -m '" . escaped1stLessMsg . "'"
+				. "git commit -m """ . escaped1stLessMsg . """"
 			if (ctrlCommitCss2ndLessMsg != "") {
 				escaped2ndLessMsg := EscapeCommitMessage(ctrlCommitCss2ndLessMsg)
-				commandLineInput .= " -m '" . escaped2ndLessMsg . "'`r"
+				commandLineInput .= " -m """ . escaped2ndLessMsg . """`r"
 			} else {
 				commandLineInput .= "`r"
 			}
