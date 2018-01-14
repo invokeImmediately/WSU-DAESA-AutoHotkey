@@ -197,10 +197,10 @@ HandleCommitAnyFileOk() {
 			Loop % commitAnyFileVars.filesToCommit.Length()
 				commandLineInput .= "git add " . commitAnyFileVars.filesToCommit[A_Index] . "`r"
 			escaped1stMsg := EscapeCommitMessage(ctrlCommitAnyFile1stMsg)
-			commandLineInput .= "git commit -m '" . escaped1stMsg . "'"
+			commandLineInput .= "git commit -m """ . escaped1stMsg . """"
 			if (ctrlCommitAnyFile2ndMsg != "") {
 				escaped2ndMsg := EscapeCommitMessage(ctrlCommitAnyFile2ndMsg)
-				commandLineInput .= " -m '" . escaped2ndMsg . "' `r"
+				commandLineInput .= " -m """ . escaped2ndMsg . """ `r"
 			} else {
 				commandLineInput .= "`r"
 			}
