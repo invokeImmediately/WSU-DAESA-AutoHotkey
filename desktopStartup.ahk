@@ -68,7 +68,6 @@ Return
 Return
 
 :*:@startSublimeText3::
-
 	; Start up Sublime Text, open a new window, and send the initial, primary instance to desktop #2
 	AppendAhkCmd(":*:@startSublimeText3")
 	titleToMatch = Sublime Text ahk_exe sublime_text\.exe
@@ -86,8 +85,9 @@ Return
 	moveActiveWindowToVirtualDesktop(2)
 	Sleep, 750
 	Gosub % "^F8"
-	Sleep, 300
-
+	Sleep, 140
+	SendInput, {Enter}
+	Sleep, 300	
 Return
 
 :*:@startChrome::
