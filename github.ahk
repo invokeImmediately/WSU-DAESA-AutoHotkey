@@ -1116,18 +1116,14 @@ ExecuteCssPasteCmds(manualProcession := false) {
 		Click, 768, 570
 		Sleep, 100
 		SendInput, ^a
+		Sleep 330
 		if (manualProcession) {
-			Sleep 330
-			MsgBox, 48, % "Press OK to proceed with paste command."
-		} else {
-			Sleep, 330
+			MsgBox, 48, % A_ThisFunc, % "Press OK to proceed with paste command."
 		}
 		SendInput, ^v
+		Sleep 330
 		if (manualProcession) {
-			Sleep 330
-			MsgBox, 48, % "Press OK to proceed with update button selection."
-		} else {
-			Sleep, 1000
+			MsgBox, 48, % A_ThisFunc, % "Press OK to proceed with update button selection."
 		}
 		Click, 1565, 370
 		Sleep, 60
@@ -1137,7 +1133,7 @@ ExecuteCssPasteCmds(manualProcession := false) {
 		Sleep, 1000
 	} else {
 		MsgBox, % (0x0 + 0x10)
-			, % "ERROR (:*:@doCssPaste): Clipboard Has Unexpected Contents"
+			, % "ERROR (" . A_ThisFunc .  "): Clipboard Has Unexpected Contents"
 			, % "The clipboard does not begin with the expected '@import ...,' and thus may not "
 			. "contain minified CSS."
 	}			
