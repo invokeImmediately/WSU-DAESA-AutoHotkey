@@ -329,7 +329,6 @@ Return
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@startNotepadPp::
-
 	; Start up Notepad++, open a second instance, and send the initial, primary instance to desktop 
 	; #2
 	AppendAhkCmd(":*:@startNotepadPp")
@@ -347,8 +346,9 @@ Return
 	moveActiveWindowToVirtualDesktop(2)
 	Sleep, 750
 	Gosub % "^F8"
+	Sleep, 140
+	SendInput, {Enter}
 	Sleep, 500
-
 Return
 
 ; --------------------------------------------------------------------------------------------------
