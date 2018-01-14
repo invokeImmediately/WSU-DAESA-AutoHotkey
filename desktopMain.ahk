@@ -37,6 +37,16 @@ SetGlobalVariables() {
 	;ReportMonitorDimensions() ; Diagnostic function
 }
 
+SetWinBorders() {
+	global SM_CXSIZEFRAME
+	global SM_CYSIZEFRAME
+	global sysWinBorderW
+	global sysWinBorderH
+	
+	SysGet, sysWinBorderW, %SM_CXSIZEFRAME%
+	SysGet, sysWinBorderH, %SM_CYSIZEFRAME%
+}
+
 SetNumMonitors() {
 	global
 	SysGet, sysNumMonitors, %SM_CMONITORS%
@@ -54,16 +64,6 @@ SetMonitorWorkAreas() {
 	Loop, % sysNumMonitors {
 		SysGet, mon%A_Index%WorkArea_, MonitorWorkArea, %A_Index%
 	}
-}
-
-SetWinBorders() {
-	global SM_CXSIZEFRAME
-	global SM_CYSIZEFRAME
-	global sysWinBorderW
-	global sysWinBorderH
-	
-	SysGet, sysWinBorderW, %SM_CXSIZEFRAME%
-	SysGet, sysWinBorderH, %SM_CYSIZEFRAME%
 }
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
