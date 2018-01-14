@@ -210,42 +210,14 @@ Return
 	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
 		, "New Tab")
 	Sleep, 330
-	SendInput, !{d}
-	Sleep, 100
-	SendInput, % "mail.google.com{Enter}"
-	Sleep, 330
-	SendInput, ^t
-	Sleep, 100
-	SendInput, !{d}
-	Sleep, 100
-	SendInput, % "mail.live.com{Enter}"
-	Sleep, 330
-	SendInput, ^t
-	Sleep, 100
-	SendInput, !{d}
-	Sleep, 100
-	SendInput, % "sfgate.com{Enter}"
-	Sleep, 330
-	SendInput, ^t
-	Sleep, 100
-	SendInput, !{d}
-	Sleep, 100
-	SendInput, % "news.wsu.edu{Enter}"
-	Sleep, 330
-	SendInput, ^t
-	Sleep, 100
-	SendInput, !{d}
-	Sleep, 100
-	SendInput, % "dailyevergreen.com{Enter}"
-	Sleep, 330
-	SendInput, ^t
-	Sleep, 100
-	SendInput, !{d}
-	Sleep, 100
-	SendInput, % "web.wsu.edu{Enter}"
-	Sleep, 1000
-	SendInput, ^{Tab}
-	Sleep, 330
+	OpenWebsiteInChrome("mail.google.com", False)
+	OpenWebsiteInChrome("mail.live.com")
+	OpenWebsiteInChrome("sfgate.com")
+	OpenWebsiteInChrome("news.wsu.edu")
+	OpenWebsiteInChrome("dailyevergreen.com")
+	OpenWebsiteInChrome("web.wsu.edu")
+	OpenWebsiteInChrome("wsu-web.slack.com")
+	MoveToNextTabInChrome()
 	LaunchStdApplicationPatiently("C:\Program Files (x86)\Microsoft Office\root\Office16"
 		. "\outlook.exe", "ahk_class MsoSplash ahk_exe OUTLOOK.EXE")
 	Sleep, 5000
@@ -257,6 +229,31 @@ Return
 	Sleep, 1000
 	Gosub, :*:@arrangeEmail
 Return
+
+OpenWebsiteInChrome(website, inNewTab := True) {
+	website .= "{Enter}"
+	if (inNewTab) {
+		OpenNewTabInChrome()
+	}
+	NavigateToWebsiteInChrome(website)
+}
+
+OpenNewTabInChrome() {
+	SendInput, ^t
+	Sleep, 100	
+}
+
+NavigateToWebsiteInChrome(website) {
+	SendInput, !d
+	Sleep, 100
+	SendInput, % website
+	Sleep, 330
+}
+
+MoveToNextTabInChrome() {
+	SendInput, ^{Tab}
+	Sleep, 100	
+}
 
 :*:@arrangeEmail::
 	AppendAhkCmd(":*:@arrangeEmail")
