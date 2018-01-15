@@ -181,10 +181,6 @@ Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
-; TODO: Add horizontal window positioning slider. Will need to update handling functions to 
-; correctly compensate for new cases where changes in window position cause the active window's 
-; bounding rectangle to break the edges of the appropriate monitor's work area.
-
 ; Edge snapping values & meaning:
 ;   0b000001 = snap left
 ;   0b000010 = snap horizontal center
