@@ -329,10 +329,10 @@ GuiWinAdjCheckNewPosition(whichHwnd, ByRef posX, ByRef posY, ByRef winWidth, ByR
 		WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
 		if (thisWinX = monitorALeft and thisWinW > (monitorARight - monitorALeft) / 4) {
 			WinMove, A, , %monitorALeft%, thisWinY, % (thisWinW - 100), %thisWinH%
-		} else if (thisWinW > (monitorARight - monitorALeft) / 4) {
+		} else if (thisWinX = monitorALeft and thisWinW <= (monitorARight - monitorALeft) / 4) {
+			thisWinW := monitorARight - monitorALeft - 100
 			WinMove, A, , %monitorALeft%, thisWinY, %thisWinW%, %thisWinH%
 		} else {
-			thisWinW := monitorARight - monitorALeft - 100
 			WinMove, A, , %monitorALeft%, thisWinY, %thisWinW%, %thisWinH%
 		}
 	}
@@ -349,10 +349,10 @@ return
 		thisWinH := monitorABottom - monitorATop
 		if (thisWinX = monitorALeft and thisWinW > (monitorARight - monitorALeft) / 4) {
 			WinMove, A, , %monitorALeft%, 0, % (thisWinW - 100), %thisWinH%
-		} else if (thisWinW > (monitorARight - monitorALeft) / 4) {
+		} else if (thisWinX = monitorALeft and thisWinW <= (monitorARight - monitorALeft) / 4) {
+			thisWinW := monitorARight - monitorALeft - 100
 			WinMove, A, , %monitorALeft%, 0, %thisWinW%, %thisWinH%
 		} else {
-			thisWinW := monitorARight - monitorALeft - 100
 			WinMove, A, , %monitorALeft%, 0, %thisWinW%, %thisWinH%
 		}
 	}
