@@ -119,12 +119,12 @@ Return
 	SoundPlay, %windowSizingSound%
 	SysGet, Mon1, MonitorWorkArea, 1
 	maxWidth := Mon1Right - Mon1Left
-	minWidth := maxWidth / 10
+	minWidth := Round(maxWidth / 20 * 3)
 	widthDecrement := minWidth
 	newWidth := maxWidth - widthDecrement + sysWinBorderW * 2
 	newPosX := widthDecrement - sysWinBorderW
 	maxHeight := Mon1Bottom - Mon1Top
-	minHeight := maxHeight / 10
+	minHeight := Round(maxHeight / 20 * 3)
 	newHeight := maxHeight + sysWinBorderH
 	WinRestore, A
 	WinMove, A, , %newPosX%, 0, %newWidth%, %maxHeight%
@@ -135,12 +135,12 @@ Return
 	SoundPlay, %windowSizingSound%
 	SysGet, Mon1, MonitorWorkArea, 1
 	maxWidth := Mon1Right - Mon1Left
-	minWidth := maxWidth / 10
+	minWidth := Round(maxWidth / 20 * 3)
 	widthDecrement := minWidth
 	newWidth := maxWidth - widthDecrement + sysWinBorderW * 2
 	newPosX := -sysWinBorderW + 1
 	maxHeight := Mon1Bottom - Mon1Top
-	minHeight := maxHeight / 10
+	minHeight := Round(maxHeight / 20 * 3)
 	newHeight := maxHeight + sysWinBorderH
 	WinRestore, A
 	WinMove, A, , %newPosX%, 0, %newWidth%, %maxHeight%
