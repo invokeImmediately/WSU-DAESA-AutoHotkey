@@ -115,21 +115,24 @@ Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
-; TODO: fix these window positioning scripts so that initial, minimum, and maximum window widths are
-; determined by percentages relative to monitor work area rather than hard coded.
 ^F9::
 	SoundPlay, %windowSizingSound%
 	SysGet, Mon1, MonitorWorkArea, 1
 	maxWidth := Mon1Right - Mon1Left
-	newWidth := maxWidth - 200 + sysWinBorderW * 2
-	newPosX := 200 - sysWinBorderW
+	minWidth := maxWidth / 10
+	widthDecrement := minWidth
+	newWidth := maxWidth - widthDecrement + sysWinBorderW * 2
+	newPosX := widthDecrement - sysWinBorderW
 	maxHeight := Mon1Bottom - Mon1Top
+	minHeight := maxHeight / 10
 	newHeight := maxHeight + sysWinBorderH
 	WinRestore, A
 	WinMove, A, , %newPosX%, 0, %newWidth%, %maxHeight%
-	TriggerWindowAdjustmentGui(4, 320, maxWidth, newWidth, 180, maxHeight, newHeight)
+	TriggerWindowAdjustmentGui(4, minWidth, maxWidth, newWidth, minHeight, maxHeight, newHeight)
 Return
 
+; TODO: fix these window positioning scripts so that initial, minimum, and maximum window widths are
+; determined by percentages relative to monitor work area rather than hard coded.
 ^F8::
 	SoundPlay, %windowSizingSound%
 	SysGet, Mon1, MonitorWorkArea, 1
@@ -320,6 +323,7 @@ GuiWinAdjCheckNewPosition(whichHwnd, ByRef posX, ByRef posY, ByRef winWidth, ByR
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
+; TODO: Move comment blocks into headers located above hotkey declarations.
 <^!#Left::
 	; Snap the active window to the left edge of its monitor; if already snapped, reduce its width.
 	SoundPlay, %windowMovementSound%
@@ -450,6 +454,7 @@ return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
+;TODO: Add ^!#Up, compensation for left/right ctrl press.
 ^!#Down::
 	;TODO: Refactor to rely on global variables that store monitor dimensions
 	SoundPlay, %windowMovementSound%
