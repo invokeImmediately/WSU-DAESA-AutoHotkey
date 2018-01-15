@@ -358,10 +358,29 @@ return
 	}
 return
 
+^!+#Left::
+	; Snap the active window to the left edge of its monitor; if already snapped, increase its 
+	; width.
+	SoundPlay, %windowMovementSound%
+	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
+	if (monitorFound) {
+		WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
+		thisWinH := monitorABottom - monitorATop
+		if (thisWinX = monitorALeft and thisWinW < (monitorARight - monitorALeft - 100)) {
+			WinMove, A, , %monitorALeft%, 0, % (thisWinW + 100), %thisWinH%
+		} else if (thisWinW < (monitorARight - monitorALeft - 100)) {
+			WinMove, A, , %monitorALeft%, 0, %thisWinW%, %thisWinH%
+		} else {
+			thisWinW := (monitorARight - monitorALeft) / 4
+			WinMove, A, , %monitorALeft%, 0, %thisWinW%, %thisWinH%
+		}
+	}
+return
+
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
-^!#Right::
-	;Snap the active window to the right edge of its monitor; if already snapped, reduce its width
+<^!#Right::
+	; Snap the active window to the right edge of its monitor; if already snapped, reduce its width.
 	SoundPlay, %windowMovementSound%
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
@@ -382,8 +401,9 @@ return
 	}
 return
 
-^!+#Right::
-	;Snap the active window to the right edge of its monitor; if already snapped, increase its width
+>^!+#Right::
+	; Snap the active window to the right edge of its monitor; if already snapped, increase its 
+	; width.
 	SoundPlay, %windowMovementSound%
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
