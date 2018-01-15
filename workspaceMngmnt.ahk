@@ -326,9 +326,8 @@ GuiWinAdjCheckNewPosition(whichHwnd, ByRef posX, ByRef posY, ByRef winWidth, ByR
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
-; TODO: Move comment blocks into headers located above hotkey declarations.
+; Snap the active window to the left edge of its monitor; if already snapped, reduce its width.
 <^!#Left::
-	; Snap the active window to the left edge of its monitor; if already snapped, reduce its width.
 	SoundPlay, %windowMovementSound%
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	
@@ -345,10 +344,10 @@ GuiWinAdjCheckNewPosition(whichHwnd, ByRef posX, ByRef posY, ByRef winWidth, ByR
 	}
 return
 
+; Snap the active window to the left edge of its monitor; if already snapped, reduce its width. 
+; Additionally, resize the window vertically to fill up the full vertical extent of the monitor's 
+; available work area.
 >^!#Left::
-	; Snap the active window to the left edge of its monitor; if already snapped, reduce its width. 
-	; Additionally, resize the window vertically to fill up the full vertical extent of the 
-	; monitor's available work area.
 	SoundPlay, %windowMovementSound%
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
@@ -365,9 +364,8 @@ return
 	}
 return
 
+; Snap the active window to the left edge of its monitor; if already snapped, increase its width.
 ^!+#Left::
-	; Snap the active window to the left edge of its monitor; if already snapped, increase its 
-	; width.
 	SoundPlay, %windowMovementSound%
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
@@ -386,8 +384,8 @@ return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
+; Snap the active window to the right edge of its monitor; if already snapped, reduce its width.
 <^!#Right::
-	; Snap the active window to the right edge of its monitor; if already snapped, reduce its width.
 	SoundPlay, %windowMovementSound%
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
@@ -407,10 +405,10 @@ return
 	}
 return
 
+; Snap the active window to the right edge of its monitor; if already snapped, reduce its width.
+; Additionally, resize the window vertically to fill up the full vertical extent of the monitor's 
+; available work area.
 >^!#Right::
-	; Snap the active window to the right edge of its monitor; if already snapped, reduce its width.
-	; Additionally, resize the window vertically to fill up the full vertical extent of the 
-	; monitor's available work area.
 	SoundPlay, %windowMovementSound%
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
