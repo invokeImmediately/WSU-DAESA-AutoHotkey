@@ -414,11 +414,11 @@ return
 			newWinX += 100
 			thisWinW -= 100
 			WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%
-		} else if (thisWinW > (monitorARight - monitorALeft) / 4) {
-			WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%
-		} else {
+		} else if (thisWinX = newWinX and thisWinW <= (monitorARight - monitorALeft) / 4) {
 			thisWinW := monitorARight - monitorALeft - 100
 			newWinX := monitorALeft + 100
+			WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%
+		} else {
 			WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%
 		}
 	}
