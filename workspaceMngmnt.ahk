@@ -330,13 +330,14 @@ GuiWinAdjCheckNewPosition(whichHwnd, ByRef posX, ByRef posY, ByRef winWidth, ByR
 <^!#Left::
 	SoundPlay, %windowMovementSound%
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
-	
+	widthDecrement := Round((monitorARight - monitorALeft) / 20)
+	minWidth := Round((monitorARight - monitorALeft) / 20 * 3)
 	if (monitorFound) {
 		WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
-		if (thisWinX = monitorALeft and thisWinW > (monitorARight - monitorALeft) / 4) {
-			WinMove, A, , %monitorALeft%, thisWinY, % (thisWinW - 100), %thisWinH%
-		} else if (thisWinX = monitorALeft and thisWinW <= (monitorARight - monitorALeft) / 4) {
-			thisWinW := monitorARight - monitorALeft - 100
+		if (thisWinX = monitorALeft and thisWinW - widthDecrement >= minWidth) {
+			WinMove, A, , %monitorALeft%, thisWinY, % (thisWinW - widthDecrement), %thisWinH%
+		} else if (thisWinX = monitorALeft and thisWinW - widthDecrement < minWidth) {
+			thisWinW := monitorARight - monitorALeft - widthDecrement
 			WinMove, A, , %monitorALeft%, thisWinY, %thisWinW%, %thisWinH%
 		} else {
 			WinMove, A, , %monitorALeft%, thisWinY, %thisWinW%, %thisWinH%
