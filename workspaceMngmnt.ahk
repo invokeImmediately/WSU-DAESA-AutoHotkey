@@ -320,8 +320,28 @@ GuiWinAdjCheckNewPosition(whichHwnd, ByRef posX, ByRef posY, ByRef winWidth, ByR
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
-^!#Left::
-	;Snap the active window to the left edge of its monitor; if already snapped, reduce its width
+<^!#Left::
+	; Snap the active window to the left edge of its monitor; if already snapped, reduce its width.
+	SoundPlay, %windowMovementSound%
+	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
+	
+	if (monitorFound) {
+		WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
+		if (thisWinX = monitorALeft and thisWinW > (monitorARight - monitorALeft) / 4) {
+			WinMove, A, , %monitorALeft%, thisWinY, % (thisWinW - 100), %thisWinH%
+		} else if (thisWinW > (monitorARight - monitorALeft) / 4) {
+			WinMove, A, , %monitorALeft%, thisWinY, %thisWinW%, %thisWinH%
+		} else {
+			thisWinW := monitorARight - monitorALeft - 100
+			WinMove, A, , %monitorALeft%, thisWinY, %thisWinW%, %thisWinH%
+		}
+	}
+return
+
+>^!#Left::
+	; Snap the active window to the left edge of its monitor; if already snapped, reduce its width. 
+	; Additionally, resize the window vertically to fill up the full vertical extent of the 
+	; monitor's available work area.
 	SoundPlay, %windowMovementSound%
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
