@@ -163,19 +163,20 @@ Return
 	TriggerWindowAdjustmentGui(4, minWidth, maxWidth, newWidth, minHeight, maxHeight, newHeight)
 Return
 
-; TODO: fix these window positioning scripts so that initial, minimum, and maximum window widths are
-; determined by percentages relative to monitor work area rather than hard coded.
 ^F6::
 	SoundPlay, %windowSizingSound%
 	SysGet, Mon1, MonitorWorkArea, 1
 	maxWidth := Mon1Right - Mon1Left
-	newWidth := maxWidth - 200 + sysWinBorderW * 2
+	minWidth := Round(maxWidth / 20 * 3)
+	widthDecrement := minWidth
+	newWidth := maxWidth - widthDecrement + sysWinBorderW * 2
 	newPosX := -maxWidth - sysWinBorderW + 1
 	maxHeight := Mon1Bottom - Mon1Top
+	minHeight := Round(maxHeight / 20 * 3)
 	newHeight := maxHeight + sysWinBorderH
 	WinRestore, A
 	WinMove, A, , %newPosX%, 0, %newWidth%, %newHeight%
-	TriggerWindowAdjustmentGui(1, 320, maxWidth, newWidth, 180, maxHeight, newHeight)
+	TriggerWindowAdjustmentGui(1, minWidth, maxWidth, newWidth, minHeight, maxHeight, newHeight)
 Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
