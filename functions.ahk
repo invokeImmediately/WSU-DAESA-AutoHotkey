@@ -353,6 +353,22 @@ Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
+:*:@getWinStyle::
+	AppendAhkCmd(A_ThisLabel)
+	WinGet, hexStyle, Style, A
+	hasThickBorder := (hexStyle & 0x40000) != 0
+	MsgBox, % "The active window's styles = " . hexStyle
+Return
+
+:*:@getWinExStyle::
+	AppendAhkCmd(A_ThisLabel)
+	WinGet, hexExStyle, ExStyle, A
+	;hasThickBorder := (hexStyle & 0x40000) != 0
+	MsgBox, % "The active window's extended styles = " . hexExStyle
+Return
+
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
+
 :*:@getWinProcess::
 	AppendAhkCmd(":*:@getWinProcess")
 	WinGet, thisProcess, ProcessName, A
