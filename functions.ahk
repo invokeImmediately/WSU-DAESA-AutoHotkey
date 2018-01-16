@@ -369,6 +369,19 @@ Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
+:*:@getWinBorders::
+	AppendAhkCmd(A_ThisLabel)
+	WinGet, hwnd, ID, A
+	winInfo := API_GetWindowInfo(hwnd)
+	if(!IsObject(winInfo)) {
+		MsgBox, 0, WINDOWINFO, ERROR - ErrorLevel: %ErrorLevel%
+	} else {
+		MsgBox, % "XBorders = " . winInfo.XBorders . "`nYBorders = " . winInfo.YBorders
+	}
+Return
+
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
+
 :*:@getWinProcess::
 	AppendAhkCmd(":*:@getWinProcess")
 	WinGet, thisProcess, ProcessName, A
