@@ -177,7 +177,7 @@ Return
 	Sleep, 100
 	SendInput, % "brand.wsu.edu/visual/colors/{Enter}"
 	Sleep, 330
-	Gosub % "^!#Left"
+	Gosub % ">^!#Left"
 	LaunchStdApplicationPatiently("C:\Program Files\GIMP 2\bin\gimp-2.8.exe", "GNU Image")
 	Sleep, 1000
 Return
