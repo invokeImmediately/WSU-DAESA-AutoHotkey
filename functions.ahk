@@ -369,6 +369,23 @@ Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
+:*:@getWinInfo::
+	AppendAhkCmd(A_ThisLabel)
+	WinGet, hwnd, ID, A
+	winInfo := API_GetWindowInfo(hwnd)
+	if(!IsObject(winInfo)) {
+		MsgBox, 0, WINDOWINFO, ERROR - ErrorLevel: %ErrorLevel%
+	} else {
+		MsgBox, % "Window Rect = " . winInfo.Window.Left . ", " . winInfo.Window.Top . ", "
+			. winInfo.Window.Right . ", " . winInfo.Window.Bottom . "`nClient Rect = " 
+			. winInfo.Client.Left . ", " . winInfo.Client.Top . ", " . winInfo.Client.Right 
+			. ", " . winInfo.Client.Bottom . "`nStyles = " . winInfo.Styles . "`nExStyles = " 
+			. winInfo.ExStyles . "`nStatus = " . winInfo.Status . "`nXBorders = " 
+			. winInfo.XBorders . "`nYBorders = " . winInfo.YBorders . "`nType = " . winInfo.Type
+			. "`nVersion = " . winInfo.Version
+	}
+Return
+
 :*:@getWinBorders::
 	AppendAhkCmd(A_ThisLabel)
 	WinGet, hwnd, ID, A
