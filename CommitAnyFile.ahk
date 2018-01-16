@@ -48,6 +48,7 @@ CommitAnyFile(ahkCmdName, gitFolder, filesToCommit) {
 	commitAnyFileVars.ahkCmdName := ahkCmdName
 	commitAnyFileVars.gitFolder := gitFolder
 	commitAnyFileVars.filesToCommit := filesToCommit
+	commitAnyFileVars.primaryMsgChanged := false
 	lastAnyFileMsg1st := ""
 	msgLenAnyFile1st := 0
 	lastAnyFileMsg2nd := ""
@@ -145,9 +146,13 @@ HandleCommitAnyFileAddFiles() {
 
 ; Triggered when the primary git commit message for the selected file is changed by user input
 HandleCommitAnyFile1stMsgChange() {
+	global commitAnyFileVars
 	global ctrlCommitAnyFile1stMsg
 	global ctrlCommitAnyFile1stMsgCharCount
 
+	if (commitAnyFileVars.primaryMsgChanged != True) {
+		commitAnyFileVars.primaryMsgChanged := True
+	}
 	Gui, guiCommitAnyFile: Submit, NoHide
 	msgLen := StrLen(ctrlCommitAnyFile1stMsg)
 	GuiControl, , ctrlCommitAnyFile1stMsgCharCount, % "Length = " . msgLen . " characters"
@@ -179,10 +184,10 @@ HandleCommitAnyFileOk() {
 	gVarCheck := (gVarCheck << 1) | (commitAnyFileVars.filesToCommit == undefined)
 	gVarCheck := (gVarCheck << 1) | (ctrlCommitAnyFile1stMsg == undefined)
 
-	if (!gVarCheck) {
-		commitMsgTxt := "'" . ctrlCommitAnyFile1stMsg . "'"
+	if (!gVarCheck && CheckAnyFilePrimaryMsgChanged()) {
+		commitMsgTxt := """" . ctrlCommitAnyFile1stMsg . """"
 		if (ctrlCommitAnyFile2ndMsg) {
-			commitMsgTxt .= "`n`nSECONDARY MESSAGE:`n'" . ctrlCommitAnyFile2ndMsg . "'"
+			commitMsgTxt .= "`n`nSECONDARY MESSAGE:`n""" . ctrlCommitAnyFile2ndMsg . """"
 		}
 		MsgBox, 4, % "Ready to Proceed?", % "Are you sure you want to push the git commit "
 			. "message:`n`nPRIMARY MESSAGE:`n" . commitMsgTxt 
@@ -232,17 +237,32 @@ HandleCommitAnyFileOk() {
 	}
 }
 
+CheckAnyFilePrimaryMsgChanged() {
+	global commitAnyFileVars
+	proceed := commitAnyFileVars.primaryMsgChanged
+	if (!proceed) {
+		MsgBox, 4, % "Are You Sure?", % "I noticed you didn't change the primary commit message. "
+			. "Do you still want to proceed?"
+		IfMsgBox, Yes
+		{
+			proceed := True
+		}
+	}
+	return proceed
+}
+
 ; Called by HandleCommitAnyFileOk() to handle error processing.
 ProcessHandleCommitAnyFileOkError(gVarCheck) {
 	functionName := "CommitAnyFile.ahk / ProcessHandleCommitAnyFileOk()"
 	if (gVarCheck == 1) {
 		ErrorBox(functionName
-			, "Please enter a primary git commit message regarding changes in the LESS source file.")
-	} else {
+			, "Please enter a primary git commit message regarding changes in the LESS source "
+			. "file.")
+	} else if (gVarCheck != 0) {
 		Gui, guiCommitAnyFile: Destroy
 		ErrorBox(functionName
-			, "An undefined global variable was encountered; function terminating. Variable checking bitmask "
-			. "was equal to " . gVarCheck . ".")
+			, "An undefined global variable was encountered; function terminating. Variable "
+			. "checking bitmask was equal to " . gVarCheck . ".")
 	}
 }
 
