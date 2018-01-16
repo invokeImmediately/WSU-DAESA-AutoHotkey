@@ -351,13 +351,15 @@ return
 >^!#Left::
 	SoundPlay, %windowMovementSound%
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
+	widthDecrement := Round((monitorARight - monitorALeft) / 20)
+	minWidth := Round((monitorARight - monitorALeft) / 20 * 3)
 	if (monitorFound) {
 		WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
 		thisWinH := monitorABottom - monitorATop
-		if (thisWinX = monitorALeft and thisWinW > (monitorARight - monitorALeft) / 4) {
-			WinMove, A, , %monitorALeft%, 0, % (thisWinW - 100), %thisWinH%
-		} else if (thisWinX = monitorALeft and thisWinW <= (monitorARight - monitorALeft) / 4) {
-			thisWinW := monitorARight - monitorALeft - 100
+		if (thisWinX = monitorALeft and thisWinW - widthDecrement >= minWidth) {
+			WinMove, A, , %monitorALeft%, 0, % (thisWinW - widthDecrement), %thisWinH%
+		} else if (thisWinX = monitorALeft and thisWinW - widthDecrement < minWidth) {
+			thisWinW := monitorARight - monitorALeft - widthDecrement
 			WinMove, A, , %monitorALeft%, 0, %thisWinW%, %thisWinH%
 		} else {
 			WinMove, A, , %monitorALeft%, 0, %thisWinW%, %thisWinH%
