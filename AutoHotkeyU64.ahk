@@ -108,9 +108,9 @@ If not A_IsAdmin
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\guiMsgBox.ahk
 
-#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\functions.ahk
-
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\API_GetWindowInfo.ahk
+
+#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\functions.ahk
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\trie.ahk
 
