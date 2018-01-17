@@ -452,6 +452,7 @@ GetActiveMonitorWorkArea(ByRef monitorFound, ByRef monitorALeft, ByRef monitorAT
 	local thisWinW
 	local thisWinH
 	local thisMinMax
+	local whichVertex
 
 	monitorFound := false
 	WinGet, thisMinMax, MinMax, A
@@ -460,7 +461,8 @@ GetActiveMonitorWorkArea(ByRef monitorFound, ByRef monitorALeft, ByRef monitorAT
 		Sleep 60
 	}
 	WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
-	RemoveWinBorderFromRectCoordinate(thisWinX, thisWinY)
+	whichVertex := 0
+	RemoveWinBorderFromRectCoordinate(whichVertex, thisWinX, thisWinY)
 	Loop, %sysNumMonitors% {
 		if (thisWinX >= mon%A_Index%Bounds_Left && thisWinY >= mon%A_Index%Bounds_Top
 				&& thisWinX < mon%A_Index%Bounds_Right && thisWinY < mon%A_Index%Bounds_Bottom) {
