@@ -530,17 +530,25 @@ RemoveWinBorderFromRectCoordinate(whichVertex, ByRef coordX, ByRef coordY) {
 ; Adjust the work area of the monitor the active window is occupying by compensating for the width
 ; of the active window's borders. The intended effect of this compensation is restriction of the
 ; active window's client rectangle to the monitor's work area.
+;
+; Additional notes on approach:
+;     Right now, the function determines the active window's border width from its left and bottom 
+; edges, and then assumes the window has the same width of borders on its right and top edges. 
+; This was done because during testing, it was found that PowerShell deducts the width of the 
+; right-hand scroll bar from the client rectangle. Moreover, it was found in Sublime Text 3 that 
+; the height of the menu is deducted from the client rectangle. Finally, no cases have yet been 
+; encountered where the width of a window's border is not equal among all of its edges. Since the 
+; windows documentation treats horizintal and vertical window borders separately, however, it was 
+; decided that this function will also.
 AddWinBordersToMonitorWorkArea(ByRef monitorWaLeft, ByRef monitorWaTop, ByRef monitorWaRight
 		, ByRef monitorWaBottom) {
 	WinGet, hwnd, ID, A
 	winInfo := API_GetWindowInfo(hwnd)
 	borderWidth := {}
-	borderWidth.Left := abs(winInfo.Window.Left - winInfo.Client.Left)
-	borderWidth.Top := abs(winInfo.Window.Top - winInfo.Client.Top)
-	borderWidth.Right := abs(winInfo.Window.Right - winInfo.Client.Right)
-	borderWidth.Bottom := abs(winInfo.Window.Bottom - winInfo.Client.Bottom)
-	monitorWaLeft -= (borderWidth.Left - 1)
-	monitorWaTop -= (borderWidth.Top - 1)
-	monitorWaRight += (borderWidth.Right - 1)
-	monitorWaBottom += (borderWidth.Bottom - 1)
+	borderWidth.Horz := abs(winInfo.Window.Left - winInfo.Client.Left)
+	borderWidth.Vert := abs(winInfo.Window.Bottom - winInfo.Client.Bottom)
+	monitorWaLeft -= (borderWidth.Horz - 1)
+	monitorWaTop -= (borderWidth.Vert - 1)
+	monitorWaRight += (borderWidth.Horz - 1)
+	monitorWaBottom += (borderWidth.Vert - 1)
 }
