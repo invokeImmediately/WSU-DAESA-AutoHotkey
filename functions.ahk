@@ -460,6 +460,7 @@ GetActiveMonitorWorkArea(ByRef monitorFound, ByRef monitorALeft, ByRef monitorAT
 		Sleep 60
 	}
 	WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
+	RemoveWinBorderFromRectCoordinate(thisWinX, thisWinY)
 	Loop, %sysNumMonitors% {
 		if (thisWinX >= mon%A_Index%Bounds_Left && thisWinY >= mon%A_Index%Bounds_Top
 				&& thisWinX < mon%A_Index%Bounds_Right && thisWinY < mon%A_Index%Bounds_Bottom) {
@@ -490,6 +491,38 @@ GetActiveMonitorWorkArea(ByRef monitorFound, ByRef monitorALeft, ByRef monitorAT
 	} else {
 		AddWinBordersToMonitorWorkArea(monitorALeft, monitorATop, monitorARight, monitorABottom)
 	}
+}
+
+; Remove the width of a window's border from one of its outer rectangle coordinates. This has the 
+; effect of transforming an outer rectangle coordinate into a client rectangle coordinate.
+;
+; Additional Notes on arguments:
+; --------------------------------------------------
+;    Value of whichVertex  |  Interpretation
+; --------------------------------------------------
+;    0                        Top-left window vertex
+;    1                        Top-right
+;    2                        Bottom-left
+;    3                        Bottom-right
+RemoveWinBorderFromRectCoordinate(whichVertex, ByRef coordX, ByRef coordY) {
+	WinGet, hwnd, ID, A
+	winInfo := API_GetWindowInfo(hwnd)
+	borderWidth := {}
+	if (whichVertex = 0) {
+		borderWidth.Horz := abs(winInfo.Window.Left - winInfo.Client.Left)
+		borderWidth.Vert := abs(winInfo.Window.Top - winInfo.Client.Top)
+	} else if (whichVertex = 1) {
+		borderWidth.Horz := -1 * abs(winInfo.Window.Right - winInfo.Client.Right)
+		borderWidth.Vert := abs(winInfo.Window.Top - winInfo.Client.Top)
+	} else if (whichVertex = 2) {
+		borderWidth.Horz := abs(winInfo.Window.Left - winInfo.Client.Left)
+		borderWidth.Vert := -1 * abs(winInfo.Window.Bottom - winInfo.Client.Bottom)
+	} else { ; Assume bottom-right vertex
+		borderWidth.Horz := -1 * abs(winInfo.Window.Right - winInfo.Client.Right)
+		borderWidth.Vert := -1 * abs(winInfo.Window.Bottom - winInfo.Client.Bottom)
+	}
+	coordX += borderWidth.Horz
+	coordY += borderWidth.Vert
 }
 
 ; Adjust the work area of the monitor the active window is occupying by compensating for the width
