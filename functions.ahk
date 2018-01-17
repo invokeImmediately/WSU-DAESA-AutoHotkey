@@ -487,14 +487,16 @@ GetActiveMonitorWorkArea(ByRef monitorFound, ByRef monitorALeft, ByRef monitorAT
 				. "`tTop: " . mon%A_Index%Bounds_Top . "`r"
 		}
 		MsgBox, 48, % A_ThisFunc, % errorMsg
+	} else {
+		AddWinBordersToMonitorWorkArea(monitorALeft, monitorATop, monitorARight, monitorABottom)
 	}
 }
 
 ; Adjust the work area of the monitor the active window is occupying by compensating for the width
-; of the active window's borders. The effect of this compensation will be that the client rectangle
-; of the window will fall within the work area.
-AdjustActiveMonitorWorkArea(ByRef monitorALeft, ByRef monitorATop, ByRef monitorARight
-		, ByRef monitorABottom) {
+; of the active window's borders. The intended effect of this compensation is restriction of the
+; active window's client rectangle to the monitor's work area.
+AddWinBordersToMonitorWorkArea(ByRef monitorWaLeft, ByRef monitorWaTop, ByRef monitorWaRight
+		, ByRef monitorWaBottom) {
 	WinGet, hwnd, ID, A
 	winInfo := API_GetWindowInfo(hwnd)
 	borderWidth := {}
@@ -502,8 +504,8 @@ AdjustActiveMonitorWorkArea(ByRef monitorALeft, ByRef monitorATop, ByRef monitor
 	borderWidth.Top := abs(winInfo.Window.Top - winInfo.Client.Top)
 	borderWidth.Right := abs(winInfo.Window.Right - winInfo.Client.Right)
 	borderWidth.Bottom := abs(winInfo.Window.Bottom - winInfo.Client.Bottom)
-	monitorALeft -= (borderWidth.Left - 1)
-	monitorATop -= (borderWidth.Top - 1)
-	monitorARight += (borderWidth.Right - 1)
-	monitorABottom += (borderWidth.Bottom - 1)
+	monitorWaLeft -= (borderWidth.Left - 1)
+	monitorWaTop -= (borderWidth.Top - 1)
+	monitorWaRight += (borderWidth.Right - 1)
+	monitorWaBottom += (borderWidth.Bottom - 1)
 }
