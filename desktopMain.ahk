@@ -52,10 +52,6 @@ SetMonitorBounds() {
 	global
 	Loop, % sysNumMonitors {
 		SysGet, mon%A_Index%Bounds_, Monitor, %A_Index%
-		mon%A_Index%Bounds_Left
-		mon%A_Index%Bounds_Right
-		mon%A_Index%Bounds_Top
-		mon%A_Index%Bounds_Bottom
 	}
 }
 
@@ -64,10 +60,6 @@ SetMonitorWorkAreas() {
 	global
 	Loop, % sysNumMonitors {
 		SysGet, mon%A_Index%WorkArea_, MonitorWorkArea, %A_Index%
-		mon%A_Index%WorkArea_Left
-		mon%A_Index%WorkArea_Right
-		mon%A_Index%WorkArea_Top
-		mon%A_Index%WorkArea_Bottom
 	}
 }
 
