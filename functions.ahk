@@ -397,6 +397,15 @@ Return
 	}
 Return
 
+GetActiveWindowBorderWidths() {
+	WinGet, hwnd, ID, A
+	winInfo := API_GetWindowInfo(hwnd)
+	borderWidth := {}
+	borderWidth.Horz := abs(winInfo.Window.Left - winInfo.Client.Left)
+	borderWidth.Vert := abs(winInfo.Window.Bottom - winInfo.Client.Bottom)
+	return borderWidth
+}
+
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@getWinProcess::
