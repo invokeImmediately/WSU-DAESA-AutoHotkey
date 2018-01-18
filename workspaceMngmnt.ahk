@@ -115,6 +115,7 @@ Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
+; TODO: Refactor to compensate for window border widths and how they affect positioning
 ^F9::
 	SoundPlay, %windowSizingSound%
 	SysGet, Mon1, MonitorWorkArea, 1
@@ -149,15 +150,16 @@ Return
 
 ^F7::
 	SoundPlay, %windowSizingSound%
-	SysGet, Mon1, MonitorWorkArea, 1
-	maxWidth := Mon1Right - Mon1Left
+	borderWidths := GetActiveWindowBorderWidths()
+	maxWidth := (mon1WorkArea_Right + (borderWidths.Horz - 1)) - (mon1WorkArea_Left 
+		- (borderWidths.Horz - 1))
 	minWidth := Round(maxWidth / 20 * 3)
 	widthDecrement := minWidth
-	newWidth := maxWidth - widthDecrement + sysWinBorderW * 2
-	newPosX := -(maxWidth - widthDecrement) - sysWinBorderW - 1
-	maxHeight := Mon1Bottom - Mon1Top
+	newWidth := maxWidth - widthDecrement
+	newPosX := -(maxWidth - widthDecrement) + (borderWidths.Horz - 1)
+	maxHeight := (mon1WorkArea_Bottom - mon1WorkArea_Top) + (borderWidths.Vert - 1)
 	minHeight := Round(maxHeight / 20 * 3)
-	newHeight := maxHeight + sysWinBorderH
+	newHeight := maxHeight
 	WinRestore, A
 	WinMove, A, , %newPosX%, 0, %newWidth%, %maxHeight%
 	TriggerWindowAdjustmentGui(4, minWidth, maxWidth, newWidth, minHeight, maxHeight, newHeight)
