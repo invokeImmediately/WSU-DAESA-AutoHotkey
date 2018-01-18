@@ -524,13 +524,14 @@ GetActiveMonitorWorkArea(ByRef monitorFound, ByRef monitorALeft, ByRef monitorAT
 ; effect of transforming an outer rectangle coordinate into a client rectangle coordinate.
 ;
 ; Additional Notes on arguments:
-; --------------------------------------------------
+; ------------------------------------------------------
 ;    Value of whichVertex  |  Interpretation
-; --------------------------------------------------
+; ------------------------------------------------------
 ;    0                        Top-left window vertex
 ;    1                        Top-right
 ;    2                        Bottom-left
 ;    3                        Bottom-right
+;    Anything else            Leave coordinate unchanged
 RemoveWinBorderFromRectCoordinate(whichVertex, ByRef coordX, ByRef coordY) {
 	WinGet, hwnd, ID, A
 	winInfo := API_GetWindowInfo(hwnd)
@@ -544,9 +545,12 @@ RemoveWinBorderFromRectCoordinate(whichVertex, ByRef coordX, ByRef coordY) {
 	} else if (whichVertex = 2) {
 		borderWidth.Horz := abs(winInfo.Window.Left - winInfo.Client.Left)
 		borderWidth.Vert := -1 * abs(winInfo.Window.Bottom - winInfo.Client.Bottom)
-	} else { ; Assume bottom-right vertex
+	} else if (whichVertex = 3) { ; Assume bottom-right vertex
 		borderWidth.Horz := -1 * abs(winInfo.Window.Right - winInfo.Client.Right)
 		borderWidth.Vert := -1 * abs(winInfo.Window.Bottom - winInfo.Client.Bottom)
+	} else {
+		borderWidth.Horz := 0
+		borderWidth.Vert := 0
 	}
 	coordX += borderWidth.Horz
 	coordY += borderWidth.Vert
