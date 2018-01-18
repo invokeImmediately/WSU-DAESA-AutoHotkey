@@ -412,7 +412,13 @@ GetActiveWindowBorderWidths() {
 	winInfo := API_GetWindowInfo(hwnd)
 	borderWidth := {}
 	borderWidth.Horz := abs(winInfo.Window.Left - winInfo.Client.Left)
+	if (borderWidth.Horz > winInfo.XBorders) {
+		borderWidth.Horz := winInfo.XBorders
+	}
 	borderWidth.Vert := abs(winInfo.Window.Bottom - winInfo.Client.Bottom)
+	if (borderWidth.Vert > winInfo.YBorders) {
+		borderWidth.Vert := winInfo.YBorders
+	}	
 	return borderWidth
 }
 
