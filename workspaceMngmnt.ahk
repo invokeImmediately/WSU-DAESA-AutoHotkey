@@ -355,7 +355,7 @@ return
 	minWidth := Round((monitorARight - monitorALeft) / 20 * 3)
 	if (monitorFound) {
 		WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
-		thisWinH := monitorABottom - monitorATop
+		thisWinH := monitorABottom
 		if (thisWinX = monitorALeft and thisWinW - widthDecrement >= minWidth) {
 			WinMove, A, , %monitorALeft%, 0, % (thisWinW - widthDecrement), %thisWinH%
 		} else if (thisWinX = monitorALeft and thisWinW - widthDecrement < minWidth) {
