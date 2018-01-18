@@ -421,7 +421,7 @@ return
 	if (monitorFound) {
 		WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
 		newWinX := monitorARight - thisWinW
-		thisWinH := monitorABottom - monitorATop
+		thisWinH := monitorABottom
 		if (thisWinX = newWinX and thisWinW - widthDecrement >= minWidth) {
 			newWinX += widthDecrement
 			thisWinW -= widthDecrement
