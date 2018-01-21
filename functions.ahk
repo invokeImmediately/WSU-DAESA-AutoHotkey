@@ -594,3 +594,37 @@ AddWinBordersToMonitorWorkArea(ByRef monitorWaLeft, ByRef monitorWaTop, ByRef mo
 	monitorWaRight += (borderWidth.Horz - 1)
 	monitorWaBottom += (borderWidth.Vert - 1)
 }
+
+ClipActiveWindowToMonitor() {
+	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
+	WinGetPos, x, y, w, h, A
+	; Set up clipping of the horizontal dimensions of the window.
+	if (x >= monitorALeft && x + w > monitorARight) {
+		w := monitorARight - x
+	} else if (x < monitorALeft && x + w > monitorALeft && x + w <= monitorARight) {
+		w := x + w - monitorALeft
+		x := monitorALeft
+	} else if (x < monitorALeft && x + w > monitorALeft && x + w > monitorARight) {
+		x := monitorALeft
+		w := monitorARight - x
+	}
+
+	; Now set up clipping of the vertical dimensions.
+	if (y >= monitorATop && y + h > monitorABottom) {
+		h := monitorABottom - y
+	} else if (y < monitorATop && y + h > monitorATop && y + h <= monitorABottom) {
+		h := y + h - monitorATop
+		y := monitorATop
+	} else if (y < monitorATop && y + h > monitorATop && y + h > monitorABottom) {
+		y := monitorATop
+		h := monitorABottom - y
+	}
+
+	; Perform clipping
+	WinMove, A, , x, y, w, h
+}
+
+:*:@clipActiveWindowToMonitor::
+	AppendAhkCmd(A_ThisLabel)
+	ClipActiveWindowToMonitor()
+Return
