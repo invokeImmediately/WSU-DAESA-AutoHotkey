@@ -356,11 +356,16 @@ return
 	widthDecrement := Round((monitorARight - monitorALeft) / 20)
 	minWidth := Round((monitorARight - monitorALeft) / 20 * 3)
 	if (monitorFound) {
+		heightChanged := false
 		WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
-		thisWinH := monitorABottom
-		if (thisWinX = monitorALeft and thisWinW - widthDecrement >= minWidth) {
+		if (thisWinH != monitorABottom) {
+			thisWinH := monitorABottom
+			heightChanged := true
+		}
+		if (!heightChanged and thisWinX = monitorALeft and thisWinW - widthDecrement >= minWidth) {
 			WinMove, A, , %monitorALeft%, 0, % (thisWinW - widthDecrement), %thisWinH%
-		} else if (thisWinX = monitorALeft and thisWinW - widthDecrement < minWidth) {
+		} else if (!heightChanged and thisWinX = monitorALeft and thisWinW 
+				- widthDecrement < minWidth) {
 			thisWinW := monitorARight - monitorALeft - widthDecrement
 			WinMove, A, , %monitorALeft%, 0, %thisWinW%, %thisWinH%
 		} else {
