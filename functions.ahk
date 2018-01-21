@@ -20,7 +20,7 @@ isTargetProcessActive(targetProcess, caller := "", notActiveErrMsg := "") {
 	WinGet, thisWin, ProcessName, A
 	targetProcessIsActive := thisWin = targetProcess
 	if (!targetProcessIsActive && caller != "" && notActiveErrMsg != "") {
-		ErrorBox(caller, notActiveErrMsg)		
+		ErrorBox(caller, notActiveErrMsg)
 	}
 	return targetProcessIsActive
 }
@@ -38,7 +38,7 @@ areTargetProcessesActive(targetProcesses, caller := "", notActiveErrMsg := "") {
 		}
 	}
 	if (!activeProcessIndex && caller != "" && notActiveErrMsg != "") {
-		ErrorBox(caller, notActiveErrMsg)		
+		ErrorBox(caller, notActiveErrMsg)
 	} else {
 		activeProcessName := targetProcesses[activeProcessIndex]
 	}
@@ -48,19 +48,19 @@ areTargetProcessesActive(targetProcesses, caller := "", notActiveErrMsg := "") {
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 doesVarExist(ByRef v) { ; Requires 1.0.46+ 
-    return &v = &undeclared ? 0 : 1 
+	return &v = &undeclared ? 0 : 1 
 }
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 isVarEmpty(ByRef v) { ; Requires 1.0.46+ 
-    return v = "" ? 1 : 0 
+	return v = "" ? 1 : 0 
 }
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 isVarDeclared(ByRef v) { ; Requires 1.0.46+ 
-    return &v = &undeclared ? 0 : v = "" ? 0 : 1
+	return &v = &undeclared ? 0 : v = "" ? 0 : 1
 }
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
@@ -74,8 +74,8 @@ ErrorBox(whichFunc, errorMsg) {
 InsertFilePath(ahkCmdName, filePath, headerStr:="") {
 	global lineLength
 	AppendAhkCmd(ahkCmdName)
-    if (UserFolderIsSet()) {
-        if (IsGitShellActive()) {
+	if (UserFolderIsSet()) {
+		if (IsGitShellActive()) {
 			if (headerStr != "" && StrLen(headerStr) <= 108 && lineLength != undefined) {
 				leftLength := Floor(lineLength / 2) - Floor(StrLen(headerStr) / 2)
 				fullHeader := "write-host '``n"
@@ -90,12 +90,11 @@ InsertFilePath(ahkCmdName, filePath, headerStr:="") {
 				fullHeader .= "' -foreground 'green'{Enter}"
 				SendInput, % fullHeader
 			}
-            SendInput, % "cd '" . filePath . "'{Enter}"
-        }
-        else {
-            SendInput, % filePath . "{Enter}"
-        }
-    }
+			SendInput, % "cd '" . filePath . "'{Enter}"
+		} else {
+			SendInput, % filePath . "{Enter}"
+		}
+	}
 }
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
@@ -107,23 +106,23 @@ LaunchApplicationPatiently(path, title, matchMode := 2)
 		oldMatchMode := A_TitleMatchMode
 		SetTitleMatchMode, % matchMode
 	}
-    Run % path
-    isReady := false
-    while !isReady
-    {
-        IfWinExist, % title
-        {
-            isReady := true
-            Sleep, 500
-        }
-        else
-        {
-            Sleep, 250
-        }
-    }
-    if (oldMatchMode) {
-    	SetTitleMatchMode, % oldMatchMode
-    }
+	Run % path
+	isReady := false
+	while !isReady
+	{
+		IfWinExist, % title
+		{
+			isReady := true
+			Sleep, 500
+		}
+		else
+		{
+			Sleep, 250
+		}
+	}
+	if (oldMatchMode) {
+		SetTitleMatchMode, % oldMatchMode
+	}
 }
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
@@ -136,22 +135,22 @@ LaunchStdApplicationPatiently(path, title, matchMode := 2)
 		SetTitleMatchMode, % matchMode
 	}
 	Run, % "explorer.exe """ . path . """"
-    isReady := false
-    while !isReady
-    {
-        IfWinExist, % title
-        {
-            isReady := true
-            Sleep, 500
-        }
-        else
-        {
-            Sleep, 250
-        }
-    }
-    if (oldMatchMode) {
-    	SetTitleMatchMode, % oldMatchMode
-    }
+	isReady := false
+	while !isReady
+	{
+		IfWinExist, % title
+		{
+			isReady := true
+			Sleep, 500
+		}
+		else
+		{
+			Sleep, 250
+		}
+	}
+	if (oldMatchMode) {
+		SetTitleMatchMode, % oldMatchMode
+	}
 }
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
@@ -192,19 +191,19 @@ PasteText(txtToPaste) {
 
 WaitForApplicationPatiently(title)
 {
-    isReady := false
-    while !isReady
-    {
-        IfWinExist, % title
-        {
-            isReady := true
-            Sleep, 500
-        }
-        else
-        {
-            Sleep, 250
-        }
-    }
+	isReady := false
+	while !isReady
+	{
+		IfWinExist, % title
+		{
+			isReady := true
+			Sleep, 500
+		}
+		else
+		{
+			Sleep, 250
+		}
+	}
 }
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
@@ -418,7 +417,7 @@ GetActiveWindowBorderWidths() {
 	borderWidth.Vert := abs(winInfo.Window.Bottom - winInfo.Client.Bottom)
 	if (borderWidth.Vert > winInfo.YBorders) {
 		borderWidth.Vert := winInfo.YBorders
-	}	
+	}
 	return borderWidth
 }
 
@@ -471,7 +470,7 @@ Return
 
 GetActiveMonitorWorkArea(ByRef monitorFound, ByRef monitorALeft, ByRef monitorATop
 		, ByRef monitorARight, ByRef monitorABottom) {
-    global
+	global
 	local thisWinX
 	local thisWinY
 	local thisWinW
