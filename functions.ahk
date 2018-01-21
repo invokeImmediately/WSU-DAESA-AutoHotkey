@@ -468,28 +468,31 @@ Return
 ; Desktop Management Functions
 ; --------------------------------------------------------------------------------------------------
 
+; TODO: Function too complicated, need to refactor by divide & conquer
 GetActiveMonitorWorkArea(ByRef monitorFound, ByRef monitorALeft, ByRef monitorATop
 		, ByRef monitorARight, ByRef monitorABottom) {
 	global
-	local thisWinX
-	local thisWinY
-	local thisWinW
-	local thisWinH
-	local thisMinMax
+	local winCoords := {}
+	local x
+	local y
+	local w
+	local h
 	local whichVertex
 
 	monitorFound := false
-	WinGet, thisMinMax, MinMax, A
-	if (thisMinMax != 0) {
-		WinRestore, A
-		Sleep 60
-	}
-	WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
+	RemoveMinMaxStateForActiveWin()
+
+	WinGetPos, x, y, w, h, A
+	winCoords.x := x
+	winCoords.y := y
+	winCoords.w := w
+	winCoords.h := h
 	whichVertex := 0
-	RemoveWinBorderFromRectCoordinate(whichVertex, thisWinX, thisWinY)
+	RemoveWinBorderFromRectCoordinate(whichVertex, winCoords.x, winCoords.y)
 	Loop, %sysNumMonitors% {
-		if (thisWinX >= mon%A_Index%Bounds_Left && thisWinY >= mon%A_Index%Bounds_Top
-				&& thisWinX < mon%A_Index%Bounds_Right && thisWinY < mon%A_Index%Bounds_Bottom) {
+		if (winCoords.x >= mon%A_Index%Bounds_Left && winCoords.y >= mon%A_Index%Bounds_Top
+				&& winCoords.x < mon%A_Index%Bounds_Right
+				&& winCoords.y < mon%A_Index%Bounds_Bottom) {
 			monitorFound := true
 			monitorALeft := mon%A_Index%WorkArea_Left
 			monitorATop := mon%A_Index%WorkArea_Top
@@ -499,24 +502,51 @@ GetActiveMonitorWorkArea(ByRef monitorFound, ByRef monitorALeft, ByRef monitorAT
 		}
 	}
 	if (monitorFound = false) {
-		monitorALeft := 0
-		monitorATop := 0
-		monitorARight := 0
-		monitorABottom := 0
-		errorMsg := "Monitor not found. Window coordinates:`r"
-			. "`tLeft: " . thisWinX . "`r"
-			. "`tTop: " . thisWinY . "`r"
-			. "`tRight: " . (thisWinX + thisWinW) . "`r"
-			. "`tBottom: " . (thisWinY + thisWinH) . "`r"
-		Loop, %sysNumMonitors% {
-			errorMsg .= "`r`rMonitor #" . A_Index . " coordinates:`r"
-				. "`tLeft: " . mon%A_Index%Bounds_Left . "`r"
-				. "`tTop: " . mon%A_Index%Bounds_Top . "`r"
-		}
-		MsgBox, 48, % A_ThisFunc, % errorMsg
+		ResolveActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight
+			, monitorABottom, winCoords)
 	} else {
 		AddWinBordersToMonitorWorkArea(monitorALeft, monitorATop, monitorARight, monitorABottom)
 	}
+}
+
+RemoveMinMaxStateForActiveWin() {
+	WinGet, thisMinMax, MinMax, A
+	if (thisMinMax != 0) {
+		WinRestore, A
+		Sleep 60
+	}
+}
+
+; Notes on arguments:
+; -------------------
+; winCoords = object with properties x, y, w, and h that have been set by call to WinGetPos
+ResolveActiveMonitorWorkArea(ByRef monitorFound, ByRef monitorALeft, ByRef monitorATop
+		, ByRef monitorARight, ByRef monitorABottom, winCoords) {
+	global
+	local distance
+	local minDistance := -1
+	local correctMon := 0
+	local winMidpt := {}
+	local monMidpt := {}
+	winMidpt.x := winCoords.x + winCoords.w / 2
+	winMidpt.y := winCoords.x + winCoords.h / 2
+	Loop, %sysNumMonitors% {
+		monMidpt.x := mon%A_Index%Bounds_Left + (mon%A_Index%Bounds_Right 
+			- mon%A_Index%Bounds_Left) / 2		
+		monMidpt.y := mon%A_Index%Bounds_Top + (mon%A_Index%Bounds_Bottom
+			- mon%A_Index%Bounds_Top)	/ 2
+		distance := Sqrt((monMidpt.x - winMidpt.x)**2 + (monMidpt.y - winMidpt.y)**2)
+		if (minDistance = -1 || distance < minDistance) {
+			minDistance := distance
+			correctMon := A_Index
+		}
+	}
+	monitorFound := true
+	monitorALeft := mon%correctMon%WorkArea_Left
+	monitorATop := mon%correctMon%WorkArea_Top
+	monitorARight := mon%correctMon%WorkArea_Right
+	monitorABottom := mon%correctMon%WorkArea_Bottom
+	AddWinBordersToMonitorWorkArea(monitorALeft, monitorATop, monitorARight, monitorABottom)
 }
 
 ; Remove the width of a window's border from one of its outer rectangle coordinates. This has the 
