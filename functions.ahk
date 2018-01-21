@@ -468,7 +468,6 @@ Return
 ; Desktop Management Functions
 ; --------------------------------------------------------------------------------------------------
 
-; TODO: Function too complicated, need to refactor by divide & conquer
 GetActiveMonitorWorkArea(ByRef monitorFound, ByRef monitorALeft, ByRef monitorATop
 		, ByRef monitorARight, ByRef monitorABottom) {
 	global
@@ -481,14 +480,13 @@ GetActiveMonitorWorkArea(ByRef monitorFound, ByRef monitorALeft, ByRef monitorAT
 
 	monitorFound := false
 	RemoveMinMaxStateForActiveWin()
-
 	WinGetPos, x, y, w, h, A
+	whichVertex := 0
+	RemoveWinBorderFromRectCoordinate(whichVertex, x, y)
 	winCoords.x := x
 	winCoords.y := y
 	winCoords.w := w
 	winCoords.h := h
-	whichVertex := 0
-	RemoveWinBorderFromRectCoordinate(whichVertex, winCoords.x, winCoords.y)
 	Loop, %sysNumMonitors% {
 		if (winCoords.x >= mon%A_Index%Bounds_Left && winCoords.y >= mon%A_Index%Bounds_Top
 				&& winCoords.x < mon%A_Index%Bounds_Right
