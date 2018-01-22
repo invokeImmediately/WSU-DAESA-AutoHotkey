@@ -474,44 +474,24 @@ return
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ;TODO: Add ^!#Up, compensation for left/right ctrl press.
-^!#Down::
-	;TODO: Refactor to rely on global variables that store monitor dimensions
+<^!#Down::
 	SoundPlay, %windowMovementSound%
-	if (IsWindowOnLeftDualMonitor()) {
-		SysGet, Mon2, MonitorWorkArea, 2
-		WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
-		newWinY := Mon2Bottom - thisWinH
-		newWinW := Mon2Right - Mon2Left
-		if (thisWinY = newWinY and thisWinH > (Mon2Bottom - Mon2Top) / 4) {
-			newWinY := newWinY + 100
-			WinMove, A, , %Mon2Left%, %newWinY%, %newWinW%, % (thisWinH - 100)
+	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
+	if (monitorFound) {
+		WinGetPos, winX, winY, winW, winH, A
+		newWinY := monitorABottom - winH
+		heightDecrement := Round((monitorABottom - monitorATop) / 20)
+		minHeight := Round((monitorABottom - monitorATop) / 20 * 3)
+		; newWinW := monitorARight - monitorALeft
+		; if (winY = newWinY and winH > (monitorABottom - monitorATop) / 4) {
+		if (winY = newWinY and winH - heightDecrement >= minHeight) {
+			newWinY += heightDecrement
+			winH -= heightDecrement
+		} else if (winY = newWinY and winH - heightDecrement < minHeight) {
+			winH := monitorABottom - monitorATop - heightDecrement
+			newWinY := monitorABottom - winH
 		}
-		else if (thisWinH > (Mon2Bottom - Mon2Top) / 4) {
-			WinMove, A, , %Mon2Left%, %newWinY%, %newWinW%, %thisWinH%
-		}
-		else {
-			thisWinH := Mon2Bottom - Mon2Top - 100
-			newWinY := 100
-			WinMove, A, , %Mon2Left%, %newWinY%, %newWinW%, %thisWinH%
-		}
-	}
-	else {
-		SysGet, Mon1, MonitorWorkArea, 1
-		WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
-		newWinY := Mon1Bottom - thisWinH
-		newWinW := Mon1Right - Mon1Left
-		if (thisWinY = newWinY and thisWinH > (Mon1Bottom - Mon1Top) / 4) {
-			newWinY := newWinY + 100
-			WinMove, A, , %Mon1Left%, 0, %newWinW%, % (thisWinH - 100)
-		}
-		else if (thisWinH > (Mon1Bottom - Mon1Top) / 4) {
-			WinMove, A, , %Mon1Left%, 0, %newWinW%, %thisWinH%
-		}
-		else {
-			thisWinH := Mon1Right - Mon1Left - 100
-			newWinY := 100
-			WinMove, A, , %Mon1Left%, 0, %newWinW%, %thisWinH%
-		}
+		WinMove, A, , %winX%, %newWinY%, %winW%, %winH%
 	}
 return
 
