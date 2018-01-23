@@ -335,15 +335,13 @@ GuiWinAdjCheckNewPosition(whichHwnd, ByRef posX, ByRef posY, ByRef winWidth, ByR
 	widthDecrement := Round((monitorARight - monitorALeft) / 20)
 	minWidth := Round((monitorARight - monitorALeft) / 20 * 3)
 	if (monitorFound) {
-		WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
-		if (thisWinX = monitorALeft and thisWinW - widthDecrement >= minWidth) {
-			WinMove, A, , %monitorALeft%, thisWinY, % (thisWinW - widthDecrement), %thisWinH%
-		} else if (thisWinX = monitorALeft and thisWinW - widthDecrement < minWidth) {
-			thisWinW := monitorARight - monitorALeft - widthDecrement
-			WinMove, A, , %monitorALeft%, thisWinY, %thisWinW%, %thisWinH%
-		} else {
-			WinMove, A, , %monitorALeft%, thisWinY, %thisWinW%, %thisWinH%
+		WinGetPos, winX, winY, winW, winH, A
+		if (winX = monitorALeft and winW - widthDecrement >= minWidth) {
+			winW -= widthDecrement
+		} else if (winX = monitorALeft and winW - widthDecrement < minWidth) {
+			winW := monitorARight - monitorALeft - widthDecrement
 		}
+		WinMove, A, , %monitorALeft%, winY, %winW%, %winH%
 	}
 return
 
