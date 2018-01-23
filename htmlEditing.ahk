@@ -325,53 +325,21 @@ HandleInsBldrSctnOK() {
 	workingFilePath := "C:\Users\CamilleandDaniel\Documents\GitHub\backupOuePage-workfile.html"
 
 	AppendAhkCmd(ahkThisCmd)
+	if (CopyWebpageSourceToClipboard(webBrowserProcess, correctTitleNeedle, viewSourceTitle
+		, "Before using this hotstring, please activate a tab of your web browser into which a WSU "
+		. "OUE website is loaded.")) {
 
-	; Use RegEx match mode so that any appearance of "| Washington State University" will easily be 
-	; found in window titles; this textual phrase is appended to all WSU websites
-	oldMatchMode := 0
-	if (A_TitleMatchMode != RegEx) {
-		oldMatchMode := A_TitleMatchMode
-		SetTitleMatchMode, RegEx
-	}
+		oldMatchMode := 0
+		if (A_TitleMatchMode != RegEx) {
+			oldMatchMode := A_TitleMatchMode
+			SetTitleMatchMode, RegEx
+		}
 
-	; Verify chrome as the active process, look for "| Washington State University" in title
-	WinGet, activeProcess, ProcessName, A
-	WinGetActiveTitle, processTitle
-	if ( !(RegExMatch(activeProcess, webBrowserProcess) && RegExMatch(processTitle
-			, correctTitleNeedle)) ) {
-		ErrorBox(ahkThisCmd, "Before using this hotstring, please activate a tab of your web "
-			. "browser into which a WSU OUE website is loaded.")
-	} else {
 		oldKeyDelay := 0
 		if (A_KeyDelay != keyDelay)	{
 			oldKeyDelay := A_KeyDelay
 			SetKeyDelay, %keyDelay%
 		}
-
-		; Trigger view page source, wait for tab to load
-		Send, ^u
-		WinWaitActive, % viewSourceTitle, , 0.5
-		idx := 0
-		idxLimit := 9
-		while(ErrorLevel)
-		{
-			WinWaitActive, % viewSourceTitle, , 0.5
-			idx++
-			if (idx >= idxLimit) {
-				ErrorBox(ahkThisCmd, "I timed out while waiting for the view source tab to open.")
-				break
-			}
-		}
-		if (ErrorLevel) {
-			Return
-		} else {
-			Sleep, (%keyDelay% * 10)
-		}
-
-		; Copy the markup and close the tab
-		Send, ^a
-		Send, ^c
-		Send, ^w
 
 		; Switch the active process to Sublime Text 3
 		IfWinExist, % sublimeTextTitle
@@ -432,14 +400,80 @@ HandleInsBldrSctnOK() {
 		{
 			ErrorBox(ahkThisCmd, "I could not find a Sublime Text 3 process to activate.")
 		}
+
+		if (oldKeyDelay) {
+			SetKeyDelay, %oldKeyDelay%
+		}
+
+		if (oldMatchMode) {
+			SetTitleMatchMode, %oldMatchMode%
+		}
+	}
+Return
+
+CopyWebpageSourceToClipboard(webBrowserProcess, correctTitleNeedle, viewSourceTitle, errorMsg) {
+	ahkThisCmd := A_ThisFunc
+	keyDelay := 100
+	success := False
+
+	; Use RegEx match mode so that any appearance of "| Washington State University" will easily be 
+	; found in window titles; this textual phrase is appended to all WSU websites
+	oldMatchMode := 0
+	if (A_TitleMatchMode != RegEx) {
+		oldMatchMode := A_TitleMatchMode
+		SetTitleMatchMode, RegEx
+	}
+
+	; Verify chrome as the active process, look for "| Washington State University" in title
+	WinGet, activeProcess, ProcessName, A
+	WinGetActiveTitle, processTitle
+	if ( !(RegExMatch(activeProcess, webBrowserProcess) && RegExMatch(processTitle
+			, correctTitleNeedle)) ) {
+		ErrorBox(ahkThisCmd, errorMsg)
+	} else {
+		oldKeyDelay := 0
+		if (A_KeyDelay != keyDelay)	{
+			oldKeyDelay := A_KeyDelay
+			SetKeyDelay, %keyDelay%
+		}
+		; Trigger view page source, wait for tab to load
+		Send, ^u
+		WinWaitActive, % viewSourceTitle, , 0.5
+		idx := 0
+		idxLimit := 9
+		while(ErrorLevel)
+		{
+			WinWaitActive, % viewSourceTitle, , 0.5
+			idx++
+			if (idx >= idxLimit) {
+				ErrorBox(ahkThisCmd, "I timed out while waiting for the view source tab to open.")
+				break
+			}
+		}
+		if (ErrorLevel) {
+			Return
+		} else {
+			Sleep, (%keyDelay% * 10)
+		}
+
+		; Copy the markup and close the tab
+		Send, ^a
+		Send, ^c
+		Send, ^w
+		success := True
+
 		if (oldKeyDelay) {
 			SetKeyDelay, %oldKeyDelay%
 		}
 	}
+
 	if (oldMatchMode) {
 		SetTitleMatchMode, %oldMatchMode%
 	}
-Return
+
+	Sleep %keyDelay%
+	Return success
+}
 
 ; TODO: Write hotstring that searches through OUE websites for latest CSS and JS updates
 ; Regex to match latest update: <ul class="post-revisions">.*?\.php\?revision=[0-9]{1,}">([^<]+)
