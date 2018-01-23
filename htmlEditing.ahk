@@ -483,8 +483,8 @@ CopyWebpageSourceToClipboard(webBrowserProcess, correctTitleNeedle, viewSourceTi
 ; >>> HYPERLINK CHECKING hotstring
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
-:*:@findHrefsInHtml::
-	AppendAhkCmd(":*:@findHrefsInHtml")
+:*:@findHrefsInOueHtml::
+	AppendAhkCmd(A_ThisLabel)
 	pageContent := TrimAwayBuilderTemplateContentPrev(clipboard)
 	pageContent := TrimAwayBuilderTemplateContentNext(pageContent)
 	hyperlinkArray := BuildHyperlinkArray(pageContent)
