@@ -353,24 +353,23 @@ return
 >^!#Left::
 	SoundPlay, %windowMovementSound%
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
+	; TODO: Replace with global scaling factor.
 	widthDecrement := Round((monitorARight - monitorALeft) / 20)
-	minWidth := Round((monitorARight - monitorALeft) / 20 * 3)
+	minWinWidth := Round((monitorARight - monitorALeft) / 20 * 3)
 	if (monitorFound) {
 		heightChanged := false
-		WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
-		if (thisWinH != monitorABottom) {
-			thisWinH := monitorABottom
+		WinGetPos, winX, winY, winW, winH, A
+		if (winH != monitorABottom) {
+			winH := monitorABottom
 			heightChanged := true
 		}
-		if (!heightChanged and thisWinX = monitorALeft and thisWinW - widthDecrement >= minWidth) {
-			WinMove, A, , %monitorALeft%, 0, % (thisWinW - widthDecrement), %thisWinH%
-		} else if (!heightChanged and thisWinX = monitorALeft and thisWinW 
-				- widthDecrement < minWidth) {
-			thisWinW := monitorARight - monitorALeft - widthDecrement
-			WinMove, A, , %monitorALeft%, 0, %thisWinW%, %thisWinH%
-		} else {
-			WinMove, A, , %monitorALeft%, 0, %thisWinW%, %thisWinH%
+		if (!heightChanged and thisWinX = monitorALeft and winW - widthDecrement >= minWinWidth) {
+			winW -= widthDecrement
+		} else if (!heightChanged and thisWinX = monitorALeft and winW 
+				- widthDecrement < minWinWidth) {
+			winW := monitorARight - monitorALeft - widthDecrement
 		}
+		WinMove, A, , %monitorALeft%, 0, %winW%, %winH%
 	}
 return
 
