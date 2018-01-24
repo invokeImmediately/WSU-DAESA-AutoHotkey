@@ -486,15 +486,19 @@ CopyWebpageSourceToClipboard(webBrowserProcess, correctTitleNeedle, viewSourceTi
 :*:@findHrefsInOueHtml::
 	AppendAhkCmd(A_ThisLabel)
 	pageContent := TrimAwayBuilderTemplateContentPrev(clipboard)
-	pageContent := TrimAwayBuilderTemplateContentNext(pageContent)
-	hyperlinkArray := BuildHyperlinkArray(pageContent)
-	ExportHyperlinkArray(hyperlinkArray, pageContent)
+	if (pageContent == "" && CheckForValidOueHtml(clipboard)) {
+		pageContent := clipboard
+	} else if (pageContent != "") {
+		pageContent := TrimAwayBuilderTemplateContentNext(pageContent)		
+	}
+	if (pageContent != "") {
+		hyperlinkArray := BuildHyperlinkArray(pageContent)
+		ExportHyperlinkArray(hyperlinkArray, pageContent)
+	}
 Return
 
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-
 TrimAwayBuilderTemplateContentPrev(htmlMarkup) {
-	ahkFuncName := "htmlEditing.ahk: TrimAwayBuilderTemplatePageHeader(htmlMarkup)"
+	ahkFuncName := A_ThisFunc
 	remainder := ""
 	if (htmlMarkup != undefined) {
 		regExNeedle := "Pm)^(?:.(?!<div))*.<div(?:.(?!class=""))*.class=""(?:.(?!page))*.page[^>]*>"
@@ -502,9 +506,6 @@ TrimAwayBuilderTemplateContentPrev(htmlMarkup) {
 		foundPos := RegExMatch(htmlMarkup, regExNeedle, matchLen)
 		if (foundPos > 0) {
 			StringTrimLeft, remainder, htmlMarkup, % (foundPos + matchLen)
-		} else {
-			errorMsg := "I could not find the <div...>...</div> containing page content within html"
-				. "Markup."
 		}
 	} else {
 		errorMsg := "I was passed an empty HTML markup string."
@@ -517,7 +518,13 @@ TrimAwayBuilderTemplateContentPrev(htmlMarkup) {
 	return remainder
 }
 
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
+CheckForValidOueHtml(htmlMarkup) {
+	ahkFuncName := A_ThisFunc
+	needle := "Pm)[ \t\n]*<article|aside|aside|blockquote|div|h1|h2|h3|h4|h5|h6|iframe|nav|ol|p|"
+		. "section|ul[^>]*>"
+	foundPos := RegExMatch(htmlMarkup, needle, foundPos)
+	return foundPos > 0
+}
 
 TrimAwayBuilderTemplateContentNext(htmlMarkup) {
 	ahkFuncName := "htmlEditing.ahk: TrimAwayBuilderTemplatePageHeader(htmlMarkup)"
@@ -541,8 +548,6 @@ TrimAwayBuilderTemplateContentNext(htmlMarkup) {
 	}
 	return remainder
 }
-
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 BuildHyperlinkArray(htmlMarkup) {
 	ahkFuncName := "htmlEditing.ahk: BuildHyperlinkArray(htmlMarkup)"
@@ -589,8 +594,6 @@ CountNewlinesInString(haystack) {
 	Return numFound
 }
 
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-
 PullHrefsIntoHyperlinkArray(ByRef hyperlinkArray) {
 	regExNeedle := "P)href=""([^""]+)"""
 	Loop % hyperlinkArray.Length() {
@@ -600,8 +603,6 @@ PullHrefsIntoHyperlinkArray(ByRef hyperlinkArray) {
 	; TODO: determine which line hyperlink appears on, then copy the entire line to contents (to 
 	; provide context)
 }
-
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ExportHyperlinkArray(hyperlinkArray, pageContent) {
 	exportStr := ""
