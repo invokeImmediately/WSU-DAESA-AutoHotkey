@@ -372,7 +372,26 @@ return
 return
 
 ; Snap the active window to the left edge of its monitor; if already snapped, increase its width.
-^!+#Left::
+<^!+#Left::
+	SoundPlay, %windowMovementSound%
+	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
+	widthIncrement := Round((monitorARight - monitorALeft) / 20)
+	minWinWidth := Round((monitorARight - monitorALeft) / 20 * 3)
+	maxWinWidth := monitorARight - monitorALeft - widthIncrement
+	if (monitorFound) {
+		WinGetPos, winX, winY, winW, winH, A
+		if (!heightChanged and winX = monitorALeft and winW + widthIncrement <= maxWinWidth) {
+			winW += widthIncrement
+		} else if (!heightChanged and winX = monitorALeft and winW + widthIncrement > maxWinWidth) {
+			winW := minWidth
+		}
+		WinMove, A, , %monitorALeft%, %winY%, %winW%, %winH%
+	}
+return
+
+; Snap the active window to the left edge of its monitor; if already snapped, increase its width. 
+; Additionally, match the height of the window to the full height of the active monitor's work area.
+>^!+#Left::
 	SoundPlay, %windowMovementSound%
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	widthIncrement := Round((monitorARight - monitorALeft) / 20)
