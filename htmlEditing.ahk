@@ -551,13 +551,18 @@ BuildHyperlinkArray(htmlMarkup) {
 		regExNeedle := "Pm)<a[^>]*>[^<]*</a>"
 		foundPos := RegExMatch(htmlMarkup, regExNeedle, matchLen)
 		if (foundPos > 0) {
-			hyperlinkArray := [{position: foundPos, length: matchLen, markup: SubStr(htmlMarkup
-				, foundPos, matchLen)}]
-			foundPos := RegExMatch(htmlMarkup, regExNeedle, matchLen, foundPos + matchLen)
+			numNewlines := CountNewlinesInString(SubStr(htmlMarkup, 1, foundPos))
+			hyperlinkArray := [{position: foundPos - numNewlines, length: matchLen
+				, markup: SubStr(htmlMarkup, foundPos, matchLen)}]
+			newStart := foundPos + matchLen
+			foundPos := RegExMatch(htmlMarkup, regExNeedle, matchLen, newStart)
 			while (foundPos > 0) {
-				hyperlinkArray[hyperlinkArray.Length() + 1] := {position: foundPos
+				numNewlines += CountNewlinesInString(SubStr(htmlMarkup, newStart, foundPos 
+					- newStart))
+				hyperlinkArray[hyperlinkArray.Length() + 1] := {position: foundPos - numNewlines
 					, length: matchLen, markup: SubStr(htmlMarkup, foundPos, matchLen)}
-				foundPos := RegExMatch(htmlMarkup, regExNeedle, matchLen, foundPos + matchLen)
+				newStart := foundPos + matchLen
+				foundPos := RegExMatch(htmlMarkup, regExNeedle, matchLen, newStart)
 			}
 			PullHrefsIntoHyperlinkArray(hyperlinkArray)
 		} else {
@@ -572,6 +577,16 @@ BuildHyperlinkArray(htmlMarkup) {
 			, % errorMsg
 	}
 	return hyperlinkArray
+}
+
+CountNewlinesInString(haystack) {
+	numFound := 0
+	foundPos := InStr(haystack, "`n")
+	while (foundPos > 0) {
+		numFound++
+		foundPos := InStr(haystack, "`n", false, foundPos + 1)
+	}
+	Return numFound
 }
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
