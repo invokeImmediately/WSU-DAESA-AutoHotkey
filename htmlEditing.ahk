@@ -488,7 +488,7 @@ CopyWebpageSourceToClipboard(webBrowserProcess, correctTitleNeedle, viewSourceTi
 	pageContent := TrimAwayBuilderTemplateContentPrev(clipboard)
 	pageContent := TrimAwayBuilderTemplateContentNext(pageContent)
 	hyperlinkArray := BuildHyperlinkArray(pageContent)
-	ExportHyperlinkArray(hyperlinkArray)
+	ExportHyperlinkArray(hyperlinkArray, pageContent)
 Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
@@ -581,9 +581,6 @@ PullHrefsIntoHyperlinkArray(ByRef hyperlinkArray) {
 	Loop % hyperlinkArray.Length() {
 		foundPos := RegExMatch(hyperlinkArray[A_Index].markup, regExNeedle, match)
 		hyperlinkArray[A_Index].href := SubStr(hyperlinkArray[A_Index].markup, matchPos1, matchLen1)
-		if (A_Index = hyperlinkArray.Length()) {
-			MsgBox, % matchPos1 . ", " matchLen1 . ", " hyperlinkArray[A_Index].href
-		}
 	}
 	; TODO: determine which line hyperlink appears on, then copy the entire line to contents (to 
 	; provide context)
@@ -591,7 +588,7 @@ PullHrefsIntoHyperlinkArray(ByRef hyperlinkArray) {
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
-ExportHyperlinkArray(hyperlinkArray) {
+ExportHyperlinkArray(hyperlinkArray, pageContent) {
 	exportStr := ""
 	Loop % hyperlinkArray.Length() {
 		if (A_Index > 1) {
@@ -603,6 +600,7 @@ ExportHyperlinkArray(hyperlinkArray) {
 			. "`t" . hyperlinkArray[A_Index].markup . "`t" . hyperlinkArray[A_Index].href
 	}
 	if (exportStr != "") {
+		exportStr .= "`n`nHyperlinks were found in the following markup:`n" . pageContent
 		clipboard := exportStr
 		; TODO: Replace the following MsgBox with a GUI containing a ListView.
 		MsgBox, 0x0, % ":*:@findHrefsInHtml"
