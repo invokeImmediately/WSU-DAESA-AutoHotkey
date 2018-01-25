@@ -317,7 +317,7 @@ HandleInsBldrSctnOK() {
 
 :*:@backupOuePage::
 	ahkThisCmd := A_ThisLabel
-	keyDelay := 100
+	keyDelay := 140
 	webBrowserProcess := "chrome.exe"
 	correctTitleNeedle := "\| Washington State University"
 	viewSourceTitle := "view-source ahk_exe " . webBrowserProcess
@@ -367,16 +367,20 @@ HandleInsBldrSctnOK() {
 			Send, ^!{Enter}
 			Sleep, (%keyDelay% * 2)
 			Send, {Esc}{Right}
+			Sleep, (%keyDelay%)
+
+			;TODO: Add handling of malformed 
 
 			; Trigger the Beautify HTML package to clean up markup and prepare it for RegEx 
 			Send, ^!+f
-			Sleep, (%keyDelay% * 10)
+			Sleep, (%keyDelay% * 4)
 
 			; Find the portions of the markup that we want to back up, select them all, copy, and
 			; then overwrite the full markup
 			Send, ^f
-			SendInput, % "{^}\t{{}5{}}<section.*class="".*row.*$\n({^}\t(?{!}\t{4}</section>).*$\n)"
-				. "*{^}\t{{}5{}}</section>$\n|{^}\t*<title>.*$\n|{^}\t*<body.*$\n|{^}\t*</body.*$\n"
+			SendInput, % "{^}\t{{}1,{}}<section.*class="".*row.*$\n({^}\t(?{!}\t{{}1,{}}</section>\"
+				. "n\t{1,}</div><{!}--post-->).*$\n)*{^}\t{{}1,{}}</section>$\n|{^}\t*<title>.*$\n|"
+				. "{^}\t*<body.*$\n|{^}\t*</body.*$\n"
 			Send, !{Enter}
 			Sleep, (%keyDelay% * 10)
 			Send, ^c
@@ -413,7 +417,7 @@ Return
 
 CopyWebpageSourceToClipboard(webBrowserProcess, correctTitleNeedle, viewSourceTitle, errorMsg) {
 	ahkThisCmd := A_ThisFunc
-	keyDelay := 100
+	keyDelay := 120
 	success := False
 
 	; Use RegEx match mode so that any appearance of "| Washington State University" will easily be 
