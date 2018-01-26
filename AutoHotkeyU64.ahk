@@ -6,21 +6,21 @@
 ; TABLE OF CONTENTS:
 ; -----------------
 ;    GLOBAL VARIABLES ........................................................................... 26
-;    SET UP SCRIPT & CALL MAIN SUBROUTINE ...................................................... 103
-;    COMMON FUNCTIONS & CLASSES ................................................................ 124
-;    COMMAND HISTORY ........................................................................... 136
-;    WORKSPACE MANAGEMENT ...................................................................... 142
-;    WORK TIMER ................................................................................ 190
-;    TEXT REPLACEMENT & INPUT .................................................................. 196
-;    PROGRAM/FILE LAUNCHING SHORTCUTS .......................................................... 384
-;    FILE SYSTEM NAVIGATION .................................................................... 406
-;    AUTOHOTKEY SCRIPT WRITING SHORTCUTS ....................................................... 412
-;    GOOGLE CHROME SHORTCUTS ................................................................... 484
-;    NOTEPAD++ SHORTCUTS ....................................................................... 516
-;    GITHUB SHORTCUTS .......................................................................... 522
-;    OTHER SHORTCUTS ........................................................................... 528
-;    CUSTOM HOTSTRINGS & HOTKEYS ............................................................... 541
-;    MAIN SUBROUTINE ........................................................................... 615
+;    SET UP SCRIPT & CALL MAIN SUBROUTINE  ..................................................... 103
+;    COMMON FUNCTIONS & CLASSES  ............................................................... 124
+;    COMMAND HISTORY  .......................................................................... 136
+;    AUTOHOTKEY SCRIPT WRITING SHORTCUTS  ...................................................... 142
+;    WORKSPACE MANAGEMENT  ..................................................................... 214
+;    FILE SYSTEM NAVIGATION  ................................................................... 262
+;    PROGRAM/FILE LAUNCHING SHORTCUTS  ......................................................... 268
+;    GITHUB SHORTCUTS  ......................................................................... 290
+;    GOOGLE CHROME SHORTCUTS  .................................................................. 296
+;    NOTEPAD++ SHORTCUTS  ...................................................................... 328
+;    TEXT REPLACEMENT & INPUT  ................................................................. 334
+;    OTHER SHORTCUTS  .......................................................................... 522
+;    WORK TIMER  ............................................................................... 535
+;    CUSTOM HOTSTRINGS & HOTKEYS  .............................................................. 541
+;    MAIN SUBROUTINE  .......................................................................... 615
 
 ; --------------------------------------------------------------------------------------------------
 ;   GLOBAL VARIABLES
@@ -139,6 +139,78 @@ If not A_IsAdmin
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\commandHistory.ahk
 
 ; --------------------------------------------------------------------------------------------------
+;   AUTOHOTKEY SCRIPT WRITING SHORTCUTS
+; --------------------------------------------------------------------------------------------------
+
+:*:@insAhkCommentSection::
+	AppendAhkCmd(":*:@insAhkCommentSection")
+	WinGet, thisProcess, ProcessName, A
+	if (thisProcess = "notepad++.exe") {
+		commentTxt := "; --------------------------------------------------------------------------"
+			. "----------------------------------`r; ***EDIT COMMENT TEXT HERE***`r; --------------"
+			. "------------------------------------------------------------------------------------"
+			. "----------`r`r"
+		if (clipboard != commentTxt) {
+			clipboard := commentTxt
+		}
+		SendInput, % "^v"
+		Sleep 60
+		SendInput, % "{Up 3}{Right 2}"
+	} else {
+		MsgBox, 0
+			, % "Error in AHK hotstring: @insAhkCommentSection"
+			, % "An AutoHotkey comment section can only be inserted if [Notepad++.exe] is the "
+			. "active process. Unfortunately, the currently active process is [" . thisProcess 
+			. "]."
+	}
+Return
+
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
+
+:*:@insAhkCommentSubSection::
+	AppendAhkCmd(":*:@insAhkCommentSubSection")
+	WinGet, thisProcess, ProcessName, A
+	if (thisProcess = "notepad++.exe") {
+		commentTxt := "; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  --- "
+			. " ---  ---  ---  ---  ---  ---  ---`r; >>> ***EDIT COMMENT TEXT HERE ---  ---  ---  -"
+			. "--  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---`r`r"
+		if (clipboard != commentTxt) {
+			clipboard := commentTxt
+		}
+		SendInput, % "^v"
+		Sleep 60
+		SendInput, % "{Up 2}{Right 6}"
+	} else {
+		MsgBox, 0
+			, % "Error in AHK hotstring: @insAhkCommentSection"
+			, % "An AutoHotkey comment section can only be inserted if [Notepad++.exe] is the "
+			. "active process. Unfortunately, the currently active process is [" 
+			. thisProcess . "]."
+	}
+Return
+
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
+
+:*:@insAhkCommentSeparator::
+	AppendAhkCmd(":*:@insAhkCommentSeparator")
+	WinGet, thisProcess, ProcessName, A
+	if (thisProcess = "notepad++.exe") {
+		commentTxt := "; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  --- "
+			. " ---  ---  ---  ---  ---  ---  ---`r`r"
+		if (clipboard != commentTxt) {
+			clipboard := commentTxt
+		}
+		SendInput, % "^v"
+	} else {
+		MsgBox, 0
+			, % "Error in AHK hotstring: @insAhkCommentSeparator"
+			, % "An AutoHotkey comment separator can only be inserted if [Notepad++.exe] is the "
+			. "active process. Unfortunately, the currently active process is [" 
+			. thisProcess . "]."
+	}
+Return
+
+; --------------------------------------------------------------------------------------------------
 ;   WORKSPACE MANAGEMENT
 ; --------------------------------------------------------------------------------------------------
 
@@ -187,10 +259,76 @@ Return
 Return
 
 ; --------------------------------------------------------------------------------------------------
-;   WORK TIMER
+;   FILE SYSTEM NAVIGATION
 ; --------------------------------------------------------------------------------------------------
 
-#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\workTimer.ahk
+#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\fileSystem.ahk
+
+; --------------------------------------------------------------------------------------------------
+;   PROGRAM/FILE LAUNCHING SHORTCUTS
+; --------------------------------------------------------------------------------------------------
+
+:R*?:runNotepad::
+	Run C:\Program Files (x86)\Notepad++\notepad++.exe
+Return
+
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
+
+#z::
+	Run notepad++.exe, C:\Program Files (x86)\Notepad++, Max
+Return
+
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
+
+:*:@checkHTMLSpec::
+	AppendAhkCmd(":*:@checkHTMLSpec")
+	Run % userAccountFolderHHD . "\Documents\Daniel\^WSU-Web-Dev\^Master-VPUE\Anatomy of an HTML5 "
+		. "Document_2016-03-16.jpg"
+Return
+
+; --------------------------------------------------------------------------------------------------
+;   GITHUB SHORTCUTS
+; --------------------------------------------------------------------------------------------------
+
+#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\github.ahk
+
+; --------------------------------------------------------------------------------------------------
+;   GOOGLE CHROME SHORTCUTS
+; --------------------------------------------------------------------------------------------------
+
+^!o::
+	WinGet, thisProcess, ProcessName, A
+	if (thisProcess = "chrome.exe") {
+		WinGetPos, x, y, w, h, A
+		SendInput, ^n
+		Sleep, 333
+		WinMove, A, , x, y, w, h
+		Sleep, 200
+		SendInput, ^+o
+		Sleep, 100
+		SendInput, ^!m
+		Sleep, 200
+		ClipActiveWindowToMonitor()
+	} else {
+		GoSub, PerformBypassingCtrlAltO
+	}
+Return
+
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
+
+PerformBypassingCtrlAltO:
+	Suspend
+	Sleep, 10
+	SendInput, ^!o
+	Sleep, 10
+	Suspend, Off
+Return
+
+; --------------------------------------------------------------------------------------------------
+;   NOTEPAD++ SHORTCUTS
+; --------------------------------------------------------------------------------------------------
+
+#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\htmlEditing.ahk
 
 ; --------------------------------------------------------------------------------------------------
 ;   TEXT REPLACEMENT & INPUT
@@ -381,150 +519,6 @@ Return
 #Include, %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\guiRepeatChars.ahk
 
 ; --------------------------------------------------------------------------------------------------
-;   PROGRAM/FILE LAUNCHING SHORTCUTS
-; --------------------------------------------------------------------------------------------------
-
-:R*?:runNotepad::
-	Run C:\Program Files (x86)\Notepad++\notepad++.exe
-Return
-
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-
-#z::
-	Run notepad++.exe, C:\Program Files (x86)\Notepad++, Max
-Return
-
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-
-:*:@checkHTMLSpec::
-	AppendAhkCmd(":*:@checkHTMLSpec")
-	Run % userAccountFolderHHD . "\Documents\Daniel\^WSU-Web-Dev\^Master-VPUE\Anatomy of an HTML5 "
-		. "Document_2016-03-16.jpg"
-Return
-
-; --------------------------------------------------------------------------------------------------
-;   FILE SYSTEM NAVIGATION
-; --------------------------------------------------------------------------------------------------
-
-#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\fileSystem.ahk
-
-; --------------------------------------------------------------------------------------------------
-;   AUTOHOTKEY SCRIPT WRITING SHORTCUTS
-; --------------------------------------------------------------------------------------------------
-
-:*:@insAhkCommentSection::
-	AppendAhkCmd(":*:@insAhkCommentSection")
-	WinGet, thisProcess, ProcessName, A
-	if (thisProcess = "notepad++.exe") {
-		commentTxt := "; --------------------------------------------------------------------------"
-			. "----------------------------------`r; ***EDIT COMMENT TEXT HERE***`r; --------------"
-			. "------------------------------------------------------------------------------------"
-			. "----------`r`r"
-		if (clipboard != commentTxt) {
-			clipboard := commentTxt
-		}
-		SendInput, % "^v"
-		Sleep 60
-		SendInput, % "{Up 3}{Right 2}"
-	} else {
-		MsgBox, 0
-			, % "Error in AHK hotstring: @insAhkCommentSection"
-			, % "An AutoHotkey comment section can only be inserted if [Notepad++.exe] is the "
-			. "active process. Unfortunately, the currently active process is [" . thisProcess 
-			. "]."
-	}
-Return
-
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-
-:*:@insAhkCommentSubSection::
-	AppendAhkCmd(":*:@insAhkCommentSubSection")
-	WinGet, thisProcess, ProcessName, A
-	if (thisProcess = "notepad++.exe") {
-		commentTxt := "; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  --- "
-			. " ---  ---  ---  ---  ---  ---  ---`r; >>> ***EDIT COMMENT TEXT HERE ---  ---  ---  -"
-			. "--  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---`r`r"
-		if (clipboard != commentTxt) {
-			clipboard := commentTxt
-		}
-		SendInput, % "^v"
-		Sleep 60
-		SendInput, % "{Up 2}{Right 6}"
-	} else {
-		MsgBox, 0
-			, % "Error in AHK hotstring: @insAhkCommentSection"
-			, % "An AutoHotkey comment section can only be inserted if [Notepad++.exe] is the "
-			. "active process. Unfortunately, the currently active process is [" 
-			. thisProcess . "]."
-	}
-Return
-
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-
-:*:@insAhkCommentSeparator::
-	AppendAhkCmd(":*:@insAhkCommentSeparator")
-	WinGet, thisProcess, ProcessName, A
-	if (thisProcess = "notepad++.exe") {
-		commentTxt := "; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  --- "
-			. " ---  ---  ---  ---  ---  ---  ---`r`r"
-		if (clipboard != commentTxt) {
-			clipboard := commentTxt
-		}
-		SendInput, % "^v"
-	} else {
-		MsgBox, 0
-			, % "Error in AHK hotstring: @insAhkCommentSeparator"
-			, % "An AutoHotkey comment separator can only be inserted if [Notepad++.exe] is the "
-			. "active process. Unfortunately, the currently active process is [" 
-			. thisProcess . "]."
-	}
-Return
-
-; --------------------------------------------------------------------------------------------------
-;   GOOGLE CHROME SHORTCUTS
-; --------------------------------------------------------------------------------------------------
-
-^!o::
-	WinGet, thisProcess, ProcessName, A
-	if (thisProcess = "chrome.exe") {
-		WinGetPos, x, y, w, h, A
-		SendInput, ^n
-		Sleep, 333
-		WinMove, A, , x, y, w, h
-		Sleep, 200
-		SendInput, ^+o
-		Sleep, 100
-		SendInput, ^!m
-		Sleep, 200
-		ClipActiveWindowToMonitor()
-	} else {
-		GoSub, PerformBypassingCtrlAltO
-	}
-Return
-
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-
-PerformBypassingCtrlAltO:
-	Suspend
-	Sleep, 10
-	SendInput, ^!o
-	Sleep, 10
-	Suspend, Off
-Return
-
-; --------------------------------------------------------------------------------------------------
-;   NOTEPAD++ SHORTCUTS
-; --------------------------------------------------------------------------------------------------
-
-#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\htmlEditing.ahk
-
-; --------------------------------------------------------------------------------------------------
-;   GITHUB SHORTCUTS
-; --------------------------------------------------------------------------------------------------
-
-#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\github.ahk
-
-; --------------------------------------------------------------------------------------------------
 ;   OTHER SHORTCUTS
 ; --------------------------------------------------------------------------------------------------
 
@@ -536,6 +530,12 @@ Return
 	SetKeyDelay, 160, 100
 	Send {SPACE 16}
 Return
+
+; --------------------------------------------------------------------------------------------------
+;   WORK TIMER
+; --------------------------------------------------------------------------------------------------
+
+#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\workTimer.ahk
 
 ; --------------------------------------------------------------------------------------------------
 ;   CUSTOM HOTSTRINGS & HOTKEYS
