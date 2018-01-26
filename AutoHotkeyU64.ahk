@@ -3,6 +3,24 @@
 ; ! = ALT     + = SHIFT     ^ = CONTROL     # = WIN
 ; (see https://autohotkey.com/docs/commands/Send.htm for more info)
 ; ==================================================================================================
+; TABLE OF CONTENTS:
+; -----------------
+;    GLOBAL VARIABLES ........................................................................... 26
+;    SET UP SCRIPT & CALL MAIN SUBROUTINE .......................................................103
+;    IMPORT: COMMON FUNCTIONS & CLASSES ........................................................ 124
+;    COMMAND HISTORY ........................................................................... 136
+;    WORKSPACE MANAGEMENT ...................................................................... 142
+;    IMPORT: WORK TIMER scripts for tracking hours and indicating when breaks should be taken .. 190
+;    TEXT REPLACEMENT & INPUT .................................................................. 196
+;    PROGRAM/FILE LAUNCHING SHORTCUTS .......................................................... 384
+;    IMPORT: FILE SYSTEM NAVIGATION ............................................................ 406
+;    AUTOHOTKEY SCRIPT WRITING SHORTCUTS ....................................................... 412
+;    GOOGLE CHROME SHORTCUTS ................................................................... 484
+;    IMPORT: NOTEPAD++ SHORTCUTS ............................................................... 516
+;    IMPORT: GITHUB SHORTCUTS .................................................................. 522
+;    OTHER SHORTCUTS ........................................................................... 528
+;    CUSTOM HOTSTRINGS ......................................................................... 541
+;    MAIN SUBROUTINE ........................................................................... 582
 
 ; --------------------------------------------------------------------------------------------------
 ;   GLOBAL VARIABLES
@@ -469,11 +487,16 @@ Return
 ^!o::
 	WinGet, thisProcess, ProcessName, A
 	if (thisProcess = "chrome.exe") {
+		WinGetPos, x, y, w, h, A
 		SendInput, ^n
 		Sleep, 333
+		WinMove, A, , x, y, w, h
+		Sleep, 200
 		SendInput, ^+o
 		Sleep, 100
 		SendInput, ^!m
+		Sleep, 200
+		ClipActiveWindowToMonitor()
 	} else {
 		GoSub, PerformBypassingCtrlAltO
 	}
