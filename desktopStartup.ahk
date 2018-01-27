@@ -44,11 +44,14 @@ Return
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@setupVirtualDesktop1::
+	delay := 150
 	CheckForCmdEntryGui()
 	switchDesktopByNumber(1)
-	Sleep, 150
+	Sleep, % delay
 	Gosub, :*:@moveTempMonitors
 	Gosub, :*:@startSublimeText3
+	Sleep, % delay * 4
+	Gosub % "^F8"
 	Gosub, :*:@startChrome
 Return
 
@@ -74,20 +77,6 @@ Return
 	LaunchApplicationPatiently("C:\Program Files\Sublime Text 3\sublime_text.exe"
 		, titleToMatch, "RegEx")
 	Sleep, 150
-	SetTitleMatchMode, RegEx
-	WinActivate, % titleToMatch
-	SetTitleMatchMode, 2
-	Sleep, 75
-	SendInput, ^+n
-	Sleep, 500
-	SendInput, !{Tab}
-	Sleep, 750
-	moveActiveWindowToVirtualDesktop(2)
-	Sleep, 750
-	Gosub % "^F8"
-	Sleep, 140
-	SendInput, {Enter}
-	Sleep, 300	
 Return
 
 :*:@startChrome::
@@ -111,14 +100,43 @@ Return
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@setupVirtualDesktop2::
+	delay := 150
 	CheckForCmdEntryGui()
-	Sleep, 150
 	switchDesktopByNumber(2)
 	SendInput, #e
 	WaitForApplicationPatiently("File Explorer")
+	Sleep, % delay
+	AddSublimeText3ToVd()
 	Gosub, :*:@startGithubClients
 	Gosub, :*:@arrangeGitHub
 Return
+
+AddSublimeText3ToVd() {
+	delay := 100
+	st3TitleToMatch = Sublime Text ahk_exe sublime_text\.exe
+	currentVd := GetCurrentVirtualDesktop()
+	SetTitleMatchMode, RegEx
+	IfWinExist, %titleToMatch%
+	{
+		WinActivate, % st3TitleToMatch
+		Sleep, % delay
+		st3Vd := GetCurrentVirtualDesktop()
+		if (st3Vd != currentVd) {
+			SendInput, ^+n
+			Sleep, % delay * 5
+			moveActiveWindowToVirtualDesktop(currentVd)
+			Sleep, % delay
+			SendInput, {Enter}
+			Sleep, % delay * 3
+			switchDesktopByNumber(currentVd)
+		}	
+	}
+	else
+	{
+		GoSub, :*:@startSublimeText3
+	}
+	SetTitleMatchMode, 2
+}
 
 :*:@startGithubClients::
 	AppendAhkCmd(":*:@startGithubClients")
@@ -151,10 +169,10 @@ Return
 	WinRestore, File Explorer
 	WinMove, File Explorer, , 200, 0, 1720, 1040
 	Sleep, 200
-	WinActivate, C:\Users
+	WinActivate, ahk_exe sublime_text.exe
 	Sleep, 330
-	WinRestore, C:\Users
-	WinMove, C:\Users, , 0, 0, 1720, 1040
+	WinRestore, ahk_exe sublime_text.exe
+	WinMove, ahk_exe sublime_text.exe, , 0, 0, 1720, 1040
 	Sleep, 200
 	WinActivate, PowerShell
 Return
