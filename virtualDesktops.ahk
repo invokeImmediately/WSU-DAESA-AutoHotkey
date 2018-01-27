@@ -1,15 +1,39 @@
-; Script code adapted from https://www.computerhope.com/tips/tip224.htm, "Using AutoHotkey to switch
-; Virtual Desktops in Windows 10." The article there indicates that the code is ultimately adapted
-; from https://github.com/pmb6tz/windows-desktop-switcher.
+; ==================================================================================================
+; virtualDesktops.ahk
+; ==================================================================================================
+; * Script code adapted from https://www.computerhope.com/tips/tip224.htm, "Using AutoHotkey to 
+;   switch Virtual Desktops in Windows 10." The article there indicates that the code is ultimately 
+;   adapted from https://github.com/pmb6tz/windows-desktop-switcher.
+; --------------------------------------------------------------------------------------------------
+; TABLE OF CONTENTS:
+;   §1: GLOBAL VARIABLES...................................................................... 13
+;   §2: FUNCTIONS & SUBROUTINES............................................................... 19
+;   >>> §2.1: MapDesktopsFromRegistry......................................................... 23
+;   >>> §2.2: GetSessionId.................................................................... 81
+;   >>> §2.3: SwitchDesktopByNumber........................................................... 97
+;   >>> §2.4: MoveActiveWindowToVirtualDesktop............................................... 147
+;   >>> §2.5: CreateVirtualDesktop........................................................... 196
+;   >>> §2.6: DeleteVirtualDesktop........................................................... 209
+; --------------------------------------------------------------------------------------------------
 
-; Globals
+; --------------------------------------------------------------------------------------------------
+;   §1: GLOBAL VARIABLES
+; --------------------------------------------------------------------------------------------------
 global DesktopCount = 2 ; Windows starts with 2 desktops at boot
 global CurrentDesktop = 1 ; Desktop count is 1-indexed (Microsoft numbers them this way)
-;
-; This function examines the registry to build an accurate list of the current virtual desktops and which one we're currently on.
-; Current desktop UUID appears to be in HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\SessionInfo\1\VirtualDesktops
-; List of desktops appears to be in HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VirtualDesktops
-;
+
+; --------------------------------------------------------------------------------------------------
+;   §2: FUNCTIONS & SUBROUTINES
+; --------------------------------------------------------------------------------------------------
+
+; ··································································································
+;   >>> §2.1: MapDesktopsFromRegistry
+; * This function examines the registry to build an accurate list of the current virtual desktops 
+;   and which one we're currently on.
+; * Current desktop UUID appears to be in HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersio
+;   n\Explorer\SessionInfo\1\VirtualDesktops
+; * List of desktops appears to be in HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Ex
+;   plorer\VirtualDesktops
 MapDesktopsFromRegistry() {
 	global CurrentDesktop, DesktopCount
 
@@ -60,6 +84,8 @@ MapDesktopsFromRegistry() {
 	}
 }
 
+; ··································································································
+;   >>> §2.2: GetSessionId
 GetSessionId() {
 	ProcessId := DllCall("GetCurrentProcessId", "UInt")
 	if ErrorLevel {
@@ -74,6 +100,8 @@ GetSessionId() {
 	return SessionId
 }
 
+; ··································································································
+;   >>> §2.3: SwitchDesktopByNumber
 SwitchDesktopByNumber(targetDesktop) {
 	global CurrentDesktop
 	global DesktopCount
@@ -122,6 +150,8 @@ SwitchDesktopByNumber(targetDesktop) {
 	}
 }
 
+; ··································································································
+;   >>> §2.4: MoveActiveWindowToVirtualDesktop
 MoveActiveWindowToVirtualDesktop(targetDesktop) {
 	global CurrentDesktop
 	global DesktopCount
@@ -169,6 +199,8 @@ MoveActiveWindowToVirtualDesktop(targetDesktop) {
 	SetKeyDelay, prevKeyDelay
 }
 
+; ··································································································
+;   >>> §2.5: CreateVirtualDesktop
 CreateVirtualDesktop() {
 	global CurrentDesktop, DesktopCount
 	prevKeyDelay := A_KeyDelay
@@ -180,6 +212,8 @@ CreateVirtualDesktop() {
 	OutputDebug, [create] desktops: %DesktopCount% current: %CurrentDesktop%
 }
 
+; ··································································································
+;   >>> §2.6: DeleteVirtualDesktop
 DeleteVirtualDesktop() {
 	global CurrentDesktop, DesktopCount
 	prevKeyDelay := A_KeyDelay
