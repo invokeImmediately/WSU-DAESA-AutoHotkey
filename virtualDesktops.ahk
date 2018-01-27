@@ -75,7 +75,7 @@ MapDesktopsFromRegistry() {
 		; Break out if we find a match in the list. If we didn't find anything, keep the
 		; old guess and pray we're still correct :-D.
 		if (DesktopIter = CurrentDesktopId) {
-			CurrentDesktop := i + 1
+			vdCurrentDesktop := i + 1
 			; OutputDebug, Current desktop number is %vdCurrentDesktop% with an ID of %DesktopIter%.
 			break
 		}
@@ -223,4 +223,15 @@ DeleteVirtualDesktop() {
 	MapDesktopsFromRegistry()
 	SetKeyDelay, prevKeyDelay
 	OutputDebug, [delete] desktops: %vdDesktopCount% current: %vdCurrentDesktop%
+}
+
+; ··································································································
+;   >>> §2.7: GetCurrentVirtualDesktop
+; * Preferable to relying on the global variable vdCurrentDesktop, which requires a separate call to 
+;   MapDesktopsFromRegistry to ensure accuracy.
+GetCurrentVirtualDesktop() {
+	global vdCurrentDesktop
+
+	MapDesktopsFromRegistry()
+	return vdCurrentDesktop
 }
