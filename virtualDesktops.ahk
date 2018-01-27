@@ -227,6 +227,7 @@ DeleteVirtualDesktop() {
 
 ; ··································································································
 ;   >>> §2.7: GetCurrentVirtualDesktop
+; * Couples a call to MapDesktopsFromRegistry to the value of global variable vdCurrentDesktop.
 ; * Preferable to relying on the global variable vdCurrentDesktop, which requires a separate call to 
 ;   MapDesktopsFromRegistry to ensure accuracy.
 GetCurrentVirtualDesktop() {
