@@ -516,7 +516,7 @@ return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
-;TODO: Add handling of shift state, plus matching ^!#Up series of hotkeys.
+;TODO: Add matching ^!#Up series of hotkeys.
 <^!#Down::
 	SoundPlay, %windowMovementSound%
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
@@ -565,6 +565,47 @@ UpdateVariableAsNeeded(ByRef variable, newValue) {
 	}
 	return varChanged
 }
+
+<^!+#Down::
+	SoundPlay, %windowMovementSound%
+	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
+	if (monitorFound) {
+		WinGetPos, winX, winY, winW, winH, A
+		newWinY := monitorABottom - winH
+		heightIncrement := Round((monitorABottom - monitorATop) / 20)
+		minHeight := Round((monitorABottom - monitorATop) / 20 * 3)
+		maxHeight := monitorABottom - heightIncrement
+		if (winY = newWinY && winH + heightIncrement <= maxHeight) {
+			newWinY -= heightIncrement
+			winH += heightIncrement
+		} else if (winY = newWinY && winH + heightIncrement > maxHeight) {
+			winH := minHeight
+			newWinY := monitorABottom - winH
+		}
+		WinMove, A, , % winX, % newWinY, % winW, % winH
+	}
+return
+
+>^!+#Down::
+	SoundPlay, %windowMovementSound%
+	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
+	if (monitorFound) {
+		WinGetPos, winX, winY, winW, winH, A
+		newWinY := monitorABottom - winH
+		heightIncrement := Round((monitorABottom - monitorATop) / 20)
+		minHeight := Round((monitorABottom - monitorATop) / 20 * 3)
+		maxHeight := monitorABottom - heightIncrement
+		widthChanged := UpdateVariableAsNeeded(winW, monitorARight - monitorALeft)
+		if (!widthChanged && winY = newWinY && winH + heightIncrement <= maxHeight) {
+			newWinY -= heightIncrement
+			winH += heightIncrement
+		} else if (!widthChanged winY = newWinY && winH + heightIncrement > maxHeight) {
+			winH := minHeight
+			newWinY := monitorABottom - winH
+		}
+		WinMove, A, , % monitorALeft, % newWinY, % winW, % winH
+	}
+return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
