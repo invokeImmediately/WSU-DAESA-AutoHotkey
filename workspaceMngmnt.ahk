@@ -679,8 +679,9 @@ return
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ^!#Numpad5::
-	;Snap the center of the active window to the center of its monitor
-	;TODO: Add a hotkey variant that increases the window dimensions if already snapped
+	; Snap the center of the active window to the center of its monitor. Decrement its width & 
+	; height up to minimum thresholds if already snapped, and wrap the width/height of minimum 
+	; threshholds are exceeded.
 	SoundPlay, %windowMovementSound%
 	GetActiveMonitorWorkArea(monitorFound, aMonLeft, aMonTop, aMonRight, aMonBottom)
 	if (monitorFound) {
