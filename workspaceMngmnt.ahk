@@ -523,8 +523,8 @@ return
 	if (monitorFound) {
 		WinGetPos, winX, winY, winW, winH, A
 		newWinY := monitorABottom - winH
-		heightDecrement := Round((monitorABottom - monitorATop) / 20)
-		minHeight := Round((monitorABottom - monitorATop) / 20 * 3)
+		heightDecrement := Round(monitorABottom / 20)
+		minHeight := Round(monitorABottom / 20 * 3)
 		if (winY = newWinY and winH - heightDecrement >= minHeight) {
 			newWinY += heightDecrement
 			winH -= heightDecrement
@@ -542,8 +542,8 @@ return
 	if (monitorFound) {
 		WinGetPos, winX, winY, winW, winH, A
 		newWinY := monitorABottom - winH
-		heightDecrement := Round((monitorABottom - monitorATop) / 20)
-		minHeight := Round((monitorABottom - monitorATop) / 20 * 3)
+		heightDecrement := Round(monitorABottom / 20)
+		minHeight := Round(monitorABottom / 20 * 3)
 		widthChanged := UpdateVariableAsNeeded(winW, monitorARight - monitorALeft)
 		if (!widthChanged && winY = newWinY and winH - heightDecrement >= minHeight) {
 			newWinY += heightDecrement
@@ -572,8 +572,8 @@ UpdateVariableAsNeeded(ByRef variable, newValue) {
 	if (monitorFound) {
 		WinGetPos, winX, winY, winW, winH, A
 		newWinY := monitorABottom - winH
-		heightIncrement := Round((monitorABottom - monitorATop) / 20)
-		minHeight := Round((monitorABottom - monitorATop) / 20 * 3)
+		heightIncrement := Round(monitorABottom / 20)
+		minHeight := Round(monitorABottom / 20 * 3)
 		maxHeight := monitorABottom - heightIncrement
 		if (winY = newWinY && winH + heightIncrement <= maxHeight) {
 			newWinY -= heightIncrement
@@ -592,8 +592,8 @@ return
 	if (monitorFound) {
 		WinGetPos, winX, winY, winW, winH, A
 		newWinY := monitorABottom - winH
-		heightIncrement := Round((monitorABottom - monitorATop) / 20)
-		minHeight := Round((monitorABottom - monitorATop) / 20 * 3)
+		heightIncrement := Round(monitorABottom / 20)
+		minHeight := Round(monitorABottom / 20 * 3)
 		maxHeight := monitorABottom - heightIncrement
 		widthChanged := UpdateVariableAsNeeded(winW, monitorARight - monitorALeft)
 		if (!widthChanged && winY = newWinY && winH + heightIncrement <= maxHeight) {
