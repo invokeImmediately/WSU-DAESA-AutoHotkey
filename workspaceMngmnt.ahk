@@ -585,12 +585,13 @@ return
 		newWinY := monitorABottom - winH
 		heightDecrement := Round(monitorABottom / 20)
 		minHeight := Round(monitorABottom / 20 * 3)
+		maxHeight := monitorABottom - heightDecrement
 		widthChanged := UpdateVariableAsNeeded(winW, monitorARight - monitorALeft)
 		if (!widthChanged && winY = newWinY and winH - heightDecrement >= minHeight) {
 			newWinY += heightDecrement
 			winH -= heightDecrement
 		} else if (!widthChanged && winY = newWinY and winH - heightDecrement < minHeight) {
-			winH := monitorABottom - monitorATop - heightDecrement
+			winH := maxHeight
 			newWinY := monitorABottom - winH
 		}
 		WinMove, A, , %monitorALeft%, %newWinY%, %winW%, %winH%
