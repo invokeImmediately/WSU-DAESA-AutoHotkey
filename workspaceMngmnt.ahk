@@ -372,10 +372,10 @@ SafeWinMove(WinTitle, WinText, X, Y, Width, Height, ExcludeTitle := "", ExcludeT
 >^!#Left::
 	SoundPlay, %windowMovementSound%
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
-	; TODO: Replace with global scaling factor.
-	widthDecrement := Round((monitorARight - monitorALeft) / 20)
-	minWinWidth := Round((monitorARight - monitorALeft) / 20 * 3)
 	if (monitorFound) {
+		; TODO: Replace with global scaling factor.
+		widthDecrement := Round((monitorARight - monitorALeft) / 20)
+		minWinWidth := Round((monitorARight - monitorALeft) / 20 * 3)
 		WinGetPos, winX, winY, winW, winH, A
 		heightChanged := UpdateVariableAsNeeded(winH, monitorABottom)
 		if (!heightChanged and thisWinX = monitorALeft and winW - widthDecrement >= minWinWidth) {
@@ -392,10 +392,10 @@ return
 <^!+#Left::
 	SoundPlay, %windowMovementSound%
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
-	widthIncrement := Round((monitorARight - monitorALeft) / 20)
-	minWinWidth := Round((monitorARight - monitorALeft) / 20 * 3)
-	maxWinWidth := monitorARight - monitorALeft - widthIncrement
 	if (monitorFound) {
+		widthIncrement := Round((monitorARight - monitorALeft) / 20)
+		minWinWidth := Round((monitorARight - monitorALeft) / 20 * 3)
+		maxWinWidth := monitorARight - monitorALeft - widthIncrement
 		WinGetPos, winX, winY, winW, winH, A
 		if (!heightChanged and winX = monitorALeft and winW + widthIncrement <= maxWinWidth) {
 			winW += widthIncrement
@@ -411,10 +411,10 @@ return
 >^!+#Left::
 	SoundPlay, %windowMovementSound%
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
-	widthIncrement := Round((monitorARight - monitorALeft) / 20)
-	minWinWidth := Round((monitorARight - monitorALeft) / 20 * 3)
-	maxWinWidth := monitorARight - monitorALeft - widthIncrement
 	if (monitorFound) {
+		widthIncrement := Round((monitorARight - monitorALeft) / 20)
+		minWinWidth := Round((monitorARight - monitorALeft) / 20 * 3)
+		maxWinWidth := monitorARight - monitorALeft - widthIncrement
 		WinGetPos, winX, winY, winW, winH, A
 		heightChanged := UpdateVariableAsNeeded(winH, monitorABottom)
 		if (!heightChanged and winX = monitorALeft and winW + widthIncrement <= maxWinWidth) {
@@ -432,9 +432,9 @@ return
 <^!#Right::
 	SoundPlay, %windowMovementSound%
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
-	widthDecrement := Round((monitorARight - monitorALeft) / 20)
-	minWidth := Round((monitorARight - monitorALeft) / 20 * 3)
 	if (monitorFound) {
+		widthDecrement := Round((monitorARight - monitorALeft) / 20)
+		minWidth := Round((monitorARight - monitorALeft) / 20 * 3)
 		WinGetPos, winX, winY, winW, winH, A
 		newWinX := monitorARight - winW
 		if (winX = newWinX and winW - widthDecrement >= minWidth) {
@@ -454,9 +454,9 @@ return
 >^!#Right::
 	SoundPlay, %windowMovementSound%
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
-	widthDecrement := Round((monitorARight - monitorALeft) / 20)
-	minWidth := Round((monitorARight - monitorALeft) / 20 * 3)
 	if (monitorFound) {
+		widthDecrement := Round((monitorARight - monitorALeft) / 20)
+		minWidth := Round((monitorARight - monitorALeft) / 20 * 3)
 		WinGetPos, winX, winY, winW, winH, A
 		newWinX := monitorARight - winW
 		heightChanged := UpdateVariableAsNeeded(winH, monitorABottom)
@@ -476,10 +476,10 @@ return
 	; width.
 	SoundPlay, %windowMovementSound%
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
-	widthIncrement := Round((monitorARight - monitorALeft) / 20)
-	minWinWidth := Round((monitorARight - monitorALeft) / 20 * 3)
-	maxWinWidth := monitorARight - monitorALeft - widthIncrement
 	if (monitorFound) {
+		widthIncrement := Round((monitorARight - monitorALeft) / 20)
+		minWinWidth := Round((monitorARight - monitorALeft) / 20 * 3)
+		maxWinWidth := monitorARight - monitorALeft - widthIncrement
 		WinGetPos, winX, winY, winW, winH, A
 		newWinX := monitorARight - winW
 		if (winX = newWinX && winW + widthIncrement <= maxWinWidth) {
@@ -498,10 +498,10 @@ return
 	; width.
 	SoundPlay, %windowMovementSound%
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
-	widthIncrement := Round((monitorARight - monitorALeft) / 20)
-	minWinWidth := Round((monitorARight - monitorALeft) / 20 * 3)
-	maxWinWidth := monitorARight - monitorALeft - widthIncrement
 	if (monitorFound) {
+		widthIncrement := Round((monitorARight - monitorALeft) / 20)
+		minWinWidth := Round((monitorARight - monitorALeft) / 20 * 3)
+		maxWinWidth := monitorARight - monitorALeft - widthIncrement
 		WinGetPos, winX, winY, winW, winH, A
 		newWinX := monitorARight - winW
 		heightChanged := UpdateVariableAsNeeded(winH, monitorABottom)
