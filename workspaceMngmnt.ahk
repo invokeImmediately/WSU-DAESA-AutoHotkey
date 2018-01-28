@@ -680,29 +680,42 @@ return
 
 ^!#Numpad5::
 	;Snap the center of the active window to the center of its monitor
-	;TODO: Refactor to rely on global variables that store monitor dimensions
-	;TODO: Expand to reduce window dimensions if already snapped
 	;TODO: Add a hotkey variant that increases the window dimensions if already snapped
 	SoundPlay, %windowMovementSound%
-	if (IsWindowOnLeftDualMonitor()) {
-		SysGet, Mon2, MonitorWorkArea, 2
-		WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
-		; if (thisWinW < ) 50 vs. 28.125
-		newWinX := (Mon2Right - Mon2Left) / 2 - (Mon2Right - Mon2Left - 200) / 2 + Mon2Left
-		newWinY := (Mon2Bottom - Mon2Top) / 2 - (Mon2Bottom - Mon2Top - 112) / 2 + Mon2Top
-		WinRestore, A
-		WinMove, A, , %newWinX%, %newWinY%, % (Mon2Right - Mon2Left - 200), % (Mon2Bottom 
-			- Mon2Top - 112)
+	GetActiveMonitorWorkArea(monitorFound, aMonLeft, aMonTop, aMonRight, aMonBottom)
+	if (monitorFound) {
+		WinGetPos, winX, winY, winW, winH, A
+		aMonMidPtX := (aMonRight - aMonLeft) / 2
+		aMonMidPtY := aMonBottom / 2
+		newWinX := aMonMidPtX - winW / 2 + aMonLeft
+		newWinY := aMonMidPtY - winH / 2
+
+		widthDecrement := Round((aMonRight - aMonLeft) / 20)
+		minWinWidth := widthDecrement * 3
+		maxWinWidth := aMonRight - aMonLeft - widthDecrement
+		if (winX + 1 > newWinX && winX - 1 < newWinX && winW - widthDecrement >= minWinWidth) {
+			winW -= widthDecrement
+			newWinX += widthDecrement / 2
+		} else if (winX + 1 > newWinX && winX - 1 < newWinX  && winW 
+				- widthDecrement < minWinWidth) {
+			winW := maxWinWidth
+			newWinX := aMonMidPtX - winW / 2
+		}
+
+		heightDecrement := Round(aMonBottom / 20)
+		minWinHeight := heightDecrement * 3
+		maxWinHeight := aMonBottom - heightDecrement
+		if (winY + 1 > newWinY && winY - 1 < newWinY && winH - heightDecrement >= minWinHeight) {
+			winH -= heightDecrement
+			newWinY += heightDecrement / 2
+		} else if (winY + 1 > newWinY && winY - 1 < newWinY  && winH 
+				- heightDecrement < minWinHeight) {
+			winH := maxWinHeight
+			newWinY := aMonMidPtY - winH / 2
+		}
+
+		SafeWinMove("A", "", newWinX, newWinY, winW, winH)
 	}
-	else {
-		SysGet, Mon1, MonitorWorkArea, 1
-		WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
-		newWinX := (Mon1Right - Mon1Left) / 2 - (Mon1Right - Mon1Left - 200) / 2 + Mon1Left
-		newWinY := (Mon1Bottom - Mon1Top) / 2 - (Mon1Bottom - Mon1Top - 112) / 2 + Mon1Top
-		WinRestore, A
-		WinMove, A, , %newWinX%, %newWinY%, % (Mon1Right - Mon1Left - 200), % (Mon1Bottom 
-			- Mon1Top - 112)
-	}	
 return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
