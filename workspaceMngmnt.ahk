@@ -469,27 +469,48 @@ return
 	}
 return
 
-^!+#Right::
+<^!+#Right::
 	; Snap the active window to the right edge of its monitor; if already snapped, increase its 
 	; width.
 	SoundPlay, %windowMovementSound%
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
+	widthIncrement := Round((monitorARight - monitorALeft) / 20)
+	minWinWidth := Round((monitorARight - monitorALeft) / 20 * 3)
+	maxWinWidth := monitorARight - monitorALeft - widthIncrement
 	if (monitorFound) {
-		WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
-		newWinX := monitorARight - thisWinW
-		thisWinH := monitorABottom - monitorATop
-		if (thisWinX = newWinX and thisWinW < (monitorARight - monitorALeft - 100)) {
-			newWinX -= 100
-			thisWinW += 100
-			WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%
-		} else if (thisWinW < (monitorARight - monitorALeft - 100)) {
-			newWinX := monitorARight - thisWinW
-			WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%
-		} else {
-			thisWinW := (monitorARight - monitorALeft) / 4
-			newWinX := monitorARight - thisWinW
-			WinMove, A, , %newWinX%, 0, %thisWinW%, %thisWinH%
+		WinGetPos, winX, winY, winW, winH, A
+		newWinX := monitorARight - winW
+		if (winX = newWinX && winW + widthIncrement <= maxWinWidth) {
+			newWinX -= widthIncrement
+			winW += widthIncrement
+		} else if (winX = newWinX && winW + widthIncrement > maxWinWidth) {
+			winW := minWinWidth
+			newWinX := monitorARight - winW
 		}
+		WinMove, A, , % newWinX, % winY, % winW, % winH
+	}
+return
+
+>^!+#Right::
+	; Snap the active window to the right edge of its monitor; if already snapped, increase its 
+	; width.
+	SoundPlay, %windowMovementSound%
+	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
+	widthIncrement := Round((monitorARight - monitorALeft) / 20)
+	minWinWidth := Round((monitorARight - monitorALeft) / 20 * 3)
+	maxWinWidth := monitorARight - monitorALeft - widthIncrement
+	if (monitorFound) {
+		WinGetPos, winX, winY, winW, winH, A
+		newWinX := monitorARight - winW
+		heightChanged := UpdateVariableAsNeeded(winH, monitorABottom)
+		if (!heightChanged && winX = newWinX && winW + widthIncrement <= maxWinWidth) {
+			newWinX -= widthIncrement
+			winW += widthIncrement
+		} else if (!heightChanged && winX = newWinX && winW + widthIncrement > maxWinWidth) {
+			winW := minWinWidth
+			newWinX := monitorARight - winW
+		}
+		WinMove, A, , % newWinX, 0, % winW, % winH
 	}
 return
 
