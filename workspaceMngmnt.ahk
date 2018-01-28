@@ -345,6 +345,16 @@ GuiWinAdjCheckNewPosition(whichHwnd, ByRef posX, ByRef posY, ByRef winWidth, ByR
 	}
 return
 
+UpdateVariableAsNeeded(ByRef variable, newValue) {
+	if (variable != newValue) {
+		variable := newValue
+		varChanged := true
+	} else {
+		varChanged := false
+	}
+	return varChanged
+}
+
 SafeWinMove(WinTitle, WinText, X, Y, Width, Height, ExcludeTitle := "", ExcludeText := "") {
 	; Call WinMove twice such that: 1) The first call introduces a single pixel height change in
 	; on top of the desired coordinates. 2) The second call cancels this one pixel height 
@@ -366,12 +376,8 @@ SafeWinMove(WinTitle, WinText, X, Y, Width, Height, ExcludeTitle := "", ExcludeT
 	widthDecrement := Round((monitorARight - monitorALeft) / 20)
 	minWinWidth := Round((monitorARight - monitorALeft) / 20 * 3)
 	if (monitorFound) {
-		heightChanged := false
 		WinGetPos, winX, winY, winW, winH, A
-		if (winH != monitorABottom) {
-			winH := monitorABottom
-			heightChanged := true
-		}
+		heightChanged := UpdateVariableAsNeeded(winH, monitorABottom)
 		if (!heightChanged and thisWinX = monitorALeft and winW - widthDecrement >= minWinWidth) {
 			winW -= widthDecrement
 		} else if (!heightChanged and thisWinX = monitorALeft and winW 
@@ -410,11 +416,7 @@ return
 	maxWinWidth := monitorARight - monitorALeft - widthIncrement
 	if (monitorFound) {
 		WinGetPos, winX, winY, winW, winH, A
-		heightChanged := False
-		if (winH != monitorABottom) {
-			winH := monitorABottom
-			heightChanged := true
-		}
+		heightChanged := UpdateVariableAsNeeded(winH, monitorABottom)
 		if (!heightChanged and winX = monitorALeft and winW + widthIncrement <= maxWinWidth) {
 			winW += widthIncrement
 		} else if (!heightChanged and winX = monitorALeft and winW + widthIncrement > maxWinWidth) {
@@ -555,16 +557,6 @@ return
 		WinMove, A, , %monitorALeft%, %newWinY%, %winW%, %winH%
 	}
 return
-
-UpdateVariableAsNeeded(ByRef variable, newValue) {
-	if (variable != newValue) {
-		variable := newValue
-		varChanged := true
-	} else {
-		varChanged := false
-	}
-	return varChanged
-}
 
 <^!+#Down::
 	SoundPlay, %windowMovementSound%
