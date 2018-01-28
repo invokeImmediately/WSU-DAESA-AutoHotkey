@@ -555,6 +555,24 @@ return
 	}
 return
 
+<^!+#Up::
+	SoundPlay, %windowMovementSound%
+	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
+	if (monitorFound) {
+		WinGetPos, winX, winY, winW, winH, A
+		newWinY := 0
+		heightIncrement := Round(monitorABottom / 20)
+		minHeight := Round(monitorABottom / 20 * 3)
+		maxHeight := monitorABottom - heightIncrement
+		if (winY = newWinY && winH + heightIncrement <= maxHeight) {
+			winH += heightIncrement
+		} else if (winY = newWinY && winH + heightIncrement > maxHeight) {
+			winH := minHeight
+		}
+		WinMove, A, , % winX, % newWinY, % winW, % winH
+	}
+return
+
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 <^!#Down::
