@@ -341,9 +341,20 @@ GuiWinAdjCheckNewPosition(whichHwnd, ByRef posX, ByRef posY, ByRef winWidth, ByR
 		} else if (winX = monitorALeft and winW - widthDecrement < minWidth) {
 			winW := monitorARight - monitorALeft - widthDecrement
 		}
-		WinMove, A, , %monitorALeft%, winY, %winW%, %winH%
+		SafeWinMove("A", "", monitorALeft, winY, winW, winH)
 	}
 return
+
+SafeWinMove(WinTitle, WinText, X, Y, Width, Height, ExcludeTitle := "", ExcludeText := "") {
+	; Call WinMove twice such that: 1) The first call introduces a single pixel height change in
+	; on top of the desired coordinates. 2) The second call cancels this one pixel height 
+	; change out, resulting in the desired coordinates being set. This double call thus 
+	; produces the effect of forcing the operating system to consider the window's height to 
+	; be changing during the movement procedure, negating any edge snapping behavior that may 
+	; produce unexpected changes in the final position of the window.
+	WinMove, % WinTitle, % WinText, % X, % Y, % Width, % Height - 1, % ExcludeTitle, % ExcludeText
+	WinMove, % WinTitle, % WinText, % X, % Y, % Width, % Height, % ExcludeTitle, % ExcludeText
+}
 
 ; Snap the active window to the left edge of its monitor; if already snapped, reduce its width. 
 ; Additionally, resize the window vertically to fill up the full vertical extent of the monitor's 
@@ -367,7 +378,7 @@ return
 				- widthDecrement < minWinWidth) {
 			winW := monitorARight - monitorALeft - widthDecrement
 		}
-		WinMove, A, , %monitorALeft%, 0, %winW%, %winH%
+		SafeWinMove("A", "", monitorALeft, 0, winW, winH)
 	}
 return
 
@@ -385,7 +396,7 @@ return
 		} else if (!heightChanged and winX = monitorALeft and winW + widthIncrement > maxWinWidth) {
 			winW := minWidth
 		}
-		WinMove, A, , %monitorALeft%, %winY%, %winW%, %winH%
+		SafeWinMove("A", "", monitorALeft, winY, winW, winH)
 	}
 return
 
@@ -409,7 +420,7 @@ return
 		} else if (!heightChanged and winX = monitorALeft and winW + widthIncrement > maxWinWidth) {
 			winW := minWidth
 		}
-		WinMove, A, , %monitorALeft%, 0, %winW%, %winH%
+		SafeWinMove("A", "", monitorALeft, 0, winW, winH)
 	}
 return
 
