@@ -518,7 +518,26 @@ return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
-;TODO: Add matching ^!#Up series of hotkeys.
+<^!#Up::
+	SoundPlay, %windowMovementSound%
+	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
+	if (monitorFound) {
+		WinGetPos, winX, winY, winW, winH, A
+		newWinY := 0
+		heightDecrement := Round(monitorABottom / 20)
+		minHeight := Round(monitorABottom / 20 * 3)
+		maxHeight := monitorABottom - heightDecrement
+		if (winY = newWinY and winH - heightDecrement >= minHeight) {
+			winH -= heightDecrement
+		} else if (winY = newWinY and winH - heightDecrement < minHeight) {
+			winH := maxHeight
+		}
+		WinMove, A, , %winX%, %newWinY%, %winW%, %winH%
+	}
+return
+
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
+
 <^!#Down::
 	SoundPlay, %windowMovementSound%
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
