@@ -336,9 +336,9 @@ GuiWinAdjCheckNewPosition(whichHwnd, ByRef posX, ByRef posY, ByRef winWidth, ByR
 	minWidth := Round((monitorARight - monitorALeft) / 20 * 3)
 	if (monitorFound) {
 		WinGetPos, winX, winY, winW, winH, A
-		if (winX = monitorALeft and winW - widthDecrement >= minWidth) {
+		if (winX = monitorALeft && winW - widthDecrement >= minWidth) {
 			winW -= widthDecrement
-		} else if (winX = monitorALeft and winW - widthDecrement < minWidth) {
+		} else if (winX = monitorALeft && winW - widthDecrement < minWidth) {
 			winW := monitorARight - monitorALeft - widthDecrement
 		}
 		SafeWinMove("A", "", monitorALeft, winY, winW, winH)
@@ -378,9 +378,9 @@ SafeWinMove(WinTitle, WinText, X, Y, Width, Height, ExcludeTitle := "", ExcludeT
 		minWinWidth := Round((monitorARight - monitorALeft) / 20 * 3)
 		WinGetPos, winX, winY, winW, winH, A
 		heightChanged := UpdateVariableAsNeeded(winH, monitorABottom)
-		if (!heightChanged and thisWinX = monitorALeft and winW - widthDecrement >= minWinWidth) {
+		if (!heightChanged && thisWinX = monitorALeft && winW - widthDecrement >= minWinWidth) {
 			winW -= widthDecrement
-		} else if (!heightChanged and thisWinX = monitorALeft and winW 
+		} else if (!heightChanged && thisWinX = monitorALeft && winW 
 				- widthDecrement < minWinWidth) {
 			winW := monitorARight - monitorALeft - widthDecrement
 		}
@@ -397,9 +397,9 @@ return
 		minWinWidth := Round((monitorARight - monitorALeft) / 20 * 3)
 		maxWinWidth := monitorARight - monitorALeft - widthIncrement
 		WinGetPos, winX, winY, winW, winH, A
-		if (!heightChanged and winX = monitorALeft and winW + widthIncrement <= maxWinWidth) {
+		if (!heightChanged && winX = monitorALeft && winW + widthIncrement <= maxWinWidth) {
 			winW += widthIncrement
-		} else if (!heightChanged and winX = monitorALeft and winW + widthIncrement > maxWinWidth) {
+		} else if (!heightChanged && winX = monitorALeft && winW + widthIncrement > maxWinWidth) {
 			winW := minWidth
 		}
 		SafeWinMove("A", "", monitorALeft, winY, winW, winH)
@@ -417,9 +417,9 @@ return
 		maxWinWidth := monitorARight - monitorALeft - widthIncrement
 		WinGetPos, winX, winY, winW, winH, A
 		heightChanged := UpdateVariableAsNeeded(winH, monitorABottom)
-		if (!heightChanged and winX = monitorALeft and winW + widthIncrement <= maxWinWidth) {
+		if (!heightChanged && winX = monitorALeft && winW + widthIncrement <= maxWinWidth) {
 			winW += widthIncrement
-		} else if (!heightChanged and winX = monitorALeft and winW + widthIncrement > maxWinWidth) {
+		} else if (!heightChanged && winX = monitorALeft && winW + widthIncrement > maxWinWidth) {
 			winW := minWidth
 		}
 		SafeWinMove("A", "", monitorALeft, 0, winW, winH)
@@ -437,10 +437,10 @@ return
 		minWidth := Round((monitorARight - monitorALeft) / 20 * 3)
 		WinGetPos, winX, winY, winW, winH, A
 		newWinX := monitorARight - winW
-		if (winX = newWinX and winW - widthDecrement >= minWidth) {
+		if (winX = newWinX && winW - widthDecrement >= minWidth) {
 			newWinX += widthDecrement
 			winW -= widthDecrement
-		} else if (winX = newWinX and winW - widthDecrement < minWidth) {
+		} else if (winX = newWinX && winW - widthDecrement < minWidth) {
 			winW := monitorARight - monitorALeft - widthDecrement
 			newWinX := monitorALeft + widthDecrement
 		}
@@ -460,10 +460,10 @@ return
 		WinGetPos, winX, winY, winW, winH, A
 		newWinX := monitorARight - winW
 		heightChanged := UpdateVariableAsNeeded(winH, monitorABottom)
-		if (!heightChanged and winX = newWinX and winW - widthDecrement >= minWidth) {
+		if (!heightChanged && winX = newWinX && winW - widthDecrement >= minWidth) {
 			newWinX += widthDecrement
 			winW -= widthDecrement
-		} else if (!heightChanged and winX = newWinX and winW - widthDecrement < minWidth) {
+		} else if (!heightChanged && winX = newWinX && winW - widthDecrement < minWidth) {
 			winW := monitorARight - monitorALeft - widthDecrement
 			newWinX := monitorALeft + widthDecrement
 		}
@@ -527,9 +527,9 @@ return
 		heightDecrement := Round(monitorABottom / 20)
 		minHeight := Round(monitorABottom / 20 * 3)
 		maxHeight := monitorABottom - heightDecrement
-		if (winY = newWinY and winH - heightDecrement >= minHeight) {
+		if (winY = newWinY && winH - heightDecrement >= minHeight) {
 			winH -= heightDecrement
-		} else if (winY = newWinY and winH - heightDecrement < minHeight) {
+		} else if (winY = newWinY && winH - heightDecrement < minHeight) {
 			winH := maxHeight
 		}
 		WinMove, A, , %winX%, %newWinY%, %winW%, %winH%
@@ -546,9 +546,9 @@ return
 		minHeight := Round(monitorABottom / 20 * 3)
 		maxHeight := monitorABottom - heightDecrement
 		widthChanged := UpdateVariableAsNeeded(winW, monitorARight - monitorALeft)
-		if (!widthChanged && winY = newWinY and winH - heightDecrement >= minHeight) {
+		if (!widthChanged && winY = newWinY && winH - heightDecrement >= minHeight) {
 			winH -= heightDecrement
-		} else if (!widthChanged && winY = newWinY and winH - heightDecrement < minHeight) {
+		} else if (!widthChanged && winY = newWinY && winH - heightDecrement < minHeight) {
 			winH := maxHeight
 		}
 		WinMove, A, , %monitorALeft%, %newWinY%, %winW%, %winH%
@@ -603,10 +603,10 @@ return
 		heightDecrement := Round(monitorABottom / 20)
 		minHeight := Round(monitorABottom / 20 * 3)
 		maxHeight := monitorABottom - heightDecrement
-		if (winY = newWinY and winH - heightDecrement >= minHeight) {
+		if (winY = newWinY && winH - heightDecrement >= minHeight) {
 			newWinY += heightDecrement
 			winH -= heightDecrement
-		} else if (winY = newWinY and winH - heightDecrement < minHeight) {
+		} else if (winY = newWinY && winH - heightDecrement < minHeight) {
 			winH := maxHeight
 			newWinY := monitorABottom - winH
 		}
@@ -624,10 +624,10 @@ return
 		minHeight := Round(monitorABottom / 20 * 3)
 		maxHeight := monitorABottom - heightDecrement
 		widthChanged := UpdateVariableAsNeeded(winW, monitorARight - monitorALeft)
-		if (!widthChanged && winY = newWinY and winH - heightDecrement >= minHeight) {
+		if (!widthChanged && winY = newWinY && winH - heightDecrement >= minHeight) {
 			newWinY += heightDecrement
 			winH -= heightDecrement
-		} else if (!widthChanged && winY = newWinY and winH - heightDecrement < minHeight) {
+		} else if (!widthChanged && winY = newWinY && winH - heightDecrement < minHeight) {
 			winH := maxHeight
 			newWinY := monitorABottom - winH
 		}
