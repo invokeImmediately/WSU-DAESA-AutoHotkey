@@ -505,7 +505,7 @@ return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
-;TODO: Add ^!#Up, compensation for left/right ctrl press.
+;TODO: Add handling of shift state, plus matching ^!#Up series of hotkeys.
 <^!#Down::
 	SoundPlay, %windowMovementSound%
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
@@ -514,8 +514,6 @@ return
 		newWinY := monitorABottom - winH
 		heightDecrement := Round((monitorABottom - monitorATop) / 20)
 		minHeight := Round((monitorABottom - monitorATop) / 20 * 3)
-		; newWinW := monitorARight - monitorALeft
-		; if (winY = newWinY and winH > (monitorABottom - monitorATop) / 4) {
 		if (winY = newWinY and winH - heightDecrement >= minHeight) {
 			newWinY += heightDecrement
 			winH -= heightDecrement
@@ -526,6 +524,36 @@ return
 		WinMove, A, , %winX%, %newWinY%, %winW%, %winH%
 	}
 return
+
+>^!#Down::
+	SoundPlay, %windowMovementSound%
+	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
+	if (monitorFound) {
+		WinGetPos, winX, winY, winW, winH, A
+		newWinY := monitorABottom - winH
+		heightDecrement := Round((monitorABottom - monitorATop) / 20)
+		minHeight := Round((monitorABottom - monitorATop) / 20 * 3)
+		widthChanged := UpdateVariableAsNeeded(winW, monitorARight - monitorALeft)
+		if (!widthChanged && winY = newWinY and winH - heightDecrement >= minHeight) {
+			newWinY += heightDecrement
+			winH -= heightDecrement
+		} else if (!widthChanged && winY = newWinY and winH - heightDecrement < minHeight) {
+			winH := monitorABottom - monitorATop - heightDecrement
+			newWinY := monitorABottom - winH
+		}
+		WinMove, A, , %monitorALeft%, %newWinY%, %winW%, %winH%
+	}
+return
+
+UpdateVariableAsNeeded(ByRef variable, newValue) {
+	if (variable != newValue) {
+		variable := newValue
+		varChanged := true
+	} else {
+		varChanged := false
+	}
+	return varChanged
+}
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
