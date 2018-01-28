@@ -680,7 +680,48 @@ return
 
 ^!#Numpad5::
 	; Snap the center of the active window to the center of its monitor. Decrement its width & 
-	; height up to minimum thresholds if already snapped, and wrap the width/height of minimum 
+	; height up to minimum threshholds if already snapped, and wrap the width/height if minimum 
+	; threshholds are exceeded.
+	SoundPlay, %windowMovementSound%
+	GetActiveMonitorWorkArea(monitorFound, aMonLeft, aMonTop, aMonRight, aMonBottom)
+	if (monitorFound) {
+		WinGetPos, winX, winY, winW, winH, A
+		aMonMidPtX := (aMonRight - aMonLeft) / 2
+		aMonMidPtY := aMonBottom / 2
+		newWinX := aMonMidPtX - winW / 2 + aMonLeft
+		newWinY := aMonMidPtY - winH / 2
+
+		widthDecrement := Round((aMonRight - aMonLeft) / 20)
+		minWinWidth := widthDecrement * 3
+		maxWinWidth := aMonRight - aMonLeft - widthDecrement
+		if (winX + 1 > newWinX && winX - 1 < newWinX && winW - widthDecrement >= minWinWidth) {
+			winW -= widthDecrement
+			newWinX += widthDecrement / 2
+		} else if (winX + 1 > newWinX && winX - 1 < newWinX  && winW 
+				- widthDecrement < minWinWidth) {
+			winW := maxWinWidth
+			newWinX := aMonMidPtX - winW / 2
+		}
+
+		heightDecrement := Round(aMonBottom / 20)
+		minWinHeight := heightDecrement * 3
+		maxWinHeight := aMonBottom - heightDecrement
+		if (winY + 1 > newWinY && winY - 1 < newWinY && winH - heightDecrement >= minWinHeight) {
+			winH -= heightDecrement
+			newWinY += heightDecrement / 2
+		} else if (winY + 1 > newWinY && winY - 1 < newWinY  && winH 
+				- heightDecrement < minWinHeight) {
+			winH := maxWinHeight
+			newWinY := aMonMidPtY - winH / 2
+		}
+
+		SafeWinMove("A", "", newWinX, newWinY, winW, winH)
+	}
+return
+
+^!+#Numpad5::
+	; Snap the center of the active window to the center of its monitor. Increment its width & 
+	; height up to maximum threshholds if already snapped, and wrap the width/height if maximum 
 	; threshholds are exceeded.
 	SoundPlay, %windowMovementSound%
 	GetActiveMonitorWorkArea(monitorFound, aMonLeft, aMonTop, aMonRight, aMonBottom)
