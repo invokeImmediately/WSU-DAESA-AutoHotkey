@@ -73,7 +73,7 @@ Return
 :*:@startSublimeText3::
 	; Start up Sublime Text, open a new window, and send the initial, primary instance to desktop #2
 	AppendAhkCmd(":*:@startSublimeText3")
-	titleToMatch = Sublime Text ahk_exe sublime_text\.exe
+	titleToMatch := "Sublime Text ahk_exe sublime_text\.exe"
 	LaunchApplicationPatiently("C:\Program Files\Sublime Text 3\sublime_text.exe"
 		, titleToMatch, "RegEx")
 	Sleep, 150
@@ -113,10 +113,10 @@ Return
 
 AddSublimeText3ToVd() {
 	delay := 100
-	st3TitleToMatch = Sublime Text ahk_exe sublime_text\.exe
+	st3TitleToMatch := "Sublime Text ahk_exe sublime_text\.exe"
 	currentVd := GetCurrentVirtualDesktop()
 	SetTitleMatchMode, RegEx
-	IfWinExist, %titleToMatch%
+	IfWinExist, %st3TitleToMatch%
 	{
 		WinActivate, % st3TitleToMatch
 		Sleep, % delay
