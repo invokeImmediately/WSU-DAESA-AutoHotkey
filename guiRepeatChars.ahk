@@ -43,6 +43,9 @@ HandleGuiRptCharsOk() {
 	Gui, guiRptChars:Submit, NoHide
 	if (guiRptChars_WhichChar && guiRptChars_HowMany) {
 		Gui, guiRptChars:Destroy
+		if (guiRptChars_WhichChar == " ") {
+			guiRptChars_WhichChar := "Space"
+		}
 		SendInput, % "{" . guiRptChars_WhichChar . " " . guiRptChars_HowMany . "}"
 	} else {
 		ErrorBox(A_ThisLabel, "Input must be finished before I can proceed.")
