@@ -719,7 +719,7 @@ return
 	}
 return
 
-^!+#Numpad5::
+^!#NumpadClear::   ; Equivalent to ^!+#Numpad5
 	; Snap the center of the active window to the center of its monitor. Increment its width & 
 	; height up to maximum threshholds if already snapped, and wrap the width/height if maximum 
 	; threshholds are exceeded.
@@ -732,27 +732,27 @@ return
 		newWinX := aMonMidPtX - winW / 2 + aMonLeft
 		newWinY := aMonMidPtY - winH / 2
 
-		widthDecrement := Round((aMonRight - aMonLeft) / 20)
-		minWinWidth := widthDecrement * 3
-		maxWinWidth := aMonRight - aMonLeft - widthDecrement
-		if (winX + 1 > newWinX && winX - 1 < newWinX && winW - widthDecrement >= minWinWidth) {
-			winW -= widthDecrement
-			newWinX += widthDecrement / 2
+		widthIncrement := Round((aMonRight - aMonLeft) / 20)
+		minWinWidth := widthIncrement * 3
+		maxWinWidth := aMonRight - aMonLeft - widthIncrement
+		if (winX + 1 > newWinX && winX - 1 < newWinX && winW + widthIncrement <= maxWinWidth) {
+			winW += widthIncrement
+			newWinX -= widthIncrement / 2
 		} else if (winX + 1 > newWinX && winX - 1 < newWinX  && winW 
-				- widthDecrement < minWinWidth) {
-			winW := maxWinWidth
+				+ widthIncrement > maxWinWidth) {
+			winW := minWinWidth
 			newWinX := aMonMidPtX - winW / 2
 		}
 
-		heightDecrement := Round(aMonBottom / 20)
-		minWinHeight := heightDecrement * 3
-		maxWinHeight := aMonBottom - heightDecrement
-		if (winY + 1 > newWinY && winY - 1 < newWinY && winH - heightDecrement >= minWinHeight) {
-			winH -= heightDecrement
-			newWinY += heightDecrement / 2
+		heightIncrement := Round(aMonBottom / 20)
+		minWinHeight := heightIncrement * 3
+		maxWinHeight := aMonBottom - heightIncrement
+		if (winY + 1 > newWinY && winY - 1 < newWinY && winH + heightIncrement <= maxWinHeight) {
+			winH += heightIncrement
+			newWinY -= heightIncrement / 2
 		} else if (winY + 1 > newWinY && winY - 1 < newWinY  && winH 
-				- heightDecrement < minWinHeight) {
-			winH := maxWinHeight
+				+ heightIncrement > maxWinHeight) {
+			winH := minWinHeight
 			newWinY := aMonMidPtY - winH / 2
 		}
 
@@ -763,7 +763,7 @@ return
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ; TODO: Add hotkeys for moving the window around on the desktop using the keyboard instead of 
-; dragging with mouse
+; dragging with mouse. Can use numpad for additional hotkeys.
 
 ; --------------------------------------------------------------------------------------------------
 ;   VIRTUAL DESKTOP HOTKEYS
