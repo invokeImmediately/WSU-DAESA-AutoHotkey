@@ -358,13 +358,16 @@ DecrementWinDimension(ByRef winDim, ByRef winPos, targetPos, decrement, minWinDi
 }
 
 SafeWinMove(WinTitle, WinText, X, Y, Width, Height, ExcludeTitle := "", ExcludeText := "") {
+	; TODO: Refactor this function for improved performance. Can use an hWnd array to check whether
+	; the window behaves as expected.
+
 	; Call WinMove twice such that: 1) The first call introduces a single pixel height change in
 	; on top of the desired coordinates. 2) The second call cancels this one pixel height 
 	; change out, resulting in the desired coordinates being set. This double call thus 
 	; produces the effect of forcing the operating system to consider the window's height to 
 	; be changing during the movement procedure, negating any edge snapping behavior that may 
 	; produce unexpected changes in the final position of the window.
-	WinMove, % WinTitle, % WinText, % X, % Y, % Width, % Height - 1, % ExcludeTitle, % ExcludeText
+	; WinMove, % WinTitle, % WinText, % X, % Y, % Width, % Height - 1, % ExcludeTitle, % ExcludeText
 	WinMove, % WinTitle, % WinText, % X, % Y, % Width, % Height, % ExcludeTitle, % ExcludeText
 }
 
