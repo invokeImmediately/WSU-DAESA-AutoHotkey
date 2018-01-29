@@ -342,17 +342,17 @@ GuiWinAdjCheckNewPosition(whichHwnd, ByRef posX, ByRef posY, ByRef winWidth, ByR
 	}
 return
 
-DecrementWinDimension(ByRef winDim, ByRef winPos, targetPos, decrement, minWinDim, maxWinDim
+DecrementWinDimension(ByRef winDim, winPos, ByRef targetPos, decrement, minWinDim, maxWinDim
 		, adjustPos, maxPos) {
 	if (winPos = targetPos && winDim - decrement >= minWinDim) {
 		winDim -= decrement
 		if (adjustPos) {
-			winPos += decrement
+			targetPos += decrement
 		}
 	} else if (winPos = targetPos && winDim - decrement < minWinDim) {
 		winDim := maxWinDim
 		if (adjustPos) {
-			winPos := maxPos - winDim
+			targetPos := maxPos - winDim
 		}
 	}
 }
@@ -415,17 +415,17 @@ UpdateVariableAsNeeded(ByRef variable, newValue) {
 	}
 return
 
-IncrementWinDimension(ByRef winDim, ByRef winPos, targetPos, increment, minWinDim, maxWinDim
+IncrementWinDimension(ByRef winDim, winPos, ByRef targetPos, increment, minWinDim, maxWinDim
 		, adjustPos, maxPos) {
 	if (winPos = targetPos && winDim + increment <= maxWinDim) {
 		winDim += increment
 		if (adjustPos) {
-			winPos -= increment
+			targetPos -= increment
 		}
 	} else if (winPos = targetPos && winDim + increment > maxWinDim) {
 		winDim := minWinDim
 		if (adjustPos) {
-			winPos := maxPos - winDim
+			targetPos := maxPos - winDim
 		}
 	}
 }
@@ -455,9 +455,9 @@ return
 <^!#Right::
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
+		WinGetPos, winX, winY, winW, winH, A
 		widthDecrement := Round((monitorARight - monitorALeft) / 20)
 		minWidth := Round((monitorARight - monitorALeft) / 20 * 3)
-		WinGetPos, winX, winY, winW, winH, A
 		newWinX := monitorARight - winW
 		if (winX = newWinX && winW - widthDecrement >= minWidth) {
 			newWinX += widthDecrement
