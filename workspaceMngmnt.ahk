@@ -327,32 +327,34 @@ GuiWinAdjCheckNewPosition(whichHwnd, ByRef posX, ByRef posY, ByRef winWidth, ByR
 }
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-
 ; Snap the active window to the left edge of its monitor; if already snapped, reduce its width.
 <^!#Left::
-	SoundPlay, %windowMovementSound%
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
-	widthDecrement := Round((monitorARight - monitorALeft) / 20)
-	minWidth := Round((monitorARight - monitorALeft) / 20 * 3)
 	if (monitorFound) {
 		WinGetPos, winX, winY, winW, winH, A
-		if (winX = monitorALeft && winW - widthDecrement >= minWidth) {
-			winW -= widthDecrement
-		} else if (winX = monitorALeft && winW - widthDecrement < minWidth) {
-			winW := monitorARight - monitorALeft - widthDecrement
-		}
+		widthDecrement := Round((monitorARight - monitorALeft) / 20)
+		minWidth := Round((monitorARight - monitorALeft) / 20 * 3)
+		maxWinX := monitorARight - monitorALeft
+		maxWidth := maxWinX - widthDecrement
+		DecrementWinDimension(winW, winX, monitorALeft, widthDecrement, minWidth, maxWidth, false
+			, maxWinX)
 		SafeWinMove("A", "", monitorALeft, winY, winW, winH)
 	}
 return
 
-UpdateVariableAsNeeded(ByRef variable, newValue) {
-	if (variable != newValue) {
-		variable := newValue
-		varChanged := true
-	} else {
-		varChanged := false
+DecrementWinDimension(ByRef winDim, ByRef winPos, targetPos, decrement, minWinDim, maxWinDim
+		, adjustPos, maxPos) {
+	if (winPos = targetPos && winDim - decrement >= minWinDim) {
+		winDim -= decrement
+		if (adjustPos) {
+			winPos += decrement
+		}
+	} else if (winPos = targetPos && winDim - decrement < minWinDim) {
+		winDim := maxWinDim
+		if (adjustPos) {
+			winPos := maxPos - winDim
+		}
 	}
-	return varChanged
 }
 
 SafeWinMove(WinTitle, WinText, X, Y, Width, Height, ExcludeTitle := "", ExcludeText := "") {
@@ -370,57 +372,75 @@ SafeWinMove(WinTitle, WinText, X, Y, Width, Height, ExcludeTitle := "", ExcludeT
 ; Additionally, resize the window vertically to fill up the full vertical extent of the monitor's 
 ; available work area.
 >^!#Left::
-	SoundPlay, %windowMovementSound%
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
-		; TODO: Replace with global scaling factor.
+		WinGetPos, winX, winY, winW, winH, A
 		widthDecrement := Round((monitorARight - monitorALeft) / 20)
 		minWinWidth := Round((monitorARight - monitorALeft) / 20 * 3)
-		WinGetPos, winX, winY, winW, winH, A
+		maxWinX := monitorARight - monitorALeft
+		maxWidth := maxWinX - widthDecrement
 		heightChanged := UpdateVariableAsNeeded(winH, monitorABottom)
-		if (!heightChanged && thisWinX = monitorALeft && winW - widthDecrement >= minWinWidth) {
-			winW -= widthDecrement
-		} else if (!heightChanged && thisWinX = monitorALeft && winW 
-				- widthDecrement < minWinWidth) {
-			winW := monitorARight - monitorALeft - widthDecrement
+		if (!heightChanged) {
+			DecrementWinDimension(winW, winX, monitorALeft, widthDecrement, minWidth, maxWidth
+				, false, maxWinX)
 		}
 		SafeWinMove("A", "", monitorALeft, 0, winW, winH)
 	}
 return
 
+UpdateVariableAsNeeded(ByRef variable, newValue) {
+	if (variable != newValue) {
+		variable := newValue
+		varChanged := true
+	} else {
+		varChanged := false
+	}
+	return varChanged
+}
+
 ; Snap the active window to the left edge of its monitor; if already snapped, increase its width.
 <^!+#Left::
-	SoundPlay, %windowMovementSound%
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
+		WinGetPos, winX, winY, winW, winH, A
 		widthIncrement := Round((monitorARight - monitorALeft) / 20)
 		minWinWidth := Round((monitorARight - monitorALeft) / 20 * 3)
 		maxWinWidth := monitorARight - monitorALeft - widthIncrement
-		WinGetPos, winX, winY, winW, winH, A
-		if (!heightChanged && winX = monitorALeft && winW + widthIncrement <= maxWinWidth) {
-			winW += widthIncrement
-		} else if (!heightChanged && winX = monitorALeft && winW + widthIncrement > maxWinWidth) {
-			winW := minWidth
-		}
+		IncrementWinDimension(winW, winX, monitorALeft, widthDecrement, minWinWidth, maxWinWidth
+			, false, maxWinWidth)
 		SafeWinMove("A", "", monitorALeft, winY, winW, winH)
 	}
 return
 
+IncrementWinDimension(ByRef winDim, ByRef winPos, targetPos, increment, minWinDim, maxWinDim
+		, adjustPos, maxPos) {
+	if (winPos = targetPos && winDim + increment <= maxWinDim) {
+		winDim += increment
+		if (adjustPos) {
+			winPos -= increment
+		}
+	} else if (winPos = targetPos && winDim + increment > maxWinDim) {
+		winDim := minWinDim
+		if (adjustPos) {
+			winPos := maxPos - winDim
+		}
+	}
+}
+
 ; Snap the active window to the left edge of its monitor; if already snapped, increase its width. 
 ; Additionally, match the height of the window to the full height of the active monitor's work area.
 >^!+#Left::
-	SoundPlay, %windowMovementSound%
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
+		WinGetPos, winX, winY, winW, winH, A
 		widthIncrement := Round((monitorARight - monitorALeft) / 20)
 		minWinWidth := Round((monitorARight - monitorALeft) / 20 * 3)
-		maxWinWidth := monitorARight - monitorALeft - widthIncrement
-		WinGetPos, winX, winY, winW, winH, A
+		maxWinX := monitorARight - monitorALeft
+		maxWinWidth := maxWinX - widthIncrement
 		heightChanged := UpdateVariableAsNeeded(winH, monitorABottom)
-		if (!heightChanged && winX = monitorALeft && winW + widthIncrement <= maxWinWidth) {
-			winW += widthIncrement
-		} else if (!heightChanged && winX = monitorALeft && winW + widthIncrement > maxWinWidth) {
-			winW := minWidth
+		if (!heightChanged) {
+			IncrementWinDimension(winW, winX, monitorALeft, widthDecrement, minWinWidth
+				, maxWinWidth, false, maxWinX)
 		}
 		SafeWinMove("A", "", monitorALeft, 0, winW, winH)
 	}
@@ -430,7 +450,6 @@ return
 
 ; Snap the active window to the right edge of its monitor; if already snapped, reduce its width.
 <^!#Right::
-	SoundPlay, %windowMovementSound%
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		widthDecrement := Round((monitorARight - monitorALeft) / 20)
@@ -452,7 +471,6 @@ return
 ; Additionally, resize the window vertically to fill up the full vertical extent of the monitor's 
 ; available work area.
 >^!#Right::
-	SoundPlay, %windowMovementSound%
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		widthDecrement := Round((monitorARight - monitorALeft) / 20)
@@ -680,7 +698,7 @@ return
 
 ^!#Numpad5::
 	; Snap the center of the active window to the center of its monitor. Decrement its width & 
-	; height up to minimum threshholds if already snapped, and wrap the width/height if minimum 
+	; height up to minimum thresholds if already snapped, and wrap the width/height if minimum 
 	; threshholds are exceeded.
 	SoundPlay, %windowMovementSound%
 	GetActiveMonitorWorkArea(monitorFound, aMonLeft, aMonTop, aMonRight, aMonBottom)
@@ -719,10 +737,10 @@ return
 	}
 return
 
-^!#NumpadClear::   ; Equivalent to ^!+#Numpad5
+^!#NumpadClear:: ; Equivalent to ^!+#Numpad5
 	; Snap the center of the active window to the center of its monitor. Increment its width & 
-	; height up to maximum threshholds if already snapped, and wrap the width/height if maximum 
-	; threshholds are exceeded.
+	; height up to maximum thresholds if already snapped, and wrap the width/height if maximum 
+	; thresholds are exceeded.
 	SoundPlay, %windowMovementSound%
 	GetActiveMonitorWorkArea(monitorFound, aMonLeft, aMonTop, aMonRight, aMonBottom)
 	if (monitorFound) {
