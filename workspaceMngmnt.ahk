@@ -5,15 +5,28 @@
 ; ! = ALT     + = SHIFT     ^ = CONTROL     # = WIN
 ; (see https://autohotkey.com/docs/commands/Send.htm for more info)
 ; ==================================================================================================
+; TABLE OF CONTENTS:
+; -----------------
+;    §1: DEPENDENCIES ........................................................................ 23
+;    §2: FUNCTIONS & SUBROUTINES ............................................................. 29
+;    §3: WINDOW POSITIONING HOTKEYS .......................................................... 89
+;    §4: VIRTUAL DESKTOP HOTKEYS ............................................................ 629
+;    §5: MOUSE HOTKEYS ...................................................................... 677
+;    §6: AUDITORY CUE BINDING ............................................................... 733
+;    §7: WINDOW POSITIONING GUIS ............................................................ 755
+;    >>> §7.1: Window Adjustment GUI ........................................................ 759
+;    §8: APP SPECIFIC WORKSPACE MANAGEMENT SCRIPTS .......................................... 904
+;    >>> §8.2: NOTEPAD++: TEXT EDITING ENHANCEMENT HOTKEYS & SCRIPTS ........................ 952
+;    >>> §8.3: STICKY NOTES FOR CHROME ..................................................... 1034
 
 ; --------------------------------------------------------------------------------------------------
-; DEPENDENCIES
+;   §1: DEPENDENCIES
 ; --------------------------------------------------------------------------------------------------
 
 #include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\desktopStartup.ahk
 
 ; --------------------------------------------------------------------------------------------------
-; FUNCTIONS & SUBROUTINES
+;   §2: FUNCTIONS & SUBROUTINES
 ; --------------------------------------------------------------------------------------------------
 
 IsWindowOnLeftDualMonitor(title := "A") {
@@ -73,7 +86,7 @@ OpenChromeTab:
 return
 
 ; --------------------------------------------------------------------------------------------------
-;   WINDOW POSITIONING HOTKEYS
+;   §3: WINDOW POSITIONING HOTKEYS
 ; --------------------------------------------------------------------------------------------------
 
 ^F10::WinSet, Alwaysontop, Toggle, A
@@ -183,148 +196,12 @@ Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
-; Edge snapping values & meaning:
-;   0b000001 = snap left
-;   0b000010 = snap horizontal center
-;   0b000100 = snap right
-;   0b001000 = snap top
-;   0b010000 = snap vertical center
-;   0b000100 = snap bottom
-; For mixed values, effects are triggered from top to bottom as listed above; thus, if left and 
-; right snapping bits are both set to true, left snapping will override right snapping.
-TriggerWindowAdjustmentGui(edgeSnapping, minWidth, maxWidth, initialWidth, minHeight, maxHeight
-		, initialHeight) {
-	global
-	local whichHwnd
-	local onLeftMonitor := IsWindowOnLeftDualMonitor()
-	local sliderPos := (initialWidth - minWidth) / (maxWidth - minWidth) * 100
-	local xSnapOptL
-	local xSnapOptC
-	local xSnapOptR
-	local ySnapOptT
-	local ySnapOptC
-	local ySnapOptB
-
-	; Store persistent data in GUI's associated global object
-	WinGet, whichHwnd, ID, A
-	guiWinAdjVars := Object()
-	guiWinAdjVars.whichHwnd := whichHwnd
-	guiWinAdjVars.minWidth := minWidth
-	guiWinAdjVars.maxWidth := maxWidth
-	guiWinAdjVars.minHeight := minHeight
-	guiWinAdjVars.maxHeight := maxHeight
-	guiWinAdjVars.edgeSnapping := edgeSnapping
-
-	; Process edgeSnapping bitmask
-	xSnapOptL := edgeSnapping & 1
-	xSnapOptC := edgeSnapping & (1 << 1)
-	xSnapOptR := edgeSnapping & (1 << 2)
-	ySnapOptT := edgeSnapping & (1 << 3)
-	ySnapOptC := edgeSnapping & (1 << 4)
-	ySnapOptR := edgeSnapping & (1 << 5)
-
-	; Setup GUI & display to user	
-	Gui, guiWinAdj: New,
-		, % "Adjust Active Window Width"
-	Gui, guiWinAdj: Add, Text, , Window width:
-	Gui, guiWinAdj: Add, Slider
-		, vguiWinAdjWidthSlider gHandleGuiWinAdjWidthSliderChange AltSubmit W300 x+5
-		, %sliderPos%
-	Gui, guiWinAdj: Add, Text, xm, Horizontal snapping:
-	Gui, guiWinAdj: Add, Radio, vguiWinAdjXSnapOpts x+5 Checked%xSnapOptL%, Left
-	Gui, guiWinAdj: Add, Radio, x+5 Checked%xSnapOptC%, Center
-	Gui, guiWinAdj: Add, Radio, x+5 Checked%xSnapOptR%, Right	
-	Gui, guiWinAdj: Add, Button, Default gHandleGuiWinAdjOK xm y+15, &OK
-	Gui, guiWinAdj: Show
-
-	; GUI always loads on primary, right monitor; switch to left monitor if appropriate
-	if (onLeftMonitor) {
-		SysGet, Mon2, MonitorWorkArea, 2
-		WinGet, guiHwnd, ID, A
-		WinGetPos, posX, posY, posW, posH, ahk_id %guiHwnd%
-		posX := Mon2Left + posX
-		WinMove, ahk_id %guiHwnd%, , %posX%, %posY%, %posW%, %posH%
-	}
-}
-
-HandleGuiWinAdjWidthSliderChange() {
-	global guiWinAdjVars
-	global guiWinAdjWidthSlider
-	global guiWinAdjXSnapOpts
-	global sysWinBorderW
-
-	; Add test to ensure window still exists.
-	whichHwnd := guiWinAdjVars.whichHwnd
-
-	if (WinExist("ahk_id " . whichHwnd)) {
-		Gui, guiWinAdj: Submit, NoHide
-		GuiWinAdjUpdateEdgeSnapping()
-
-		; Move window as dictated by snapping choice and slider position
-		WinGetPos, posX, posY, posW, posH, ahk_id %whichHwnd%
-		newWidth := guiWinAdjVars.minWidth + (guiWinAdjVars.maxWidth 
-			- guiWinAdjVars.minWidth) * (guiWinAdjWidthSlider / 100) + sysWinBorderW * 2
-		if (guiWinAdjVars.edgeSnapping & 1) {
-			posXNew := posX
-		} else if (guiWinAdjVars.edgeSnapping & (1 << 1)) {
-			posXNew := posX - (newWidth - posW) / 2
-		} else if (guiWinAdjVars.edgeSnapping & (1 << 2)) {
-			posXNew := posX - (newWidth - posW)
-		}
-		GuiWinAdjCheckNewPosition(whichHwnd, posXNew, posY, newWidth, posH)
-		WinMove, ahk_id %whichHwnd%, , %posXNew%, %posY%, %newWidth%, %posH%
-	} else {
-		MsgBox, % "The window you were adjusting has closed; GUI will now exit."
-		Gui, guiWinAdj: Destroy
-	}
-}
-
-HandleGuiWinAdjOK() {
-	Gui, guiWinAdj: Destroy
-}
-
-guiWinAdjGuiEscape() {
-	Gui, guiWinAdj: Destroy
-}
-
-GuiWinAdjUpdateEdgeSnapping() {
-	global guiWinAdjVars
-	global guiWinAdjXSnapOpts
-
-	bitMask := 56 ; 0b111000
-	if (guiWinAdjXSnapOpts == 1) {
-		bitSwitch := 1 ; 0b000001
-	} else if (guiWinAdjXSnapOpts == 2) {
-		bitSwitch := 2 ; 0b000010
-	} else {
-		bitSwitch := 4 ; 0b000100
-	}
-	guiWinAdjVars.edgeSnapping &= bitMask
-	guiWinAdjVars.edgeSnapping += bitSwitch
-	edgeSnap := guiWinAdjVars.edgeSnapping
-}
-
-GuiWinAdjCheckNewPosition(whichHwnd, ByRef posX, ByRef posY, ByRef winWidth, ByRef winHeight) {
-	global sysWinBorderW
-	if (IsWindowOnLeftDualMonitor("ahk_id " . whichHwnd)) {
-		SysGet, iMon, MonitorWorkArea, 2
-	} else {
-		SysGet, iMon, MonitorWorkArea, 1
-	}
-	leftEdge := iMonLeft - (sysWinBorderW - 1)
-	rightEdge := iMonRight + (sysWinBorderW - 1)
-	topEdge := iMonTop
-	bottomEdge := iMonBottom
-	if (winWidth - (sysWinBorderW - 1) * 2 > iMonRight - iMonLeft) {
-		winWidth := iMonRight - iMonLeft + (sysWinBorderW - 1) * 2
-	}
-	if (posX < leftEdge) {
-		posX := leftEdge
-	}
-	if (posX + winWidth > rightEdge) {
-		posX -= (posX + winWidth) - rightEdge
-	}
-}
+^!m::
+	WinGetPos, thisX, thisY, thisW, thisH, A
+	thisX := -thisX - thisW
+	WinMove, A, , %thisX%, %thisY%, %thisW%, %thisH%
+	SoundPlay, %windowMovementSound%
+Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 ; Snap the active window to the left edge of its monitor; if already snapped, reduce its width.
@@ -749,7 +626,7 @@ return
 ; dragging with mouse. Can use numpad for additional hotkeys.
 
 ; --------------------------------------------------------------------------------------------------
-;   VIRTUAL DESKTOP HOTKEYS
+;   §4: VIRTUAL DESKTOP HOTKEYS
 ; --------------------------------------------------------------------------------------------------
 
 ^!1::
@@ -797,43 +674,7 @@ return
 Return
 
 ; --------------------------------------------------------------------------------------------------
-;   AUDITORY CUE BINDING
-; --------------------------------------------------------------------------------------------------
-
-
-^!m::
-	WinGetPos, thisX, thisY, thisW, thisH, A
-	thisX := -thisX - thisW
-	WinMove, A, , %thisX%, %thisY%, %thisW%, %thisH%
-	SoundPlay, %windowMovementSound%
-Return
-
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-
-~^#Left::
-	SoundPlay, %desktopSwitchingSound%
-Return
-
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-
-~+#Left::
-	SoundPlay, %windowMovementSound%
-Return
-
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-
-~^#Right::
-	SoundPlay, %desktopSwitchingSound%
-Return
-
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-
-~+#Right::
-	SoundPlay, %windowMovementSound%
-Return
-
-; --------------------------------------------------------------------------------------------------
-;   MOUSE HOTKEYS
+;   §5: MOUSE HOTKEYS
 ; --------------------------------------------------------------------------------------------------
 
 ;TODO: Convert these functions into an array based format
@@ -889,11 +730,182 @@ Return
 Return
 
 ; --------------------------------------------------------------------------------------------------
-;   APP SPECIFIC WORKSPACE MANAGEMENT SCRIPTS
+;   §6: AUDITORY CUE BINDING
 ; --------------------------------------------------------------------------------------------------
 
+~^#Left::
+	SoundPlay, %desktopSwitchingSound%
+Return
+
+~+#Left::
+	SoundPlay, %windowMovementSound%
+Return
+
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-; >>> GNU IMAGE MANIPULATION PROGRAM: PHOTO EDITING & GRAPHIC DESIGN ENHANCEMENT HOTKEYS & SCRIPTS
+
+~^#Right::
+	SoundPlay, %desktopSwitchingSound%
+Return
+
+~+#Right::
+	SoundPlay, %windowMovementSound%
+Return
+
+; --------------------------------------------------------------------------------------------------
+;   §7: WINDOW POSITIONING GUIS
+; --------------------------------------------------------------------------------------------------
+
+; ··································································································
+;   >>> §7.1: Window Adjustment GUI
+; Edge snapping values & meaning:
+;   0b000001 = snap left
+;   0b000010 = snap horizontal center
+;   0b000100 = snap right
+;   0b001000 = snap top
+;   0b010000 = snap vertical center
+;   0b000100 = snap bottom
+; For mixed values, effects are triggered from top to bottom as listed above; thus, if left and 
+; right snapping bits are both set to true, left snapping will override right snapping.
+TriggerWindowAdjustmentGui(edgeSnapping, minWidth, maxWidth, initialWidth, minHeight, maxHeight
+		, initialHeight) {
+	global
+	local whichHwnd
+	local onLeftMonitor := IsWindowOnLeftDualMonitor()
+	local sliderPos := (initialWidth - minWidth) / (maxWidth - minWidth) * 100
+	local xSnapOptL
+	local xSnapOptC
+	local xSnapOptR
+	local ySnapOptT
+	local ySnapOptC
+	local ySnapOptB
+
+	; Store persistent data in GUI's associated global object
+	WinGet, whichHwnd, ID, A
+	guiWinAdjVars := Object()
+	guiWinAdjVars.whichHwnd := whichHwnd
+	guiWinAdjVars.minWidth := minWidth
+	guiWinAdjVars.maxWidth := maxWidth
+	guiWinAdjVars.minHeight := minHeight
+	guiWinAdjVars.maxHeight := maxHeight
+	guiWinAdjVars.edgeSnapping := edgeSnapping
+
+	; Process edgeSnapping bitmask
+	xSnapOptL := edgeSnapping & 1
+	xSnapOptC := edgeSnapping & (1 << 1)
+	xSnapOptR := edgeSnapping & (1 << 2)
+	ySnapOptT := edgeSnapping & (1 << 3)
+	ySnapOptC := edgeSnapping & (1 << 4)
+	ySnapOptR := edgeSnapping & (1 << 5)
+
+	; Setup GUI & display to user	
+	Gui, guiWinAdj: New,
+		, % "Adjust Active Window Width"
+	Gui, guiWinAdj: Add, Text, , Window width:
+	Gui, guiWinAdj: Add, Slider
+		, vguiWinAdjWidthSlider gHandleGuiWinAdjWidthSliderChange AltSubmit W300 x+5
+		, %sliderPos%
+	Gui, guiWinAdj: Add, Text, xm, Horizontal snapping:
+	Gui, guiWinAdj: Add, Radio, vguiWinAdjXSnapOpts x+5 Checked%xSnapOptL%, Left
+	Gui, guiWinAdj: Add, Radio, x+5 Checked%xSnapOptC%, Center
+	Gui, guiWinAdj: Add, Radio, x+5 Checked%xSnapOptR%, Right	
+	Gui, guiWinAdj: Add, Button, Default gHandleGuiWinAdjOK xm y+15, &OK
+	Gui, guiWinAdj: Show
+
+	; GUI always loads on primary, right monitor; switch to left monitor if appropriate
+	if (onLeftMonitor) {
+		SysGet, Mon2, MonitorWorkArea, 2
+		WinGet, guiHwnd, ID, A
+		WinGetPos, posX, posY, posW, posH, ahk_id %guiHwnd%
+		posX := Mon2Left + posX
+		WinMove, ahk_id %guiHwnd%, , %posX%, %posY%, %posW%, %posH%
+	}
+}
+
+HandleGuiWinAdjWidthSliderChange() {
+	global guiWinAdjVars
+	global guiWinAdjWidthSlider
+	global guiWinAdjXSnapOpts
+	global sysWinBorderW
+
+	; Add test to ensure window still exists.
+	whichHwnd := guiWinAdjVars.whichHwnd
+
+	if (WinExist("ahk_id " . whichHwnd)) {
+		Gui, guiWinAdj: Submit, NoHide
+		GuiWinAdjUpdateEdgeSnapping()
+
+		; Move window as dictated by snapping choice and slider position
+		WinGetPos, posX, posY, posW, posH, ahk_id %whichHwnd%
+		newWidth := guiWinAdjVars.minWidth + (guiWinAdjVars.maxWidth 
+			- guiWinAdjVars.minWidth) * (guiWinAdjWidthSlider / 100) + sysWinBorderW * 2
+		if (guiWinAdjVars.edgeSnapping & 1) {
+			posXNew := posX
+		} else if (guiWinAdjVars.edgeSnapping & (1 << 1)) {
+			posXNew := posX - (newWidth - posW) / 2
+		} else if (guiWinAdjVars.edgeSnapping & (1 << 2)) {
+			posXNew := posX - (newWidth - posW)
+		}
+		GuiWinAdjCheckNewPosition(whichHwnd, posXNew, posY, newWidth, posH)
+		WinMove, ahk_id %whichHwnd%, , %posXNew%, %posY%, %newWidth%, %posH%
+	} else {
+		MsgBox, % "The window you were adjusting has closed; GUI will now exit."
+		Gui, guiWinAdj: Destroy
+	}
+}
+
+HandleGuiWinAdjOK() {
+	Gui, guiWinAdj: Destroy
+}
+
+guiWinAdjGuiEscape() {
+	Gui, guiWinAdj: Destroy
+}
+
+GuiWinAdjUpdateEdgeSnapping() {
+	global guiWinAdjVars
+	global guiWinAdjXSnapOpts
+
+	bitMask := 56 ; 0b111000
+	if (guiWinAdjXSnapOpts == 1) {
+		bitSwitch := 1 ; 0b000001
+	} else if (guiWinAdjXSnapOpts == 2) {
+		bitSwitch := 2 ; 0b000010
+	} else {
+		bitSwitch := 4 ; 0b000100
+	}
+	guiWinAdjVars.edgeSnapping &= bitMask
+	guiWinAdjVars.edgeSnapping += bitSwitch
+	edgeSnap := guiWinAdjVars.edgeSnapping
+}
+
+GuiWinAdjCheckNewPosition(whichHwnd, ByRef posX, ByRef posY, ByRef winWidth, ByRef winHeight) {
+	global sysWinBorderW
+	if (IsWindowOnLeftDualMonitor("ahk_id " . whichHwnd)) {
+		SysGet, iMon, MonitorWorkArea, 2
+	} else {
+		SysGet, iMon, MonitorWorkArea, 1
+	}
+	leftEdge := iMonLeft - (sysWinBorderW - 1)
+	rightEdge := iMonRight + (sysWinBorderW - 1)
+	topEdge := iMonTop
+	bottomEdge := iMonBottom
+	if (winWidth - (sysWinBorderW - 1) * 2 > iMonRight - iMonLeft) {
+		winWidth := iMonRight - iMonLeft + (sysWinBorderW - 1) * 2
+	}
+	if (posX < leftEdge) {
+		posX := leftEdge
+	}
+	if (posX + winWidth > rightEdge) {
+		posX -= (posX + winWidth) - rightEdge
+	}
+}
+
+; --------------------------------------------------------------------------------------------------
+;   §8: APP SPECIFIC WORKSPACE MANAGEMENT SCRIPTS
+; --------------------------------------------------------------------------------------------------
+
+; ··································································································
+; >>> §8.1: GNU IMAGE MANIPULATION PROGRAM
 
 :*:@toggleGimp::
 	CheckForCmdEntryGui()
@@ -936,8 +948,8 @@ PeformBypassingCtrlM:
 	Suspend, Off
 Return
 
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-; >>> NOTEPAD++: TEXT EDITING ENHANCEMENT HOTKEYS & SCRIPTS
+; ··································································································
+;   >>> §8.2: NOTEPAD++: TEXT EDITING ENHANCEMENT HOTKEYS & SCRIPTS
 
 DoChangeDelimiter(leftDelimiter, rightDelimeter) {
 	Sleep 20
@@ -1018,8 +1030,8 @@ Return
 	}
 Return
 
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-; >>> STICKY NOTES FOR CHROME
+; ··································································································
+;   >>> §8.3: STICKY NOTES FOR CHROME
 
 :*:@initStickyNoteToggle::
 	global hwndStickyNoteWindow
