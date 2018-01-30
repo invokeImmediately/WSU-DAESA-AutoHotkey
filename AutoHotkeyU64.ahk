@@ -5,29 +5,39 @@
 ; ==================================================================================================
 ; TABLE OF CONTENTS:
 ; -----------------
-;    GLOBAL VARIABLES ........................................................................... 26
-;    SET UP SCRIPT & CALL MAIN SUBROUTINE ...................................................... 103
-;    COMMON FUNCTIONS & CLASSES ................................................................ 124
-;    COMMAND HISTORY ........................................................................... 136
-;    AUTOHOTKEY SCRIPT WRITING SHORTCUTS  ...................................................... 142
-;    WORKSPACE MANAGEMENT ...................................................................... 214
-;    FILE SYSTEM NAVIGATION .................................................................... 262
-;    PROGRAM/FILE LAUNCHING SHORTCUTS .......................................................... 268
-;    GITHUB SHORTCUTS .......................................................................... 290
-;    GOOGLE CHROME SHORTCUTS ................................................................... 296
-;    NOTEPAD++ SHORTCUTS ....................................................................... 328
-;    TEXT REPLACEMENT & INPUT  ................................................................. 334
-;    OTHER SHORTCUTS ........................................................................... 522
-;    WORK TIMER ................................................................................ 535
-;    CUSTOM HOTSTRINGS & HOTKEYS ............................................................... 541
-;    MAIN SUBROUTINE ........................................................................... 615
+;    §1: GLOBAL VARIABLES .................................................................... 36
+;    >>> §1.1: SYSTEM PROPERTY GLOBALS ....................................................... 40
+;    >>> §1.2: GLOBALS FOR LOCATIONS OF IMPORTANT FOLDERS & FILES ............................ 58
+;    >>> §1.3: POMODORO WORK TIMER GLOBALS ................................................... 67
+;    >>> §1.4: DESKTOP ARRANGEMENT AUDITORY CUE GLOBALS ...................................... 77
+;    >>> §1.5: SIMULATED MEMORY OF USER ACTIONS .............................................. 88
+;    >>> §1.6: KEYBOARD OVERRIDING .......................................................... 103
+;    §2: SET UP SCRIPT & CALL MAIN SUBROUTINE ............................................... 113
+;    §3: COMMON FUNCTIONS & CLASSES ......................................................... 134
+;    §4: COMMAND HISTORY .................................................................... 146
+;    §5: AUTOHOTKEY SCRIPT WRITING SHORTCUTS ................................................ 152
+;    §6: WORKSPACE MANAGEMENT ............................................................... 224
+;    §7: FILE SYSTEM NAVIGATION ............................................................. 272
+;    §8: PROGRAM/FILE LAUNCHING SHORTCUTS ................................................... 278
+;    §9: GITHUB SHORTCUTS ................................................................... 300
+;    §10: GOOGLE CHROME SHORTCUTS ........................................................... 306
+;    §11: NOTEPAD++ SHORTCUTS ............................................................... 338
+;    §12: WORDPRESS AUTOMATION	 ............................................................ 344
+;    §13: TEXT REPLACEMENT & INPUT .......................................................... 350
+;    >>> 13.1: Text Replacement HOTKEYS ..................................................... 354
+;    >>> 13.2: Text Replacement HOTSTRINGS .................................................. 401
+;    >>> 13.3: Text Input HOTSTRINGS ........................................................ 533
+;    §14: OTHER SHORTCUTS ................................................................... 538
+;    §15: WORK TIMER ........................................................................ 551
+;    §16: CUSTOM HOTSTRINGS & HOTKEYS ....................................................... 557
+;    §17: MAIN SUBROUTINE ................................................................... 631
 
 ; --------------------------------------------------------------------------------------------------
-;   GLOBAL VARIABLES
+;   §1: GLOBAL VARIABLES
 ; --------------------------------------------------------------------------------------------------
 
 ; ··································································································
-; >>> SYSTEM PROPERTY GLOBALS
+;   >>> §1.1: SYSTEM PROPERTY GLOBALS
 
 global SM_CMONITORS := 80		; Constant needed for retreiving the number of display monitors on 
 								;  the desktop via SysGet(...).
@@ -45,7 +55,7 @@ global sysWinBorderW			; Default border width.
 global sysWinBorderH			; Default border height.
 
 ; ··································································································
-; >>> GLOBALS FOR LOCATIONS OF IMPORTANT FOLDERS & FILES
+;   >>> §1.2: GLOBALS FOR LOCATIONS OF IMPORTANT FOLDERS & FILES
 global userAccountFolderSSD := "C:\Users\CamilleandDaniel"
 global userAccountFolderHDD := "F:\Users\CamilleandDaniel"
 global relWorkFolder := "\Documents\Daniel"
@@ -54,7 +64,7 @@ global hhdWorkFolder := userAccountFolderHDD . relWorkFolder
 global webDevFolder := hhdWorkFolder . "\{^}WSU-Web-Dev"
 
 ; ··································································································
-; >>> POMODORO WORK TIMER GLOBALS
+;   >>> §1.3: POMODORO WORK TIMER GLOBALS
 global logFileName := hhdWorkFolder . "\^WSU-Web-Dev\^Personnel-File\Work-log.txt"
 global workTimerCountdownTime := -1500000
 global workTimeLeftOver := 0
@@ -64,7 +74,7 @@ global workTimerMinutesound := ssdWorkFolder . "\Sound Library\Bell-tone_C-4.wav
 global workTimer5MinuteSound := ssdWorkFolder . "\Sound Library\Metal_Gong-Dianakc-109711828.wav"
 
 ; ··································································································
-; >>> DESKTOP ARRANGEMENT AUDITORY CUE GLOBALS
+;   >>> §1.4: DESKTOP ARRANGEMENT AUDITORY CUE GLOBALS
 global windowMovementSound := ssdWorkFolder . "\Sound Library\323413__sethroph__glass-slide-3_-12.5"
 	. "db_faster.wav"
 global windowSizingSound := ssdWorkFolder . "\Sound Library\68222__xtyl33__paper3_-7.5db_faster.wav"
@@ -75,7 +85,7 @@ global scriptLoadedSound := ssdWorkFolder . "\Sound Library\Storm_exclamation.wa
 global desktopArrangedSound := ssdWorkFolder . "\Sound Library\zelda_lttp-mstr-swrd.wav"
 
 ; ··································································································
-; >>> SIMULATED MEMORY OF USER ACTIONS
+;   >>> §1.5: SIMULATED MEMORY OF USER ACTIONS
 global cmdHistoryLog := hhdWorkFolder . "\^WSU-Web-Dev\^Personnel-File\ahk-cmd-history.txt"
 global ahkCmds := Array()
 global ahkCmdLimit := 140
@@ -90,7 +100,7 @@ global commitAnyFileMsgLog := hhdWorkFolder . "\^WSU-Web-Dev\^Personnel-File\com
 	. "story.txt"
 
 ; ··································································································
-; >>> KEYBOARD OVERRIDING
+;   >>> §1.6: KEYBOARD OVERRIDING
 global bitNumpadSubToggle := false
 global numpadSubOverwrite := "{U+00b7}"
 global bitNumpadDivToggle := false
@@ -100,7 +110,7 @@ global hotstrStartTime := 0
 global hotstrEndTime := 0
 
 ; --------------------------------------------------------------------------------------------------
-;   SET UP SCRIPT & CALL MAIN SUBROUTINE
+;   §2: SET UP SCRIPT & CALL MAIN SUBROUTINE
 ; --------------------------------------------------------------------------------------------------
 
 #NoEnv
@@ -121,7 +131,7 @@ If not A_IsAdmin
 }
 
 ; --------------------------------------------------------------------------------------------------
-;   COMMON FUNCTIONS & CLASSES
+;   §3: COMMON FUNCTIONS & CLASSES
 ; --------------------------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\guiMsgBox.ahk
@@ -133,13 +143,13 @@ If not A_IsAdmin
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\trie.ahk
 
 ; --------------------------------------------------------------------------------------------------
-;   COMMAND HISTORY
+;   §4: COMMAND HISTORY
 ; --------------------------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\commandHistory.ahk
 
 ; --------------------------------------------------------------------------------------------------
-;   AUTOHOTKEY SCRIPT WRITING SHORTCUTS
+;   §5: AUTOHOTKEY SCRIPT WRITING SHORTCUTS
 ; --------------------------------------------------------------------------------------------------
 
 :*:@insAhkCommentSection::
@@ -211,7 +221,7 @@ Return
 Return
 
 ; --------------------------------------------------------------------------------------------------
-;   WORKSPACE MANAGEMENT
+;   §6: WORKSPACE MANAGEMENT
 ; --------------------------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\virtualDesktops.ahk
@@ -259,13 +269,13 @@ Return
 Return
 
 ; --------------------------------------------------------------------------------------------------
-;   FILE SYSTEM NAVIGATION
+;   §7: FILE SYSTEM NAVIGATION
 ; --------------------------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\fileSystem.ahk
 
 ; --------------------------------------------------------------------------------------------------
-;   PROGRAM/FILE LAUNCHING SHORTCUTS
+;   §8: PROGRAM/FILE LAUNCHING SHORTCUTS
 ; --------------------------------------------------------------------------------------------------
 
 :R*?:runNotepad::
@@ -287,13 +297,13 @@ Return
 Return
 
 ; --------------------------------------------------------------------------------------------------
-;   GITHUB SHORTCUTS
+;   §9: GITHUB SHORTCUTS
 ; --------------------------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\github.ahk
 
 ; --------------------------------------------------------------------------------------------------
-;   GOOGLE CHROME SHORTCUTS
+;   §10: GOOGLE CHROME SHORTCUTS
 ; --------------------------------------------------------------------------------------------------
 
 ^!o::
@@ -325,17 +335,23 @@ PerformBypassingCtrlAltO:
 Return
 
 ; --------------------------------------------------------------------------------------------------
-;   NOTEPAD++ SHORTCUTS
+;   §11: NOTEPAD++ SHORTCUTS
 ; --------------------------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\htmlEditing.ahk
 
 ; --------------------------------------------------------------------------------------------------
-;   TEXT REPLACEMENT & INPUT
+;   §12: WORDPRESS AUTOMATION	
+; --------------------------------------------------------------------------------------------------
+
+#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\wordPress.ahk
+
+; --------------------------------------------------------------------------------------------------
+;   §13: TEXT REPLACEMENT & INPUT
 ; --------------------------------------------------------------------------------------------------
 
 ; ··································································································
-; >>> Text Replacement HOTKEYS
+;   >>> 13.1: Text Replacement HOTKEYS
 
 NumpadDiv::
 	if (bitNumpadDivToggle) {
@@ -382,7 +398,7 @@ Return
 Return
 
 ; ··································································································
-; >>> Text Replacement HOTSTRINGS
+;   >>> 13.2: Text Replacement HOTSTRINGS
 
 :*:@add5lineshere::
 	AppendAhkCmd(":*:@add5lineshere")
@@ -514,12 +530,12 @@ Return
 Return
 
 ; ··································································································
-; >>> Text Input HOTSTRINGS
+;   >>> 13.3: Text Input HOTSTRINGS
 
 #Include, %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\guiRepeatChars.ahk
 
 ; --------------------------------------------------------------------------------------------------
-;   OTHER SHORTCUTS
+;   §14: OTHER SHORTCUTS
 ; --------------------------------------------------------------------------------------------------
 
 ; Shift + Wheel for horizontal scrolling
@@ -532,13 +548,13 @@ Return
 Return
 
 ; --------------------------------------------------------------------------------------------------
-;   WORK TIMER
+;   §15: WORK TIMER
 ; --------------------------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\workTimer.ahk
 
 ; --------------------------------------------------------------------------------------------------
-;   CUSTOM HOTSTRINGS & HOTKEYS
+;   §16: CUSTOM HOTSTRINGS & HOTKEYS
 ; --------------------------------------------------------------------------------------------------
 
 :*:@copyFromExcel::
@@ -612,7 +628,7 @@ Return
 Return
 
 ; --------------------------------------------------------------------------------------------------
-;   MAIN SUBROUTINE
+;   §17: MAIN SUBROUTINE
 ; --------------------------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\desktopMain.ahk
