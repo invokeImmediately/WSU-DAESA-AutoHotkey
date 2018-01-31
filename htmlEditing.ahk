@@ -113,7 +113,7 @@ CopyWebpageSourceToClipboard(webBrowserProcess, correctTitleNeedle, viewSourceTi
 		Send, ^a
 		Send, ^c
 		Send, ^w
-		success := True
+		success := Clipboard
 
 		if (oldKeyDelay) {
 			SetKeyDelay, %oldKeyDelay%
