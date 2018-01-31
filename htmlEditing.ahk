@@ -5,20 +5,20 @@
 ; ==================================================================================================
 ; TABLE OF CONTENTS
 ; -----------------
-;   §1: FUNCTIONS utilized in automating HTML-related processes................................25
-;   >>> §1.1: BuildHyperlinkArray..............................................................29
-;   >>> §1.2: CopyWebpageSourceToClipboard.....................................................66
-;   >>> §1.3: CountNewlinesInString...........................................................132
-;   >>> §1.4: ExportHyperlinkArray............................................................144
-;   >>> §1.5: PullHrefsIntoHyperlinkArray.....................................................168
-;   §2: HOTSTRINGS............................................................................180
-;   >>> §2.1: Text Replacement................................................................184
-;   >>> §2.2: RegEx...........................................................................260
-;   >>> §2.3: Backup HTML of OUE pages........................................................267
-;   >>> §2.4: Hyperlink collection hotstring..................................................370
-;   >>> §2.5: Checking for WordPress Updates..................................................439
-;   §3: GUI-related hotstrings & functions for automating HTML-related tasks..................445
-;   >>> §3.1: Insert Builder Sections GUI.....................................................449
+;   §1: FUNCTIONS utilized in automating HTML-related processes.................................25
+;   >>> §1.1: BuildHyperlinkArray...............................................................29
+;   >>> §1.2: CopyWebpageSourceToClipboard......................................................66
+;   >>> §1.3: CountNewlinesInString............................................................132
+;   >>> §1.4: ExportHyperlinkArray.............................................................144
+;   >>> §1.5: PullHrefsIntoHyperlinkArray......................................................168
+;   §2: HOTSTRINGS.............................................................................180
+;   >>> §2.1: Text Replacement.................................................................184
+;   >>> §2.2: RegEx............................................................................260
+;   >>> §2.3: Backup HTML of OUE pages.........................................................267
+;   >>> §2.4: Hyperlink collection hotstring...................................................370
+;   >>> §2.5: Checking for WordPress Updates...................................................439
+;   §3: GUI-related hotstrings & functions for automating HTML-related tasks...................445
+;   >>> §3.1: Insert Builder Sections GUI......................................................449
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -437,9 +437,8 @@ TrimAwayBuilderTemplateContentNext(htmlMarkup) {
 
 ; ··································································································
 ;   >>> §2.5: Checking for WordPress updates
-; TODO: Write hotstring that searches through OUE websites for latest CSS and JS updates
-; Regex to match latest update: <ul class="post-revisions">.*?\.php\?revision=[0-9]{1,}">([^<]+)
-; After overwriting code with what was found, replace with /1 to isolate 
+
+#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\wordPress.ahk
 
 ; --------------------------------------------------------------------------------------------------
 ;   §3: GUI-related hotstrings & functions for automating HTML-related tasks
