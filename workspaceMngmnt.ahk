@@ -545,19 +545,25 @@ return
 	SoundPlay, %windowMovementSound%
 	GetActiveMonitorWorkArea(monitorFound, aMonLeft, aMonTop, aMonRight, aMonBottom)
 	if (monitorFound) {
+		WinRestore, A
 		WinGetPos, winX, winY, winW, winH, A
 		aMonMidPtX := (aMonRight - aMonLeft) / 2
 		aMonMidPtY := aMonBottom / 2
-		newWinX := aMonMidPtX - winW / 2 + aMonLeft
-		newWinY := aMonMidPtY - winH / 2
+		dimChanged := false
 
 		widthDecrement := Round((aMonRight - aMonLeft) / 20)
 		minWinWidth := widthDecrement * 3
-		maxWinWidth := aMonRight - aMonLeft - widthDecrement
-		if (winX + 1 > newWinX && winX - 1 < newWinX && winW - widthDecrement >= minWinWidth) {
+		maxWinWidth := aMonRight - aMonLeft - widthDecrement * 2
+		if (winW > maxWinWidth) {
+			winW := maxWinWidth
+			dimChanged := true
+		}
+		newWinX := aMonMidPtX - winW / 2 + aMonLeft
+		if (!dimChanged && winX + 1 > newWinX && winX - 1 < newWinX && winW 
+				- widthDecrement >= minWinWidth) {
 			winW -= widthDecrement
 			newWinX += widthDecrement / 2
-		} else if (winX + 1 > newWinX && winX - 1 < newWinX  && winW 
+		} else if (!dimChanged && winX + 1 > newWinX && winX - 1 < newWinX  && winW 
 				- widthDecrement < minWinWidth) {
 			winW := maxWinWidth
 			newWinX := aMonMidPtX - winW / 2
@@ -565,11 +571,17 @@ return
 
 		heightDecrement := Round(aMonBottom / 20)
 		minWinHeight := heightDecrement * 3
-		maxWinHeight := aMonBottom - heightDecrement
-		if (winY + 1 > newWinY && winY - 1 < newWinY && winH - heightDecrement >= minWinHeight) {
+		maxWinHeight := aMonBottom - heightDecrement * 2
+		if (winH > maxWinHeight) {
+			winH := maxWinHeight
+			dimChanged := true
+		}
+		newWinY := aMonMidPtY - winH / 2
+		if (!dimChanged && winY + 1 > newWinY && winY - 1 < newWinY && winH 
+				- heightDecrement >= minWinHeight) {
 			winH -= heightDecrement
 			newWinY += heightDecrement / 2
-		} else if (winY + 1 > newWinY && winY - 1 < newWinY  && winH 
+		} else if (!dimChanged && winY + 1 > newWinY && winY - 1 < newWinY  && winH 
 				- heightDecrement < minWinHeight) {
 			winH := maxWinHeight
 			newWinY := aMonMidPtY - winH / 2
