@@ -1185,7 +1185,7 @@ ExecuteJsPasteCmds(manualProcession := false) {
 :*:@backupCssAscc::
 	hsName := ":*:@backupCssAscc"
 	AppendAhkCmd(hsName)
-	CopyCssFromWebsite("https://ascc.wsu.edu/wp-admin/themes.php?page=editcss", copiedCss)
+	copiedCss := CopyCssFromWebsite("https://ascc.wsu.edu/wp-admin/themes.php?page=editcss")
 	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder() . "\ascc.wsu.edu\CSS\ascc-custom.prev.css")
 	PasteTextIntoGitShell(hsName
 		, "cd '" . GetGitHubFolder() . "\ascc.wsu.edu\'`r"
@@ -1199,7 +1199,7 @@ Return
 :*:@backupCssCr::
 	hsName := ":*:@backupCssCr"
 	AppendAhkCmd(hsName)
-	CopyCssFromWebsite("https://commonreading.wsu.edu/wp-admin/themes.php?page=editcss", copiedCss)
+	copiedCss := CopyCssFromWebsite("https://commonreading.wsu.edu/wp-admin/themes.php?page=editcss")
 	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
 		. "\commonreading.wsu.edu\CSS\cr-custom.prev.css")
 	PasteTextIntoGitShell(hsName
@@ -1214,8 +1214,8 @@ Return
 :*:@backupCssDsp::
 	hsName := ":*:@backupCssDsp"
 	AppendAhkCmd(hsName)
-	CopyCssFromWebsite("https://distinguishedscholarships.wsu.edu/wp-admin/themes.php?page=editcss"
-		, copiedCss)
+	copiedCss := CopyCssFromWebsite("https://distinguishedscholarships.wsu.edu/wp-admin/themes.php?"
+		. "page=editcss")
 	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
 		. "\distinguishedscholarships.wsu.edu\CSS\dsp-custom.prev.css")
 	PasteTextIntoGitShell(hsName
@@ -1230,7 +1230,7 @@ Return
 :*:@backupCssFye::
 	hsName := ":*:@backupCssFye"
 	AppendAhkCmd(hsName)
-	CopyCssFromWebsite("https://firstyear.wsu.edu/wp-admin/themes.php?page=editcss", copiedCss)
+	copiedCss := CopyCssFromWebsite("https://firstyear.wsu.edu/wp-admin/themes.php?page=editcss")
 	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
 		. "\firstyear.wsu.edu\CSS\fye-custom.prev.css")
 	PasteTextIntoGitShell(hsName
@@ -1245,8 +1245,8 @@ Return
 :*:@backupCssFyf::
 	hsName := ":*:@backupCssFyf"
 	AppendAhkCmd(hsName)
-	CopyCssFromWebsite("https://learningcommunities.wsu.edu/wp-admin/themes.php?page=editcss"
-		, copiedCss)
+	copiedCss := CopyCssFromWebsite("https://learningcommunities.wsu.edu/wp-admin/themes.php?page=e"
+		. "ditcss")
 	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
 		. "\learningcommunities.wsu.edu\CSS\learningcommunities-custom.prev.css")
 	PasteTextIntoGitShell(hsName
@@ -1261,7 +1261,7 @@ Return
 :*:@backupCssNse::
 	hsName := ":*:@backupCssNse"
 	AppendAhkCmd(hsName)
-	CopyCssFromWebsite("https://nse.wsu.edu/wp-admin/themes.php?page=editcss", copiedCss)
+	copiedCss := CopyCssFromWebsite("https://nse.wsu.edu/wp-admin/themes.php?page=editcss")
 	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder() . "\nse.wsu.edu\CSS\nse-custom.prev.css")
 	PasteTextIntoGitShell(hsName
 		, "cd '" . GetGitHubFolder() . "\nse.wsu.edu\'`r"
@@ -1275,7 +1275,7 @@ Return
 :*:@backupCssOue::
 	hsName := ":*:@backupCssOue"
 	AppendAhkCmd(hsName)
-	CopyCssFromWebsite("https://oue.wsu.edu/wp-admin/themes.php?page=editcss", copiedCss)
+	copiedCss := CopyCssFromWebsite("https://oue.wsu.edu/wp-admin/themes.php?page=editcss")
 	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder() . "\oue.wsu.edu\CSS\oue-custom.prev.css")
 	PasteTextIntoGitShell(hsName
 		, "cd '" . GetGitHubFolder() . "\oue.wsu.edu\'`r"
@@ -1289,7 +1289,7 @@ Return
 :*:@backupCssPbk::
 	hsName := ":*:@backupCssPbk"
 	AppendAhkCmd(hsName)
-	CopyCssFromWebsite("https://phibetakappa.wsu.edu/wp-admin/themes.php?page=editcss", copiedCss)
+	copiedCss := CopyCssFromWebsite("https://phibetakappa.wsu.edu/wp-admin/themes.php?page=editcss")
 	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
 		. "\phibetakappa.wsu.edu\CSS\pbk-custom.prev.css")
 	PasteTextIntoGitShell(hsName
@@ -1304,7 +1304,7 @@ Return
 :*:@backupCssSurca::
 	hsName := ":*:@backupCssSurca"
 	AppendAhkCmd(hsName)
-	CopyCssFromWebsite("https://surca.wsu.edu/wp-admin/themes.php?page=editcss", copiedCss)
+	copiedCss := CopyCssFromWebsite("https://surca.wsu.edu/wp-admin/themes.php?page=editcss")
 	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
 		. "\surca.wsu.edu\CSS\surca-custom.prev.css")
 	PasteTextIntoGitShell(hsName
@@ -1319,7 +1319,8 @@ Return
 :*:@backupCssSumRes::
 	hsName := ":*:@backupCssSumRes"
 	AppendAhkCmd(hsName)
-	CopyCssFromWebsite("https://summerresearch.wsu.edu/wp-admin/themes.php?page=editcss", copiedCss)
+	copiedCss := CopyCssFromWebsite("https://summerresearch.wsu.edu/wp-admin/themes.php?page=editcs"
+		. "s")
 	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
 		. "\summerresearch.wsu.edu\CSS\summerresearch-custom.prev.css")
 	PasteTextIntoGitShell(hsName
@@ -1334,7 +1335,8 @@ Return
 :*:@backupCssXfer::
 	hsName := ":*:@backupCssXfer"
 	AppendAhkCmd(hsName)
-	CopyCssFromWebsite("https://transfercredit.wsu.edu/wp-admin/themes.php?page=editcss", copiedCss)
+	copiedCss := CopyCssFromWebsite("https://transfercredit.wsu.edu/wp-admin/themes.php?page=editcs"
+		. "s")
 	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
 		. "\transfercredit.wsu.edu\CSS\xfercredit-custom.prev.css")
 	PasteTextIntoGitShell(hsName
@@ -1349,8 +1351,8 @@ Return
 :*:@backupCssUgr::
 	hsName := ":*:@backupCssUgr"
 	AppendAhkCmd(hsName)
-	CopyCssFromWebsite("https://undergraduateresearch.wsu.edu/wp-admin/themes.php?page=editcss"
-		, copiedCss)
+	copiedCss := CopyCssFromWebsite("https://undergraduateresearch.wsu.edu/wp-admin/themes.php?page"
+		. "=editcss")
 	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
 		. "\undergraduateresearch.wsu.edu\CSS\undergraduate-research-custom.prev.css")
 	PasteTextIntoGitShell(hsName
@@ -1365,7 +1367,7 @@ Return
 :*:@backupCssUcore::
 	hsName := ":*:@backupCssUcore"
 	AppendAhkCmd(hsName)
-	CopyCssFromWebsite("https://ucore.wsu.edu/wp-admin/themes.php?page=editcss", copiedCss)
+	copiedCss := CopyCssFromWebsite("https://ucore.wsu.edu/wp-admin/themes.php?page=editcss")
 	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
 		. "\ucore.wsu.edu\CSS\ucore-custom.prev.css")
 	PasteTextIntoGitShell(hsName
@@ -1380,8 +1382,8 @@ Return
 :*:@backupCssUcrAss::
 	hsName := ":*:@backupCssUcrAss"
 	AppendAhkCmd(hsName)
-	CopyCssFromWebsite("https://ucore.wsu.edu/assessment/wp-admin/themes.php?page=editcss"
-		, copiedCss)
+	copiedCss := CopyCssFromWebsite("https://ucore.wsu.edu/assessment/wp-admin/themes.php?page=edit"
+		. "css")
 	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
 		. "\ucore.wsu.edu-assessment\CSS\ucore-assessment-custom.prev.css")
 	PasteTextIntoGitShell(hsName
@@ -1416,25 +1418,29 @@ Return
 
 ; ··································································································
 
-CopyCssFromWebsite(websiteUrl, ByRef copiedCss)
+CopyCssFromWebsite(websiteUrl)
 {
 	LoadWordPressSiteInChrome(websiteUrl)
-	ExecuteCssCopyCmds(copiedCss)
+	copiedCss := ExecuteCssCopyCmds()
+	return copiedCss
 }
 
 ; ··································································································
 
-ExecuteCssCopyCmds(ByRef copiedCss) {
+ExecuteCssCopyCmds() {
+	delay := 100
+	Sleep, % delay * 10
 	CoordMode, Mouse, Client
 	Click, 768, 570
-	Sleep, 100
+	Sleep, % delay
 	SendInput, ^a
-	Sleep, 100
+	Sleep, % delay
 	SendInput, ^c
-	Sleep, 1000
+	Sleep, % delay
+	copiedCss := SubStr(clipboard, 1)
 	SendInput, ^w
-	copiedCss := clipboard
-	Sleep, 2000
+	Sleep, % delay * 20
+	return copiedCss
 }
 
 ; ··································································································
@@ -2671,7 +2677,7 @@ ExecuteJsCopyCmds(ByRef copiedJs) {
 	SendInput, ^c
 	Sleep, 2500
 	SendInput, ^w
-	copiedJs := clipboard
+	copiedJs := SubStr(clipboard, 1)
 	Sleep, 2000
 }
 
