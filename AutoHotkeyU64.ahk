@@ -5,31 +5,31 @@
 ; ==================================================================================================
 ; TABLE OF CONTENTS:
 ; -----------------
-;   §1: GLOBAL VARIABLES........................................................................35
-;   >>> §1.1: SYSTEM PROPERTY GLOBALS...........................................................39
-;   >>> §1.2: GLOBALS FOR LOCATIONS OF IMPORTANT FOLDERS & FILES................................57
-;   >>> §1.3: POMODORO WORK TIMER GLOBALS.......................................................66
-;   >>> §1.4: DESKTOP ARRANGEMENT AUDITORY CUE GLOBALS..........................................76
-;   >>> §1.5: SIMULATED MEMORY OF USER ACTIONS..................................................87
-;   >>> §1.6: KEYBOARD OVERRIDING..............................................................102
-;   §2: SET UP SCRIPT & CALL MAIN SUBROUTINE...................................................112
-;   §3: COMMON FUNCTIONS & CLASSES.............................................................133
-;   §4: COMMAND HISTORY........................................................................145
-;   §5: AUTOHOTKEY SCRIPT WRITING SHORTCUTS....................................................151
-;   §6: WORKSPACE MANAGEMENT...................................................................223
-;   §7: FILE SYSTEM NAVIGATION.................................................................271
-;   §8: PROGRAM/FILE LAUNCHING SHORTCUTS.......................................................277
-;   §9: GITHUB SHORTCUTS.......................................................................299
-;   §10: GOOGLE CHROME SHORTCUTS...............................................................305
-;   §11: HTML EDITING..........................................................................337
-;   §12: TEXT REPLACEMENT & INPUT..............................................................343
-;   >>> 12.1: Text Replacement HOTKEYS.........................................................347
-;   >>> 12.2: Text Replacement HOTSTRINGS......................................................394
-;   >>> 12.3: Text Input HOTSTRINGS............................................................526
-;   §13: OTHER SHORTCUTS.......................................................................531
-;   §14: WORK TIMER............................................................................544
-;   §15: CUSTOM HOTSTRINGS & HOTKEYS...........................................................550
-;   §16: MAIN SUBROUTINE.......................................................................624
+;   §1: GLOBAL VARIABLES........................................................................36
+;   >>> §1.1: SYSTEM PROPERTY GLOBALS...........................................................40
+;   >>> §1.2: GLOBALS FOR LOCATIONS OF IMPORTANT FOLDERS & FILES................................58
+;   >>> §1.3: POMODORO WORK TIMER GLOBALS.......................................................67
+;   >>> §1.4: DESKTOP ARRANGEMENT AUDITORY CUE GLOBALS..........................................77
+;   >>> §1.5: SIMULATED MEMORY OF USER ACTIONS..................................................88
+;   >>> §1.6: KEYBOARD OVERRIDING..............................................................103
+;   §2: SET UP SCRIPT & CALL MAIN SUBROUTINE...................................................113
+;   §3: COMMON FUNCTIONS & CLASSES.............................................................134
+;   §4: COMMAND HISTORY........................................................................146
+;   §5: AUTOHOTKEY SCRIPT WRITING SHORTCUTS....................................................152
+;   §6: WORKSPACE MANAGEMENT...................................................................226
+;   §7: FILE SYSTEM NAVIGATION.................................................................274
+;   §8: PROGRAM/FILE LAUNCHING SHORTCUTS.......................................................280
+;   §9: GITHUB SHORTCUTS.......................................................................302
+;   §10: GOOGLE CHROME SHORTCUTS...............................................................308
+;   §11: HTML EDITING..........................................................................340
+;   §12: TEXT REPLACEMENT & INPUT..............................................................346
+;   >>> 12.1: Text Replacement HOTKEYS.........................................................350
+;   >>> 12.2: Text Replacement HOTSTRINGS......................................................397
+;   >>> 12.3: Text Input HOTSTRINGS............................................................529
+;   §13: OTHER SHORTCUTS.......................................................................534
+;   §14: WORK TIMER............................................................................547
+;   §15: CUSTOM HOTSTRINGS & HOTKEYS...........................................................553
+;   §16: MAIN SUBROUTINE.......................................................................627
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -154,12 +154,13 @@ If not A_IsAdmin
 
 :*:@insAhkCommentSection::
 	AppendAhkCmd(":*:@insAhkCommentSection")
+	editor := "sublime_text.exe"
 	WinGet, thisProcess, ProcessName, A
-	if (thisProcess = "notepad++.exe") {
+	if (thisProcess = editor) {
 		commentTxt := "; --------------------------------------------------------------------------"
-			. "----------------------------------`r; ***EDIT COMMENT TEXT HERE***`r; --------------"
+			. "----------------------------------`r;   ***EDIT COMMENT TEXT HERE***`r; ------------"
 			. "------------------------------------------------------------------------------------"
-			. "----------`r`r"
+			. "------------`r`r"
 		if (clipboard != commentTxt) {
 			clipboard := commentTxt
 		}
@@ -169,7 +170,7 @@ If not A_IsAdmin
 	} else {
 		MsgBox, 0
 			, % "Error in AHK hotstring: @insAhkCommentSection"
-			, % "An AutoHotkey comment section can only be inserted if [Notepad++.exe] is the "
+			, % "An AutoHotkey comment section can only be inserted if [" . editor . "] is the "
 			. "active process. Unfortunately, the currently active process is [" . thisProcess 
 			. "]."
 	}
@@ -179,11 +180,11 @@ Return
 
 :*:@insAhkCommentSubSection::
 	AppendAhkCmd(":*:@insAhkCommentSubSection")
+	editor := "sublime_text.exe"
 	WinGet, thisProcess, ProcessName, A
-	if (thisProcess = "notepad++.exe") {
-		commentTxt := "; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  --- "
-			. " ---  ---  ---  ---  ---  ---  ---`r; >>> ***EDIT COMMENT TEXT HERE ---  ---  ---  -"
-			. "--  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---`r`r"
+	if (thisProcess = editor) {
+		commentTxt := "; ··········································································"
+			. "························`r;   >>> ***EDIT COMMENT TEXT HERE`r`r"
 		if (clipboard != commentTxt) {
 			clipboard := commentTxt
 		}
@@ -193,7 +194,7 @@ Return
 	} else {
 		MsgBox, 0
 			, % "Error in AHK hotstring: @insAhkCommentSection"
-			, % "An AutoHotkey comment section can only be inserted if [Notepad++.exe] is the "
+			, % "An AutoHotkey comment section can only be inserted if [" . editor . "] is the "
 			. "active process. Unfortunately, the currently active process is [" 
 			. thisProcess . "]."
 	}
@@ -203,10 +204,11 @@ Return
 
 :*:@insAhkCommentSeparator::
 	AppendAhkCmd(":*:@insAhkCommentSeparator")
+	editor := "sublime_text.exe"
 	WinGet, thisProcess, ProcessName, A
-	if (thisProcess = "notepad++.exe") {
-		commentTxt := "; ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  --- "
-			. " ---  ---  ---  ---  ---  ---  ---`r`r"
+	if (thisProcess = editor) {
+		commentTxt := ";  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·"
+			. " · · · · · · · · · · · · `r`r"
 		if (clipboard != commentTxt) {
 			clipboard := commentTxt
 		}
@@ -214,7 +216,7 @@ Return
 	} else {
 		MsgBox, 0
 			, % "Error in AHK hotstring: @insAhkCommentSeparator"
-			, % "An AutoHotkey comment separator can only be inserted if [Notepad++.exe] is the "
+			, % "An AutoHotkey comment separator can only be inserted if [" . editor . "] is the "
 			. "active process. Unfortunately, the currently active process is [" 
 			. thisProcess . "]."
 	}
