@@ -16,12 +16,39 @@
 ; ! = ALT     + = SHIFT     ^ = CONTROL     # = WIN
 ; (see https://autohotkey.com/docs/commands/Send.htm for more info)
 ; ==================================================================================================
+; Table of Contents
+; -----------------
+;   §1: SETTINGS accessed via functions for this imported file..................................51
+;   §2: FUNCTIONS for working with GitHub Desktop...............................................98
+;   §3: FUNCTIONS for interacting with online WEB DESIGN INTERFACES............................228
+;   §4: GUI FUNCTIONS for handling user interactions with scripts..............................265
+;   >>> §4.1: GUI DRIVEN HOTSTRINGS............................................................269
+;   §5: FILE SYSTEM NAVIGATION Hotstrings......................................................724
+;   >>> §5.1: Navigation within GITHUB DIRECTORIES.............................................728
+;   §6: UTILITY HOTSTRINGS for working with GitHub Desktop.....................................855
+;   >>> §6.1: FILE COMMITTING..................................................................859
+;   >>> §6.2: STATUS CHECKING.................................................................1009
+;   >>> §6.3: Automated PASTING OF CSS into online web interfaces.............................1031
+;   §7: COMMAND LINE INPUT GENERATION.........................................................1197
+;   >>> §7.1: FOR BACKING UP CUSTOM CSS BUILDS................................................1201
+;   >>> §7.2: FOR REBUILDING & COMMITTING CUSTOM CSS FILES ...................................1465
+;   >>> §7.3: FOR UPDATING CSS SUBMODULES.....................................................1869
+;   >>> §7.4: FOR COPYING MINIFIED, BACKUP CSS FILES TO CLIPBOARD.............................2134
+;   >>> §7.5: FOR BACKING UP CUSTOM JS BUILDS.................................................2428
+;   >>> §7.6: FOR REBUILDING JS SOURCE FILES..................................................2703
+;   >>> FOR UPDATING JS SUBMODULES............................................................2956
+;   >>> FOR COPYING MINIFIED CSS TO CLIPBOARD.................................................3221
+;   >>> §7.7: FOR CHECKING GIT STATUS ON ALL PROJECTS ........................................3493
+;   §8: KEYBOARD SHORTCUTS FOR POWERSHELL.....................................................3578
+;   >>> §8.1: SHORTCUTS.......................................................................3582
+;   >>> §8.2: SUPPORTING FUNCTIONS............................................................3608
+; ==================================================================================================
 
 sgIsPostingMinCss := false
 sgIsPostingMinJs := false
 
 ; --------------------------------------------------------------------------------------------------
-; SETTINGS accessed via functions for this imported file
+;   §1: SETTINGS accessed via functions for this imported file
 ; --------------------------------------------------------------------------------------------------
 
 GetCmdForMoveToCSSFolder(curDir) {
@@ -36,7 +63,7 @@ GetCmdForMoveToCSSFolder(curDir) {
 	Return cmd
 }
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 GetCurrentDirFromPS() {
 	copyDirCmd := "(get-location).ToString() | clip`r`n"
@@ -47,14 +74,14 @@ GetCurrentDirFromPS() {
 	Return Clipboard
 }
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 GetGitHubFolder() {
 	global userAccountFolderSSD
 	Return userAccountFolderSSD . "\Documents\GitHub"
 }
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 UserFolderIsSet() {
 	global userAccountFolderSSD
@@ -68,7 +95,7 @@ UserFolderIsSet() {
 }
 
 ; --------------------------------------------------------------------------------------------------
-; FUNCTIONS for working with GitHub Desktop
+;   §2: FUNCTIONS for working with GitHub Desktop
 ; --------------------------------------------------------------------------------------------------
 
 ActivateGitShell() {
@@ -87,7 +114,7 @@ ActivateGitShell() {
 	Return shellActivated
 }
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 CommitAfterBuild(ahkBuildCmd, ahkCommitCmd) {
 	ahkFuncName := "github.ahk: CommitAfterBuild"
@@ -121,7 +148,7 @@ CommitAfterBuild(ahkBuildCmd, ahkCommitCmd) {
 	}
 }
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ; Escape commit message strings for use in PowerShell. Assumes that double quotes are used to
 ; enclose the string.
@@ -130,14 +157,14 @@ EscapeCommitMessage(msgToEscape) {
 	return escapedMsg
 }
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 ; Git Commit GUIs
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\CommitCssBuild.ahk
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\CommitAnyFile.ahk
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 CopySrcFileToClipboard(ahkCmdName, srcFileToCopy, strToPrepend, errorMsg) {
 	if (UserFolderIsSet()) {
@@ -157,7 +184,7 @@ CopySrcFileToClipboard(ahkCmdName, srcFileToCopy, strToPrepend, errorMsg) {
 	}
 }
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 IsGitShellActive() {
 	WinGet, thisProcess, ProcessName, A
@@ -165,7 +192,7 @@ IsGitShellActive() {
 	Return shellIsActive
 }
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 PasteTextIntoGitShell(ahkCmdName, shellText) {
 	errorMsg := ""
@@ -190,7 +217,7 @@ PasteTextIntoGitShell(ahkCmdName, shellText) {
 	}
 }
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ToEscapedPath(path) {
 	escapedPath := StrReplace(path, "\", "\\")
@@ -198,7 +225,7 @@ ToEscapedPath(path) {
 }
 
 ; --------------------------------------------------------------------------------------------------
-; FUNCTIONS for interacting with online WEB DESIGN INTERFACES
+;   §3: FUNCTIONS for interacting with online WEB DESIGN INTERFACES
 ; --------------------------------------------------------------------------------------------------
 
 LoadWordPressSiteInChrome(websiteUrl) {
@@ -235,11 +262,11 @@ LoadWordPressSiteInChrome(websiteUrl) {
 }
 
 ; --------------------------------------------------------------------------------------------------
-; GUI FUNCTIONS for handling user interactions with scripts
+;   §4: GUI FUNCTIONS for handling user interactions with scripts
 ; --------------------------------------------------------------------------------------------------
 
 ; ··································································································
-; >>> GUI DRIVEN HOTSTRINGS --  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   >>> §4.1: GUI DRIVEN HOTSTRINGS
 
 :*:@postMinCss::
 	thisAhkCmd := A_ThisLabel
@@ -387,7 +414,7 @@ PasteMinCssToWebsite(websiteUrl, cssCopyCmd, manualProcession := false) {
 	ExecuteCssPasteCmds(manualProcession)
 }
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@postBackupCss::
 	thisAhkCmd := A_ThisLabel
@@ -529,7 +556,7 @@ HandlePostBackupCssOK() {
 	sgIsPostingBackupCss := false
 }
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@postMinJs::
 	thisAhkCmd := A_ThisLabel
@@ -693,146 +720,144 @@ PasteMinJsToWebsite(websiteUrl, jsCopyCmd, manualProcession := false) {
 	ExecuteJsPasteCmds(manualProcession)
 }
 
-; ··································································································
-
 ; --------------------------------------------------------------------------------------------------
-; FILE SYSTEM NAVIGATION Hotstrings
+;   §5: FILE SYSTEM NAVIGATION Hotstrings
 ; --------------------------------------------------------------------------------------------------
 
 ; ··································································································
-; >>> Navigation within GITHUB DIRECTORIES
-; ··································································································
+;   >>> §5.1: Navigation within GITHUB DIRECTORIES
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@gotoGhAscc::
 	InsertFilePath(":*:@gotoGhAscc", GetGitHubFolder() . "\ascc.wsu.edu", "ascc.wsu.edu") 
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@gotoGhCr::
 	InsertFilePath(":*:@gotoGhCr", GetGitHubFolder() . "\commonreading.wsu.edu"
 		, "commonreading.wsu.edu") 
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@gotoGhDsp::
 	InsertFilePath(":*:@gotoGhDsp", GetGitHubFolder() . "\distinguishedscholarships.wsu.edu"
 		, "distinguishedscholarships.wsu.edu") 
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@gotoGhFye::
 	InsertFilePath(":*:@gotoGhFye", GetGitHubFolder() . "\firstyear.wsu.edu", "firstyear.wsu.edu")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@gotoGhFyf::
 	InsertFilePath(":*:@gotoGhFyf", GetGitHubFolder() . "\learningcommunities.wsu.edu"
 		, "learningcommunities.wsu.edu")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@gotoGhNse::
 	InsertFilePath(":*:@gotoGhNse", GetGitHubFolder() . "\nse.wsu.edu", "nse.wsu.edu")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@gotoGhOue::
 	InsertFilePath(":*:@gotoGhPbk", GetGitHubFolder() . "\oue.wsu.edu", "oue.wsu.edu")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@gotoGhPbk::
 	InsertFilePath(":*:@gotoGhPbk", GetGitHubFolder() . "\phibetakappa.wsu.edu"
 		, "phibetakappa.wsu.edu")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@gotoGhRsp::
 	InsertFilePath(":*:@gotoGhRsp", GetGitHubFolder() . "\admissions.wsu.edu-research-scholars"
 		, "admissions.wsu.edu/research-scholars")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@gotoGhSurca::
 	InsertFilePath(":*:@gotoGhSurca", GetGitHubFolder() . "\surca.wsu.edu", "surca.wsu.edu")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@gotoGhSumRes::
 	InsertFilePath(":*:@gotoGhSumRes", GetGitHubFolder() . "\summerresearch.wsu.edu"
 		, "summerresearch.wsu.edu")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@gotoGhXfer::
 	InsertFilePath(":*:@gotoGhXfer", GetGitHubFolder() . "\transfercredit.wsu.edu"
 		, "transfercredit.wsu.edu")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@gotoGhUgr::
 	InsertFilePath(":*:@gotoGhUgr", GetGitHubFolder() . "\undergraduateresearch.wsu.edu"
 		, "undergraduateresearch.wsu.edu")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@gotoGhUcore::
 	InsertFilePath(":*:@gotoGhUcore", GetGitHubFolder() . "\ucore.wsu.edu", "ucore.wsu.edu")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@gotoGhUcrAss::
 	InsertFilePath(":*:@gotoGhUcrAss", GetGitHubFolder() . "\ucore.wsu.edu-assessment"
 		, "ucore.wsu.edu-assessment")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@gotoGhCSS::
 	InsertFilePath(":*:@gotoGhCSS", GetGitHubFolder() . "\WSU-UE---CSS", "WSU-UE---CSS")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@gotoGhJS::
 	InsertFilePath(":*:@gotoGhJS", GetGitHubFolder() . "\WSU-UE---JS", "WSU-UE---JS")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@gotoGhAhk::
 	InsertFilePath(":*:@gotoGhAhk", GetGitHubFolder() . "\WSU-OUE-AutoHotkey", "WSU-OUE-AutoHotkey")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:cdcss::cd wsu-ue---css
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:cdjs::cd wsu-ue---js
 
 ; --------------------------------------------------------------------------------------------------
-; UTILITY HOTSTRINGS for working with GitHub Desktop
+;   §6: UTILITY HOTSTRINGS for working with GitHub Desktop
 ; --------------------------------------------------------------------------------------------------
 
 ; ··································································································
-; >>> FILE COMMITTING
-; ··································································································
+;   >>> §6.1: FILE COMMITTING
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@getGitCommitLog::
 	thisAhkCmd := A_ThisLabel
@@ -850,7 +875,7 @@ Return
 		. "--pretty=format:'%h|%an|%ar|%s|%b' > git-log.txt`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@findGitChangesRegEx::
 	thisAhkCmd := A_ThisLabel
@@ -878,28 +903,21 @@ FindGitChangesRegExNotepadPp() {
 }
 
 FindGitChangesRegExSublimeText() {
+	delay := 60
 	SendInput, % "{Esc}"
-	Sleep, 20
+	Sleep, % delay
 	SendInput, % "^h"
-	Sleep, 200
-	SendInput, % "``n"
-	Sleep, 20
+	Sleep, % delay * 4
+	SendInput, % "{^}(?:[{^}\n \-].*| (?{!} {{}7{}}).*|-(?{!}-{{}7{}}).*)?$(?:\n)"
+	Sleep, % delay
 	SendInput, % "{Tab}"
-	Sleep, 20
-	SendInput, % "{Del}"
-	Sleep, 20
-	SendInput, % "^!{Enter}"
-	Sleep, 200
-	SendInput, % "^h"
-	Sleep, 200
-	SendInput, % "{^}(?:[{^}\n -].*| (?{!} {{}7{}}).*|-(?{!}-{{}7{}}).*)?$(?:\n)"
-	Sleep, 20
-	SendInput, % "{Tab}"
-	Sleep, 20
+	Sleep, % delay
+	SendInput, % "^a"
+	Sleep, % delay
 	SendInput, % "{Del}"
 }
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@gitAddThis::
 	thisAhkCmd := A_ThisLabel
@@ -927,7 +945,7 @@ FindGitChangesRegExSublimeText() {
 	}
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@doGitCommit::
 	thisAhkCmd := A_ThisLabel
@@ -942,13 +960,13 @@ Return
 	}
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@dogc::
 	Gosub, :*:@doGitCommit
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@doSnglGitCommit::
 	thisAhkCmd := A_ThisLabel
@@ -963,13 +981,13 @@ Return
 	}
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@dosgc::
 	Gosub, :*:@doSnglGitCommit
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ; For reversing forward slashes within a copied file name reported by 'git status' in PowerShell 
 ; and then pasting the result into PowerShell.
@@ -988,8 +1006,8 @@ Return
 Return
 
 ; ··································································································
-; >>> STATUS CHECKING
-; ··································································································
+;   >>> §6.2: STATUS CHECKING
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@doGitStatus::
 	hsName := ":*:@doGitStatus"
@@ -1003,15 +1021,15 @@ Return
 	}
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@dogs::
 	Gosub, :*:@doGitStatus
 Return
 
 ; ··································································································
-; >>> Automated PASTING OF CSS into online web interfaces
-; ··································································································
+;   >>> §6.3: Automated PASTING OF CSS into online web interfaces
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@initCssPaste::
 ;	prevTitleMatchMode := A_TitleMatchMode
@@ -1036,7 +1054,7 @@ Return
 	}
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@doCssPaste::		;Paste copied CSS into WordPress window
 	global hwndCssPasteWindow
@@ -1094,7 +1112,7 @@ Return
 	}
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@pasteGitCommitMsg::
 	thisAhkCmd := A_ThisLabel
@@ -1107,7 +1125,7 @@ Return
 	}
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ExecuteCssPasteCmds(manualProcession := false) {
 	; Add check for correct CSS in clipboard — the first line is a font import.
@@ -1139,7 +1157,7 @@ ExecuteCssPasteCmds(manualProcession := false) {
 	}			
 }
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ExecuteJsPasteCmds(manualProcession := false) {
 	; Add check for correct CSS in clipboard — the first line is a font import.
@@ -1176,11 +1194,11 @@ ExecuteJsPasteCmds(manualProcession := false) {
 }
 
 ; --------------------------------------------------------------------------------------------------
-; COMMAND LINE INPUT GENERATION as triggered by HotStrings for working with GitHub Desktop
+;   §7: COMMAND LINE INPUT GENERATION
 ; --------------------------------------------------------------------------------------------------
 
 ; ··································································································
-; >>> FOR BACKING UP CUSTOM CSS BUILDS -  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   >>> §7.1: FOR BACKING UP CUSTOM CSS BUILDS
 
 :*:@backupCssAscc::
 	hsName := ":*:@backupCssAscc"
@@ -1194,7 +1212,7 @@ ExecuteJsPasteCmds(manualProcession := false) {
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@backupCssCr::
 	hsName := ":*:@backupCssCr"
@@ -1209,7 +1227,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@backupCssDsp::
 	hsName := ":*:@backupCssDsp"
@@ -1225,7 +1243,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@backupCssFye::
 	hsName := ":*:@backupCssFye"
@@ -1240,7 +1258,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@backupCssFyf::
 	hsName := ":*:@backupCssFyf"
@@ -1256,7 +1274,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@backupCssNse::
 	hsName := ":*:@backupCssNse"
@@ -1270,7 +1288,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@backupCssOue::
 	hsName := ":*:@backupCssOue"
@@ -1284,7 +1302,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@backupCssPbk::
 	hsName := ":*:@backupCssPbk"
@@ -1299,7 +1317,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@backupCssSurca::
 	hsName := ":*:@backupCssSurca"
@@ -1314,7 +1332,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@backupCssSumRes::
 	hsName := ":*:@backupCssSumRes"
@@ -1330,7 +1348,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@backupCssXfer::
 	hsName := ":*:@backupCssXfer"
@@ -1346,7 +1364,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@backupCssUgr::
 	hsName := ":*:@backupCssUgr"
@@ -1362,7 +1380,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@backupCssUcore::
 	hsName := ":*:@backupCssUcore"
@@ -1377,7 +1395,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@backupCssUcrAss::
 	hsName := ":*:@backupCssUcrAss"
@@ -1393,7 +1411,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@backupCssAll::
 	hsName := ":*:@backupCssAll"
@@ -1416,7 +1434,7 @@ Return
 		. "[console]::beep(375,300)`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 CopyCssFromWebsite(websiteUrl)
 {
@@ -1425,7 +1443,7 @@ CopyCssFromWebsite(websiteUrl)
 	return copiedCss
 }
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ExecuteCssCopyCmds() {
 	delay := 100
@@ -1444,7 +1462,7 @@ ExecuteCssCopyCmds() {
 }
 
 ; ··································································································
-; >>> FOR REBUILDING & COMMITTING CUSTOM CSS FILES  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   >>> §7.2: FOR REBUILDING & COMMITTING CUSTOM CSS FILES 
 
 :*:@rebuildCssHere::
 	currentDir := GetCurrentDirFromPS()
@@ -1453,7 +1471,7 @@ ExecuteCssCopyCmds() {
 	}
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@rebuildCssAscc::
 	ahkCmdName := ":*:@rebuildCssAscc"
@@ -1479,7 +1497,7 @@ Return
 	CommitCssBuild(ahkCmdName, gitFolder, lessSrcFile, cssBuildFile, minCssBuildFile)
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@rebuildCssCr::
 	ahkCmdName := ":*:@rebuildCssCr"
@@ -1505,7 +1523,7 @@ Return
 	CommitCssBuild(ahkCmdName, gitFolder, lessSrcFile, cssBuildFile, minCssBuildFile)
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@rebuildCssDsp::
 	ahkCmdName := ":*:@rebuildCssDsp"
@@ -1530,7 +1548,7 @@ Return
 	CommitCssBuild(ahkCmdName, gitFolder, lessSrcFile, cssBuildFile, minCssBuildFile)
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@rebuildCssFye::
 	ahkCmdName := ":*:@rebuildCssFye"
@@ -1557,7 +1575,7 @@ Return
 		. "[console]::beep(2000,150)`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@rebuildCssFyf::
 	ahkCmdName := ":*:@rebuildCssFyf"
@@ -1584,7 +1602,7 @@ Return
 		. "[console]::beep(2000,150)`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@rebuildCssNse::
 	ahkCmdName := ":*:@rebuildCssNse"
@@ -1609,7 +1627,7 @@ Return
 	CommitCssBuild(ahkCmdName, gitFolder, lessSrcFile, cssBuildFile, minCssBuildFile)
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@rebuildCssOue::
 	ahkCmdName := ":*:@rebuildCssOue"
@@ -1635,7 +1653,7 @@ Return
 		. "[console]::beep(2000,150)`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@rebuildCssPbk::
 	ahkCmdName := ":*:@rebuildCssPbk"
@@ -1661,7 +1679,7 @@ Return
 		. "[console]::beep(2000,150)`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@rebuildCssSurca::
 	ahkCmdName := ":*:@rebuildCssSurca"
@@ -1687,7 +1705,7 @@ Return
 	CommitCssBuild(ahkCmdName, gitFolder, lessSrcFile, cssBuildFile, minCssBuildFile)
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@rebuildCssSumRes::
 	ahkCmdName := ":*:@rebuildCssSumRes"
@@ -1714,7 +1732,7 @@ Return
 		. "[console]::beep(2000,150)`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@rebuildCssXfer::
 	ahkCmdName := ":*:@rebuildCssXfer"
@@ -1741,7 +1759,7 @@ Return
 		. "[console]::beep(2000,150)`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@rebuildCssUgr::
 	ahkCmdName := ":*:@rebuildCssUgr"
@@ -1768,7 +1786,7 @@ Return
 	CommitCssBuild(ahkCmdName, gitFolder, lessSrcFile, cssBuildFile, minCssBuildFile)
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@rebuildCssUcore::
 	ahkCmdName := ":*:@rebuildCssUcore"
@@ -1795,7 +1813,7 @@ Return
 		. "[console]::beep(2000,150)`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@rebuildCssUcrAss::
 	ahkCmdName := ":*:@rebuildCssUcrAss"
@@ -1822,7 +1840,7 @@ Return
 		. "[console]::beep(2000,150)`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@rebuildCssAll::
 	ahkCmdName := ":*:@rebuildCssAll"
@@ -1848,7 +1866,7 @@ Return
 Return
 
 ; ··································································································
-; >>> FOR UPDATING CSS SUBMODULES -  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   >>> §7.3: FOR UPDATING CSS SUBMODULES
 
 :*:@updateCssSubmoduleAscc::
 	ahkCmdName := ":*:@updateCssSubmoduleAscc"
@@ -1865,7 +1883,7 @@ Return
 	Gosub, :*:@rebuildCssAscc
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@updateCssSubmoduleCr::
 	ahkCmdName := ":*:@updateCssSubmoduleCr"
@@ -1882,7 +1900,7 @@ Return
 	Gosub, :*:@rebuildCssCr
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@updateCssSubmoduleDsp::
 	ahkCmdName := ":*:@updateCssSubmoduleDsp"
@@ -1899,7 +1917,7 @@ Return
 	Gosub, :*:@rebuildCssDsp
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@updateCssSubmoduleFye::
 	ahkCmdName := ":*:@updateCssSubmoduleFye"
@@ -1916,7 +1934,7 @@ Return
 	Gosub, :*:@rebuildCssFye
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@updateCssSubmoduleFyf::
 	ahkCmdName := ":*:@updateCssSubmoduleFyf"
@@ -1933,7 +1951,7 @@ Return
 	Gosub, :*:@rebuildCssFyf
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@updateCssSubmoduleNse::
 	ahkCmdName := ":*:@updateCssSubmoduleNse"
@@ -1950,7 +1968,7 @@ Return
 	Gosub, :*:@rebuildCssNse
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@updateCssSubmoduleOue::
 	ahkCmdName := ":*:@updateCssSubmoduleOue"
@@ -1967,7 +1985,7 @@ Return
 	Gosub, :*:@rebuildCssOue
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@updateCssSubmodulePbk::
 	ahkCmdName := ":*:@updateCssSubmodulePbk"
@@ -1984,7 +2002,7 @@ Return
 	Gosub, :*:@rebuildCssPbk
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@updateCssSubmoduleSurca::
 	ahkCmdName := ":*:@updateCssSubmoduleSurca"
@@ -2001,7 +2019,7 @@ Return
 	Gosub, :*:@rebuildCssSurca
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@updateCssSubmoduleSumRes::
 	ahkCmdName := ":*:@updateCssSubmoduleSumRes"
@@ -2018,7 +2036,7 @@ Return
 	Gosub, :*:@rebuildCssSumRes
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@updateCssSubmoduleXfer::
 	ahkCmdName := ":*:@updateCssSubmoduleXfer"
@@ -2035,7 +2053,7 @@ Return
 	Gosub, :*:@rebuildCssXfer
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@updateCssSubmoduleUgr::
 	ahkCmdName := ":*:@updateCssSubmoduleUgr"
@@ -2052,7 +2070,7 @@ Return
 	Gosub, :*:@rebuildCssUgr
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@updateCssSubmoduleUcore::
 	ahkCmdName := ":*:@updateCssSubmoduleUcore"
@@ -2069,7 +2087,7 @@ Return
 	Gosub, :*:@rebuildCssUcore
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@updateCssSubmoduleUcrAss::
 	ahkCmdName := ":*:@updateCssSubmoduleUcrAss"
@@ -2086,7 +2104,7 @@ Return
 	Gosub, :*:@rebuildCssUcrAss
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@updateCssSubmoduleAll::
 	ahkCmdName := ":*:@updateCssSubmoduleAll"
@@ -2113,7 +2131,7 @@ Return
 Return
 
 ; ··································································································
-; >>> FOR COPYING MINIFIED, BACKUP CSS FILES TO CLIPBOARD --  ---  ---  ---  ---  ---  ---  ---  --
+;   >>> §7.4: FOR COPYING MINIFIED, BACKUP CSS FILES TO CLIPBOARD
 
 :*:@copyMinCssAscc::
 	ahkCmdName := ":*:@copyMinCssAscc"
@@ -2125,7 +2143,7 @@ Return
 		. "*/`r`n`r`n", "Couldn't copy minified CSS for ASCC website.")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyBackupCssAscc::
 	ahkCmdName := ":*:@copyBackupCssAscc"
@@ -2135,7 +2153,7 @@ Return
 		, "", "Couldn't copy backup CSS for ASCC Reading website.")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyMinCssCr::
 	ahkCmdName := ":*:@copyMinCssCr"
@@ -2147,7 +2165,7 @@ Return
 		. "code. */`r`n`r`n", "Couldn't copy minified CSS for Common Reading website.")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyBackupCssCr::
 	ahkCmdName := ":*:@copyBackupCssCr"
@@ -2157,7 +2175,7 @@ Return
 		, "", "Couldn't copy backup CSS for Common Reading website.")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyMinCssDsp::
 	ahkCmdName := ":*:@copyMinCssDsp"
@@ -2167,7 +2185,7 @@ Return
 		, "", "Couldn't copy minified CSS for DSP Website.")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyBackupCssDsp::
 	ahkCmdName := ":*:@copyBackupCssDsp"
@@ -2177,7 +2195,7 @@ Return
 		, "", "Couldn't copy backup CSS for DSP Website.")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyMinCssFye::
 	ahkCmdName := ":*:@copyMinCssFye"
@@ -2189,7 +2207,7 @@ Return
 		. "code. */`r`n`r`n", "Couldn't copy minified CSS for FYE website.")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyBackupCssFye::
 	ahkCmdName := ":*:@copyBackupCssFye"
@@ -2199,7 +2217,7 @@ Return
 		, "", "Couldn't copy backup CSS for FYE website.")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyMinCssFyf::
 	ahkCmdName := ":*:@copyMinCssFyf"
@@ -2211,7 +2229,7 @@ Return
 		. "source code. */`r`n`r`n", "Couldn't copy minified CSS for First-Year Focus website.")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyBackupCssFyf::
 	ahkCmdName := ":*:@copyBackupCssFyf"
@@ -2221,7 +2239,7 @@ Return
 		, "", "Couldn't copy backup CSS for First-Year Focus website.")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyMinCssNse::
 	ahkCmdName := ":*:@copyMinCssNse"
@@ -2231,7 +2249,7 @@ Return
 		, "", "Couldn't copy minified CSS for NSE website.")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyBackupCssNse::
 	ahkCmdName := ":*:@copyBackupCssNse"
@@ -2241,7 +2259,7 @@ Return
 		, "", "Couldn't copy backup CSS for NSE website.")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyMinCssOue::
 	ahkCmdName := ":*:@copyMinCssOue"
@@ -2251,7 +2269,7 @@ Return
 		, "", "Couldn't copy minified CSS for OUE website.")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyMinCssPbk::
 	ahkCmdName := ":*:@copyMinCssPbk"
@@ -2261,7 +2279,7 @@ Return
 		, "", "Couldn't copy minified CSS for Phi Beta Kappa website.")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyBackupCssPbk::
 	ahkCmdName := ":*:@copyBackupCssPbk"
@@ -2271,7 +2289,7 @@ Return
 		, "", "Couldn't copy backup CSS for Phi Beta Kappa website.")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyMinCssSurca::
 	ahkCmdName := ":*:@copyMinCssSurca"
@@ -2283,7 +2301,7 @@ Return
 		. "*/`r`n`r`n", "Couldn't copy minified CSS for SURCA website.")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyBackupCssSurca::
 	ahkCmdName := ":*:@copyBackupCssSurca"
@@ -2293,7 +2311,7 @@ Return
 		, "", "Couldn't copy backup CSS for SURCA website.")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyMinCssSumRes::
 	ahkCmdName := ":*:@copyMinCssSumRes"
@@ -2305,7 +2323,7 @@ Return
 		. "source code. */`r`n`r`n", "Couldn't copy minified CSS for Summer Research website.")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyBackupCssSumRes::
 	ahkCmdName := ":*:@copyBackupCssSumRes"
@@ -2315,7 +2333,7 @@ Return
 		, "", "Couldn't copy backup CSS for Summer Research website.")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyMinCssXfer::
 	ahkCmdName := ":*:@copyMinCssXfer"
@@ -2327,7 +2345,7 @@ Return
 		. "source code. */`r`n`r`n", "Couldn't copy minified CSS for Transfer Credit website.")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyBackupCssXfer::
 	ahkCmdName := ":*:@copyBackupCssXfer"
@@ -2337,7 +2355,7 @@ Return
 		, "", "Couldn't copy backup CSS for Transfer Credit website.")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyMinCssUgr::
 	ahkCmdName := ":*:@copyMinCssUgr"
@@ -2350,7 +2368,7 @@ Return
 		, "Couldn't copy minified CSS for UGR website.")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyBackupCssUgr::
 	ahkCmdName := ":*:@copyBackupCssUgr"
@@ -2360,7 +2378,7 @@ Return
 		. "v.css", "", "Couldn't copy backup CSS for UGR website.")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyMinCssUcore::
 	ahkCmdName := ":*:@copyMinCssUcore"
@@ -2372,7 +2390,7 @@ Return
 		, "Couldn't copy minified CSS for UCORE website.")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyBackupCssUcore::
 	ahkCmdName := ":*:@copyBackupCssUcore"
@@ -2383,7 +2401,7 @@ Return
 		, "Couldn't copy backup CSS for UCORE website.")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyMinCssUcrAss::
 	ahkCmdName := ":*:@copyMinCssUcrAss"
@@ -2395,7 +2413,7 @@ Return
 		, "`n`r`nCouldn't copy minified CSS for UCORE Assessment website.")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyBackupCssUcrAss::
 	ahkCmdName := ":*:@copyBackupCssUcrAss"
@@ -2407,7 +2425,7 @@ Return
 Return
 
 ; ··································································································
-; >>> FOR BACKING UP CUSTOM JS BUILDS --  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   >>> §7.5: FOR BACKING UP CUSTOM JS BUILDS
 
 :*:@backupJsAscc::
 	hsName := ":*:@backupJsAscc"
@@ -2422,7 +2440,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@backupJsCr::
 	hsName := ":*:@backupJsCr"
@@ -2438,7 +2456,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@backupJsDsp::
 	hsName := ":*:@backupJsDsp"
@@ -2454,7 +2472,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@backupJsFye::
 	hsName := ":*:@backupJsFye"
@@ -2470,7 +2488,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@backupJsFyf::
 	hsName := hsName
@@ -2486,7 +2504,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@backupJsNse::
 	hsName := hsName
@@ -2500,7 +2518,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@backupJsOue::
 	hsName := ":*:@backupJsOue"
@@ -2514,7 +2532,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@backupJsPbk::
 	hsName := ":*:@backupJsPbk"
@@ -2530,7 +2548,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@backupJsSurca::
 	hsName := ":*:@backupJsSurca"
@@ -2545,7 +2563,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@backupJsSumRes::
 	hsName := ":*:@backupJsSumRes"
@@ -2557,7 +2575,7 @@ Return
 	GoSub, :*:@commitBackupJsSumRes
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@commitBackupJsSumRes::
 	hsName := ":*:@commitBackupJsSumRes"
@@ -2569,7 +2587,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@backupJsXfer::
 	hsName := ":*:@backupJsXfer"
@@ -2585,7 +2603,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@backupJsUgr::
 	hsName := ":*:@backupJsUgr"
@@ -2601,7 +2619,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@backupJsUcore::
 	hsName := ":*:@backupJsUcore"
@@ -2616,7 +2634,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@backupJsUcrAss::
 	hsName := ":*:@backupJsUcrAss"
@@ -2632,7 +2650,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@backupJsAll::
 	hsName := ":*:@backupJsAll"
@@ -2658,7 +2676,7 @@ Return
 		. "[console]::beep(375,150)`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 CopyJsFromWebsite(websiteUrl, ByRef copiedJs)
 {
@@ -2666,7 +2684,7 @@ CopyJsFromWebsite(websiteUrl, ByRef copiedJs)
 	ExecuteJsCopyCmds(copiedJs)
 }
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ExecuteJsCopyCmds(ByRef copiedJs) {
 	CoordMode, Mouse, Client
@@ -2682,7 +2700,7 @@ ExecuteJsCopyCmds(ByRef copiedJs) {
 }
 
 ; ··································································································
-; >>> FOR REBUILDING JS SOURCE FILES ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   >>> §7.6: FOR REBUILDING JS SOURCE FILES
 
 :*:@rebuildJsAscc::
 	ahkCmdName := ":*:@rebuildJsAscc"
@@ -2700,7 +2718,7 @@ ExecuteJsCopyCmds(ByRef copiedJs) {
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@rebuildJsCr::
 	ahkCmdName := ":*:@rebuildJsCr"
@@ -2718,7 +2736,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@rebuildJsDsp::
 	ahkCmdName := ":*:@rebuildJsDsp"
@@ -2736,7 +2754,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@rebuildJsFye::
 	ahkCmdName := ":*:@rebuildJsFye"
@@ -2754,7 +2772,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@rebuildJsFyf::
 	ahkCmdName := ":*:@rebuildJsFyf"
@@ -2772,7 +2790,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@rebuildJsNse::
 	ahkCmdName := ":*:@rebuildJsNse"
@@ -2790,7 +2808,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@rebuildJsOue::
 	ahkCmdName := ":*:@rebuildJsOue"
@@ -2808,7 +2826,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@rebuildJsPbk::
 	ahkCmdName := ":*:@rebuildJsPbk"
@@ -2826,7 +2844,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@rebuildJsSurca::
 	ahkCmdName := ":*:@rebuildJsSurca"
@@ -2844,7 +2862,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@rebuildJsSumRes::
 	ahkCmdName := ":*:@rebuildJsSumRes"
@@ -2862,7 +2880,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@rebuildJsXfer::
 	ahkCmdName := ":*:@rebuildJsXfer"
@@ -2880,7 +2898,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@rebuildJsUgr::
 	ahkCmdName := ":*:@rebuildJsUgr"
@@ -2898,7 +2916,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@rebuildJsUcore::
 	ahkCmdName := ":*:@rebuildJsUcore"
@@ -2916,7 +2934,7 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@rebuildJsUcrAss::
 	ahkCmdName := ":*:@rebuildJsUcrAss"
@@ -2935,7 +2953,7 @@ Return
 Return
 
 ; ··································································································
-; >>> FOR UPDATING JS SUBMODULES --  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   >>> FOR UPDATING JS SUBMODULES
 
 :*:@updateJsSubmoduleAscc::
 	ahkCmdName := ":*:@updateJsSubmoduleAscc"
@@ -2952,7 +2970,7 @@ Return
 	Gosub, :*:@rebuildJsAscc
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@updateJsSubmoduleCr::
 	ahkCmdName := ":*:@updateJsSubmoduleCr"
@@ -2969,7 +2987,7 @@ Return
 	Gosub, :*:@rebuildJsCr
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@updateJsSubmoduleDsp::
 	ahkCmdName := ":*:@updateJsSubmoduleDsp"
@@ -2986,7 +3004,7 @@ Return
 	Gosub, :*:@rebuildJsDsp
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@updateJsSubmoduleFye::
 	ahkCmdName := ":*:@updateJsSubmoduleFye"
@@ -3003,7 +3021,7 @@ Return
 	Gosub, :*:@rebuildJsFye
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@updateJsSubmoduleFyf::
 	ahkCmdName := ":*:@updateJsSubmoduleFyf"
@@ -3020,7 +3038,7 @@ Return
 	Gosub, :*:@rebuildJsFyf
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@updateJsSubmoduleNse::
 	ahkCmdName := ":*:@updateJsSubmoduleNse"
@@ -3037,7 +3055,7 @@ Return
 	Gosub, :*:@rebuildJsFyf
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@updateJsSubmoduleOue::
 	ahkCmdName := ":*:@updateJsSubmoduleOue"
@@ -3054,7 +3072,7 @@ Return
 	Gosub, :*:@rebuildJsOue
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@updateJsSubmodulePbk::
 	ahkCmdName := ":*:@updateJsSubmodulePbk"
@@ -3071,7 +3089,7 @@ Return
 	Gosub, :*:@rebuildJsPbk
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@updateJsSubmoduleSurca::
 	ahkCmdName := ":*:@updateJsSubmoduleSurca"
@@ -3088,7 +3106,7 @@ Return
 	Gosub, :*:@rebuildJsSurca
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@updateJsSubmoduleSumRes::
 	ahkCmdName := ":*:@updateJsSubmoduleSumRes"
@@ -3105,7 +3123,7 @@ Return
 	Gosub, :*:@rebuildJsSumRes
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@updateJsSubmoduleXfer::
 	ahkCmdName := ":*:@updateJsSubmoduleXfer"
@@ -3122,7 +3140,7 @@ Return
 	Gosub, :*:@rebuildJsXfer
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@updateJsSubmoduleUgr::
 	ahkCmdName := ":*:@updateJsSubmoduleUgr"
@@ -3139,7 +3157,7 @@ Return
 	Gosub, :*:@rebuildJsUgr
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@updateJsSubmoduleUcore::
 	ahkCmdName := ":*:@updateJsSubmoduleUcore"
@@ -3156,7 +3174,7 @@ Return
 	Gosub, :*:@rebuildJsUcore
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@updateJsSubmoduleUcrAss::
 	ahkCmdName := ":*:@updateJsSubmoduleUcrAss"
@@ -3173,7 +3191,7 @@ Return
 	Gosub, :*:@rebuildJsUcrAss
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@updateJsSubmoduleAll::
 	ahkCmdName := ":*:@updateJsSubmoduleAll"
@@ -3200,7 +3218,7 @@ Return
 Return
 
 ; ··································································································
-; >>> FOR COPYING MINIFIED CSS TO CLIPBOARD -  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   >>> FOR COPYING MINIFIED CSS TO CLIPBOARD
 
 ;TODO: Add scripts for copying JS backups to clipboard (see CSS backup-copying scripts above)
 :*:@copyMinJsAscc::
@@ -3214,7 +3232,7 @@ Return
 		, "Couldn't Copy Minified JS for ASCC Website")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyMinJsCr::
 	ahkCmdName := ":*:@copyMinJsCr"
@@ -3227,7 +3245,7 @@ Return
 		, "Couldn't Copy Minified JS for CR Website")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyMinJsDsp::
 	ahkCmdName := ":*:@copyMinJsDsp"
@@ -3254,7 +3272,7 @@ Return
 		, "Couldn't Copy Minified JS for DSP Website")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyMinJsFye::
 	ahkCmdName := ":*:@copyMinJsFye"
@@ -3272,7 +3290,7 @@ Return
 		, "Couldn't Copy Minified JS for FYE Website")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyMinJsFyf::
 	ahkCmdName := ":*:@copyMinJsFyf"
@@ -3292,7 +3310,7 @@ Return
 		, "Couldn't Copy Minified JS for FYF Website")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyMinJsNse::
 	ahkCmdName := ":*:@copyMinJsNse"
@@ -3305,7 +3323,7 @@ Return
 		, "Couldn't Copy Minified JS for Nse Website")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyMinJsOue::
 	ahkCmdName := ":*:@copyMinJsOue"
@@ -3318,7 +3336,7 @@ Return
 		, "Couldn't Copy Minified JS for WSU OUE Website")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyBackupJsOue::
 	ahkCmdName := ":*:@copyBackupJsOue"
@@ -3329,7 +3347,7 @@ Return
 		, "Couldn't copy backup copy of minified JS for WSU OUE website")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyMinJsPbk::
 	ahkCmdName := ":*:@copyMinJsPbk"
@@ -3348,7 +3366,7 @@ Return
 		, "Couldn't Copy Minified JS for WSU Phi Beta Kappa Website")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyMinJsSurca::
 	ahkCmdName := ":*:@copyMinJsSurca"
@@ -3367,7 +3385,7 @@ Return
 		, "Couldn't Copy Minified JS for SURCA Website")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyMinJsSumRes::
 	ahkCmdName := ":*:@copyMinJsSumRes"
@@ -3386,7 +3404,7 @@ Return
 		, "Couldn't Copy Minified JS for WSU Summer Research Website")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyMinJsXfer::
 	ahkCmdName := ":*:@copyMinJsXfer"
@@ -3404,7 +3422,7 @@ Return
 		, "Couldn't Copy Minified JS for WSU Transfer Credit Website")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyMinJsUgr::
 	ahkCmdName := ":*:@copyMinJsUgr"
@@ -3422,7 +3440,7 @@ Return
 		, "Couldn't Copy Minified JS for UGR Website")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyMinJsUcore::
 	ahkCmdName := ":*:@copyMinJsUcore"
@@ -3441,7 +3459,7 @@ Return
 		, "Couldn't copy minified JS for UCORE website")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyBackupJsUcore::
 	ahkCmdName := ":*:@copyBackupJsUcore"
@@ -3452,7 +3470,7 @@ Return
 		, "Couldn't copy backup copy of minified JS for UCORE website")
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@copyMinJsUcrAss::
 	ahkCmdName := ":*:@copyMinJsUcrAss"
@@ -3472,7 +3490,7 @@ Return
 Return
 
 ; ··································································································
-; >>> FOR CHECKING GIT STATUS ON ALL PROJECTS  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   >>> §7.7: FOR CHECKING GIT STATUS ON ALL PROJECTS 
 
 :*:@checkGitStatus::
 	ahkCmdName := ":*:@checkGitStatus"
@@ -3557,11 +3575,11 @@ Return
 Return
 
 ; --------------------------------------------------------------------------------------------------
-; KEYBOARD SHORTCUTS FOR POWERSHELL
+;   §8: KEYBOARD SHORTCUTS FOR POWERSHELL
 ; --------------------------------------------------------------------------------------------------
 
 ; ··································································································
-; >>> SHORTCUTS  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   >>> §8.1: SHORTCUTS
 
 ^+v::	
 	if (IsGitShellActive()) {
@@ -3571,15 +3589,14 @@ Return
 	}
 Return
 
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ~^+Backspace::
 	if (IsGitShellActive()) {
 		SendInput {Backspace 120}
 	}
 Return
-
-; ··································································································
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ~^+Delete::
 	if (IsGitShellActive()) {
@@ -3588,7 +3605,7 @@ Return
 Return
 
 ; ··································································································
-; >>> SUPPORTING FUNCTIONS ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---
+;   >>> §8.2: SUPPORTING FUNCTIONS
 
 PerformBypassingCtrlShftV:
 	Suspend
