@@ -66,7 +66,7 @@ BuildHyperlinkArray(htmlMarkup) {
 ;   >>> §1.2: CopyWebpageSourceToClipboard
 CopyWebpageSourceToClipboard(webBrowserProcess, correctTitleNeedle, viewSourceTitle, errorMsg) {
 	ahkThisCmd := A_ThisFunc
-	keyDelay := 120
+	keyDelay := 200
 	success := False
 
 	; Use RegEx match mode so that any appearance of "| Washington State University" will easily be 
@@ -106,7 +106,7 @@ CopyWebpageSourceToClipboard(webBrowserProcess, correctTitleNeedle, viewSourceTi
 		if (ErrorLevel) {
 			Return
 		} else {
-			Sleep, (%keyDelay% * 10)
+			Sleep, % keyDelay * 15
 		}
 
 		; Copy the markup and close the tab
