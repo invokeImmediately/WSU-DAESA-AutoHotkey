@@ -106,36 +106,44 @@ Return
 	SendInput, #e
 	WaitForApplicationPatiently("File Explorer")
 	Sleep, % delay
-	AddSublimeText3ToVd()
+	AddSublimeText3ToVd(2)
 	Gosub, :*:@startGithubClients
 	Gosub, :*:@arrangeGitHub
 Return
 
-AddSublimeText3ToVd() {
-	delay := 100
+AddSublimeText3ToVd(whichVd) {
+	oldTitleMatchMode := 0
+	delay := 333
 	st3TitleToMatch := "Sublime Text ahk_exe sublime_text\.exe"
-	currentVd := GetCurrentVirtualDesktop()
-	SetTitleMatchMode, RegEx
+
+	; Proceed in RegEx title matching mode
+	if (A_TitleMatchMode != "RegEx") {
+		SetTitleMatchMode, RegEx
+	}
 	IfWinExist, %st3TitleToMatch%
 	{
 		WinActivate, % st3TitleToMatch
 		Sleep, % delay
 		st3Vd := GetCurrentVirtualDesktop()
-		if (st3Vd != currentVd) {
+		if (st3Vd != whichVd) {
 			SendInput, ^+n
-			Sleep, % delay * 5
-			moveActiveWindowToVirtualDesktop(currentVd)
+			Sleep, % delay * 2
+			moveActiveWindowToVirtualDesktop(whichVd)
 			Sleep, % delay
 			SendInput, {Enter}
-			Sleep, % delay * 3
-			switchDesktopByNumber(currentVd)
+			Sleep, % delay
+			switchDesktopByNumber(whichVd)
 		}	
 	}
 	else
 	{
 		GoSub, :*:@startSublimeText3
 	}
-	SetTitleMatchMode, 2
+
+	; Restore title matching mode to previous default if needed
+	if (oldTitleMatchMode) {
+		SetTitleMatchMode, % oldTitleMatchMode		
+	}
 }
 
 :*:@startGithubClients::
