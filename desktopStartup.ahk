@@ -107,6 +107,7 @@ Return
 	WaitForApplicationPatiently("File Explorer")
 	Sleep, % delay
 	AddSublimeText3ToVd(2)
+	Sleep, % delay
 	Gosub, :*:@startGithubClients
 	Gosub, :*:@arrangeGitHub
 Return
@@ -122,8 +123,9 @@ AddSublimeText3ToVd(whichVd) {
 	}
 	IfWinExist, %st3TitleToMatch%
 	{
-		WinActivate, % st3TitleToMatch
 		Sleep, % delay
+		WinActivate, % st3TitleToMatch
+		Sleep, % delay * 2
 		st3Vd := GetCurrentVirtualDesktop()
 		if (st3Vd != whichVd) {
 			SendInput, ^+n
