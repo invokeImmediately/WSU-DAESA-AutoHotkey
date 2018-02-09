@@ -116,6 +116,7 @@ AddSublimeText3ToVd(whichVd) {
 	oldTitleMatchMode := 0
 	delay := 333
 	st3TitleToMatch := "Sublime Text ahk_exe sublime_text\.exe"
+	st3NewWinTitle := "untitled - Sublime ahk_exe sublime_text\.exe"
 
 	; Proceed in RegEx title matching mode
 	if (A_TitleMatchMode != "RegEx") {
@@ -129,7 +130,8 @@ AddSublimeText3ToVd(whichVd) {
 		st3Vd := GetCurrentVirtualDesktop()
 		if (st3Vd != whichVd) {
 			SendInput, ^+n
-			Sleep, % delay * 2
+			Sleep, % delay * 3
+			WaitForApplicationPatiently(st3NewWinTitle)
 			moveActiveWindowToVirtualDesktop(whichVd)
 			Sleep, % delay
 			SendInput, {Enter}
