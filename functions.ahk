@@ -191,17 +191,18 @@ PasteText(txtToPaste) {
 
 WaitForApplicationPatiently(title)
 {
+	delay := 250
 	isReady := false
 	while !isReady
 	{
 		IfWinExist, % title
 		{
 			isReady := true
-			Sleep, 500
+			Sleep, % delay * 2
 		}
 		else
 		{
-			Sleep, 250
+			Sleep, % delay
 		}
 	}
 }
