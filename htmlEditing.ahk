@@ -329,9 +329,8 @@ Return
 			; Find the portions of the markup that we want to back up, select them all, copy, and
 			; then overwrite the full markup
 			Send, ^f
-			SendInput, % "{^}\t{{}1,{}}<section.*class="".*row.*$\n({^}\t(?{!}\t{{}1,{}}</section>\"
-				. "n\t{1,}</div><{!}--post-->).*$\n)*{^}\t{{}1,{}}</section>$\n|{^}\t*<title>.*$\n|"
-				. "{^}\t*<body.*$\n|{^}\t*</body.*$\n"
+			SendInput, % "{^}\t*<section.*class="".*row.*$\n({^}.*$\n)*{^}\t*</section>$(?=\n{^}\t*"
+				. "</div><{!}-- {#}post -->)|{^}\t*<title>.*$\n|{^}\t*<body.*$\n|{^}\t*</body.*$\n"
 			Send, !{Enter}
 			Sleep, (%keyDelay% * 10)
 			Send, ^c
