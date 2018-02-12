@@ -224,6 +224,19 @@ ToEscapedPath(path) {
 	Return escapedPath
 }
 
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
+
+VerifyCopiedCode(callerStr, copiedCss) {
+	proceed := False
+	title := "VerifyCopiedCode(...)"
+	msg := "Here's what I copied:`n" . SubStr(copiedCss, 1, 320) . "..."
+		. "`n`nProceed with git commit?"
+	MsgBox, 33, % title, % msg
+	IfMsgBox, OK
+		proceed := True
+	Return proceed
+}
+
 ; --------------------------------------------------------------------------------------------------
 ;   §3: FUNCTIONS for interacting with online WEB DESIGN INTERFACES
 ; --------------------------------------------------------------------------------------------------
@@ -1235,13 +1248,15 @@ Return
 	AppendAhkCmd(hsName)
 	copiedCss := CopyCssFromWebsite("https://distinguishedscholarships.wsu.edu/wp-admin/themes.php?"
 		. "page=editcss")
-	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
-		. "\distinguishedscholarships.wsu.edu\CSS\dsp-custom.prev.css")
-	PasteTextIntoGitShell(hsName
-		, "cd '" . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\'`r"
-		. "git add CSS\dsp-custom.prev.css`r"
-		. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
-		. "git push`r")
+	if (VerifyCopiedCode(A_ThisLabel, copiedCss)) {
+		WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
+			. "\distinguishedscholarships.wsu.edu\CSS\dsp-custom.prev.css")
+		PasteTextIntoGitShell(hsName
+			, "cd '" . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\'`r"
+			. "git add CSS\dsp-custom.prev.css`r"
+			. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
+			. "git push`r")
+	}
 Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
