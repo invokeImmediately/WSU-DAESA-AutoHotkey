@@ -408,9 +408,10 @@ HandlePostMinCssOK() {
 }
 
 PasteMinCssToWebsite(websiteUrl, cssCopyCmd, manualProcession := false) {
+	delay := 1000
 	LoadWordPressSiteInChrome(websiteUrl)
 	Gosub, %cssCopyCmd%
-	Sleep, 100
+	Sleep, % delay
 	ExecuteCssPasteCmds(manualProcession)
 }
 
