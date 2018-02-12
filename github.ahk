@@ -1462,7 +1462,7 @@ CopyCssFromWebsite(websiteUrl)
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ExecuteCssCopyCmds() {
-	delay := 100
+	delay := 200
 	Sleep, % delay * 10
 	CoordMode, Mouse, Client
 	Click, 768, 570
@@ -1470,10 +1470,10 @@ ExecuteCssCopyCmds() {
 	SendInput, ^a
 	Sleep, % delay
 	SendInput, ^c
-	Sleep, % delay
+	Sleep, % delay * 3
 	copiedCss := SubStr(clipboard, 1)
 	SendInput, ^w
-	Sleep, % delay * 20
+	Sleep, % delay * 10
 	return copiedCss
 }
 
