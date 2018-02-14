@@ -100,12 +100,12 @@ Return
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@setupVirtualDesktop2::
-	delay := 150
+	delay := 500
 	CheckForCmdEntryGui()
 	switchDesktopByNumber(2)
 	SendInput, #e
 	WaitForApplicationPatiently("File Explorer")
-	Sleep, % delay
+	Sleep, % delay * 2
 	AddSublimeText3ToVd(2)
 	Sleep, % delay
 	Gosub, :*:@startGithubClients
