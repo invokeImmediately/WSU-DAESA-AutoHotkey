@@ -52,6 +52,8 @@ Return
 	Gosub, :*:@startSublimeText3
 	Sleep, % delay * 4
 	Gosub % "^F8"
+	Sleep, % delay
+	SendInput, % "{Enter}"
 	Gosub, :*:@startChrome
 Return
 
