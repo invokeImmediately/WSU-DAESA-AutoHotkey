@@ -130,6 +130,7 @@ AddSublimeText3ToVd(whichVd) {
 		WinActivate, % st3TitleToMatch
 		Sleep, % delay * 2
 		st3Vd := GetCurrentVirtualDesktop()
+
 		if (st3Vd != whichVd) {
 			SendInput, ^+n
 			Sleep, % delay * 3
@@ -139,7 +140,9 @@ AddSublimeText3ToVd(whichVd) {
 			SendInput, {Enter}
 			Sleep, % delay
 			switchDesktopByNumber(whichVd)
-		}	
+		} else {
+			MsgBox, % "Sublime Text 3 is already on virtual desktop #" . whichVd
+		}
 	}
 	else
 	{
