@@ -49,6 +49,8 @@ Return
 	switchDesktopByNumber(1)
 	Sleep, % delay
 	Gosub, :*:@moveTempMonitors
+	switchDesktopByNumber(1)
+	Sleep, % delay
 	Gosub, :*:@startSublimeText3
 	Sleep, % delay * 4
 	Gosub % "^F8"
@@ -58,18 +60,18 @@ Return
 Return
 
 :*:@moveTempMonitors::
+	delay := 100
 
 	; Send temperature monitoring programs to desktop #5 from #1
 	AppendAhkCmd(":*:@moveTempMonitors")
 	WinActivate, % "RealTemp ahk_exe RealTemp.exe"
-	Sleep, 400
+	Sleep, % delay * 4
 	moveActiveWindowToVirtualDesktop(5)
-	Sleep, 100
+	Sleep, % delay * 2
 	WinActivate, % "GPU Temp ahk_exe GPUTemp.exe"
-	Sleep, 400
+	Sleep, % delay * 4
 	moveActiveWindowToVirtualDesktop(5)
-	Sleep, 100
-
+	Sleep, % delay * 2
 Return
 
 :*:@startSublimeText3::
@@ -110,6 +112,7 @@ Return
 	Sleep, % delay * 2
 	AddSublimeText3ToVd(2)
 	Sleep, % delay
+	switchDesktopByNumber(2)
 	Gosub, :*:@startGithubClients
 	Gosub, :*:@arrangeGitHub
 Return
@@ -127,7 +130,7 @@ AddSublimeText3ToVd(whichVd) {
 	IfWinExist, %st3TitleToMatch%
 	{
 		Sleep, % delay
-		WinActivate, % st3TitleToMatch
+		SafeWinActivate(st3TitleToMatch, "RegEx")
 		Sleep, % delay * 2
 		st3Vd := GetCurrentVirtualDesktop()
 
@@ -137,11 +140,10 @@ AddSublimeText3ToVd(whichVd) {
 			WaitForApplicationPatiently(st3NewWinTitle)
 			moveActiveWindowToVirtualDesktop(whichVd)
 			Sleep, % delay
-			SendInput, {Enter}
-			Sleep, % delay
 			switchDesktopByNumber(whichVd)
 		} else {
-			MsgBox, % "Sublime Text 3 is already on virtual desktop #" . whichVd
+			MsgBox, % "Sublime Text 3 is already on virtual desktop #" . whichVd . "Press OK to try again."
+			AddSublimeText3ToVd(whichVd)
 		}
 	}
 	else
@@ -175,23 +177,27 @@ Return
 :*:@arrangeGitHub::
 	AppendAhkCmd(":*:@arrangeGitHub")
 	WinRestore, GitHub
+	Sleep, 200
 	WinMove, GitHub, , -1893, 20, 1868, 772
 	Sleep, 200
-	WinRestore, % "ahk_exe Powershell.exe"
-	WinMove, % "ahk_exe Powershell.exe", , -1527, 161
-	Sleep, 200
 	WinRestore, invokeImmediately
+	Sleep, 100
 	WinMove, invokeImmediately, , -1830, 0, 1700, 1040
 	Sleep, 200
 	WinRestore, File Explorer
+	Sleep, 100
 	WinMove, File Explorer, , 200, 0, 1720, 1040
 	Sleep, 200
 	WinActivate, ahk_exe sublime_text.exe
 	Sleep, 330
 	WinRestore, ahk_exe sublime_text.exe
+	Sleep, 100
 	WinMove, ahk_exe sublime_text.exe, , 0, 0, 1720, 1040
 	Sleep, 200
-	WinActivate, PowerShell
+	SafeWinActivate("ahk_exe Powershell.exe")
+	Sleep, 300
+	WinMove, % "ahk_exe Powershell.exe", , -1527, 161
+	Sleep, 200
 Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
