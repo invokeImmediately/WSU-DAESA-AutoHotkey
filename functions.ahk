@@ -189,6 +189,52 @@ PasteText(txtToPaste) {
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
+; TODO: Apply to all functions where appropriate
+ChangeMatchMode(newMatchMode) {
+	; TODO: refactor for improved safety
+	oldMatchMode := 0
+	if (A_TitleMatchMode != newMatchMode) {
+		oldMatchMode := A_TitleMatchMode
+		SetTitleMatchMode, % newMatchMode
+	}	
+	return oldMatchMode
+}
+
+RestoreMatchMode(oldMatchMode) {
+	; TODO: refactor for improved safety
+	if (oldMatchMode) {
+		SetTitleMatchMode, % oldMatchMode
+	}	
+}
+
+SafeWinActivate(titleToMatch, matchMode := 2, waitTime := 5) {
+	success = false
+	oldMatchMode := ChangeMatchMode(matchMode)
+
+	WinActivate, % titleToMatch
+	if(!WinActive(titleToMatch)) {
+		WinWaitActive, % titleToMatch, waitTime
+		success := WinActive(titleToMatch)
+	}
+
+	RestoreMatchMode(oldMatchMode)
+
+	if (!success) {
+		FallbackWinActivate(titleToMatch, matchMode)
+	}
+}
+
+FallbackWinActivate(titleToMatch, matchMode := 2) {
+	oldMatchMode := ChangeMatchMode(matchMode)
+
+	WinGet, hWnd, ID, % titleToMatch
+	if (hWnd) {
+		DllCall("SetForegroundWindow", UInt, hWnd)
+	}
+
+	RestoreMatchMode(oldMatchMode)
+}
+
 WaitForApplicationPatiently(title)
 {
 	delay := 250
