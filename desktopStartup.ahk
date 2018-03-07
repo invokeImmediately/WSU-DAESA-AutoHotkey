@@ -193,12 +193,30 @@ Return
 	WinRestore, ahk_exe sublime_text.exe
 	Sleep, 100
 	WinMove, ahk_exe sublime_text.exe, , 0, 0, 1720, 1040
-	Sleep, 200
-	SafeWinActivate("ahk_exe Powershell.exe")
-	Sleep, 300
-	WinMove, % "ahk_exe Powershell.exe", , -1527, 161
+	agh_MovePowerShell()
 	Sleep, 200
 Return
+
+; agh_MovePowerShell: @arrangeGitHub worker function
+agh_MovePowerShell() {
+	beat := 333 ; units = ms, time between operations
+	destX := -1527 ; units = pixels, destination X coordinate
+	destY := 161 ; units = pixels, destination Y coordinate
+	attemptsLimit := 9 ; make repeated attempts over 3 seconds
+	hWnd := WinExist("ahk_exe Powershell.exe")
+	if (hWnd) {
+		psTitle := "ahk_id " . hWnd ; i.e., PowerShell's identifying criteria
+		Sleep, % beat
+		WinGetPos, x, y, w, h, % psTitle
+		attempts := 0
+		while (attempts < attemptsLimit && (x != destX && y != destY)) {
+			WinMove, % psTitle, , % destX, % destY
+			attempts++
+			Sleep, % beat
+			WinGetPos, x, y, w, h, % psTitle
+		}
+	}
+}
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
