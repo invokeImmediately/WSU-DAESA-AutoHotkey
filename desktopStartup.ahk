@@ -209,12 +209,22 @@ agh_MovePowerShell() {
 		Sleep, % beat
 		WinGetPos, x, y, w, h, % psTitle
 		attempts := 0
-		while (attempts < attemptsLimit && (x != destX && y != destY)) {
+		while (attempts <= attemptsLimit && (x != destX && y != destY)) {
 			WinMove, % psTitle, , % destX, % destY
 			attempts++
 			Sleep, % beat
 			WinGetPos, x, y, w, h, % psTitle
 		}
+		if (attempts > attemptsLimit) {
+			errorMsgBox := New GuiMsgBox("Error in " . A_ThisFunc . ": Failed to move PowerShell "
+				. "after " . (beat * attemptsLimit / 1000) . " seconds.", Func("HandleGuiMsgBoxOk")
+				, "PowerShellWontMove")
+			errorMsgBox.ShowGui()
+		}
+	} else {
+		errorMsgBox := New GuiMsgBox("Error in " . A_ThisFunc . ": Could not find PowerShell."
+			, Func("HandleGuiMsgBoxOk"), "NoPowerShell")
+		errorMsgBox.ShowGui()
 	}
 }
 
