@@ -11,7 +11,7 @@ CreateRptInputsGui() {
 	Gui, guiRptInputs: Add, Text, , % "AHK Input String to Repeat:"
 	Gui, guiRptInputs: Add, Edit, vguiRptInputs_InputStr x+5, % settings.lastInputStr
 	Gui, guiRptInputs: Add, Text, xm, % "Number of Times:"
-	Gui, guiRptInputs: Add, Edit, vguiRptInputs_HowMany gHandleGuiRptInputsHowManyChanged x+5, % settings.lastNumTimes
+	Gui, guiRptInputs: Add, Edit, vguiRptInputs_HowMany gHandleGuiRptInputsHowManyChanged x+5 w100, % settings.lastNumTimes
 	Gui, guiRptInputs: Add, Button, gHandleGuiRptInputsOk Default xm y+12, % "&Ok"
 	Gui, guiRptInputs: Add, Button, gHandleGuiRptInputsCancel x+5, % "&Cancel"
 	Gui, guiRptInputs: Show
