@@ -25,7 +25,7 @@ GetRptInputsGuiSettings() {
 		rptInputsGuiSettings := {}
 		rptInputsGuiSettings.lastInputStr := ""
 		rptInputsGuiSettings.lastNumTimes := ""
-		rptInputsGuiSettings.keyDelay := 100 ; i.e., 100 WPM typing speed with 5 character words
+		rptInputsGuiSettings.keyDelay := 40 ; i.e., 100 WPM typing speed with 5 character words
 	}
 	return rptInputsGuiSettings
 }
