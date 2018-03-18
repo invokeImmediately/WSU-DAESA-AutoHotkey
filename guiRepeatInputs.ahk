@@ -12,6 +12,8 @@ CreateRptInputsGui() {
 	Gui, guiRptInputs: Add, Edit, vguiRptInputs_InputStr gHandleGuiRptInputsInputStrChanged x+5, % settings.lastInputStr
 	Gui, guiRptInputs: Add, Text, xm, % "Number of Times:"
 	Gui, guiRptInputs: Add, Edit, vguiRptInputs_HowMany gHandleGuiRptInputsHowManyChanged x+5 w100, % settings.lastNumTimes
+	Gui, guiRptInputs: Add, Text, xm, % "Key delay:"
+	Gui, guiRptInputs: Add, Edit, vguiRptInputs_KeyDelay gHandleGuiRptInputsKeyDelayChanged x+5 w100, % settings.keyDelay
 	Gui, guiRptInputs: Add, Button, gHandleGuiRptInputsOk Default xm y+12, % "&Ok"
 	Gui, guiRptInputs: Add, Button, gHandleGuiRptInputsCancel x+5, % "&Cancel"
 	Gui, guiRptInputs: Show
@@ -32,7 +34,7 @@ HandleGuiRptInputsInputStrChanged() {
 	global
 	local settings := GetRptCharsGuiSettings()
 
-	Gui, guiRptChars:Submit, NoHide
+	Gui, guiRptInputs:Submit, NoHide
 	settings.lastInputStr := guiRptInputs_InputStr		
 }
 
@@ -47,7 +49,22 @@ HandleGuiRptInputsHowManyChanged() {
 		GuiControl, , guiRptInputs_HowMany, %newInput%
 		settings.lastNumTimes := newInput
 	} else {
-		settings.lastNumTimes := guiRptInputs_HowMany		
+		settings.lastNumTimes := guiRptInputs_HowMany
+	}
+}
+
+HandleGuiRptInputsKeyDelayChanged() {
+	global
+	local newInput
+	local settings := GetRptInputsGuiSettings()
+
+	Gui, guiRptInputs:Submit, NoHide
+	if (RegExMatch(guiRptInputs_KeyDelay, "[^0-9]")) {
+		newInput := RegExReplace(guiRptInputs_KeyDelay, "[^0-9]")
+		GuiControl, , guiRptInputs_KeyDelay, %newInput%
+		settings.keyDelay := newInput
+	} else {
+		settings.keyDelay := guiRptInputs_KeyDelay
 	}
 }
 
@@ -59,16 +76,16 @@ HandleGuiRptInputsOk() {
 	local oldKeyDelay
 
 	Gui, guiRptInputs:Submit, NoHide
-	if (guiRptInputs_InputStr && guiRptInputs_HowMany) {
+	if (guiRptInputs_InputStr && guiRptInputs_HowMany && guiRptInputs_KeyDelay) {
 		Gui, guiRptInputs:Destroy
-		if (A_KeyDelay != settings.keyDelay) {
+		if (A_KeyDelay != guiRptInputs_KeyDelay) {
 			keyDelayChanged := True
 			oldKeyDelay := A_KeyDelay
-			SetKeyDelay, % settings.keyDelay
+			SetKeyDelay, % guiRptInputs_KeyDelay
 		}
 		while (ctr < guiRptInputs_HowMany) {
 			Send, % guiRptInputs_InputStr
-			Sleep, % settings.keyDelay
+			Sleep, % guiRptInputs_KeyDelay
 			ctr++
 		}
 		if (keyDelayChanged) {
