@@ -32,7 +32,7 @@ GetRptInputsGuiSettings() {
 
 HandleGuiRptInputsInputStrChanged() {
 	global
-	local settings := GetRptCharsGuiSettings()
+	local settings := GetRptInputsGuiSettings()
 
 	Gui, guiRptInputs:Submit, NoHide
 	settings.lastInputStr := guiRptInputs_InputStr		
