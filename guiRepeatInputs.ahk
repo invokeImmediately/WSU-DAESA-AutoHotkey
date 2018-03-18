@@ -9,11 +9,11 @@ CreateRptInputsGui() {
 
 	Gui, guiRptInputs: New, , % "Repeat Input via Send N Times"
 	Gui, guiRptInputs: Add, Text, , % "AHK Input String to Repeat:"
-	Gui, guiRptInputs: Add, Edit, vguiRptInputs_InputStr gHandleGuiRptInputsInputStrChanged x+5, % settings.lastInputStr
+	Gui, guiRptInputs: Add, Edit, vguiRptInputs_InputStr gHandleGuiRptInputsInputStrChanged x+5 w256, % settings.lastInputStr
 	Gui, guiRptInputs: Add, Text, xm, % "Number of Times:"
-	Gui, guiRptInputs: Add, Edit, vguiRptInputs_HowMany gHandleGuiRptInputsHowManyChanged x+5 w100, % settings.lastNumTimes
+	Gui, guiRptInputs: Add, Edit, vguiRptInputs_HowMany gHandleGuiRptInputsHowManyChanged x+5 w30, % settings.lastNumTimes
 	Gui, guiRptInputs: Add, Text, xm, % "Key delay:"
-	Gui, guiRptInputs: Add, Edit, vguiRptInputs_KeyDelay gHandleGuiRptInputsKeyDelayChanged x+5 w100, % settings.keyDelay
+	Gui, guiRptInputs: Add, Edit, vguiRptInputs_KeyDelay gHandleGuiRptInputsKeyDelayChanged x+5 w30, % settings.keyDelay
 	Gui, guiRptInputs: Add, Button, gHandleGuiRptInputsOk Default xm y+12, % "&Ok"
 	Gui, guiRptInputs: Add, Button, gHandleGuiRptInputsCancel x+5, % "&Cancel"
 	Gui, guiRptInputs: Show
