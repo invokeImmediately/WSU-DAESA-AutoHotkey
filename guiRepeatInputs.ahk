@@ -9,7 +9,7 @@ CreateRptInputsGui() {
 
 	Gui, guiRptInputs: New, , % "Repeat Input via Send N Times"
 	Gui, guiRptInputs: Add, Text, , % "AHK Input String to Repeat:"
-	Gui, guiRptInputs: Add, Edit, vguiRptInputs_InputStr x+5, % settings.lastInputStr
+	Gui, guiRptInputs: Add, Edit, vguiRptInputs_InputStr gHandleGuiRptInputsInputStrChanged x+5, % settings.lastInputStr
 	Gui, guiRptInputs: Add, Text, xm, % "Number of Times:"
 	Gui, guiRptInputs: Add, Edit, vguiRptInputs_HowMany gHandleGuiRptInputsHowManyChanged x+5 w100, % settings.lastNumTimes
 	Gui, guiRptInputs: Add, Button, gHandleGuiRptInputsOk Default xm y+12, % "&Ok"
@@ -26,6 +26,14 @@ GetRptInputsGuiSettings() {
 		rptInputsGuiSettings.keyDelay := 100 ; i.e., 100 WPM typing speed with 5 character words
 	}
 	return rptInputsGuiSettings
+}
+
+HandleGuiRptInputsInputStrChanged() {
+	global
+	local settings := GetRptCharsGuiSettings()
+
+	Gui, guiRptChars:Submit, NoHide
+	settings.lastInputStr := guiRptInputs_InputStr		
 }
 
 HandleGuiRptInputsHowManyChanged() {
