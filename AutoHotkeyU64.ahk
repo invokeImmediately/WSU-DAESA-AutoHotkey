@@ -414,6 +414,10 @@ Return
 ; ··································································································
 ;   >>> 12.2: Text Replacement HOTSTRINGS
 
+#Include, %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\regExStrings.ahk
+
+; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
+
 :*:@add5lineshere::
 	AppendAhkCmd(":*:@add5lineshere")
 	SendInput, {Enter 5}
