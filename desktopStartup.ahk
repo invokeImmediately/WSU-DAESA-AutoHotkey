@@ -203,7 +203,7 @@ agh_MovePowerShell() {
 	destX := -1527 ; units = pixels, destination X coordinate
 	destY := 161 ; units = pixels, destination Y coordinate
 	attemptsLimit := 9 ; make repeated attempts over 3 seconds
-	hWnd := WinExist("ahk_exe Powershell.exe")
+	hWnd := WinExist("c: ahk_class ConsoleWindowClass")
 	if (hWnd) {
 		psTitle := "ahk_id " . hWnd ; i.e., PowerShell's identifying criteria
 		Sleep, % beat
@@ -215,7 +215,7 @@ agh_MovePowerShell() {
 			Sleep, % beat
 			WinGetPos, x, y, w, h, % psTitle
 		}
-		if (attempts > attemptsLimit) {
+		if (attempts > attemptsLimit && (x != destX && y != destY)) {
 			errorMsgBox := New GuiMsgBox("Error in " . A_ThisFunc . ": Failed to move PowerShell "
 				. "after " . (beat * attemptsLimit / 1000) . " seconds.", Func("HandleGuiMsgBoxOk")
 				, "PowerShellWontMove")
