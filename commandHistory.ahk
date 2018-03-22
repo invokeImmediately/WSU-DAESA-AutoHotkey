@@ -161,7 +161,7 @@ CreateFindCmdGUI() {
 			. "through existing commands."
 		Gui, AhkGuiFindCmd:Add, Edit
 			, w400 vFindCmdEditBox HwndFindCmdEditBoxHwnd gFindCmdEditBoxChanged
-		Gui, AhkGuiFindCmd:Add, ListBox, w400 h550 vFindCmdListBox, %hsListPiped%
+		Gui, AhkGuiFindCmd:Add, ListBox, w400 h550 vFindCmdListBox gFindCmdListBoxClick, %hsListPiped%
 		;Gui, AhkGuiFindCmd:Add, ComboBox, w400 h550 vFindCmdComboBox Simple, %hsListPiped%
 		Gui, AhkGuiFindCmd:Add, Button, Default gHandleFindCmdOk, &Ok
 		Gui, AhkGuiFindCmd:Add, Button, gHandleFindCmdCancel X+5, &Cancel
@@ -200,6 +200,12 @@ FindCmdEditBoxKeyup(wParam, lParam, msg, hwnd) {
 		GuiControl, -AltSubmit, FindCmdListBox
 		GuiControl, Choose, FindCmdListBox, %cmdToSelect%
 		GuiControl, Focus, FindCmdListBox
+	}
+}
+
+FindCmdListBoxClick() {
+	if (A_GuiEvent == "DoubleClick") {
+		HandleFindCmdOk()
 	}
 }
 
