@@ -7,17 +7,17 @@
 ; ==================================================================================================
 ; TABLE OF CONTENTS:
 ; -----------------
-;    §1: DEPENDENCIES ........................................................................ 23
-;    §2: FUNCTIONS & SUBROUTINES ............................................................. 29
-;    §3: WINDOW POSITIONING HOTKEYS .......................................................... 89
-;    §4: VIRTUAL DESKTOP HOTKEYS ............................................................ 629
-;    §5: MOUSE HOTKEYS ...................................................................... 677
-;    §6: AUDITORY CUE BINDING ............................................................... 733
-;    §7: WINDOW POSITIONING GUIS ............................................................ 755
-;    >>> §7.1: Window Adjustment GUI ........................................................ 759
-;    §8: APP SPECIFIC WORKSPACE MANAGEMENT SCRIPTS .......................................... 904
-;    >>> §8.2: NOTEPAD++: TEXT EDITING ENHANCEMENT HOTKEYS & SCRIPTS ........................ 952
-;    >>> §8.3: STICKY NOTES FOR CHROME ..................................................... 1034
+;    §1: DEPENDENCIES .........................................................................23
+;    §2: FUNCTIONS & SUBROUTINES ..............................................................29
+;    §3: WINDOW POSITIONING HOTKEYS ...........................................................89
+;    §4: VIRTUAL DESKTOP HOTKEYS .............................................................641
+;    §5: MOUSE HOTKEYS .......................................................................689
+;    §6: AUDITORY CUE BINDING ................................................................745
+;    §7: WINDOW POSITIONING GUIS .............................................................767
+;    >>> §7.1: Window Adjustment GUI .........................................................771
+;    §8: APP SPECIFIC WORKSPACE MANAGEMENT SCRIPTS ...........................................916
+;    >>> §8.2: NOTEPAD++: TEXT EDITING ENHANCEMENT HOTKEYS & SCRIPTS .........................964
+;    >>> §8.3: STICKY NOTES FOR CHROME ......................................................1046
 
 ; --------------------------------------------------------------------------------------------------
 ;   §1: DEPENDENCIES
@@ -205,7 +205,7 @@ Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 ; Snap the active window to the left edge of its monitor; if already snapped, reduce its width.
-<^!#Left::
+>^!#Left::
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		WinGetPos, winX, winY, winW, winH, A
@@ -251,7 +251,7 @@ SafeWinMove(WinTitle, WinText, X, Y, Width, Height, ExcludeTitle := "", ExcludeT
 ; Snap the active window to the left edge of its monitor; if already snapped, reduce its width. 
 ; Additionally, resize the window vertically to fill up the full vertical extent of the monitor's 
 ; available work area.
->^!#Left::
+<^!#Left::
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		WinGetPos, winX, winY, winW, winH, A
@@ -279,7 +279,7 @@ UpdateVariableAsNeeded(ByRef variable, newValue) {
 }
 
 ; Snap the active window to the left edge of its monitor; if already snapped, increase its width.
-<^!+#Left::
+>^!+#Left::
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		WinGetPos, winX, winY, winW, winH, A
@@ -309,7 +309,7 @@ IncrementWinDimension(ByRef winDim, winPos, ByRef targetPos, increment, minWinDi
 
 ; Snap the active window to the left edge of its monitor; if already snapped, increase its width. 
 ; Additionally, match the height of the window to the full height of the active monitor's work area.
->^!+#Left::
+<^!+#Left::
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		WinGetPos, winX, winY, winW, winH, A
@@ -329,7 +329,7 @@ return
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ; Snap the active window to the right edge of its monitor; if already snapped, reduce its width.
-<^!#Right::
+>^!#Right::
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		WinGetPos, winX, winY, winW, winH, A
@@ -347,7 +347,7 @@ return
 ; Snap the active window to the right edge of its monitor; if already snapped, reduce its width.
 ; Additionally, resize the window vertically to fill up the full vertical extent of the monitor's 
 ; available work area.
->^!#Right::
+<^!#Right::
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		WinGetPos, winX, winY, winW, winH, A
@@ -366,7 +366,7 @@ return
 return
 
 ; Snap the active window to the right edge of its monitor; if already snapped, increase its width.
-<^!+#Right::
+>^!+#Right::
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		WinGetPos, winX, winY, winW, winH, A
@@ -382,7 +382,7 @@ return
 return
 
 ; Snap the active window to the right edge of its monitor; if already snapped, increase its width.
->^!+#Right::
+<^!+#Right::
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		WinGetPos, winX, winY, winW, winH, A
@@ -402,7 +402,7 @@ return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
-<^!#Up::
+>^!#Up::
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		WinGetPos, winX, winY, winW, winH, A
@@ -417,7 +417,7 @@ return
 	}
 return
 
->^!#Up::
+<^!#Up::
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		WinGetPos, winX, winY, winW, winH, A
@@ -435,7 +435,7 @@ return
 	}
 return
 
-<^!+#Up::
+>^!+#Up::
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		WinGetPos, winX, winY, winW, winH, A
@@ -450,7 +450,7 @@ return
 	}
 return
 
->^!+#Up::
+<^!+#Up::
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		WinGetPos, winX, winY, winW, winH, A
@@ -470,7 +470,7 @@ return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
-<^!#Down::
+>^!#Down::
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		WinGetPos, winX, winY, winW, winH, A
@@ -485,7 +485,7 @@ return
 	}
 return
 
->^!#Down::
+<^!#Down::
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		WinGetPos, winX, winY, winW, winH, A
@@ -503,7 +503,7 @@ return
 	}
 return
 
-<^!+#Down::
+>^!+#Down::
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		WinGetPos, winX, winY, winW, winH, A
@@ -518,7 +518,7 @@ return
 	}
 return
 
->^!+#Down::
+<^!+#Down::
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		WinGetPos, winX, winY, winW, winH, A
