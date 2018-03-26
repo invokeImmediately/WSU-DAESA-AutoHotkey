@@ -26,12 +26,12 @@
 ;   §11: HTML EDITING..........................................................................358
 ;   §12: TEXT REPLACEMENT & INPUT..............................................................364
 ;   >>> 12.1: Text Replacement HOTKEYS.........................................................368
-;   >>> 12.2: Text Replacement HOTSTRINGS......................................................415
-;   >>> 12.3: Text Input HOTSTRINGS............................................................547
-;   §13: OTHER SHORTCUTS.......................................................................554
-;   §14: WORK TIMER............................................................................567
-;   §15: CUSTOM HOTSTRINGS & HOTKEYS...........................................................573
-;   §16: MAIN SUBROUTINE.......................................................................647
+;   >>> 12.2: Text Replacement HOTSTRINGS......................................................373
+;   >>> 12.3: Text Input HOTSTRINGS............................................................477
+;   §13: OTHER SHORTCUTS.......................................................................484
+;   §14: WORK TIMER............................................................................497
+;   §15: CUSTOM HOTSTRINGS & HOTKEYS...........................................................503
+;   §16: MAIN SUBROUTINE.......................................................................577
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -367,49 +367,7 @@ Return
 ; ··································································································
 ;   >>> 12.1: Text Replacement HOTKEYS
 
-NumpadDiv::
-	if (bitNumpadDivToggle) {
-		SendInput, % numpadDivOverwrite
-	}
-	else {
-		SendInput, /
-	}
-Return
-
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-
-^NumpadDiv::
-	Gosub :*:@toggleNumpadDiv
-Return
-
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-
-^+NumpadDiv::
-	Gosub :*:@changeNumpadDiv
-Return
-
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-
-NumpadSub::
-	if (bitNumpadSubToggle) {
-		SendInput, % numpadSubOverwrite
-	}
-	else {
-		SendInput, -
-	}
-Return
-
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-
-^NumpadSub::
-	Gosub :*:@toggleNumpadSub
-Return
-
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-
-^+NumpadSub::
-	Gosub :*:@changeNumpadSub
-Return
+#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\numpadModifier.ahk
 
 ; ··································································································
 ;   >>> 12.2: Text Replacement HOTSTRINGS
@@ -497,38 +455,6 @@ Return
 :*:@ppp::
 	AppendAhkCmd(":*:@ppp")
 	SendInput, news-events_events_.html{Left 5}
-Return
-
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-
-:*:@toggleNumpadDiv::
-	AppendAhkCmd(":*:@toggleNumpadDiv")
-	toggleMsg := "The NumPad / key has been toggled to "
-	bitNumpadDivToggle := !bitNumpadDivToggle
-	if (bitNumpadDivToggle) {
-		toggleMsg .= numpadDivOverwrite
-	} else {
-		toggleMsg .=  "/"
-	}
-	MsgBox, % (0x0 + 0x40)
-		, % "@toggleNumpadDiv: NumPad / Toggled"
-		, % toggleMsg
-Return
-
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-
-:*:@toggleNumpadSub::
-	AppendAhkCmd(":*:@toggleNumpadSub")
-	toggleMsg := "The NumPad- key has been toggled to "
-	bitNumpadSubToggle := !bitNumpadSubToggle
-	if (bitNumpadSubToggle) {
-		toggleMsg .= numpadSubOverwrite
-	} else {
-		toggleMsg .=  "-"
-	}
-	MsgBox, % (0x0 + 0x40)
-		, % "@toggleNumpadSub: NumPad- Toggled"
-		, % toggleMsg
 Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
