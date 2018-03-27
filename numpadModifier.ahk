@@ -82,11 +82,15 @@ Return
 
 HandleToggleNpBoxArt() {
 	global npBoxArtActive
+	toggleMsg := "Numpad box art toggled to "
 	if (npBoxArtActive) {
 		npBoxArtActive := False
+		toggleMsg .= "OFF"
 	} else {
 		npBoxArtActive := True
+		toggleMsg .= "ON"
 	}
+	DisplaySplashText(toggleMsg)
 }
 
 Numpad7::
