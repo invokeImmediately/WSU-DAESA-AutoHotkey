@@ -10,14 +10,14 @@
 ;    §1: DEPENDENCIES .........................................................................23
 ;    §2: FUNCTIONS & SUBROUTINES ..............................................................29
 ;    §3: WINDOW POSITIONING HOTKEYS ...........................................................89
-;    §4: VIRTUAL DESKTOP HOTKEYS .............................................................641
-;    §5: MOUSE HOTKEYS .......................................................................689
-;    §6: AUDITORY CUE BINDING ................................................................745
-;    §7: WINDOW POSITIONING GUIS .............................................................767
-;    >>> §7.1: Window Adjustment GUI .........................................................771
-;    §8: APP SPECIFIC WORKSPACE MANAGEMENT SCRIPTS ...........................................916
-;    >>> §8.2: NOTEPAD++: TEXT EDITING ENHANCEMENT HOTKEYS & SCRIPTS .........................964
-;    >>> §8.3: STICKY NOTES FOR CHROME ......................................................1046
+;    §4: VIRTUAL DESKTOP HOTKEYS .............................................................644
+;    §5: MOUSE HOTKEYS .......................................................................692
+;    §6: AUDITORY CUE BINDING ................................................................748
+;    §7: WINDOW POSITIONING GUIS .............................................................770
+;    >>> §7.1: Window Adjustment GUI .........................................................774
+;    §8: APP SPECIFIC WORKSPACE MANAGEMENT SCRIPTS ...........................................919
+;    >>> §8.2: NOTEPAD++: TEXT EDITING ENHANCEMENT HOTKEYS & SCRIPTS .........................967
+;    >>> §8.3: STICKY NOTES FOR CHROME ......................................................1049
 
 ; --------------------------------------------------------------------------------------------------
 ;   §1: DEPENDENCIES
@@ -131,15 +131,16 @@ Return
 ; TODO: Refactor to compensate for window border widths and how they affect positioning
 ^F9::
 	SoundPlay, %windowSizingSound%
-	SysGet, Mon1, MonitorWorkArea, 1
-	maxWidth := Mon1Right - Mon1Left
+	borderWidths := GetActiveWindowBorderWidths()
+	maxWidth := (mon1WorkArea_Right + (borderWidths.Horz - 1)) - (mon1WorkArea_Left 
+		- (borderWidths.Horz - 1))
 	minWidth := Round(maxWidth / 20 * 3)
 	widthDecrement := minWidth
-	newWidth := maxWidth - widthDecrement + sysWinBorderW * 2
-	newPosX := widthDecrement - sysWinBorderW
-	maxHeight := Mon1Bottom - Mon1Top
+	newWidth := maxWidth - (widthDecrement * 4 / 3)
+	newPosX := (widthDecrement * 4 / 3) - (borderWidths.Horz - 1)
+	maxHeight := (mon1WorkArea_Bottom - mon1WorkArea_Top) + (borderWidths.Vert - 1)
 	minHeight := Round(maxHeight / 20 * 3)
-	newHeight := maxHeight + sysWinBorderH
+	newHeight := maxHeight
 	WinRestore, A
 	WinMove, A, , %newPosX%, 0, %newWidth%, %maxHeight%
 	TriggerWindowAdjustmentGui(4, minWidth, maxWidth, newWidth, minHeight, maxHeight, newHeight)
@@ -147,15 +148,16 @@ Return
 
 ^F8::
 	SoundPlay, %windowSizingSound%
-	SysGet, Mon1, MonitorWorkArea, 1
-	maxWidth := Mon1Right - Mon1Left
+	borderWidths := GetActiveWindowBorderWidths()
+	maxWidth := (mon1WorkArea_Right + (borderWidths.Horz - 1)) - (mon1WorkArea_Left 
+		- (borderWidths.Horz - 1))
 	minWidth := Round(maxWidth / 20 * 3)
 	widthDecrement := minWidth
-	newWidth := maxWidth - widthDecrement + sysWinBorderW * 2
-	newPosX := -sysWinBorderW + 1
-	maxHeight := Mon1Bottom - Mon1Top
+	newWidth := maxWidth - widthDecrement * 4 / 3
+	newPosX := -borderWidths.Horz + 1
+	maxHeight := (mon1WorkArea_Bottom - mon1WorkArea_Top) + (borderWidths.Vert - 1)
 	minHeight := Round(maxHeight / 20 * 3)
-	newHeight := maxHeight + sysWinBorderH
+	newHeight := maxHeight
 	WinRestore, A
 	WinMove, A, , %newPosX%, 0, %newWidth%, %maxHeight%
 	TriggerWindowAdjustmentGui(1, minWidth, maxWidth, newWidth, minHeight, maxHeight, newHeight)
@@ -164,13 +166,13 @@ Return
 ^F7::
 	SoundPlay, %windowSizingSound%
 	borderWidths := GetActiveWindowBorderWidths()
-	maxWidth := (mon1WorkArea_Right + (borderWidths.Horz - 1)) - (mon1WorkArea_Left 
+	maxWidth := (mon2WorkArea_Right + (borderWidths.Horz - 1)) - (mon2WorkArea_Left 
 		- (borderWidths.Horz - 1))
 	minWidth := Round(maxWidth / 20 * 3)
 	widthDecrement := minWidth
-	newWidth := maxWidth - widthDecrement
-	newPosX := -(maxWidth - widthDecrement) + (borderWidths.Horz - 1)
-	maxHeight := (mon1WorkArea_Bottom - mon1WorkArea_Top) + (borderWidths.Vert - 1)
+	newWidth := maxWidth - (widthDecrement * 4 / 3)
+	newPosX := -(maxWidth - widthDecrement * 4 / 3) + (borderWidths.Horz - 1)
+	maxHeight := (mon2WorkArea_Bottom - mon2WorkArea_Top) + (borderWidths.Vert - 1)
 	minHeight := Round(maxHeight / 20 * 3)
 	newHeight := maxHeight
 	WinRestore, A
@@ -180,15 +182,16 @@ Return
 
 ^F6::
 	SoundPlay, %windowSizingSound%
-	SysGet, Mon1, MonitorWorkArea, 1
-	maxWidth := Mon1Right - Mon1Left
+	borderWidths := GetActiveWindowBorderWidths()
+	maxWidth := (mon2WorkArea_Right + (borderWidths.Horz - 1)) - (mon2WorkArea_Left 
+		- (borderWidths.Horz - 1))
 	minWidth := Round(maxWidth / 20 * 3)
 	widthDecrement := minWidth
-	newWidth := maxWidth - widthDecrement + sysWinBorderW * 2
-	newPosX := -maxWidth - sysWinBorderW + 1
-	maxHeight := Mon1Bottom - Mon1Top
+	newWidth := maxWidth - widthDecrement * 4 / 3
+	newPosX := -(maxWidth - widthDecrement * 4 / 3) + (borderWidths.Horz - 1)
+	maxHeight := (mon2WorkArea_Bottom - mon2WorkArea_Top) + (borderWidths.Vert - 1)
 	minHeight := Round(maxHeight / 20 * 3)
-	newHeight := maxHeight + sysWinBorderH
+	newHeight := maxHeight
 	WinRestore, A
 	WinMove, A, , %newPosX%, 0, %newWidth%, %newHeight%
 	TriggerWindowAdjustmentGui(1, minWidth, maxWidth, newWidth, minHeight, maxHeight, newHeight)
