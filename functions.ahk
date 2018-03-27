@@ -177,6 +177,15 @@ GetCursorCoordsToCenterInActiveWindow(ByRef newPosX, ByRef newPosY)
 	newPosY := winH / 2
 }
 
+DisplaySplashText(msg) {
+	SplashTextOn, % StrLen(msg) * 8, 24, % A_ScriptName, % msg
+	SetTimer, DismissSplashText, -1000
+}
+
+DismissSplashText() {
+	SplashTextOff
+}
+
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 PasteText(txtToPaste) {
