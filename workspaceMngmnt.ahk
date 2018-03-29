@@ -188,7 +188,7 @@ Return
 	minWidth := Round(maxWidth / 20 * 3)
 	widthDecrement := minWidth
 	newWidth := maxWidth - widthDecrement * 4 / 3
-	newPosX := -(maxWidth - widthDecrement * 4 / 3) + (borderWidths.Horz - 1)
+	newPosX := -maxWidth + (borderWidths.Horz - 1)
 	maxHeight := (mon2WorkArea_Bottom - mon2WorkArea_Top) + (borderWidths.Vert - 1)
 	minHeight := Round(maxHeight / 20 * 3)
 	newHeight := maxHeight
