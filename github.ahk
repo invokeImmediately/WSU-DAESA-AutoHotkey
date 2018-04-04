@@ -1813,20 +1813,20 @@ Return
 		. "lessc --clean-css ucore-custom.less ucore-custom.min.css`r"
 		. "[console]::beep(1500,300)`r")
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssUcore")
+
 Return
 
 :*:@commitCssUcore::
 	ahkCmdName := ":*:@commitCssUcore"
+	gitFolder := "ucore.wsu.edu" ; fp = file path
+	lessSrcFile := "ucore-custom.less" ; fn = file name
+	cssBuildFile := "ucore-custom.css"
+	minCssBuildFile := "ucore-custom.min.css"
+
+	; Register this hotkey with command history interface & process instructions for committing the
+	; CSS build
 	AppendAhkCmd(ahkCmdName)
-	PasteTextIntoGitShell(ahkCmdName
-		, "cd '" . GetGitHubFolder() . "\ucore.wsu.edu\'`r"
-		. "git add CSS\ucore-custom.css`r"
-		. "git add CSS\ucore-custom.min.css`r"
-		. "git commit -m 'Updating custom CSS build' -m 'Rebuilt production files to incorporate "
-		. "recent changes to source code and/or dependencies.' `r"
-		. "git push`r"
-		. "[console]::beep(2000,150)`r"
-		. "[console]::beep(2000,150)`r")
+	CommitCssBuild(ahkCmdName, gitFolder, lessSrcFile, cssBuildFile, minCssBuildFile)
 Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
@@ -1844,16 +1844,15 @@ Return
 
 :*:@commitCssUcrAss::
 	ahkCmdName := ":*:@commitCssUcrAss"
+	gitFolder := "ucore.wsu.edu-assessment" ; fp = file path
+	lessSrcFile := "ucore-assessment-custom.less" ; fn = file name
+	cssBuildFile := "ucore-assessment-custom.css"
+	minCssBuildFile := "ucore-assessment-custom.min.css"
+
+	; Register this hotkey with command history interface & process instructions for committing the
+	; CSS build
 	AppendAhkCmd(ahkCmdName)
-	PasteTextIntoGitShell(ahkCmdName
-		, "cd '" . GetGitHubFolder() . "\ucore.wsu.edu-assessment\'`r"
-		. "git add CSS\ucore-assessment-custom.css`r"
-		. "git add CSS\ucore-assessment-custom.min.css`r"
-		. "git commit -m 'Updating custom CSS build' -m 'Rebuilt production files to incorporate "
-		. "recent changes to source code and/or dependencies.' `r"
-		. "git push`r"
-		. "[console]::beep(2000,150)`r"
-		. "[console]::beep(2000,150)`r")
+	CommitCssBuild(ahkCmdName, gitFolder, lessSrcFile, cssBuildFile, minCssBuildFile)
 Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
