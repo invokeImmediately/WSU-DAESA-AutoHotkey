@@ -336,9 +336,9 @@ return
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		WinGetPos, winX, winY, winW, winH, A
-		monWith := monitorARight - monitorALeft
-		widthDecrement := Round(monWith / 20)
-		minWidth := Round(monWith / 20 * 3)
+		monWidth := monitorARight - monitorALeft
+		widthDecrement := Round(monWidth / 20)
+		minWidth := Round(monWidth / 20 * 3)
 		maxWidth := monWidth - widthDecrement
 		newWinX := monitorARight - winW
 		DecrementWinDimension(winW, winX, newWinX, widthDecrement, minWidth, maxWidth, true
@@ -355,14 +355,14 @@ return
 	if (monitorFound) {
 		WinGetPos, winX, winY, winW, winH, A
 		monWidth := monitorARight - monitorALeft
-		widthDecrement := Round(monWith / 20)
-		minWidth := Round(monWith / 20 * 3)
+		widthDecrement := Round(monWidth / 20)
+		minWidth := Round(monWidth / 20 * 3)
 		maxWidth := monWidth - widthDecrement
 		newWinX := monitorARight - winW
 		heightChanged := UpdateVariableAsNeeded(winH, monitorABottom)
 		if (!heightChanged) {
 			DecrementWinDimension(winW, winX, newWinX, widthDecrement, minWidth, maxWidth, true
-				, monitorARight)			
+				, monitorARight)
 		}
 		SafeWinMove("A", "", newWinX, 0, winW, winH)
 	}
