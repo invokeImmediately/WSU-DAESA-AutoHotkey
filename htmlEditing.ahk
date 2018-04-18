@@ -389,7 +389,7 @@ BackupOueHtml_CleanMarkup(cleaningNeedle, keyDelay) {
 BackupOueHtml_InsertEllipses(keyDelay) {
 	; Insert ellipses after breaks in the original markup
 	Send, ^f
-	SendInput, % "</title>$|<body.*$|</section>(?=\n</body)" 
+	SendInput, % "</title>$|<body.*$|</section>(?=\n</body)|</div>(?=\n</body)" 
 	Send, !{Enter}
 	Send, {Right}{Enter}...{Esc}
 }
