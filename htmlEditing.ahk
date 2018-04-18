@@ -309,8 +309,8 @@ BackupOueHtml(sourceCode, workingFilePath, targetContentNeedle, cleaningNeedle, 
 		BackupOueHtml_CopyMarkupSections(targetContentNeedle, keyDelay)
 		BackupOueHtml_CleanMarkup(cleaningNeedle, keyDelay)
 		BackupOueHtml_BeautifyHtml(keyDelay)
-		Send, {Enter} ; Insert final blank line for the sake of git
-		BackupOueHtml_InsertEllipses(keyDelay)
+		BackupOueHtml_InsertEllipses()
+		BackupOueHtml_InsertBlankLine()
 	}
 	Else
 	{
@@ -386,12 +386,17 @@ BackupOueHtml_CleanMarkup(cleaningNeedle, keyDelay) {
 	}
 }
 
-BackupOueHtml_InsertEllipses(keyDelay) {
+BackupOueHtml_InsertEllipses() {
 	; Insert ellipses after breaks in the original markup
 	Send, ^f
-	SendInput, % "</title>$|<body.*$|</section>(?=\n</body)|</div>(?=\n</body)" 
+	SendInput, % "</title>$|<body.*$|</section>(?=\n</body)|</div>(?=\n\t*</body)" 
 	Send, !{Enter}
 	Send, {Right}{Enter}...{Esc}
+}
+
+BackupOueHtml_InsertBlankLine() {
+	; Insert final blank line for the sake of git
+	Send, ^{End}{Enter}^{Home}
 }
 
 :*:@backupOuePost::
