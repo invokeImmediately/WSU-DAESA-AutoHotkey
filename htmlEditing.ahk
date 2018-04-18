@@ -274,17 +274,17 @@ Return
 	viewSourceTitle := "view-source ahk_exe " . webBrowserProcess
 	workingFilePath := "C:\Users\CamilleandDaniel\Documents\GitHub\backupOuePage-workfile.html"
 	targetContentNeedle := "{^}\t*<section.*class="".*row.*$\n({^}.*$\n)*{^}\t*</section>$(?=\n{^}\"
-			. "t*</div><{!}-- {#}post -->)|{^}\t*<title>.*$\n|{^}\t*<body.*$\n|{^}\t*</body.*$\n"
+		. "t*</div><{!}-- {#}post -->)|{^}\t*<title>.*$\n|{^}\t*<body.*$\n|{^}\t*</body.*$\n"
 
 	AppendAhkCmd(ahkThisCmd)
 	if (CopyWebpageSourceToClipboard(webBrowserProcess, correctTitleNeedle, viewSourceTitle
 			, "Before using this hotstring, please activate a tab of your web browser into which a "
 			. "WSU OUE website is loaded.")) {
-		BackupOueHtml(Clipboard, workingFilePath, targetContentNeedle, keyDelay)
+		BackupOueHtml(Clipboard, workingFilePath, targetContentNeedle, "", keyDelay)
 	}
 Return
 
-BackupOueHtml(sourceCode, workingFilePath, targetContentNeedle, keyDelay) {
+BackupOueHtml(sourceCode, workingFilePath, targetContentNeedle, cleaningNeedle, keyDelay) {
 	sublimeTextTitle := "Sublime Text ahk_exe sublime_text.exe"
 	oldMatchMode := 0
 
@@ -307,6 +307,7 @@ BackupOueHtml(sourceCode, workingFilePath, targetContentNeedle, keyDelay) {
 		BackupOueHtml_FixBadMarkup(keyDelay)
 		BackupOueHtml_BeautifyHtml(keyDelay)
 		BackupOueHtml_CopyMarkupSections(targetContentNeedle, keyDelay)
+		BackupOueHtml_CleanMarkup(cleaningNeedle, keyDelay)
 		BackupOueHtml_BeautifyHtml(keyDelay)
 		Send, {Enter} ; Insert final blank line for the sake of git
 		BackupOueHtml_InsertEllipses(keyDelay)
@@ -352,8 +353,6 @@ BackupOueHtml_FixBadMarkup(keyDelay) {
 	Sleep, (%keyDelay% * 2)
 	Send, {Esc}{Right}
 	Sleep, (%keyDelay%)
-
-	;TODO: Add handling of malformed tags
 }
 
 BackupOueHtml_BeautifyHtml(keyDelay) {
@@ -374,6 +373,19 @@ BackupOueHtml_CopyMarkupSections(targetContentNeedle, keyDelay) {
 	Send, ^v
 }
 
+BackupOueHtml_CleanMarkup(cleaningNeedle, keyDelay) {
+	if (cleaningNeedle != "") {
+		Send, ^h
+		Sleep, (%keyDelay% * 2)
+		SendInput, % cleaningNeedle
+		Send, {Tab}^a{Del}
+		Send, ^!{Enter}
+		Sleep, (%keyDelay% * 2)
+		Send, {Esc}{Right}
+		Sleep, (%keyDelay%)
+	}
+}
+
 BackupOueHtml_InsertEllipses(keyDelay) {
 	; Insert ellipses after breaks in the original markup
 	Send, ^f
@@ -390,13 +402,15 @@ BackupOueHtml_InsertEllipses(keyDelay) {
 	viewSourceTitle := "view-source ahk_exe " . webBrowserProcess
 	workingFilePath := "C:\Users\CamilleandDaniel\Documents\GitHub\backupOuePage-workfile.html"
 	targetContentNeedle := "{^}\t*<div.*class="".*one.*$\n({^}.*$\n)*{^}\t*</div><{!}--/column-->$|"
-			. "{^}\t*<title>.*$\n|{^}\t*<body.*$\n|{^}\t*</body.*$\n"
+		. "{^}\t*<title>.*$\n|{^}\t*<body.*$\n|{^}\t*</body.*$\n"
+	cleaningNeedle := "<{!}--.*\.?(?:author-avatar|author-link|author-description|author-info|entry"
+		. "-meta|/column).*-->"
 
 	AppendAhkCmd(ahkThisCmd)
 	if (CopyWebpageSourceToClipboard(webBrowserProcess, correctTitleNeedle, viewSourceTitle
 			, "Before using this hotstring, please activate a tab of your web browser into which a "
 			. "WSU OUE website is loaded.")) {
-		BackupOueHtml(Clipboard, workingFilePath, targetContentNeedle, keyDelay)
+		BackupOueHtml(Clipboard, workingFilePath, targetContentNeedle, cleaningNeedle, keyDelay)
 	}
 Return
 
