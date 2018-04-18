@@ -382,6 +382,24 @@ BackupOueHtml_InsertEllipses(keyDelay) {
 	Send, {Right}{Enter}...{Esc}
 }
 
+:*:@backupOuePost::
+	ahkThisCmd := A_ThisLabel
+	keyDelay := 140
+	webBrowserProcess := "chrome.exe"
+	correctTitleNeedle := "\| Washington State University"
+	viewSourceTitle := "view-source ahk_exe " . webBrowserProcess
+	workingFilePath := "C:\Users\CamilleandDaniel\Documents\GitHub\backupOuePage-workfile.html"
+	targetContentNeedle := "{^}\t*<div.*class="".*one.*$\n({^}.*$\n)*{^}\t*</div><{!}--/column-->$|"
+			. "{^}\t*<title>.*$\n|{^}\t*<body.*$\n|{^}\t*</body.*$\n"
+
+	AppendAhkCmd(ahkThisCmd)
+	if (CopyWebpageSourceToClipboard(webBrowserProcess, correctTitleNeedle, viewSourceTitle
+			, "Before using this hotstring, please activate a tab of your web browser into which a "
+			. "WSU OUE website is loaded.")) {
+		BackupOueHtml(Clipboard, workingFilePath, targetContentNeedle, keyDelay)
+	}
+Return
+
 ; ··································································································
 ;   >>> §2.4: Hyperlink collection hotstring
 
