@@ -272,98 +272,115 @@ Return
 	webBrowserProcess := "chrome.exe"
 	correctTitleNeedle := "\| Washington State University"
 	viewSourceTitle := "view-source ahk_exe " . webBrowserProcess
-	sublimeTextTitle := "Sublime Text ahk_exe sublime_text.exe"
 	workingFilePath := "C:\Users\CamilleandDaniel\Documents\GitHub\backupOuePage-workfile.html"
+	targetContentNeedle := "{^}\t*<section.*class="".*row.*$\n({^}.*$\n)*{^}\t*</section>$(?=\n{^}\"
+			. "t*</div><{!}-- {#}post -->)|{^}\t*<title>.*$\n|{^}\t*<body.*$\n|{^}\t*</body.*$\n"
 
 	AppendAhkCmd(ahkThisCmd)
 	if (CopyWebpageSourceToClipboard(webBrowserProcess, correctTitleNeedle, viewSourceTitle
-		, "Before using this hotstring, please activate a tab of your web browser into which a WSU "
-		. "OUE website is loaded.")) {
-
-		oldMatchMode := 0
-		if (A_TitleMatchMode != RegEx) {
-			oldMatchMode := A_TitleMatchMode
-			SetTitleMatchMode, RegEx
-		}
-
-		oldKeyDelay := 0
-		if (A_KeyDelay != keyDelay)	{
-			oldKeyDelay := A_KeyDelay
-			SetKeyDelay, %keyDelay%
-		}
-
-		; Switch the active process to Sublime Text 3
-		IfWinExist, % sublimeTextTitle
-		{
-			WinActivate
-			Send, ^n
-			Sleep, (%keyDelay% * 2)
-			Send, {Esc}
-			Send, ^v
-
-			; Save the contents to the working file
-			Send, ^+s
-			Sleep, (%keyDelay% * 5)
-			SendInput, % "{BackSpace}" . workingFilePath
-			Sleep, %keyDelay%
-			Send, {Enter}{Left}{Enter}
-			Sleep, (%keyDelay% * 5)
-
-			; Fix any problems with bad markup
-			Send, ^h
-			Sleep, (%keyDelay% * 2)
-			SendInput, % "(<br ?/?> ?)\n[\t ]{{}0,{}}"
-			Send, {Tab}^a{Del}
-			SendInput, % "\1"
-			Send, ^!{Enter}
-			Sleep, (%keyDelay% * 2)
-			Send, {Esc}{Right}
-			Sleep, (%keyDelay%)
-
-			;TODO: Add handling of malformed 
-
-			; Trigger the Beautify HTML package to clean up markup and prepare it for RegEx 
-			Send, ^!+f
-			Sleep, (%keyDelay% * 4)
-
-			; Find the portions of the markup that we want to back up, select them all, copy, and
-			; then overwrite the full markup
-			Send, ^f
-			SendInput, % "{^}\t*<section.*class="".*row.*$\n({^}.*$\n)*{^}\t*</section>$(?=\n{^}\t*"
-				. "</div><{!}-- {#}post -->)|{^}\t*<title>.*$\n|{^}\t*<body.*$\n|{^}\t*</body.*$\n"
-			Send, !{Enter}
-			Sleep, (%keyDelay% * 10)
-			Send, ^c
-			Send, ^a
-			Send, ^v
-
-			; Beautify the markup one last time to remove unnecessary leading tabs that were left
-			; over from the previous beautification
-			Send, ^!+f
-
-			; Insert final blank line for the sake of git
-			Send, {Enter}
-
-			; Insert ellipses after breaks in the original markup
-			Send, ^f
-			SendInput, % "</title>$|<body.*$|</section>(?=\n</body)" 
-			Send, !{Enter}
-			Send, {Right}{Enter}...{Esc}
-		}
-		Else
-		{
-			ErrorBox(ahkThisCmd, "I could not find a Sublime Text 3 process to activate.")
-		}
-
-		if (oldKeyDelay) {
-			SetKeyDelay, %oldKeyDelay%
-		}
-
-		if (oldMatchMode) {
-			SetTitleMatchMode, %oldMatchMode%
-		}
+			, "Before using this hotstring, please activate a tab of your web browser into which a "
+			. "WSU OUE website is loaded.")) {
+		BackupOueHtml(Clipboard, workingFilePath, targetContentNeedle, keyDelay)
 	}
 Return
+
+BackupOueHtml(sourceCode, workingFilePath, targetContentNeedle, keyDelay) {
+	sublimeTextTitle := "Sublime Text ahk_exe sublime_text.exe"
+	oldMatchMode := 0
+
+	if (A_TitleMatchMode != RegEx) {
+		oldMatchMode := A_TitleMatchMode
+		SetTitleMatchMode, RegEx
+	}
+
+	oldKeyDelay := 0
+	if (A_KeyDelay != keyDelay)	{
+		oldKeyDelay := A_KeyDelay
+		SetKeyDelay, %keyDelay%
+	}
+
+	; Switch the active process to Sublime Text 3
+	IfWinExist, % sublimeTextTitle
+	{
+		BackupOueHtml_CreateNewFile(keyDelay)
+		BackupOueHtml_SaveToWorkingFile(workingFilePath, keyDelay)
+		BackupOueHtml_FixBadMarkup(keyDelay)
+		BackupOueHtml_BeautifyHtml(keyDelay)
+		BackupOueHtml_CopyMarkupSections(targetContentNeedle, keyDelay)
+		BackupOueHtml_BeautifyHtml(keyDelay)
+		Send, {Enter} ; Insert final blank line for the sake of git
+		BackupOueHtml_InsertEllipses(keyDelay)
+	}
+	Else
+	{
+		ErrorBox(ahkThisCmd, "I could not find a Sublime Text 3 process to activate.")
+	}
+
+	if (oldKeyDelay) {
+		SetKeyDelay, %oldKeyDelay%
+	}
+
+	if (oldMatchMode) {
+		SetTitleMatchMode, %oldMatchMode%
+	}
+}
+
+BackupOueHtml_CreateNewFile(keyDelay) {
+	WinActivate
+	Send, ^n
+	Sleep, (%keyDelay% * 2)
+	Send, {Esc}
+	Send, ^v
+}
+
+BackupOueHtml_SaveToWorkingFile(workingFilePath, keyDelay) {
+	Send, ^+s
+	Sleep, (%keyDelay% * 5)
+	SendInput, % "{BackSpace}" . workingFilePath
+	Sleep, %keyDelay%
+	Send, {Enter}{Left}{Enter}
+	Sleep, (%keyDelay% * 5)
+}
+
+BackupOueHtml_FixBadMarkup(keyDelay) {
+	Send, ^h
+	Sleep, (%keyDelay% * 2)
+	SendInput, % "(<br ?/?> ?)\n[\t ]{{}0,{}}"
+	Send, {Tab}^a{Del}
+	SendInput, % "\1"
+	Send, ^!{Enter}
+	Sleep, (%keyDelay% * 2)
+	Send, {Esc}{Right}
+	Sleep, (%keyDelay%)
+
+	;TODO: Add handling of malformed tags
+}
+
+BackupOueHtml_BeautifyHtml(keyDelay) {
+	; Trigger the Beautify HTML package in Sublime Text to clean up markup and prepare it for RegEx
+	Send, ^!+f
+	Sleep, (%keyDelay% * 4)
+}
+
+BackupOueHtml_CopyMarkupSections(targetContentNeedle, keyDelay) {
+	; Find the portions of the markup that we want to back up, select them all, copy, and
+	;  then overwrite the full markup
+	Send, ^f
+	SendInput, % targetContentNeedle
+	Send, !{Enter}
+	Sleep, (%keyDelay% * 10)
+	Send, ^c
+	Send, ^a
+	Send, ^v
+}
+
+BackupOueHtml_InsertEllipses(keyDelay) {
+	; Insert ellipses after breaks in the original markup
+	Send, ^f
+	SendInput, % "</title>$|<body.*$|</section>(?=\n</body)" 
+	Send, !{Enter}
+	Send, {Right}{Enter}...{Esc}
+}
 
 ; ··································································································
 ;   >>> §2.4: Hyperlink collection hotstring
