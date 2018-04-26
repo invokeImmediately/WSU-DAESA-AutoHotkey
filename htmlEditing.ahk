@@ -273,8 +273,9 @@ Return
 	correctTitleNeedle := "\| Washington State University"
 	viewSourceTitle := "view-source ahk_exe " . webBrowserProcess
 	workingFilePath := "C:\Users\CamilleandDaniel\Documents\GitHub\backupOuePage-workfile.html"
-	targetContentNeedle := "{^}\t*<section.*class="".*row.*$\n({^}.*$\n)*{^}\t*</section>$(?=\n{^}\"
-		. "t*</div><{!}-- {#}post -->)|{^}\t*<title>.*$\n|{^}\t*<body.*$\n|{^}\t*</body.*$\n"
+	targetContentNeedle := "{^}(?:\t| )*<section.*class="".*row.*$\n({^}.*$\n)*{^}(?:\t| )*</sectio"
+		. "n>$(?=\n{^}(?:\t| )*</div>\n{^}(?:\t| )*<{!}-- {#}post -->)|{^}(?:\t| )*<title>.*$\n|{^}"
+		. "(?:\t| )*<body.*$\n|{^}(?:\t| )*</body.*$\n"
 
 	AppendAhkCmd(ahkThisCmd)
 	if (CopyWebpageSourceToClipboard(webBrowserProcess, correctTitleNeedle, viewSourceTitle
@@ -356,8 +357,8 @@ BackupOueHtml_FixBadMarkup(keyDelay) {
 }
 
 BackupOueHtml_BeautifyHtml(keyDelay) {
-	; Trigger the Beautify HTML package in Sublime Text to clean up markup and prepare it for RegEx
-	Send, ^!+f
+	; Trigger the HTMLPrettify package in Sublime Text to clean up markup and prepare it for RegEx
+	Send, ^+h
 	Sleep, (%keyDelay% * 4)
 }
 
