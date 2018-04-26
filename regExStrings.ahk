@@ -28,5 +28,5 @@ Return
 
 :*:@findStrNoAltImgTags::
 	AppendAhkCmd(A_ThisLabel)
-	SendInput, "<img([{^}>](?!alt=))*>"
+	SendInput, % "<img([{^}>](?{!}alt=))*>"
 Return
