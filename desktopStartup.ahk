@@ -166,11 +166,11 @@ AddSublimeText3ToVd(whichVd) {
 	Sleep, 100
 	SendInput, https://github.com/invokeImmediately{Enter}
 	Sleep, 1000
-	LaunchStdApplicationPatiently(userAccountFolderSSD . "\AppData\Local\GitHub\Github.appref-ms"
-		, "GitHub ahk_exe GitHub.exe")
+	LaunchStdApplicationPatiently(userAccountFolderSSD . "\AppData\Local\GitHubDesktop\GitHubDesktop.exe"
+		, "GitHub ahk_exe GitHubDesktop.exe")
 	Sleep, 1000
-	LaunchStdApplicationPatiently(userAccountFolderSSD . "\Desktop\Git Shell.lnk"
-		, "ahk_exe Powershell.exe")
+	LaunchApplicationPatiently("C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe"
+		, "ahk_exe powershell.exe")
 	Sleep, 1000
 Return
 
