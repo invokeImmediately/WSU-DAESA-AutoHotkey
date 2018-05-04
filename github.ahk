@@ -2756,11 +2756,14 @@ Return
 :*:@rebuildJsDsp::
 	ahkCmdName := ":*:@rebuildJsDsp"
 	AppendAhkCmd(ahkCmdName)
+	; TODO: Add AHK function for creating a JS build string
 	PasteTextIntoGitShell(ahkCmdName
 		, "cd '" . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\JS'`r"
 		. "node build-production-file.js`r"
-		. "uglifyjs wp-custom-javascript-source.dsp.js --output wp-custom-js-source.min.dsp.js -mt"
-		. "`r[console]::beep(1500,300)`r"
+		. "Start-Sleep -s 1`r"
+		. "uglifyjs wp-custom-javascript-source.dsp.js --output wp-custom-js-source.min.dsp.js -mt "
+		. "--comments /^!/`r"
+		. "[console]::beep(1500,300)`r"
 		. "cd '" . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\'`r"
 		. "git add JS\wp-custom-javascript-source.dsp.js`r"
 		. "git add JS\wp-custom-js-source.min.dsp.js`r"
