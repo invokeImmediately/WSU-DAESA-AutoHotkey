@@ -20,28 +20,28 @@
 ; -----------------
 ;   §1: SETTINGS accessed via functions for this imported file..................................51
 ;   §2: FUNCTIONS for working with GitHub Desktop...............................................98
-;   §3: FUNCTIONS for interacting with online WEB DESIGN INTERFACES............................228
-;   §4: GUI FUNCTIONS for handling user interactions with scripts..............................265
-;   >>> §4.1: GUI DRIVEN HOTSTRINGS............................................................269
-;   §5: FILE SYSTEM NAVIGATION Hotstrings......................................................724
-;   >>> §5.1: Navigation within GITHUB DIRECTORIES.............................................728
-;   §6: UTILITY HOTSTRINGS for working with GitHub Desktop.....................................855
-;   >>> §6.1: FILE COMMITTING..................................................................859
-;   >>> §6.2: STATUS CHECKING.................................................................1009
-;   >>> §6.3: Automated PASTING OF CSS into online web interfaces.............................1031
-;   §7: COMMAND LINE INPUT GENERATION.........................................................1197
-;   >>> §7.1: FOR BACKING UP CUSTOM CSS BUILDS................................................1201
-;   >>> §7.2: FOR REBUILDING & COMMITTING CUSTOM CSS FILES ...................................1465
-;   >>> §7.3: FOR UPDATING CSS SUBMODULES.....................................................1869
-;   >>> §7.4: FOR COPYING MINIFIED, BACKUP CSS FILES TO CLIPBOARD.............................2134
-;   >>> §7.5: FOR BACKING UP CUSTOM JS BUILDS.................................................2428
-;   >>> §7.6: FOR REBUILDING JS SOURCE FILES..................................................2703
-;   >>> FOR UPDATING JS SUBMODULES............................................................2956
-;   >>> FOR COPYING MINIFIED CSS TO CLIPBOARD.................................................3221
-;   >>> §7.7: FOR CHECKING GIT STATUS ON ALL PROJECTS ........................................3493
-;   §8: KEYBOARD SHORTCUTS FOR POWERSHELL.....................................................3578
-;   >>> §8.1: SHORTCUTS.......................................................................3582
-;   >>> §8.2: SUPPORTING FUNCTIONS............................................................3608
+;   §3: FUNCTIONS for interacting with online WEB DESIGN INTERFACES............................241
+;   §4: GUI FUNCTIONS for handling user interactions with scripts..............................278
+;   >>> §4.1: GUI DRIVEN HOTSTRINGS............................................................282
+;   §5: FILE SYSTEM NAVIGATION Hotstrings......................................................738
+;   >>> §5.1: Navigation within GITHUB DIRECTORIES.............................................742
+;   §6: UTILITY HOTSTRINGS for working with GitHub Desktop.....................................869
+;   >>> §6.1: FILE COMMITTING..................................................................873
+;   >>> §6.2: STATUS CHECKING.................................................................1023
+;   >>> §6.3: Automated PASTING OF CSS into online web interfaces.............................1045
+;   §7: COMMAND LINE INPUT GENERATION.........................................................1211
+;   >>> §7.1: FOR BACKING UP CUSTOM CSS BUILDS................................................1215
+;   >>> §7.2: FOR REBUILDING & COMMITTING CUSTOM CSS FILES ...................................1481
+;   >>> §7.3: FOR UPDATING CSS SUBMODULES.....................................................1884
+;   >>> §7.4: FOR COPYING MINIFIED, BACKUP CSS FILES TO CLIPBOARD.............................2149
+;   >>> §7.5: FOR BACKING UP CUSTOM JS BUILDS.................................................2443
+;   >>> §7.6: FOR REBUILDING JS SOURCE FILES..................................................2718
+;   >>> FOR UPDATING JS SUBMODULES............................................................2976
+;   >>> FOR COPYING MINIFIED CSS TO CLIPBOARD.................................................3241
+;   >>> §7.7: FOR CHECKING GIT STATUS ON ALL PROJECTS ........................................3513
+;   §8: KEYBOARD SHORTCUTS FOR POWERSHELL.....................................................3598
+;   >>> §8.1: SHORTCUTS.......................................................................3602
+;   >>> §8.2: SUPPORTING FUNCTIONS............................................................3628
 ; ==================================================================================================
 
 sgIsPostingMinCss := false
@@ -2888,7 +2888,9 @@ Return
 	PasteTextIntoGitShell(ahkCmdName
 		, "cd '" . GetGitHubFolder() . "\summerresearch.wsu.edu\JS'`r"
 		. "node build-production-file.js`r"
-		. "uglifyjs wp-custom-js-source.js --output wp-custom-js-source.min.js -mt`r"
+		. "Start-Sleep -s 1`r"
+		. "uglifyjs wp-custom-js-source.js --output wp-custom-js-source.min.js -mt`"
+		. " --comments /^!/`r"
 		. "[console]::beep(1500,300)`r"
 		. "cd '" . GetGitHubFolder() . "\summerresearch.wsu.edu\'`r"
 		. "git add JS\wp-custom-js-source.js`r"
