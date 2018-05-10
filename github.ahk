@@ -1724,14 +1724,12 @@ Return
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@rebuildCssSumRes::
-	ahkCmdName := ":*:@rebuildCssSumRes"
-	AppendAhkCmd(ahkCmdName)
+	AppendAhkCmd(A_ThisLabel)
 	PasteTextIntoGitShell(ahkCmdName
-		, "cd '" . GetGitHubFolder() . "\summerresearch.wsu.edu\CSS'`r"
-		. "lessc summerresearch-custom.less summerresearch-custom.css`r"
-		. "lessc --clean-css summerresearch-custom.less summerresearch-custom.min.css`r"
+		, "cd '" . GetGitHubFolder() . "\summerresearch.wsu.edu\'`r"
+		. "gulp buildMinCss`r"
 		. "[console]::beep(1500,300)`r")
-	CommitAfterBuild(ahkCmdName, ":*:@commitCssSumRes")
+	CommitAfterBuild(A_ThisLabel, ":*:@commitCssSumRes")
 Return
 
 :*:@commitCssSumRes::
