@@ -157,6 +157,10 @@ MoveActiveWindowToVirtualDesktop(targetDesktop) {
 	global vdCurrentDesktop
 	global vdDesktopCount
 	prevKeyDelay := A_KeyDelay
+	keyDelay := 120
+	pauseAmt := 200
+
+	SetKeyDelay, %keyDelay%
 
 	; Re-generate the list of desktops and where we fit in that. We do this because
 	; the user may have switched desktops via some other means than the script.
@@ -174,28 +178,26 @@ MoveActiveWindowToVirtualDesktop(targetDesktop) {
 		return
 	} else {
 		if (IsWindowOnLeftDualMonitor()) {
-			SendInput, #{Tab}
-			Sleep, 400
-			SendInput, {Tab 2}{AppsKey}{m}
+			Send, #{Tab}
+			Sleep, %pauseAmt%
+			Send, {Tab 2}{AppsKey}{Down 2}{Right}{Left}{Right}
+			Sleep, %pauseAmt%
 		} else {
-			SendInput, #{Tab}
-			Sleep, 400
-			SendInput, {AppsKey}{m}
+			Send, #{Tab}
+			Sleep, %pauseAmt%
+			Send, {AppsKey}{Down 2}{Right}
+			Sleep, %pauseAmt%
 		}
 	}
-
-	SetKeyDelay, 100
 	
 	iDesktop := 1
 	while(iDesktop < targetDesktop) {
 		if (iDesktop != vdCurrentDesktop) {
-			Send {Down}
+			Send, {Down}
 		}
 		iDesktop++
 	}
-	Send {Enter}
-	Sleep, 120
-	SendInput, #{Tab}
+	Send {Enter}#{Tab}
 
 	SetKeyDelay, prevKeyDelay
 }
