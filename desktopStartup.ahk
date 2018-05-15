@@ -139,7 +139,7 @@ AddSublimeText3ToVd(whichVd) {
 			Sleep, % delay * 3
 			WaitForApplicationPatiently(st3NewWinTitle)
 			moveActiveWindowToVirtualDesktop(whichVd)
-			Sleep, % delay
+			Sleep, % delay * 3
 			switchDesktopByNumber(whichVd)
 		} else {
 			MsgBox, % "Sublime Text 3 is already on virtual desktop #" . whichVd . "Press OK to try again."
