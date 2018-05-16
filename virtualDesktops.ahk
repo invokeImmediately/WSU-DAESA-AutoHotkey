@@ -181,12 +181,12 @@ MoveActiveWindowToVirtualDesktop(targetDesktop) {
 			Send, #{Tab}
 			Sleep, %pauseAmt%
 			Send, {Tab 2}{AppsKey}{Down 2}{Right}{Left}{Right}
-			Sleep, (%pauseAmt% * 1.5)
+			Sleep, (%pauseAmt% * 2)
 		} else {
 			Send, #{Tab}
 			Sleep, %pauseAmt%
-			Send, {AppsKey}{Down 2}{Right}
-			Sleep, (%pauseAmt% * 1.5)
+			Send, {AppsKey}{Down 2}{Right}{Left}{Right}
+			Sleep, (%pauseAmt% * 2)
 		}
 	}
 	
