@@ -53,11 +53,22 @@ Return
 	Sleep, % delay
 	Gosub, :*:@startSublimeText3
 	Sleep, % delay * 4
-	Gosub % "^F8"
-	Sleep, % delay
-	SendInput, % "{Enter}"
+	PositionWindowViaCtrlFN("^F8", delay)
 	Gosub, :*:@startChrome
+	Sleep, % delay * 4
+	PositionWindowViaCtrlFN("^F7", delay)
 Return
+
+PositionWindowViaCtrlFN(posHotkey, delay) {
+	if (posHotkey == "^F6" || posHotkey == "^F7" || posHotkey == "^F8" || posHotkey == "^F9") {
+		Gosub % posHotkey
+		Sleep, % delay
+		SendInput, % "{Enter}"
+	} else {
+		errorMsg := New GuiMsgBox("Error in " . A_ThisFunc . ": I was passed a window positioning "
+			. "hotkey that I do not recognize: " . posHotkey, Func("HandleGuiMsgBoxOk"))
+	}
+}
 
 :*:@moveTempMonitors::
 	delay := 100
@@ -192,7 +203,7 @@ Return
 	Sleep, 330
 	WinRestore, ahk_exe sublime_text.exe
 	Sleep, 100
-	WinMove, ahk_exe sublime_text.exe, , 0, 0, 1720, 1040
+	PositionWindowViaCtrlFN("^F8", 200)
 	agh_MovePowerShell()
 	Sleep, 200
 Return
@@ -246,8 +257,9 @@ agh_MovePowerShell() {
 	Sleep, 100
 	SendInput, % "brand.wsu.edu/visual/colors/{Enter}"
 	Sleep, 330
-	Gosub % ">^!#Left"
+	PositionWindowViaCtrlFN("^F6", 100)
 	LaunchStdApplicationPatiently("C:\Program Files\GIMP 2\bin\gimp-2.8.exe", "GNU Image")
+	PositionWindowViaCtrlFN("^F8", 100)
 	Sleep, 1000
 Return
 
@@ -295,6 +307,7 @@ Return
 	WaitForApplicationPatiently("Inbox - ahk_exe OUTLOOK.EXE")
 	LaunchStdApplicationPatiently(userAccountFolderSSD . "\AppData\Local\Wunderlist\Wunderlist.exe"
 		, "Inbox - Wunderlist")
+	LaunchStdApplicationPatiently("C:\Program Files\iTunes\iTunes.exe", "iTunes")
 	Sleep, 1000
 	Gosub, :*:@arrangeEmail
 Return
@@ -326,28 +339,31 @@ MoveToNextTabInChrome() {
 
 :*:@arrangeEmail::
 	AppendAhkCmd(":*:@arrangeEmail")
-	LaunchStdApplicationPatiently("C:\Program Files\iTunes\iTunes.exe", "iTunes")
-	WinRestore, % "Inbox - ahk_exe outlook.exe"
-	WinMove, % "Inbox - ahk_exe outlook.exe", , -1920, 0, 1720, 1040
-	Sleep, 100
-	WinRestore, % "Inbox ahk_exe chrome.exe"
-	WinMove, % "Inbox ahk_exe chrome.exe", , -1720, 0, 1720, 1040
+	WinActivate, % "Inbox - ahk_exe outlook.exe"
 	Sleep, 200
+	PositionWindowViaCtrlFN("^F7", 120)
+	Sleep, 250
 	WinActivate, % "Inbox ahk_exe chrome.exe"
+	Sleep, 250
+	PositionWindowViaCtrlFN("^F6", 120)
 	Sleep, 450
-	MouseMove 1657, 135
+	WinActivate, % "Inbox ahk_exe chrome.exe"
+	Sleep, 100
+	MouseMove 1488, 140
 	Sleep, 100
 	Send {Click}
 	Sleep, 3000
-	MouseMove 1517, 340
+	MouseMove 1348, 340
 	Sleep, 100
 	Send {Click}
 	Sleep, 500
-	WinRestore, % "Inbox - Wunderlist"
-	WinMove, % "Inbox - Wunderlist", , 0, 0, 1720, 1040
+	WinActivate, % "Inbox - Wunderlist"
+	Sleep, 200
+	PositionWindowViaCtrlFN("^F8", 120)
 	Sleep, 100
-	WinRestore, % "iTunes ahk_exe iTunes.exe"
-	WinMove, % "iTunes ahk_exe iTunes.exe", , 200, 0, 1720, 1040
+	WinActivate, % "iTunes ahk_exe iTunes.exe"
+	Sleep, 100
+	PositionWindowViaCtrlFN("^F9", 120)
 Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
