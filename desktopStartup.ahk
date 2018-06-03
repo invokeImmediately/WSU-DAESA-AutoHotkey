@@ -95,21 +95,19 @@ Return
 Return
 
 :*:@startChrome::
+	waitingBeat := 100 ; ms
 	; Start up Chrome and direct it to a WSU WordPress login page; wait for it to load before
 	; proceeding
 	AppendAhkCmd(":*:@startChrome")
 	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
 		, "New Tab")
-	Sleep, 1000
+	Sleep, % waitingBeat * 10
 	SendInput, !d
-	Sleep, 20
+	Sleep, % waitingBeat / 5
 	SendInput, https://distinguishedscholarships.wsu.edu/wp-admin/{Enter}
-	Sleep, 100
+	Sleep, % waitingBeat
 	WaitForApplicationPatiently("WSU Distinguished")
-	Gosub % "^F7"
-	Sleep, 140
-	SendInput, {Enter}	
-	Sleep, 1000
+	Sleep, % waitingBeat * 10
 Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
