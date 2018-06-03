@@ -338,32 +338,46 @@ MoveToNextTabInChrome() {
 }
 
 :*:@arrangeEmail::
+	waitingBeat := 200
+
+	; Register command in history
 	AppendAhkCmd(":*:@arrangeEmail")
+
+	; Reposition Outlook
 	WinActivate, % "Inbox - ahk_exe outlook.exe"
-	Sleep, 200
-	PositionWindowViaCtrlFN("^F7", 120)
-	Sleep, 250
-	WinActivate, % "Inbox ahk_exe chrome.exe"
-	Sleep, 250
+	Sleep, % waitingBeat
 	PositionWindowViaCtrlFN("^F6", 120)
-	Sleep, 450
+	Sleep, % waitingBeat * 1.25
+
+	; Reposition Chrome window for email and news browsing
 	WinActivate, % "Inbox ahk_exe chrome.exe"
-	Sleep, 100
+	Sleep, % waitingBeat * 1.25
+	PositionWindowViaCtrlFN("^F7", 120)
+	Sleep, % waitingBeat * 2.25
+
+	; Open second Gmail account
+	WinActivate, % "Inbox ahk_exe chrome.exe"
+	Sleep, % waitingBeat * 0.5
 	MouseMove 1488, 140
-	Sleep, 100
+	Sleep, % waitingBeat * 0.5
 	Send {Click}
-	Sleep, 3000
+	Sleep, % waitingBeat * 15
 	MouseMove 1348, 340
-	Sleep, 100
+	Sleep, % waitingBeat * 0.5
 	Send {Click}
-	Sleep, 500
+	Sleep, % waitingBeat * 2.5
+
+	; Reposition Wunderlist
 	WinActivate, % "Inbox - Wunderlist"
-	Sleep, 200
+	Sleep, % waitingBeat
 	PositionWindowViaCtrlFN("^F8", 120)
-	Sleep, 100
+	Sleep, % waitingBeat * 0.5
+
+	; Reposition iTunes
 	WinActivate, % "iTunes ahk_exe iTunes.exe"
-	Sleep, 100
+	Sleep, % waitingBeat * 0.5
 	PositionWindowViaCtrlFN("^F9", 120)
+	Sleep, % waitingBeat * 5
 Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
