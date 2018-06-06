@@ -1493,9 +1493,8 @@ Return
 	ahkCmdName := ":*:@rebuildCssAscc"
 	AppendAhkCmd(ahkCmdName)
 	PasteTextIntoGitShell(ahkCmdName
-		, "cd '" . GetGitHubFolder() . "\ascc.wsu.edu\CSS'`r"
-		. "lessc ascc-custom.less ascc-custom.css`r"
-		. "lessc --clean-css ascc-custom.less ascc-custom.min.css`r"
+		, "cd '" . GetGitHubFolder() . "\ascc.wsu.edu\'`r"
+		. "gulp buildMinCss`r"
 		. "[console]::beep(1500,300)`r")
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssAscc")
 Return
