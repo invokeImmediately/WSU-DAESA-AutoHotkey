@@ -297,12 +297,14 @@ Return
 	OpenWebsiteInChrome("web.wsu.edu")
 	OpenWebsiteInChrome("wsu-web.slack.com")
 	MoveToNextTabInChrome()
+;	LaunchStdApplicationPatiently("C:\Program Files (x86)\Microsoft Office\root\Office16"
+;		. "\outlook.exe", "ahk_class MsoSplash ahk_exe OUTLOOK.EXE")
+;	Sleep, 5000
+;	SendInput, {Enter}
+;	Sleep, 1500
+;	WaitForApplicationPatiently("Inbox ahk_exe OUTLOOK.EXE")
 	LaunchStdApplicationPatiently("C:\Program Files (x86)\Microsoft Office\root\Office16"
-		. "\outlook.exe", "ahk_class MsoSplash ahk_exe OUTLOOK.EXE")
-	Sleep, 5000
-	SendInput, {Enter}
-	Sleep, 1500
-	WaitForApplicationPatiently("Inbox - ahk_exe OUTLOOK.EXE")
+		. "\outlook.exe", "Inbox ahk_exe OUTLOOK.EXE")
 	LaunchStdApplicationPatiently(userAccountFolderSSD . "\AppData\Local\Wunderlist\Wunderlist.exe"
 		, "Inbox - Wunderlist")
 	LaunchStdApplicationPatiently("C:\Program Files\iTunes\iTunes.exe", "iTunes")
