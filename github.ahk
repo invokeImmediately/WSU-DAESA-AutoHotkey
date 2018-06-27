@@ -22,26 +22,26 @@
 ;   §2: FUNCTIONS for working with GitHub Desktop...............................................98
 ;   §3: FUNCTIONS for interacting with online WEB DESIGN INTERFACES............................241
 ;   §4: GUI FUNCTIONS for handling user interactions with scripts..............................278
-;   >>> §4.1: GUI DRIVEN HOTSTRINGS............................................................282
+;     >>> §4.1: GUI DRIVEN HOTSTRINGS..........................................................282
 ;   §5: FILE SYSTEM NAVIGATION Hotstrings......................................................738
-;   >>> §5.1: Navigation within GITHUB DIRECTORIES.............................................742
+;     >>> §5.1: Navigation within GITHUB DIRECTORIES...........................................742
 ;   §6: UTILITY HOTSTRINGS for working with GitHub Desktop.....................................869
-;   >>> §6.1: FILE COMMITTING..................................................................873
-;   >>> §6.2: STATUS CHECKING.................................................................1023
-;   >>> §6.3: Automated PASTING OF CSS into online web interfaces.............................1045
+;     >>> §6.1: FILE COMMITTING................................................................873
+;     >>> §6.2: STATUS CHECKING...............................................................1023
+;     >>> §6.3: Automated PASTING OF CSS into online web interfaces...........................1045
 ;   §7: COMMAND LINE INPUT GENERATION.........................................................1211
-;   >>> §7.1: FOR BACKING UP CUSTOM CSS BUILDS................................................1215
-;   >>> §7.2: FOR REBUILDING & COMMITTING CUSTOM CSS FILES ...................................1481
-;   >>> §7.3: FOR UPDATING CSS SUBMODULES.....................................................1884
-;   >>> §7.4: FOR COPYING MINIFIED, BACKUP CSS FILES TO CLIPBOARD.............................2149
-;   >>> §7.5: FOR BACKING UP CUSTOM JS BUILDS.................................................2443
-;   >>> §7.6: FOR REBUILDING JS SOURCE FILES..................................................2718
-;   >>> FOR UPDATING JS SUBMODULES............................................................2976
-;   >>> FOR COPYING MINIFIED CSS TO CLIPBOARD.................................................3241
-;   >>> §7.7: FOR CHECKING GIT STATUS ON ALL PROJECTS ........................................3513
+;     >>> §7.1: FOR BACKING UP CUSTOM CSS BUILDS..............................................1215
+;     >>> §7.2: FOR REBUILDING & COMMITTING CUSTOM CSS FILES .................................1481
+;     >>> §7.3: FOR UPDATING CSS SUBMODULES...................................................1884
+;     >>> §7.4: FOR COPYING MINIFIED, BACKUP CSS FILES TO CLIPBOARD...........................2149
+;     >>> §7.5: FOR BACKING UP CUSTOM JS BUILDS...............................................2443
+;     >>> §7.6: FOR REBUILDING JS SOURCE FILES................................................2718
+;     >>> FOR UPDATING JS SUBMODULES..........................................................2976
+;     >>> FOR COPYING MINIFIED CSS TO CLIPBOARD...............................................3241
+;     >>> §7.7: FOR CHECKING GIT STATUS ON ALL PROJECTS ......................................3513
 ;   §8: KEYBOARD SHORTCUTS FOR POWERSHELL.....................................................3598
-;   >>> §8.1: SHORTCUTS.......................................................................3602
-;   >>> §8.2: SUPPORTING FUNCTIONS............................................................3628
+;     >>> §8.1: SHORTCUTS.....................................................................3602
+;     >>> §8.2: SUPPORTING FUNCTIONS..........................................................3628
 ; ==================================================================================================
 
 sgIsPostingMinCss := false
@@ -1232,13 +1232,15 @@ Return
 	hsName := ":*:@backupCssCr"
 	AppendAhkCmd(hsName)
 	copiedCss := CopyCssFromWebsite("https://commonreading.wsu.edu/wp-admin/themes.php?page=editcss")
-	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
-		. "\commonreading.wsu.edu\CSS\cr-custom.prev.css")
-	PasteTextIntoGitShell(hsName
-		, "cd '" . GetGitHubFolder() . "\commonreading.wsu.edu\'`r"
-		. "git add CSS\cr-custom.prev.css`r"
-		. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
-		. "git push`r")
+	if (VerifyCopiedCode(A_ThisLabel, copiedCss)) {
+		WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
+			. "\commonreading.wsu.edu\CSS\cr-custom.prev.css")
+		PasteTextIntoGitShell(hsName
+			, "cd '" . GetGitHubFolder() . "\commonreading.wsu.edu\'`r"
+			. "git add CSS\cr-custom.prev.css`r"
+			. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
+			. "git push`r")
+	}
 Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
@@ -1265,13 +1267,15 @@ Return
 	hsName := ":*:@backupCssFye"
 	AppendAhkCmd(hsName)
 	copiedCss := CopyCssFromWebsite("https://firstyear.wsu.edu/wp-admin/themes.php?page=editcss")
-	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
-		. "\firstyear.wsu.edu\CSS\fye-custom.prev.css")
-	PasteTextIntoGitShell(hsName
-		, "cd '" . GetGitHubFolder() . "\firstyear.wsu.edu\'`r"
-		. "git add CSS\fye-custom.prev.css`r"
-		. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
-		. "git push`r")
+	if (VerifyCopiedCode(A_ThisLabel, copiedCss)) {
+		WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
+			. "\firstyear.wsu.edu\CSS\fye-custom.prev.css")
+		PasteTextIntoGitShell(hsName
+			, "cd '" . GetGitHubFolder() . "\firstyear.wsu.edu\'`r"
+			. "git add CSS\fye-custom.prev.css`r"
+			. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
+			. "git push`r")
+	}
 Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
@@ -1281,13 +1285,15 @@ Return
 	AppendAhkCmd(hsName)
 	copiedCss := CopyCssFromWebsite("https://learningcommunities.wsu.edu/wp-admin/themes.php?page=e"
 		. "ditcss")
-	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
-		. "\learningcommunities.wsu.edu\CSS\learningcommunities-custom.prev.css")
-	PasteTextIntoGitShell(hsName
-		, "cd '" . GetGitHubFolder() . "\learningcommunities.wsu.edu\'`r"
-		. "git add CSS\learningcommunities-custom.prev.css`r"
-		. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
-		. "git push`r")
+	if (VerifyCopiedCode(A_ThisLabel, copiedCss)) {
+		WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
+			. "\learningcommunities.wsu.edu\CSS\learningcommunities-custom.prev.css")
+		PasteTextIntoGitShell(hsName
+			, "cd '" . GetGitHubFolder() . "\learningcommunities.wsu.edu\'`r"
+			. "git add CSS\learningcommunities-custom.prev.css`r"
+			. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
+			. "git push`r")
+	}
 Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
@@ -1296,12 +1302,14 @@ Return
 	hsName := ":*:@backupCssNse"
 	AppendAhkCmd(hsName)
 	copiedCss := CopyCssFromWebsite("https://nse.wsu.edu/wp-admin/themes.php?page=editcss")
-	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder() . "\nse.wsu.edu\CSS\nse-custom.prev.css")
-	PasteTextIntoGitShell(hsName
-		, "cd '" . GetGitHubFolder() . "\nse.wsu.edu\'`r"
-		. "git add CSS\nse-custom.prev.css`r"
-		. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
-		. "git push`r")
+	if (VerifyCopiedCode(A_ThisLabel, copiedCss)) {
+		WriteCodeToFile(hsName, copiedCss, GetGitHubFolder() . "\nse.wsu.edu\CSS\nse-custom.prev.css")
+		PasteTextIntoGitShell(hsName
+			, "cd '" . GetGitHubFolder() . "\nse.wsu.edu\'`r"
+			. "git add CSS\nse-custom.prev.css`r"
+			. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
+			. "git push`r")
+	}
 Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
@@ -1310,12 +1318,14 @@ Return
 	hsName := ":*:@backupCssOue"
 	AppendAhkCmd(hsName)
 	copiedCss := CopyCssFromWebsite("https://oue.wsu.edu/wp-admin/themes.php?page=editcss")
-	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder() . "\oue.wsu.edu\CSS\oue-custom.prev.css")
-	PasteTextIntoGitShell(hsName
-		, "cd '" . GetGitHubFolder() . "\oue.wsu.edu\'`r"
-		. "git add CSS\oue-custom.prev.css`r"
-		. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
-		. "git push`r")
+	if (VerifyCopiedCode(A_ThisLabel, copiedCss)) {
+		WriteCodeToFile(hsName, copiedCss, GetGitHubFolder() . "\oue.wsu.edu\CSS\oue-custom.prev.css")
+		PasteTextIntoGitShell(hsName
+			, "cd '" . GetGitHubFolder() . "\oue.wsu.edu\'`r"
+			. "git add CSS\oue-custom.prev.css`r"
+			. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
+			. "git push`r")
+	}
 Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
@@ -1324,13 +1334,15 @@ Return
 	hsName := ":*:@backupCssPbk"
 	AppendAhkCmd(hsName)
 	copiedCss := CopyCssFromWebsite("https://phibetakappa.wsu.edu/wp-admin/themes.php?page=editcss")
-	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
-		. "\phibetakappa.wsu.edu\CSS\pbk-custom.prev.css")
-	PasteTextIntoGitShell(hsName
-		, "cd '" . GetGitHubFolder() . "\phibetakappa.wsu.edu\'`r"
-		. "git add CSS\pbk-custom.prev.css`r"
-		. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
-		. "git push`r")
+	if (VerifyCopiedCode(A_ThisLabel, copiedCss)) {
+		WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
+			. "\phibetakappa.wsu.edu\CSS\pbk-custom.prev.css")
+		PasteTextIntoGitShell(hsName
+			, "cd '" . GetGitHubFolder() . "\phibetakappa.wsu.edu\'`r"
+			. "git add CSS\pbk-custom.prev.css`r"
+			. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
+			. "git push`r")
+	}
 Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
@@ -1339,13 +1351,15 @@ Return
 	hsName := ":*:@backupCssSurca"
 	AppendAhkCmd(hsName)
 	copiedCss := CopyCssFromWebsite("https://surca.wsu.edu/wp-admin/themes.php?page=editcss")
-	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
-		. "\surca.wsu.edu\CSS\surca-custom.prev.css")
-	PasteTextIntoGitShell(hsName
-		, "cd '" . GetGitHubFolder() . "\surca.wsu.edu\'`r"
-		. "git add CSS\surca-custom.prev.css`r"
-		. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
-		. "git push`r")
+	if (VerifyCopiedCode(A_ThisLabel, copiedCss)) {
+		WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
+			. "\surca.wsu.edu\CSS\surca-custom.prev.css")
+		PasteTextIntoGitShell(hsName
+			, "cd '" . GetGitHubFolder() . "\surca.wsu.edu\'`r"
+			. "git add CSS\surca-custom.prev.css`r"
+			. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
+			. "git push`r")
+	}
 Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
@@ -1355,13 +1369,15 @@ Return
 	AppendAhkCmd(hsName)
 	copiedCss := CopyCssFromWebsite("https://summerresearch.wsu.edu/wp-admin/themes.php?page=editcs"
 		. "s")
-	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
-		. "\summerresearch.wsu.edu\CSS\summerresearch-custom.prev.css")
-	PasteTextIntoGitShell(hsName
-		, "cd '" . GetGitHubFolder() . "\summerresearch.wsu.edu\'`r"
-		. "git add CSS\summerresearch-custom.prev.css`r"
-		. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
-		. "git push`r")
+	if (VerifyCopiedCode(A_ThisLabel, copiedCss)) {
+		WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
+			. "\summerresearch.wsu.edu\CSS\summerresearch-custom.prev.css")
+		PasteTextIntoGitShell(hsName
+			, "cd '" . GetGitHubFolder() . "\summerresearch.wsu.edu\'`r"
+			. "git add CSS\summerresearch-custom.prev.css`r"
+			. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
+			. "git push`r")
+	}
 Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
@@ -1371,13 +1387,15 @@ Return
 	AppendAhkCmd(hsName)
 	copiedCss := CopyCssFromWebsite("https://transfercredit.wsu.edu/wp-admin/themes.php?page=editcs"
 		. "s")
-	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
-		. "\transfercredit.wsu.edu\CSS\xfercredit-custom.prev.css")
-	PasteTextIntoGitShell(hsName
-		, "cd '" . GetGitHubFolder() . "\transfercredit.wsu.edu\'`r"
-		. "git add CSS\xfercredit-custom.prev.css`r"
-		. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
-		. "git push`r")
+	if (VerifyCopiedCode(A_ThisLabel, copiedCss)) {
+		WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
+			. "\transfercredit.wsu.edu\CSS\xfercredit-custom.prev.css")
+		PasteTextIntoGitShell(hsName
+			, "cd '" . GetGitHubFolder() . "\transfercredit.wsu.edu\'`r"
+			. "git add CSS\xfercredit-custom.prev.css`r"
+			. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
+			. "git push`r")
+	}
 Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
@@ -1387,13 +1405,15 @@ Return
 	AppendAhkCmd(hsName)
 	copiedCss := CopyCssFromWebsite("https://undergraduateresearch.wsu.edu/wp-admin/themes.php?page"
 		. "=editcss")
-	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
-		. "\undergraduateresearch.wsu.edu\CSS\undergraduate-research-custom.prev.css")
-	PasteTextIntoGitShell(hsName
-		, "cd '" . GetGitHubFolder() . "\undergraduateresearch.wsu.edu\'`r"
-		. "git add CSS\undergraduate-research-custom.prev.css`r"
-		. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
-		. "git push`r")
+	if (VerifyCopiedCode(A_ThisLabel, copiedCss)) {
+		WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
+			. "\undergraduateresearch.wsu.edu\CSS\undergraduate-research-custom.prev.css")
+		PasteTextIntoGitShell(hsName
+			, "cd '" . GetGitHubFolder() . "\undergraduateresearch.wsu.edu\'`r"
+			. "git add CSS\undergraduate-research-custom.prev.css`r"
+			. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
+			. "git push`r")
+	}
 Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
@@ -1402,13 +1422,15 @@ Return
 	hsName := ":*:@backupCssUcore"
 	AppendAhkCmd(hsName)
 	copiedCss := CopyCssFromWebsite("https://ucore.wsu.edu/wp-admin/themes.php?page=editcss")
-	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
-		. "\ucore.wsu.edu\CSS\ucore-custom.prev.css")
-	PasteTextIntoGitShell(hsName
-		, "cd '" . GetGitHubFolder() . "\ucore.wsu.edu\'`r"
-		. "git add CSS\ucore-custom.prev.css`r"
-		. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
-		. "git push`r")
+	if (VerifyCopiedCode(A_ThisLabel, copiedCss)) {
+		WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
+			. "\ucore.wsu.edu\CSS\ucore-custom.prev.css")
+		PasteTextIntoGitShell(hsName
+			, "cd '" . GetGitHubFolder() . "\ucore.wsu.edu\'`r"
+			. "git add CSS\ucore-custom.prev.css`r"
+			. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
+			. "git push`r")
+	}
 Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
@@ -1418,13 +1440,15 @@ Return
 	AppendAhkCmd(hsName)
 	copiedCss := CopyCssFromWebsite("https://ucore.wsu.edu/assessment/wp-admin/themes.php?page=edit"
 		. "css")
-	WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
-		. "\ucore.wsu.edu-assessment\CSS\ucore-assessment-custom.prev.css")
-	PasteTextIntoGitShell(hsName
-		, "cd '" . GetGitHubFolder() . "\ucore.wsu.edu-assessment\'`r"
-		. "git add CSS\ucore-assessment-custom.prev.css`r"
-		. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
-		. "git push`r")
+	if (VerifyCopiedCode(A_ThisLabel, copiedCss)) {
+		WriteCodeToFile(hsName, copiedCss, GetGitHubFolder()
+			. "\ucore.wsu.edu-assessment\CSS\ucore-assessment-custom.prev.css")
+		PasteTextIntoGitShell(hsName
+			, "cd '" . GetGitHubFolder() . "\ucore.wsu.edu-assessment\'`r"
+			. "git add CSS\ucore-assessment-custom.prev.css`r"
+			. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
+			. "git push`r")
+	}
 Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
@@ -1519,8 +1543,8 @@ Return
 	AppendAhkCmd(ahkCmdName)
 	PasteTextIntoGitShell(ahkCmdName
 		, "cd '" . GetGitHubFolder() . "\commonreading.wsu.edu\CSS'`r"
-		. "lessc cr-custom.less cr-custom.css`r"
-		. "lessc --clean-css cr-custom.less cr-custom.min.css`r"
+		. "lessc common-reading-custom.less cr-custom.css`r"
+		. "lessc --clean-css common-reading-custom.less cr-custom.min.css`r"
 		. "[console]::beep(1500,300)`r")
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssCr")
 Return
