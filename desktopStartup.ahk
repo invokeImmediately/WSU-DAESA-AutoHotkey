@@ -212,7 +212,14 @@ agh_MovePowerShell() {
 	destX := -1527 ; units = pixels, destination X coordinate
 	destY := 161 ; units = pixels, destination Y coordinate
 	attemptsLimit := 9 ; make repeated attempts over 3 seconds
+	attemptsCount := 0
+	attemptDelay := beat
 	hWnd := WinExist("Administrator: ahk_class ConsoleWindowClass")
+	while (!hWnd && attemptsCount <= attemptsLimit) {
+		Sleep, % attemptDelay
+		hWnd := WinExist("Administrator: ahk_class ConsoleWindowClass")
+		attemptsCount++
+	}
 	if (hWnd) {
 		psTitle := "ahk_id " . hWnd ; i.e., PowerShell's identifying criteria
 		Sleep, % beat
