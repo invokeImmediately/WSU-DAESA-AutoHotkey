@@ -7,8 +7,9 @@
 ; ==================================================================================================
 
 :*:@gcAnyFile::
-	ahkCmdName := ":*:@gcAnyFile"
-	AppendAhkCmd(ahkCmdName)
+	AppendAhkCmd(A_ThisLabel)
+	subFolder := ""
+	gitFolderLen := StrLen(GetGitHubFolder() . "\")
 	FileSelectFile, selectedFiles, M3, , % "Select (a) file(s) to be committed."
 	if (selectedFiles != "") {
 		filesToCommit := Object()
@@ -16,8 +17,16 @@
 		{
 			if (a_index = 1) {
 				gitFolder := A_LoopField . "\"
+				if (InStr(gitFolder, GetGitHubFolder() . "\")) {
+					subFolder := SubStr(gitFolder, gitFolderLen + 1)
+				}
+				if (StrLen(subFolder)) {
+					subFolderPos := InStr(subFolder, "\")
+					gitFolder := SubStr(gitFolder, 1, gitFolderLen + subFolderPos)
+					subFolder := SubStr(subFolder, subFolderPos + 1)
+				}
 			} else {
-				filesToCommit.Push(A_LoopField)
+				filesToCommit.Push(subFolder . A_LoopField)
 			}
 		}
 
@@ -26,7 +35,8 @@
 			? 0
 			: InStr(gitFolder, GetGitHubFolder())
 		if (isGitFolder) {
-			CommitAnyFile(ahkCmdName, gitFolder, filesToCommit)
+			; Adjust folders
+			CommitAnyFile(A_ThisLabel, gitFolder, filesToCommit)
 		} else {
 			ErrorBox(ahkCmdName, "Unfortunately, you did not select a file contained within a "
 				. "valid git repository folder. Canceling hotkey; please try again.")
@@ -64,13 +74,13 @@ CommitAnyFile(ahkCmdName, gitFolder, filesToCommit) {
 		}
 	}
 
-	; Begin initialziation of GUI
+	; Begin initialization of GUI
 	Gui, guiCommitAnyFile: New, , % ahkCmdName . " Commit Message Specification"
 	Gui, guiCommitAnyFile: Font, bold
 	Gui, guiCommitAnyFile: Add, Text, , % "File(s) to be committed: "
 	Gui, guiCommitAnyFile: Font
 	Gui, guiCommitAnyFile: Font, italic
-	Gui, guiCommitAnyFile: Add, Text, Y+3, % "Folder: "
+	Gui, guiCommitAnyFile: Add, Text, Y+3, % "Git folder: "
 	Gui, guiCommitAnyFile: Font
 	Gui, guiCommitAnyFile: Add, Text, X+3, % commitAnyFileVars.gitFolder
 	Gui, guiCommitAnyFile: Add, ListView
