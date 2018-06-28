@@ -172,7 +172,6 @@ HandleCommitCssCheckLessChangesOnly() {
 	
 	; Respond to user input.
 	if (ctrlCommitCssLessChangesOnly) {
-		GuiControl, Disable, ctrlCommitCssAlsoCommitLessSrc
 		if (ctrlCommitCss1stMsg == commitCssVars.dflt1stCommitMsgAlt) {
 			GuiControl, , ctrlCommitCss1stMsg, % commitCssVars.dflt1stCommitMsgAlt2
 			msgLen := StrLen(commitCssVars.dflt1stCommitMsgAlt2)
@@ -184,7 +183,6 @@ HandleCommitCssCheckLessChangesOnly() {
 			GuiControl, , ctrlCommitCss2ndMsgCharCount, % "Length = " . msgLen . " characters"
 		}
 	} else {
-		GuiControl, Enable, ctrlCommitCssAlsoCommitLessSrc
 		if (ctrlCommitCss1stMsg == commitCssVars.dflt1stCommitMsgAlt2) {
 			GuiControl, , ctrlCommitCss1stMsg, % commitCssVars.dflt1stCommitMsgAlt
 			msgLen := StrLen(commitCssVars.dflt1stCommitMsgAlt)
