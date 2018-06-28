@@ -13,6 +13,7 @@ CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssbuild, fnMinCssBuild
 	global commitCssLastLessCommit
 	global ctrlCommitCssAlsoCommitLessSrc
 	global ctrlCommitCssLessChangesOnly
+	global ctrlCommitCssLV
 	global ctrlCommitCss1stMsg
 	global ctrlCommitCss1stMsgCharCount
 	global ctrlCommitCss2ndMsg
@@ -65,11 +66,20 @@ CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssbuild, fnMinCssBuild
 	Gui, guiCommitCssbuild: Add, Text, vctrlCommitCss2ndMsgCharCount Y+1 W500, % "Length = " . msgLen2nd . " characters"
 	Gui, guiCommitCssBuild: Add, Checkbox
 		, vctrlCommitCssAlsoCommitLessSrc gHandleCommitCssCheckLessFileCommit xm Y+12
-		, % "&Also commit less source " . commitCssVars.fnLessSrcFile . "?"
+		, % "&Also commit site-specific less source(s), e.g., " . commitCssVars.fnLessSrcFile . "?"
 	Gui, guiCommitCssBuild: Add, Checkbox
 		, vctrlCommitCssLessChangesOnly gHandleCommitCssCheckLessChangesOnly xm Disabled
-		, % "Less source &is only changed dependency"
-	Gui, guiCommitCssBuild: Add, Text, xm, % "Message for &LESS file changes:"
+		, % "Site-specific less source(s) &is/are only changed dependency(ies)"
+	Gui, guiCommitCssBuild: Font, italic
+	Gui, guiCommitCssBuild: Add, Text, Y+12, % "Site-specific less source(s): "
+	Gui, guiCommitCssBuild: Font
+	Gui, guiCommitCssBuild: Add, ListView
+		, vctrlCommitCssLV grid BackgroundEBF8FE NoSortHdr r5 W700 xm+1 Y+3
+		, % "File Name"
+	LV_Add(, "CSS\" . commitCssVars.fnLessSrcFile)
+	Gui, guiCommitCssBuild: Add, Button, gHandleCommitCssAddFiles xm Y+3, &Add More Files
+
+	Gui, guiCommitCssBuild: Add, Text, xm Y+12, % "Message for &LESS file changes:"
 	Gui, guiCommitCssBuild: Add, Edit, vctrlCommitCss1stLessMsg gHandleCommitCss1stLessMsgChange X+5 W573 Disabled, % lastLessMsg1st
 	Gui, guiCommitCssbuild: Add, Text, vctrlCommitCss1stLessMsgCharCount Y+1 W500, % "Length = " . msgLenLess1st . " characters"
 	Gui, guiCommitCssBuild: Add, Text, xm Y+12, % "Secondary L&ESS message (optional):"
@@ -106,6 +116,10 @@ HandleCommitCss2ndMsgChange() {
 	; Update character count field
 	msgLen := StrLen(ctrlCommitCss2ndMsg)
 	GuiControl, , ctrlCommitCss2ndMsgCharCount, % "Length = " . msgLen . " characters"
+}
+
+HandleCommitCssAddFiles() {
+	; TODO: Finish writing function.
 }
 
 ; Triggered by state changes in checkbox control in guiCommitCssBuild GUI.
