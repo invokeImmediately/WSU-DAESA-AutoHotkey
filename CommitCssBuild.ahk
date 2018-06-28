@@ -66,7 +66,7 @@ CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssbuild, fnMinCssBuild
 	Gui, guiCommitCssbuild: Add, Text, vctrlCommitCss2ndMsgCharCount Y+1 W500, % "Length = " . msgLen2nd . " characters"
 	Gui, guiCommitCssBuild: Add, Checkbox
 		, vctrlCommitCssAlsoCommitLessSrc gHandleCommitCssCheckLessFileCommit xm Y+12
-		, % "&Also commit site-specific less source(s), e.g., " . commitCssVars.fnLessSrcFile . "?"
+		, % "&Also commit site-specific Less source(s), e.g., " . commitCssVars.fnLessSrcFile . "?"
 	Gui, guiCommitCssBuild: Add, Checkbox
 		, vctrlCommitCssLessChangesOnly gHandleCommitCssCheckLessChangesOnly xm Disabled
 		, % "Site-specific less source(s) &is/are only changed dependency(ies)"
@@ -79,10 +79,10 @@ CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssbuild, fnMinCssBuild
 	LV_Add(, "CSS\" . commitCssVars.fnLessSrcFile)
 	Gui, guiCommitCssBuild: Add, Button, gHandleCommitCssAddFiles xm Y+3, &Add More Files
 
-	Gui, guiCommitCssBuild: Add, Text, xm Y+12, % "Message for &LESS file changes:"
+	Gui, guiCommitCssBuild: Add, Text, xm Y+12, % "Message for &Less file changes:"
 	Gui, guiCommitCssBuild: Add, Edit, vctrlCommitCss1stLessMsg gHandleCommitCss1stLessMsgChange X+5 W573 Disabled, % lastLessMsg1st
 	Gui, guiCommitCssbuild: Add, Text, vctrlCommitCss1stLessMsgCharCount Y+1 W500, % "Length = " . msgLenLess1st . " characters"
-	Gui, guiCommitCssBuild: Add, Text, xm Y+12, % "Secondary L&ESS message (optional):"
+	Gui, guiCommitCssBuild: Add, Text, xm Y+12, % "Secondary L&ess message (optional):"
 	Gui, guiCommitCssBuild: Add, Edit, vctrlCommitCss2ndLessMsg gHandleCommitCss2ndLessMsgChange X+5 W549 Disabled, % lastLessMsg2nd
 	Gui, guiCommitCssbuild: Add, Text, vctrlCommitCss2ndLessMsgCharCount Y+1 W500, % "Length = " . msgLenLess2nd . " characters"
 	Gui, guiCommitCssBuild: Add, Button, Default gHandleCommitCssOk xm, &Ok
@@ -119,7 +119,42 @@ HandleCommitCss2ndMsgChange() {
 }
 
 HandleCommitCssAddFiles() {
-	; TODO: Finish writing function.
+	global commitCssVars
+
+	FileSelectFile, selectedFiles, M3, , % "Select (a) file(s) to be committed."
+	if (selectedFiles != "") {
+		newFilesToCommit := Object()
+		Loop, Parse, selectedFiles, `n
+		{
+			if (a_index = 1) {
+				gitSubFolder := A_LoopField . "\"
+			} else {
+				newFilesToCommit.Push(A_LoopField)
+			}
+		}
+
+		; Verify that we are in a sub folder of the original git folder
+		gitRepositoryPath := GetGitHubFolder() . "\" . commitCssVars.fpGitFolder . "\"
+		posWhereFound := InStr(gitSubFolder, gitRepositoryPath)
+		if (posWhereFound) {
+
+			; Remove the root folder path from the subfolder path, leaving a relative path
+			gitSubFolder := StrReplace(gitSubFolder, gitRepositoryPath, "")
+
+			; Ensure the proper GUI is default to LV_Add function works as expected
+			Gui, guiCommitCssBuild: Default
+
+			fileCount := newFilesToCommit.Length()
+			Loop, %fileCount%
+			{
+				LV_Add(, gitSubFolder . newFilesToCommit[A_Index])
+			}
+
+		} else {
+			ErrorBox(A_ThisFunc, "Unfortunately, you did not select files contained within the "
+				. "root folder of the git repository you previously selected. Please try again.")
+		}
+	}
 }
 
 ; Triggered by state changes in checkbox control in guiCommitCssBuild GUI.
