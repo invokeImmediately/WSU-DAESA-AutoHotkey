@@ -78,6 +78,7 @@ CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssbuild, fnMinCssBuild
 		, % "File Name"
 	LV_Add(, "CSS\" . commitCssVars.fnLessSrcFile)
 	Gui, guiCommitCssBuild: Add, Button, gHandleCommitCssAddFiles xm Y+3, &Add More Files
+	Gui, guiCommitCssBuild: Add, Button, gHandleCommitCssRemoveFiles X+3, &Remove selected file
 
 	Gui, guiCommitCssBuild: Add, Text, xm Y+12, % "Message for &Less file changes:"
 	Gui, guiCommitCssBuild: Add, Edit, vctrlCommitCss1stLessMsg gHandleCommitCss1stLessMsgChange X+5 W573 Disabled, % lastLessMsg1st
@@ -135,7 +136,7 @@ HandleCommitCssAddFiles() {
 
 		; Verify that we are in a sub folder of the original git folder
 		gitRepositoryPath := GetGitHubFolder() . "\" . commitCssVars.fpGitFolder . "\"
-		posWhereFound := InStr(gitSubFolder, gitRepositoryPath)
+		posWhereFound := InStr(gitSubFolder, gitRepositoryPath . "CSS\")
 		if (posWhereFound) {
 
 			; Remove the root folder path from the subfolder path, leaving a relative path
@@ -152,7 +153,7 @@ HandleCommitCssAddFiles() {
 
 		} else {
 			ErrorBox(A_ThisFunc, "Unfortunately, you did not select files contained within the "
-				. "root folder of the git repository you previously selected. Please try again.")
+				. "CSS build sub-folder of the git repository you indicated. Please try again.")
 		}
 	}
 }
@@ -348,23 +349,35 @@ ProcessHandleCommitCssOkError(gVarCheck) {
 	functionName := "CommitCssBuild.ahk / HandleCommitCssOk()"
 	if (gVarCheck == 1) {
 		ErrorBox(functionName
-			, "Please enter a primary git commit message regarding changes in the LESS source file.")
+			, "Please enter a primary git commit message regarding changes in the LESS source"
+. " file.")
 	} else if (gVarCheck == 2) {
 		ErrorBox(functionName
 			, "Please enter a primary git commit message regarding changes in the CSS builds.")	
 	} else if (gVarCheck == 3) {
 		ErrorBox(functionName
-			, "Please enter primary git commit messages regarding changes in the CSS builds and the LESS source file.")
+			, "Please enter primary git commit messages regarding changes in the CSS builds and"
+. " the LESS source file.")
 	} else {
 		Gui, guiCommitCssBuild: Destroy
 		ErrorBox(functionName
-			, "An undefined global variable was encountered; function terminating. Variable checking bitmask was equal to " . gVarCheck . ".")
+			, "An undefined global variable was encountered; function terminating. Variable"
+. " checking bitmask was equal to " . gVarCheck . ".")
 	}
 }
 
 ; Triggered by Cancel button in guiCommitCssBuild GUI.
 HandleCommitCssCancel() {
 	Gui, guiCommitCssBuild: Destroy
+}
+
+HandleCommitCssRemoveFiles() {
+	Gui, guiCommitCssBuild: Default
+	Loop % LV_GetCount("Selected")
+	{
+		rowToRemove := LV_GetNext()
+		LV_Delete(rowToRemove)
+	}
 }
 
 ; Used to grant permanence to LESS commit message history functionality between scripting sessions
@@ -382,12 +395,12 @@ SaveCommitCssLessMsgHistory() {
 					if (numBytes) {
 						numBytes := logFile.WriteLine(value.secondary)
 						if (!numBytes) {
-							ErrorBox(A_ThisFunc, "Could not write the secondary LESS commit message for "
-								. key . ".")
+							ErrorBox(A_ThisFunc, "Could not write the secondary LESS commit"
+. " message for " . key . ".")
 						}
 					} else {
 						ErrorBox(A_ThisFunc, "Could not write the primary LESS commit message for "
-							. key . ".")
+. key . ".")
 					}
 				} else {
 					ErrorBox(A_ThisFunc, "Could not record the next LESS file name, " . key . ".")
@@ -395,8 +408,8 @@ SaveCommitCssLessMsgHistory() {
 			}
 			logFile.Close()
 		} else {
-			ErrorBox(A_ThisFunc, "Could not open less commit message history log file '" . commitCssLessMsgLog
-				. "'. Error code reported by FileOpen: '" . A_LastError . "'")
+			ErrorBox(A_ThisFunc, "Could not open less commit message history log file '"
+. commitCssLessMsgLog . "'. Error code reported by FileOpen: '" . A_LastError . "'")
 		}
 	}
 }
@@ -418,8 +431,8 @@ LoadCommitCssLessMsgHistory() {
 				break
 			} else {
 				if (!ReadPrimaryMsgForLessFileKey(logFile, commitCssLastLessCommit, key)) {
-					ErrorBox(A_ThisFunc, "Log file abruptly stopped after reading a LESS file key. Aborting "
-						. "further reading of log.")
+					ErrorBox(A_ThisFunc, "Log file abruptly stopped after reading a LESS file key."
+						. " Aborting further reading of log.")
 					break
 				} else if(!ReadSecondaryMsgForLessFileKey(logFile, commitCssLastLessCommit, key)) {
 					ErrorBox(A_ThisFunc, "Log file abruptly stopped after reading a LESS file key and "
