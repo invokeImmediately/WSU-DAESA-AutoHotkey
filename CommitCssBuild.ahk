@@ -14,6 +14,8 @@ CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssbuild, fnMinCssBuild
 	global ctrlCommitCssAlsoCommitLessSrc
 	global ctrlCommitCssLessChangesOnly
 	global ctrlCommitCssLV
+	global ctrlCommitCssAddFiles
+	global ctrlCommitCssRemoveFiles
 	global ctrlCommitCss1stMsg
 	global ctrlCommitCss1stMsgCharCount
 	global ctrlCommitCss2ndMsg
@@ -77,8 +79,8 @@ CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssbuild, fnMinCssBuild
 		, vctrlCommitCssLV grid BackgroundEBF8FE NoSortHdr r5 W700 xm+1 Y+3
 		, % "File Name"
 	LV_Add(, "CSS\" . commitCssVars.fnLessSrcFile)
-	Gui, guiCommitCssBuild: Add, Button, gHandleCommitCssAddFiles xm Y+3, &Add More Files
-	Gui, guiCommitCssBuild: Add, Button, gHandleCommitCssRemoveFiles X+3, &Remove selected file
+	Gui, guiCommitCssBuild: Add, Button, gHandleCommitCssAddFiles vctrlCommitCssAddFiles xm Y+3 Disabled, &Add More Files
+	Gui, guiCommitCssBuild: Add, Button, gHandleCommitCssRemoveFiles vctrlCommitCssRemoveFiles X+3  Disabled, &Remove selected file
 
 	Gui, guiCommitCssBuild: Add, Text, xm Y+12, % "Message for &Less file changes:"
 	Gui, guiCommitCssBuild: Add, Edit, vctrlCommitCss1stLessMsg gHandleCommitCss1stLessMsgChange X+5 W573 Disabled, % lastLessMsg1st
@@ -176,6 +178,8 @@ HandleCommitCssCheckLessFileCommit() {
 	
 	; Respond to user input.
 	if (ctrlCommitCssAlsoCommitLessSrc) {
+		GuiControl, Enable, ctrlCommitCssAddFiles
+		GuiControl, Enable, ctrlCommitCssRemoveFiles
 		GuiControl, Enable, ctrlCommitCss1stLessMsg
 		GuiControl, Enable, ctrlCommitCss2ndLessMsg
 		GuiControl, Enable, ctrlCommitCssLessChangesOnly
@@ -190,6 +194,8 @@ HandleCommitCssCheckLessFileCommit() {
 			GuiControl, , ctrlCommitCss2ndMsgCharCount, % "Length = " . msgLen . " characters"
 		}
 	} else {
+		GuiControl, Disable, ctrlCommitCssAddFiles
+		GuiControl, Disable, ctrlCommitCssRemoveFiles
 		GuiControl, Disable, ctrlCommitCss1stLessMsg
 		GuiControl, Disable, ctrlCommitCss2ndLessMsg
 		GuiControl, Disable, ctrlCommitCssLessChangesOnly
