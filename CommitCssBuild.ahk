@@ -285,7 +285,10 @@ HandleCommitCssOk() {
 	global ctrlCommitCss2ndLessMsg
 	
 	; Submit GUI to finalize variables storing user input.
+	Gui, guiCommitCssBuild: Default
 	Gui, guiCommitCssBuild: Submit, NoHide
+
+	numFilesToCommit := LV_GetCount()
 	
 	; Ensure that state of global variables is consistent with a valid GUI submission.
 	gVarCheck := commitCssVars.ahkCmdName == undefined
@@ -293,13 +296,12 @@ HandleCommitCssOk() {
 	gVarCheck := (gVarCheck << 1) | (commitCssVars.fnLessSrcFile == undefined)
 	gVarCheck := (gVarCheck << 1) | (commitCssVars.fnCssbuild == undefined)
 	gVarCheck := (gVarCheck << 1) | (commitCssVars.fnMinCssBuild == undefined)
+	gVarCheck := (gVarCheck << 1) | (ctrlCommitCssAlsoCommitLessSrc && numFilesToCommit == 0)
 	gVarCheck := (gVarCheck << 1) | (ctrlCommitCss1stMsg == undefined)
-	gVarCheck := (gVarCheck << 1) | (ctrlCommitCssAlsoCommitLessSrc && ctrlCommitCss1stLessMsg == undefined)
+	gVarCheck := (gVarCheck << 1) | (ctrlCommitCssAlsoCommitLessSrc
+		&& ctrlCommitCss1stLessMsg == undefined)
 	
 	if (!gVarCheck) {
-		; Close the GUI since the condition of our variables passed muster.
-		Gui, guiCommitCssBuild: Destroy
-		
 		; Build the command line inputs for commiting the code to the appropriate git repository.
 		escaped1stCssMsg := EscapeCommitMessage(ctrlCommitCss1stMsg)
 		commandLineInput := "cd '" . GetGitHubFolder() . "\" . commitCssVars.fpGitFolder . "\'`r"
@@ -315,8 +317,11 @@ HandleCommitCssOk() {
 		commandLineInput .= "git push`r"
 		if (ctrlCommitCssAlsoCommitLessSrc) {
 			escaped1stLessMsg := EscapeCommitMessage(ctrlCommitCss1stLessMsg)
-			commandLineInput .= "git add CSS\" . commitCssVars.fnLessSrcFile . "`r"
-				. "git commit -m """ . escaped1stLessMsg . """"
+			Loop % numFilesToCommit {
+				LV_GetText(nextFileToCommit, A_Index)
+				commandLineInput .= "git add " . nextFileToCommit . "`r"
+			}
+			commandLineInput .= "git commit -m """ . escaped1stLessMsg . """"
 			if (ctrlCommitCss2ndLessMsg != "") {
 				escaped2ndLessMsg := EscapeCommitMessage(ctrlCommitCss2ndLessMsg)
 				commandLineInput .= " -m """ . escaped2ndLessMsg . """`r"
@@ -336,6 +341,8 @@ HandleCommitCssOk() {
 		commandLineInput .= "[console]::beep(2000,150)`r"
 			. "[console]::beep(2000,150)`r"
 
+		Gui, guiCommitCssBuild: Destroy
+		
 		; Paste the code into the command console.
 		PasteTextIntoGitShell(commitCssVars.ahkCmdName, commandLineInput)
 	} else {
@@ -358,6 +365,9 @@ ProcessHandleCommitCssOkError(gVarCheck) {
 		ErrorBox(functionName
 			, "Please enter primary git commit messages regarding changes in the CSS builds and"
 . " the LESS source file.")
+	} else if (gVarCheck & 4) {
+		ErrorBox(functionName
+			, "Please select at least one site-specific Less file to be committed.")
 	} else {
 		Gui, guiCommitCssBuild: Destroy
 		ErrorBox(functionName
