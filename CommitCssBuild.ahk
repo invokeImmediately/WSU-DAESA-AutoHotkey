@@ -25,7 +25,7 @@ CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssbuild, fnMinCssBuild
 	global commitCssDflt1stCommitMsg
 	global ctrlCommitCss2ndLessMsg
 	global ctrlCommitCss2ndLessMsgCharCount
-	
+
 	; Variable initializations
 	commitCssVars.ahkCmdName := ahkCmdName
 	commitCssVars.fpGitFolder := fpGitFolder
@@ -59,7 +59,7 @@ CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssbuild, fnMinCssBuild
 			msgLenLess2nd := StrLen(lastLessMsg2nd)
 		}
 	}
-	
+
 	; GUI initialization & display to user
 	Gui, guiCommitCssBuild: New, , % ahkCmdName . " Commit Message Specification"
 	Gui, guiCommitCssBuild: Add
@@ -128,7 +128,7 @@ HandleCommitCss1stMsgChange() {
 
 	; Submit GUI without hiding to update variables storing states of controls.
 	Gui, guiCommitCssBuild: Submit, NoHide
-	
+
 	; Update character count field
 	msgLen := StrLen(ctrlCommitCss1stMsg)
 	GuiControl, , ctrlCommitCss1stMsgCharCount, % "Length = " . msgLen . " characters"
@@ -142,7 +142,7 @@ HandleCommitCss2ndMsgChange() {
 
 	; Submit GUI without hiding to update variables storing states of controls.
 	Gui, guiCommitCssBuild: Submit, NoHide
-	
+
 	; Update character count field
 	msgLen := StrLen(ctrlCommitCss2ndMsg)
 	GuiControl, , ctrlCommitCss2ndMsgCharCount, % "Length = " . msgLen . " characters"
@@ -199,10 +199,10 @@ HandleCommitCssCheckLessFileCommit() {
 	global ctrlCommitCss2ndLessMsg
 	global ctrlCommitCssAlsoCommitLessSrc
 	global ctrlCommitCssLessChangesOnly
-	
+
 	; Submit GUI without hiding to update variables storing states of controls.
 	Gui, guiCommitCssBuild: Submit, NoHide
-	
+
 	; Respond to user input.
 	if (ctrlCommitCssAlsoCommitLessSrc) {
 		GuiControl, Enable, ctrlCommitCssAddFiles
@@ -249,10 +249,10 @@ HandleCommitCssCheckLessChangesOnly() {
 	global ctrlCommitCss2ndMsgCharCount
 	global ctrlCommitCssAlsoCommitLessSrc
 	global ctrlCommitCssLessChangesOnly
-	
+
 	; Submit GUI without hiding to update variables storing states of controls.
 	Gui, guiCommitCssBuild: Submit, NoHide
-	
+
 	; Respond to user input.
 	if (ctrlCommitCssLessChangesOnly) {
 		if (ctrlCommitCss1stMsg == commitCssVars.dflt1stCommitMsgAlt) {
@@ -287,7 +287,7 @@ HandleCommitCss1stLessMsgChange() {
 
 	; Submit GUI without hiding to update variables storing states of controls.
 	Gui, guiCommitCssBuild: Submit, NoHide
-	
+
 	; Update character count field
 	msgLen := StrLen(ctrlCommitCss1stLessMsg)
 	GuiControl, , ctrlCommitCss1stLessMsgCharCount, % "Length = " . msgLen . " characters"
@@ -301,7 +301,7 @@ HandleCommitCss2ndLessMsgChange() {
 
 	; Submit GUI without hiding to update variables storing states of controls.
 	Gui, guiCommitCssBuild: Submit, NoHide
-	
+
 	; Update character count field
 	msgLen := StrLen(ctrlCommitCss2ndLessMsg)
 	GuiControl, , ctrlCommitCss2ndLessMsgCharCount, % "Length = " . msgLen . " characters"
@@ -316,13 +316,13 @@ HandleCommitCssOk() {
 	global ctrlCommitCssAlsoCommitLessSrc
 	global ctrlCommitCss1stLessMsg
 	global ctrlCommitCss2ndLessMsg
-	
+
 	; Submit GUI to finalize variables storing user input.
 	Gui, guiCommitCssBuild: Default
 	Gui, guiCommitCssBuild: Submit, NoHide
 
 	numFilesToCommit := LV_GetCount()
-	
+
 	; Ensure that state of global variables is consistent with a valid GUI submission.
 	gVarCheck := commitCssVars.ahkCmdName == undefined
 	gVarCheck := (gVarCheck << 1) | (commitCssVars.fpGitFolder == undefined)
@@ -333,7 +333,7 @@ HandleCommitCssOk() {
 	gVarCheck := (gVarCheck << 1) | (ctrlCommitCss1stMsg == undefined)
 	gVarCheck := (gVarCheck << 1) | (ctrlCommitCssAlsoCommitLessSrc
 		&& ctrlCommitCss1stLessMsg == undefined)
-	
+
 	if (!gVarCheck) {
 		; Build the command line inputs for commiting the code to the appropriate git repository.
 		escaped1stCssMsg := EscapeCommitMessage(ctrlCommitCss1stMsg)
@@ -362,7 +362,7 @@ HandleCommitCssOk() {
 				commandLineInput .= "`r"
 			}
 			commandLineInput .= "git push`r"
-			
+
 			; Store commit for later use as a guide
 			if (commitCssLastLessCommit == undefined) {
 				commitCssLastLessCommit := Object()
@@ -375,7 +375,7 @@ HandleCommitCssOk() {
 			. "[console]::beep(2000,150)`r"
 
 		Gui, guiCommitCssBuild: Destroy
-		
+
 		; Paste the code into the command console.
 		PasteTextIntoGitShell(commitCssVars.ahkCmdName, commandLineInput)
 	} else {
@@ -393,7 +393,7 @@ ProcessHandleCommitCssOkError(gVarCheck) {
 . " file.")
 	} else if (gVarCheck == 2) {
 		ErrorBox(functionName
-			, "Please enter a primary git commit message regarding changes in the CSS builds.")	
+			, "Please enter a primary git commit message regarding changes in the CSS builds.")
 	} else if (gVarCheck == 3) {
 		ErrorBox(functionName
 			, "Please enter primary git commit messages regarding changes in the CSS builds and"
@@ -447,7 +447,7 @@ SaveCommitCssLessMsgHistory() {
 					}
 				} else {
 					ErrorBox(A_ThisFunc, "Could not record the next LESS file name, " . key . ".")
-				}				
+				}
 			}
 			logFile.Close()
 		} else {
@@ -465,7 +465,7 @@ LoadCommitCssLessMsgHistory() {
 	if (commitCssLastLessCommit == undefined) {
 		commitCssLastLessCommit := Object()
 	}
-	
+
 	logFile := FileOpen(commitCssLessMsgLog, "r `n")
 	if (logFile) {
 		Loop {

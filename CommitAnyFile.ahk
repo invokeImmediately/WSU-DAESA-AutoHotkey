@@ -151,7 +151,7 @@ HandleCommitAnyFileAddFiles() {
 			ErrorBox(A_ThisFunc, "Unfortunately, you did not select files contained within the "
 				. "root folder of the git repository you previously selected. Please try again.")
 		}
-	}		
+	}
 }
 
 ; Triggered when the primary git commit message for the selected file is changed by user input
@@ -306,7 +306,7 @@ SaveCommitAnyFileMsgHistory() {
 					}
 				} else {
 					ErrorBox(A_ThisFunc, "Could not record the next LESS file name, " . key . ".")
-				}				
+				}
 			}
 			logFile.Close()
 		} else {
