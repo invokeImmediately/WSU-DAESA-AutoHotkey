@@ -34,14 +34,16 @@ CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssbuild, fnMinCssBuild
 	commitCssVars.fnMinCssBuild := fnMinCssBuild
 	commitCssVars.dflt1stCommitMsg := "Updating custom CSS build with recent submodule changes"
 	commitCssVars.dflt1stCommitMsgAlt := "Updating custom CSS build w/ source & submodule changes"
-	commitCssVars.dflt1stCommitMsgAlt2 := "Updating custom CSS build w/ site-specific source changes"
-	commitCssVars.dflt2ndCommitMsg := "Rebuilding custom CSS production files to incorporate recent changes "
-		. "to OUE-wide build dependencies."
-	commitCssVars.dflt2ndCommitMsgAlt := "Rebuilding custom CSS production files to incorporate recent "
-		. "changes to site-specific and OUE-wide build dependencies."
-	commitCssVars.dflt2ndCommitMsgAlt2 := "Rebuilding custom CSS production files to incorporate recent "
-		. "changes to site-specific build dependency; please see matching " . commitCssVars.fnLessSrcFile
-		. " commit for more details."
+	commitCssVars.dflt1stCommitMsgAlt2 := "Updating custom CSS build w/ site-specific source "
+. "changes"
+	commitCssVars.dflt2ndCommitMsg := "Rebuilding custom CSS production files to incorporate "
+. "recent changes to OUE-wide build dependencies."
+	commitCssVars.dflt2ndCommitMsgAlt := "Rebuilding custom CSS production files to incorporate "
+. "recent changes to site-specific and OUE-wide build dependencies. Please see the next commit "
+. "for more details."
+	commitCssVars.dflt2ndCommitMsgAlt2 := "Rebuilding custom CSS production files to incorporate "
+. "recent changes to site-specific build dependency(ies); please see the next commit for more "
+. "details."
 	msgLen1st := StrLen(commitCssVars.dflt1stCommitMsg)
 	msgLen2nd := StrLen(commitCssVars.dflt2ndCommitMsg)
 	lastLessMsg1st := ""
@@ -60,36 +62,61 @@ CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssbuild, fnMinCssBuild
 	
 	; GUI initialization & display to user
 	Gui, guiCommitCssBuild: New, , % ahkCmdName . " Commit Message Specification"
-	Gui, guiCommitCssBuild: Add, Text, , % "&Primary commit message:"
-	Gui, guiCommitCssBuild: Add, Edit, vctrlCommitCss1stMsg gHandleCommitCss1stMsgChange X+5 W606, % commitCssVars.dflt1stCommitMsg
-	Gui, guiCommitCssbuild: Add, Text, vctrlCommitCss1stMsgCharCount Y+1 W500, % "Length = " . msgLen1st . " characters"
-	Gui, guiCommitCssBuild: Add, Text, xm Y+12, % "&Secondary commit message:"
-	Gui, guiCommitCssBuild: Add, Edit, vctrlCommitCss2ndMsg gHandleCommitCss2ndMsgChange X+5 W589, % commitCssVars.dflt2ndCommitMsg
-	Gui, guiCommitCssbuild: Add, Text, vctrlCommitCss2ndMsgCharCount Y+1 W500, % "Length = " . msgLen2nd . " characters"
-	Gui, guiCommitCssBuild: Add, Checkbox
-		, vctrlCommitCssAlsoCommitLessSrc gHandleCommitCssCheckLessFileCommit xm Y+12
+	Gui, guiCommitCssBuild: Add
+		, Text, , % "&Primary commit message:"
+	Gui, guiCommitCssBuild: Add
+		, Edit, vctrlCommitCss1stMsg gHandleCommitCss1stMsgChange X+5 W606
+		, % commitCssVars.dflt1stCommitMsg
+	Gui, guiCommitCssbuild: Add
+		, Text, vctrlCommitCss1stMsgCharCount Y+1 W500
+		, % "Length = " . msgLen1st . " characters"
+	Gui, guiCommitCssBuild: Add
+		, Text, xm Y+12, % "&Secondary commit message:"
+	Gui, guiCommitCssBuild: Add, Edit
+		, vctrlCommitCss2ndMsg gHandleCommitCss2ndMsgChange X+5 W589
+		, % commitCssVars.dflt2ndCommitMsg
+	Gui, guiCommitCssbuild: Add
+		, Text, vctrlCommitCss2ndMsgCharCount Y+1 W500
+		, % "Length = " . msgLen2nd . " characters"
+	Gui, guiCommitCssBuild: Add
+		, Checkbox, vctrlCommitCssAlsoCommitLessSrc gHandleCommitCssCheckLessFileCommit xm Y+12
 		, % "&Also commit site-specific Less source(s), e.g., " . commitCssVars.fnLessSrcFile . "?"
 	Gui, guiCommitCssBuild: Add, Checkbox
 		, vctrlCommitCssLessChangesOnly gHandleCommitCssCheckLessChangesOnly xm Disabled
 		, % "Site-specific less source(s) &is/are only changed dependency(ies)"
 	Gui, guiCommitCssBuild: Font, italic
-	Gui, guiCommitCssBuild: Add, Text, Y+12, % "Site-specific less source(s): "
+	Gui, guiCommitCssBuild: Add
+		, Text, Y+12, % "Site-specific less source(s): "
 	Gui, guiCommitCssBuild: Font
-	Gui, guiCommitCssBuild: Add, ListView
-		, vctrlCommitCssLV grid BackgroundEBF8FE NoSortHdr r5 W700 xm+1 Y+3
+	Gui, guiCommitCssBuild: Add
+		, ListView, vctrlCommitCssLV grid BackgroundEBF8FE NoSortHdr r5 W700 xm+1 Y+3
 		, % "File Name"
 	LV_Add(, "CSS\" . commitCssVars.fnLessSrcFile)
-	Gui, guiCommitCssBuild: Add, Button, gHandleCommitCssAddFiles vctrlCommitCssAddFiles xm Y+3 Disabled, &Add More Files
-	Gui, guiCommitCssBuild: Add, Button, gHandleCommitCssRemoveFiles vctrlCommitCssRemoveFiles X+3  Disabled, &Remove selected file
-
-	Gui, guiCommitCssBuild: Add, Text, xm Y+12, % "Message for &Less file changes:"
-	Gui, guiCommitCssBuild: Add, Edit, vctrlCommitCss1stLessMsg gHandleCommitCss1stLessMsgChange X+5 W573 Disabled, % lastLessMsg1st
-	Gui, guiCommitCssbuild: Add, Text, vctrlCommitCss1stLessMsgCharCount Y+1 W500, % "Length = " . msgLenLess1st . " characters"
-	Gui, guiCommitCssBuild: Add, Text, xm Y+12, % "Secondary L&ess message (optional):"
-	Gui, guiCommitCssBuild: Add, Edit, vctrlCommitCss2ndLessMsg gHandleCommitCss2ndLessMsgChange X+5 W549 Disabled, % lastLessMsg2nd
-	Gui, guiCommitCssbuild: Add, Text, vctrlCommitCss2ndLessMsgCharCount Y+1 W500, % "Length = " . msgLenLess2nd . " characters"
-	Gui, guiCommitCssBuild: Add, Button, Default gHandleCommitCssOk xm, &Ok
-	Gui, guiCommitCssBuild: Add, Button, gHandleCommitCssCancel X+5, &Cancel
+	Gui, guiCommitCssBuild: Add
+		, Button, gHandleCommitCssAddFiles vctrlCommitCssAddFiles xm Y+3 Disabled, &Add More Files
+	Gui, guiCommitCssBuild: Add
+		, Button, gHandleCommitCssRemoveFiles vctrlCommitCssRemoveFiles X+3  Disabled
+		, &Remove selected file
+	Gui, guiCommitCssBuild: Add
+		, Text, xm Y+12, % "Message for &Less file changes:"
+	Gui, guiCommitCssBuild: Add
+		, Edit, vctrlCommitCss1stLessMsg gHandleCommitCss1stLessMsgChange X+5 W573 Disabled
+		, % lastLessMsg1st
+	Gui, guiCommitCssbuild: Add
+		, Text, vctrlCommitCss1stLessMsgCharCount Y+1 W500
+		, % "Length = " . msgLenLess1st . " characters"
+	Gui, guiCommitCssBuild: Add
+		, Text, xm Y+12, % "Secondary L&ess message (optional):"
+	Gui, guiCommitCssBuild: Add
+		, Edit, vctrlCommitCss2ndLessMsg gHandleCommitCss2ndLessMsgChange X+5 W549 Disabled
+		, % lastLessMsg2nd
+	Gui, guiCommitCssbuild: Add
+		, Text, vctrlCommitCss2ndLessMsgCharCount Y+1 W500
+		, % "Length = " . msgLenLess2nd . " characters"
+	Gui, guiCommitCssBuild: Add
+		, Button, Default gHandleCommitCssOk xm, &Ok
+	Gui, guiCommitCssBuild: Add
+		, Button, gHandleCommitCssCancel X+5, &Cancel
 	Gui, guiCommitCssBuild: Show
 }
 
