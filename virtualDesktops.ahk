@@ -154,12 +154,22 @@ SwitchDesktopByNumber(targetDesktop) {
 ; ··································································································
 ;   >>> §2.4: MoveActiveWindowToVirtualDesktop
 MoveActiveWindowToVirtualDesktop(targetDesktop) {
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	; DECLARATIONS
 	global vdCurrentDesktop
 	global vdDesktopCount
+
+	; Timing variables
 	prevKeyDelay := A_KeyDelay
 	keyDelay := 120
 	pauseAmt := 200
 
+	; UI interaction variables
+	awThumbnailX := 95 ; Active Window Thumbnail: horizontal click position
+	awThumbnailY := 220 ; Active Window Thumbnail: vertical click position
+
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	; BEGIN EXECUTION
 	SetKeyDelay, %keyDelay%
 
 	; Re-generate the list of desktops and where we fit in that. We do this because
@@ -177,17 +187,17 @@ MoveActiveWindowToVirtualDesktop(targetDesktop) {
 	if (vdCurrentDesktop == targetDesktop) {
 		return
 	} else {
-		if (IsWindowOnLeftDualMonitor()) {
-			Send, #{Tab}
-			Sleep, %pauseAmt%
-			Send, {Tab 2}{AppsKey}{Down 2}{Right}{Left}{Right}
-			Sleep, (%pauseAmt% * 2)
-		} else {
-			Send, #{Tab}
-			Sleep, %pauseAmt%
-			Send, {AppsKey}{Down 2}{Right}{Left}{Right}
-			Sleep, (%pauseAmt% * 2)
-		}
+		GetActiveMonitorWorkArea(whichMon, monALeft, monATop, monARight, monABottom)
+		MouseGetPos, currentMouseX, currentMouseY
+		clickPosX := monALeft + awThumbnailX
+		clickPosY := monATop + awThumbnailY
+		Send, #{Tab}
+		Sleep, % pauseAmt * 3
+		Send {Click, %clickPosX%, %clickPosY%, right}
+		Sleep, % pauseAmt
+		Send, {Down 2}{Right}
+		Sleep, % pauseAmt
+		Send {Click, %currentMouseX%, %currentMouseY%, 0}
 	}
 	
 	iDesktop := 1
