@@ -33,9 +33,40 @@ IsWindowOnLeftDualMonitor(title := "A") {
 	global sysWinBorderW
 
 	WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, %title%
+	SysGet, Mon1, Monitor, 1
 	SysGet, Mon2, Monitor, 2
 
-	if (thisWinX < Mon2Right - sysWinBorderW) {
+	if (Mon1Right < Mon2Right) {
+		MonLRight = Mon1Right
+	} else {
+		MonLRight = Mon2Right		
+	}
+
+	if (thisWinX < MonLRight - sysWinBorderW) {
+		return true
+	} else {
+		return false
+	}
+}
+
+IsWindowOnLeftTriMonitor(title := "A") {
+	global sysWinBorderW
+
+	WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, %title%
+	SysGet, Mon1, Monitor, 1
+	SysGet, Mon2, Monitor, 2
+	SysGet, Mon3, Monitor, 3
+
+	MonLRight := Mon1Right
+	if (Mon2Right < MonLRight) {
+		MonLRight := Mon2Right
+	}
+	if (Mon3Right < MonLRight) {
+		MonLRight := Mon3Right
+	}
+	MsgBox, %MonLRight%
+
+	if (thisWinX < MonLRight - sysWinBorderW) {
 		return true
 	} else {
 		return false
@@ -785,7 +816,6 @@ TriggerWindowAdjustmentGui(edgeSnapping, minWidth, maxWidth, initialWidth, minHe
 		, initialHeight) {
 	global
 	local whichHwnd
-	local onLeftMonitor := IsWindowOnLeftDualMonitor()
 	local sliderPos := (initialWidth - minWidth) / (maxWidth - minWidth) * 100
 	local xSnapOptL
 	local xSnapOptC
@@ -793,6 +823,14 @@ TriggerWindowAdjustmentGui(edgeSnapping, minWidth, maxWidth, initialWidth, minHe
 	local ySnapOptT
 	local ySnapOptC
 	local ySnapOptB
+	local aMonId
+	local aMonLeft
+	local aMonTop
+	local aMonRight
+	local aMonBottom
+
+	; Start by getting work area of active monitor
+	GetActiveMonitorWorkArea(aMonId, aMonLeft, aMonTop, aMonRight, aMonBottom)
 
 	; Store persistent data in GUI's associated global object
 	WinGet, whichHwnd, ID, A
@@ -826,12 +864,11 @@ TriggerWindowAdjustmentGui(edgeSnapping, minWidth, maxWidth, initialWidth, minHe
 	Gui, guiWinAdj: Add, Button, Default gHandleGuiWinAdjOK xm y+15, &OK
 	Gui, guiWinAdj: Show
 
-	; GUI always loads on primary, right monitor; switch to left monitor if appropriate
-	if (onLeftMonitor) {
-		SysGet, Mon2, MonitorWorkArea, 2
+	; GUI always loads on primary monitor; switch to different monitor if appropriate
+	if (aMonLeft != 0) {
 		WinGet, guiHwnd, ID, A
 		WinGetPos, posX, posY, posW, posH, ahk_id %guiHwnd%
-		posX := Mon2Left + posX
+		posX := aMonLeft + posX
 		WinMove, ahk_id %guiHwnd%, , %posX%, %posY%, %posW%, %posH%
 	}
 }
@@ -895,11 +932,7 @@ GuiWinAdjUpdateEdgeSnapping() {
 
 GuiWinAdjCheckNewPosition(whichHwnd, ByRef posX, ByRef posY, ByRef winWidth, ByRef winHeight) {
 	global sysWinBorderW
-	if (IsWindowOnLeftDualMonitor("ahk_id " . whichHwnd)) {
-		SysGet, iMon, MonitorWorkArea, 2
-	} else {
-		SysGet, iMon, MonitorWorkArea, 1
-	}
+	GetActiveMonitorWorkArea(monitorFound, iMonLeft, iMonTop, iMonRight, iMonBottom)
 	leftEdge := iMonLeft - (sysWinBorderW - 1)
 	rightEdge := iMonRight + (sysWinBorderW - 1)
 	topEdge := iMonTop
