@@ -725,21 +725,37 @@ Return
 
 ;TODO: Convert these functions into an array based format
 ^!+RButton::
-	global savedMouseX
-	global savedMouseY
-	
+	global savedMouseCoords
+
+	if (savedMouseCoords = undefined) {
+		savedMouseCoords := {}
+		savedMouseCoords.idx := 0
+		savedMouseCoords.array := {}
+	}
+
 	CoordMode, Mouse, Screen
-	MouseGetPos, savedMouseX, savedMouseY
+	MouseGetPos, mouseX, mouseY
+	(savedMouseCoords.array).Push({x: mouseX, y: mouseY})
+	savedMouseCoords.idx := (savedMouseCoords.array).Length()
+	MsgBox, % savedMouseCoords.idx
 Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ^!+LButton::
-	global savedMouseX
-	global savedMouseY
+	global savedMouseCoords
 
-	CoordMode, Mouse, Screen
-	MouseMove, %savedMouseX%, %savedMouseY%
+	if (savedMouseCoords != undefined) {
+		coords := savedMouseCoords.array[savedMouseCoords.idx]
+		savedMouseCoords.idx--
+		if (savedMouseCoords.idx < 1) {
+			savedMouseCoords.idx := savedMouseCoords.array.Length()
+		}
+		mouseX := coords.x
+		mouseY := coords.y
+		CoordMode, Mouse, Screen
+		MouseMove, %mouseX%, %mouseY%
+	}
 Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
