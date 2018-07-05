@@ -737,26 +737,61 @@ Return
 	MouseGetPos, mouseX, mouseY
 	(savedMouseCoords.array).Push({x: mouseX, y: mouseY})
 	savedMouseCoords.idx := (savedMouseCoords.array).Length()
-	MsgBox, % savedMouseCoords.idx
 Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ^!+LButton::
+	if (casLButton_IsMouseAtCurrentCoord()) {
+		casLButton_MoveMouseToNextCoord()
+	} else {
+		casLButton_MoveMouseToCurrentCoord()
+	}
+Return
+
+casLButton_IsMouseAtCurrentCoord() {
+	global savedMouseCoords
+	atCurrentCoord := False
+
+	if (savedMouseCoords != undefined) {
+		coords := savedMouseCoords.array[savedMouseCoords.idx]
+		mouseX := coords.x
+		mouseY := coords.y
+		CoordMode, Mouse, Screen
+		MouseGetPos, actualMouseX, actualMouseY
+		atCurrentCoord := (actualMouseX = mouseX) && (actualMouseY = mouseY)
+	}
+
+	return atCurrentCoord
+}
+
+casLButton_MoveMouseToCurrentCoord() {
 	global savedMouseCoords
 
 	if (savedMouseCoords != undefined) {
 		coords := savedMouseCoords.array[savedMouseCoords.idx]
-		savedMouseCoords.idx--
-		if (savedMouseCoords.idx < 1) {
-			savedMouseCoords.idx := savedMouseCoords.array.Length()
-		}
 		mouseX := coords.x
 		mouseY := coords.y
 		CoordMode, Mouse, Screen
 		MouseMove, %mouseX%, %mouseY%
 	}
-Return
+}
+
+casLButton_MoveMouseToNextCoord() {
+	global savedMouseCoords
+
+	if (savedMouseCoords != undefined) {
+		savedMouseCoords.idx--
+		if (savedMouseCoords.idx < 1) {
+			savedMouseCoords.idx := savedMouseCoords.array.Length()
+		}
+		coords := savedMouseCoords.array[savedMouseCoords.idx]
+		mouseX := coords.x
+		mouseY := coords.y
+		CoordMode, Mouse, Screen
+		MouseMove, %mouseX%, %mouseY%
+	}
+}
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
