@@ -724,7 +724,7 @@ Return
 ; --------------------------------------------------------------------------------------------------
 
 ;TODO: Convert these functions into an array based format
-^!+RButton::
+<^!+RButton::
 	global savedMouseCoords
 
 	if (savedMouseCoords = undefined) {
@@ -737,6 +737,19 @@ Return
 	MouseGetPos, mouseX, mouseY
 	(savedMouseCoords.array).Push({x: mouseX, y: mouseY})
 	savedMouseCoords.idx := (savedMouseCoords.array).Length()
+Return
+
+>^!+RButton::
+	global savedMouseCoords
+
+	if (savedMouseCoords != undefined && savedMouseCoords.idx > 0) {
+		savedMouseCoords.idx := savedMouseCoords.array.Length()
+		if (!casLButton_IsMouseAtCurrentCoord()) {
+			casLButton_MoveMouseToCurrentCoord()
+		}
+		savedMouseCoords.array.Pop()
+		savedMouseCoords.idx--
+	}
 Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
