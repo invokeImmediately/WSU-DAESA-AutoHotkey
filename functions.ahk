@@ -350,6 +350,12 @@ Merge(ByRef arrayObj, l, m, r) {
 	}
 }
 
+SwapValues(ByRef val1, ByRef val2) {
+	valTemp := val2
+	val2 := val1
+	val1 := valTemp
+}
+
 ; --------------------------------------------------------------------------------------------------
 ; UTILITY FUNCTIONS: For working with AutoHotkey
 ; --------------------------------------------------------------------------------------------------
@@ -524,18 +530,10 @@ Return
 ; Desktop Management Functions
 ; --------------------------------------------------------------------------------------------------
 
-GetActiveMonitorWorkArea(ByRef monitorFound, ByRef monitorALeft, ByRef monitorATop
-		, ByRef monitorARight, ByRef monitorABottom) {
-	global
-	local winCoords := {}
-	local x
-	local y
-	local w
-	local h
-	local whichVertex
+FindActiveMonitor() {
+	winCoords := {}
+	whichMon := 0
 
-	monitorFound := false
-	RemoveMinMaxStateForActiveWin()
 	WinGetPos, x, y, w, h, A
 	whichVertex := 0
 	RemoveWinBorderFromRectCoordinate(whichVertex, x, y)
@@ -547,13 +545,28 @@ GetActiveMonitorWorkArea(ByRef monitorFound, ByRef monitorALeft, ByRef monitorAT
 		if (winCoords.x >= mon%A_Index%Bounds_Left && winCoords.y >= mon%A_Index%Bounds_Top
 				&& winCoords.x < mon%A_Index%Bounds_Right
 				&& winCoords.y < mon%A_Index%Bounds_Bottom) {
-			monitorFound := true
-			monitorALeft := mon%A_Index%WorkArea_Left
-			monitorATop := mon%A_Index%WorkArea_Top
-			monitorARight := mon%A_Index%WorkArea_Right
-			monitorABottom := mon%A_Index%WorkArea_Bottom
+			whichMon := A_Index
 			break
 		}
+	}
+
+	return whichMon
+}
+
+GetActiveMonitorWorkArea(ByRef monitorFound, ByRef monitorALeft, ByRef monitorATop
+		, ByRef monitorARight, ByRef monitorABottom) {
+	global
+	local whichMon
+
+	monitorFound := false
+	RemoveMinMaxStateForActiveWin()
+	whichMon := FindActiveMonitor()
+	if (whichMon > 0) {
+		monitorFound := true
+		monitorALeft := mon%whichMon%WorkArea_Left
+		monitorATop := mon%whichMon%WorkArea_Top
+		monitorARight := mon%whichMon%WorkArea_Right
+		monitorABottom := mon%whichMon%WorkArea_Bottom
 	}
 	if (monitorFound = false) {
 		ResolveActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight
