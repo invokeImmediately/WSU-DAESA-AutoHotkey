@@ -120,7 +120,7 @@ return
 ;   §3: WINDOW POSITIONING HOTKEYS
 ; --------------------------------------------------------------------------------------------------
 
-^F10::WinSet, Alwaysontop, Toggle, A
+^F12::WinSet, Alwaysontop, Toggle, A
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
@@ -158,6 +158,40 @@ Return
 Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
+
+^F11::
+	SoundPlay, %windowSizingSound%
+	borderWidths := GetActiveWindowBorderWidths()
+	maxWidth := (mon3WorkArea_Right + (borderWidths.Horz - 1)) - (mon3WorkArea_Left 
+		- (borderWidths.Horz - 1))
+	minWidth := Round(maxWidth / 20 * 3)
+	widthDecrement := minWidth
+	newWidth := maxWidth - (widthDecrement * 4 / 3)
+	newPosX := mon3WorkArea_Left + (widthDecrement * 4 / 3) - (borderWidths.Horz - 1)
+	maxHeight := (mon3WorkArea_Bottom - mon3WorkArea_Top) + (borderWidths.Vert - 1)
+	minHeight := Round(maxHeight / 20 * 3)
+	newHeight := maxHeight
+	WinRestore, A
+	WinMove, A, , %newPosX%, 0, %newWidth%, %maxHeight%
+	TriggerWindowAdjustmentGui(4, minWidth, maxWidth, newWidth, minHeight, maxHeight, newHeight)
+Return
+
+^F10::
+	SoundPlay, %windowSizingSound%
+	borderWidths := GetActiveWindowBorderWidths()
+	maxWidth := (mon3WorkArea_Right + (borderWidths.Horz - 1)) - (mon3WorkArea_Left 
+		- (borderWidths.Horz - 1))
+	minWidth := Round(maxWidth / 20 * 3)
+	widthDecrement := minWidth
+	newWidth := maxWidth - widthDecrement * 4 / 3
+	newPosX := mon3WorkArea_Left - borderWidths.Horz + 1
+	maxHeight := (mon3WorkArea_Bottom - mon1WorkArea_Top) + (borderWidths.Vert - 1)
+	minHeight := Round(maxHeight / 20 * 3)
+	newHeight := maxHeight
+	WinRestore, A
+	WinMove, A, , %newPosX%, 0, %newWidth%, %maxHeight%
+	TriggerWindowAdjustmentGui(1, minWidth, maxWidth, newWidth, minHeight, maxHeight, newHeight)
+Return
 
 ; TODO: Refactor to compensate for window border widths and how they affect positioning
 ^F9::
