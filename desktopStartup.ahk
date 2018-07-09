@@ -44,23 +44,27 @@ Return
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@setupVirtualDesktop1::
-	delay := 150
+	waitingBeat := 150
 	CheckForCmdEntryGui()
 	switchDesktopByNumber(1)
-	Sleep, % delay
+	Sleep, % waitingBeat
 	Gosub, :*:@moveTempMonitors
 	switchDesktopByNumber(1)
-	Sleep, % delay
+	Sleep, % waitingBeat
 	Gosub, :*:@startSublimeText3
-	Sleep, % delay * 4
-	PositionWindowViaCtrlFN("^F8", delay)
+	Sleep, % waitingBeat * 4
+	PositionWindowViaCtrlFN("^F8", waitingBeat)
 	Gosub, :*:@startChrome
-	Sleep, % delay * 4
-	PositionWindowViaCtrlFN("^F7", delay)
+	Sleep, % waitingBeat * 4
+	PositionWindowViaCtrlFN("^F7", waitingBeat)
+	Gosub, :*:@startChrome
+	Sleep, % waitingBeat * 4
+	PositionWindowViaCtrlFN("^F10", waitingBeat)
 Return
 
 PositionWindowViaCtrlFN(posHotkey, delay) {
-	if (posHotkey == "^F6" || posHotkey == "^F7" || posHotkey == "^F8" || posHotkey == "^F9") {
+	if (posHotkey == "^F6" || posHotkey == "^F7" || posHotkey == "^F8" || posHotkey == "^F9"
+			|| posHotkey == "^F10" || posHotkey == "^F11") {
 		Gosub % posHotkey
 		Sleep, % delay
 		SendInput, % "{Enter}"
@@ -107,6 +111,16 @@ Return
 	SendInput, https://distinguishedscholarships.wsu.edu/wp-admin/{Enter}
 	Sleep, % waitingBeat
 	WaitForApplicationPatiently("WSU Distinguished")
+	Sleep, % waitingBeat * 10
+Return
+
+:*:@startMsTodo::
+	waitingBeat := 100 ; ms
+	; Start up Chrome and direct it to a WSU WordPress login page; wait for it to load before
+	; proceeding
+	AppendAhkCmd(A_ThisLabel)
+	LaunchStdApplicationPatiently("C:\Users\CamilleandDaniel\Desktop\Microsoft To-Do - Shortcut.lnk"
+		, "Microsoft To-Do")
 	Sleep, % waitingBeat * 10
 Return
 
