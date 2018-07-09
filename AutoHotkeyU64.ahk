@@ -23,15 +23,15 @@
 ;   §8: PROGRAM/FILE LAUNCHING SHORTCUTS.......................................................301
 ;   §9: GITHUB SHORTCUTS.......................................................................323
 ;   §10: GOOGLE CHROME SHORTCUTS...............................................................329
-;   §11: HTML EDITING..........................................................................361
-;   §12: TEXT REPLACEMENT & INPUT..............................................................367
-;   >>> 12.1: Text Replacement HOTKEYS.........................................................371
-;   >>> 12.2: Text Replacement HOTSTRINGS......................................................376
-;   >>> 12.3: Text Input HOTSTRINGS............................................................480
-;   §13: OTHER SHORTCUTS.......................................................................487
-;   §14: WORK TIMER............................................................................500
-;   §15: CUSTOM HOTSTRINGS & HOTKEYS...........................................................506
-;   §16: MAIN SUBROUTINE.......................................................................580
+;   §11: HTML EDITING..........................................................................388
+;   §12: TEXT REPLACEMENT & INPUT..............................................................394
+;   >>> 12.1: Text Replacement HOTKEYS.........................................................398
+;   >>> 12.2: Text Replacement HOTSTRINGS......................................................403
+;   >>> 12.3: Text Input HOTSTRINGS............................................................507
+;   §13: OTHER SHORTCUTS.......................................................................514
+;   §14: WORK TIMER............................................................................527
+;   §15: CUSTOM HOTSTRINGS & HOTKEYS...........................................................533
+;   §16: MAIN SUBROUTINE.......................................................................607
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -332,20 +332,47 @@ Return
 ^!o::
 	WinGet, thisProcess, ProcessName, A
 	if (thisProcess = "chrome.exe") {
-		WinGetPos, x, y, w, h, A
-		SendInput, ^n
-		Sleep, 333
-		WinMove, A, , x, y, w, h
-		Sleep, 200
-		SendInput, ^+o
-		Sleep, 100
-		SendInput, ^!m
-		Sleep, 200
-		ClipActiveWindowToMonitor()
+		WinGet, chromeHwnd, ID, A
+		WinGet, minMaxState, minMax, A
+		if (minMaxState == 0) {
+			ctrlAltO_OpenChromeBookmarks(chromeHwnd)
+		} else if (minMaxState == 1) {
+			ctrlAltO_OpenMaxedChromeBookmarks(chromeHwnd)
+		}
 	} else {
 		GoSub, PerformBypassingCtrlAltO
 	}
 Return
+
+ctrlAltO_OpenChromeBookmarks(chromeHwnd) {
+	waitingBeat := 100
+	WinGetPos, x, y, w, h, % "ahk_id " . chromeHwnd
+	Sleep, % waitingBeat
+	SendInput, ^n
+	Sleep, % waitingBeat * 3
+	WinMove, A, , %x%, %y%, %w%, %h%
+	Sleep, % waitingBeat * 2
+	SendInput, ^+o
+	Sleep, % waitingBeat
+	SendInput, ^!m
+	Sleep, % waitingBeat * 2
+	ClipActiveWindowToMonitor()
+}
+
+ctrlAltO_OpenMaxedChromeBookmarks(chromeHwnd) {
+	waitingBeat := 100
+	Sleep, % waitingBeat
+	SendInput, ^n
+	Sleep, % waitingBeat * 3
+	SendInput, ^+o
+	Sleep, % waitingBeat * 3
+	activeMon := FindNearestActiveMonitor()
+	if (activeMon == 1) {
+		SendInput, +#{Right}
+	} else {
+		SendInput, +#{Left}
+	}
+}
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
