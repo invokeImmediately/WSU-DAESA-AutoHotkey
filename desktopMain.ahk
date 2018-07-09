@@ -53,6 +53,20 @@ SetMonitorBounds() {
 	Loop, % sysNumMonitors {
 		SysGet, mon%A_Index%Bounds_, Monitor, %A_Index%
 	}
+
+	; Sort bounds so that monitor identifier order reflects spatial order.
+	Loop, % sysNumMonitors {
+		outerIdx := A_Index
+		Loop, % sysNumMonitors - outerIdx {
+			innerIdx := outerIdx + A_Index
+			if (mon%innerIdx%Bounds_Left < mon%outerIdx%Bounds_Left) {
+				SwapValues(mon%innerIdx%Bounds_Left, mon%outerIdx%Bounds_Left)
+				SwapValues(mon%innerIdx%Bounds_Top, mon%outerIdx%Bounds_Top)
+				SwapValues(mon%innerIdx%Bounds_Right, mon%outerIdx%Bounds_Right)
+				SwapValues(mon%innerIdx%Bounds_Bottom, mon%outerIdx%Bounds_Bottom)
+			}
+		}
+	}
 }
 
 ; Assumes window has a resizable border.
@@ -60,6 +74,20 @@ SetMonitorWorkAreas() {
 	global
 	Loop, % sysNumMonitors {
 		SysGet, mon%A_Index%WorkArea_, MonitorWorkArea, %A_Index%
+	}
+
+	; Sort bounds so that monitor identifier order reflects spatial order.
+	Loop, % sysNumMonitors {
+		outerIdx := A_Index
+		Loop, % sysNumMonitors - outerIdx {
+			innerIdx := outerIdx + A_Index
+			if (mon%innerIdx%WorkArea_Left < mon%outerIdx%WorkArea_Left) {
+				SwapValues(mon%innerIdx%WorkArea_Left, mon%outerIdx%WorkArea_Left)
+				SwapValues(mon%innerIdx%WorkArea_Top, mon%outerIdx%WorkArea_Top)
+				SwapValues(mon%innerIdx%WorkArea_Right, mon%outerIdx%WorkArea_Right)
+				SwapValues(mon%innerIdx%WorkArea_Bottom, mon%outerIdx%WorkArea_Bottom)
+			}
+		}
 	}
 }
 
