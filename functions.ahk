@@ -531,16 +531,10 @@ Return
 ; --------------------------------------------------------------------------------------------------
 
 FindActiveMonitor() {
-	winCoords := {}
 	whichMon := 0
 
 	WinGetPos, x, y, w, h, A
-	whichVertex := 0
-	RemoveWinBorderFromRectCoordinate(whichVertex, x, y)
-	winCoords.x := x
-	winCoords.y := y
-	winCoords.w := w
-	winCoords.h := h
+	RemoveWinBorderFromRectCoordinate(0, x, y)
 	Loop, %sysNumMonitors% {
 		if (winCoords.x >= mon%A_Index%Bounds_Left && winCoords.y >= mon%A_Index%Bounds_Top
 				&& winCoords.x < mon%A_Index%Bounds_Right
@@ -553,10 +547,40 @@ FindActiveMonitor() {
 	return whichMon
 }
 
+FindNearestActiveMonitor() {
+	minDistance := -1
+	winMidpt := {}
+	monMidpt := {}
+
+	WinGetPos, x, y, w, h, A
+	RemoveWinBorderFromRectCoordinate(0, x, y)
+	winMidpt.x := x + w / 2
+	winMidpt.y := x + h / 2
+	Loop, %sysNumMonitors% {
+		monMidpt.x := mon%A_Index%Bounds_Left + (mon%A_Index%Bounds_Right 
+			- mon%A_Index%Bounds_Left) / 2		
+		monMidpt.y := mon%A_Index%Bounds_Top + (mon%A_Index%Bounds_Bottom
+			- mon%A_Index%Bounds_Top)	/ 2
+		distance := Sqrt((monMidpt.x - winMidpt.x)**2 + (monMidpt.y - winMidpt.y)**2)
+		if (minDistance = -1 || distance < minDistance) {
+			minDistance := distance
+			correctMon := A_Index
+		}
+	}
+
+	return correctMon
+}
+
 GetActiveMonitorWorkArea(ByRef monitorFound, ByRef monitorALeft, ByRef monitorATop
 		, ByRef monitorARight, ByRef monitorABottom) {
 	global
 	local whichMon
+	local winCoords
+	local x
+	local y
+	local w
+	local h
+	local whichVertex
 
 	monitorFound := false
 	RemoveMinMaxStateForActiveWin()
@@ -568,7 +592,16 @@ GetActiveMonitorWorkArea(ByRef monitorFound, ByRef monitorALeft, ByRef monitorAT
 		monitorARight := mon%whichMon%WorkArea_Right
 		monitorABottom := mon%whichMon%WorkArea_Bottom
 	}
+
 	if (monitorFound = false) {
+		winCoords := {}
+		WinGetPos, x, y, w, h, A
+		whichVertex := 0
+		RemoveWinBorderFromRectCoordinate(whichVertex, x, y)
+		winCoords.x := x
+		winCoords.y := y
+		winCoords.w := w
+		winCoords.h := h
 		ResolveActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight
 			, monitorABottom, winCoords)
 	} else {
