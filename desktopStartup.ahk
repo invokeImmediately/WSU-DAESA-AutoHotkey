@@ -57,7 +57,7 @@ Return
 	Gosub, :*:@startChrome
 	Sleep, % waitingBeat * 4
 	PositionWindowViaCtrlFN("^F7", waitingBeat)
-	Gosub, :*:@startChrome
+	Gosub, :*:@startMsTodo
 	Sleep, % waitingBeat * 4
 	PositionWindowViaCtrlFN("^F10", waitingBeat)
 Return
