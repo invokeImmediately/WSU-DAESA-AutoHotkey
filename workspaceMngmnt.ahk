@@ -169,7 +169,7 @@ Return
 	widthDecrement := minWidth
 	newWidth := maxWidth - (widthDecrement * 4 / 3)
 	newPosX := mon3WorkArea_Left + (widthDecrement * 4 / 3) - (borderWidths.Horz - 1)
-	maxHeight := (mon3WorkArea_Bottom - mon3WorkArea_Top) + (borderWidths.Vert - 1)
+	maxHeight := mon3WorkArea_Bottom + (borderWidths.Vert - 1)
 	minHeight := Round(maxHeight / 20 * 3)
 	newHeight := maxHeight
 	WinRestore, A
@@ -186,7 +186,7 @@ Return
 	widthDecrement := minWidth
 	newWidth := maxWidth - widthDecrement * 4 / 3
 	newPosX := mon3WorkArea_Left - borderWidths.Horz + 1
-	maxHeight := (mon3WorkArea_Bottom - mon1WorkArea_Top) + (borderWidths.Vert - 1)
+	maxHeight := mon3WorkArea_Bottom + (borderWidths.Vert - 1)
 	minHeight := Round(maxHeight / 20 * 3)
 	newHeight := maxHeight
 	WinRestore, A
@@ -198,13 +198,13 @@ Return
 ^F9::
 	SoundPlay, %windowSizingSound%
 	borderWidths := GetActiveWindowBorderWidths()
-	maxWidth := (mon1WorkArea_Right + (borderWidths.Horz - 1)) - (mon1WorkArea_Left 
+	maxWidth := (mon2WorkArea_Right + (borderWidths.Horz - 1)) - (mon2WorkArea_Left 
 		- (borderWidths.Horz - 1))
 	minWidth := Round(maxWidth / 20 * 3)
 	widthDecrement := minWidth
 	newWidth := maxWidth - (widthDecrement * 4 / 3)
 	newPosX := (widthDecrement * 4 / 3) - (borderWidths.Horz - 1)
-	maxHeight := (mon1WorkArea_Bottom - mon1WorkArea_Top) + (borderWidths.Vert - 1)
+	maxHeight := mon2WorkArea_Bottom + (borderWidths.Vert - 1)
 	minHeight := Round(maxHeight / 20 * 3)
 	newHeight := maxHeight
 	WinRestore, A
@@ -215,13 +215,13 @@ Return
 ^F8::
 	SoundPlay, %windowSizingSound%
 	borderWidths := GetActiveWindowBorderWidths()
-	maxWidth := (mon1WorkArea_Right + (borderWidths.Horz - 1)) - (mon1WorkArea_Left 
+	maxWidth := (mon2WorkArea_Right + (borderWidths.Horz - 1)) - (mon2WorkArea_Left 
 		- (borderWidths.Horz - 1))
 	minWidth := Round(maxWidth / 20 * 3)
 	widthDecrement := minWidth
 	newWidth := maxWidth - widthDecrement * 4 / 3
 	newPosX := -borderWidths.Horz + 1
-	maxHeight := (mon1WorkArea_Bottom - mon1WorkArea_Top) + (borderWidths.Vert - 1)
+	maxHeight := mon2WorkArea_Bottom + (borderWidths.Vert - 1)
 	minHeight := Round(maxHeight / 20 * 3)
 	newHeight := maxHeight
 	WinRestore, A
@@ -232,13 +232,13 @@ Return
 ^F7::
 	SoundPlay, %windowSizingSound%
 	borderWidths := GetActiveWindowBorderWidths()
-	maxWidth := (mon2WorkArea_Right + (borderWidths.Horz - 1)) - (mon2WorkArea_Left 
+	maxWidth := (mon1WorkArea_Right + (borderWidths.Horz - 1)) - (mon1WorkArea_Left 
 		- (borderWidths.Horz - 1))
 	minWidth := Round(maxWidth / 20 * 3)
 	widthDecrement := minWidth
 	newWidth := maxWidth - (widthDecrement * 4 / 3)
 	newPosX := -(maxWidth - widthDecrement * 4 / 3) + (borderWidths.Horz - 1)
-	maxHeight := (mon2WorkArea_Bottom - mon2WorkArea_Top) + (borderWidths.Vert - 1)
+	maxHeight := mon1WorkArea_Bottom + (borderWidths.Vert - 1)
 	minHeight := Round(maxHeight / 20 * 3)
 	newHeight := maxHeight
 	WinRestore, A
@@ -249,13 +249,13 @@ Return
 ^F6::
 	SoundPlay, %windowSizingSound%
 	borderWidths := GetActiveWindowBorderWidths()
-	maxWidth := (mon2WorkArea_Right + (borderWidths.Horz - 1)) - (mon2WorkArea_Left 
+	maxWidth := (mon1WorkArea_Right + (borderWidths.Horz - 1)) - (mon1WorkArea_Left 
 		- (borderWidths.Horz - 1))
 	minWidth := Round(maxWidth / 20 * 3)
 	widthDecrement := minWidth
 	newWidth := maxWidth - widthDecrement * 4 / 3
 	newPosX := -maxWidth + (borderWidths.Horz - 1)
-	maxHeight := (mon2WorkArea_Bottom - mon2WorkArea_Top) + (borderWidths.Vert - 1)
+	maxHeight := mon1WorkArea_Bottom + (borderWidths.Vert - 1)
 	minHeight := Round(maxHeight / 20 * 3)
 	newHeight := maxHeight
 	WinRestore, A
