@@ -228,8 +228,8 @@ Return
 
 :*:@findStrAhkTocSections1::
 	AppendAhkCmd(A_ThisLabel)
-	SendInput, % "({^}; -{{}98{}}$\n; {{}3{}}.{+}$\n{^}; -{{}98{}}$)|(; ·{{}98{}}$\n{^}; {{}3{}}>>>"
-		. " .*$)"
+	SendInput, % "(?:{^}; -{{}98{}}$\n; {{}3{}}.{+}$\n{^}; -{{}98{}}$)|(?:{^}; ·{{}98{}}$\n{^}; {{}"
+		. "3{}}>>> .*$)|(?:{^}; (?: ·){{}49{}}$\n{^}; {{}5{}}→→→ .*$)"
 Return
 
 :*:@findStrAhkTocSections2::
@@ -404,22 +404,14 @@ Return
 
 #Include, %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\regExStrings.ahk
 
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-
 :*:@add5lineshere::
 	AppendAhkCmd(":*:@add5lineshere")
 	SendInput, {Enter 5}
 Return
 
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-
 :*:@addClass::class=""{Space}{Left 2}
 
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-
 :*:@addNrml::{Space}class="oue-normal"
-
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@changeNumpadDiv::
 	AppendAhkCmd(":*:@changeNumpadDiv")
@@ -436,8 +428,6 @@ Return
 	}
 Return
 
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-
 :*:@changeNumpadSub::
 	AppendAhkCmd(":*:@changeNumpadSub")
 	Inputbox, inputEntered
@@ -453,15 +443,11 @@ Return
 	}
 Return
 
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-
 :*:@datetime::
 	AppendAhkCmd(":*:@datetime")
 	FormatTime, CurrentDateTime,, yyyy-MM-dd HH:mm:ss
 	SendInput, %CurrentDateTime%
 Return
-
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@ddd::
 	AppendAhkCmd(":*:@ddd")
@@ -469,33 +455,23 @@ Return
 	SendInput, %CurrentDateTime%
 Return
 
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-
 :*:@doRGBa::
 	AppendAhkCmd(":*:@doRGBa")
 	SendInput, rgba(@rval, @gval, @bval, );{Left 2}
 Return
 
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-
 :R*:@findStrFnctns::^[^{\r\n]+{$\r\n(?:^(?<!\}).+$\r\n)+^\}$
-
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@ppp::
 	AppendAhkCmd(":*:@ppp")
 	SendInput, news-events_events_.html{Left 5}
 Return
 
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-
 :*:@xccc::
 	AppendAhkCmd(":*:@xccc")
 	FormatTime, CurrentDateTime,, yyyy-MM-dd
 	SendInput, / Completed %CurrentDateTime%
 Return
-
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@xsss::
 	AppendAhkCmd(":*:@xsss")
