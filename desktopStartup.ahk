@@ -280,7 +280,7 @@ Return
 ;     →→→ §1.3.4: Function: agh_MovePowerShell
 agh_MovePowerShell() {
 	beat := 333 ; units = ms, time between operations
-	destX := -1527 ; units = pixels, destination X coordinate
+	destX := 2313 ; units = pixels, destination X coordinate
 	destY := 161 ; units = pixels, destination Y coordinate
 	attemptsLimit := 9 ; make repeated attempts over 3 seconds
 	attemptsCount := 0
