@@ -23,7 +23,7 @@
 ;   >>> §2.3: HandleGuiWorkTimerHide...........................................................270
 ;   >>> §2.4: PostWorkBreakMessage.............................................................277
 ;   >>> §2.5: ShowWorkTimerGui.................................................................330
-;   >>> §2.6: UpdateWorkTimerGui...............................................................353
+;   >>> §2.6: UpdateWorkTimerGui...............................................................357
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -341,10 +341,10 @@ ShowWorkTimerGui(introMsg, totalTime, iconPath, currentTime := 0, timeAlreadyWor
 	Gui, guiWorkTimer: Add, Picture
 		, x+118 w96 h-1, % iconPath
 	Gui, guiWorkTimer: Add, Text
-		, xm+12 Y+-47 w320 vGuiWorkTimerTimeElapsedText
+		, xm+6 Y+-47 w320 vGuiWorkTimerTimeElapsedText
 		, % Round((currentTime + timeAlreadyWorked) / 1000 / 60, 2) . " mins."
 	Gui, guiWorkTimer: Add, Progress
-		, xm w416 h20 Y+3 Range0-1000 cRed BackgroundWhite vGuiWorkTimerProgressCtrl
+		, xm w416 h20 Y+5 Range0-1000 cRed BackgroundWhite vGuiWorkTimerProgressCtrl
 		, % Round((currentTime + timeAlreadyWorked) / totalTime * 1000)
 	Gui, guiWorkTimer: Add, Button
 		, gHandleGuiWorkTimerHide Default w80 xm Y+16, % "&Hide"
