@@ -337,16 +337,20 @@ ShowWorkTimerGui(introMsg, totalTime, iconPath, currentTime := 0, timeAlreadyWor
 	guiWorkTimer_timeAlreadyWorked := timeAlreadyWorked
 	Gui, guiWorkTimer: New, , % guiTitle
 	Gui, guiWorkTimer: Add, Text
-		, w320 y16, % introMsg
+		, w310 y16, % introMsg
 	Gui, guiWorkTimer: Add, Picture
-		, x+12 w96 h-1, % iconPath
+		, x+118 w96 h-1, % iconPath
+	Gui, guiWorkTimer: Add, Text
+		, xm+12 Y+-47 w320 vGuiWorkTimerTimeElapsedText
+		, % Round((currentTime + timeAlreadyWorked) / 1000 / 60, 2) . " mins."
 	Gui, guiWorkTimer: Add, Progress
-		, xm w416 h20 Range0-1000 cRed BackgroundWhite vGuiWorkTimerProgressCtrl
+		, xm w416 h20 Y+3 Range0-1000 cRed BackgroundWhite vGuiWorkTimerProgressCtrl
 		, % Round((currentTime + timeAlreadyWorked) / totalTime * 1000)
 	Gui, guiWorkTimer: Add, Button
 		, gHandleGuiWorkTimerHide Default w80 xm Y+16, % "&Hide"
 	Gui, guiWorkTimer: Show
-	GuiControlGet, guiWorkTimer_controlId, Hwnd, GuiWorkTimerProgressCtrl
+	GuiControlGet, guiWorkTimer_progressBarId, Hwnd, GuiWorkTimerProgressCtrl
+	GuiControlGet, guiWorkTimer_timeElapsedId, Hwnd, GuiWorkTimerTimeElapsedText
 }
 
 ; ··································································································
@@ -357,7 +361,8 @@ UpdateWorkTimerGui() {
 	global guiWorkTimer_timeAlreadyWorked
 	global guiWorkTimer_totalTime
 	global guiWorkTimer_currentTime
-	global guiWorkTimer_controlId
+	global guiWorkTimer_progressBarId
+	global guiWorkTimer_timeElapsedId
 	elapsedTime := A_Now
 	EnvSub, elapsedTime, %latestTimerStartTime%, seconds
 	elapsedTime *= 1000
@@ -369,5 +374,8 @@ UpdateWorkTimerGui() {
 	guiWorkTimer_currentTime := elapsedTime
 	newProgress := Round((guiWorkTimer_currentTime + guiWorkTimer_timeAlreadyWorked)
 		/ guiWorkTimer_totalTime * 1000)
-	GuiControl,, %guiWorkTimer_controlId%, %newProgress%
+	GuiControl,, %guiWorkTimer_progressBarId%, %newProgress%
+	newElapsedTime := Round((guiWorkTimer_currentTime + guiWorkTimer_timeAlreadyWorked) / 1000 / 60
+		, 2)
+	GuiControl,, %guiWorkTimer_timeElapsedId%, % newElapsedTime . " mins."
 }
