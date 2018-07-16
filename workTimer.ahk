@@ -308,9 +308,9 @@ PostWorkBreakMessage:
 		workTimerRunning := true
 		Sleep, 1000
 		SetTimer, ChimeMinuteBell, % (1000 * 60)
-		ShowWorkTimerGui("Current progress toward " . Round(totalTime / 1000 / 60) . " minute work "
-			. "period:", workTimerCountdownTime * -1, "F:\Users\CamilleandDaniel\Documents\Daniel\^"
-			. "WSU-Web-Dev\^Personnel-File\pomodoro-timer.jpg")
+		ShowWorkTimerGui("Current progress toward " . Round(workTimerCountdownTime * -1 / 1000 / 60)
+			. " minute work period:", workTimerCountdownTime * -1, "F:\Users\CamilleandDaniel\Docum"
+			. "ents\Daniel\^WSU-Web-Dev\^Personnel-File\pomodoro-timer.jpg")
 		SetTimer, UpdateWorkTimerGui, % (workTimerCountdownTime * -1 / 1000)
 	}
 	Else {
