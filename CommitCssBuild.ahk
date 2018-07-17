@@ -63,13 +63,12 @@ CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssbuild, fnMinCssBuild
 	commitCssVars.dflt1stCommitMsgAlt2 := "Updating custom CSS build w/ site-specific source change"
 . "s"
 	commitCssVars.dflt2ndCommitMsg := "Rebuilding custom CSS production files to incorporate recent"
-. " changes to OUE-wide build dependencies."
+. " changes to submodules containing OUE-wide build dependencies."
 	commitCssVars.dflt2ndCommitMsgAlt := "Rebuilding custom CSS production files to incorporate rec"
-. "ent changes to site-specific and OUE-wide build dependencies. Please see the next commit for mor"
-. "e details."
+. "ent changes to site-specific source files and submodules containing OUE-wide build dependencies."
+. " Please see the next commit for more details."
 	commitCssVars.dflt2ndCommitMsgAlt2 := "Rebuilding custom CSS production files to incorporate re"
-. "cent changes to site-specific build dependency(ies); please see the next commit for more details"
-. "."
+. "cent changes to site-specific source files; please see the next commit for more details."
 	msgLen1st := StrLen(commitCssVars.dflt1stCommitMsg)
 	msgLen2nd := StrLen(commitCssVars.dflt2ndCommitMsg)
 	lastLessMsg1st := ""
