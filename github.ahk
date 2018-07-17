@@ -146,54 +146,54 @@
 ;     →→→ §7.6.1: @rebuildJsAscc — Hotstring..................................................3022
 ;     →→→ §7.6.2: @rebuildJsCr — Hotstring....................................................3041
 ;     →→→ §7.6.3: @rebuildJsDsp — Hotstring...................................................3060
-;     →→→ §7.6.4: @rebuildJsFye — Hotstring...................................................3082
-;     →→→ §7.6.5: @rebuildJsFyf — Hotstring...................................................3101
-;     →→→ §7.6.6: @rebuildJsNse — Hotstring...................................................3120
-;     →→→ §7.6.7: @rebuildJsOue — Hotstring...................................................3139
-;     →→→ §7.6.8: @rebuildJsPbk — Hotstring...................................................3158
-;     →→→ §7.6.9: @rebuildJsSurca — Hotstring.................................................3177
-;     →→→ §7.6.10: @rebuildJsSumRes — Hotstring...............................................3196
-;     →→→ §7.6.11: @rebuildJsXfer — Hotstring.................................................3217
-;     →→→ §7.6.12: @rebuildJsUgr — Hotstring..................................................3236
-;     →→→ §7.6.13: @rebuildJsUcore — Hotstring................................................3255
-;     →→→ §7.6.14: @rebuildJsUcrAss — Hotstring...............................................3274
-;   >>> §7.7: FOR UPDATING JS SUBMODULES......................................................3293
-;     →→→ §7.7.1: @updateJsSubmoduleAscc — Hotstring..........................................3296
-;     →→→ §7.7.2: @updateJsSubmoduleCr — Hotstring............................................3314
-;     →→→ §7.7.3: @updateJsSubmoduleDsp — Hotstring...........................................3332
-;     →→→ §7.7.4: @updateJsSubmoduleFye — Hotstring...........................................3350
-;     →→→ §7.7.5: @updateJsSubmoduleFyf — Hotstring...........................................3368
-;     →→→ §7.7.6: @updateJsSubmoduleNse — Hotstring...........................................3386
-;     →→→ §7.7.7: @updateJsSubmoduleOue — Hotstring...........................................3404
-;     →→→ §7.7.8: @updateJsSubmodulePbk — Hotstring...........................................3422
-;     →→→ §7.7.9: @updateJsSubmoduleSurca — Hotstring.........................................3440
-;     →→→ §7.7.10: @updateJsSubmoduleSumRes — Hotstring.......................................3458
-;     →→→ §7.7.11: @updateJsSubmoduleXfer — Hotstring.........................................3476
-;     →→→ §7.7.12: @updateJsSubmoduleUgr — Hotstring..........................................3494
-;     →→→ §7.7.13: @updateJsSubmoduleUcore — Hotstring........................................3512
-;     →→→ §7.7.14: @updateJsSubmoduleUcrAss — Hotstring.......................................3530
-;     →→→ §7.7.15: @updateJsSubmoduleAll — Hotstring..........................................3548
-;   >>> §7.8: Shortcuts for copying minified JS to clipboard..................................3575
-;     →→→ §7.8.1: @copyMinJsAscc — Hotstring..................................................3580
-;     →→→ §7.8.2: @copyMinJsCr — Hotstring....................................................3591
-;     →→→ §7.8.3: @copyMinJsDsp — Hotstring...................................................3602
-;     →→→ §7.8.4: @copyMinJsFye — Hotstring...................................................3613
-;     →→→ §7.8.5: @copyMinJsFyf — Hotstring...................................................3624
-;     →→→ §7.8.6: @copyMinJsNse — Hotstring...................................................3635
-;     →→→ §7.8.7: @copyMinJsOue — Hotstring...................................................3646
-;     →→→ §7.8.8: @copyBackupJsOue — Hotstring................................................3657
-;     →→→ §7.8.9: @copyMinJsPbk — Hotstring...................................................3668
-;     →→→ §7.8.10: @copyMinJsSurca — Hotstring................................................3679
-;     →→→ §7.8.11: @copyMinJsSumRes — Hotstring...............................................3690
-;     →→→ §7.8.12: @copyMinJsXfer — Hotstring.................................................3701
-;     →→→ §7.8.13: @copyMinJsUgr — Hotstring..................................................3712
-;     →→→ §7.8.14: @copyMinJsUcore — Hotstring................................................3723
-;     →→→ §7.8.15: @copyBackupJsUcore — Hotstring.............................................3734
-;     →→→ §7.8.16: @copyMinJsUcrAss — Hotstring...............................................3745
-;   >>> §7.9: FOR CHECKING GIT STATUS ON ALL PROJECTS ........................................3756
-;   §8: KEYBOARD SHORTCUTS FOR POWERSHELL.....................................................3841
-;   >>> §8.1: SHORTCUTS.......................................................................3845
-;   >>> §8.2: SUPPORTING FUNCTIONS............................................................3871
+;     →→→ §7.6.4: @rebuildJsFye — Hotstring...................................................3080
+;     →→→ §7.6.5: @rebuildJsFyf — Hotstring...................................................3099
+;     →→→ §7.6.6: @rebuildJsNse — Hotstring...................................................3118
+;     →→→ §7.6.7: @rebuildJsOue — Hotstring...................................................3137
+;     →→→ §7.6.8: @rebuildJsPbk — Hotstring...................................................3156
+;     →→→ §7.6.9: @rebuildJsSurca — Hotstring.................................................3175
+;     →→→ §7.6.10: @rebuildJsSumRes — Hotstring...............................................3194
+;     →→→ §7.6.11: @rebuildJsXfer — Hotstring.................................................3215
+;     →→→ §7.6.12: @rebuildJsUgr — Hotstring..................................................3233
+;     →→→ §7.6.13: @rebuildJsUcore — Hotstring................................................3252
+;     →→→ §7.6.14: @rebuildJsUcrAss — Hotstring...............................................3271
+;   >>> §7.7: FOR UPDATING JS SUBMODULES......................................................3290
+;     →→→ §7.7.1: @updateJsSubmoduleAscc — Hotstring..........................................3293
+;     →→→ §7.7.2: @updateJsSubmoduleCr — Hotstring............................................3311
+;     →→→ §7.7.3: @updateJsSubmoduleDsp — Hotstring...........................................3329
+;     →→→ §7.7.4: @updateJsSubmoduleFye — Hotstring...........................................3347
+;     →→→ §7.7.5: @updateJsSubmoduleFyf — Hotstring...........................................3365
+;     →→→ §7.7.6: @updateJsSubmoduleNse — Hotstring...........................................3383
+;     →→→ §7.7.7: @updateJsSubmoduleOue — Hotstring...........................................3401
+;     →→→ §7.7.8: @updateJsSubmodulePbk — Hotstring...........................................3419
+;     →→→ §7.7.9: @updateJsSubmoduleSurca — Hotstring.........................................3437
+;     →→→ §7.7.10: @updateJsSubmoduleSumRes — Hotstring.......................................3455
+;     →→→ §7.7.11: @updateJsSubmoduleXfer — Hotstring.........................................3473
+;     →→→ §7.7.12: @updateJsSubmoduleUgr — Hotstring..........................................3491
+;     →→→ §7.7.13: @updateJsSubmoduleUcore — Hotstring........................................3509
+;     →→→ §7.7.14: @updateJsSubmoduleUcrAss — Hotstring.......................................3527
+;     →→→ §7.7.15: @updateJsSubmoduleAll — Hotstring..........................................3545
+;   >>> §7.8: Shortcuts for copying minified JS to clipboard..................................3572
+;     →→→ §7.8.1: @copyMinJsAscc — Hotstring..................................................3577
+;     →→→ §7.8.2: @copyMinJsCr — Hotstring....................................................3588
+;     →→→ §7.8.3: @copyMinJsDsp — Hotstring...................................................3599
+;     →→→ §7.8.4: @copyMinJsFye — Hotstring...................................................3610
+;     →→→ §7.8.5: @copyMinJsFyf — Hotstring...................................................3621
+;     →→→ §7.8.6: @copyMinJsNse — Hotstring...................................................3632
+;     →→→ §7.8.7: @copyMinJsOue — Hotstring...................................................3643
+;     →→→ §7.8.8: @copyBackupJsOue — Hotstring................................................3654
+;     →→→ §7.8.9: @copyMinJsPbk — Hotstring...................................................3665
+;     →→→ §7.8.10: @copyMinJsSurca — Hotstring................................................3676
+;     →→→ §7.8.11: @copyMinJsSumRes — Hotstring...............................................3687
+;     →→→ §7.8.12: @copyMinJsXfer — Hotstring.................................................3698
+;     →→→ §7.8.13: @copyMinJsUgr — Hotstring..................................................3709
+;     →→→ §7.8.14: @copyMinJsUcore — Hotstring................................................3720
+;     →→→ §7.8.15: @copyBackupJsUcore — Hotstring.............................................3731
+;     →→→ §7.8.16: @copyMinJsUcrAss — Hotstring...............................................3742
+;   >>> §7.9: FOR CHECKING GIT STATUS ON ALL PROJECTS ........................................3753
+;   §8: KEYBOARD SHORTCUTS FOR POWERSHELL.....................................................3838
+;   >>> §8.1: SHORTCUTS.......................................................................3842
+;   >>> §8.2: SUPPORTING FUNCTIONS............................................................3868
 ; ==================================================================================================
 
 sgIsPostingMinCss := false
@@ -3065,10 +3065,8 @@ Return
 	; TODO: Add AHK function for creating a JS build string
 	PasteTextIntoGitShell(ahkCmdName
 		, "cd '" . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\JS'`r"
-		. "node build-production-file.js`r"
+		. "gulp buildMinJs`r"
 		. "Start-Sleep -s 1`r"
-		. "uglifyjs wp-custom-javascript-source.dsp.js --output wp-custom-js-source.min.dsp.js -mt "
-		. "--comments /^!/`r"
 		. "[console]::beep(1500,300)`r"
 		. "cd '" . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\'`r"
 		. "git add JS\wp-custom-javascript-source.dsp.js`r"
@@ -3221,8 +3219,7 @@ Return
 	AppendAhkCmd(ahkCmdName)
 	PasteTextIntoGitShell(ahkCmdName
 		, "cd '" . GetGitHubFolder() . "\transfercredit.wsu.edu\JS'`r"
-		. "node build-production-file.js`r"
-		. "uglifyjs wp-custom-js-source.js --output wp-custom-js-source.min.js -mt`r"
+		. "gulp buildMinJs`r"
 		. "[console]::beep(1500,300)`r"
 		. "cd '" . GetGitHubFolder() . "\transfercredit.wsu.edu\'`r"
 		. "git add JS\wp-custom-js-source.js`r"
