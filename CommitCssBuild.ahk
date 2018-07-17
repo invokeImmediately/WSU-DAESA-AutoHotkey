@@ -1,10 +1,36 @@
-; ===========================================================================================================================
+; ==================================================================================================
 ; GUI FOR COMMITTING CSS BUILDS & ASSOCIATED SITE-SPECIFIC CUSTOM LESS FILES
-; ===========================================================================================================================
+; ==================================================================================================
 ; AutoHotkey Send Legend:
 ; ! = ALT     + = SHIFT     ^ = CONTROL     # = WIN
 ; (see https://autohotkey.com/docs/commands/Send.htm for more info)
-; ===========================================================================================================================
+; ==================================================================================================
+; Table of Contents
+; -----------------
+;   §1: GUI CREATION FUNCTION: CommitCssBuild...................................................13
+;   §2: GUI EVENT HANDLERS.....................................................................131
+;     >>> §2.1: HandleCommitCss1stMsgChange — Function.........................................135
+;     >>> §2.2: HandleCommitCss2ndMsgChange — Function.........................................152
+;     >>> §2.3: HandleCommitCssAddFiles — Function.............................................169
+;     >>> §2.4: HandleCommitCssCheckLessFileCommit — Function..................................211
+;     >>> §2.5: HandleCommitCssCheckLessChangesOnly — Function.................................266
+;     >>> §2.6: HandleCommitCss1stLessMsgChange — Function.....................................309
+;     >>> §2.7: HandleCommitCss2ndLessMsgChange — Function.....................................326
+;     >>> §2.8: HandleCommitCssOk — Function...................................................343
+;       →→→ §2.8.1: ProcessHandleCommitCssOkError — Subfunction................................423
+;     >>> §2.9: HandleCommitCssCancel — Function...............................................451
+;     >>> §2.10: HandleCommitCssRemoveFiles — Function.........................................459
+;   §3: GUI PERSISTENCE FUNCTIONS..............................................................471
+;     >>> §3.1: SaveCommitCssLessMsgHistory — Function.........................................475
+;     >>> §3.2: LoadCommitCssLessMsgHistory — Function.........................................512
+;     >>> §3.3: ReadKeyForLessMsgHistory — Function............................................549
+;     >>> §3.4: ReadPrimaryMsgForLessFileKey — Function........................................567
+;     >>> §3.5: ReadSecondaryMsgForLessFileKey — Function......................................584
+; ==================================================================================================
+
+; --------------------------------------------------------------------------------------------------
+;   §1: GUI CREATION FUNCTION: CommitCssBuild
+; --------------------------------------------------------------------------------------------------
 
 ; Sets up a GUI to automate committing of CSS build files.
 CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssbuild, fnMinCssBuild) {
@@ -34,16 +60,16 @@ CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssbuild, fnMinCssBuild
 	commitCssVars.fnMinCssBuild := fnMinCssBuild
 	commitCssVars.dflt1stCommitMsg := "Updating custom CSS build with recent submodule changes"
 	commitCssVars.dflt1stCommitMsgAlt := "Updating custom CSS build w/ source & submodule changes"
-	commitCssVars.dflt1stCommitMsgAlt2 := "Updating custom CSS build w/ site-specific source "
-. "changes"
-	commitCssVars.dflt2ndCommitMsg := "Rebuilding custom CSS production files to incorporate "
-. "recent changes to OUE-wide build dependencies."
-	commitCssVars.dflt2ndCommitMsgAlt := "Rebuilding custom CSS production files to incorporate "
-. "recent changes to site-specific and OUE-wide build dependencies. Please see the next commit "
-. "for more details."
-	commitCssVars.dflt2ndCommitMsgAlt2 := "Rebuilding custom CSS production files to incorporate "
-. "recent changes to site-specific build dependency(ies); please see the next commit for more "
-. "details."
+	commitCssVars.dflt1stCommitMsgAlt2 := "Updating custom CSS build w/ site-specific source change"
+. "s"
+	commitCssVars.dflt2ndCommitMsg := "Rebuilding custom CSS production files to incorporate recent"
+. " changes to OUE-wide build dependencies."
+	commitCssVars.dflt2ndCommitMsgAlt := "Rebuilding custom CSS production files to incorporate rec"
+. "ent changes to site-specific and OUE-wide build dependencies. Please see the next commit for mor"
+. "e details."
+	commitCssVars.dflt2ndCommitMsgAlt2 := "Rebuilding custom CSS production files to incorporate re"
+. "cent changes to site-specific build dependency(ies); please see the next commit for more details"
+. "."
 	msgLen1st := StrLen(commitCssVars.dflt1stCommitMsg)
 	msgLen2nd := StrLen(commitCssVars.dflt2ndCommitMsg)
 	lastLessMsg1st := ""
@@ -120,6 +146,13 @@ CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssbuild, fnMinCssBuild
 	Gui, guiCommitCssBuild: Show
 }
 
+; --------------------------------------------------------------------------------------------------
+;   §2: GUI EVENT HANDLERS
+; --------------------------------------------------------------------------------------------------
+
+; ··································································································
+;   >>> §2.1: HandleCommitCss1stMsgChange — Function
+
 ; Triggered when the primary git commit message for the updated CSS builds is changed.
 HandleCommitCss1stMsgChange() {
 	; Make global variable declarations.
@@ -134,6 +167,9 @@ HandleCommitCss1stMsgChange() {
 	GuiControl, , ctrlCommitCss1stMsgCharCount, % "Length = " . msgLen . " characters"
 }
 
+; ··································································································
+;   >>> §2.2: HandleCommitCss2ndMsgChange — Function
+
 ; Triggered when the secondary git commit message for the updated CSS builds is changed.
 HandleCommitCss2ndMsgChange() {
 	; Make global variable declarations.
@@ -147,6 +183,9 @@ HandleCommitCss2ndMsgChange() {
 	msgLen := StrLen(ctrlCommitCss2ndMsg)
 	GuiControl, , ctrlCommitCss2ndMsgCharCount, % "Length = " . msgLen . " characters"
 }
+
+; ··································································································
+;   >>> §2.3: HandleCommitCssAddFiles — Function
 
 HandleCommitCssAddFiles() {
 	global commitCssVars
@@ -186,6 +225,9 @@ HandleCommitCssAddFiles() {
 		}
 	}
 }
+
+; ··································································································
+;   >>> §2.4: HandleCommitCssCheckLessFileCommit — Function
 
 ; Triggered by state changes in checkbox control in guiCommitCssBuild GUI.
 HandleCommitCssCheckLessFileCommit() {
@@ -239,6 +281,9 @@ HandleCommitCssCheckLessFileCommit() {
 	}
 }
 
+; ··································································································
+;   >>> §2.5: HandleCommitCssCheckLessChangesOnly — Function
+
 ; Triggered by state changes in checkbox control in guiCommitCssBuild GUI.
 HandleCommitCssCheckLessChangesOnly() {
 	; Make global variable declarations.
@@ -279,6 +324,9 @@ HandleCommitCssCheckLessChangesOnly() {
 	}
 }
 
+; ··································································································
+;   >>> §2.6: HandleCommitCss1stLessMsgChange — Function
+
 ; Triggered when the primary git commit message for the updated LESS source is changed.
 HandleCommitCss1stLessMsgChange() {
 	; Make global variable declarations.
@@ -293,6 +341,9 @@ HandleCommitCss1stLessMsgChange() {
 	GuiControl, , ctrlCommitCss1stLessMsgCharCount, % "Length = " . msgLen . " characters"
 }
 
+; ··································································································
+;   >>> §2.7: HandleCommitCss2ndLessMsgChange — Function
+
 ; Triggered when the secondary git commit message for the updated LESS source is changed.
 HandleCommitCss2ndLessMsgChange() {
 	; Make global variable declarations.
@@ -306,6 +357,9 @@ HandleCommitCss2ndLessMsgChange() {
 	msgLen := StrLen(ctrlCommitCss2ndLessMsg)
 	GuiControl, , ctrlCommitCss2ndLessMsgCharCount, % "Length = " . msgLen . " characters"
 }
+
+; ··································································································
+;   >>> §2.8: HandleCommitCssOk — Function
 
 ; Triggered by OK button in guiCommitCssBuild GUI.
 HandleCommitCssOk() {
@@ -384,6 +438,9 @@ HandleCommitCssOk() {
 	}
 }
 
+;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;     →→→ §2.8.1: ProcessHandleCommitCssOkError — Subfunction
+
 ; Called by HandleCommitCssOk() to handle error processing.
 ProcessHandleCommitCssOkError(gVarCheck) {
 	functionName := "CommitCssBuild.ahk / HandleCommitCssOk()"
@@ -409,10 +466,16 @@ ProcessHandleCommitCssOkError(gVarCheck) {
 	}
 }
 
+; ··································································································
+;   >>> §2.9: HandleCommitCssCancel — Function
+
 ; Triggered by Cancel button in guiCommitCssBuild GUI.
 HandleCommitCssCancel() {
 	Gui, guiCommitCssBuild: Destroy
 }
+
+; ··································································································
+;   >>> §2.10: HandleCommitCssRemoveFiles — Function
 
 HandleCommitCssRemoveFiles() {
 	Gui, guiCommitCssBuild: Default
@@ -422,6 +485,13 @@ HandleCommitCssRemoveFiles() {
 		LV_Delete(rowToRemove)
 	}
 }
+
+; --------------------------------------------------------------------------------------------------
+;   §3: GUI PERSISTENCE FUNCTIONS
+; --------------------------------------------------------------------------------------------------
+
+; ··································································································
+;   >>> §3.1: SaveCommitCssLessMsgHistory — Function
 
 ; Used to grant permanence to LESS commit message history functionality between scripting sessions
 SaveCommitCssLessMsgHistory() {
@@ -438,8 +508,8 @@ SaveCommitCssLessMsgHistory() {
 					if (numBytes) {
 						numBytes := logFile.WriteLine(value.secondary)
 						if (!numBytes) {
-							ErrorBox(A_ThisFunc, "Could not write the secondary LESS commit"
-. " message for " . key . ".")
+							ErrorBox(A_ThisFunc, "Could not write the secondary LESS commit message"
+. " for " . key . ".")
 						}
 					} else {
 						ErrorBox(A_ThisFunc, "Could not write the primary LESS commit message for "
@@ -456,6 +526,9 @@ SaveCommitCssLessMsgHistory() {
 		}
 	}
 }
+
+; ··································································································
+;   >>> §3.2: LoadCommitCssLessMsgHistory — Function
 
 LoadCommitCssLessMsgHistory() {
 	; TODO: Rewrite code below
@@ -474,22 +547,25 @@ LoadCommitCssLessMsgHistory() {
 				break
 			} else {
 				if (!ReadPrimaryMsgForLessFileKey(logFile, commitCssLastLessCommit, key)) {
-					ErrorBox(A_ThisFunc, "Log file abruptly stopped after reading a LESS file key."
-						. " Aborting further reading of log.")
+					ErrorBox(A_ThisFunc, "Log file abruptly stopped after reading a LESS file key. "
+. "Aborting further reading of log.")
 					break
 				} else if(!ReadSecondaryMsgForLessFileKey(logFile, commitCssLastLessCommit, key)) {
-					ErrorBox(A_ThisFunc, "Log file abruptly stopped after reading a LESS file key and "
-						. "primary git commit message. Aborting further reading of log.")
+					ErrorBox(A_ThisFunc, "Log file abruptly stopped after reading a LESS file key a"
+. "nd primary git commit message. Aborting further reading of log.")
 					break
 				}
 			}
 		}
 		logFile.Close()
 	} else {
-		ErrorBox(A_ThisFunc, "Could not open less commit message history log file '" . commitCssLessMsgLog
-			. "'. Error code reported by FileOpen: '" . A_LastError . "'")
+		ErrorBox(A_ThisFunc, "Could not open less commit message history log file '"
+			. commitCssLessMsgLog . "'. Error code reported by FileOpen: '" . A_LastError . "'")
 	}
 }
+
+; ··································································································
+;   >>> §3.3: ReadKeyForLessMsgHistory — Function
 
 ReadKeyForLessMsgHistory(ByRef logFile) {
 	key := ""
@@ -499,12 +575,15 @@ ReadKeyForLessMsgHistory(ByRef logFile) {
 		if (logFileLine != "") {
 			key := logFileLine
 		} else {
-			ErrorBox(A_ThisFunc, "Blank line encountered when attempting to read the next LESS file name in "
-				. "the log. Aborting further reading of log.")
+			ErrorBox(A_ThisFunc, "Blank line encountered when attempting to read the next LESS file"
+. " name in the log. Aborting further reading of log.")
 		}
 	}
 	return key
 }
+
+; ··································································································
+;   >>> §3.4: ReadPrimaryMsgForLessFileKey — Function
 
 ReadPrimaryMsgForLessFileKey(ByRef logFile, ByRef lessMsgArray, key) {
 	success := false
@@ -519,6 +598,9 @@ ReadPrimaryMsgForLessFileKey(ByRef logFile, ByRef lessMsgArray, key) {
 	}
 	return success
 }
+
+; ··································································································
+;   >>> §3.5: ReadSecondaryMsgForLessFileKey — Function
 
 ReadSecondaryMsgForLessFileKey(ByRef logFile, ByRef lessMsgArray, key) {
 	success := false
