@@ -569,6 +569,7 @@ Return
 PerformScriptShutdownTasks() {
 	SaveAhkCmdHistory()
 	SaveCommitCssLessMsgHistory()
+	SaveCommitJsCustomJsMsgHistory()
 	SaveCommitAnyFileMsgHistory()
 }
 

@@ -78,11 +78,11 @@ global workTimer5MinuteSound := ssdWorkFolder . "\Sound Library\Metal_Gong-Diana
 ; ··································································································
 ;   >>> §1.4: DESKTOP ARRANGEMENT AUDITORY CUE GLOBALS
 global windowMovementSound := ssdWorkFolder . "\Sound Library\323413__sethroph__glass-slide-3_-12.5"
-	. "db_faster.wav"
+. "db_faster.wav"
 global windowSizingSound := ssdWorkFolder . "\Sound Library\68222__xtyl33__paper3_-7.5db_faster.wav"
 global windowShiftingSound := ssdWorkFolder . "\Sound Library\185849__lloydevans09__warping.wav"
 global desktopSwitchingSound := ssdWorkFolder . "\Sound Library\352719__dalesome__woosh-stick-swung"
-	. "-in-the-air_-15db.wav"
+. "-in-the-air_-15db.wav"
 global scriptLoadedSound := ssdWorkFolder . "\Sound Library\Storm_exclamation.wav"
 global desktopArrangedSound := ssdWorkFolder . "\Sound Library\zelda_lttp-mstr-swrd.wav"
 
@@ -97,9 +97,11 @@ global savedMouseY := 0
 global lineLength := 125
 
 global commitCssLessMsgLog := hhdWorkFolder . "\^WSU-Web-Dev\^Personnel-File\commit-css-less-msg-hi"
-	. "story.txt"
+. "story.txt"
 global commitAnyFileMsgLog := hhdWorkFolder . "\^WSU-Web-Dev\^Personnel-File\commit-any-file-msg-hi"
-	. "story.txt"
+. "story.txt"
+global commitJsCustomJsMsgLog := hhdWorkFolder . "\^WSU-Web-Dev\^Personnel-File\commit-js-custom-js-ms"
+. "g-history.txt"
 
 ; ··································································································
 ;   >>> §1.6: KEYBOARD OVERRIDING

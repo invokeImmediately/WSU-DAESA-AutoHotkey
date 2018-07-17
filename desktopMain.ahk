@@ -15,6 +15,7 @@ MainSubroutine:
 	ListAhkFiles()
 	LoadAhkCmdHistory()
 	LoadCommitCssLessMsgHistory()
+	LoadCommitJsCustomJsMsgHistory()
 	LoadCommitAnyFileMsgHistory()
 	SetupLogAutoSaving()
 	mapDesktopsFromRegistry()
