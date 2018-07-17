@@ -3584,10 +3584,7 @@ Return
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\ascc.wsu.edu\JS\ascc-custom.min.js"
-		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.c"
-		. "om/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/commonreading.wsu."
-		. "edu] for a repository of source code.`r`n"
-		, "Couldn't Copy Minified JS for ASCC Website")
+		, "", "Couldn't Copy Minified JS for ASCC Website")
 Return
 
 ;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
@@ -3598,10 +3595,7 @@ Return
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\commonreading.wsu.edu\JS\wp-custom-js-source.min.js"
-		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.c"
-		. "om/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/commonreading.wsu."
-		. "edu] for a repository of source code.`r`n"
-		, "Couldn't Copy Minified JS for CR Website")
+		, "", "Couldn't Copy Minified JS for CR Website")
 Return
 
 ;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
@@ -3612,24 +3606,7 @@ Return
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\JS\wp-custom-js-source.min.dsp.js"
-		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.c"
-		. "om/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/distinguishedschol"
-		. "arship.wsu.edu] for a repository of source code.`r`n"
-		. "// Third-party, open-source JavaScript plugins used by this website:`r`n"
-		. "//   cycle2, (c) 2012-2014 M. Alsup. | https://github.com/malsup/cycle2 | MIT license --"
-		. " http://malsup.github.io/mit-license.txt && GPL license -- http://malsup.github.io/gpl-l"
-		. "icense-v2.txt`r`n//   FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://"
-		. "github.com/davatron5000/FitText.js | GNU GPLv2 -- http://www.gnu.org/licenses/old-licens"
-		. "es/gpl-2.0.en.html`r`n//   imagesLoaded, (c) David DeSandro 2016 | http://imagesloaded.d"
-		. "esandro.com/ | MIT license -- http://desandro.mit-license.org/`r`n"
-		. "//   Masonry JS, (c) David DeSandro 2016 | http://masonry.desandro.com/ | MIT license --"
-		. " http://desandro.mit-license.org/`r`n"
-		. "//   jQuery Media Plugin, (c) 2007-2010 M. Alsup. | http://malsup.com/jquery/media/ | MI"
-		. "T license -- https://opensource.org/licenses/mit-license.php  && GPL license -- http://w"
-		. "ww.gnu.org/licenses/gpl.html`r`n"
-		. "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- "
-		. "http://creativecommons.org/licenses/by/3.0/`r`n"
-		, "Couldn't Copy Minified JS for DSP Website")
+		, "", "Couldn't Copy Minified JS for DSP Website")
 Return
 
 ;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
@@ -3640,15 +3617,7 @@ Return
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\firstyear.wsu.edu\JS\wp-custom-js-source.min.js"
-		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.c"
-		. "om/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/firstyear.wsu.edu]"
-		. " for a repository ofsource code.`r`n"
-		. "// Third-party, open-source JavaScript plugins used by this website:`r`n"
-		. "//   FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatr"
-		. "on5000/FitText.js | GNU GPLv2 -- http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.htm"
-		. "l`r`n//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 licens"
-		. "e -- http://creativecommons.org/licenses/by/3.0/`r`n"
-		, "Couldn't Copy Minified JS for FYE Website")
+		, "", "Couldn't Copy Minified JS for FYE Website")
 Return
 
 ;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
@@ -3659,17 +3628,7 @@ Return
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\learningcommunities.wsu.edu\JS\wp-custom-js-source.min.js"
-		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.c"
-		. "om/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/learningcommunitie"
-		. "s.wsu.edu] for a repository of source code.`r`n"
-		. "// Third-party, open-source JavaScript plugins used by this website:`r`n"
-		. "//   FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatr"
-		. "on5000/FitText.js | GNU GPLv2 -- http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.htm"
-		. "l`r`n//   Masonry JS, (c) David DeSandro 2016 | http://masonry.desandro.com/ | MIT licen"
-		. "se -- http://desandro.mit-license.org/`r`n"
-		. "//   qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- "
-		. "http://creativecommons.org/licenses/by/3.0/`r`n"
-		, "Couldn't Copy Minified JS for FYF Website")
+		, "", "Couldn't Copy Minified JS for FYF Website")
 Return
 
 ;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
@@ -3680,10 +3639,7 @@ Return
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\nse.wsu.edu\JS\nse-custom.min.js"
-		, "/*! Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github."
-		. "com/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/nse.wsu.edu] for "
-		. "a repository of source code.`r`n`r`n"
-		, "Couldn't Copy Minified JS for Nse Website")
+		, "", "Couldn't Copy Minified JS for Nse Website")
 Return
 
 ;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
@@ -3694,10 +3650,7 @@ Return
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\phibetakappa.wsu.edu\JS\oue-custom.min.js"
-		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.c"
-		. "om/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/oue.wsu.edu] for a"
-		. " repository of source code.`r`n"
-		, "Couldn't Copy Minified JS for WSU OUE Website")
+		, "", "Couldn't Copy Minified JS for WSU OUE Website")
 Return
 
 ;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
@@ -3708,8 +3661,7 @@ Return
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\oue.wsu.edu\JS\oue-custom.min.prev.js"
-		, ""
-		, "Couldn't copy backup copy of minified JS for WSU OUE website")
+		, "", "Couldn't copy backup copy of minified JS for WSU OUE website")
 Return
 
 ;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
@@ -3720,16 +3672,7 @@ Return
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\phibetakappa.wsu.edu\JS\wp-custom-js-source.min.js"
-		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.c"
-		. "om/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/phibetakappa.wsu.e"
-		. "du] for a repository of source code.`r`n"
-		. "// Third-party, open-source JavaScript plugins used by this website:`r`n"
-		. "// FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatron"
-		. "5000/FitFitText.js`r`n//   Masonry JS, (c) David DeSandro 2016 | http://masonry.desandro"
-		. ".com/ | MIT license -- http://desandro.mit-license.org/`r`n"
-		. "// qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- "
-		. "http://creativecommons.org/licenses/by/3.0/`r`n"
-		, "Couldn't Copy Minified JS for WSU Phi Beta Kappa Website")
+		, "", "Couldn't Copy Minified JS for WSU Phi Beta Kappa Website")
 Return
 
 ;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
@@ -3740,16 +3683,7 @@ Return
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\surca.wsu.edu\JS\wp-custom-js-source.min.js"
-		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.c"
-		. "om/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/surca.wsu.edu] for"
-		. " a repository of source code.`r`n"
-		. "// Third-party, open-source JavaScript plugins used by this website:`r`n"
-		. "// FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatron"
-		. "5000/FitFitText.js`r`n//   Masonry JS, (c) David DeSandro 2016 | http://masonry.desandro"
-		. ".com/ | MIT license -- http://desandro.mit-license.org/`r`n"
-		. "// qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- "
-		. "http://creativecommons.org/licenses/by/3.0/`r`n"
-		, "Couldn't Copy Minified JS for SURCA Website")
+		, "", "Couldn't Copy Minified JS for SURCA Website")
 Return
 
 ;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
@@ -3760,16 +3694,7 @@ Return
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\summerresearch.wsu.edu\JS\wp-custom-js-source.min.js"
-		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.c"
-		. "om/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/summerresearch.wsu"
-		. ".edu] for a repository of source code.`r`n"
-		. "// Third-party, open-source JavaScript plugins used by this website:`r`n"
-		. "// FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatron"
-		. "5000/FitFitText.js`r`n//   Masonry JS, (c) David DeSandro 2016 | http://masonry.desandro"
-		. ".com/ | MIT license -- http://desandro.mit-license.org/`r`n"
-		. "// qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- "
-		. "http://creativecommons.org/licenses/by/3.0/`r`n"
-		, "Couldn't Copy Minified JS for WSU Summer Research Website")
+		, "", "Couldn't Copy Minified JS for WSU Summer Research Website")
 Return
 
 ;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
@@ -3780,15 +3705,7 @@ Return
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\transfercredit.wsu.edu\JS\wp-custom-js-source.min.js"
-		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.c"
-		. "om/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/transfercredit.wsu"
-		. ".edu] for a repository of source code.`r`n"
-		. "// Third-party, open-source JavaScript plugins used by this website:`r`n"
-		. "//   FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatr"
-		. "on5000/FitText.js | GNU GPLv2 -- http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.htm"
-		. "l`r`n// qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license "
-		. "-- http://creativecommons.org/licenses/by/3.0/`r`n"
-		, "Couldn't Copy Minified JS for WSU Transfer Credit Website")
+		, "", "Couldn't Copy Minified JS for WSU Transfer Credit Website")
 Return
 
 ;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
@@ -3799,15 +3716,7 @@ Return
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\undergraduateresearch.wsu.edu\JS\wp-custom-js-source.min.js"
-		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.c"
-		. "om/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/undergraduateresea"
-		. "rch.wsu.edu] for a repository of source code.`r`n"
-		. "// Third-party, open-source JavaScript plugins used by this website:`r`n"
-		. "// FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatron"
-		. "5000/FitText.js | GNU GPLv2 -- http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html`r"
-		. "`n// qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- "
-		. "http://creativecommons.org/licenses/by/3.0/`r`n"
-		, "Couldn't Copy Minified JS for UGR Website")
+		, "", "Couldn't Copy Minified JS for UGR Website")
 Return
 
 ;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
@@ -3818,16 +3727,7 @@ Return
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\ucore.wsu.edu\JS\wp-custom-js-source.min.js"
-		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.c"
-		. "om/mishoo/UglifyJS]. Please see [https://github.com/invokeImmediately/ucore.wsu.edu] for"
-		. " a repository of source code.`r`n"
-		. "// Third-party, open-source JavaScript plugins used by this website:`r`n"
-		. "// FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatron"
-		. "5000/FitFitText.js`r`n// Masonry JS, (c) David DeSandro 2016 | http://masonry.desandro.c"
-		. "om/ | MIT license -- http://desandro.mit-license.org/`r`n"
-		. "// qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- ht"
-		. "tp://creativecommons.org/licenses/by/3.0/`r`n"
-		, "Couldn't copy minified JS for UCORE website")
+		, "", "Couldn't copy minified JS for UCORE website")
 Return
 
 ;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
@@ -3838,8 +3738,7 @@ Return
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\ucore.wsu.edu\JS\wp-custom-js-source.min.prev.js"
-		, ""
-		, "Couldn't copy backup copy of minified JS for UCORE website")
+		, ""		, "Couldn't copy backup copy of minified JS for UCORE website")
 Return
 
 ;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
@@ -3850,16 +3749,7 @@ Return
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
 		, GetGitHubFolder() . "\ucore.wsu.edu-assessment\JS\wp-custom-js-source.min.js"
-		, "// Built with Node.js [https://nodejs.org/] using the UglifyJS library [https://github.c"
-		. "UglifyJS]. Please see [https://github.com/invokeImmediately/ucore.wsu.edu-assessment] fo"
-		. "r a reposiom/mishoo/tory of source code.`r`n"
-		. "// Third-party, open-source JavaScript plugins used by this website:`r`n"
-		. "// FitText.js, (c) 2011, Dave Rupert http://daverupert.com | https://github.com/davatron"
-		. "5000/FitFitText.js`r`n// Masonry JS, (c) David DeSandro 2016 | http://masonry.desandro.c"
-		. "om/ | MIT license -- http://desandro.mit-license.org/`r`n"
-		. "// qTip2, (c) Craig Thompson 2013 | http://qtip2.com/ | CC Attribution 3.0 license -- ht"
-		. "tp://creativecommons.org/licenses/by/3.0/`r`n"
-		, "Couldn't Copy Minified JS for WSU Summer Research Website")
+		, "", "Couldn't Copy Minified JS for WSU Summer Research Website")
 Return
 
 ; ··································································································
