@@ -262,6 +262,10 @@ ChimeMinuteBell() {
 ;   >>> §2.2: CloseGuiWorkTimer
 
 CloseGuiWorkTimer() {
+	global guiWorkTimer_Hwnd
+	global guiWorkTimer_X
+	global guiWorkTimer_Y
+	WinGetPos, guiWorkTimer_X, guiWorkTimer_Y, w, h, % "ahk_id " . guiWorkTimer_Hwnd
 	Gui, guiWorkTimer: Destroy
 	SetTimer, UpdateWorkTimerGui, Delete
 }
@@ -335,7 +339,7 @@ ShowWorkTimerGui(introMsg, totalTime, iconPath, currentTime := 0, timeAlreadyWor
 	guiWorkTimer_totalTime := totalTime
 	guiWorkTimer_currentTime := currentTime
 	guiWorkTimer_timeAlreadyWorked := timeAlreadyWorked
-	Gui, guiWorkTimer: New, , % guiTitle
+	Gui, guiWorkTimer: New, +HwndguiWorkTimer_Hwnd, % guiTitle
 	Gui, guiWorkTimer: Add, Text
 		, w310 y16, % introMsg
 	Gui, guiWorkTimer: Add, Picture
@@ -348,7 +352,11 @@ ShowWorkTimerGui(introMsg, totalTime, iconPath, currentTime := 0, timeAlreadyWor
 		, % Round((currentTime + timeAlreadyWorked) / totalTime * 1000)
 	Gui, guiWorkTimer: Add, Button
 		, gHandleGuiWorkTimerHide Default w80 xm Y+16, % "&Hide"
-	Gui, guiWorkTimer: Show
+	if (guiWorkTimer_X != undefined && guiWorkTimer_Y != undefined) {
+		Gui, guiWorkTimer: Show, X%guiWorkTimer_X% Y%guiWorkTimer_Y%
+	} else {
+		Gui, guiWorkTimer: Show
+	}
 	GuiControlGet, guiWorkTimer_progressBarId, Hwnd, GuiWorkTimerProgressCtrl
 	GuiControlGet, guiWorkTimer_timeElapsedId, Hwnd, GuiWorkTimerTimeElapsedText
 }
