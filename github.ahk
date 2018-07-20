@@ -146,17 +146,19 @@
 ;       →→→ §7.6.1: @rebuildJsAscc — Hotstring................................................3024
 ;       →→→ §7.6.2: @rebuildJsCr — Hotstring..................................................3043
 ;       →→→ §7.6.3: @rebuildJsDsp — Hotstring.................................................3062
-;       →→→ §7.6.4: @rebuildJsFye — Hotstring.................................................3082
-;       →→→ §7.6.5: @rebuildJsFyf — Hotstring.................................................3101
-;       →→→ §7.6.6: @rebuildJsNse — Hotstring.................................................3120
-;       →→→ §7.6.7: @rebuildJsOue — Hotstring.................................................3139
-;       →→→ §7.6.8: @rebuildJsPbk — Hotstring.................................................3158
-;       →→→ §7.6.9: @rebuildJsSurca — Hotstring...............................................3177
-;       →→→ §7.6.10: @rebuildJsSumRes — Hotstring.............................................3196
-;       →→→ §7.6.11: @rebuildJsXfer — Hotstring...............................................3217
-;       →→→ §7.6.12: @rebuildJsUgr — Hotstring................................................3235
-;       →→→ §7.6.13: @rebuildJsUcore — Hotstring..............................................3254
-;       →→→ §7.6.14: @rebuildJsUcrAss — Hotstring.............................................3273
+;       →→→ §7.6.4: @commitJsDsp — Hotstring..................................................3082
+;       →→→ §7.6.5: @rebuildJsFye — Hotstring.................................................3082
+;       →→→ §7.6.6: @rebuildJsFyf — Hotstring.................................................3101
+;       →→→ §7.6.7: @rebuildJsNse — Hotstring.................................................3120
+;       →→→ §7.6.8: @rebuildJsOue — Hotstring.................................................3139
+;       →→→ §7.6.9: @rebuildJsPbk — Hotstring.................................................3158
+;       →→→ §7.6.10: @rebuildJsSurca — Hotstring..............................................3177
+;       →→→ §7.6.11: @rebuildJsSumRes — Hotstring.............................................3196
+;       →→→ §7.6.12: @rebuildJsXfer — Hotstring...............................................3217
+;       →→→ §7.6.13: @commitJsXfer — Hotstring................................................3217
+;       →→→ §7.6.14: @rebuildJsUgr — Hotstring................................................3235
+;       →→→ §7.6.15: @rebuildJsUcore — Hotstring..............................................3254
+;       →→→ §7.6.16: @rebuildJsUcrAss — Hotstring.............................................3273
 ;     >>> §7.7: FOR UPDATING JS SUBMODULES....................................................3292
 ;       →→→ §7.7.1: @updateJsSubmoduleAscc — Hotstring........................................3295
 ;       →→→ §7.7.2: @updateJsSubmoduleCr — Hotstring..........................................3313
@@ -3066,20 +3068,27 @@ Return
 	AppendAhkCmd(ahkCmdName)
 	; TODO: Add AHK function for creating a JS build string
 	PasteTextIntoGitShell(ahkCmdName
-		, "cd '" . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\JS'`r"
+		, "cd '" . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\'`r"
 		. "gulp buildMinJs`r"
 		. "Start-Sleep -s 1`r"
-		. "[console]::beep(1500,300)`r"
-		. "cd '" . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\'`r"
-		. "git add JS\wp-custom-javascript-source.dsp.js`r"
-		. "git add JS\wp-custom-js-source.min.dsp.js`r"
-		. "git commit -m 'Updating custom JS build' -m 'Rebuilt production files to incorporate "
-		. "recent changes to source code and/or dependencies' `r"
-		. "git push`r")
+		. "[console]::beep(1500,300)`r")
+	CommitAfterBuild(ahkCmdName, ":*:@commitJsDsp")
 Return
 
 ;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.6.4: @rebuildJsFye — Hotstring
+;     →→→ §7.6.4: @commitJsDsp — Hotstring
+
+:*:@commitJsDsp::
+	gitFolder := "distinguishedscholarships.wsu.edu" ; fp = file path
+	jsSrcFile := "dsp-custom.js" ; fn = file name
+	jsBuildFile := "dsp-custom-build.js"
+	minJsBuildFile := "dsp-custom-build.min.js"
+	AppendAhkCmd(A_ThisLabel)
+	CommitJsBuild(A_ThisLabel, gitFolder, jsSrcFile, jsBuildFile, minJsBuildFile)
+Return
+
+;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;     →→→ §7.6.5: @rebuildJsFye — Hotstring
 
 :*:@rebuildJsFye::
 	ahkCmdName := ":*:@rebuildJsFye"
@@ -3098,7 +3107,7 @@ Return
 Return
 
 ;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.6.5: @rebuildJsFyf — Hotstring
+;     →→→ §7.6.6: @rebuildJsFyf — Hotstring
 
 :*:@rebuildJsFyf::
 	ahkCmdName := ":*:@rebuildJsFyf"
@@ -3117,7 +3126,7 @@ Return
 Return
 
 ;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.6.6: @rebuildJsNse — Hotstring
+;     →→→ §7.6.7: @rebuildJsNse — Hotstring
 
 :*:@rebuildJsNse::
 	ahkCmdName := ":*:@rebuildJsNse"
@@ -3136,7 +3145,7 @@ Return
 Return
 
 ;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.6.7: @rebuildJsOue — Hotstring
+;     →→→ §7.6.8: @rebuildJsOue — Hotstring
 
 :*:@rebuildJsOue::
 	ahkCmdName := ":*:@rebuildJsOue"
@@ -3155,7 +3164,7 @@ Return
 Return
 
 ;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.6.8: @rebuildJsPbk — Hotstring
+;     →→→ §7.6.9: @rebuildJsPbk — Hotstring
 
 :*:@rebuildJsPbk::
 	ahkCmdName := ":*:@rebuildJsPbk"
@@ -3174,7 +3183,7 @@ Return
 Return
 
 ;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.6.9: @rebuildJsSurca — Hotstring
+;     →→→ §7.6.10: @rebuildJsSurca — Hotstring
 
 :*:@rebuildJsSurca::
 	ahkCmdName := ":*:@rebuildJsSurca"
@@ -3193,7 +3202,7 @@ Return
 Return
 
 ;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.6.10: @rebuildJsSumRes — Hotstring
+;     →→→ §7.6.11: @rebuildJsSumRes — Hotstring
 
 :*:@rebuildJsSumRes::
 	ahkCmdName := ":*:@rebuildJsSumRes"
@@ -3214,25 +3223,32 @@ Return
 Return
 
 ;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.6.11: @rebuildJsXfer — Hotstring
+;     →→→ §7.6.12: @rebuildJsXfer — Hotstring
 
 :*:@rebuildJsXfer::
 	ahkCmdName := ":*:@rebuildJsXfer"
 	AppendAhkCmd(ahkCmdName)
 	PasteTextIntoGitShell(ahkCmdName
-		, "cd '" . GetGitHubFolder() . "\transfercredit.wsu.edu\JS'`r"
+		, "cd '" . GetGitHubFolder() . "\transfercredit.wsu.edu\'`r"
 		. "gulp buildMinJs`r"
-		. "[console]::beep(1500,300)`r"
-		. "cd '" . GetGitHubFolder() . "\transfercredit.wsu.edu\'`r"
-		. "git add JS\wp-custom-js-source.js`r"
-		. "git add JS\wp-custom-js-source.min.js`r"
-		. "git commit -m 'Updating custom JS build' -m 'Rebuilt production files to incorporate "
-		. "recent changes to source code and/or dependencies' `r"
-		. "git push`r")
+		. "[console]::beep(1500,300)`r")
+	CommitAfterBuild(ahkCmdName, ":*:@commitJsXfer")
 Return
 
 ;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.6.12: @rebuildJsUgr — Hotstring
+;     →→→ §7.6.13: @commitJsXfer — Hotstring
+
+:*:@commitJsXfer::
+	gitFolder := "transfercredit.wsu.edu" ; fp = file path
+	jsSrcFile := "transfer-central-custom.js" ; fn = file name
+	jsBuildFile := "transfer-central-custom-build.js"
+	minJsBuildFile := "transfer-central-custom-build.min.js"
+	AppendAhkCmd(A_ThisLabel)
+	CommitJsBuild(A_ThisLabel, gitFolder, jsSrcFile, jsBuildFile, minJsBuildFile)
+Return
+
+;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;     →→→ §7.6.14: @rebuildJsUgr — Hotstring
 
 :*:@rebuildJsUgr::
 	ahkCmdName := ":*:@rebuildJsUgr"
@@ -3251,7 +3267,7 @@ Return
 Return
 
 ;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.6.13: @rebuildJsUcore — Hotstring
+;     →→→ §7.6.15: @rebuildJsUcore — Hotstring
 
 :*:@rebuildJsUcore::
 	ahkCmdName := ":*:@rebuildJsUcore"
@@ -3270,7 +3286,7 @@ Return
 Return
 
 ;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.6.14: @rebuildJsUcrAss — Hotstring
+;     →→→ §7.6.16: @rebuildJsUcrAss — Hotstring
 
 :*:@rebuildJsUcrAss::
 	ahkCmdName := ":*:@rebuildJsUcrAss"
