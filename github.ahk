@@ -2608,10 +2608,8 @@ Return
 	ahkCmdName := ":*:@copyMinCssSumRes"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
-		, GetGitHubFolder() . "\summerresearch.wsu.edu\CSS\summerresearch-custom.min.css"
-		, "/*! Built with the LESS CSS preprocessor [http://lesscss.org/]. Please see "
-		. "[https://github.com/invokeImmediately/summerresearch.wsu.edu] for a repository of "
-		. "source code. */`r`n`r`n", "Couldn't copy minified CSS for Summer Research website.")
+		, GetGitHubFolder() . "\summerresearch.wsu.edu\CSS\summerresearch-custom.min.css", ""
+		, "Couldn't copy minified CSS for Summer Research website.")
 Return
 
 ;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
