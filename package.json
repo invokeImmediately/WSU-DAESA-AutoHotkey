@@ -1,0 +1,25 @@
+{
+  "name": "wsu-oue-autohotkey",
+  "version": "1.0.0",
+  "description": "AutoHotkey scripts for supporting Windows-based development of websites for the WSU Office of Undergraduate Education.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/invokeImmediately/WSU-OUE-AutoHotkey.git"
+  },
+  "keywords": [
+    "WSU",
+    "Washington",
+    "State",
+    "University"
+  ],
+  "author": "Daniel Rieck <danielcrieck@gmail.com> (https://www.linkedin.com/in/danielcrieck/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/invokeImmediately/WSU-OUE-AutoHotkey/issues"
+  },
+  "homepage": "https://github.com/invokeImmediately/WSU-OUE-AutoHotkey#readme"
+}
