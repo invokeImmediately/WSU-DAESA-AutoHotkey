@@ -374,7 +374,7 @@ Return
 	Sleep, 330
 	OpenWebsiteInChrome("mail.google.com", False)
 	OpenWebsiteInChrome("mail.live.com")
-	OpenWebsiteInChrome("sfgate.com")
+	OpenWebsiteInChrome("digital.olivesoftware.com/Olive/ODN/SanFranciscoChronicle")
 	OpenWebsiteInChrome("news.wsu.edu")
 	OpenWebsiteInChrome("dailyevergreen.com")
 	OpenWebsiteInChrome("web.wsu.edu")
