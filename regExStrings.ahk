@@ -8,7 +8,7 @@
 
 :*:@findStrLessTocSections1::
 	AppendAhkCmd(A_ThisLabel)
-	SendInput, % "{^}(\*\*|//)(\*?/? *)(.*)(§[0-9]{+})(.*)$"
+	SendInput, % "(?{<}=[-·]\n){^}(\*\*|//)(\*?/? *)(.*)(§[0-9]{+})(.*)$"
 Return
 
 :*:@findStrLessTocSections2::
