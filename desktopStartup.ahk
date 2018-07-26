@@ -179,13 +179,13 @@ Return
 	delay := 500
 	CheckForCmdEntryGui()
 	switchDesktopByNumber(2)
-	Sleep, % delay
-	SendInput, #e
-	WaitForApplicationPatiently("File Explorer")
 	Sleep, % delay * 2
 	AddSublimeText3ToVd(2)
 	Sleep, % delay
 	switchDesktopByNumber(2)
+	Sleep, % delay
+	SendInput, #e
+	WaitForApplicationPatiently("File Explorer")
 	Gosub, :*:@startGithubClients
 	Gosub, :*:@arrangeGitHub
 Return
