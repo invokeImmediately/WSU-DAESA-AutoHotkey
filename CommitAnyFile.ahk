@@ -76,13 +76,13 @@ CommitAnyFile(ahkCmdName, gitFolder, filesToCommit) {
 
 	; Begin initialization of GUI
 	Gui, guiCommitAnyFile: New, , % ahkCmdName . " Commit Message Specification"
-	Gui, guiCommitAnyFile: Font, bold
-	Gui, guiCommitAnyFile: Add, Text, , % "File(s) to be committed: "
-	Gui, guiCommitAnyFile: Font
 	Gui, guiCommitAnyFile: Font, italic
 	Gui, guiCommitAnyFile: Add, Text, Y+3, % "Git folder: "
 	Gui, guiCommitAnyFile: Font
 	Gui, guiCommitAnyFile: Add, Text, X+3, % commitAnyFileVars.gitFolder
+	Gui, guiCommitAnyFile: Font, bold
+	Gui, guiCommitAnyFile: Add, Text, xm, % "&File(s) to be committed: "
+	Gui, guiCommitAnyFile: Font
 	Gui, guiCommitAnyFile: Add, ListView
 		, vctrlCommitAnyFilesLV grid BackgroundEBF8FE NoSortHdr r5 W728 xm+1 Y+3
 		, % "File Name"
