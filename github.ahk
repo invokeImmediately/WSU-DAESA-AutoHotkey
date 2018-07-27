@@ -838,7 +838,7 @@ HandlePostBackupCssOK() {
 ;   ································································································
 ;     >>> §4.3: @postMinJs — Hotstring
 
-:*:::
+:*:@postMinJs::
 	thisAhkCmd := A_ThisLabel
 	AppendAhkCmd(thisAhkCmd)
 	if(!sgIsPostingMinJs) {
