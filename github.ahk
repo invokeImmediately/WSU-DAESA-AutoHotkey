@@ -217,8 +217,6 @@ GetCmdForMoveToCSSFolder(curDir) {
 	Return cmd
 }
 
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-
 GetCurrentDirFromPS() {
 	copyDirCmd := "(get-location).ToString() | clip`r`n"
 	PasteTextIntoGitShell("", copyDirCmd)
@@ -228,14 +226,10 @@ GetCurrentDirFromPS() {
 	Return Clipboard
 }
 
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-
 GetGitHubFolder() {
 	global userAccountFolderSSD
 	Return userAccountFolderSSD . "\Documents\GitHub"
 }
-
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 UserFolderIsSet() {
 	global userAccountFolderSSD
@@ -267,8 +261,6 @@ ActivateGitShell() {
 	}
 	Return shellActivated
 }
-
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 CommitAfterBuild(ahkBuildCmd, ahkCommitCmd) {
 	ahkFuncName := "github.ahk: CommitAfterBuild"
@@ -302,8 +294,6 @@ CommitAfterBuild(ahkBuildCmd, ahkCommitCmd) {
 	}
 }
 
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-
 ; Escape commit message strings for use in PowerShell. Assumes that double quotes are used to
 ; enclose the string.
 EscapeCommitMessage(msgToEscape) {
@@ -319,8 +309,6 @@ EscapeCommitMessage(msgToEscape) {
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\CommitJsBuild.ahk
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\CommitAnyFile.ahk
-
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 CopySrcFileToClipboard(ahkCmdName, srcFileToCopy, strToPrepend, errorMsg) {
 	if (UserFolderIsSet()) {
@@ -340,15 +328,11 @@ CopySrcFileToClipboard(ahkCmdName, srcFileToCopy, strToPrepend, errorMsg) {
 	}
 }
 
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-
 IsGitShellActive() {
 	WinGet, thisProcess, ProcessName, A
 	shellIsActive := thisProcess = "PowerShell.exe"
 	Return shellIsActive
 }
-
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 PasteTextIntoGitShell(ahkCmdName, shellText) {
 	errorMsg := ""
@@ -373,14 +357,10 @@ PasteTextIntoGitShell(ahkCmdName, shellText) {
 	}
 }
 
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-
 ToEscapedPath(path) {
 	escapedPath := StrReplace(path, "\", "\\")
 	Return escapedPath
 }
-
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 VerifyCopiedCode(callerStr, copiedCss) {
 	proceed := False
@@ -434,8 +414,8 @@ LoadWordPressSiteInChrome(websiteUrl) {
 ;   §4: GUI FUNCTIONS for handling user interactions with scripts
 ; --------------------------------------------------------------------------------------------------
 
-; ··································································································
-;   >>> §4.1: GUI DRIVEN HOTSTRINGS
+;   ································································································
+;     >>> §4.1: GUI DRIVEN HOTSTRINGS
 
 :*:@postMinCss::
 	thisAhkCmd := A_ThisLabel
@@ -894,8 +874,8 @@ PasteMinJsToWebsite(websiteUrl, jsCopyCmd, manualProcession := false) {
 ;   §5: FILE SYSTEM NAVIGATION Hotstrings
 ; --------------------------------------------------------------------------------------------------
 
-; ··································································································
-;   >>> §5.1: Navigation within GITHUB DIRECTORIES
+;   ································································································
+;     >>> §5.1: Navigation within GITHUB DIRECTORIES
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@gotoGhAscc::
@@ -1025,8 +1005,8 @@ Return
 ;   §6: UTILITY HOTSTRINGS for working with GitHub Desktop
 ; --------------------------------------------------------------------------------------------------
 
-; ··································································································
-;   >>> §6.1: FILE COMMITTING
+;   ································································································
+;     >>> §6.1: FILE COMMITTING
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@getGitCommitLog::
@@ -1175,8 +1155,8 @@ Return
 	}    
 Return
 
-; ··································································································
-;   >>> §6.2: STATUS CHECKING
+;   ································································································
+;     >>> §6.2: STATUS CHECKING
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@doGitStatus::
@@ -1197,8 +1177,8 @@ Return
 	Gosub, :*:@doGitStatus
 Return
 
-; ··································································································
-;   >>> §6.3: Automated PASTING OF CSS into online web interfaces
+;   ································································································
+;     >>> §6.3: Automated PASTING OF CSS into online web interfaces
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@initCssPaste::
@@ -1367,11 +1347,11 @@ ExecuteJsPasteCmds(manualProcession := false) {
 ;   §7: COMMAND LINE INPUT GENERATION SHORTCUTS
 ; --------------------------------------------------------------------------------------------------
 
-; ··································································································
-;   >>> §7.1: Shortucts for backing up custom CSS builds
+;   ································································································
+;     >>> §7.1: Shortucts for backing up custom CSS builds
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.1.1: @backupCssAscc — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.1.1: @backupCssAscc — Hotstring
 
 :*:@backupCssAscc::
 	AppendAhkCmd(A_ThisLabel)
@@ -1384,8 +1364,8 @@ ExecuteJsPasteCmds(manualProcession := false) {
 		. "git push`r")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.1.2: @backupCssCr — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.1.2: @backupCssCr — Hotstring
 
 :*:@backupCssCr::
 	AppendAhkCmd(A_ThisLabel)
@@ -1401,8 +1381,8 @@ Return
 	}
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.1.3: @backupCssDsp — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.1.3: @backupCssDsp — Hotstring
 
 :*:@backupCssDsp::
 	AppendAhkCmd(A_ThisLabel)
@@ -1419,8 +1399,8 @@ Return
 	}
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.1.4: @backupCssFye — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.1.4: @backupCssFye — Hotstring
 
 :*:@backupCssFye::
 	AppendAhkCmd(A_ThisLabel)
@@ -1436,8 +1416,8 @@ Return
 	}
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.1.5: @backupCssFyf — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.1.5: @backupCssFyf — Hotstring
 
 :*:@backupCssFyf::
 	AppendAhkCmd(A_ThisLabel)
@@ -1454,8 +1434,8 @@ Return
 	}
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.1.6: @backupCssNse — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.1.6: @backupCssNse — Hotstring
 
 :*:@backupCssNse::
 	AppendAhkCmd(A_ThisLabel)
@@ -1470,8 +1450,8 @@ Return
 	}
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.1.7: @backupCssOue — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.1.7: @backupCssOue — Hotstring
 
 :*:@backupCssOue::
 	AppendAhkCmd(A_ThisLabel)
@@ -1486,8 +1466,8 @@ Return
 	}
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.1.8: @backupCssPbk — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.1.8: @backupCssPbk — Hotstring
 
 :*:@backupCssPbk::
 	AppendAhkCmd(A_ThisLabel)
@@ -1503,8 +1483,8 @@ Return
 	}
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.1.9: @backupCssSurca — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.1.9: @backupCssSurca — Hotstring
 
 :*:@backupCssSurca::
 	AppendAhkCmd(A_ThisLabel)
@@ -1520,8 +1500,8 @@ Return
 	}
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.1.10: @backupCssSumRes — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.1.10: @backupCssSumRes — Hotstring
 
 :*:@backupCssSumRes::
 	AppendAhkCmd(A_ThisLabel)
@@ -1538,8 +1518,8 @@ Return
 	}
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.1.11: @backupCssXfer — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.1.11: @backupCssXfer — Hotstring
 
 :*:@backupCssXfer::
 	AppendAhkCmd(A_ThisLabel)
@@ -1556,8 +1536,8 @@ Return
 	}
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.1.12: @backupCssUgr — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.1.12: @backupCssUgr — Hotstring
 
 :*:@backupCssUgr::
 	AppendAhkCmd(A_ThisLabel)
@@ -1574,8 +1554,8 @@ Return
 	}
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.1.13: @backupCssXfer — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.1.13: @backupCssXfer — Hotstring
 
 :*:@backupCssUcore::
 	AppendAhkCmd(A_ThisLabel)
@@ -1591,8 +1571,8 @@ Return
 	}
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.1.14: @backupCssUcrAss — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.1.14: @backupCssUcrAss — Hotstring
 
 :*:@backupCssUcrAss::
 	AppendAhkCmd(A_ThisLabel)
@@ -1609,8 +1589,8 @@ Return
 	}
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.1.15: @backupCssAll — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.1.15: @backupCssAll — Hotstring
 
 :*:@backupCssAll::
 	AppendAhkCmd(A_ThisLabel)
@@ -1632,8 +1612,8 @@ Return
 		. "[console]::beep(375,300)`r")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.1.16: CopyCssFromWebsite — Function
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.1.16: CopyCssFromWebsite — Function
 
 CopyCssFromWebsite(websiteUrl)
 {
@@ -1642,8 +1622,8 @@ CopyCssFromWebsite(websiteUrl)
 	return copiedCss
 }
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.1.16: CopyCssFromWebsite — Function
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.1.16: CopyCssFromWebsite — Function
 
 ExecuteCssCopyCmds() {
 	delay := 200
@@ -1661,11 +1641,11 @@ ExecuteCssCopyCmds() {
 	return copiedCss
 }
 
-; ··································································································
-;   >>> §7.2: Shortcuts for rebuilding & committing custom CSS files
+;   ································································································
+;     >>> §7.2: Shortcuts for rebuilding & committing custom CSS files
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.2.1: @rebuildCssHere — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.2.1: @rebuildCssHere — Hotstring
 
 :*:@rebuildCssHere::
 	currentDir := GetCurrentDirFromPS()
@@ -1674,8 +1654,8 @@ ExecuteCssCopyCmds() {
 	}
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.2.2: @rebuildCssAscc — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.2.2: @rebuildCssAscc — Hotstring
 
 :*:@rebuildCssAscc::
 	ahkCmdName := ":*:@rebuildCssAscc"
@@ -1687,8 +1667,8 @@ Return
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssAscc")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.2.3: @commitCssAscc — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.2.3: @commitCssAscc — Hotstring
 
 :*:@commitCssAscc::
 	ahkCmdName := ":*:@commitCssAscc"
@@ -1703,8 +1683,8 @@ Return
 	CommitCssBuild(ahkCmdName, gitFolder, lessSrcFile, cssBuildFile, minCssBuildFile)
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.2.4: @rebuildCssCr — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.2.4: @rebuildCssCr — Hotstring
 
 :*:@rebuildCssCr::
 	ahkCmdName := ":*:@rebuildCssCr"
@@ -1717,8 +1697,8 @@ Return
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssCr")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.2.5: @commitCssCr — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.2.5: @commitCssCr — Hotstring
 
 :*:@commitCssCr::
 	ahkCmdName := ":*:@commitCssCr"
@@ -1733,8 +1713,8 @@ Return
 	CommitCssBuild(ahkCmdName, gitFolder, lessSrcFile, cssBuildFile, minCssBuildFile)
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.2.6: @rebuildCssDsp — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.2.6: @rebuildCssDsp — Hotstring
 
 :*:@rebuildCssDsp::
 	ahkCmdName := ":*:@rebuildCssDsp"
@@ -1746,8 +1726,8 @@ Return
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssDsp")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.2.7: @commitCssDsp — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.2.7: @commitCssDsp — Hotstring
 
 :*:@commitCssDsp::
 	ahkCmdName := ":*:@commitCssDsp"
@@ -1762,8 +1742,8 @@ Return
 	CommitCssBuild(ahkCmdName, gitFolder, lessSrcFile, cssBuildFile, minCssBuildFile)
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.2.8: @rebuildCssFye — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.2.8: @rebuildCssFye — Hotstring
 
 :*:@rebuildCssFye::
 	ahkCmdName := ":*:@rebuildCssFye"
@@ -1776,8 +1756,8 @@ Return
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssFye")	
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.2.9: @commitCssFye — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.2.9: @commitCssFye — Hotstring
 
 :*:@commitCssFye::
 	ahkCmdName := ":*:@commitCssFye"
@@ -1793,8 +1773,8 @@ Return
 		. "[console]::beep(2000,150)`r")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.2.10: @rebuildCssFyf — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.2.10: @rebuildCssFyf — Hotstring
 
 :*:@rebuildCssFyf::
 	ahkCmdName := ":*:@rebuildCssFyf"
@@ -1807,8 +1787,8 @@ Return
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssFyf")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.2.11: @commitCssFyf — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.2.11: @commitCssFyf — Hotstring
 
 :*:@commitCssFyf::
 	ahkCmdName := ":*:@commitCssFyf"
@@ -1824,8 +1804,8 @@ Return
 		. "[console]::beep(2000,150)`r")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.2.12: @rebuildCssNse — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.2.12: @rebuildCssNse — Hotstring
 
 :*:@rebuildCssNse::
 	ahkCmdName := ":*:@rebuildCssNse"
@@ -1837,8 +1817,8 @@ Return
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssNse")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.2.13: @commitCssNse — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.2.13: @commitCssNse — Hotstring
 
 :*:@commitCssNse::
 	ahkCmdName := ":*:@commitCssNse"
@@ -1853,8 +1833,8 @@ Return
 	CommitCssBuild(ahkCmdName, gitFolder, lessSrcFile, cssBuildFile, minCssBuildFile)
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.2.14: @rebuildCssOue — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.2.14: @rebuildCssOue — Hotstring
 
 :*:@rebuildCssOue::
 	ahkCmdName := ":*:@rebuildCssOue"
@@ -1866,8 +1846,8 @@ Return
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssOue")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.2.15: @commitCssOue — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.2.15: @commitCssOue — Hotstring
 
 :*:@commitCssOue::
 	ahkCmdName := ":*:@commitCssOue"
@@ -1883,8 +1863,8 @@ Return
 		. "[console]::beep(2000,150)`r")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.2.16: @rebuildCssPbk — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.2.16: @rebuildCssPbk — Hotstring
 
 :*:@rebuildCssPbk::
 	ahkCmdName := ":*:@rebuildCssPbk"
@@ -1896,8 +1876,8 @@ Return
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssPbk")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.2.17: @commitCssPbk — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.2.17: @commitCssPbk — Hotstring
 
 :*:@commitCssPbk::
 	ahkCmdName := ":*:@commitCssPbk"
@@ -1913,8 +1893,8 @@ Return
 		. "[console]::beep(2000,150)`r")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.2.18: @rebuildCssSurca — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.2.18: @rebuildCssSurca — Hotstring
 
 :*:@rebuildCssSurca::
 	ahkCmdName := ":*:@rebuildCssSurca"
@@ -1927,8 +1907,8 @@ Return
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssSurca")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.2.19: @commitCssSurca — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.2.19: @commitCssSurca — Hotstring
 
 :*:@commitCssSurca::
 	ahkCmdName := ":*:@commitCssSurca"
@@ -1943,8 +1923,8 @@ Return
 	CommitCssBuild(ahkCmdName, gitFolder, lessSrcFile, cssBuildFile, minCssBuildFile)
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.2.20: @rebuildCssSumRes — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.2.20: @rebuildCssSumRes — Hotstring
 
 :*:@rebuildCssSumRes::
 	AppendAhkCmd(A_ThisLabel)
@@ -1955,8 +1935,8 @@ Return
 	CommitAfterBuild(A_ThisLabel, ":*:@commitCssSumRes")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.2.21: @commitCssSumRes — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.2.21: @commitCssSumRes — Hotstring
 
 :*:@commitCssSumRes::
 	gitFolder := "summerresearch.wsu.edu" ; fp = file path
@@ -1970,8 +1950,8 @@ Return
 	CommitCssBuild(A_ThisLabel, gitFolder, lessSrcFile, cssBuildFile, minCssBuildFile)
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.2.22: @rebuildCssXfer — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.2.22: @rebuildCssXfer — Hotstring
 
 :*:@rebuildCssXfer::
 	ahkCmdName := ":*:@rebuildCssXfer"
@@ -1984,8 +1964,8 @@ Return
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssXfer")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.2.23: @commitCssXfer — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.2.23: @commitCssXfer — Hotstring
 
 :*:@commitCssXfer::
 	ahkCmdName := ":*:@commitCssXfer"
@@ -2001,8 +1981,8 @@ Return
 		. "[console]::beep(2000,150)`r")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.2.24: @rebuildCssUgr — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.2.24: @rebuildCssUgr — Hotstring
 
 :*:@rebuildCssUgr::
 	ahkCmdName := ":*:@rebuildCssUgr"
@@ -2016,8 +1996,8 @@ Return
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssUgr")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.2.25: @commitCssUgr — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.2.25: @commitCssUgr — Hotstring
 
 :*:@commitCssUgr::
 	ahkCmdName := ":*:@commitCssUgr"
@@ -2032,8 +2012,8 @@ Return
 	CommitCssBuild(ahkCmdName, gitFolder, lessSrcFile, cssBuildFile, minCssBuildFile)
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.2.26: @commitCssSumRes — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.2.26: @commitCssSumRes — Hotstring
 
 :*:@rebuildCssUcore::
 	ahkCmdName := ":*:@rebuildCssUcore"
@@ -2047,8 +2027,8 @@ Return
 
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.2.27: @commitCssUcore — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.2.27: @commitCssUcore — Hotstring
 
 :*:@commitCssUcore::
 	ahkCmdName := ":*:@commitCssUcore"
@@ -2063,8 +2043,8 @@ Return
 	CommitCssBuild(ahkCmdName, gitFolder, lessSrcFile, cssBuildFile, minCssBuildFile)
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.2.28: @rebuildCssUcrAss — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.2.28: @rebuildCssUcrAss — Hotstring
 
 :*:@rebuildCssUcrAss::
 	ahkCmdName := ":*:@rebuildCssUcrAss"
@@ -2077,8 +2057,8 @@ Return
 	CommitAfterBuild(ahkCmdName, ":*:@commitCssUcrAss")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.2.29: @commitCssUcrAss — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.2.29: @commitCssUcrAss — Hotstring
 
 :*:@commitCssUcrAss::
 	ahkCmdName := ":*:@commitCssUcrAss"
@@ -2093,8 +2073,8 @@ Return
 	CommitCssBuild(ahkCmdName, gitFolder, lessSrcFile, cssBuildFile, minCssBuildFile)
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.2.30: @rebuildCssAll — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.2.30: @rebuildCssAll — Hotstring
 
 :*:@rebuildCssAll::
 	ahkCmdName := ":*:@rebuildCssAll"
@@ -2119,11 +2099,11 @@ Return
 		. "[console]::beep(375,150)`r")
 Return
 
-; ··································································································
-;   >>> §7.3: Shortcuts for updating CSS submodules
+;   ································································································
+;     >>> §7.3: Shortcuts for updating CSS submodules
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.3.1: @updateCssSubmoduleAscc — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.3.1: @updateCssSubmoduleAscc — Hotstring
 
 :*:@updateCssSubmoduleAscc::
 	ahkCmdName := ":*:@updateCssSubmoduleAscc"
@@ -2140,8 +2120,8 @@ Return
 	Gosub, :*:@rebuildCssAscc
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.3.2: @updateCssSubmoduleCr — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.3.2: @updateCssSubmoduleCr — Hotstring
 
 :*:@updateCssSubmoduleCr::
 	ahkCmdName := ":*:@updateCssSubmoduleCr"
@@ -2158,8 +2138,8 @@ Return
 	Gosub, :*:@rebuildCssCr
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.3.3: @updateCssSubmoduleDsp — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.3.3: @updateCssSubmoduleDsp — Hotstring
 
 :*:@updateCssSubmoduleDsp::
 	ahkCmdName := ":*:@updateCssSubmoduleDsp"
@@ -2176,8 +2156,8 @@ Return
 	Gosub, :*:@rebuildCssDsp
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.3.4: @updateCssSubmoduleFye — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.3.4: @updateCssSubmoduleFye — Hotstring
 
 :*:@updateCssSubmoduleFye::
 	ahkCmdName := ":*:@updateCssSubmoduleFye"
@@ -2194,8 +2174,8 @@ Return
 	Gosub, :*:@rebuildCssFye
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.3.5: @updateCssSubmoduleFyf — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.3.5: @updateCssSubmoduleFyf — Hotstring
 
 :*:@updateCssSubmoduleFyf::
 	ahkCmdName := ":*:@updateCssSubmoduleFyf"
@@ -2212,8 +2192,8 @@ Return
 	Gosub, :*:@rebuildCssFyf
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.3.6: @updateCssSubmoduleNse — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.3.6: @updateCssSubmoduleNse — Hotstring
 
 :*:@updateCssSubmoduleNse::
 	ahkCmdName := ":*:@updateCssSubmoduleNse"
@@ -2230,8 +2210,8 @@ Return
 	Gosub, :*:@rebuildCssNse
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.3.7: @updateCssSubmoduleOue — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.3.7: @updateCssSubmoduleOue — Hotstring
 
 :*:@updateCssSubmoduleOue::
 	ahkCmdName := ":*:@updateCssSubmoduleOue"
@@ -2248,8 +2228,8 @@ Return
 	Gosub, :*:@rebuildCssOue
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.3.8: @updateCssSubmodulePbk — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.3.8: @updateCssSubmodulePbk — Hotstring
 
 :*:@updateCssSubmodulePbk::
 	ahkCmdName := ":*:@updateCssSubmodulePbk"
@@ -2266,8 +2246,8 @@ Return
 	Gosub, :*:@rebuildCssPbk
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.3.9: @updateCssSubmoduleSurca — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.3.9: @updateCssSubmoduleSurca — Hotstring
 
 :*:@updateCssSubmoduleSurca::
 	ahkCmdName := ":*:@updateCssSubmoduleSurca"
@@ -2284,8 +2264,8 @@ Return
 	Gosub, :*:@rebuildCssSurca
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.3.10: @updateCssSubmoduleSumRes — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.3.10: @updateCssSubmoduleSumRes — Hotstring
 
 :*:@updateCssSubmoduleSumRes::
 	ahkCmdName := ":*:@updateCssSubmoduleSumRes"
@@ -2302,8 +2282,8 @@ Return
 	Gosub, :*:@rebuildCssSumRes
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.3.11: @updateCssSubmoduleXfer — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.3.11: @updateCssSubmoduleXfer — Hotstring
 
 :*:@updateCssSubmoduleXfer::
 	ahkCmdName := ":*:@updateCssSubmoduleXfer"
@@ -2320,8 +2300,8 @@ Return
 	Gosub, :*:@rebuildCssXfer
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.3.12: @updateCssSubmoduleUgr — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.3.12: @updateCssSubmoduleUgr — Hotstring
 
 :*:@updateCssSubmoduleUgr::
 	ahkCmdName := ":*:@updateCssSubmoduleUgr"
@@ -2338,8 +2318,8 @@ Return
 	Gosub, :*:@rebuildCssUgr
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.3.13: @updateCssSubmoduleUcore — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.3.13: @updateCssSubmoduleUcore — Hotstring
 
 :*:@updateCssSubmoduleUcore::
 	ahkCmdName := ":*:@updateCssSubmoduleUcore"
@@ -2356,8 +2336,8 @@ Return
 	Gosub, :*:@rebuildCssUcore
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.3.14: @updateCssSubmoduleUcrAss — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.3.14: @updateCssSubmoduleUcrAss — Hotstring
 
 :*:@updateCssSubmoduleUcrAss::
 	ahkCmdName := ":*:@updateCssSubmoduleUcrAss"
@@ -2374,8 +2354,8 @@ Return
 	Gosub, :*:@rebuildCssUcrAss
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.3.15: @updateCssSubmoduleAll — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.3.15: @updateCssSubmoduleAll — Hotstring
 
 :*:@updateCssSubmoduleAll::
 	ahkCmdName := ":*:@updateCssSubmoduleAll"
@@ -2401,11 +2381,11 @@ Return
 		. "[console]::beep(375,150)`r")
 Return
 
-; ··································································································
-;   >>> §7.4: For copying minified, backup css files to clipboard
+;   ································································································
+;     >>> §7.4: For copying minified, backup css files to clipboard
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.4.1: @copyMinCssAscc — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.4.1: @copyMinCssAscc — Hotstring
 
 :*:@copyMinCssAscc::
 	ahkCmdName := ":*:@copyMinCssAscc"
@@ -2417,8 +2397,8 @@ Return
 		. "*/`r`n`r`n", "Couldn't copy minified CSS for ASCC website.")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.4.2: @copyBackupCssAscc — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.4.2: @copyBackupCssAscc — Hotstring
 
 :*:@copyBackupCssAscc::
 	ahkCmdName := ":*:@copyBackupCssAscc"
@@ -2428,8 +2408,8 @@ Return
 		, "", "Couldn't copy backup CSS for ASCC Reading website.")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.4.3: @copyMinCssCr — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.4.3: @copyMinCssCr — Hotstring
 
 :*:@copyMinCssCr::
 	ahkCmdName := ":*:@copyMinCssCr"
@@ -2441,8 +2421,8 @@ Return
 		. "code. */`r`n`r`n", "Couldn't copy minified CSS for Common Reading website.")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.4.4: @copyBackupCssCr — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.4.4: @copyBackupCssCr — Hotstring
 
 :*:@copyBackupCssCr::
 	ahkCmdName := ":*:@copyBackupCssCr"
@@ -2452,8 +2432,8 @@ Return
 		, "", "Couldn't copy backup CSS for Common Reading website.")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.4.5: @copyMinCssDsp — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.4.5: @copyMinCssDsp — Hotstring
 
 :*:@copyMinCssDsp::
 	ahkCmdName := ":*:@copyMinCssDsp"
@@ -2463,8 +2443,8 @@ Return
 		, "", "Couldn't copy minified CSS for DSP Website.")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.4.6: @copyBackupCssDsp — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.4.6: @copyBackupCssDsp — Hotstring
 
 :*:@copyBackupCssDsp::
 	ahkCmdName := ":*:@copyBackupCssDsp"
@@ -2474,8 +2454,8 @@ Return
 		, "", "Couldn't copy backup CSS for DSP Website.")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.4.7: @copyMinCssFye — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.4.7: @copyMinCssFye — Hotstring
 
 :*:@copyMinCssFye::
 	ahkCmdName := ":*:@copyMinCssFye"
@@ -2487,8 +2467,8 @@ Return
 		. "code. */`r`n`r`n", "Couldn't copy minified CSS for FYE website.")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.4.8: @copyBackupCssFye — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.4.8: @copyBackupCssFye — Hotstring
 
 :*:@copyBackupCssFye::
 	ahkCmdName := ":*:@copyBackupCssFye"
@@ -2498,8 +2478,8 @@ Return
 		, "", "Couldn't copy backup CSS for FYE website.")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.4.9: @copyMinCssFyf — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.4.9: @copyMinCssFyf — Hotstring
 
 :*:@copyMinCssFyf::
 	ahkCmdName := ":*:@copyMinCssFyf"
@@ -2511,8 +2491,8 @@ Return
 		. "source code. */`r`n`r`n", "Couldn't copy minified CSS for First-Year Focus website.")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.4.10: @copyBackupCssFyf — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.4.10: @copyBackupCssFyf — Hotstring
 
 :*:@copyBackupCssFyf::
 	ahkCmdName := ":*:@copyBackupCssFyf"
@@ -2522,8 +2502,8 @@ Return
 		, "", "Couldn't copy backup CSS for First-Year Focus website.")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.4.11: @copyMinCssNse — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.4.11: @copyMinCssNse — Hotstring
 
 :*:@copyMinCssNse::
 	ahkCmdName := ":*:@copyMinCssNse"
@@ -2533,8 +2513,8 @@ Return
 		, "", "Couldn't copy minified CSS for NSE website.")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.4.12: @copyBackupCssNse — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.4.12: @copyBackupCssNse — Hotstring
 
 :*:@copyBackupCssNse::
 	ahkCmdName := ":*:@copyBackupCssNse"
@@ -2544,8 +2524,8 @@ Return
 		, "", "Couldn't copy backup CSS for NSE website.")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.4.13: @copyMinCssOue — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.4.13: @copyMinCssOue — Hotstring
 
 :*:@copyMinCssOue::
 	ahkCmdName := ":*:@copyMinCssOue"
@@ -2555,8 +2535,8 @@ Return
 		, "", "Couldn't copy minified CSS for OUE website.")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.4.14: @copyMinCssPbk — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.4.14: @copyMinCssPbk — Hotstring
 
 :*:@copyMinCssPbk::
 	ahkCmdName := ":*:@copyMinCssPbk"
@@ -2566,8 +2546,8 @@ Return
 		, "", "Couldn't copy minified CSS for Phi Beta Kappa website.")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.4.15: @copyBackupCssPbk — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.4.15: @copyBackupCssPbk — Hotstring
 
 :*:@copyBackupCssPbk::
 	ahkCmdName := ":*:@copyBackupCssPbk"
@@ -2577,8 +2557,8 @@ Return
 		, "", "Couldn't copy backup CSS for Phi Beta Kappa website.")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.4.16: @copyMinCssSurca — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.4.16: @copyMinCssSurca — Hotstring
 
 :*:@copyMinCssSurca::
 	ahkCmdName := ":*:@copyMinCssSurca"
@@ -2590,8 +2570,8 @@ Return
 		. "*/`r`n`r`n", "Couldn't copy minified CSS for SURCA website.")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.4.17: @copyBackupCssSurca — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.4.17: @copyBackupCssSurca — Hotstring
 
 :*:@copyBackupCssSurca::
 	ahkCmdName := ":*:@copyBackupCssSurca"
@@ -2601,8 +2581,8 @@ Return
 		, "", "Couldn't copy backup CSS for SURCA website.")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.4.18: @copyMinCssSumRes — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.4.18: @copyMinCssSumRes — Hotstring
 
 :*:@copyMinCssSumRes::
 	ahkCmdName := ":*:@copyMinCssSumRes"
@@ -2612,8 +2592,8 @@ Return
 		, "Couldn't copy minified CSS for Summer Research website.")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.4.19: @copyBackupCssSumRes — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.4.19: @copyBackupCssSumRes — Hotstring
 
 :*:@copyBackupCssSumRes::
 	ahkCmdName := ":*:@copyBackupCssSumRes"
@@ -2623,8 +2603,8 @@ Return
 		, "", "Couldn't copy backup CSS for Summer Research website.")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.4.20: @copyMinCssXfer — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.4.20: @copyMinCssXfer — Hotstring
 
 :*:@copyMinCssXfer::
 	ahkCmdName := ":*:@copyMinCssXfer"
@@ -2636,8 +2616,8 @@ Return
 		. "source code. */`r`n`r`n", "Couldn't copy minified CSS for Transfer Credit website.")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.4.21: @copyBackupCssXfer — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.4.21: @copyBackupCssXfer — Hotstring
 
 :*:@copyBackupCssXfer::
 	ahkCmdName := ":*:@copyBackupCssXfer"
@@ -2647,8 +2627,8 @@ Return
 		, "", "Couldn't copy backup CSS for Transfer Credit website.")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.4.22: @copyMinCssUgr — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.4.22: @copyMinCssUgr — Hotstring
 
 :*:@copyMinCssUgr::
 	ahkCmdName := ":*:@copyMinCssUgr"
@@ -2661,8 +2641,8 @@ Return
 		, "Couldn't copy minified CSS for UGR website.")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.4.23: @copyBackupCssUgr — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.4.23: @copyBackupCssUgr — Hotstring
 
 :*:@copyBackupCssUgr::
 	ahkCmdName := ":*:@copyBackupCssUgr"
@@ -2672,8 +2652,8 @@ Return
 		. "v.css", "", "Couldn't copy backup CSS for UGR website.")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.4.24: @copyMinCssUcore — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.4.24: @copyMinCssUcore — Hotstring
 
 :*:@copyMinCssUcore::
 	ahkCmdName := ":*:@copyMinCssUcore"
@@ -2685,8 +2665,8 @@ Return
 		, "Couldn't copy minified CSS for UCORE website.")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.4.2: @copyBackupCssUcore — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.4.2: @copyBackupCssUcore — Hotstring
 
 :*:@copyBackupCssUcore::
 	ahkCmdName := ":*:@copyBackupCssUcore"
@@ -2697,8 +2677,8 @@ Return
 		, "Couldn't copy backup CSS for UCORE website.")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.4.2: @copyMinCssUcrAss — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.4.2: @copyMinCssUcrAss — Hotstring
 
 :*:@copyMinCssUcrAss::
 	ahkCmdName := ":*:@copyMinCssUcrAss"
@@ -2710,8 +2690,8 @@ Return
 		, "`n`r`nCouldn't copy minified CSS for UCORE Assessment website.")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.4.2: @copyBackupCssUcrAss — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.4.2: @copyBackupCssUcrAss — Hotstring
 
 :*:@copyBackupCssUcrAss::
 	ahkCmdName := ":*:@copyBackupCssUcrAss"
@@ -2722,11 +2702,11 @@ Return
 		, "Couldn't copy backup CSS for UCORE Assessment website.")
 Return
 
-; ··································································································
-;   >>> §7.5: FOR BACKING UP CUSTOM JS BUILDS
+;   ································································································
+;     >>> §7.5: FOR BACKING UP CUSTOM JS BUILDS
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.5.1: @backupJsAscc — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.5.1: @backupJsAscc — Hotstring
 
 :*:@backupJsAscc::
 	hsName := ":*:@backupJsAscc"
@@ -2741,8 +2721,8 @@ Return
 		. "git push`r")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.5.2: @backupJsCr — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.5.2: @backupJsCr — Hotstring
 
 :*:@backupJsCr::
 	hsName := ":*:@backupJsCr"
@@ -2758,8 +2738,8 @@ Return
 		. "git push`r")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.5.3: @backupJsDsp — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.5.3: @backupJsDsp — Hotstring
 
 :*:@backupJsDsp::
 	hsName := ":*:@backupJsDsp"
@@ -2775,8 +2755,8 @@ Return
 		. "git push`r")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.5.4: @backupJsFye — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.5.4: @backupJsFye — Hotstring
 
 :*:@backupJsFye::
 	hsName := ":*:@backupJsFye"
@@ -2792,8 +2772,8 @@ Return
 		. "git push`r")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.5.5: @backupJsFyf — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.5.5: @backupJsFyf — Hotstring
 
 :*:@backupJsFyf::
 	hsName := hsName
@@ -2809,8 +2789,8 @@ Return
 		. "git push`r")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.5.6: @backupJsNse — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.5.6: @backupJsNse — Hotstring
 
 :*:@backupJsNse::
 	hsName := hsName
@@ -2824,8 +2804,8 @@ Return
 		. "git push`r")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.5.7: @backupJsOue — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.5.7: @backupJsOue — Hotstring
 
 :*:@backupJsOue::
 	hsName := ":*:@backupJsOue"
@@ -2839,8 +2819,8 @@ Return
 		. "git push`r")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.5.8: @backupJsPbk — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.5.8: @backupJsPbk — Hotstring
 
 :*:@backupJsPbk::
 	hsName := ":*:@backupJsPbk"
@@ -2856,8 +2836,8 @@ Return
 		. "git push`r")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.5.9: @backupJsSurca — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.5.9: @backupJsSurca — Hotstring
 
 :*:@backupJsSurca::
 	hsName := ":*:@backupJsSurca"
@@ -2872,8 +2852,8 @@ Return
 		. "git push`r")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.5.10: @backupJsSumRes — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.5.10: @backupJsSumRes — Hotstring
 
 :*:@backupJsSumRes::
 	hsName := ":*:@backupJsSumRes"
@@ -2885,8 +2865,8 @@ Return
 	GoSub, :*:@commitBackupJsSumRes
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.5.11: @commitBackupJsSumRes — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.5.11: @commitBackupJsSumRes — Hotstring
 
 :*:@commitBackupJsSumRes::
 	hsName := ":*:@commitBackupJsSumRes"
@@ -2898,8 +2878,8 @@ Return
 		. "git push`r")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.5.12: @backupJsXfer — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.5.12: @backupJsXfer — Hotstring
 
 :*:@backupJsXfer::
 	hsName := ":*:@backupJsXfer"
@@ -2915,8 +2895,8 @@ Return
 		. "git push`r")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.5.13: @backupJsUgr — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.5.13: @backupJsUgr — Hotstring
 
 :*:@backupJsUgr::
 	hsName := ":*:@backupJsUgr"
@@ -2932,8 +2912,8 @@ Return
 		. "git push`r")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.5.14: @backupJsUcore — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.5.14: @backupJsUcore — Hotstring
 
 :*:@backupJsUcore::
 	hsName := ":*:@backupJsUcore"
@@ -2948,8 +2928,8 @@ Return
 		. "git push`r")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.5.15: @backupJsUcrAss — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.5.15: @backupJsUcrAss — Hotstring
 
 :*:@backupJsUcrAss::
 	hsName := ":*:@backupJsUcrAss"
@@ -2965,8 +2945,8 @@ Return
 		. "git push`r")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.5.16: @backupJsAll — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.5.16: @backupJsAll — Hotstring
 
 :*:@backupJsAll::
 	hsName := ":*:@backupJsAll"
@@ -2992,8 +2972,8 @@ Return
 		. "[console]::beep(375,150)`r")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.5.17: CopyJsFromWebsite — Function
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.5.17: CopyJsFromWebsite — Function
 
 CopyJsFromWebsite(websiteUrl, ByRef copiedJs)
 {
@@ -3001,8 +2981,8 @@ CopyJsFromWebsite(websiteUrl, ByRef copiedJs)
 	ExecuteJsCopyCmds(copiedJs)
 }
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.5.18: ExecuteJsCopyCmds — Function
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.5.18: ExecuteJsCopyCmds — Function
 
 ExecuteJsCopyCmds(ByRef copiedJs) {
 	CoordMode, Mouse, Client
@@ -3017,11 +2997,11 @@ ExecuteJsCopyCmds(ByRef copiedJs) {
 	Sleep, 2000
 }
 
-; ··································································································
-;   >>> §7.6: FOR REBUILDING JS SOURCE FILES
+;   ································································································
+;     >>> §7.6: FOR REBUILDING JS SOURCE FILES
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.6.1: @rebuildJsAscc — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.6.1: @rebuildJsAscc — Hotstring
 
 :*:@rebuildJsAscc::
 	ahkCmdName := ":*:@rebuildJsAscc"
@@ -3039,8 +3019,8 @@ ExecuteJsCopyCmds(ByRef copiedJs) {
 		. "git push`r")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.6.2: @rebuildJsCr — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.6.2: @rebuildJsCr — Hotstring
 
 :*:@rebuildJsCr::
 	ahkCmdName := ":*:@rebuildJsCr"
@@ -3058,8 +3038,8 @@ Return
 		. "git push`r")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.6.3: @rebuildJsDsp — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.6.3: @rebuildJsDsp — Hotstring
 
 :*:@rebuildJsDsp::
 	ahkCmdName := ":*:@rebuildJsDsp"
@@ -3073,8 +3053,8 @@ Return
 	CommitAfterBuild(ahkCmdName, ":*:@commitJsDsp")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.6.4: @commitJsDsp — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.6.4: @commitJsDsp — Hotstring
 
 :*:@commitJsDsp::
 	gitFolder := "distinguishedscholarships.wsu.edu" ; fp = file path
@@ -3085,8 +3065,8 @@ Return
 	CommitJsBuild(A_ThisLabel, gitFolder, jsSrcFile, jsBuildFile, minJsBuildFile)
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.6.5: @rebuildJsFye — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.6.5: @rebuildJsFye — Hotstring
 
 :*:@rebuildJsFye::
 	ahkCmdName := ":*:@rebuildJsFye"
@@ -3104,8 +3084,8 @@ Return
 		. "git push`r")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.6.6: @rebuildJsFyf — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.6.6: @rebuildJsFyf — Hotstring
 
 :*:@rebuildJsFyf::
 	ahkCmdName := ":*:@rebuildJsFyf"
@@ -3123,8 +3103,8 @@ Return
 		. "git push`r")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.6.7: @rebuildJsNse — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.6.7: @rebuildJsNse — Hotstring
 
 :*:@rebuildJsNse::
 	ahkCmdName := ":*:@rebuildJsNse"
@@ -3142,8 +3122,8 @@ Return
 		. "git push`r")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.6.8: @rebuildJsOue — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.6.8: @rebuildJsOue — Hotstring
 
 :*:@rebuildJsOue::
 	ahkCmdName := ":*:@rebuildJsOue"
@@ -3161,8 +3141,8 @@ Return
 		. "git push`r")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.6.9: @rebuildJsPbk — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.6.9: @rebuildJsPbk — Hotstring
 
 :*:@rebuildJsPbk::
 	ahkCmdName := ":*:@rebuildJsPbk"
@@ -3180,8 +3160,8 @@ Return
 		. "git push`r")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.6.10: @rebuildJsSurca — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.6.10: @rebuildJsSurca — Hotstring
 
 :*:@rebuildJsSurca::
 	ahkCmdName := ":*:@rebuildJsSurca"
@@ -3199,8 +3179,8 @@ Return
 		. "git push`r")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.6.11: @rebuildJsSumRes — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.6.11: @rebuildJsSumRes — Hotstring
 
 :*:@rebuildJsSumRes::
 	ahkCmdName := ":*:@rebuildJsSumRes"
@@ -3220,8 +3200,8 @@ Return
 		. "git push`r")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.6.12: @rebuildJsXfer — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.6.12: @rebuildJsXfer — Hotstring
 
 :*:@rebuildJsXfer::
 	ahkCmdName := ":*:@rebuildJsXfer"
@@ -3233,8 +3213,8 @@ Return
 	CommitAfterBuild(ahkCmdName, ":*:@commitJsXfer")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.6.13: @commitJsXfer — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.6.13: @commitJsXfer — Hotstring
 
 :*:@commitJsXfer::
 	gitFolder := "transfercredit.wsu.edu" ; fp = file path
@@ -3245,8 +3225,8 @@ Return
 	CommitJsBuild(A_ThisLabel, gitFolder, jsSrcFile, jsBuildFile, minJsBuildFile)
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.6.14: @rebuildJsUgr — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.6.14: @rebuildJsUgr — Hotstring
 
 :*:@rebuildJsUgr::
 	ahkCmdName := ":*:@rebuildJsUgr"
@@ -3264,8 +3244,8 @@ Return
 		. "git push`r")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.6.15: @rebuildJsUcore — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.6.15: @rebuildJsUcore — Hotstring
 
 :*:@rebuildJsUcore::
 	ahkCmdName := ":*:@rebuildJsUcore"
@@ -3283,8 +3263,8 @@ Return
 		. "git push`r")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.6.16: @rebuildJsUcrAss — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.6.16: @rebuildJsUcrAss — Hotstring
 
 :*:@rebuildJsUcrAss::
 	ahkCmdName := ":*:@rebuildJsUcrAss"
@@ -3302,11 +3282,11 @@ Return
 		. "git push`r")
 Return
 
-; ··································································································
-;   >>> §7.7: FOR UPDATING JS SUBMODULES
+;   ································································································
+;     >>> §7.7: FOR UPDATING JS SUBMODULES
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.7.1: @updateJsSubmoduleAscc — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.7.1: @updateJsSubmoduleAscc — Hotstring
 
 :*:@updateJsSubmoduleAscc::
 	ahkCmdName := ":*:@updateJsSubmoduleAscc"
@@ -3323,8 +3303,8 @@ Return
 	Gosub, :*:@rebuildJsAscc
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.7.2: @updateJsSubmoduleCr — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.7.2: @updateJsSubmoduleCr — Hotstring
 
 :*:@updateJsSubmoduleCr::
 	ahkCmdName := ":*:@updateJsSubmoduleCr"
@@ -3341,8 +3321,8 @@ Return
 	Gosub, :*:@rebuildJsCr
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.7.3: @updateJsSubmoduleDsp — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.7.3: @updateJsSubmoduleDsp — Hotstring
 
 :*:@updateJsSubmoduleDsp::
 	ahkCmdName := ":*:@updateJsSubmoduleDsp"
@@ -3359,8 +3339,8 @@ Return
 	Gosub, :*:@rebuildJsDsp
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.7.4: @updateJsSubmoduleFye — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.7.4: @updateJsSubmoduleFye — Hotstring
 
 :*:@updateJsSubmoduleFye::
 	ahkCmdName := ":*:@updateJsSubmoduleFye"
@@ -3377,8 +3357,8 @@ Return
 	Gosub, :*:@rebuildJsFye
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.7.5: @updateJsSubmoduleFyf — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.7.5: @updateJsSubmoduleFyf — Hotstring
 
 :*:@updateJsSubmoduleFyf::
 	ahkCmdName := ":*:@updateJsSubmoduleFyf"
@@ -3395,8 +3375,8 @@ Return
 	Gosub, :*:@rebuildJsFyf
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.7.6: @updateJsSubmoduleNse — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.7.6: @updateJsSubmoduleNse — Hotstring
 
 :*:@updateJsSubmoduleNse::
 	ahkCmdName := ":*:@updateJsSubmoduleNse"
@@ -3413,8 +3393,8 @@ Return
 	Gosub, :*:@rebuildJsFyf
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.7.7: @updateJsSubmoduleOue — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.7.7: @updateJsSubmoduleOue — Hotstring
 
 :*:@updateJsSubmoduleOue::
 	ahkCmdName := ":*:@updateJsSubmoduleOue"
@@ -3431,8 +3411,8 @@ Return
 	Gosub, :*:@rebuildJsOue
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.7.8: @updateJsSubmodulePbk — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.7.8: @updateJsSubmodulePbk — Hotstring
 
 :*:@updateJsSubmodulePbk::
 	ahkCmdName := ":*:@updateJsSubmodulePbk"
@@ -3449,8 +3429,8 @@ Return
 	Gosub, :*:@rebuildJsPbk
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.7.9: @updateJsSubmoduleSurca — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.7.9: @updateJsSubmoduleSurca — Hotstring
 
 :*:@updateJsSubmoduleSurca::
 	ahkCmdName := ":*:@updateJsSubmoduleSurca"
@@ -3467,8 +3447,8 @@ Return
 	Gosub, :*:@rebuildJsSurca
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.7.10: @updateJsSubmoduleSumRes — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.7.10: @updateJsSubmoduleSumRes — Hotstring
 
 :*:@updateJsSubmoduleSumRes::
 	ahkCmdName := ":*:@updateJsSubmoduleSumRes"
@@ -3485,8 +3465,8 @@ Return
 	Gosub, :*:@rebuildJsSumRes
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.7.11: @updateJsSubmoduleXfer — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.7.11: @updateJsSubmoduleXfer — Hotstring
 
 :*:@updateJsSubmoduleXfer::
 	ahkCmdName := ":*:@updateJsSubmoduleXfer"
@@ -3503,8 +3483,8 @@ Return
 	Gosub, :*:@rebuildJsXfer
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.7.12: @updateJsSubmoduleUgr — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.7.12: @updateJsSubmoduleUgr — Hotstring
 
 :*:@updateJsSubmoduleUgr::
 	ahkCmdName := ":*:@updateJsSubmoduleUgr"
@@ -3521,8 +3501,8 @@ Return
 	Gosub, :*:@rebuildJsUgr
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.7.13: @updateJsSubmoduleUcore — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.7.13: @updateJsSubmoduleUcore — Hotstring
 
 :*:@updateJsSubmoduleUcore::
 	ahkCmdName := ":*:@updateJsSubmoduleUcore"
@@ -3539,8 +3519,8 @@ Return
 	Gosub, :*:@rebuildJsUcore
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.7.14: @updateJsSubmoduleUcrAss — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.7.14: @updateJsSubmoduleUcrAss — Hotstring
 
 :*:@updateJsSubmoduleUcrAss::
 	ahkCmdName := ":*:@updateJsSubmoduleUcrAss"
@@ -3557,8 +3537,8 @@ Return
 	Gosub, :*:@rebuildJsUcrAss
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.7.15: @updateJsSubmoduleAll — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.7.15: @updateJsSubmoduleAll — Hotstring
 
 :*:@updateJsSubmoduleAll::
 	ahkCmdName := ":*:@updateJsSubmoduleAll"
@@ -3584,13 +3564,13 @@ Return
 		. "[console]::beep(375,150)`r")
 Return
 
-; ··································································································
-;   >>> §7.8: Shortcuts for copying minified JS to clipboard
+;   ································································································
+;     >>> §7.8: Shortcuts for copying minified JS to clipboard
 
 ;TODO: Add scripts for copying JS backups to clipboard (see CSS backup-copying scripts above)
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.8.1: @copyMinJsAscc — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.8.1: @copyMinJsAscc — Hotstring
 
 :*:@copyMinJsAscc::
 	ahkCmdName := ":*:@copyMinJsAscc"
@@ -3600,8 +3580,8 @@ Return
 		, "", "Couldn't Copy Minified JS for ASCC Website")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.8.2: @copyMinJsCr — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.8.2: @copyMinJsCr — Hotstring
 
 :*:@copyMinJsCr::
 	ahkCmdName := ":*:@copyMinJsCr"
@@ -3611,8 +3591,8 @@ Return
 		, "", "Couldn't Copy Minified JS for CR Website")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.8.3: @copyMinJsDsp — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.8.3: @copyMinJsDsp — Hotstring
 
 :*:@copyMinJsDsp::
 	ahkCmdName := ":*:@copyMinJsDsp"
@@ -3622,8 +3602,8 @@ Return
 		, "", "Couldn't Copy Minified JS for DSP Website")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.8.4: @copyMinJsFye — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.8.4: @copyMinJsFye — Hotstring
 
 :*:@copyMinJsFye::
 	ahkCmdName := ":*:@copyMinJsFye"
@@ -3633,8 +3613,8 @@ Return
 		, "", "Couldn't Copy Minified JS for FYE Website")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.8.5: @copyMinJsFyf — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.8.5: @copyMinJsFyf — Hotstring
 
 :*:@copyMinJsFyf::
 	ahkCmdName := ":*:@copyMinJsFyf"
@@ -3644,8 +3624,8 @@ Return
 		, "", "Couldn't Copy Minified JS for FYF Website")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.8.6: @copyMinJsNse — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.8.6: @copyMinJsNse — Hotstring
 
 :*:@copyMinJsNse::
 	ahkCmdName := ":*:@copyMinJsNse"
@@ -3655,8 +3635,8 @@ Return
 		, "", "Couldn't Copy Minified JS for Nse Website")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.8.7: @copyMinJsOue — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.8.7: @copyMinJsOue — Hotstring
 
 :*:@copyMinJsOue::
 	ahkCmdName := ":*:@copyMinJsOue"
@@ -3666,8 +3646,8 @@ Return
 		, "", "Couldn't Copy Minified JS for WSU OUE Website")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.8.8: @copyBackupJsOue — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.8.8: @copyBackupJsOue — Hotstring
 
 :*:@copyBackupJsOue::
 	ahkCmdName := ":*:@copyBackupJsOue"
@@ -3677,8 +3657,8 @@ Return
 		, "", "Couldn't copy backup copy of minified JS for WSU OUE website")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.8.9: @copyMinJsPbk — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.8.9: @copyMinJsPbk — Hotstring
 
 :*:@copyMinJsPbk::
 	ahkCmdName := ":*:@copyMinJsPbk"
@@ -3688,8 +3668,8 @@ Return
 		, "", "Couldn't Copy Minified JS for WSU Phi Beta Kappa Website")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.8.10: @copyMinJsSurca — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.8.10: @copyMinJsSurca — Hotstring
 
 :*:@copyMinJsSurca::
 	ahkCmdName := ":*:@copyMinJsSurca"
@@ -3699,8 +3679,8 @@ Return
 		, "", "Couldn't Copy Minified JS for SURCA Website")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.8.11: @copyMinJsSumRes — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.8.11: @copyMinJsSumRes — Hotstring
 
 :*:@copyMinJsSumRes::
 	ahkCmdName := ":*:@copyMinJsSumRes"
@@ -3710,8 +3690,8 @@ Return
 		, "", "Couldn't Copy Minified JS for WSU Summer Research Website")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.8.12: @copyMinJsXfer — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.8.12: @copyMinJsXfer — Hotstring
 
 :*:@copyMinJsXfer::
 	ahkCmdName := ":*:@copyMinJsXfer"
@@ -3721,8 +3701,8 @@ Return
 		, "", "Couldn't Copy Minified JS for WSU Transfer Credit Website")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.8.13: @copyMinJsUgr — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.8.13: @copyMinJsUgr — Hotstring
 
 :*:@copyMinJsUgr::
 	ahkCmdName := ":*:@copyMinJsUgr"
@@ -3732,8 +3712,8 @@ Return
 		, "", "Couldn't Copy Minified JS for UGR Website")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.8.14: @copyMinJsUcore — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.8.14: @copyMinJsUcore — Hotstring
 
 :*:@copyMinJsUcore::
 	ahkCmdName := ":*:@copyMinJsUcore"
@@ -3743,8 +3723,8 @@ Return
 		, "", "Couldn't copy minified JS for UCORE website")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.8.15: @copyBackupJsUcore — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.8.15: @copyBackupJsUcore — Hotstring
 
 :*:@copyBackupJsUcore::
 	ahkCmdName := ":*:@copyBackupJsUcore"
@@ -3754,8 +3734,8 @@ Return
 		, ""		, "Couldn't copy backup copy of minified JS for UCORE website")
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §7.8.16: @copyMinJsUcrAss — Hotstring
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §7.8.16: @copyMinJsUcrAss — Hotstring
 
 :*:@copyMinJsUcrAss::
 	ahkCmdName := ":*:@copyMinJsUcrAss"
@@ -3765,8 +3745,8 @@ Return
 		, "", "Couldn't Copy Minified JS for WSU Summer Research Website")
 Return
 
-; ··································································································
-;   >>> §7.9: FOR CHECKING GIT STATUS ON ALL PROJECTS 
+;   ································································································
+;     >>> §7.9: FOR CHECKING GIT STATUS ON ALL PROJECTS 
 
 :*:@checkGitStatus::
 	ahkCmdName := ":*:@checkGitStatus"
@@ -3854,8 +3834,8 @@ Return
 ;   §8: KEYBOARD SHORTCUTS FOR POWERSHELL
 ; --------------------------------------------------------------------------------------------------
 
-; ··································································································
-;   >>> §8.1: SHORTCUTS
+;   ································································································
+;     >>> §8.1: SHORTCUTS
 
 ^+v::	
 	if (IsGitShellActive()) {
@@ -3880,8 +3860,8 @@ Return
 	}
 Return
 
-; ··································································································
-;   >>> §8.2: SUPPORTING FUNCTIONS
+;   ································································································
+;     >>> §8.2: SUPPORTING FUNCTIONS
 
 PerformBypassingCtrlShftV:
 	Suspend

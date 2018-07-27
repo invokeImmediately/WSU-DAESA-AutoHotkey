@@ -39,8 +39,9 @@ GetWpEditorSettings() {
 ;   §2: HOTSTRINGS & ASSOCIATED FUNCTIONS
 ; --------------------------------------------------------------------------------------------------
 
-; ··································································································
-;   >>> §2.1: Check CSS edits on WordPress sites
+;   ································································································
+;     >>> §2.1: Check CSS edits on WordPress sites
+
 :*:@checkCssEdits::
 	AppendAhkCmd(A_ThisLabel)
 	CheckCssEdits()

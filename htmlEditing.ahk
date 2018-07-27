@@ -6,27 +6,28 @@
 ; TABLE OF CONTENTS
 ; -----------------
 ;   §1: FUNCTIONS utilized in automating HTML-related processes.................................25
-;   >>> §1.1: BuildHyperlinkArray...............................................................29
-;   >>> §1.2: CopyWebpageSourceToClipboard......................................................66
-;   >>> §1.3: CountNewlinesInString............................................................132
-;   >>> §1.4: ExportHyperlinkArray.............................................................144
-;   >>> §1.5: PullHrefsIntoHyperlinkArray......................................................168
+;     >>> §1.1: BuildHyperlinkArray.............................................................29
+;     >>> §1.2: CopyWebpageSourceToClipboard....................................................67
+;     >>> §1.3: CountNewlinesInString..........................................................134
+;     >>> §1.4: ExportHyperlinkArray...........................................................147
+;     >>> §1.5: PullHrefsIntoHyperlinkArray....................................................172
 ;   §2: HOTSTRINGS.............................................................................180
-;   >>> §2.1: Text Replacement.................................................................184
-;   >>> §2.2: RegEx............................................................................260
-;   >>> §2.3: Backup HTML of OUE pages.........................................................267
-;   >>> §2.4: Hyperlink collection hotstring...................................................423
-;   >>> §2.5: Checking for WordPress Updates...................................................492
-;   §3: GUI-related hotstrings & functions for automating HTML-related tasks...................497
-;   >>> §3.1: Insert Builder Sections GUI......................................................501
+;     >>> §2.1: Text Replacement...............................................................189
+;     >>> §2.2: RegEx..........................................................................265
+;     >>> §2.3: Backup HTML of OUE pages.......................................................272
+;     >>> §2.4: Hyperlink collection hotstring.................................................429
+;     >>> §2.5: Checking for WordPress Updates.................................................498
+;   §3: GUI-related hotstrings & functions for automating HTML-related tasks...................503
+;     >>> §3.1: Insert Builder Sections GUI....................................................507
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
 ;   §1: FUNCTIONS utilized in automating HTML-related processes
 ; --------------------------------------------------------------------------------------------------
 
-; ··································································································
-;   >>> §1.1: BuildHyperlinkArray
+;   ································································································
+;     >>> §1.1: BuildHyperlinkArray
+
 BuildHyperlinkArray(htmlMarkup) {
 	ahkFuncName := "htmlEditing.ahk: BuildHyperlinkArray(htmlMarkup)"
 	hyperlinkArray := undefined
@@ -62,8 +63,9 @@ BuildHyperlinkArray(htmlMarkup) {
 	return hyperlinkArray
 }
 
-; ··································································································
-;   >>> §1.2: CopyWebpageSourceToClipboard
+;   ································································································
+;     >>> §1.2: CopyWebpageSourceToClipboard
+
 CopyWebpageSourceToClipboard(webBrowserProcess, correctTitleNeedle, viewSourceTitle, errorMsg) {
 	ahkThisCmd := A_ThisFunc
 	keyDelay := 200
@@ -128,8 +130,9 @@ CopyWebpageSourceToClipboard(webBrowserProcess, correctTitleNeedle, viewSourceTi
 	Return success
 }
 
-; ··································································································
-;   >>> §1.3: CountNewlinesInString
+;   ································································································
+;     >>> §1.3: CountNewlinesInString
+
 CountNewlinesInString(haystack) {
 	numFound := 0
 	foundPos := InStr(haystack, "`n")
@@ -140,8 +143,9 @@ CountNewlinesInString(haystack) {
 	Return numFound
 }
 
-; ··································································································
-;   >>> §1.4: ExportHyperlinkArray
+;   ································································································
+;     >>> §1.4: ExportHyperlinkArray
+
 ExportHyperlinkArray(hyperlinkArray, pageContent) {
 	exportStr := ""
 	Loop % hyperlinkArray.Length() {
@@ -164,8 +168,9 @@ ExportHyperlinkArray(hyperlinkArray, pageContent) {
 	}
 }
 
-; ··································································································
-;   >>> §1.5: PullHrefsIntoHyperlinkArray
+;   ································································································
+;     >>> §1.5: PullHrefsIntoHyperlinkArray
+
 PullHrefsIntoHyperlinkArray(ByRef hyperlinkArray) {
 	regExNeedle := "P)href=""([^""]+)"""
 	Loop % hyperlinkArray.Length() {
@@ -180,8 +185,8 @@ PullHrefsIntoHyperlinkArray(ByRef hyperlinkArray) {
 ;   §2: HOTSTRINGS
 ; --------------------------------------------------------------------------------------------------
 
-; ··································································································
-;   >>> §2.1: Text Replacement
+;   ································································································
+;     >>> §2.1: Text Replacement
 
 :*:@cssShorthandBg::
 	SendInput, % "bg-color bg-image position/bg-size bg-repeat bg-origin bg-clip bg-attachment init"
@@ -256,15 +261,15 @@ Return
 	SendInput https://summerresearch.wsu.edu/wp-admin/edit.php?post_type=redirect_rule
 Return
 
-; ··································································································
-;   >>> §2.2: RegEx
+;   ································································································
+;     >>> §2.2: RegEx
 
 :*:@findStrBldrSctns::
 	SendInput, % "(?<={^}---->\r\n){^}.*$(?:\r\n{^}(?{!}<{!}--|\r\n<{!}--|\Z).*$)*"
 Return
 
-; ··································································································
-;   >>> §2.3: Backup HTML of OUE pages
+;   ································································································
+;     >>> §2.3: Backup HTML of OUE pages
 
 :*:@backupOuePage::
 	ahkThisCmd := A_ThisLabel
@@ -420,8 +425,8 @@ BackupOueHtml_InsertBlankLine() {
 	}
 Return
 
-; ··································································································
-;   >>> §2.4: Hyperlink collection hotstring
+;   ································································································
+;     >>> §2.4: Hyperlink collection hotstring
 
 :*:@findHrefsInOueHtml::
 	AppendAhkCmd(A_ThisLabel)
@@ -489,8 +494,8 @@ TrimAwayBuilderTemplateContentNext(htmlMarkup) {
 	return remainder
 }
 
-; ··································································································
-;   >>> §2.5: Checking for WordPress updates
+;   ································································································
+;     >>> §2.5: Checking for WordPress updates
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\wordPress.ahk
 
@@ -498,8 +503,8 @@ TrimAwayBuilderTemplateContentNext(htmlMarkup) {
 ;   §3: GUI-related hotstrings & functions for automating HTML-related tasks
 ; --------------------------------------------------------------------------------------------------
 
-; ··································································································
-;   >>> §3.1: Insert Builder Sections GUI
+;   ································································································
+;     >>> §3.1: Insert Builder Sections GUI
 
 :*:@insBldrSctn::
 	AppendAhkCmd(":*:@insBldrSctn")

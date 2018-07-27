@@ -149,8 +149,8 @@ CommitJsBuild(ahkCmdName, fpGitFolder, fnJsSrcFile, fnJsbuild, fnMinJsBuild) {
 ;   §2: GUI EVENT HANDLERS
 ; --------------------------------------------------------------------------------------------------
 
-; ··································································································
-;   >>> §2.1: HandleCommitJs1stMsgChange — Function
+;   ································································································
+;     >>> §2.1: HandleCommitJs1stMsgChange — Function
 
 ; Triggered when the primary git commit message for the updated CSS builds is changed.
 HandleCommitJs1stMsgChange() {
@@ -166,8 +166,8 @@ HandleCommitJs1stMsgChange() {
 	GuiControl, , ctrlCommitJs1stMsgCharCount, % "Length = " . msgLen . " characters"
 }
 
-; ··································································································
-;   >>> §2.2: HandleCommitJs2ndMsgChange — Function
+;   ································································································
+;     >>> §2.2: HandleCommitJs2ndMsgChange — Function
 
 ; Triggered when the secondary git commit message for the updated CSS builds is changed.
 HandleCommitJs2ndMsgChange() {
@@ -183,8 +183,8 @@ HandleCommitJs2ndMsgChange() {
 	GuiControl, , ctrlCommitJs2ndMsgCharCount, % "Length = " . msgLen . " characters"
 }
 
-; ··································································································
-;   >>> §2.3: HandleCommitJsAddFiles — Function
+;   ································································································
+;     >>> §2.3: HandleCommitJsAddFiles — Function
 
 HandleCommitJsAddFiles() {
 	global commitJsVars
@@ -225,8 +225,8 @@ HandleCommitJsAddFiles() {
 	}
 }
 
-; ··································································································
-;   >>> §2.4: HandleCommitJsCheckJsFileCommit — Function
+;   ································································································
+;     >>> §2.4: HandleCommitJsCheckJsFileCommit — Function
 
 ; Triggered by state changes in checkbox control in guiCommitJsBuild GUI.
 HandleCommitJsCheckJsFileCommit() {
@@ -280,8 +280,8 @@ HandleCommitJsCheckJsFileCommit() {
 	}
 }
 
-; ··································································································
-;   >>> §2.5: HandleCommitJsCheckJsChangesOnly — Function
+;   ································································································
+;     >>> §2.5: HandleCommitJsCheckJsChangesOnly — Function
 
 ; Triggered by state changes in checkbox control in guiCommitJsBuild GUI.
 HandleCommitJsCheckJsChangesOnly() {
@@ -323,8 +323,8 @@ HandleCommitJsCheckJsChangesOnly() {
 	}
 }
 
-; ··································································································
-;   >>> §2.6: HandleCommitJs1stJsMsgChange — Function
+;   ································································································
+;     >>> §2.6: HandleCommitJs1stJsMsgChange — Function
 
 ; Triggered when the primary git commit message for the updated LESS source is changed.
 HandleCommitJs1stJsMsgChange() {
@@ -340,8 +340,8 @@ HandleCommitJs1stJsMsgChange() {
 	GuiControl, , ctrlCommitJs1stJsMsgCharCount, % "Length = " . msgLen . " characters"
 }
 
-; ··································································································
-;   >>> §2.7: HandleCommitJs2ndJsMsgChange — Function
+;   ································································································
+;     >>> §2.7: HandleCommitJs2ndJsMsgChange — Function
 
 ; Triggered when the secondary git commit message for the updated LESS source is changed.
 HandleCommitJs2ndJsMsgChange() {
@@ -357,8 +357,8 @@ HandleCommitJs2ndJsMsgChange() {
 	GuiControl, , ctrlCommitJs2ndJsMsgCharCount, % "Length = " . msgLen . " characters"
 }
 
-; ··································································································
-;   >>> §2.8: HandleCommitJsOk — Function
+;   ································································································
+;     >>> §2.8: HandleCommitJsOk — Function
 
 ; Triggered by OK button in guiCommitJsBuild GUI.
 HandleCommitJsOk() {
@@ -437,8 +437,8 @@ HandleCommitJsOk() {
 	}
 }
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §2.8.1: ProcessHandleCommitJsOkError — Subfunction
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §2.8.1: ProcessHandleCommitJsOkError — Subfunction
 
 ; Called by HandleCommitJsOk() to handle error processing.
 ProcessHandleCommitJsOkError(gVarCheck) {
@@ -465,16 +465,16 @@ ProcessHandleCommitJsOkError(gVarCheck) {
 	}
 }
 
-; ··································································································
-;   >>> §2.9: HandleCommitJsCancel — Function
+;   ································································································
+;     >>> §2.9: HandleCommitJsCancel — Function
 
 ; Triggered by Cancel button in guiCommitJsBuild GUI.
 HandleCommitJsCancel() {
 	Gui, guiCommitJsBuild: Destroy
 }
 
-; ··································································································
-;   >>> §2.10: HandleCommitJsRemoveFiles — Function
+;   ································································································
+;     >>> §2.10: HandleCommitJsRemoveFiles — Function
 
 HandleCommitJsRemoveFiles() {
 	Gui, guiCommitJsBuild: Default
@@ -489,8 +489,8 @@ HandleCommitJsRemoveFiles() {
 ;   §3: GUI PERSISTENCE FUNCTIONS
 ; --------------------------------------------------------------------------------------------------
 
-; ··································································································
-;   >>> §3.1: SaveCommitJsCustomJsMsgHistory — Function
+;   ································································································
+;     >>> §3.1: SaveCommitJsCustomJsMsgHistory — Function
 
 ; Used to grant permanence to LESS commit message history functionality between scripting sessions
 SaveCommitJsCustomJsMsgHistory() {
@@ -527,8 +527,8 @@ SaveCommitJsCustomJsMsgHistory() {
 	}
 }
 
-; ··································································································
-;   >>> §3.2: LoadCommitJsCustomJsMsgHistory — Function
+;   ································································································
+;     >>> §3.2: LoadCommitJsCustomJsMsgHistory — Function
 
 LoadCommitJsCustomJsMsgHistory() {
 	; TODO: Rewrite code below
@@ -564,8 +564,8 @@ LoadCommitJsCustomJsMsgHistory() {
 	}
 }
 
-; ··································································································
-;   >>> §3.3: ReadKeyForCustonJsMsgHistory — Function
+;   ································································································
+;     >>> §3.3: ReadKeyForCustonJsMsgHistory — Function
 
 ReadKeyForCustonJsMsgHistory(ByRef logFile) {
 	key := ""
@@ -582,8 +582,8 @@ ReadKeyForCustonJsMsgHistory(ByRef logFile) {
 	return key
 }
 
-; ··································································································
-;   >>> §3.4: ReadPrimaryMsgForCustomJsFileKey — Function
+;   ································································································
+;     >>> §3.4: ReadPrimaryMsgForCustomJsFileKey — Function
 
 ReadPrimaryMsgForCustomJsFileKey(ByRef logFile, ByRef custonJsMsgArray, key) {
 	success := false
@@ -599,8 +599,8 @@ ReadPrimaryMsgForCustomJsFileKey(ByRef logFile, ByRef custonJsMsgArray, key) {
 	return success
 }
 
-; ··································································································
-;   >>> §3.5: ReadSecondaryMsgForCustomJsFileKey — Function
+;   ································································································
+;     >>> §3.5: ReadSecondaryMsgForCustomJsFileKey — Function
 
 ReadSecondaryMsgForCustomJsFileKey(ByRef logFile, ByRef custonJsMsgArray, key) {
 	success := false

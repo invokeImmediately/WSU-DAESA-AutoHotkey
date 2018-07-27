@@ -6,40 +6,40 @@
 ; TABLE OF CONTENTS:
 ; -----------------
 ;   §1: GLOBAL VARIABLES........................................................................38
-;   >>> §1.1: SYSTEM PROPERTY GLOBALS...........................................................42
-;   >>> §1.2: GLOBALS FOR LOCATIONS OF IMPORTANT FOLDERS & FILES................................60
-;   >>> §1.3: POMODORO WORK TIMER GLOBALS.......................................................69
-;   >>> §1.4: DESKTOP ARRANGEMENT AUDITORY CUE GLOBALS..........................................79
-;   >>> §1.5: SIMULATED MEMORY OF USER ACTIONS..................................................90
-;   >>> §1.6: KEYBOARD OVERRIDING..............................................................105
-;   §2: SET UP SCRIPT & CALL MAIN SUBROUTINE...................................................115
-;   §3: COMMON FUNCTIONS & CLASSES.............................................................136
-;   §4: COMMAND HISTORY........................................................................148
-;   §5: AUTOHOTKEY SCRIPT WRITING SHORTCUTS....................................................154
-;   >>> §5.1: Hotstrings for inserting code-documentation headers..............................158
-;   >>> §5.2: Hotstrings for inserting AHK-related RegEx find/replace strings..................227
-;   §6: WORKSPACE MANAGEMENT...................................................................247
-;   §7: FILE SYSTEM NAVIGATION.................................................................295
-;   §8: PROGRAM/FILE LAUNCHING SHORTCUTS.......................................................301
-;   §9: GITHUB SHORTCUTS.......................................................................323
-;   §10: GOOGLE CHROME SHORTCUTS...............................................................329
-;   §11: HTML EDITING..........................................................................388
-;   §12: TEXT REPLACEMENT & INPUT..............................................................394
-;   >>> 12.1: Text Replacement HOTKEYS.........................................................398
-;   >>> 12.2: Text Replacement HOTSTRINGS......................................................403
-;   >>> 12.3: Text Input HOTSTRINGS............................................................507
-;   §13: OTHER SHORTCUTS.......................................................................514
-;   §14: WORK TIMER............................................................................527
-;   §15: CUSTOM HOTSTRINGS & HOTKEYS...........................................................533
-;   §16: MAIN SUBROUTINE.......................................................................607
+;     >>> §1.1: SYSTEM PROPERTY GLOBALS.........................................................42
+;     >>> §1.2: GLOBALS FOR LOCATIONS OF IMPORTANT FOLDERS & FILES..............................60
+;     >>> §1.3: POMODORO WORK TIMER GLOBALS.....................................................70
+;     >>> §1.4: DESKTOP ARRANGEMENT AUDITORY CUE GLOBALS........................................81
+;     >>> §1.5: SIMULATED MEMORY OF USER ACTIONS................................................93
+;     >>> §1.6: KEYBOARD OVERRIDING............................................................111
+;   §2: SET UP SCRIPT & CALL MAIN SUBROUTINE...................................................122
+;   §3: COMMON FUNCTIONS & CLASSES.............................................................143
+;   §4: COMMAND HISTORY........................................................................155
+;   §5: AUTOHOTKEY SCRIPT WRITING SHORTCUTS....................................................161
+;     >>> §5.1: Hotstrings for inserting code-documentation headers............................165
+;     >>> §5.2: Hotstrings for inserting AHK-related RegEx find/replace strings................234
+;   §6: WORKSPACE MANAGEMENT...................................................................254
+;   §7: FILE SYSTEM NAVIGATION.................................................................298
+;   §8: PROGRAM/FILE LAUNCHING SHORTCUTS.......................................................304
+;   §9: GITHUB SHORTCUTS.......................................................................326
+;   §10: GOOGLE CHROME SHORTCUTS...............................................................332
+;   §11: HTML EDITING..........................................................................391
+;   §12: TEXT REPLACEMENT & INPUT..............................................................397
+;     >>> 12.1: Text Replacement HOTKEYS.......................................................401
+;     >>> 12.2: Text Replacement HOTSTRINGS....................................................406
+;     >>> 12.3: Text Input HOTSTRINGS..........................................................486
+;   §13: OTHER SHORTCUTS.......................................................................493
+;   §14: WORK TIMER............................................................................506
+;   §15: CUSTOM HOTSTRINGS & HOTKEYS...........................................................512
+;   §16: MAIN SUBROUTINE.......................................................................582
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
 ;   §1: GLOBAL VARIABLES
 ; --------------------------------------------------------------------------------------------------
 
-; ··································································································
-;   >>> §1.1: SYSTEM PROPERTY GLOBALS
+;   ································································································
+;     >>> §1.1: SYSTEM PROPERTY GLOBALS
 
 global SM_CMONITORS := 80		; Constant needed for retreiving the number of display monitors on 
 								;  the desktop via SysGet(...).
@@ -56,8 +56,9 @@ global sysWinBorderW			; Default border width.
 
 global sysWinBorderH			; Default border height.
 
-; ··································································································
-;   >>> §1.2: GLOBALS FOR LOCATIONS OF IMPORTANT FOLDERS & FILES
+;   ································································································
+;     >>> §1.2: GLOBALS FOR LOCATIONS OF IMPORTANT FOLDERS & FILES
+
 global userAccountFolderSSD := "C:\Users\CamilleandDaniel"
 global userAccountFolderHDD := "F:\Users\CamilleandDaniel"
 global relWorkFolder := "\Documents\Daniel"
@@ -65,8 +66,9 @@ global ssdWorkFolder := userAccountFolderSSD . relWorkFolder
 global hhdWorkFolder := userAccountFolderHDD . relWorkFolder
 global webDevFolder := hhdWorkFolder . "\{^}WSU-Web-Dev"
 
-; ··································································································
-;   >>> §1.3: POMODORO WORK TIMER GLOBALS
+;   ································································································
+;     >>> §1.3: POMODORO WORK TIMER GLOBALS
+
 global logFileName := hhdWorkFolder . "\^WSU-Web-Dev\^Personnel-File\Work-log.txt"
 global workTimerCountdownTime := -1500000
 global workTimeLeftOver := 0
@@ -75,8 +77,9 @@ global workTimerNotificationSound := ssdWorkFolder . "\Sound Library\chinese-gon
 global workTimerMinutesound := ssdWorkFolder . "\Sound Library\Bell-tone_C-4.wav"
 global workTimer5MinuteSound := ssdWorkFolder . "\Sound Library\Metal_Gong-Dianakc-109711828.wav"
 
-; ··································································································
-;   >>> §1.4: DESKTOP ARRANGEMENT AUDITORY CUE GLOBALS
+;   ································································································
+;     >>> §1.4: DESKTOP ARRANGEMENT AUDITORY CUE GLOBALS
+
 global windowMovementSound := ssdWorkFolder . "\Sound Library\323413__sethroph__glass-slide-3_-12.5"
 . "db_faster.wav"
 global windowSizingSound := ssdWorkFolder . "\Sound Library\68222__xtyl33__paper3_-7.5db_faster.wav"
@@ -86,8 +89,9 @@ global desktopSwitchingSound := ssdWorkFolder . "\Sound Library\352719__dalesome
 global scriptLoadedSound := ssdWorkFolder . "\Sound Library\Storm_exclamation.wav"
 global desktopArrangedSound := ssdWorkFolder . "\Sound Library\zelda_lttp-mstr-swrd.wav"
 
-; ··································································································
-;   >>> §1.5: SIMULATED MEMORY OF USER ACTIONS
+;   ································································································
+;     >>> §1.5: SIMULATED MEMORY OF USER ACTIONS
+
 global cmdHistoryLog := hhdWorkFolder . "\^WSU-Web-Dev\^Personnel-File\ahk-cmd-history.txt"
 global ahkCmds := Array()
 global ahkCmdLimit := 140
@@ -103,8 +107,9 @@ global commitAnyFileMsgLog := hhdWorkFolder . "\^WSU-Web-Dev\^Personnel-File\com
 global commitJsCustomJsMsgLog := hhdWorkFolder . "\^WSU-Web-Dev\^Personnel-File\commit-js-custom-js-ms"
 . "g-history.txt"
 
-; ··································································································
-;   >>> §1.6: KEYBOARD OVERRIDING
+;   ································································································
+;     >>> §1.6: KEYBOARD OVERRIDING
+
 global bitNumpadSubToggle := false
 global numpadSubOverwrite := "{U+00b7}"
 global bitNumpadDivToggle := false
@@ -156,8 +161,8 @@ If not A_IsAdmin
 ;   §5: AUTOHOTKEY SCRIPT WRITING SHORTCUTS
 ; --------------------------------------------------------------------------------------------------
 
-; ··································································································
-;   >>> §5.1: Hotstrings for inserting code-documentation headers
+;   ································································································
+;     >>> §5.1: Hotstrings for inserting code-documentation headers
 
 :*:@insAhkCommentSection::
 	AppendAhkCmd(":*:@insAhkCommentSection")
@@ -225,13 +230,13 @@ Return
 	}
 Return
 
-; ··································································································
-;   >>> §5.2: Hotstrings for inserting AHK-related RegEx find/replace strings
+;   ································································································
+;     >>> §5.2: Hotstrings for inserting AHK-related RegEx find/replace strings
 
 :*:@findStrAhkTocSections1::
 	AppendAhkCmd(A_ThisLabel)
-	SendInput, % "(?:{^}; -{{}98{}}$\n; {{}3{}}.{+}$\n{^}; -{{}98{}}$)|(?:{^}; ·{{}98{}}$\n{^}; {{}"
-		. "3{}}>>> .*$)|(?:{^}; (?: ·){{}49{}}$\n{^}; {{}5{}}→→→ .*$)"
+	SendInput, % "(?:{^}; -{{}98{}}$\n; {{}3{}}.{+}$\n{^}; -{{}98{}}$)|(?:{^}; {{}3{}}·{{}96{}}$\n{"
+		. "^}; {{}5{}}>>> .*$)|(?:{^}; {{}5{}}(?: ·){{}47{}}$\n{^}; {{}7{}}→→→ .*$)"
 Return
 
 :*:@findStrAhkTocSections2::
@@ -252,8 +257,6 @@ Return
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\virtualDesktops.ahk
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\workspaceMngmnt.ahk
-
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@toggleOverlayMode::
 	AppendAhkCmd(":*:@toggleOverlayMode")
@@ -276,8 +279,6 @@ Return
 		SplashImage, Off
 	}
 Return
-
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@toggleAOT::
 	AppendAhkCmd(":*:@toggleAOT")
@@ -396,13 +397,13 @@ Return
 ;   §12: TEXT REPLACEMENT & INPUT
 ; --------------------------------------------------------------------------------------------------
 
-; ··································································································
-;   >>> 12.1: Text Replacement HOTKEYS
+;   ································································································
+;     >>> 12.1: Text Replacement HOTKEYS
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\numpadModifier.ahk
 
-; ··································································································
-;   >>> 12.2: Text Replacement HOTSTRINGS
+;   ································································································
+;     >>> 12.2: Text Replacement HOTSTRINGS
 
 #Include, %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\regExStrings.ahk
 
@@ -481,8 +482,8 @@ Return
 	SendInput, (Started %CurrentDateTime%)
 Return
 
-; ··································································································
-;   >>> 12.3: Text Input HOTSTRINGS
+;   ································································································
+;     >>> 12.3: Text Input HOTSTRINGS
 
 #Include, %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\guiRepeatChars.ahk
 
@@ -516,8 +517,6 @@ Return
 	CopyTitleFromExcel(1)
 Return
 
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
-
 CopyTitleFromExcel(cumulativeCount) {
 	if (cumulativeCount <= 10) {
 		Sleep, 200
@@ -547,8 +546,6 @@ CopyTitleFromExcel(cumulativeCount) {
 		CopyTitleFromExcel(cumulativeCount)
 	}
 }
-
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@testTabRpt::
 	AppendAhkCmd(":*:@testTabRpt")

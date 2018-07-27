@@ -8,39 +8,39 @@
 ; Table of Contents
 ; -----------------
 ;   §1: VIRTUAL DESKTOP SETUP HOTSTRINGS........................................................39
-;   >>> §1.1: Work environment setup............................................................43
-;     →→→ §1.1.1: Hotstring: @setupVirtualDesktops..............................................56
-;     →→→ §1.1.2: Hotstring: @setupCiscoVpn.....................................................67
-;   >>> §1.2: VD1: Website editing..............................................................84
-;     →→→ §1.2.1: Function: PositionWindowViaCtrlFN............................................105
-;     →→→ §1.2.2: Hotstring: @moveTempMonitors.................................................119
-;     →→→ §1.2.3: Hotstring: @startSublimeText3................................................136
-;     →→→ §1.2.4: Hotstring: @startChrome......................................................147
-;     →→→ §1.2.5: Hotstring: startMsTodo.......................................................165
-;   >>> §1.3: VD2: Programming.................................................................177
-;     →→→ §1.3.1: Function: AddSublimeText3ToVd................................................194
-;     →→→ §1.3.2: Hotstring: @startGithubClients...............................................236
-;     →→→ §1.3.3: Hotstring: @arrangeGitHub....................................................255
-;     →→→ §1.3.4: Function: agh_MovePowerShell.................................................280
-;   >>> §1.4: Setup VD3: Graphic design........................................................319
-;     →→→ §1.4.1: Hotstring: @arrangeGimp......................................................344
-;   >>> §1.5: Setup VD4: Communications and media..............................................366
-;     →→→ §1.5.1: Function: OpenWebsiteInChrome................................................399
-;     →→→ §1.5.2: Function: OpenNewTabInChrome.................................................409
-;     →→→ §1.5.3: Function: NavigateToWebsiteInChrome..........................................416
-;     →→→ §1.5.4: Function: MoveToNextTabInChrome..............................................425
-;     →→→ §1.5.5: Hotstring: @arrangeEmail.....................................................432
-;   >>> §1.6: Setup VD5: Diagnostics & talmud..................................................477
-;   >>> §1.7: Other setup hotstrings...........................................................523
-;     →→→ §1.7.1: Hotstring: @startNotepadPp...................................................526
+;     >>> §1.1: Work environment setup..........................................................43
+;       →→→ §1.1.1: Hotstring: @setupVirtualDesktops............................................56
+;       →→→ §1.1.2: Hotstring: @setupCiscoVpn...................................................67
+;     >>> §1.2: VD1: Website editing............................................................84
+;       →→→ §1.2.1: Function: PositionWindowViaCtrlFN..........................................105
+;       →→→ §1.2.2: Hotstring: @moveTempMonitors...............................................119
+;       →→→ §1.2.3: Hotstring: @startSublimeText3..............................................136
+;       →→→ §1.2.4: Hotstring: @startChrome....................................................147
+;       →→→ §1.2.5: Hotstring: startMsTodo.....................................................165
+;     >>> §1.3: VD2: Programming...............................................................177
+;       →→→ §1.3.1: Function: AddSublimeText3ToVd..............................................194
+;       →→→ §1.3.2: Hotstring: @startGithubClients.............................................236
+;       →→→ §1.3.3: Hotstring: @arrangeGitHub..................................................255
+;       →→→ §1.3.4: Function: agh_MovePowerShell...............................................280
+;     >>> §1.4: Setup VD3: Graphic design......................................................319
+;       →→→ §1.4.1: Hotstring: @arrangeGimp....................................................344
+;     >>> §1.5: Setup VD4: Communications and media............................................366
+;       →→→ §1.5.1: Function: OpenWebsiteInChrome..............................................399
+;       →→→ §1.5.2: Function: OpenNewTabInChrome...............................................409
+;       →→→ §1.5.3: Function: NavigateToWebsiteInChrome........................................416
+;       →→→ §1.5.4: Function: MoveToNextTabInChrome............................................425
+;       →→→ §1.5.5: Hotstring: @arrangeEmail...................................................432
+;     >>> §1.6: Setup VD5: Diagnostics & talmud................................................477
+;     >>> §1.7: Other setup hotstrings.........................................................523
+;       →→→ §1.7.1: Hotstring: @startNotepadPp.................................................526
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
 ;   §1: VIRTUAL DESKTOP SETUP HOTSTRINGS
 ; --------------------------------------------------------------------------------------------------
 
-; ··································································································
-;   >>> §1.1: Work environment setup
+;   ································································································
+;     >>> §1.1: Work environment setup
 
 :*:@setupWorkEnvironment::
 	Gosub, :*:@setupVirtualDesktops
@@ -52,8 +52,8 @@
 	switchDesktopByNumber(5)
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §1.1.1: Hotstring: @setupVirtualDesktops
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.1.1: Hotstring: @setupVirtualDesktops
 
 :*:@setupVirtualDesktops::
 	Gosub, :*:@setupVirtualDesktop1
@@ -63,8 +63,8 @@ Return
 	Gosub, :*:@setupVirtualDesktop5
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §1.1.2: Hotstring: @setupCiscoVpn
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.1.2: Hotstring: @setupCiscoVpn
 
 :*:@setupCiscoVpn::
 	CheckForCmdEntryGui()
@@ -80,8 +80,8 @@ Return
 Return
 
 
-; ··································································································
-;   >>> §1.2: VD1: Website editing
+;   ································································································
+;     >>> §1.2: VD1: Website editing
 :*:@setupVirtualDesktop1::
 	waitingBeat := 150
 	CheckForCmdEntryGui()
@@ -101,8 +101,8 @@ Return
 	PositionWindowViaCtrlFN("^F10", waitingBeat)
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §1.2.1: Function: PositionWindowViaCtrlFN
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.2.1: Function: PositionWindowViaCtrlFN
 PositionWindowViaCtrlFN(posHotkey, delay) {
 	if (posHotkey == "^F6" || posHotkey == "^F7" || posHotkey == "^F8" || posHotkey == "^F9"
 			|| posHotkey == "^F10" || posHotkey == "^F11") {
@@ -115,8 +115,8 @@ PositionWindowViaCtrlFN(posHotkey, delay) {
 	}
 }
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §1.2.2: Hotstring: @moveTempMonitors
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.2.2: Hotstring: @moveTempMonitors
 :*:@moveTempMonitors::
 	delay := 100
 
@@ -132,8 +132,8 @@ PositionWindowViaCtrlFN(posHotkey, delay) {
 	Sleep, % delay * 2
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §1.2.3: Hotstring: @startSublimeText3
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.2.3: Hotstring: @startSublimeText3
 :*:@startSublimeText3::
 	; Start up Sublime Text, open a new window, and send the initial, primary instance to desktop #2
 	AppendAhkCmd(":*:@startSublimeText3")
@@ -143,8 +143,8 @@ Return
 	Sleep, 150
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §1.2.4: Hotstring: @startChrome
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.2.4: Hotstring: @startChrome
 :*:@startChrome::
 	waitingBeat := 100 ; ms
 	; Start up Chrome and direct it to a WSU WordPress login page; wait for it to load before
@@ -161,8 +161,8 @@ Return
 	Sleep, % waitingBeat * 10
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §1.2.5: Hotstring: startMsTodo
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.2.5: Hotstring: startMsTodo
 :*:@startMsTodo::
 	waitingBeat := 100 ; ms
 	; Start up Chrome and direct it to a WSU WordPress login page; wait for it to load before
@@ -173,8 +173,8 @@ Return
 	Sleep, % waitingBeat * 10
 Return
 
-; ··································································································
-;   >>> §1.3: VD2: Programming
+;   ································································································
+;     >>> §1.3: VD2: Programming
 :*:@setupVirtualDesktop2::
 	delay := 500
 	CheckForCmdEntryGui()
@@ -190,8 +190,8 @@ Return
 	Gosub, :*:@arrangeGitHub
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §1.3.1: Function: AddSublimeText3ToVd
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.3.1: Function: AddSublimeText3ToVd
 AddSublimeText3ToVd(whichVd) {
 	oldTitleMatchMode := 0
 	delay := 333
@@ -232,8 +232,8 @@ AddSublimeText3ToVd(whichVd) {
 	}
 }
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §1.3.2: Hotstring: @startGithubClients
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.3.2: Hotstring: @startGithubClients
 :*:@startGithubClients::
 	AppendAhkCmd(":*:@startGithubClients")
 	Sleep, 330
@@ -251,8 +251,8 @@ AddSublimeText3ToVd(whichVd) {
 	Sleep, 1000
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §1.3.3: Hotstring: @arrangeGitHub
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.3.3: Hotstring: @arrangeGitHub
 :*:@arrangeGitHub::
 	AppendAhkCmd(":*:@arrangeGitHub")
 	WinRestore, GitHub
@@ -276,8 +276,8 @@ Return
 	Sleep, 200
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §1.3.4: Function: agh_MovePowerShell
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.3.4: Function: agh_MovePowerShell
 agh_MovePowerShell() {
 	beat := 333 ; units = ms, time between operations
 	destX := 2313 ; units = pixels, destination X coordinate
@@ -315,8 +315,8 @@ agh_MovePowerShell() {
 	}
 }
 
-; ··································································································
-;   >>> §1.4: Setup VD3: Graphic design
+;   ································································································
+;     >>> §1.4: Setup VD3: Graphic design
 
 :*:@setupVirtualDesktop3::
 	CheckForCmdEntryGui()
@@ -340,8 +340,8 @@ agh_MovePowerShell() {
 	Sleep, 1000
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §1.4.1: Hotstring: @arrangeGimp
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.4.1: Hotstring: @arrangeGimp
 
 :*:@arrangeGimp::
 	AppendAhkCmd(":*:@arrangeGimp")
@@ -362,8 +362,8 @@ Return
 	WinMove, Navigation, , -345, 518, 350, 522
 Return
 
-; ··································································································
-;   >>> §1.5: Setup VD4: Communications and media
+;   ································································································
+;     >>> §1.5: Setup VD4: Communications and media
 
 :*:@setupVirtualDesktop4::
 	CheckForCmdEntryGui()
@@ -395,8 +395,8 @@ Return
 	Gosub, :*:@arrangeEmail
 Return
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §1.5.1: Function: OpenWebsiteInChrome
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.5.1: Function: OpenWebsiteInChrome
 OpenWebsiteInChrome(website, inNewTab := True) {
 	website .= "{Enter}"
 	if (inNewTab) {
@@ -405,15 +405,15 @@ OpenWebsiteInChrome(website, inNewTab := True) {
 	NavigateToWebsiteInChrome(website)
 }
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §1.5.2: Function: OpenNewTabInChrome
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.5.2: Function: OpenNewTabInChrome
 OpenNewTabInChrome() {
 	SendInput, ^t
 	Sleep, 100	
 }
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §1.5.3: Function: NavigateToWebsiteInChrome
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.5.3: Function: NavigateToWebsiteInChrome
 NavigateToWebsiteInChrome(website) {
 	SendInput, !d
 	Sleep, 100
@@ -421,15 +421,15 @@ NavigateToWebsiteInChrome(website) {
 	Sleep, 330
 }
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §1.5.4: Function: MoveToNextTabInChrome
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.5.4: Function: MoveToNextTabInChrome
 MoveToNextTabInChrome() {
 	SendInput, ^{Tab}
 	Sleep, 100	
 }
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §1.5.5: Hotstring: @arrangeEmail
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.5.5: Hotstring: @arrangeEmail
 :*:@arrangeEmail::
 	waitingBeat := 200
 
@@ -473,8 +473,8 @@ MoveToNextTabInChrome() {
 	Sleep, % waitingBeat * 5
 Return
 
-; ··································································································
-;   >>> §1.6: Setup VD5: Diagnostics & talmud
+;   ································································································
+;     >>> §1.6: Setup VD5: Diagnostics & talmud
 
 :*:@setupVirtualDesktop5::
 	CheckForCmdEntryGui()
@@ -519,11 +519,11 @@ Return
 	WinMove, % "BibleGateway ahk_exe chrome.exe", , 136, 88, 1648, 874
 Return
 
-; ··································································································
-;   >>> §1.7: Other setup hotstrings
+;   ································································································
+;     >>> §1.7: Other setup hotstrings
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §1.7.1: Hotstring: @startNotepadPp
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.7.1: Hotstring: @startNotepadPp
 
 :*:@startNotepadPp::
 	; Start up Notepad++, open a second instance, and send the initial, primary instance to desktop 

@@ -149,8 +149,8 @@ CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssbuild, fnMinCssBuild
 ;   §2: GUI EVENT HANDLERS
 ; --------------------------------------------------------------------------------------------------
 
-; ··································································································
-;   >>> §2.1: HandleCommitCss1stMsgChange — Function
+;   ································································································
+;     >>> §2.1: HandleCommitCss1stMsgChange — Function
 
 ; Triggered when the primary git commit message for the updated CSS builds is changed.
 HandleCommitCss1stMsgChange() {
@@ -166,8 +166,8 @@ HandleCommitCss1stMsgChange() {
 	GuiControl, , ctrlCommitCss1stMsgCharCount, % "Length = " . msgLen . " characters"
 }
 
-; ··································································································
-;   >>> §2.2: HandleCommitCss2ndMsgChange — Function
+;   ································································································
+;     >>> §2.2: HandleCommitCss2ndMsgChange — Function
 
 ; Triggered when the secondary git commit message for the updated CSS builds is changed.
 HandleCommitCss2ndMsgChange() {
@@ -183,8 +183,8 @@ HandleCommitCss2ndMsgChange() {
 	GuiControl, , ctrlCommitCss2ndMsgCharCount, % "Length = " . msgLen . " characters"
 }
 
-; ··································································································
-;   >>> §2.3: HandleCommitCssAddFiles — Function
+;   ································································································
+;     >>> §2.3: HandleCommitCssAddFiles — Function
 
 HandleCommitCssAddFiles() {
 	global commitCssVars
@@ -225,8 +225,8 @@ HandleCommitCssAddFiles() {
 	}
 }
 
-; ··································································································
-;   >>> §2.4: HandleCommitCssCheckLessFileCommit — Function
+;   ································································································
+;     >>> §2.4: HandleCommitCssCheckLessFileCommit — Function
 
 ; Triggered by state changes in checkbox control in guiCommitCssBuild GUI.
 HandleCommitCssCheckLessFileCommit() {
@@ -280,8 +280,8 @@ HandleCommitCssCheckLessFileCommit() {
 	}
 }
 
-; ··································································································
-;   >>> §2.5: HandleCommitCssCheckLessChangesOnly — Function
+;   ································································································
+;     >>> §2.5: HandleCommitCssCheckLessChangesOnly — Function
 
 ; Triggered by state changes in checkbox control in guiCommitCssBuild GUI.
 HandleCommitCssCheckLessChangesOnly() {
@@ -323,8 +323,8 @@ HandleCommitCssCheckLessChangesOnly() {
 	}
 }
 
-; ··································································································
-;   >>> §2.6: HandleCommitCss1stLessMsgChange — Function
+;   ································································································
+;     >>> §2.6: HandleCommitCss1stLessMsgChange — Function
 
 ; Triggered when the primary git commit message for the updated LESS source is changed.
 HandleCommitCss1stLessMsgChange() {
@@ -340,8 +340,8 @@ HandleCommitCss1stLessMsgChange() {
 	GuiControl, , ctrlCommitCss1stLessMsgCharCount, % "Length = " . msgLen . " characters"
 }
 
-; ··································································································
-;   >>> §2.7: HandleCommitCss2ndLessMsgChange — Function
+;   ································································································
+;     >>> §2.7: HandleCommitCss2ndLessMsgChange — Function
 
 ; Triggered when the secondary git commit message for the updated LESS source is changed.
 HandleCommitCss2ndLessMsgChange() {
@@ -357,8 +357,8 @@ HandleCommitCss2ndLessMsgChange() {
 	GuiControl, , ctrlCommitCss2ndLessMsgCharCount, % "Length = " . msgLen . " characters"
 }
 
-; ··································································································
-;   >>> §2.8: HandleCommitCssOk — Function
+;   ································································································
+;     >>> §2.8: HandleCommitCssOk — Function
 
 ; Triggered by OK button in guiCommitCssBuild GUI.
 HandleCommitCssOk() {
@@ -437,8 +437,8 @@ HandleCommitCssOk() {
 	}
 }
 
-;  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;     →→→ §2.8.1: ProcessHandleCommitCssOkError — Subfunction
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §2.8.1: ProcessHandleCommitCssOkError — Subfunction
 
 ; Called by HandleCommitCssOk() to handle error processing.
 ProcessHandleCommitCssOkError(gVarCheck) {
@@ -465,16 +465,16 @@ ProcessHandleCommitCssOkError(gVarCheck) {
 	}
 }
 
-; ··································································································
-;   >>> §2.9: HandleCommitCssCancel — Function
+;   ································································································
+;     >>> §2.9: HandleCommitCssCancel — Function
 
 ; Triggered by Cancel button in guiCommitCssBuild GUI.
 HandleCommitCssCancel() {
 	Gui, guiCommitCssBuild: Destroy
 }
 
-; ··································································································
-;   >>> §2.10: HandleCommitCssRemoveFiles — Function
+;   ································································································
+;     >>> §2.10: HandleCommitCssRemoveFiles — Function
 
 HandleCommitCssRemoveFiles() {
 	Gui, guiCommitCssBuild: Default
@@ -489,8 +489,8 @@ HandleCommitCssRemoveFiles() {
 ;   §3: GUI PERSISTENCE FUNCTIONS
 ; --------------------------------------------------------------------------------------------------
 
-; ··································································································
-;   >>> §3.1: SaveCommitCssLessMsgHistory — Function
+;   ································································································
+;     >>> §3.1: SaveCommitCssLessMsgHistory — Function
 
 ; Used to grant permanence to LESS commit message history functionality between scripting sessions
 SaveCommitCssLessMsgHistory() {
@@ -526,8 +526,8 @@ SaveCommitCssLessMsgHistory() {
 	}
 }
 
-; ··································································································
-;   >>> §3.2: LoadCommitCssLessMsgHistory — Function
+;   ································································································
+;     >>> §3.2: LoadCommitCssLessMsgHistory — Function
 
 LoadCommitCssLessMsgHistory() {
 	; TODO: Rewrite code below
@@ -563,8 +563,8 @@ LoadCommitCssLessMsgHistory() {
 	}
 }
 
-; ··································································································
-;   >>> §3.3: ReadKeyForLessMsgHistory — Function
+;   ································································································
+;     >>> §3.3: ReadKeyForLessMsgHistory — Function
 
 ReadKeyForLessMsgHistory(ByRef logFile) {
 	key := ""
@@ -581,8 +581,8 @@ ReadKeyForLessMsgHistory(ByRef logFile) {
 	return key
 }
 
-; ··································································································
-;   >>> §3.4: ReadPrimaryMsgForLessFileKey — Function
+;   ································································································
+;     >>> §3.4: ReadPrimaryMsgForLessFileKey — Function
 
 ReadPrimaryMsgForLessFileKey(ByRef logFile, ByRef lessMsgArray, key) {
 	success := false
@@ -598,8 +598,8 @@ ReadPrimaryMsgForLessFileKey(ByRef logFile, ByRef lessMsgArray, key) {
 	return success
 }
 
-; ··································································································
-;   >>> §3.5: ReadSecondaryMsgForLessFileKey — Function
+;   ································································································
+;     >>> §3.5: ReadSecondaryMsgForLessFileKey — Function
 
 ReadSecondaryMsgForLessFileKey(ByRef logFile, ByRef lessMsgArray, key) {
 	success := false

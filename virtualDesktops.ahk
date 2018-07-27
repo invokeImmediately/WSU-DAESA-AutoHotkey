@@ -8,13 +8,13 @@
 ; TABLE OF CONTENTS:
 ;   §1: GLOBAL VARIABLES.......................................................................21
 ;   §2: FUNCTIONS & SUBROUTINES................................................................27
-;   >>> §2.1: MapDesktopsFromRegistry..........................................................31
-;   >>> §2.2: GetSessionId.....................................................................89
-;   >>> §2.3: SwitchDesktopByNumber...........................................................105
-;   >>> §2.4: MoveActiveWindowToVirtualDesktop................................................155
-;   >>> §2.5: CreateVirtualDesktop............................................................216
-;   >>> §2.6: DeleteVirtualDesktop............................................................229
-;   >>> §2.7: GetCurrentVirtualDesktop........................................................242
+;     >>> §2.1: MapDesktopsFromRegistry........................................................31
+;     >>> §2.2: GetSessionId...................................................................90
+;     >>> §2.3: SwitchDesktopByNumber.........................................................107
+;     >>> §2.4: MoveActiveWindowToVirtualDesktop..............................................158
+;     >>> §2.5: CreateVirtualDesktop..........................................................220
+;     >>> §2.6: DeleteVirtualDesktop..........................................................234
+;     >>> §2.7: GetCurrentVirtualDesktop......................................................248
 ; --------------------------------------------------------------------------------------------------
 
 ; --------------------------------------------------------------------------------------------------
@@ -27,14 +27,15 @@ global vdCurrentDesktop = 1 ; Desktop count is 1-indexed (Microsoft numbers them
 ;   §2: FUNCTIONS & SUBROUTINES
 ; --------------------------------------------------------------------------------------------------
 
-; ··································································································
-;   >>> §2.1: MapDesktopsFromRegistry
-; * This function examines the registry to build an accurate list of the current virtual desktops 
-;   and which one we're currently on.
-; * Current desktop UUID appears to be in HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersio
-;   n\Explorer\SessionInfo\1\VirtualDesktops
-; * List of desktops appears to be in HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Ex
-;   plorer\VirtualDesktops
+;   ································································································
+;     >>> §2.1: MapDesktopsFromRegistry
+;      * This function examines the registry to build an accurate list of the current virtual
+;        desktops and which one we're currently on.
+;      * Current desktop UUID appears to be in HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentV
+;        ersion\Explorer\SessionInfo\1\VirtualDesktops
+;      * List of desktops appears to be in HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersi
+;        on\Explorer\VirtualDesktops
+
 MapDesktopsFromRegistry() {
 	global vdCurrentDesktop, vdDesktopCount
 
@@ -85,8 +86,9 @@ MapDesktopsFromRegistry() {
 	}
 }
 
-; ··································································································
-;   >>> §2.2: GetSessionId
+;   ································································································
+;     >>> §2.2: GetSessionId
+
 GetSessionId() {
 	ProcessId := DllCall("GetCurrentProcessId", "UInt")
 	if ErrorLevel {
@@ -101,8 +103,9 @@ GetSessionId() {
 	return SessionId
 }
 
-; ··································································································
-;   >>> §2.3: SwitchDesktopByNumber
+;   ································································································
+;     >>> §2.3: SwitchDesktopByNumber
+
 SwitchDesktopByNumber(targetDesktop) {
 	global vdCurrentDesktop
 	global vdDesktopCount
@@ -151,8 +154,9 @@ SwitchDesktopByNumber(targetDesktop) {
 	}
 }
 
-; ··································································································
-;   >>> §2.4: MoveActiveWindowToVirtualDesktop
+;   ································································································
+;     >>> §2.4: MoveActiveWindowToVirtualDesktop
+
 MoveActiveWindowToVirtualDesktop(targetDesktop) {
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	; DECLARATIONS
@@ -212,8 +216,9 @@ MoveActiveWindowToVirtualDesktop(targetDesktop) {
 	SetKeyDelay, prevKeyDelay
 }
 
-; ··································································································
-;   >>> §2.5: CreateVirtualDesktop
+;   ································································································
+;     >>> §2.5: CreateVirtualDesktop
+
 CreateVirtualDesktop() {
 	global vdCurrentDesktop, vdDesktopCount
 	prevKeyDelay := A_KeyDelay
@@ -225,8 +230,9 @@ CreateVirtualDesktop() {
 	OutputDebug, [create] desktops: %vdDesktopCount% current: %vdCurrentDesktop%
 }
 
-; ··································································································
-;   >>> §2.6: DeleteVirtualDesktop
+;   ································································································
+;     >>> §2.6: DeleteVirtualDesktop
+
 DeleteVirtualDesktop() {
 	global vdCurrentDesktop, vdDesktopCount
 	prevKeyDelay := A_KeyDelay
@@ -238,8 +244,9 @@ DeleteVirtualDesktop() {
 	OutputDebug, [delete] desktops: %vdDesktopCount% current: %vdCurrentDesktop%
 }
 
-; ··································································································
-;   >>> §2.7: GetCurrentVirtualDesktop
+;   ································································································
+;     >>> §2.7: GetCurrentVirtualDesktop
+
 ; * Couples a call to MapDesktopsFromRegistry to the value of global variable vdCurrentDesktop.
 ; * Preferable to relying on the global variable vdCurrentDesktop, which requires a separate call to 
 ;   MapDesktopsFromRegistry to ensure accuracy.
