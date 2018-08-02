@@ -101,6 +101,8 @@ InsertFilePath(ahkCmdName, filePath, headerStr:="") {
 
 LaunchApplicationPatiently(path, title, matchMode := 2)
 {
+	global g_delayQuantum
+	delay := g_delayQuantum * 32
 	oldMatchMode := 0
 	if (A_TitleMatchMode != matchMode) {
 		oldMatchMode := A_TitleMatchMode
@@ -113,13 +115,14 @@ LaunchApplicationPatiently(path, title, matchMode := 2)
 		IfWinExist, % title
 		{
 			isReady := true
-			Sleep, 500
+			Sleep, % delay
 		}
 		else
 		{
-			Sleep, 250
+			Sleep, % delay / 2
 		}
 	}
+	Sleep, % delay
 	if (oldMatchMode) {
 		SetTitleMatchMode, % oldMatchMode
 	}
@@ -129,6 +132,8 @@ LaunchApplicationPatiently(path, title, matchMode := 2)
 
 LaunchStdApplicationPatiently(path, title, matchMode := 2)
 {
+	global g_delayQuantum
+	delay := g_delayQuantum * 32
 	oldMatchMode := 0
 	if (A_TitleMatchMode != matchMode) {
 		oldMatchMode := A_TitleMatchMode
@@ -141,13 +146,14 @@ LaunchStdApplicationPatiently(path, title, matchMode := 2)
 		IfWinExist, % title
 		{
 			isReady := true
-			Sleep, 500
+			Sleep, % delay
 		}
 		else
 		{
-			Sleep, 250
+			Sleep, % delay / 2
 		}
 	}
+	Sleep, % delay
 	if (oldMatchMode) {
 		SetTitleMatchMode, % oldMatchMode
 	}
