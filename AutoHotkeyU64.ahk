@@ -7,31 +7,31 @@
 ; -----------------
 ;   §1: GLOBAL VARIABLES........................................................................38
 ;     >>> §1.1: SYSTEM PROPERTY GLOBALS.........................................................42
-;     >>> §1.2: GLOBALS FOR LOCATIONS OF IMPORTANT FOLDERS & FILES..............................62
-;     >>> §1.3: POMODORO WORK TIMER GLOBALS.....................................................72
-;     >>> §1.4: DESKTOP ARRANGEMENT AUDITORY CUE GLOBALS........................................83
-;     >>> §1.5: SIMULATED MEMORY OF USER ACTIONS................................................95
-;     >>> §1.6: KEYBOARD OVERRIDING............................................................113
-;   §2: SET UP SCRIPT & CALL MAIN SUBROUTINE...................................................124
-;   §3: COMMON FUNCTIONS & CLASSES.............................................................145
-;   §4: COMMAND HISTORY........................................................................157
-;   §5: AUTOHOTKEY SCRIPT WRITING SHORTCUTS....................................................163
-;     >>> §5.1: Hotstrings for inserting code-documentation headers............................167
-;     >>> §5.2: Hotstrings for inserting AHK-related RegEx find/replace strings................236
-;   §6: WORKSPACE MANAGEMENT...................................................................256
-;   §7: FILE SYSTEM NAVIGATION.................................................................300
-;   §8: PROGRAM/FILE LAUNCHING SHORTCUTS.......................................................306
-;   §9: GITHUB SHORTCUTS.......................................................................328
-;   §10: GOOGLE CHROME SHORTCUTS...............................................................334
-;   §11: HTML EDITING..........................................................................393
-;   §12: TEXT REPLACEMENT & INPUT..............................................................399
-;     >>> 12.1: Text Replacement HOTKEYS.......................................................403
-;     >>> 12.2: Text Replacement HOTSTRINGS....................................................408
-;     >>> 12.3: Text Input HOTSTRINGS..........................................................488
-;   §13: OTHER SHORTCUTS.......................................................................495
-;   §14: WORK TIMER............................................................................508
-;   §15: CUSTOM HOTSTRINGS & HOTKEYS...........................................................514
-;   §16: MAIN SUBROUTINE.......................................................................584
+;     >>> §1.2: GLOBALS FOR LOCATIONS OF IMPORTANT FOLDERS & FILES..............................65
+;     >>> §1.3: POMODORO WORK TIMER GLOBALS.....................................................75
+;     >>> §1.4: DESKTOP ARRANGEMENT AUDITORY CUE GLOBALS........................................86
+;     >>> §1.5: SIMULATED MEMORY OF USER ACTIONS................................................98
+;     >>> §1.6: KEYBOARD OVERRIDING............................................................116
+;   §2: SET UP SCRIPT & CALL MAIN SUBROUTINE...................................................127
+;   §3: COMMON FUNCTIONS & CLASSES.............................................................148
+;   §4: COMMAND HISTORY........................................................................160
+;   §5: AUTOHOTKEY SCRIPT WRITING SHORTCUTS....................................................166
+;     >>> §5.1: Hotstrings for inserting code-documentation headers............................170
+;     >>> §5.2: Hotstrings for inserting AHK-related RegEx find/replace strings................239
+;   §6: WORKSPACE MANAGEMENT...................................................................259
+;   §7: FILE SYSTEM NAVIGATION.................................................................303
+;   §8: PROGRAM/FILE LAUNCHING SHORTCUTS.......................................................309
+;   §9: GITHUB SHORTCUTS.......................................................................331
+;   §10: GOOGLE CHROME SHORTCUTS...............................................................337
+;   §11: HTML EDITING..........................................................................396
+;   §12: TEXT REPLACEMENT & INPUT..............................................................402
+;     >>> §12.1: Text Replacement HOTKEYS......................................................406
+;     >>> §12.2: Text Replacement HOTSTRINGS...................................................411
+;     >>> §12.3: Text Input HOTSTRINGS.........................................................497
+;   §13: OTHER SHORTCUTS.......................................................................504
+;   §14: WORK TIMER............................................................................517
+;   §15: CUSTOM HOTSTRINGS & HOTKEYS...........................................................523
+;   §16: MAIN SUBROUTINE.......................................................................593
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -41,13 +41,13 @@
 ;   ································································································
 ;     >>> §1.1: SYSTEM PROPERTY GLOBALS
 
-global SM_CMONITORS := 80			; Constant needed for retreiving the number of display monitors 
+global SM_CMONITORS 	:= 80		; Constant needed for retreiving the number of display monitors 
 									;  on the desktop via SysGet(...).
 
-global SM_CXSIZEFRAME := 32			; SysGet(...) constant needed for retreiving the default window 
+global SM_CXSIZEFRAME	:= 32		; SysGet(...) constant needed for retreiving the default window 
 									;  border width.
 
-global SM_CYSIZEFRAME := 33			; SysGet(...) constant needed for retreiving the default window 
+global SM_CYSIZEFRAME 	:= 33		; SysGet(...) constant needed for retreiving the default window 
 									;  border height.
 
 global sysNumMonitors				; Number of display monitors on this system.
@@ -57,6 +57,9 @@ global sysWinBorderW				; Default border width.
 global sysWinBorderH				; Default border height.
 
 global g_delayQuantum	:= 15.6		; Minimum amount of time the Sleep command can wait.
+
+global g_maxTries 		:= 10		; Number of attempts at an open-ended goal, such as making a
+									; target window active.
 
 ;   ································································································
 ;     >>> §1.2: GLOBALS FOR LOCATIONS OF IMPORTANT FOLDERS & FILES
@@ -243,7 +246,7 @@ Return
 
 :*:@findStrAhkTocSections2::
 	AppendAhkCmd(A_ThisLabel)
-	SendInput, % "{^} {{}1,{}}([0-9]{{}1,{}}): (; {{}3{}}.{+})$"
+	SendInput, % "{^} {{}1,{}}([0-9]{{}1,{}}): (; {{}3{}}.*§.{+})$"
 Return
 
 :*:@replStrAhkTocSections2::
@@ -400,12 +403,12 @@ Return
 ; --------------------------------------------------------------------------------------------------
 
 ;   ································································································
-;     >>> 12.1: Text Replacement HOTKEYS
+;     >>> §12.1: Text Replacement HOTKEYS
 
 #Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\numpadModifier.ahk
 
 ;   ································································································
-;     >>> 12.2: Text Replacement HOTSTRINGS
+;     >>> §12.2: Text Replacement HOTSTRINGS
 
 #Include, %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\regExStrings.ahk
 
@@ -491,7 +494,7 @@ Return
 Return
 
 ;   ································································································
-;     >>> 12.3: Text Input HOTSTRINGS
+;     >>> §12.3: Text Input HOTSTRINGS
 
 #Include, %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\guiRepeatChars.ahk
 
