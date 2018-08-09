@@ -5,6 +5,20 @@
 ; ! = ALT     + = SHIFT     ^ = CONTROL     # = WIN
 ; (see https://autohotkey.com/docs/commands/Send.htm for more info)
 ; ==================================================================================================
+; TABLE OF CONTENTS:
+; ------------------------------------------------------------------------------------------------
+;   §1: Hotkeys.................................................................................17
+;     >>> §1.1: NumpadDiv.......................................................................21
+;     >>> §1.2: NumpadSub.......................................................................55
+;     >>> §1.3: NumpadDel.......................................................................89
+; ==================================================================================================
+
+; --------------------------------------------------------------------------------------------------
+;   §1: Hotkeys
+; --------------------------------------------------------------------------------------------------
+
+;   ································································································
+;     >>> §1.1: NumpadDiv
 
 NumpadDiv::
 	if (bitNumpadDivToggle) {
@@ -37,7 +51,8 @@ Return
 		, % toggleMsg
 Return
 
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
+;   ································································································
+;     >>> §1.2: NumpadSub
 
 NumpadSub::
 	if (bitNumpadSubToggle) {
@@ -70,7 +85,8 @@ Return
 		, % toggleMsg
 Return
 
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
+;   ································································································
+;     >>> §1.3: NumpadDel
 
 ^!NumpadDel::
 	Gosub, :*:@toggleNpBoxArt
@@ -82,6 +98,8 @@ Return
 
 HandleToggleNpBoxArt() {
 	global npBoxArtActive
+	global npArrowArtActive
+	npArrowArtActive := False
 	toggleMsg := "Numpad box art toggled to "
 	if (npBoxArtActive) {
 		npBoxArtActive := False
@@ -93,14 +111,40 @@ HandleToggleNpBoxArt() {
 	DisplaySplashText(toggleMsg)
 }
 
+^!#NumpadDel::
+	Gosub, :*:@toggleNpArrowArt
+Return
+
+:*:@toggleNpArrowArt::
+	HandleToggleNpArrowArt()
+Return
+
+HandleToggleNpArrowArt() {
+	global npBoxArtActive
+	global npArrowArtActive
+	npBoxArtActive := False
+	toggleMsg := "Numpad arrow art toggled to "
+	if (npArrowArtActive) {
+		npArrowArtActive := False
+		toggleMsg .= "OFF"
+	} else {
+		npArrowArtActive := True
+		toggleMsg .= "ON"
+	}
+	DisplaySplashText(toggleMsg)
+}
+
 Numpad7::
 	HandleNumpad7()
 Return
 
 HandleNumpad7() {
 	global npBoxArtActive
+	global npArrowArtActive
 	if (npBoxArtActive) {
 		SendInput, % "┌"
+	} else if (npArrowArtActive) {
+		SendInput, % "↰"
 	} else {
 		SendInput, % "7"
 	}
@@ -112,8 +156,11 @@ Return
 
 HandleNumpad8() {
 	global npBoxArtActive
+	global npArrowArtActive
 	if (npBoxArtActive) {
 		SendInput, % "─"
+	} else if (npArrowArtActive) {
+		SendInput, % "↑"
 	} else {
 		SendInput, % "8"
 	}
@@ -125,8 +172,11 @@ Return
 
 HandleNumpad9() {
 	global npBoxArtActive
+	global npArrowArtActive
 	if (npBoxArtActive) {
 		SendInput, % "┐"
+	} else if (npArrowArtActive) {
+		SendInput, % "↱"
 	} else {
 		SendInput, % "9"
 	}
@@ -138,8 +188,11 @@ Return
 
 HandleNumpad4() {
 	global npBoxArtActive
+	global npArrowArtActive
 	if (npBoxArtActive) {
 		SendInput, % "│"
+	} else if (npArrowArtActive) {
+		SendInput, % "←"
 	} else {
 		SendInput, % "4"
 	}
@@ -151,8 +204,11 @@ Return
 
 HandleNumpad5() {
 	global npBoxArtActive
+	global npArrowArtActive
 	if (npBoxArtActive) {
 		SendInput, % "├"
+	} else if (npArrowArtActive) {
+		SendInput, % "⇔"
 	} else {
 		SendInput, % "5"
 	}
@@ -164,8 +220,11 @@ Return
 
 HandleNumpad6() {
 	global npBoxArtActive
+	global npArrowArtActive
 	if (npBoxArtActive) {
 		SendInput, % "┤"
+	} else if (npArrowArtActive) {
+		SendInput, % "→"
 	} else {
 		SendInput, % "6"
 	}
@@ -177,8 +236,11 @@ Return
 
 HandleNumpad1() {
 	global npBoxArtActive
+	global npArrowArtActive
 	if (npBoxArtActive) {
 		SendInput, % "└"
+	} else if (npArrowArtActive) {
+		SendInput, % "↲"
 	} else {
 		SendInput, % "1"
 	}
@@ -190,8 +252,11 @@ Return
 
 HandleNumpad2() {
 	global npBoxArtActive
+	global npArrowArtActive
 	if (npBoxArtActive) {
 		SendInput, % "┬"
+	} else if (npArrowArtActive) {
+		SendInput, % "↓"
 	} else {
 		SendInput, % "2"
 	}
@@ -203,8 +268,11 @@ Return
 
 HandleNumpad3() {
 	global npBoxArtActive
+	global npArrowArtActive
 	if (npBoxArtActive) {
 		SendInput, % "┘"
+	} else if (npArrowArtActive) {
+		SendInput, % "↳"
 	} else {
 		SendInput, % "3"
 	}
@@ -216,8 +284,11 @@ Return
 
 HandleNumpad0() {
 	global npBoxArtActive
+	global npArrowArtActive
 	if (npBoxArtActive) {
 		SendInput, % "┴"
+	} else if (npArrowArtActive) {
+		SendInput, % "⇌"
 	} else {
 		SendInput, % "0"
 	}
@@ -229,8 +300,11 @@ Return
 
 HandleNumpadDot() {
 	global npBoxArtActive
+	global npArrowArtActive
 	if (npBoxArtActive) {
 		SendInput, % "┼"
+	} else if (npArrowArtActive) {
+		SendInput, % "↮"
 	} else {
 		SendInput, % "."
 	}
