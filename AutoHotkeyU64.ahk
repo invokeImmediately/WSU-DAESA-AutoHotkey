@@ -27,11 +27,11 @@
 ;   §12: TEXT REPLACEMENT & INPUT..............................................................402
 ;     >>> §12.1: Text Replacement HOTKEYS......................................................406
 ;     >>> §12.2: Text Replacement HOTSTRINGS...................................................411
-;     >>> §12.3: Text Input HOTSTRINGS.........................................................497
-;   §13: OTHER SHORTCUTS.......................................................................504
-;   §14: WORK TIMER............................................................................517
-;   §15: CUSTOM HOTSTRINGS & HOTKEYS...........................................................523
-;   §16: MAIN SUBROUTINE.......................................................................593
+;     >>> §12.3: Text Input HOTSTRINGS.........................................................502
+;   §13: OTHER SHORTCUTS.......................................................................509
+;   §14: WORK TIMER............................................................................522
+;   §15: CUSTOM HOTSTRINGS & HOTKEYS...........................................................528
+;   §16: MAIN SUBROUTINE.......................................................................598
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -412,8 +412,8 @@ Return
 
 #Include, %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\regExStrings.ahk
 
-:*:@add5lineshere::
-	AppendAhkCmd(":*:@add5lineshere")
+:*:@a5lh::
+	AppendAhkCmd(A_ThisLabel)
 	SendInput, {Enter 5}
 Return
 
@@ -422,7 +422,7 @@ Return
 :*:@addNrml::{Space}class="oue-normal"
 
 :*:@changeNumpadDiv::
-	AppendAhkCmd(":*:@changeNumpadDiv")
+	AppendAhkCmd(A_ThisLabel)
 	Inputbox, inputEntered
 		, % "@changeNumpadDiv: Change Numpad / Overwrite"
 		, % "Enter a character/string that the Numpad- key will now represent once alternative "
@@ -437,7 +437,7 @@ Return
 Return
 
 :*:@changeNumpadSub::
-	AppendAhkCmd(":*:@changeNumpadSub")
+	AppendAhkCmd(A_ThisLabel)
 	Inputbox, inputEntered
 		, % "@changeNumpadSub: Change Numpad- Overwrite"
 		, % "Enter a character/string that the Numpad- key will now represent once alternative "
@@ -452,27 +452,32 @@ Return
 Return
 
 :*:@datetime::
-	AppendAhkCmd(":*:@datetime")
+	AppendAhkCmd(A_ThisLabel)
 	FormatTime, CurrentDateTime,, yyyy-MM-dd HH:mm:ss
 	SendInput, %CurrentDateTime%
 Return
 
 :*:@ddd::
-	AppendAhkCmd(":*:@ddd")
+	AppendAhkCmd(A_ThisLabel)
 	FormatTime, CurrentDateTime, , yyyy-MM-dd
 	SendInput, %CurrentDateTime%
 Return
 
 :*:@doRGBa::
-	AppendAhkCmd(":*:@doRGBa")
+	AppendAhkCmd(A_ThisLabel)
 	SendInput, rgba(@rval, @gval, @bval, );{Left 2}
 Return
 
 :R*:@findStrFnctns::^[^{\r\n]+{$\r\n(?:^(?<!\}).+$\r\n)+^\}$
 
 :*:@ppp::
-	AppendAhkCmd(":*:@ppp")
+	AppendAhkCmd(A_ThisLabel)
 	SendInput, news-events_events_.html{Left 5}
+Return
+
+:*:@shrug::
+	AppendAhkCmd(A_ThisLabel)
+	SendInput, % "¯\_(ツ)_/¯"
 Return
 
 :*:@ttt::
@@ -482,13 +487,13 @@ Return
 Return
 
 :*:@xccc::
-	AppendAhkCmd(":*:@xccc")
+	AppendAhkCmd(A_ThisLabel)
 	FormatTime, CurrentDateTime,, yyyy-MM-dd
 	SendInput, / Completed %CurrentDateTime%
 Return
 
 :*:@xsss::
-	AppendAhkCmd(":*:@xsss")
+	AppendAhkCmd(A_ThisLabel)
 	FormatTime, CurrentDateTime,, yyyy-MM-dd
 	SendInput, (Started %CurrentDateTime%)
 Return
