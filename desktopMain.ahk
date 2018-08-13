@@ -18,7 +18,7 @@ MainSubroutine:
 	LoadCommitJsCustomJsMsgHistory()
 	LoadCommitAnyFileMsgHistory()
 	SetupLogAutoSaving()
-	mapDesktopsFromRegistry()
+	MapDesktopsFromRegistry()
 	OutputDebug, [loading] desktops: %DesktopCount% current: %CurrentDesktop%
 	OnExit("ScriptExitFunc")
 	SoundPlay, %scriptLoadedSound%
