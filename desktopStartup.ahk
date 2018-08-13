@@ -7,35 +7,36 @@
 ; ==================================================================================================
 ; Table of Contents
 ; -----------------
-;   §1: VIRTUAL DESKTOP SETUP HOTSTRINGS........................................................42
-;     >>> §1.1: Work environment setup..........................................................46
-;       →→→ §1.1.1: Hotstring: @setupVirtualDesktops............................................60
-;       →→→ §1.1.2: Hotstring: @setupCiscoVpn...................................................77
-;     >>> §1.2: VD1: Website editing............................................................88
-;       →→→ §1.2.1: PositionWindowViaCtrlFN — Function.........................................105
-;       →→→ §1.2.2: @moveTempMonitors — Hotstring..............................................123
-;       →→→ §1.2.3: @startSublimeText3 — Hotstring.............................................137
-;       →→→ §1.2.4: @startChrome — Hotstring...................................................148
-;       →→→ §1.2.5: @startMsTodo — Hotstring...................................................160
-;       →→→ §1.2.6: PositionMsTodo — Function..................................................170
-;     >>> §1.3: VD2: Programming...............................................................195
-;       →→→ §1.3.1: Function: AddSublimeText3ToVd..............................................212
-;       →→→ §1.3.2: Hotstring: @startGithubClients.............................................254
-;       →→→ §1.3.3: Hotstring: @arrangeGitHub..................................................272
-;       →→→ §1.3.4: Function: agh_MovePowerShell...............................................297
-;     >>> §1.4: Setup VD3: Graphic design......................................................336
-;       →→→ §1.4.1: Hotstring: @arrangeGimp....................................................356
-;     >>> §1.5: Setup VD4: Communications and media............................................378
-;       →→→ §1.5.1: Function: OpenWebsiteInChrome..............................................411
-;       →→→ §1.5.2: Function: OpenNewTabInChrome...............................................430
-;       →→→ §1.5.3: Function: NavigateToWebsiteInChrome........................................437
-;       →→→ §1.5.4: Function: MoveToNextTabInChrome............................................446
-;       →→→ §1.5.5: Hotstring: @arrangeEmail...................................................453
-;     >>> §1.6: Setup VD5: Diagnostics & talmud................................................498
-;     >>> §1.7: Other setup hotstrings.........................................................528
-;       →→→ §1.7.1: Hotstring: @startNotepadPp.................................................531
-;   §2: STARTUP HOTKEYS........................................................................557
-;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................565
+;   §1: VIRTUAL DESKTOP SETUP HOTSTRINGS........................................................43
+;     >>> §1.1: Work environment setup..........................................................47
+;       →→→ §1.1.1: Hotstring: @setupVirtualDesktops............................................61
+;       →→→ §1.1.2: Hotstring: @setupCiscoVpn...................................................78
+;     >>> §1.2: VD1: Website editing............................................................92
+;       →→→ §1.2.1: PositionWindowViaCtrlFN — Function.........................................109
+;       →→→ §1.2.2: @moveTempMonitors — Hotstring..............................................127
+;       →→→ §1.2.3: @startSublimeText3 — Hotstring.............................................141
+;       →→→ §1.2.4: @startChrome — Hotstring...................................................152
+;       →→→ §1.2.5: PositionChromeVD1 — Function...............................................164
+;       →→→ §1.2.6: @startMsTodo — Hotstring...................................................179
+;       →→→ §1.2.7: PositionMsTodo — Function..................................................189
+;     >>> §1.3: VD2: Programming...............................................................206
+;       →→→ §1.3.1: Function: AddSublimeText3ToVd..............................................223
+;       →→→ §1.3.2: Hotstring: @startGithubClients.............................................265
+;       →→→ §1.3.3: Hotstring: @arrangeGitHub..................................................283
+;       →→→ §1.3.4: Function: agh_MovePowerShell...............................................308
+;     >>> §1.4: Setup VD3: Graphic design......................................................347
+;       →→→ §1.4.1: Hotstring: @arrangeGimp....................................................367
+;     >>> §1.5: Setup VD4: Communications and media............................................389
+;       →→→ §1.5.1: Function: OpenWebsiteInChrome..............................................422
+;       →→→ §1.5.2: Function: OpenNewTabInChrome...............................................441
+;       →→→ §1.5.3: Function: NavigateToWebsiteInChrome........................................448
+;       →→→ §1.5.4: Function: MoveToNextTabInChrome............................................457
+;       →→→ §1.5.5: Hotstring: @arrangeEmail...................................................464
+;     >>> §1.6: Setup VD5: Diagnostics & talmud................................................509
+;     >>> §1.7: Other setup hotstrings.........................................................539
+;       →→→ §1.7.1: Hotstring: @startNotepadPp.................................................542
+;   §2: STARTUP HOTKEYS........................................................................568
+;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................576
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -77,6 +78,9 @@ Return
 ;       →→→ §1.1.1: Hotstring: @setupVirtualDesktops
 
 :*:@setupVirtualDesktops::
+	delay := g_delayQuantum * 7
+	MapDesktopsFromRegistry()
+	Sleep, % delay * 4
 	Gosub, :*:@setupVirtualDesktop1
 	Gosub, :*:@setupVirtualDesktop2
 	Gosub, :*:@setupVirtualDesktop3
@@ -114,7 +118,7 @@ Return
 	Gosub, :*:@startChrome
 	Sleep, % delay * 4
 	OpenWebsiteInChrome("distinguishedscholarships.wsu.edu/wp-admin/", False)
-	PositionWindowViaCtrlFN("^F7", delay)
+	PositionChromeOnVD1()
 	Gosub, :*:@startMsTodo
 	PositionMsTodo()
 Return
@@ -157,9 +161,24 @@ Return
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.2.5: @startMsTodo — Hotstring
+;       →→→ §1.2.5: PositionChromeVD1 — Function
+PositionChromeOnVD1() {
+	global g_delayQuantum
+
+	delay := g_delayQuantum * 7
+	chromeTitle := "Log In ahk_exe chrome.exe"
+	chromeActive := SafeWinActivate(chromeTitle)
+	if (chromeActive) {
+		PositionWindowViaCtrlFN("^F7", delay)
+		Sleep, % delay * 5
+		WinMaximize, % chromeTitle
+	}
+}
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.2.6: @startMsTodo — Hotstring
 :*:@startMsTodo::
-	delay := g_delayQuantum * 7 ; ms
+	delay := g_delayQuantum * 7
 	AppendAhkCmd(A_ThisLabel)
 	LaunchStdApplicationPatiently("C:\Users\CamilleandDaniel\Desktop\Microsoft To-Do - Shortcut.lnk"
 		, "Microsoft To-Do")
@@ -167,27 +186,19 @@ Return
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.2.6: PositionMsTodo — Function
+;       →→→ §1.2.7: PositionMsTodo — Function
 PositionMsTodo() {
-	global g_maxTries
 	global g_delayQuantum
-	msTodoTitle := "Microsoft To-Do ahk_exe ApplicationFrameHost.exe"
-	delay := g_delayQuantum * 7
 
-	Sleep, % delay * 2
-	counter := 0
-	maxTries := g_maxTries
-	msTodoActive := WinActive(msTodoTitle)
-	while (!msTodoActive && counter < maxTries) {
-		WinActivate, %msTodoTitle%
-		Sleep, % delay * 2
-		msTodoActive := WinActive(msTodoTitle)
-		counter++
-	}
+	delay := g_delayQuantum * 7
+	msTodoTitle := "Microsoft To-Do ahk_exe ApplicationFrameHost.exe"
+	msTodoActive := SafeWinActivate(msTodoTitle)
+
 	if (msTodoActive) {
+		Sleep, % delay * 2
 		PositionWindowViaCtrlFN("^F10", delay)
 		Sleep, % delay * 5
-		WinMaximize, msTodoTitle
+		WinMaximize, % msTodoTitle
 	}
 }
 
@@ -203,7 +214,7 @@ PositionMsTodo() {
 	switchDesktopByNumber(2)
 	Sleep, % delay
 	SendInput, #e
-	WaitForApplicationPatiently("File Explorer")
+	WaitForApplicationPatiently("This PC")
 	Gosub, :*:@startGithubClients
 	Gosub, :*:@arrangeGitHub
 Return
