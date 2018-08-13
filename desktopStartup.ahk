@@ -370,19 +370,19 @@ Return
 	AppendAhkCmd(":*:@arrangeGimp")
 	WinActivate, Toolbox - Tool Options
 	Sleep, 100
-	WinMove, Toolbox - Tool Options, , -960, 0, 272, 1040
+	WinMove, Toolbox - Tool Options, , 0, 0, 272, 1040
 	Sleep, 100
 	WinActivate, Layers
 	Sleep, 100
-	WinMove, Layers, , -699, 0, 356, 1040
+	WinMove, Layers, , 261, 0, 356, 1040
 	Sleep, 100
 	WinActivate, FG/BG
 	Sleep, 100
-	WinMove, FG/BG, , -345, 0, 350, 522
+	WinMove, FG/BG, , 615, 0, 350, 522
 	Sleep, 100
 	WinActivate, Navigation
 	Sleep, 100
-	WinMove, Navigation, , -345, 518, 350, 522
+	WinMove, Navigation, , 615, 518, 350, 522
 Return
 
 ;   ································································································
