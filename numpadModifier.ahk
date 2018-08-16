@@ -208,7 +208,7 @@ HandleNumpad5() {
 	if (npBoxArtActive) {
 		SendInput, % "├"
 	} else if (npArrowArtActive) {
-		SendInput, % "⇔"
+		SendInput, % "├"
 	} else {
 		SendInput, % "5"
 	}
@@ -288,7 +288,7 @@ HandleNumpad0() {
 	if (npBoxArtActive) {
 		SendInput, % "┴"
 	} else if (npArrowArtActive) {
-		SendInput, % "⇌"
+		SendInput, % "│"
 	} else {
 		SendInput, % "0"
 	}
@@ -304,7 +304,7 @@ HandleNumpadDot() {
 	if (npBoxArtActive) {
 		SendInput, % "┼"
 	} else if (npArrowArtActive) {
-		SendInput, % "↮"
+		SendInput, % "└"
 	} else {
 		SendInput, % "."
 	}
