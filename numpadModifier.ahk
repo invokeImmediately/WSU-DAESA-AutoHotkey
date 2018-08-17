@@ -21,13 +21,23 @@
 ;     >>> §1.1: NumpadDiv
 
 NumpadDiv::
-	if (bitNumpadDivToggle) {
-		SendInput, % numpadDivOverwrite
-	}
-	else {
-		SendInput, /
-	}
+	HandleNumpadDiv()
 Return
+
+HandleNumpadDiv() {
+	global npArrowArtActive
+	global bitNumpadDivToggle
+	if (npArrowArtActive) {
+		SendInput, % "✓"
+	} else {
+		if (bitNumpadDivToggle) {
+			SendInput, % numpadDivOverwrite
+		}
+		else {
+			SendInput, /
+		}
+	}
+}
 
 ^NumpadDiv::
 	Gosub :*:@toggleNumpadDiv
@@ -46,9 +56,7 @@ Return
 	} else {
 		toggleMsg .=  "/"
 	}
-	MsgBox, % (0x0 + 0x40)
-		, % "@toggleNumpadDiv: NumPad / Toggled"
-		, % toggleMsg
+	DisplaySplashText(toggleMsg)
 Return
 
 ;   ································································································
@@ -80,9 +88,7 @@ Return
 	} else {
 		toggleMsg .=  "-"
 	}
-	MsgBox, % (0x0 + 0x40)
-		, % "@toggleNumpadSub: NumPad- Toggled"
-		, % toggleMsg
+	DisplaySplashText(toggleMsg)
 Return
 
 ;   ································································································
@@ -307,5 +313,18 @@ HandleNumpadDot() {
 		SendInput, % "└"
 	} else {
 		SendInput, % "."
+	}
+}
+
+NumpadMult::
+	HandleNumpadMult()
+Return
+
+HandleNumpadMult() {
+	global npArrowArtActive
+	if (npArrowArtActive) {
+		SendInput, % "•"
+	} else {
+		SendInput, *
 	}
 }
