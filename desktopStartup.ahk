@@ -205,25 +205,40 @@ PositionMsTodo() {
 ;   ································································································
 ;     >>> §1.3: VD2: Programming
 :*:@setupVirtualDesktop2::
-	delay := 500
-	CheckForCmdEntryGui()
+	; Initialize local variables
+	delay := g_delayQuantum * 32
+
+	; Switch to VD 2
+	AppendAhkCmd(A_ThisLabel)
 	switchDesktopByNumber(2)
 	Sleep, % delay * 2
+
+	; Add Sublime Text 3 to virtual desktop if necessary
 	AddSublimeText3ToVd(2)
 	Sleep, % delay
+
+	; Open a File Explorer window
 	switchDesktopByNumber(2)
 	Sleep, % delay
 	SendInput, #e
 	WaitForApplicationPatiently("This PC")
+
+	; Start GitHub clients
 	Gosub, :*:@startGithubClients
+
+	; Restore default arrangement of windows
 	Gosub, :*:@arrangeGitHub
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.3.1: Function: AddSublimeText3ToVd
 AddSublimeText3ToVd(whichVd) {
+	; Declare global variables
+	global g_delayQuantum
+
+	; Initialize local variables
 	oldTitleMatchMode := 0
-	delay := 333
+	delay := g_delayQuantum * 21
 	st3TitleToMatch := "Sublime Text ahk_exe sublime_text\.exe"
 	st3NewWinTitle := "untitled - Sublime ahk_exe sublime_text\.exe"
 
@@ -231,13 +246,15 @@ AddSublimeText3ToVd(whichVd) {
 	if (A_TitleMatchMode != "RegEx") {
 		SetTitleMatchMode, RegEx
 	}
+
+	; Add ST3 window to virtual desktop
 	IfWinExist, %st3TitleToMatch%
 	{
+		; Switch to ST3 so that a new window can be generated and moved to the virtual desktop
 		Sleep, % delay
 		SafeWinActivate(st3TitleToMatch, "RegEx")
 		Sleep, % delay * 2
 		st3Vd := GetCurrentVirtualDesktop()
-
 		if (st3Vd != whichVd) {
 			SendInput, ^+n
 			Sleep, % delay * 3
@@ -245,9 +262,6 @@ AddSublimeText3ToVd(whichVd) {
 			moveActiveWindowToVirtualDesktop(whichVd)
 			Sleep, % delay * 3
 			switchDesktopByNumber(whichVd)
-		} else {
-			MsgBox, % "Sublime Text 3 is already on virtual desktop #" . whichVd . "Press OK to try again."
-			AddSublimeText3ToVd(whichVd)
 		}
 	}
 	else
@@ -264,16 +278,23 @@ AddSublimeText3ToVd(whichVd) {
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.3.2: Hotstring: @startGithubClients
 :*:@startGithubClients::
+	; Initialize local variables
 	delay := g_delayQuantum * 21
 	AppendAhkCmd(":*:@startGithubClients")
 	Sleep, % delay
+
+	; Load GitHub profile in Chrome
 	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
 		, "New Tab")
 	Sleep, % delay
 	OpenWebsiteInChrome("github.com/invokeImmediately", False)
+
+	; Load GitHub Desktop for Windows
 	LaunchStdApplicationPatiently(userAccountFolderSSD . "\AppData\Local\GitHubDesktop\GitHubDesktop.exe"
 		, "GitHub ahk_exe GitHubDesktop.exe")
 	Sleep, % delay * 3
+
+	; Load a PowerShell console window
 	LaunchApplicationPatiently("C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe"
 		, "ahk_exe powershell.exe")
 	Sleep, % delay * 3
@@ -282,57 +303,77 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.3.3: Hotstring: @arrangeGitHub
 :*:@arrangeGitHub::
+	; Initialize local variables
+	delay := g_delayQuantum * 7
+
+	; Position GitHub Desktop for Windows
 	AppendAhkCmd(":*:@arrangeGitHub")
 	WinRestore, GitHub
-	Sleep, 200
+	Sleep, % delay * 2
 	WinMove, GitHub, , -1893, 20, 1868, 772
-	Sleep, 200
+	Sleep, % delay * 2
+
+	; Position chrome window containing tab loaded with GitHub profile
 	WinRestore, invokeImmediately
-	Sleep, 100
+	Sleep, % delay
 	WinMove, invokeImmediately, , -1830, 0, 1700, 1040
-	Sleep, 200
+	Sleep, % delay * 2
+
+	; Position File Explorer window
 	WinRestore, File Explorer
-	Sleep, 100
+	Sleep, % delay
 	WinMove, File Explorer, , 200, 0, 1720, 1040
-	Sleep, 200
+	Sleep, % delay * 2
+
+	; Position Sublime Text 3 window
 	WinActivate, ahk_exe sublime_text.exe
-	Sleep, 330
+	Sleep, % delay * 3
 	WinRestore, ahk_exe sublime_text.exe
-	Sleep, 100
+	Sleep, % delay
 	PositionWindowViaCtrlFN("^F8", 200)
+
+	; Position Powershell console window
 	agh_MovePowerShell()
-	Sleep, 200
+	Sleep, % delay * 2
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.3.4: Function: agh_MovePowerShell
 agh_MovePowerShell() {
-	beat := 333 ; units = ms, time between operations
+	; Declare global variables
+	global g_delayQuantum
+
+	; Initialize local varaibles
+	delay := g_delayQuantum * 21 ; units = ms, time between operations
 	destX := 2313 ; units = pixels, destination X coordinate
 	destY := 161 ; units = pixels, destination Y coordinate
 	attemptsLimit := 9 ; make repeated attempts over 3 seconds
 	attemptsCount := 0
-	attemptDelay := beat
+	attemptDelay := delay
+
+	; Activate Powershell console window
 	hWnd := WinExist("Administrator: ahk_class ConsoleWindowClass")
 	while (!hWnd && attemptsCount <= attemptsLimit) {
 		Sleep, % attemptDelay
 		hWnd := WinExist("Administrator: ahk_class ConsoleWindowClass")
 		attemptsCount++
 	}
+
+	; Move Powershell console window
 	if (hWnd) {
 		psTitle := "ahk_id " . hWnd ; i.e., PowerShell's identifying criteria
-		Sleep, % beat
+		Sleep, % delay
 		WinGetPos, x, y, w, h, % psTitle
 		attempts := 0
 		while (attempts <= attemptsLimit && (x != destX && y != destY)) {
 			WinMove, % psTitle, , % destX, % destY
 			attempts++
-			Sleep, % beat
+			Sleep, % delay
 			WinGetPos, x, y, w, h, % psTitle
 		}
 		if (attempts > attemptsLimit && (x != destX && y != destY)) {
 			errorMsgBox := New GuiMsgBox("Error in " . A_ThisFunc . ": Failed to move PowerShell "
-				. "after " . (beat * attemptsLimit / 1000) . " seconds.", Func("HandleGuiMsgBoxOk")
+				. "after " . (delay * attemptsLimit / 1000) . " seconds.", Func("HandleGuiMsgBoxOk")
 				, "PowerShellWontMove")
 			errorMsgBox.ShowGui()
 		}
