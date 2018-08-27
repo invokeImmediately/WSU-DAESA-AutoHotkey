@@ -389,12 +389,18 @@ Return
 ;     >>> §1.5: Setup VD4: Communications and media
 
 :*:@setupVirtualDesktop4::
+	; Initialize local variables
+	delay := g_delayQuantum * 7
 	CheckForCmdEntryGui()
 	switchDesktopByNumber(4)
-	Sleep, 150
+
+	; Load a Chrome window for this virtual desktop
+	Sleep, % delay * 1.5
 	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
 		, "New Tab")
-	Sleep, 1000
+	Sleep, % delay * 10
+
+	; Open default email and news websites in Chrome
 	OpenWebsiteInChrome("mail.google.com", False)
 	OpenWebsiteInChrome("mail.live.com")
 	OpenWebsiteInChrome("digital.olivesoftware.com/Olive/ODN/SanFranciscoChronicle")
@@ -403,26 +409,29 @@ Return
 	OpenWebsiteInChrome("web.wsu.edu")
 	OpenWebsiteInChrome("wsu-web.slack.com")
 	MoveToNextTabInChrome()
-;	LaunchStdApplicationPatiently("C:\Program Files (x86)\Microsoft Office\root\Office16"
-;		. "\outlook.exe", "ahk_class MsoSplash ahk_exe OUTLOOK.EXE")
-;	Sleep, 5000
-;	SendInput, {Enter}
-;	Sleep, 1500
-;	WaitForApplicationPatiently("Inbox ahk_exe OUTLOOK.EXE")
+
+	; Load Outlook 365
 	LaunchStdApplicationPatiently("C:\Program Files (x86)\Microsoft Office\root\Office16"
 		. "\outlook.exe", "Inbox ahk_exe OUTLOOK.EXE")
-	LaunchStdApplicationPatiently(userAccountFolderSSD . "\AppData\Local\Wunderlist\Wunderlist.exe"
-		, "Inbox - Wunderlist")
 	LaunchStdApplicationPatiently("C:\Program Files\iTunes\iTunes.exe", "iTunes")
-	Sleep, 1000
+	Sleep, % delay * 10
+
+	; Restore default window arrangement
 	Gosub, :*:@arrangeEmail
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.5.1: Function: OpenWebsiteInChrome
 OpenWebsiteInChrome(website, inNewTab := True) {
+	; Declare global variables
+	global g_delayQuantum
+	
+	; Initialize local variables
+	delay := g_delayQuantum * 7
 	website .= "{Enter}"
 	attemptCount := 0
+
+	; Begin execution by activating Chrome
 	WinGet, procName, ProcessName, A
 	while (procName != "chrome.exe" && attemptCount <= 8) {
 		Sleep, 250
@@ -431,53 +440,86 @@ OpenWebsiteInChrome(website, inNewTab := True) {
 		WinGet, procName, ProcessName, A
 		attemptCount++
 	}
+
+	; Handle optional opening of new tab
 	if (inNewTab) {
 		OpenNewTabInChrome()
 	}
+
+	; Navigate to the specified website
 	NavigateToWebsiteInChrome(website)
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.5.2: Function: OpenNewTabInChrome
 OpenNewTabInChrome() {
-	SendInput, ^t
-	Sleep, 100	
+	; Declare global variables
+	global g_delayQuantum
+
+	; Verify that Chrome is active
+	WinGet, procName, ProcessName, A
+	if (procName == "chrome.exe") {
+		; Open a new tab via keyboard shortcut
+		SendInput, ^t
+		Sleep, % g_delayQuantum * 7	
+	}
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.5.3: Function: NavigateToWebsiteInChrome
 NavigateToWebsiteInChrome(website) {
-	SendInput, !d
-	Sleep, 100
-	SendInput, % website
-	Sleep, 330
+	; Declare global variables
+	global g_delayQuantum
+
+	; Verify that Chrome is active
+	WinGet, procName, ProcessName, A
+	if (procName == "chrome.exe") {
+		; Ensure that the address bar has focus via keyboard shortuct
+		SendInput, !d
+		Sleep, % g_delayQuantum * 7
+
+		; Navigate to the specified URL
+		SendInput, % website
+		Sleep, % g_delayQuantum * 21
+	}
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.5.4: Function: MoveToNextTabInChrome
 MoveToNextTabInChrome() {
-	SendInput, ^{Tab}
-	Sleep, 100	
+	; Declare global variables
+	global g_delayQuantum
+
+	; Verify that Chrome is active
+	WinGet, procName, ProcessName, A
+	if (procName == "chrome.exe") {
+		; Move to the next tab via keyboard shortcut
+		SendInput, ^{Tab}
+		Sleep, % g_delayQuantum * 7
+	}
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.5.5: Hotstring: @arrangeEmail
 :*:@arrangeEmail::
-	delay := 200
+	; Initialize local variables
+	delay := g_delayQuantum * 14
 
 	; Register command in history
 	AppendAhkCmd(":*:@arrangeEmail")
 
 	; Reposition Outlook
-	WinActivate, % "Inbox - ahk_exe outlook.exe"
-	Sleep, % delay
-	PositionWindowViaCtrlFN("^F6", 120)
+	WinActivate, % "Inbox - ahk_exe OUTLOOK.EXE"
+	Sleep, % delay * 2
+	PositionWindowViaCtrlFN("^F8", delay)
 	Sleep, % delay * 1.25
+	WinMaximize, A
+	Sleep, % delay * 1
 
 	; Reposition Chrome window for email and news browsing
 	WinActivate, % "Inbox ahk_exe chrome.exe"
 	Sleep, % delay * 1.25
-	PositionWindowViaCtrlFN("^F7", 120)
+	PositionWindowViaCtrlFN("^F6", delay)
 	Sleep, % delay * 2.25
 
 	; Open second Gmail account
@@ -491,18 +533,16 @@ MoveToNextTabInChrome() {
 	Sleep, % delay * 0.5
 	Send {Click}
 	Sleep, % delay * 2.5
-
-	; Reposition Wunderlist
-	WinActivate, % "Inbox - Wunderlist"
-	Sleep, % delay
-	PositionWindowViaCtrlFN("^F8", 120)
-	Sleep, % delay * 0.5
+	WinMaximize, A
+	Sleep, % delay * 1
 
 	; Reposition iTunes
 	WinActivate, % "iTunes ahk_exe iTunes.exe"
 	Sleep, % delay * 0.5
-	PositionWindowViaCtrlFN("^F9", 120)
+	PositionWindowViaCtrlFN("^F10", delay)
 	Sleep, % delay * 5
+	WinMaximize, A
+	Sleep, % delay * 1
 Return
 
 ;   ································································································
