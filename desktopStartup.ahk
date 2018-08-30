@@ -7,36 +7,37 @@
 ; ==================================================================================================
 ; Table of Contents
 ; -----------------
-;   §1: VIRTUAL DESKTOP SETUP HOTSTRINGS........................................................43
-;     >>> §1.1: Work environment setup..........................................................47
-;       →→→ §1.1.1: Hotstring: @setupVirtualDesktops............................................61
-;       →→→ §1.1.2: Hotstring: @setupCiscoVpn...................................................78
-;     >>> §1.2: VD1: Website editing............................................................92
-;       →→→ §1.2.1: PositionWindowViaCtrlFN — Function.........................................109
-;       →→→ §1.2.2: @moveTempMonitors — Hotstring..............................................127
-;       →→→ §1.2.3: @startSublimeText3 — Hotstring.............................................141
-;       →→→ §1.2.4: @startChrome — Hotstring...................................................152
-;       →→→ §1.2.5: PositionChromeVD1 — Function...............................................164
-;       →→→ §1.2.6: @startMsTodo — Hotstring...................................................179
-;       →→→ §1.2.7: PositionMsTodo — Function..................................................189
-;     >>> §1.3: VD2: Programming...............................................................206
-;       →→→ §1.3.1: Function: AddSublimeText3ToVd..............................................223
-;       →→→ §1.3.2: Hotstring: @startGithubClients.............................................265
-;       →→→ §1.3.3: Hotstring: @arrangeGitHub..................................................283
-;       →→→ §1.3.4: Function: agh_MovePowerShell...............................................308
-;     >>> §1.4: Setup VD3: Graphic design......................................................347
-;       →→→ §1.4.1: Hotstring: @arrangeGimp....................................................367
-;     >>> §1.5: Setup VD4: Communications and media............................................389
-;       →→→ §1.5.1: Function: OpenWebsiteInChrome..............................................422
-;       →→→ §1.5.2: Function: OpenNewTabInChrome...............................................441
-;       →→→ §1.5.3: Function: NavigateToWebsiteInChrome........................................448
-;       →→→ §1.5.4: Function: MoveToNextTabInChrome............................................457
-;       →→→ §1.5.5: Hotstring: @arrangeEmail...................................................464
-;     >>> §1.6: Setup VD5: Diagnostics & talmud................................................509
-;     >>> §1.7: Other setup hotstrings.........................................................539
-;       →→→ §1.7.1: Hotstring: @startNotepadPp.................................................542
-;   §2: STARTUP HOTKEYS........................................................................568
-;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................576
+;   §1: VIRTUAL DESKTOP SETUP HOTSTRINGS........................................................44
+;     >>> §1.1: Work environment setup..........................................................48
+;       →→→ §1.1.1: Hotstring: @setupVirtualDesktops............................................62
+;       →→→ §1.1.2: Hotstring: @setupCiscoVpn...................................................79
+;     >>> §1.2: VD1: Website editing............................................................93
+;       →→→ §1.2.1: PositionWindowViaCtrlFN — Function.........................................110
+;       →→→ §1.2.2: @moveTempMonitors — Hotstring..............................................142
+;       →→→ §1.2.3: @startSublimeText3 — Hotstring.............................................156
+;       →→→ §1.2.4: @startChrome — Hotstring...................................................167
+;       →→→ §1.2.5: PositionChromeVD1 — Function...............................................179
+;       →→→ §1.2.6: Vd1_OpenWorkNotesLog — Function............................................194
+;       →→→ §1.2.7: @startMsTodo — Hotstring...................................................229
+;       →→→ §1.2.8: PositionMsTodo — Function..................................................239
+;     >>> §1.3: VD2: Programming...............................................................256
+;       →→→ §1.3.1: Function: AddSublimeText3ToVd..............................................284
+;       →→→ §1.3.2: Hotstring: @startGithubClients.............................................329
+;       →→→ §1.3.3: Hotstring: @arrangeGitHub..................................................354
+;       →→→ §1.3.4: Function: agh_MovePowerShell...............................................391
+;     >>> §1.4: Setup VD3: Graphic design......................................................444
+;       →→→ §1.4.1: Hotstring: @arrangeGimp....................................................464
+;     >>> §1.5: Setup VD4: Communications and media............................................486
+;       →→→ §1.5.1: Function: OpenWebsiteInChrome..............................................521
+;       →→→ §1.5.2: Function: OpenNewTabInChrome...............................................551
+;       →→→ §1.5.3: Function: NavigateToWebsiteInChrome........................................566
+;       →→→ §1.5.4: Function: MoveToNextTabInChrome............................................585
+;       →→→ §1.5.5: Hotstring: @arrangeEmail...................................................600
+;     >>> §1.6: Setup VD5: Diagnostics & talmud................................................646
+;     >>> §1.7: Other setup hotstrings.........................................................676
+;       →→→ §1.7.1: Hotstring: @startNotepadPp.................................................679
+;   §2: STARTUP HOTKEYS........................................................................705
+;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................713
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -108,19 +109,33 @@ Return
 ;   ································································································
 ;     >>> §1.2: VD1: Website editing
 :*:@setupVirtualDesktop1::
-	AppendAhkCmd(A_ThisLabel)
+	; Initialize local variables
 	delay := g_delayQuantum * 7
+
+	; Ensure VD1 is active
+	AppendAhkCmd(A_ThisLabel)
 	switchDesktopByNumber(1)
 	Sleep, % delay * 4
+
+	; Start Sublime Text 3 & restore its default positioning
 	Gosub, :*:@startSublimeText3
 	Sleep, % delay * 4
 	PositionWindowViaCtrlFN("^F8", delay)
+
+	; Load chrome & navigate to WSUWP login page
 	Gosub, :*:@startChrome
 	Sleep, % delay * 4
 	OpenWebsiteInChrome("distinguishedscholarships.wsu.edu/wp-admin/", False)
+
+	; Position chrome on VD1
 	PositionChromeOnVD1()
-	Gosub, :*:@startMsTodo
-	PositionMsTodo()
+
+	; Ensure work task log is loaded in ST3
+	Vd1_OpenWorkNotesLog()
+
+	; Start MS Todo and position it on VD1
+;	Gosub, :*:@startMsTodo
+;	PositionMsTodo()
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
@@ -176,7 +191,64 @@ PositionChromeOnVD1() {
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.2.6: @startMsTodo — Hotstring
+;       →→→ §1.2.6: Vd1_OpenWorkNotesLog — Function
+Vd1_OpenWorkNotesLog() {
+	; Declare global variables
+	global g_delayQuantum
+
+	; Initialize local variables
+	oldTitleMatchMode := 0
+	delay := g_delayQuantum * 21
+	st3TitleToMatch := "log_work-notes.txt ahk_exe sublime_text\.exe"
+	st3GeneralTitle := "ahk_exe sublime_text\.exe"
+	st3NewWinTitle := "untitled - Sublime ahk_exe sublime_text\.exe"
+
+	; Proceed in RegEx title matching mode
+	if (A_TitleMatchMode != "RegEx") {
+		SetTitleMatchMode, RegEx
+	}
+
+	; Add ST3 window to virtual desktop
+	IfWinExist, %st3TitleToMatch%
+	{
+		; Ensure ST3 is active and restore default position of work notes
+		Sleep, % delay
+		SafeWinActivate(st3TitleToMatch, "RegEx")
+		PositionWindowViaCtrlFN("^F10", delay)
+		Sleep, % delay * 3
+
+		; Create a new ST3 window and restore its default position on virtual desktop
+		SendInput, ^+n
+		Sleep, % delay * 3
+		WaitForApplicationPatiently(st3NewWinTitle)
+		PositionWindowViaCtrlFN("^F8", delay)
+	} else {
+		; Activate existing ST3 process and restore its default position on virtual desktop
+		SafeWinActivate(st3GeneralTitle, "RegEx")
+		Sleep, % delay
+		PositionWindowViaCtrlFN("^F8", delay)
+		Sleep, % delay * 3
+
+		; Create a new ST3 window, open the work log, and restore its default position
+		SendInput, ^+n
+		Sleep, % delay * 3
+		WaitForApplicationPatiently(st3NewWinTitle)
+		Sleep, % delay
+		SendInput, ^o
+		Sleep, % delay * 3
+		SendInput, % "C:\Users\CamilleandDaniel\Documents\GitHub\log_work-notes.txt{Enter}"
+		Sleep, % delay * 3
+		PositionWindowViaCtrlFN("^F10", delay)
+	}
+
+	; If necessary, restore title matching mode to previous setting
+	if (oldTitleMatchMode) {
+		SetTitleMatchMode, % oldTitleMatchMode		
+	}
+}
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.2.7: @startMsTodo — Hotstring
 :*:@startMsTodo::
 	delay := g_delayQuantum * 7
 	AppendAhkCmd(A_ThisLabel)
@@ -186,7 +258,7 @@ PositionChromeOnVD1() {
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.2.7: PositionMsTodo — Function
+;       →→→ §1.2.8: PositionMsTodo — Function
 PositionMsTodo() {
 	global g_delayQuantum
 
@@ -269,7 +341,7 @@ AddSublimeText3ToVd(whichVd) {
 		GoSub, :*:@startSublimeText3
 	}
 
-	; Restore title matching mode to previous default if needed
+	; If necessary, restore title matching mode to previous setting
 	if (oldTitleMatchMode) {
 		SetTitleMatchMode, % oldTitleMatchMode		
 	}
@@ -361,16 +433,21 @@ agh_MovePowerShell() {
 
 	; Move Powershell console window
 	if (hWnd) {
+		; Set up a loop for repeated move attemps
 		psTitle := "ahk_id " . hWnd ; i.e., PowerShell's identifying criteria
 		Sleep, % delay
 		WinGetPos, x, y, w, h, % psTitle
 		attempts := 0
+
+		; Execute a loop for repeated move attempts
 		while (attempts <= attemptsLimit && (x != destX && y != destY)) {
 			WinMove, % psTitle, , % destX, % destY
 			attempts++
 			Sleep, % delay
 			WinGetPos, x, y, w, h, % psTitle
 		}
+
+		; If necessary, report failure to move Powershell console window
 		if (attempts > attemptsLimit && (x != destX && y != destY)) {
 			errorMsgBox := New GuiMsgBox("Error in " . A_ThisFunc . ": Failed to move PowerShell "
 				. "after " . (delay * attemptsLimit / 1000) . " seconds.", Func("HandleGuiMsgBoxOk")
@@ -378,6 +455,7 @@ agh_MovePowerShell() {
 			errorMsgBox.ShowGui()
 		}
 	} else {
+		; Report failure to activate Powershell console window
 		errorMsgBox := New GuiMsgBox("Error in " . A_ThisFunc . ": Could not find PowerShell."
 			, Func("HandleGuiMsgBoxOk"), "NoPowerShell")
 		errorMsgBox.ShowGui()
