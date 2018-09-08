@@ -1287,11 +1287,11 @@ ExecuteCssPasteCmds(manualProcession := false) {
 		if (manualProcession) {
 			MsgBox, 48, % A_ThisFunc, % "Press OK to proceed with update button selection."
 		}
-		Click, 1565, 370
+		Click, 1565, 401
 		Sleep, 60
-		Click, 1565, 410
+		Click, 1565, 421
 		Sleep, 60
-		Click, 1565, 455
+		Click, 1565, 441
 		Sleep, 1000
 	} else {
 		MsgBox, % (0x0 + 0x10)
