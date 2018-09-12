@@ -6,15 +6,16 @@
 ;   adapted from https://github.com/pmb6tz/windows-desktop-switcher.
 ; --------------------------------------------------------------------------------------------------
 ; TABLE OF CONTENTS:
-;   §1: GLOBAL VARIABLES.......................................................................21
-;   §2: FUNCTIONS & SUBROUTINES................................................................27
-;     >>> §2.1: MapDesktopsFromRegistry........................................................31
-;     >>> §2.2: GetSessionId...................................................................90
-;     >>> §2.3: SwitchDesktopByNumber.........................................................107
-;     >>> §2.4: MoveActiveWindowToVirtualDesktop..............................................158
-;     >>> §2.5: CreateVirtualDesktop..........................................................220
-;     >>> §2.6: DeleteVirtualDesktop..........................................................234
-;     >>> §2.7: GetCurrentVirtualDesktop......................................................248
+;   §1: GLOBAL VARIABLES.......................................................................22
+;   §2: FUNCTIONS & SUBROUTINES................................................................28
+;     >>> §2.1: MapDesktopsFromRegistry........................................................32
+;     >>> §2.2: GetSessionId...................................................................92
+;     >>> §2.3: SwitchDesktopByNumber.........................................................109
+;     >>> §2.4: MoveActiveWindowToVirtualDesktop..............................................161
+;     >>> §2.5: CreateVirtualDesktop..........................................................223
+;     >>> §2.6: DeleteVirtualDesktop..........................................................237
+;     >>> §2.7: GetCurrentVirtualDesktop......................................................251
+;     >>> §2.8: CloseOpenWindowsOnVD..........................................................264
 ; --------------------------------------------------------------------------------------------------
 
 ; --------------------------------------------------------------------------------------------------
@@ -37,7 +38,8 @@ global vdCurrentDesktop = 1 ; Desktop count is 1-indexed (Microsoft numbers them
 ;        on\Explorer\VirtualDesktops
 
 MapDesktopsFromRegistry() {
-	global vdCurrentDesktop, vdDesktopCount
+	global vdCurrentDesktop
+	global vdDesktopCount
 
 	; Get the current desktop UUID. Length should be 32 always, but there's no guarantee this
 	; couldn't change in a later Windows release so we check.
@@ -110,7 +112,8 @@ SwitchDesktopByNumber(targetDesktop) {
 	global vdCurrentDesktop
 	global vdDesktopCount
 	global alreadySwitchingDesktop
-	keyDelay := 100
+	global g_delayQuantum
+	keyDelay := g_delayQuantum * 8
 
 	if (!alreadySwitchingDesktop) {
 		alreadySwitchingDesktop := True
@@ -133,7 +136,7 @@ SwitchDesktopByNumber(targetDesktop) {
 				Sleep, %keyDelay%
 				MapDesktopsFromRegistry()
 				iCounter++
-				if (iCounter > vdDesktopCount * 2) {
+				if (iCounter > vdDesktopCount * 4) {
 					Break
 				}
 			}
@@ -145,7 +148,7 @@ SwitchDesktopByNumber(targetDesktop) {
 				Sleep, %keyDelay%
 				MapDesktopsFromRegistry()
 				iCounter++
-				if (iCounter > vdDesktopCount * 2) {
+				if (iCounter > vdDesktopCount * 4) {
 					Break
 				}
 			}
@@ -255,4 +258,72 @@ GetCurrentVirtualDesktop() {
 
 	MapDesktopsFromRegistry()
 	return vdCurrentDesktop
+}
+
+;   ································································································
+;     >>> §2.8: CloseOpenWindowsOnVD (Abbreviated prefix: cowvd_…)
+;
+; 		Research:
+; 		--------
+; 		• Anything unique about Explorer.exe (i.e., desktop process) that can distinguish it from
+; 		File Explorer?
+;
+; 		Execution Steps:
+; 		---------------
+; 		• Get the active window process name + title + Hwnd; store in an object.
+; 		• Check if there was already an attempt to close the window, or if we have hit the desktop
+; 		  with no open windows left. If not, add the 
+; 		• If appropriate, tell the active window to close via Ctrl+W or Alt+F4.
+; 		• Then, switch to the next available window via Alt+Tab.
+; 		• Loop as long as there are new open windows to close.
+; 		• Exit conditions: the desktop is now active, or we circled around to a window we already
+; 		  tried to close.
+;
+; 		Testing that is needed:
+; 		----------------------
+; 		• Is there a way to keep track of windows that didn't successfully close? Perhaps they can
+; 		  then be reviewed via a hotstring. Or a message box could report which VD's still have a
+; 		  window open on it. (Perhaps this specific function could return a bool via allWindowsClosed,
+; 		  or an array of Hwnds.)
+; 		• Do we need to run checks on each window, e.g., by adding a counter to the object and
+; 		  running through the loop multiple times?
+
+CloseOpenWindowsOnVD() { ; Alias = cowvd
+	; Declare global variables
+	global g_delayQuantum
+	global g_desktopHwnd
+
+	; Initialize local variables
+	delay := g_delayQuantum * 7 ; ~110 ms
+	vdHWnds := Array()
+
+	; Check active window to see if it is the OS desktop
+	WinGet, aProcess, ProcessName, A
+	WinGetClass, aClass, A
+	if (!cowvd_IsOsActive()) {
+		; TODO: Finish writing statement block.
+		; Log all open windows
+	} else {
+		; Perform at least one alt+tab and see if the OS desktop is still active
+		SendInput, !{Tab}
+		Sleep, % delay
+		if (!cowvd_IsOsActive()) {
+			; TODO: Finish writing statement block.
+		}
+	}
+}
+
+cowvd_IsOsActive() {
+	; Initialize local variables
+	osProcess := "Explorer.EXE"
+	osFalsePositiveClass := "CabinetWClass" ; i.e., the class of File Explorer
+
+	; Check active window to see if it is the OS desktop
+	WinGet, aProcess, ProcessName, A
+	WinGetClass, aClass, A
+	return aProcess == osProcess && aClass != osFalsePositiveClass
+}
+
+cowvd_ProcessOpenWindows() {
+
 }
