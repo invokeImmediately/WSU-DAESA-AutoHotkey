@@ -7,22 +7,23 @@
 ; ==================================================================================================
 ; Table of Contents
 ; -----------------
-;   §1: GUI triggering hotstring................................................................29
-;     >>> §1.1: @gcAnyFile......................................................................33
-;   §2: GUI supporting functions................................................................74
-;     >>> §2.1: CommitAnyFile...................................................................78
-;     >>> §2.2: HandleCommitAnyFileAddFiles....................................................165
-;     >>> §2.3: HandleCommitAnyFile1stMsgChange................................................208
-;     >>> §2.4: HandleCommitAnyFile2ndMsgChange................................................226
-;     >>> §2.5: HandleCommitAnyFileOk..........................................................240
-;     >>> §2.6: CheckAnyFilePrimaryMsgChanged..................................................312
-;     >>> §2.6: CheckAnyFilePrimaryMsgChanged..................................................335
-;     >>> §2.7: HandleCommitAnyFileCancel......................................................357
-;     >>> §2.8: HandleCommitAnyFileCancel......................................................366
-;     >>> §2.9: LoadCommitAnyFileMsgHistory....................................................407
-;     >>> §2.10: ReadKeyForAnyFileCommitMsgHistory.............................................450
-;     >>> §2.11: ReadPrimaryCommitMsgForFileKey................................................474
-;     >>> §2.12: ReadPrimaryCommitMsgForFileKey................................................493
+;   §1: GUI triggering hotstring................................................................30
+;     >>> §1.1: @gcAnyFile......................................................................34
+;   §2: GUI supporting functions................................................................75
+;     >>> §2.1: CommitAnyFile...................................................................79
+;     >>> §2.2: HandleCommitAnyFileAddFiles....................................................167
+;     >>> §2.3: HandleCommitAnyFileRemoveFiles.................................................210
+;     >>> §2.4: HandleCommitAnyFile1stMsgChange................................................251
+;     >>> §2.5: HandleCommitAnyFile2ndMsgChange................................................269
+;     >>> §2.6: HandleCommitAnyFileOk..........................................................283
+;     >>> §2.7: CheckAnyFilePrimaryMsgChanged..................................................355
+;     >>> §2.7: CheckAnyFilePrimaryMsgChanged..................................................378
+;     >>> §2.8: HandleCommitAnyFileCancel......................................................400
+;     >>> §2.9: HandleCommitAnyFileCancel......................................................409
+;     >>> §2.10: LoadCommitAnyFileMsgHistory...................................................450
+;     >>> §2.11: ReadKeyForAnyFileCommitMsgHistory.............................................493
+;     >>> §2.12: ReadPrimaryCommitMsgForFileKey................................................517
+;     >>> §2.13: ReadPrimaryCommitMsgForFileKey................................................536
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -142,6 +143,7 @@ CommitAnyFile(ahkCmdName, gitFolder, filesToCommit) {
 
 	;Continue adding controls to GUI
 	Gui, guiCommitAnyFile: Add, Button, gHandleCommitAnyFileAddFiles xm Y+3, &Add More Files
+	Gui, guiCommitAnyFile: Add, Button, gHandleCommitAnyFileRemoveFiles X+5, &Remove File(s)
 	Gui, guiCommitAnyFile: Font, bold
 	Gui, guiCommitAnyFile: Add, Text, Y+12, % "Message(s) to be used for commit: "
 	Gui, guiCommitAnyFile: Font
@@ -198,14 +200,55 @@ HandleCommitAnyFileAddFiles() {
 			}
 
 		} else {
-			ErrorBox(A_ThisFunc, "Unfortunately, you did not select files contained within the "
-				. "root folder of the git repository you previously selected. Please try again.")
+			ErrorBox(A_ThisFunc, "Unfortunately, you did not select files contained within the root"
+				. " folder of the git repository you previously selected. Please try again.")
 		}
 	}
 }
 
 ;   ································································································
-;     >>> §2.3: HandleCommitAnyFile1stMsgChange
+;     >>> §2.3: HandleCommitAnyFileRemoveFiles
+;
+;   Function handler for activation of the button used to remove selected files to be committed.
+
+HandleCommitAnyFileRemoveFiles() {
+	global commitAnyFileVars
+	global g_delayQuantum
+	delay := g_delayQuantum * 7
+
+	; Make sure the user doesn't try to remove all files.
+	numRows := LV_GetCount()
+	triedToRemoveAllFiles := False
+	if (numRows > 1) {
+		numSelectedRows := LV_GetCount("Selected")
+		if (numSelectedRows < numRows) {
+			rowNumber := 1
+			Loop
+			{
+				rowNumber := LV_GetNext(rowNumber - 1)
+				if (rowNumber) {
+					LV_Delete(rowNumber)
+					Sleep, % delay
+				} else {
+					break
+				}
+			}
+		} else {
+			triedToRemoveAllFiles := True
+		}
+	} else {
+		triedToRemoveAllFiles := True
+	}
+
+	; If necessary, inform the user that removal of all files from the list view is not permitted.
+	if (triedToRemoveAllFiles) {
+			ErrorBox(A_ThisFunc, "Unfortunately, I cannot remove the file(s); at least one file mus"
+				. "t be entered for the commit process.")
+	}
+}
+
+;   ································································································
+;     >>> §2.4: HandleCommitAnyFile1stMsgChange
 ;
 ;   Function handler for changes to the primary git commit message for the selected file(s).
 
@@ -223,7 +266,7 @@ HandleCommitAnyFile1stMsgChange() {
 }
 
 ;   ································································································
-;     >>> §2.4: HandleCommitAnyFile2ndMsgChange
+;     >>> §2.5: HandleCommitAnyFile2ndMsgChange
 ;
 ;   Function handler for changes to the secondary git commit message for the selected file(s).
 
@@ -237,7 +280,7 @@ HandleCommitAnyFile2ndMsgChange() {
 }
 
 ;   ································································································
-;     >>> §2.5: HandleCommitAnyFileOk
+;     >>> §2.6: HandleCommitAnyFileOk
 ;
 ;   Function handler for activation of the 'OK' button.
 
@@ -309,7 +352,7 @@ HandleCommitAnyFileOk() {
 }
 
 ;   ································································································
-;     >>> §2.6: CheckAnyFilePrimaryMsgChanged
+;     >>> §2.7: CheckAnyFilePrimaryMsgChanged
 ;
 ;   Quality control function to prevent accidentally repeated git commits.
 ;
@@ -332,7 +375,7 @@ CheckAnyFilePrimaryMsgChanged() {
 }
 
 ;   ································································································
-;     >>> §2.6: CheckAnyFilePrimaryMsgChanged
+;     >>> §2.7: CheckAnyFilePrimaryMsgChanged
 ;
 ;	Called by the HandleCommitAnyFileOk function to handle error processing.
 ;
@@ -354,7 +397,7 @@ ProcessHandleCommitAnyFileOkError(gVarCheck) {
 }
 
 ;   ································································································
-;     >>> §2.7: HandleCommitAnyFileCancel
+;     >>> §2.8: HandleCommitAnyFileCancel
 ;
 ;	Function handler for activation of the GUI's "Cancel" button.
 
@@ -363,7 +406,7 @@ HandleCommitAnyFileCancel() {
 }
 
 ;   ································································································
-;     >>> §2.8: HandleCommitAnyFileCancel
+;     >>> §2.9: HandleCommitAnyFileCancel
 ;
 ;	Record git commit messages so they are remembered between scripting sessions.
 ;
@@ -404,7 +447,7 @@ SaveCommitAnyFileMsgHistory() {
 }
 
 ;   ································································································
-;     >>> §2.9: LoadCommitAnyFileMsgHistory
+;     >>> §2.10: LoadCommitAnyFileMsgHistory
 ;
 ;	Load git commit messages recorded from previous scripting sessions.
 
@@ -447,7 +490,7 @@ LoadCommitAnyFileMsgHistory() {
 }
 
 ;   ································································································
-;     >>> §2.10: ReadKeyForAnyFileCommitMsgHistory
+;     >>> §2.11: ReadKeyForAnyFileCommitMsgHistory
 ;
 ;   Reads a key from the next line in the commit message history log file.
 ;
@@ -471,7 +514,7 @@ ReadKeyForAnyFileCommitMsgHistory(ByRef logFile) {
 }
 
 ;   ································································································
-;     >>> §2.11: ReadPrimaryCommitMsgForFileKey
+;     >>> §2.12: ReadPrimaryCommitMsgForFileKey
 ;
 ;   Reads a primary commit message from the next line in the commit message history log file.
 
@@ -490,7 +533,7 @@ ReadPrimaryCommitMsgForFileKey(ByRef logFile, ByRef commitMsgArray, key) {
 }
 
 ;   ································································································
-;     >>> §2.12: ReadPrimaryCommitMsgForFileKey
+;     >>> §2.13: ReadPrimaryCommitMsgForFileKey
 ;
 ;   Reads a secondary commit message from the next line in the commit message history log file.
 
