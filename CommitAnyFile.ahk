@@ -5,6 +5,32 @@
 ; ! = ALT     + = SHIFT     ^ = CONTROL     # = WIN
 ; (see https://autohotkey.com/docs/commands/Send.htm for more info)
 ; ==================================================================================================
+; Table of Contents
+; -----------------
+;   §1: GUI triggering hotstring................................................................29
+;     >>> §1.1: @gcAnyFile......................................................................33
+;   §2: GUI supporting functions................................................................74
+;     >>> §2.1: CommitAnyFile...................................................................78
+;     >>> §2.2: HandleCommitAnyFileAddFiles....................................................165
+;     >>> §2.3: HandleCommitAnyFile1stMsgChange................................................208
+;     >>> §2.4: HandleCommitAnyFile2ndMsgChange................................................226
+;     >>> §2.5: HandleCommitAnyFileOk..........................................................240
+;     >>> §2.6: CheckAnyFilePrimaryMsgChanged..................................................312
+;     >>> §2.6: CheckAnyFilePrimaryMsgChanged..................................................335
+;     >>> §2.7: HandleCommitAnyFileCancel......................................................357
+;     >>> §2.8: HandleCommitAnyFileCancel......................................................366
+;     >>> §2.9: LoadCommitAnyFileMsgHistory....................................................407
+;     >>> §2.10: ReadKeyForAnyFileCommitMsgHistory.............................................450
+;     >>> §2.11: ReadPrimaryCommitMsgForFileKey................................................474
+;     >>> §2.12: ReadPrimaryCommitMsgForFileKey................................................493
+; ==================================================================================================
+
+; --------------------------------------------------------------------------------------------------
+;   §1: GUI triggering hotstring
+; --------------------------------------------------------------------------------------------------
+
+;   ································································································
+;     >>> §1.1: @gcAnyFile
 
 :*:@gcAnyFile::
 	AppendAhkCmd(A_ThisLabel)
@@ -44,7 +70,27 @@
 	}
 Return
 
-; Sets up a GUI to automate committing of CSS build files.
+; --------------------------------------------------------------------------------------------------
+;   §2: GUI supporting functions
+; --------------------------------------------------------------------------------------------------
+
+;   ································································································
+;     >>> §2.1: CommitAnyFile
+;
+;   Build and display a GUI for automating the committing of changed files to git through
+;   Powershell.
+;
+;   The GUI allows the user to select multiple files within a git repository, which are later
+;   processed into one or more 'git add …' shell commands. Primary and secondary git commit messages
+;   can also be set, and the GUI displays the length of each message. These messages are later
+;   processed into a 'git commit -m "…" (-m "…")' command. Moreover, the previous git commit message
+;   for a file is remembered by the GUI on future commits. Finally, the GUI will also generate
+;   terminal 'git push' and console beeping commands to complete the commit process.
+;
+;   @param {string}			ahkCmdName		The hotstring/label that called the function.
+;   @param {string}			gitFolder		File system folder containing the local git repo.
+;   @param {simple array}	filesToCommit	Array of files to be committed.
+
 CommitAnyFile(ahkCmdName, gitFolder, filesToCommit) {
 	global commitAnyFileVars := Object()
 	global commitAnyFileLastMsg
@@ -115,7 +161,11 @@ CommitAnyFile(ahkCmdName, gitFolder, filesToCommit) {
 	Gui, guiCommitAnyFile: Show
 }
 
-; Triggered when the primary git commit message for the selected file is changed by user input
+;   ································································································
+;     >>> §2.2: HandleCommitAnyFileAddFiles
+;
+;   Function handler for activation of the button used to add more files to be committed.
+
 HandleCommitAnyFileAddFiles() {
 	global commitAnyFileVars
 	FileSelectFile, selectedFiles, M3, , % "Select (a) file(s) to be committed."
@@ -154,7 +204,11 @@ HandleCommitAnyFileAddFiles() {
 	}
 }
 
-; Triggered when the primary git commit message for the selected file is changed by user input
+;   ································································································
+;     >>> §2.3: HandleCommitAnyFile1stMsgChange
+;
+;   Function handler for changes to the primary git commit message for the selected file(s).
+
 HandleCommitAnyFile1stMsgChange() {
 	global commitAnyFileVars
 	global ctrlCommitAnyFile1stMsg
@@ -168,7 +222,11 @@ HandleCommitAnyFile1stMsgChange() {
 	GuiControl, , ctrlCommitAnyFile1stMsgCharCount, % "Length = " . msgLen . " characters"
 }
 
-; Triggered when the secondary git commit message for the selected file is changed by user input
+;   ································································································
+;     >>> §2.4: HandleCommitAnyFile2ndMsgChange
+;
+;   Function handler for changes to the secondary git commit message for the selected file(s).
+
 HandleCommitAnyFile2ndMsgChange() {
 	global ctrlCommitAnyFile2ndMsg
 	global ctrlCommitAnyFile2ndMsgCharCount
@@ -178,7 +236,11 @@ HandleCommitAnyFile2ndMsgChange() {
 	GuiControl, , ctrlCommitAnyFile2ndMsgCharCount, % "Length = " . msgLen . " characters"
 }
 
-; Triggered by activation of OK button in guiCommitAnyFile GUI
+;   ································································································
+;     >>> §2.5: HandleCommitAnyFileOk
+;
+;   Function handler for activation of the 'OK' button.
+
 HandleCommitAnyFileOk() {
 	global commitAnyFileVars
 	global commitAnyFileLastMsg
@@ -243,9 +305,17 @@ HandleCommitAnyFileOk() {
 
 		; Determine what went wrong, notify user, and handle accordingly.
 		ProcessHandleCommitAnyFileOkError(gVarCheck)
-
 	}
 }
+
+;   ································································································
+;     >>> §2.6: CheckAnyFilePrimaryMsgChanged
+;
+;   Quality control function to prevent accidentally repeated git commits.
+;
+;   Ensures that the user is aware that the primary commit message was left unchanged compared to
+;   the previous commit for the selected file(s). Since it is possible that this was intended, the
+;   user has an opportunity to allow the commit to be posted.
 
 CheckAnyFilePrimaryMsgChanged() {
 	global commitAnyFileVars
@@ -261,7 +331,14 @@ CheckAnyFilePrimaryMsgChanged() {
 	return proceed
 }
 
-; Called by HandleCommitAnyFileOk() to handle error processing.
+;   ································································································
+;     >>> §2.6: CheckAnyFilePrimaryMsgChanged
+;
+;	Called by the HandleCommitAnyFileOk function to handle error processing.
+;
+;   @param {bitmask}	gVarCheck		Represents the correctness of global variables associated
+;   									with the GUI.
+
 ProcessHandleCommitAnyFileOkError(gVarCheck) {
 	functionName := "CommitAnyFile.ahk / ProcessHandleCommitAnyFileOk()"
 	if (gVarCheck == 1) {
@@ -276,13 +353,23 @@ ProcessHandleCommitAnyFileOkError(gVarCheck) {
 	}
 }
 
-; Triggered by Cancel button in guiCommitAnyFile GUI.
+;   ································································································
+;     >>> §2.7: HandleCommitAnyFileCancel
+;
+;	Function handler for activation of the GUI's "Cancel" button.
+
 HandleCommitAnyFileCancel() {
 	Gui, guiCommitAnyFile: Destroy
 }
 
-; Record git commit messages collected through the GUI so they are remembered between scripting
-; sessions
+;   ································································································
+;     >>> §2.8: HandleCommitAnyFileCancel
+;
+;	Record git commit messages so they are remembered between scripting sessions.
+;
+;   Specifically, this function stores the associative array of previous commit messages to a log
+;   file.
+
 SaveCommitAnyFileMsgHistory() {
 	global commitAnyFileLastMsg
 	global commitAnyFileMsgLog
@@ -315,6 +402,11 @@ SaveCommitAnyFileMsgHistory() {
 		}
 	}
 }
+
+;   ································································································
+;     >>> §2.9: LoadCommitAnyFileMsgHistory
+;
+;	Load git commit messages recorded from previous scripting sessions.
 
 LoadCommitAnyFileMsgHistory() {
 	; TODO: Rewrite code below to avoid wiping out the log if an error occurs; e.g., can use a 
@@ -354,6 +446,15 @@ LoadCommitAnyFileMsgHistory() {
 
 }
 
+;   ································································································
+;     >>> §2.10: ReadKeyForAnyFileCommitMsgHistory
+;
+;   Reads a key from the next line in the commit message history log file.
+;
+;   The key is a string containing the complete path to file. The encountering of a blank line is
+;   treated as an error condition, as this would otherwise result in a nonsensical blank string
+;   being used as a key.
+
 ReadKeyForAnyFileCommitMsgHistory(ByRef logFile) {
 	key := ""
 	logFileLine := logFile.ReadLine()
@@ -369,6 +470,11 @@ ReadKeyForAnyFileCommitMsgHistory(ByRef logFile) {
 	return key
 }
 
+;   ································································································
+;     >>> §2.11: ReadPrimaryCommitMsgForFileKey
+;
+;   Reads a primary commit message from the next line in the commit message history log file.
+
 ReadPrimaryCommitMsgForFileKey(ByRef logFile, ByRef commitMsgArray, key) {
 	success := false
 	logFileLine := logFile.ReadLine()
@@ -382,6 +488,11 @@ ReadPrimaryCommitMsgForFileKey(ByRef logFile, ByRef commitMsgArray, key) {
 	}
 	return success
 }
+
+;   ································································································
+;     >>> §2.12: ReadPrimaryCommitMsgForFileKey
+;
+;   Reads a secondary commit message from the next line in the commit message history log file.
 
 ReadSecondaryCommitMsgForFileKey(ByRef logFile, ByRef commitMsgArray, key) {
 	success := false
