@@ -12,18 +12,18 @@
 ;   §2: GUI supporting functions................................................................75
 ;     >>> §2.1: CommitAnyFile...................................................................79
 ;     >>> §2.2: HandleCommitAnyFileAddFiles....................................................167
-;     >>> §2.3: HandleCommitAnyFileRemoveFiles.................................................210
-;     >>> §2.4: HandleCommitAnyFile1stMsgChange................................................251
-;     >>> §2.5: HandleCommitAnyFile2ndMsgChange................................................269
-;     >>> §2.6: HandleCommitAnyFileOk..........................................................283
-;     >>> §2.7: CheckAnyFilePrimaryMsgChanged..................................................355
-;     >>> §2.7: CheckAnyFilePrimaryMsgChanged..................................................378
-;     >>> §2.8: HandleCommitAnyFileCancel......................................................400
-;     >>> §2.9: HandleCommitAnyFileCancel......................................................409
-;     >>> §2.10: LoadCommitAnyFileMsgHistory...................................................450
-;     >>> §2.11: ReadKeyForAnyFileCommitMsgHistory.............................................493
-;     >>> §2.12: ReadPrimaryCommitMsgForFileKey................................................517
-;     >>> §2.13: ReadPrimaryCommitMsgForFileKey................................................536
+;     >>> §2.3: HandleCommitAnyFileRemoveFiles.................................................221
+;     >>> §2.4: HandleCommitAnyFile1stMsgChange................................................262
+;     >>> §2.5: HandleCommitAnyFile2ndMsgChange................................................280
+;     >>> §2.6: HandleCommitAnyFileOk..........................................................294
+;     >>> §2.7: CheckAnyFilePrimaryMsgChanged..................................................366
+;     >>> §2.7: CheckAnyFilePrimaryMsgChanged..................................................389
+;     >>> §2.8: HandleCommitAnyFileCancel......................................................411
+;     >>> §2.9: HandleCommitAnyFileCancel......................................................420
+;     >>> §2.10: LoadCommitAnyFileMsgHistory...................................................461
+;     >>> §2.11: ReadKeyForAnyFileCommitMsgHistory.............................................504
+;     >>> §2.12: ReadPrimaryCommitMsgForFileKey................................................528
+;     >>> §2.13: ReadPrimaryCommitMsgForFileKey................................................547
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -195,8 +195,19 @@ HandleCommitAnyFileAddFiles() {
 			fileCount := newFilesToCommit.Length()
 			Loop, %fileCount%
 			{
-				(commitAnyFileVars.filesToCommit).Push(gitSubFolder . newFilesToCommit[A_Index])
-				LV_Add(, gitSubFolder . newFilesToCommit[A_Index])
+				fileAlreadyPresent := False
+				outerIdx := A_Index
+				Loop % LV_GetCount()
+				{
+					LV_GetText(retrievedFile, A_Index)
+					if (retrievedFile == gitSubFolder . newFilesToCommit[outerIdx]) {
+						fileAlreadyPresent := True
+					}
+				}
+				if (!fileAlreadyPresent) {
+					(commitAnyFileVars.filesToCommit).Push(gitSubFolder . newFilesToCommit[A_Index])
+					LV_Add(, gitSubFolder . newFilesToCommit[A_Index])
+				}
 			}
 
 		} else {
