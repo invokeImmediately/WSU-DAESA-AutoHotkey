@@ -10,17 +10,17 @@
 ;   §1: GUI triggering hotstring................................................................30
 ;     >>> §1.1: @gcAnyFile......................................................................34
 ;   §2: GUI supporting functions................................................................75
-;     >>> §2.1: CommitAnyFile...................................................................79
-;     >>> §2.2: HandleCommitAnyFileAddFiles....................................................167
-;     >>> §2.3: HandleCommitAnyFileRemoveFiles.................................................221
-;     >>> §2.4: HandleCommitAnyFile1stMsgChange................................................262
-;     >>> §2.5: HandleCommitAnyFile2ndMsgChange................................................280
-;     >>> §2.6: HandleCommitAnyFileOk..........................................................294
+;     >>> §2.1: CAF_CommitAnyFile...............................................................79
+;     >>> §2.2: HandleCafAddFiles..............................................................167
+;     >>> §2.3: HandleCafRemoveFiles...........................................................221
+;     >>> §2.4: HandleCaf1stMsgChange..........................................................262
+;     >>> §2.5: HandleCaf2ndMsgChange..........................................................280
+;     >>> §2.6: HandleCafOk....................................................................294
 ;     >>> §2.7: CheckAnyFilePrimaryMsgChanged..................................................366
 ;     >>> §2.7: CheckAnyFilePrimaryMsgChanged..................................................389
-;     >>> §2.8: HandleCommitAnyFileCancel......................................................411
-;     >>> §2.9: HandleCommitAnyFileCancel......................................................420
-;     >>> §2.10: LoadCommitAnyFileMsgHistory...................................................461
+;     >>> §2.8: HandleCafCancel................................................................411
+;     >>> §2.9: HandleCafCancel................................................................420
+;     >>> §2.10: LoadCafMsgHistory.............................................................461
 ;     >>> §2.11: ReadKeyForAnyFileCommitMsgHistory.............................................504
 ;     >>> §2.12: ReadPrimaryCommitMsgForFileKey................................................528
 ;     >>> §2.13: ReadPrimaryCommitMsgForFileKey................................................547
@@ -63,7 +63,7 @@
 			: InStr(gitFolder, GetGitHubFolder())
 		if (isGitFolder) {
 			; Adjust folders
-			CommitAnyFile(A_ThisLabel, gitFolder, filesToCommit)
+			CAF_CommitAnyFile(A_ThisLabel, gitFolder, filesToCommit)
 		} else {
 			ErrorBox(ahkCmdName, "Unfortunately, you did not select a file contained within a "
 				. "valid git repository folder. Canceling hotkey; please try again.")
@@ -76,7 +76,7 @@ Return
 ; --------------------------------------------------------------------------------------------------
 
 ;   ································································································
-;     >>> §2.1: CommitAnyFile
+;     >>> §2.1: CAF_CommitAnyFile
 ;
 ;   Build and display a GUI for automating the committing of changed files to git through
 ;   Powershell.
@@ -92,27 +92,27 @@ Return
 ;   @param {string}			gitFolder		File system folder containing the local git repo.
 ;   @param {simple array}	filesToCommit	Array of files to be committed.
 
-CommitAnyFile(ahkCmdName, gitFolder, filesToCommit) {
-	global commitAnyFileVars := Object()
-	global commitAnyFileLastMsg
-	global ctrlCommitAnyFilesLV
-	global ctrlCommitAnyFile1stMsg
-	global ctrlCommitAnyFile1stMsgCharCount
-	global ctrlCommitAnyFile2ndMsg
-	global ctrlCommitAnyFile2ndMsgCharCount
+CAF_CommitAnyFile(ahkCmdName, gitFolder, filesToCommit) {
+	global cafVars := Object()
+	global cafLastMsg
+	global ctrlCafLV
+	global ctrlCaf1stMsg
+	global ctrlCaf1stMsgCharCount
+	global ctrlCaf2ndMsg
+	global ctrlCaf2ndMsgCharCount
 
 	; Variable initialization section
-	commitAnyFileVars.ahkCmdName := ahkCmdName
-	commitAnyFileVars.gitFolder := gitFolder
-	commitAnyFileVars.filesToCommit := filesToCommit
-	commitAnyFileVars.primaryMsgChanged := false
+	cafVars.ahkCmdName := ahkCmdName
+	cafVars.gitFolder := gitFolder
+	cafVars.filesToCommit := filesToCommit
+	cafVars.primaryMsgChanged := false
 	lastAnyFileMsg1st := ""
 	msgLenAnyFile1st := 0
 	lastAnyFileMsg2nd := ""
 	msgLenAnyFile2nd := 0
-	if (commitAnyFileLastMsg != undefined) {
-		lastMsgs := commitAnyFileLastMsg[commitAnyFileVars.gitFolder 
-			. commitAnyFileVars.filesToCommit[1]]
+	if (cafLastMsg != undefined) {
+		lastMsgs := cafLastMsg[cafVars.gitFolder 
+			. cafVars.filesToCommit[1]]
 		if (lastMsgs != undefined) {
 			lastAnyFileMsg1st := lastMsgs.primary
 			msgLenAnyFile1st := StrLen(lastAnyFileMsg1st)
@@ -122,54 +122,54 @@ CommitAnyFile(ahkCmdName, gitFolder, filesToCommit) {
 	}
 
 	; Begin initialization of GUI
-	Gui, guiCommitAnyFile: New, , % ahkCmdName . " Commit Message Specification"
-	Gui, guiCommitAnyFile: Font, italic
-	Gui, guiCommitAnyFile: Add, Text, Y+3, % "Git folder: "
-	Gui, guiCommitAnyFile: Font
-	Gui, guiCommitAnyFile: Add, Text, X+3, % commitAnyFileVars.gitFolder
-	Gui, guiCommitAnyFile: Font, bold
-	Gui, guiCommitAnyFile: Add, Text, xm, % "&File(s) to be committed: "
-	Gui, guiCommitAnyFile: Font
-	Gui, guiCommitAnyFile: Add, ListView
-		, vctrlCommitAnyFilesLV grid BackgroundEBF8FE NoSortHdr r5 W728 xm+1 Y+3
+	Gui, guiCaf: New, , % ahkCmdName . " Commit Message Specification"
+	Gui, guiCaf: Font, italic
+	Gui, guiCaf: Add, Text, Y+3, % "Git folder: "
+	Gui, guiCaf: Font
+	Gui, guiCaf: Add, Text, X+3, % cafVars.gitFolder
+	Gui, guiCaf: Font, bold
+	Gui, guiCaf: Add, Text, xm, % "&File(s) to be committed: "
+	Gui, guiCaf: Font
+	Gui, guiCaf: Add, ListView
+		, vctrlCafLV grid BackgroundEBF8FE NoSortHdr r5 W728 xm+1 Y+3
 		, % "File Name"
 
 	; Add files to be committed to ListView control
-	fileCount := commitAnyFileVars.filesToCommit.Length()
+	fileCount := cafVars.filesToCommit.Length()
 	Loop, %fileCount%
 	{
-		LV_Add(, commitAnyFileVars.filesToCommit[A_Index])
+		LV_Add(, cafVars.filesToCommit[A_Index])
 	}
 
 	;Continue adding controls to GUI
-	Gui, guiCommitAnyFile: Add, Button, gHandleCommitAnyFileAddFiles xm Y+3, &Add More Files
-	Gui, guiCommitAnyFile: Add, Button, gHandleCommitAnyFileRemoveFiles X+5, &Remove File(s)
-	Gui, guiCommitAnyFile: Font, bold
-	Gui, guiCommitAnyFile: Add, Text, Y+12, % "Message(s) to be used for commit: "
-	Gui, guiCommitAnyFile: Font
-	Gui, guiCommitAnyFile: Add, Text, Y+3, % "&Primary commit message:"
-	Gui, guiCommitAnyFile: Add, Edit
-		, vctrlCommitAnyFile1stMsg gHandleCommitAnyFile1stMsgChange X+5 W606, % lastAnyFileMsg1st
-	Gui, guiCommitAnyFile: Add, Text, vctrlCommitAnyFile1stMsgCharCount Y+1 W500
+	Gui, guiCaf: Add, Button, gHandleCafAddFiles xm Y+3, &Add More Files
+	Gui, guiCaf: Add, Button, gHandleCafRemoveFiles X+5, &Remove File(s)
+	Gui, guiCaf: Font, bold
+	Gui, guiCaf: Add, Text, Y+12, % "Message(s) to be used for commit: "
+	Gui, guiCaf: Font
+	Gui, guiCaf: Add, Text, Y+3, % "&Primary commit message:"
+	Gui, guiCaf: Add, Edit
+		, vctrlCaf1stMsg gHandleCaf1stMsgChange X+5 W606, % lastAnyFileMsg1st
+	Gui, guiCaf: Add, Text, vctrlCaf1stMsgCharCount Y+1 W500
 		, % "Length = " . msgLenAnyFile1st . " characters"
-	Gui, guiCommitAnyFile: Add, Text, xm Y+12, % "&Secondary commit message:"
-	Gui, guiCommitAnyFile: Add, Edit
-		, vctrlCommitAnyFile2ndMsg gHandleCommitAnyFile2ndMsgChange X+5 W589, % lastAnyFileMsg2nd
-	Gui, guiCommitAnyFile: Add, Text, vctrlCommitAnyFile2ndMsgCharCount Y+1 W500
+	Gui, guiCaf: Add, Text, xm Y+12, % "&Secondary commit message:"
+	Gui, guiCaf: Add, Edit
+		, vctrlCaf2ndMsg gHandleCaf2ndMsgChange X+5 W589, % lastAnyFileMsg2nd
+	Gui, guiCaf: Add, Text, vctrlCaf2ndMsgCharCount Y+1 W500
 		, % "Length = " . msgLenAnyFile2nd . " characters"
-	Gui, guiCommitAnyFile: Add, Button, Default gHandleCommitAnyFileOk xm, &Ok
-	Gui, guiCommitAnyFile: Add, Button, gHandleCommitAnyFileCancel X+5, &Cancel
-	Gui, guiCommitAnyFile: Default
-	Gui, guiCommitAnyFile: Show
+	Gui, guiCaf: Add, Button, Default gHandleCafOk xm, &Ok
+	Gui, guiCaf: Add, Button, gHandleCafCancel X+5, &Cancel
+	Gui, guiCaf: Default
+	Gui, guiCaf: Show
 }
 
 ;   ································································································
-;     >>> §2.2: HandleCommitAnyFileAddFiles
+;     >>> §2.2: HandleCafAddFiles
 ;
 ;   Function handler for activation of the button used to add more files to be committed.
 
-HandleCommitAnyFileAddFiles() {
-	global commitAnyFileVars
+HandleCafAddFiles() {
+	global cafVars
 	FileSelectFile, selectedFiles, M3, , % "Select (a) file(s) to be committed."
 	if (selectedFiles != "") {
 		newFilesToCommit := Object()
@@ -183,14 +183,14 @@ HandleCommitAnyFileAddFiles() {
 		}
 
 		; Verify that we are in a sub folder of the original git folder
-		posWhereFound := InStr(gitSubFolder, commitAnyFileVars.gitFolder)
+		posWhereFound := InStr(gitSubFolder, cafVars.gitFolder)
 		if (posWhereFound) {
 
 			; Remove the root folder path from the subfolder path, leaving a relative path
-			gitSubFolder := StrReplace(gitSubFolder, commitAnyFileVars.gitFolder, "")
+			gitSubFolder := StrReplace(gitSubFolder, cafVars.gitFolder, "")
 
 			; Ensure the proper GUI is default to LV_Add function works as expected
-			Gui, guiCommitAnyFile: Default
+			Gui, guiCaf: Default
 
 			fileCount := newFilesToCommit.Length()
 			Loop, %fileCount%
@@ -205,7 +205,7 @@ HandleCommitAnyFileAddFiles() {
 					}
 				}
 				if (!fileAlreadyPresent) {
-					(commitAnyFileVars.filesToCommit).Push(gitSubFolder . newFilesToCommit[A_Index])
+					(cafVars.filesToCommit).Push(gitSubFolder . newFilesToCommit[A_Index])
 					LV_Add(, gitSubFolder . newFilesToCommit[A_Index])
 				}
 			}
@@ -218,12 +218,12 @@ HandleCommitAnyFileAddFiles() {
 }
 
 ;   ································································································
-;     >>> §2.3: HandleCommitAnyFileRemoveFiles
+;     >>> §2.3: HandleCafRemoveFiles
 ;
 ;   Function handler for activation of the button used to remove selected files to be committed.
 
-HandleCommitAnyFileRemoveFiles() {
-	global commitAnyFileVars
+HandleCafRemoveFiles() {
+	global cafVars
 	global g_delayQuantum
 	delay := g_delayQuantum * 7
 
@@ -259,61 +259,61 @@ HandleCommitAnyFileRemoveFiles() {
 }
 
 ;   ································································································
-;     >>> §2.4: HandleCommitAnyFile1stMsgChange
+;     >>> §2.4: HandleCaf1stMsgChange
 ;
 ;   Function handler for changes to the primary git commit message for the selected file(s).
 
-HandleCommitAnyFile1stMsgChange() {
-	global commitAnyFileVars
-	global ctrlCommitAnyFile1stMsg
-	global ctrlCommitAnyFile1stMsgCharCount
+HandleCaf1stMsgChange() {
+	global cafVars
+	global ctrlCaf1stMsg
+	global ctrlCaf1stMsgCharCount
 
-	if (commitAnyFileVars.primaryMsgChanged != True) {
-		commitAnyFileVars.primaryMsgChanged := True
+	if (cafVars.primaryMsgChanged != True) {
+		cafVars.primaryMsgChanged := True
 	}
-	Gui, guiCommitAnyFile: Submit, NoHide
-	msgLen := StrLen(ctrlCommitAnyFile1stMsg)
-	GuiControl, , ctrlCommitAnyFile1stMsgCharCount, % "Length = " . msgLen . " characters"
+	Gui, guiCaf: Submit, NoHide
+	msgLen := StrLen(ctrlCaf1stMsg)
+	GuiControl, , ctrlCaf1stMsgCharCount, % "Length = " . msgLen . " characters"
 }
 
 ;   ································································································
-;     >>> §2.5: HandleCommitAnyFile2ndMsgChange
+;     >>> §2.5: HandleCaf2ndMsgChange
 ;
 ;   Function handler for changes to the secondary git commit message for the selected file(s).
 
-HandleCommitAnyFile2ndMsgChange() {
-	global ctrlCommitAnyFile2ndMsg
-	global ctrlCommitAnyFile2ndMsgCharCount
+HandleCaf2ndMsgChange() {
+	global ctrlCaf2ndMsg
+	global ctrlCaf2ndMsgCharCount
 
-	Gui, guiCommitAnyFile: Submit, NoHide
-	msgLen := StrLen(ctrlCommitAnyFile2ndMsg)
-	GuiControl, , ctrlCommitAnyFile2ndMsgCharCount, % "Length = " . msgLen . " characters"
+	Gui, guiCaf: Submit, NoHide
+	msgLen := StrLen(ctrlCaf2ndMsg)
+	GuiControl, , ctrlCaf2ndMsgCharCount, % "Length = " . msgLen . " characters"
 }
 
 ;   ································································································
-;     >>> §2.6: HandleCommitAnyFileOk
+;     >>> §2.6: HandleCafOk
 ;
 ;   Function handler for activation of the 'OK' button.
 
-HandleCommitAnyFileOk() {
-	global commitAnyFileVars
-	global commitAnyFileLastMsg
-	global ctrlCommitAnyFile1stMsg
-	global ctrlCommitAnyFile2ndMsg
+HandleCafOk() {
+	global cafVars
+	global cafLastMsg
+	global ctrlCaf1stMsg
+	global ctrlCaf2ndMsg
 
 	; Submit GUI to finalize variables storing user input
-	Gui, guiCommitAnyFile: Submit, NoHide
+	Gui, guiCaf: Submit, NoHide
 
 	; Ensure that state of global variables is consistent with a valid GUI submission
-	gVarCheck := commitAnyFileVars.ahkCmdName == undefined
-	gVarCheck := (gVarCheck << 1) | (commitAnyFileVars.gitFolder == undefined)
-	gVarCheck := (gVarCheck << 1) | (commitAnyFileVars.filesToCommit == undefined)
-	gVarCheck := (gVarCheck << 1) | (ctrlCommitAnyFile1stMsg == undefined)
+	gVarCheck := cafVars.ahkCmdName == undefined
+	gVarCheck := (gVarCheck << 1) | (cafVars.gitFolder == undefined)
+	gVarCheck := (gVarCheck << 1) | (cafVars.filesToCommit == undefined)
+	gVarCheck := (gVarCheck << 1) | (ctrlCaf1stMsg == undefined)
 
 	if (!gVarCheck && CheckAnyFilePrimaryMsgChanged()) {
-		commitMsgTxt := """" . ctrlCommitAnyFile1stMsg . """"
-		if (ctrlCommitAnyFile2ndMsg) {
-			commitMsgTxt .= "`n`nSECONDARY MESSAGE:`n""" . ctrlCommitAnyFile2ndMsg . """"
+		commitMsgTxt := """" . ctrlCaf1stMsg . """"
+		if (ctrlCaf2ndMsg) {
+			commitMsgTxt .= "`n`nSECONDARY MESSAGE:`n""" . ctrlCaf2ndMsg . """"
 		}
 		MsgBox, 4, % "Ready to Proceed?", % "Are you sure you want to push the git commit "
 			. "message:`n`nPRIMARY MESSAGE:`n" . commitMsgTxt 
@@ -321,16 +321,16 @@ HandleCommitAnyFileOk() {
 		{
 
 			; Close the GUI since the condition of our variables passed muster
-			Gui, guiCommitAnyFile: Destroy
+			Gui, guiCaf: Destroy
 
 			; Build the command line inputs for commiting the code to the appropriate git repository
-			commandLineInput := "cd '" . commitAnyFileVars.gitFolder . "'`r"
-			Loop % commitAnyFileVars.filesToCommit.Length()
-				commandLineInput .= "git add " . commitAnyFileVars.filesToCommit[A_Index] . "`r"
-			escaped1stMsg := EscapeCommitMessage(ctrlCommitAnyFile1stMsg)
+			commandLineInput := "cd '" . cafVars.gitFolder . "'`r"
+			Loop % cafVars.filesToCommit.Length()
+				commandLineInput .= "git add " . cafVars.filesToCommit[A_Index] . "`r"
+			escaped1stMsg := EscapeCommitMessage(ctrlCaf1stMsg)
 			commandLineInput .= "git commit -m """ . escaped1stMsg . """"
-			if (ctrlCommitAnyFile2ndMsg != "") {
-				escaped2ndMsg := EscapeCommitMessage(ctrlCommitAnyFile2ndMsg)
+			if (ctrlCaf2ndMsg != "") {
+				escaped2ndMsg := EscapeCommitMessage(ctrlCaf2ndMsg)
 				commandLineInput .= " -m """ . escaped2ndMsg . """ `r"
 			} else {
 				commandLineInput .= "`r"
@@ -338,27 +338,27 @@ HandleCommitAnyFileOk() {
 			commandLineInput .= "git push`r"
 
 			; Store commit for later use as a guide
-			if (commitAnyFileLastMsg == undefined) {
-				commitAnyFileLastMsg := Object()
+			if (cafLastMsg == undefined) {
+				cafLastMsg := Object()
 			}
-			Loop % commitAnyFileVars.filesToCommit.Length()
+			Loop % cafVars.filesToCommit.Length()
 			{
-				key := commitAnyFileVars.gitFolder . commitAnyFileVars.filesToCommit[A_Index]
-				commitAnyFileLastMsg[key] := Object()
-				commitAnyFileLastMsg[key].primary := ctrlCommitAnyFile1stMsg
-				commitAnyFileLastMsg[key].secondary := ctrlCommitAnyFile2ndMsg
+				key := cafVars.gitFolder . cafVars.filesToCommit[A_Index]
+				cafLastMsg[key] := Object()
+				cafLastMsg[key].primary := ctrlCaf1stMsg
+				cafLastMsg[key].secondary := ctrlCaf2ndMsg
 			}
 			commandLineInput .= "[console]::beep(2000,150)`r"
 				. "[console]::beep(2000,150)`r"
 
 			; Paste the code into the command console.
-			PasteTextIntoGitShell(commitAnyFileVars.ahkCmdName, commandLineInput)
+			PasteTextIntoGitShell(cafVars.ahkCmdName, commandLineInput)
 
 		}
 	} else {
 
 		; Determine what went wrong, notify user, and handle accordingly.
-		ProcessHandleCommitAnyFileOkError(gVarCheck)
+		ProcessHandleCafOkError(gVarCheck)
 	}
 }
 
@@ -372,8 +372,8 @@ HandleCommitAnyFileOk() {
 ;   user has an opportunity to allow the commit to be posted.
 
 CheckAnyFilePrimaryMsgChanged() {
-	global commitAnyFileVars
-	proceed := commitAnyFileVars.primaryMsgChanged
+	global cafVars
+	proceed := cafVars.primaryMsgChanged
 	if (!proceed) {
 		MsgBox, 4, % "Are You Sure?", % "I noticed you didn't change the primary commit message. "
 			. "Do you still want to proceed?"
@@ -388,19 +388,19 @@ CheckAnyFilePrimaryMsgChanged() {
 ;   ································································································
 ;     >>> §2.7: CheckAnyFilePrimaryMsgChanged
 ;
-;	Called by the HandleCommitAnyFileOk function to handle error processing.
+;	Called by the HandleCafOk function to handle error processing.
 ;
 ;   @param {bitmask}	gVarCheck		Represents the correctness of global variables associated
 ;   									with the GUI.
 
-ProcessHandleCommitAnyFileOkError(gVarCheck) {
-	functionName := "CommitAnyFile.ahk / ProcessHandleCommitAnyFileOk()"
+ProcessHandleCafOkError(gVarCheck) {
+	functionName := "Caf.ahk / ProcessHandleCafOk()"
 	if (gVarCheck == 1) {
 		ErrorBox(functionName
 			, "Please enter a primary git commit message regarding changes in the LESS source "
 			. "file.")
 	} else if (gVarCheck != 0) {
-		Gui, guiCommitAnyFile: Destroy
+		Gui, guiCaf: Destroy
 		ErrorBox(functionName
 			, "An undefined global variable was encountered; function terminating. Variable "
 			. "checking bitmask was equal to " . gVarCheck . ".")
@@ -408,30 +408,30 @@ ProcessHandleCommitAnyFileOkError(gVarCheck) {
 }
 
 ;   ································································································
-;     >>> §2.8: HandleCommitAnyFileCancel
+;     >>> §2.8: HandleCafCancel
 ;
 ;	Function handler for activation of the GUI's "Cancel" button.
 
-HandleCommitAnyFileCancel() {
-	Gui, guiCommitAnyFile: Destroy
+HandleCafCancel() {
+	Gui, guiCaf: Destroy
 }
 
 ;   ································································································
-;     >>> §2.9: HandleCommitAnyFileCancel
+;     >>> §2.9: HandleCafCancel
 ;
 ;	Record git commit messages so they are remembered between scripting sessions.
 ;
 ;   Specifically, this function stores the associative array of previous commit messages to a log
 ;   file.
 
-SaveCommitAnyFileMsgHistory() {
-	global commitAnyFileLastMsg
+SaveCafMsgHistory() {
+	global cafLastMsg
 	global commitAnyFileMsgLog
 
-	if (commitAnyFileLastMsg != undefined) {
+	if (cafLastMsg != undefined) {
 		logFile := FileOpen(commitAnyFileMsgLog, "w `n")
 		if (logFile) {
-			For key, value in commitAnyFileLastMsg {
+			For key, value in cafLastMsg {
 				numBytes := logFile.WriteLine(key)
 				if (numBytes) {
 					numBytes := logFile.WriteLine(value.primary)
@@ -458,20 +458,20 @@ SaveCommitAnyFileMsgHistory() {
 }
 
 ;   ································································································
-;     >>> §2.10: LoadCommitAnyFileMsgHistory
+;     >>> §2.10: LoadCafMsgHistory
 ;
 ;	Load git commit messages recorded from previous scripting sessions.
 
-LoadCommitAnyFileMsgHistory() {
+LoadCafMsgHistory() {
 	; TODO: Rewrite code below to avoid wiping out the log if an error occurs; e.g., can use a 
 	; global variable:
-	; global commitAnyFileLogLoadError := false
+	; global cafLogLoadError := false
 
-	global commitAnyFileLastMsg
+	global cafLastMsg
 	global commitAnyFileMsgLog
 
-	if (commitAnyFileLastMsg == undefined) {
-		commitAnyFileLastMsg := Object()
+	if (cafLastMsg == undefined) {
+		cafLastMsg := Object()
 	}
 
 	logFile := FileOpen(commitAnyFileMsgLog, "r `n")
@@ -481,11 +481,11 @@ LoadCommitAnyFileMsgHistory() {
 			if (key == "") {
 				break
 			} else {
-				if (!ReadPrimaryCommitMsgForFileKey(logFile, commitAnyFileLastMsg, key)) {
+				if (!ReadPrimaryCommitMsgForFileKey(logFile, cafLastMsg, key)) {
 					ErrorBox(A_ThisFunc, "Log file abruptly stopped after reading a file key. "
 						. "Aborting further reading of log.")
 					break
-				} else if(!ReadSecondaryCommitMsgForFileKey(logFile, commitAnyFileLastMsg, key)) {
+				} else if(!ReadSecondaryCommitMsgForFileKey(logFile, cafLastMsg, key)) {
 					ErrorBox(A_ThisFunc, "Log file abruptly stopped after reading a file key and "
 						. "primary git commit message. Aborting further reading of log.")
 					break
