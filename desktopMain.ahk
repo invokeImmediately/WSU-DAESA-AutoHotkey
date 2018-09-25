@@ -16,7 +16,7 @@ MainSubroutine:
 	LoadAhkCmdHistory()
 	LoadCommitCssLessMsgHistory()
 	LoadCommitJsCustomJsMsgHistory()
-	LoadCommitAnyFileMsgHistory()
+	LoadCafMsgHistory()
 	SetupLogAutoSaving()
 	MapDesktopsFromRegistry()
 	OutputDebug, [loading] desktops: %DesktopCount% current: %CurrentDesktop%
