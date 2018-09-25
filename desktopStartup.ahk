@@ -235,9 +235,9 @@ Vd1_OpenWorkNotesLog() {
 		WaitForApplicationPatiently(st3NewWinTitle)
 		Sleep, % delay
 		SendInput, ^o
-		Sleep, % delay * 3
+		Sleep, % delay * 9
 		SendInput, % "C:\Users\CamilleandDaniel\Documents\GitHub\log_work-notes.txt{Enter}"
-		Sleep, % delay * 3
+		Sleep, % delay * 12
 		PositionWindowViaCtrlFN("^F10", delay)
 	}
 
@@ -745,7 +745,7 @@ PerformScriptShutdownTasks() {
 	SaveAhkCmdHistory()
 	SaveCommitCssLessMsgHistory()
 	SaveCommitJsCustomJsMsgHistory()
-	SaveCommitAnyFileMsgHistory()
+	SaveCafMsgHistory()
 }
 
 ^#!r::
