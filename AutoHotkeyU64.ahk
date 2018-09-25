@@ -5,33 +5,34 @@
 ; ==================================================================================================
 ; TABLE OF CONTENTS:
 ; -----------------
-;   §1: GLOBAL VARIABLES........................................................................38
-;     >>> §1.1: SYSTEM PROPERTY GLOBALS.........................................................42
-;     >>> §1.2: GLOBALS FOR LOCATIONS OF IMPORTANT FOLDERS & FILES..............................65
-;     >>> §1.3: POMODORO WORK TIMER GLOBALS.....................................................75
-;     >>> §1.4: DESKTOP ARRANGEMENT AUDITORY CUE GLOBALS........................................86
-;     >>> §1.5: SIMULATED MEMORY OF USER ACTIONS................................................98
-;     >>> §1.6: KEYBOARD OVERRIDING............................................................116
-;   §2: SET UP SCRIPT & CALL MAIN SUBROUTINE...................................................127
-;   §3: COMMON FUNCTIONS & CLASSES.............................................................148
-;   §4: COMMAND HISTORY........................................................................160
-;   §5: AUTOHOTKEY SCRIPT WRITING SHORTCUTS....................................................166
-;     >>> §5.1: Hotstrings for inserting code-documentation headers............................170
-;     >>> §5.2: Hotstrings for inserting AHK-related RegEx find/replace strings................239
-;   §6: WORKSPACE MANAGEMENT...................................................................259
-;   §7: FILE SYSTEM NAVIGATION.................................................................303
-;   §8: PROGRAM/FILE LAUNCHING SHORTCUTS.......................................................309
-;   §9: GITHUB SHORTCUTS.......................................................................331
-;   §10: GOOGLE CHROME SHORTCUTS...............................................................337
-;   §11: HTML EDITING..........................................................................396
-;   §12: TEXT REPLACEMENT & INPUT..............................................................402
-;     >>> §12.1: Text Replacement HOTKEYS......................................................406
-;     >>> §12.2: Text Replacement HOTSTRINGS...................................................411
-;     >>> §12.3: Text Input HOTSTRINGS.........................................................502
-;   §13: OTHER SHORTCUTS.......................................................................509
-;   §14: WORK TIMER............................................................................522
-;   §15: CUSTOM HOTSTRINGS & HOTKEYS...........................................................528
-;   §16: MAIN SUBROUTINE.......................................................................598
+;   §1: GLOBAL VARIABLES........................................................................39
+;     >>> §1.1: SYSTEM PROPERTY GLOBALS.........................................................43
+;     >>> §1.2: OPERATOIN TIMING GLOBALS........................................................65
+;     >>> §1.3: GLOBALS FOR LOCATIONS OF IMPORTANT FOLDERS & FILES..............................74
+;     >>> §1.4: POMODORO WORK TIMER GLOBALS.....................................................84
+;     >>> §1.5: DESKTOP ARRANGEMENT AUDITORY CUE GLOBALS........................................95
+;     >>> §1.6: SIMULATED MEMORY OF USER ACTIONS...............................................107
+;     >>> §1.7: KEYBOARD OVERRIDING............................................................125
+;   §2: SET UP SCRIPT & CALL MAIN SUBROUTINE...................................................136
+;   §3: COMMON FUNCTIONS & CLASSES.............................................................157
+;   §4: COMMAND HISTORY........................................................................169
+;   §5: AUTOHOTKEY SCRIPT WRITING SHORTCUTS....................................................175
+;     >>> §5.1: Hotstrings for inserting code-documentation headers............................179
+;     >>> §5.2: Hotstrings for inserting AHK-related RegEx find/replace strings................248
+;   §6: WORKSPACE MANAGEMENT...................................................................268
+;   §7: FILE SYSTEM NAVIGATION.................................................................312
+;   §8: PROGRAM/FILE LAUNCHING SHORTCUTS.......................................................318
+;   §9: GITHUB SHORTCUTS.......................................................................340
+;   §10: GOOGLE CHROME SHORTCUTS...............................................................346
+;   §11: HTML EDITING..........................................................................405
+;   §12: TEXT REPLACEMENT & INPUT..............................................................411
+;     >>> §12.1: Text Replacement HOTKEYS......................................................415
+;     >>> §12.2: Text Replacement HOTSTRINGS...................................................420
+;     >>> §12.3: Text Input HOTSTRINGS.........................................................511
+;   §13: OTHER SHORTCUTS.......................................................................518
+;   §14: WORK TIMER............................................................................531
+;   §15: CUSTOM HOTSTRINGS & HOTKEYS...........................................................537
+;   §16: MAIN SUBROUTINE.......................................................................607
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -56,13 +57,21 @@ global sysWinBorderW				; Default border width.
 
 global sysWinBorderH				; Default border height.
 
-global g_delayQuantum	:= 15.6		; Minimum amount of time the Sleep command can wait.
-
 global g_maxTries 		:= 10		; Number of attempts at an open-ended goal, such as making a
 									; target window active.
 
+
 ;   ································································································
-;     >>> §1.2: GLOBALS FOR LOCATIONS OF IMPORTANT FOLDERS & FILES
+;     >>> §1.2: OPERATION TIMING GLOBALS
+
+global g_delayQuantum		:= 15.6		; Minimum amount of time the Sleep command can wait.
+global g_extraShortDelay	:= 3		; An extra short delay of around .05 s
+global g_shortDelay			:= 7		; A short delay of around .1 s
+global g_mediumDelay		:= 21		; A medium delay of around .3 s
+global g_longDelay			:= 63		; A long delay of around 1 s
+
+;   ································································································
+;     >>> §1.3: GLOBALS FOR LOCATIONS OF IMPORTANT FOLDERS & FILES
 
 global userAccountFolderSSD := "C:\Users\CamilleandDaniel"
 global userAccountFolderHDD := "F:\Users\CamilleandDaniel"
@@ -72,7 +81,7 @@ global hhdWorkFolder := userAccountFolderHDD . relWorkFolder
 global webDevFolder := hhdWorkFolder . "\{^}WSU-Web-Dev"
 
 ;   ································································································
-;     >>> §1.3: POMODORO WORK TIMER GLOBALS
+;     >>> §1.4: POMODORO WORK TIMER GLOBALS
 
 global logFileName := hhdWorkFolder . "\^WSU-Web-Dev\^Personnel-File\Work-log.txt"
 global workTimerCountdownTime := -1500000
@@ -83,7 +92,7 @@ global workTimerMinutesound := ssdWorkFolder . "\Sound Library\Bell-tone_C-4.wav
 global workTimer5MinuteSound := ssdWorkFolder . "\Sound Library\Metal_Gong-Dianakc-109711828.wav"
 
 ;   ································································································
-;     >>> §1.4: DESKTOP ARRANGEMENT AUDITORY CUE GLOBALS
+;     >>> §1.5: DESKTOP ARRANGEMENT AUDITORY CUE GLOBALS
 
 global windowMovementSound := ssdWorkFolder . "\Sound Library\323413__sethroph__glass-slide-3_-12.5"
 . "db_faster.wav"
@@ -95,7 +104,7 @@ global scriptLoadedSound := ssdWorkFolder . "\Sound Library\Storm_exclamation.wa
 global desktopArrangedSound := ssdWorkFolder . "\Sound Library\zelda_lttp-mstr-swrd.wav"
 
 ;   ································································································
-;     >>> §1.5: SIMULATED MEMORY OF USER ACTIONS
+;     >>> §1.6: SIMULATED MEMORY OF USER ACTIONS
 
 global cmdHistoryLog := hhdWorkFolder . "\^WSU-Web-Dev\^Personnel-File\ahk-cmd-history.txt"
 global ahkCmds := Array()
@@ -113,7 +122,7 @@ global commitJsCustomJsMsgLog := hhdWorkFolder . "\^WSU-Web-Dev\^Personnel-File\
 . "g-history.txt"
 
 ;   ································································································
-;     >>> §1.6: KEYBOARD OVERRIDING
+;     >>> §1.7: KEYBOARD OVERRIDING
 
 global bitNumpadSubToggle := false
 global numpadSubOverwrite := "{U+00b7}"
