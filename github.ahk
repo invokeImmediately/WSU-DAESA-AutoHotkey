@@ -1053,7 +1053,7 @@ FindGitChangesRegExSublimeText() {
 	Sleep, % delay
 	SendInput, % "^h"
 	Sleep, % delay * 4
-	SendInput, % "{^}(?:[{^}\n \-].*| (?{!} {{}7{}}).*|-(?{!}-{{}7{}}).*)?$(?:\n)"
+	SendInput, % "{^}(?:[{^}\n \-].*| (?{!} {{}7{}}).*|-(?{!}-{{}7{}}).*)?$(?:\n?)"
 	Sleep, % delay
 	SendInput, % "{Tab}"
 	Sleep, % delay
