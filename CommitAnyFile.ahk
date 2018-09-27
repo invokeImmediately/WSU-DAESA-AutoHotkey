@@ -39,8 +39,8 @@
 	AppendAhkCmd(A_ThisLabel)
 	subFolder := ""
 	gitFolderLen := StrLen(GetGitHubFolder() . "\")
-	if (IsGitShellActive()) {
-		path := gcAnyFile_GetRepoPath()
+	path := gcAnyFile_GetRepoPath()
+	if (path != "") {
 		FileSelectFile, selectedFiles, M3, %path%, % "Select (a) file(s) to be committed."
 	} else {
 		FileSelectFile, selectedFiles, M3, , % "Select (a) file(s) to be committed."
@@ -81,9 +81,24 @@ Return
 ;   ································································································
 ;     >>> §1.2: gcAnyFile_GetRepoPath
 ;
-;	Get the current path that
+;	If applicable, get the current path that the user is working in.
 
 gcAnyFile_GetRepoPath() {
+	path := ""
+	if (IsGitShellActive()) {
+		path := gcAnyFile_GetRepoPath_PowerShell()
+	} else if (isTargetProcessActive("sublime_text.exe")) {
+		path := gcAnyFile_GetRepoPath_ST3()
+	}
+	return path
+}
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.2.1: gcAnyFile_GetRepoPath_PowerShell
+;
+;	Get the active repository's path from within PowerShell using the clipboard.
+
+gcAnyFile_GetRepoPath_PowerShell() {
 	delay := GetDelay("medium")
 	SendInput, % "{Esc}"
 	Sleep, % delay
@@ -91,6 +106,23 @@ gcAnyFile_GetRepoPath() {
 	PasteTextIntoGitShell(A_ThisLabel, consoleStr)
 	Sleep, % delay
 	return Clipboard
+}
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.2.2: gcAnyFile_GetRepoPath_ST3
+;
+;	Get the active repository's path from within Sublime Text 3 using the clipboard.
+
+gcAnyFile_GetRepoPath_ST3() {
+	delay := GetDelay("medium")
+	keyDelay := GetDelay("xShort")
+	oldKeyDelay := A_KeyDelay
+	SetKeyDelay, %keyDelay%
+	Send, % "^+p{Backspace}Copy File Path{Enter}"
+	Sleep, % delay
+	path := Clipboard
+	SetKeyDelay, %oldKeyDelay%
+	return path
 }
 
 ; --------------------------------------------------------------------------------------------------
