@@ -5,20 +5,23 @@
 ; ==================================================================================================
 ; TABLE OF CONTENTS
 ; -----------------
-;   §1: FUNCTIONS utilized in automating HTML-related processes.................................25
-;     >>> §1.1: BuildHyperlinkArray.............................................................29
-;     >>> §1.2: CopyWebpageSourceToClipboard....................................................67
-;     >>> §1.3: CountNewlinesInString..........................................................134
-;     >>> §1.4: ExportHyperlinkArray...........................................................147
-;     >>> §1.5: PullHrefsIntoHyperlinkArray....................................................172
-;   §2: HOTSTRINGS.............................................................................180
-;     >>> §2.1: Text Replacement...............................................................189
-;     >>> §2.2: RegEx..........................................................................265
-;     >>> §2.3: Backup HTML of OUE pages.......................................................272
-;     >>> §2.4: Hyperlink collection hotstring.................................................429
-;     >>> §2.5: Checking for WordPress Updates.................................................498
-;   §3: GUI-related hotstrings & functions for automating HTML-related tasks...................503
-;     >>> §3.1: Insert Builder Sections GUI....................................................507
+;   §1: FUNCTIONS utilized in automating HTML-related processes.................................28
+;     >>> §1.1: BuildHyperlinkArray.............................................................32
+;     >>> §1.2: CopyWebpageSourceToClipboard....................................................70
+;     >>> §1.3: CountNewlinesInString..........................................................137
+;     >>> §1.4: ExportHyperlinkArray...........................................................150
+;     >>> §1.5: PullHrefsIntoHyperlinkArray....................................................175
+;   §2: HOTSTRINGS.............................................................................183
+;     >>> §2.1: Text Replacement...............................................................192
+;     >>> §2.2: RegEx..........................................................................268
+;     >>> §2.3: Backup HTML of OUE pages.......................................................275
+;       →→→ §2.3.1: @backupOuePage.............................................................278
+;       →→→ §2.3.2: BackupOueHtml & sub-functions..............................................302
+;       →→→ §2.3.3: @backupOuePost.............................................................422
+;     >>> §2.4: Hyperlink collection hotstring.................................................447
+;     >>> §2.5: Checking for WordPress Updates.................................................516
+;   §3: GUI-related hotstrings & functions for automating HTML-related tasks...................521
+;     >>> §3.1: Insert Builder Sections GUI....................................................525
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -271,6 +274,11 @@ Return
 ;   ································································································
 ;     >>> §2.3: Backup HTML of OUE pages
 
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §2.3.1: @backupOuePage
+;
+;	Backup the markup used to construct a web page in WSUWP.
+
 :*:@backupOuePage::
 	ahkThisCmd := A_ThisLabel
 	keyDelay := 140
@@ -289,6 +297,11 @@ Return
 		BackupOueHtml(Clipboard, workingFilePath, targetContentNeedle, "", keyDelay)
 	}
 Return
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §2.3.2: BackupOueHtml & sub-functions
+;
+;	Regardless of the specific post type, backup markup used to construct something in WSUWP.
 
 BackupOueHtml(sourceCode, workingFilePath, targetContentNeedle, cleaningNeedle, keyDelay) {
 	sublimeTextTitle := "Sublime Text ahk_exe sublime_text.exe"
@@ -404,6 +417,11 @@ BackupOueHtml_InsertBlankLine() {
 	; Insert final blank line for the sake of git
 	Send, ^{End}{Enter}^{Home}
 }
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §2.3.3: @backupOuePost
+;
+;	Backup the markup used to construct a news post in WSUWP.
 
 :*:@backupOuePost::
 	ahkThisCmd := A_ThisLabel
