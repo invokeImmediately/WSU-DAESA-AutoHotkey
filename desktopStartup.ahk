@@ -9,35 +9,35 @@
 ; -----------------
 ;   §1: VIRTUAL DESKTOP SETUP HOTSTRINGS........................................................44
 ;     >>> §1.1: Work environment setup..........................................................48
-;       →→→ §1.1.1: Hotstring: @setupVirtualDesktops............................................62
-;       →→→ §1.1.2: Hotstring: @setupCiscoVpn...................................................79
-;     >>> §1.2: VD1: Website editing............................................................93
-;       →→→ §1.2.1: PositionWindowViaCtrlFN — Function.........................................110
-;       →→→ §1.2.2: @moveTempMonitors — Hotstring..............................................142
-;       →→→ §1.2.3: @startSublimeText3 — Hotstring.............................................156
-;       →→→ §1.2.4: @startChrome — Hotstring...................................................167
-;       →→→ §1.2.5: PositionChromeVD1 — Function...............................................179
-;       →→→ §1.2.6: Vd1_OpenWorkNotesLog — Function............................................194
-;       →→→ §1.2.7: @startMsTodo — Hotstring...................................................251
-;       →→→ §1.2.8: PositionMsTodo — Function..................................................261
-;     >>> §1.3: VD2: Programming...............................................................278
-;       →→→ §1.3.1: Function: AddSublimeText3ToVd..............................................306
-;       →→→ §1.3.2: Hotstring: @startGithubClients.............................................351
-;       →→→ §1.3.3: Hotstring: @arrangeGitHub..................................................376
-;       →→→ §1.3.4: Function: agh_MovePowerShell...............................................413
-;     >>> §1.4: VD3: Graphic design............................................................466
-;       →→→ §1.4.1: Hotstring: @arrangeGimp....................................................486
-;     >>> §1.5: VD4: Communications and media..................................................508
-;       →→→ §1.5.1: Function: OpenWebsiteInChrome..............................................543
-;       →→→ §1.5.2: Function: OpenNewTabInChrome...............................................573
-;       →→→ §1.5.3: Function: NavigateToWebsiteInChrome........................................588
-;       →→→ §1.5.4: Function: MoveToNextTabInChrome............................................607
-;       →→→ §1.5.5: Hotstring: @arrangeEmail...................................................622
-;     >>> §1.6: VD5: Diagnostics & talmud......................................................668
-;     >>> §1.7: Other setup hotstrings.........................................................698
-;       →→→ §1.7.1: Hotstring: @startNotepadPp.................................................701
-;   §2: STARTUP HOTKEYS........................................................................727
-;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................735
+;       →→→ §1.2.2: @moveTempMonitors...........................................................64
+;       →→→ §1.1.1: @setupVirtualDesktops.......................................................80
+;       →→→ §1.1.2: @setupCiscoVpn..............................................................95
+;     >>> §1.2: VD1: Website editing...........................................................113
+;       →→→ §1.2.1: PositionWindowViaCtrlFN....................................................136
+;       →→→ §1.2.3: @startSublimeText3.........................................................151
+;       →→→ §1.2.4: @startChrome...............................................................164
+;       →→→ §1.2.5: PositionChromeVD1..........................................................177
+;       →→→ §1.2.6: Vd1_OpenWorkNotesLog.......................................................191
+;       →→→ §1.2.7: @startMsTodo...............................................................244
+;       →→→ §1.2.8: PositionMsTodo.............................................................255
+;     >>> §1.3: VD2: Programming...............................................................271
+;       →→→ §1.3.1: AddSublimeText3ToVd........................................................289
+;       →→→ §1.3.2: @startGithubClients........................................................329
+;       →→→ §1.3.3: @arrangeGitHub.............................................................348
+;       →→→ §1.3.4: agh_MovePowerShell.........................................................385
+;     >>> §1.4: Setup VD3: Graphic design......................................................435
+;       →→→ §1.4.1: @arrangeGimp...............................................................456
+;     >>> §1.5: Setup VD4: Communications and media............................................479
+;       →→→ §1.5.1: OpenWebsiteInChrome........................................................505
+;       →→→ §1.5.2: OpenNewTabInChrome.........................................................526
+;       →→→ §1.5.3: NavigateToWebsiteInChrome..................................................538
+;       →→→ §1.5.4: MoveToNextTabInChrome......................................................552
+;       →→→ §1.5.5: @arrangeEmail..............................................................564
+;     >>> §1.6: Setup VD5: Diagnostics & talmud................................................608
+;     >>> §1.7: Other setup hotstrings.........................................................638
+;       →→→ §1.7.1: @startNotepadPp............................................................641
+;   §2: STARTUP HOTKEYS........................................................................666
+;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................674
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -48,104 +48,99 @@
 ;     >>> §1.1: Work environment setup
 
 :*:@setupWorkEnvironment::
-	Gosub, :*:@moveTempMonitors
-	Gosub, :*:@setupVirtualDesktops
+	delay := GetDelay("medium")
+	AppendAhkCmd(A_ThisLabel)
+	Gosub :*:@moveTempMonitors
+	Gosub :*:@setupVirtualDesktops
 	switchDesktopByNumber(1)
-	Gosub, % ":*:@setupCiscoVpn"
-	Sleep 330
-	SoundPlay, %desktopArrangedSound%
-	Gosub, % ":*:@setupWorkTimer"
+	Gosub % ":*:@setupCiscoVpn"
+	Sleep %delay%
+	SoundPlay %desktopArrangedSound%
+	Gosub % ":*:@setupWorkTimer"
 	switchDesktopByNumber(5)
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.2.2: @moveTempMonitors — Hotstring
-:*:@moveTempMonitors::
-	delay := 100
+;       →→→ §1.1.1: @moveTempMonitors
 
-	; Send temperature monitoring programs to desktop #5 from #1
-	AppendAhkCmd(":*:@moveTempMonitors")
-	WinActivate, % "RealTemp ahk_exe RealTemp.exe"
-	Sleep, % delay * 4
+:*:@moveTempMonitors::
+	delay := GetDelay("short")
+	AppendAhkCmd(A_ThisLabel)
+	WinActivate % "RealTemp ahk_exe RealTemp.exe"
+	Sleep % delay * 4
 	moveActiveWindowToVirtualDesktop(5)
-	Sleep, % delay * 2
-	WinActivate, % "GPU Temp ahk_exe GPUTemp.exe"
-	Sleep, % delay * 4
+	Sleep % delay * 2
+	WinActivate % "GPU Temp ahk_exe GPUTemp.exe"
+	Sleep % delay * 4
 	moveActiveWindowToVirtualDesktop(5)
-	Sleep, % delay * 2
+	Sleep % delay * 2
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.1.1: Hotstring: @setupVirtualDesktops
+;       →→→ §1.1.2: @setupVirtualDesktops
 
 :*:@setupVirtualDesktops::
-	delay := g_delayQuantum * 7
+	delay := GetDelay("short")
+	AppendAhkCmd(A_ThisLabel)
 	MapDesktopsFromRegistry()
-	Sleep, % delay * 4
-	Gosub, :*:@setupVirtualDesktop1
-	Gosub, :*:@setupVirtualDesktop2
-	Gosub, :*:@setupVirtualDesktop3
-	Gosub, :*:@setupVirtualDesktop4
-	Gosub, :*:@setupVirtualDesktop5
+	Sleep % delay * 4
+	Gosub :*:@setupVirtualDesktop1
+	Gosub :*:@setupVirtualDesktop2
+	Gosub :*:@setupVirtualDesktop3
+	Gosub :*:@setupVirtualDesktop4
+	Gosub :*:@setupVirtualDesktop5
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.1.2: Hotstring: @setupCiscoVpn
+;       →→→ §1.1.3: @setupCiscoVpn
 
 :*:@setupCiscoVpn::
-	CheckForCmdEntryGui()
-	WinActivate, % "ahk_exe explorer.exe ahk_class Shell_TrayWnd"
-	Sleep, 200
-	MouseClick, Left, 1678, 16
-	Sleep, 1000
-	WinActivate, % "Cisco ahk_exe vpnui.exe"
-	Sleep, 200	
-	MouseClick, Left, 116, 82
-	Sleep, 200
-	SendInput, % "sslvpn.wsu.edu{Enter}"
+	delay := GetDelay("short", 2)
+	AppendAhkCmd(A_ThisLabel)
+	WinActivate % "ahk_exe explorer.exe ahk_class Shell_TrayWnd"
+	Sleep %delay%
+	MouseClick Left, 1678, 16
+	Sleep % delay * 5
+	WinActivate % "Cisco ahk_exe vpnui.exe"
+	Sleep %delay%
+	MouseClick Left, 116, 82
+	Sleep %delay%
+	SendInput % "sslvpn.wsu.edu{Enter}"
 Return
 
 
 ;   ································································································
 ;     >>> §1.2: VD1: Website editing
-:*:@setupVirtualDesktop1::
-	; Initialize local variables
-	delay := g_delayQuantum * 7
 
-	; Ensure VD1 is active
+:*:@setupVirtualDesktop1::
+	delay := GetDelay("short")
 	AppendAhkCmd(A_ThisLabel)
 	switchDesktopByNumber(1)
-	Sleep, % delay * 4
+	Sleep % delay * 4
 
 	; Start Sublime Text 3 & restore its default positioning
-	Gosub, :*:@startSublimeText3
-	Sleep, % delay * 4
+	Gosub :*:@startSublimeText3
+	Sleep % delay * 4
 	PositionWindowViaCtrlFN("^F8", delay)
 
 	; Load chrome & navigate to WSUWP login page
-	Gosub, :*:@startChrome
-	Sleep, % delay * 4
+	Gosub :*:@startChrome
+	Sleep % delay * 4
 	OpenWebsiteInChrome("distinguishedscholarships.wsu.edu/wp-admin/", False)
 
-	; Position chrome on VD1
 	PositionChromeOnVD1()
-
-	; Ensure work task log is loaded in ST3
 	Vd1_OpenWorkNotesLog()
-
-	; Start MS Todo and position it on VD1
-;	Gosub, :*:@startMsTodo
-;	PositionMsTodo()
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.2.1: PositionWindowViaCtrlFN — Function
+;       →→→ §1.2.1: PositionWindowViaCtrlFN
+
 PositionWindowViaCtrlFN(posHotkey, delay) {
 	if (posHotkey == "^F6" || posHotkey == "^F7" || posHotkey == "^F8" || posHotkey == "^F9"
 			|| posHotkey == "^F10" || posHotkey == "^F11") {
 		Gosub % posHotkey
-		Sleep, % delay
-		SendInput, % "{Enter}"
+		Sleep % delay
+		SendInput % "{Enter}"
 	} else {
 		errorMsg := New GuiMsgBox("Error in " . A_ThisFunc . ": I was passed a window positioning "
 			. "hotkey that I do not recognize: " . posHotkey, Func("HandleGuiMsgBoxOk"))
@@ -153,173 +148,157 @@ PositionWindowViaCtrlFN(posHotkey, delay) {
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.2.3: @startSublimeText3 — Hotstring
+;       →→→ §1.2.3: @startSublimeText3
+
 :*:@startSublimeText3::
 	; Start up Sublime Text, open a new window, and send the initial, primary instance to desktop #2
-	AppendAhkCmd(":*:@startSublimeText3")
+	delay := GetDelay("short", 2)
+	AppendAhkCmd(A_ThisLabel)
 	titleToMatch := "Sublime Text ahk_exe sublime_text\.exe"
 	LaunchApplicationPatiently("C:\Program Files\Sublime Text 3\sublime_text.exe"
 		, titleToMatch, "RegEx")
-	Sleep, 150
+	Sleep %delay%
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.2.4: @startChrome — Hotstring
+;       →→→ §1.2.4: @startChrome
+
 :*:@startChrome::
-	delay := g_delayQuantum * 7 ; ms
+	delay := GetDelay("long")
 	; Start up Chrome and direct it to a WSU WordPress login page; wait for it to load before
 	; proceeding
-	AppendAhkCmd(":*:@startChrome")
+	AppendAhkCmd(A_ThisLabel)
 	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
 		, "New Tab ahk_exe chrome.exe")
-	Sleep, % delay * 10
+	Sleep, %delay%
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.2.5: PositionChromeVD1 — Function
-PositionChromeOnVD1() {
-	global g_delayQuantum
+;       →→→ §1.2.5: PositionChromeVD1
 
-	delay := g_delayQuantum * 7
+PositionChromeOnVD1() {
+	delay := GetDelay("short")
 	chromeTitle := "Log In ahk_exe chrome.exe"
 	chromeActive := SafeWinActivate(chromeTitle)
 	if (chromeActive) {
 		PositionWindowViaCtrlFN("^F7", delay)
-		Sleep, % delay * 5
-		WinMaximize, % chromeTitle
+		Sleep % delay * 5
+		WinMaximize % chromeTitle
 	}
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.2.6: Vd1_OpenWorkNotesLog — Function
-Vd1_OpenWorkNotesLog() {
-	; Declare global variables
-	global g_delayQuantum
 
-	; Initialize local variables
+Vd1_OpenWorkNotesLog() {
 	oldTitleMatchMode := 0
-	delay := g_delayQuantum * 21
+	delay := GetDelay("medium")
 	st3TitleToMatch := "log_work-notes.txt ahk_exe sublime_text\.exe"
 	st3GeneralTitle := "ahk_exe sublime_text\.exe"
 	st3NewWinTitle := "untitled - Sublime ahk_exe sublime_text\.exe"
 
 	; Proceed in RegEx title matching mode
 	if (A_TitleMatchMode != "RegEx") {
-		SetTitleMatchMode, RegEx
+		SetTitleMatchMode RegEx
 	}
 
 	; Add ST3 window to virtual desktop
-	IfWinExist, %st3TitleToMatch%
+	IfWinExist %st3TitleToMatch%
 	{
 		; Ensure ST3 is active and restore default position of work notes
-		Sleep, % delay
+		Sleep % delay
 		SafeWinActivate(st3TitleToMatch, "RegEx")
 		PositionWindowViaCtrlFN("^F10", delay)
-		Sleep, % delay * 3
+		Sleep % delay * 3
 
 		; Create a new ST3 window and restore its default position on virtual desktop
 		SendInput, ^+n
-		Sleep, % delay * 3
+		Sleep % delay * 3
 		WaitForApplicationPatiently(st3NewWinTitle)
 		PositionWindowViaCtrlFN("^F8", delay)
 	} else {
 		; Activate existing ST3 process and restore its default position on virtual desktop
 		SafeWinActivate(st3GeneralTitle, "RegEx")
-		Sleep, % delay
+		Sleep % delay
 		PositionWindowViaCtrlFN("^F8", delay)
-		Sleep, % delay * 3
+		Sleep % delay * 3
 
 		; Create a new ST3 window, open the work log, and restore its default position
-		SendInput, ^+n
-		Sleep, % delay * 3
+		SendInput ^+n
+		Sleep % delay * 3
 		WaitForApplicationPatiently(st3NewWinTitle)
-		Sleep, % delay
-		SendInput, ^o
-		Sleep, % delay * 9
-		SendInput, % "C:\Users\CamilleandDaniel\Documents\GitHub\log_work-notes.txt{Enter}"
-		Sleep, % delay * 12
+		Sleep % delay
+		SendInput ^o
+		Sleep % delay * 9
+		SendInput % "C:\Users\CamilleandDaniel\Documents\GitHub\log_work-notes.txt{Enter}"
+		Sleep % delay * 12
 		PositionWindowViaCtrlFN("^F10", delay)
 	}
 
-	; If necessary, restore title matching mode to previous setting
 	if (oldTitleMatchMode) {
-		SetTitleMatchMode, % oldTitleMatchMode		
+		SetTitleMatchMode % oldTitleMatchMode		
 	}
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.2.7: @startMsTodo — Hotstring
+;       →→→ §1.2.7: @startMsTodo
+
 :*:@startMsTodo::
-	delay := g_delayQuantum * 7
+	delay := GetDelay("long")
 	AppendAhkCmd(A_ThisLabel)
 	LaunchStdApplicationPatiently("C:\Users\CamilleandDaniel\Desktop\Microsoft To-Do - Shortcut.lnk"
 		, "Microsoft To-Do")
-	Sleep, % delay * 10
+	Sleep, %delay%
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.2.8: PositionMsTodo — Function
-PositionMsTodo() {
-	global g_delayQuantum
+;       →→→ §1.2.8: PositionMsTodo
 
-	delay := g_delayQuantum * 7
+PositionMsTodo() {
+	delay := GetDelay("short")
 	msTodoTitle := "Microsoft To-Do ahk_exe ApplicationFrameHost.exe"
 	msTodoActive := SafeWinActivate(msTodoTitle)
 
 	if (msTodoActive) {
-		Sleep, % delay * 2
+		Sleep % delay * 2
 		PositionWindowViaCtrlFN("^F10", delay)
-		Sleep, % delay * 5
-		WinMaximize, % msTodoTitle
+		Sleep % delay * 5
+		WinMaximize % msTodoTitle
 	}
 }
 
 ;   ································································································
 ;     >>> §1.3: VD2: Programming
-:*:@setupVirtualDesktop2::
-	; Initialize local variables
-	delay := g_delayQuantum * 32
 
-	; Switch to VD 2
+:*:@setupVirtualDesktop2::
+	delay := GetDelay("short", 5)
 	AppendAhkCmd(A_ThisLabel)
 	switchDesktopByNumber(2)
-	Sleep, % delay * 2
-
-	; Add Sublime Text 3 to virtual desktop if necessary
+	Sleep % delay * 2
 	AddSublimeText3ToVd(2)
-	Sleep, % delay
-
-	; Open a File Explorer window
+	Sleep % delay
 	switchDesktopByNumber(2)
-	Sleep, % delay
-	SendInput, #e
+	Sleep % delay
+	SendInput #e
 	WaitForApplicationPatiently("This PC")
-
-	; Start GitHub clients
-	Gosub, :*:@startGithubClients
-
-	; Restore default arrangement of windows
-	Gosub, :*:@arrangeGitHub
+	Gosub :*:@startGithubClients
+	Gosub :*:@arrangeGitHub
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.3.1: Function: AddSublimeText3ToVd
-AddSublimeText3ToVd(whichVd) {
-	; Declare global variables
-	global g_delayQuantum
 
-	; Initialize local variables
+AddSublimeText3ToVd(whichVd) {
 	oldTitleMatchMode := 0
-	delay := g_delayQuantum * 21
+	delay := GetDelay("medium")
 	st3TitleToMatch := "Sublime Text ahk_exe sublime_text\.exe"
 	st3NewWinTitle := "untitled - Sublime ahk_exe sublime_text\.exe"
-
-	; Proceed in RegEx title matching mode
 	if (A_TitleMatchMode != "RegEx") {
 		SetTitleMatchMode, RegEx
 	}
 
 	; Add ST3 window to virtual desktop
+	; TODO: Check to see if ST3 is already on the virtual desktop.
 	IfWinExist, %st3TitleToMatch%
 	{
 		; Switch to ST3 so that a new window can be generated and moved to the virtual desktop
@@ -341,7 +320,6 @@ AddSublimeText3ToVd(whichVd) {
 		GoSub, :*:@startSublimeText3
 	}
 
-	; If necessary, restore title matching mode to previous setting
 	if (oldTitleMatchMode) {
 		SetTitleMatchMode, % oldTitleMatchMode		
 	}
@@ -349,34 +327,28 @@ AddSublimeText3ToVd(whichVd) {
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.3.2: Hotstring: @startGithubClients
-:*:@startGithubClients::
-	; Initialize local variables
-	delay := g_delayQuantum * 21
-	AppendAhkCmd(":*:@startGithubClients")
-	Sleep, % delay
 
-	; Load GitHub profile in Chrome
+:*:@startGithubClients::
+	delay := GetDelay("short")
+	AppendAhkCmd(":*:@startGithubClients")
+	Sleep % delay
 	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
 		, "New Tab")
-	Sleep, % delay
+	Sleep % delay
 	OpenWebsiteInChrome("github.com/invokeImmediately", False)
-
-	; Load GitHub Desktop for Windows
 	LaunchStdApplicationPatiently(userAccountFolderSSD . "\AppData\Local\GitHubDesktop\GitHubDesktop.exe"
 		, "GitHub ahk_exe GitHubDesktop.exe")
-	Sleep, % delay * 3
-
-	; Load a PowerShell console window
+	Sleep % delay * 3
 	LaunchApplicationPatiently("C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe"
 		, "ahk_exe powershell.exe")
-	Sleep, % delay * 3
+	Sleep % delay * 3
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.3.3: Hotstring: @arrangeGitHub
+
 :*:@arrangeGitHub::
-	; Initialize local variables
-	delay := g_delayQuantum * 7
+	delay := GetDelay("short")
 
 	; Position GitHub Desktop for Windows
 	AppendAhkCmd(":*:@arrangeGitHub")
@@ -411,12 +383,9 @@ Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.3.4: Function: agh_MovePowerShell
-agh_MovePowerShell() {
-	; Declare global variables
-	global g_delayQuantum
 
-	; Initialize local varaibles
-	delay := g_delayQuantum * 21 ; units = ms, time between operations
+agh_MovePowerShell() {
+	delay := GetDelay("medium")
 	destX := 2313 ; units = pixels, destination X coordinate
 	destY := 161 ; units = pixels, destination Y coordinate
 	attemptsLimit := 9 ; make repeated attempts over 3 seconds
@@ -426,7 +395,7 @@ agh_MovePowerShell() {
 	; Activate Powershell console window
 	hWnd := WinExist("Administrator: ahk_class ConsoleWindowClass")
 	while (!hWnd && attemptsCount <= attemptsLimit) {
-		Sleep, % attemptDelay
+		Sleep % attemptDelay
 		hWnd := WinExist("Administrator: ahk_class ConsoleWindowClass")
 		attemptsCount++
 	}
@@ -435,16 +404,16 @@ agh_MovePowerShell() {
 	if (hWnd) {
 		; Set up a loop for repeated move attemps
 		psTitle := "ahk_id " . hWnd ; i.e., PowerShell's identifying criteria
-		Sleep, % delay
-		WinGetPos, x, y, w, h, % psTitle
+		Sleep % delay
+		WinGetPos x, y, w, h, % psTitle
 		attempts := 0
 
 		; Execute a loop for repeated move attempts
 		while (attempts <= attemptsLimit && (x != destX && y != destY)) {
-			WinMove, % psTitle, , % destX, % destY
+			WinMove % psTitle, , % destX, % destY
 			attempts++
-			Sleep, % delay
-			WinGetPos, x, y, w, h, % psTitle
+			Sleep % delay
+			WinGetPos x, y, w, h, % psTitle
 		}
 
 		; If necessary, report failure to move Powershell console window
@@ -466,60 +435,57 @@ agh_MovePowerShell() {
 ;     >>> §1.4: Setup VD3: Graphic design
 
 :*:@setupVirtualDesktop3::
-	delay := g_delayQuantum * 21
+	delay := GetDelay("medium")
+	AppendAhkCmd(A_ThisLabel)
 	CheckForCmdEntryGui()
 	switchDesktopByNumber(3)
-	Sleep, % delay / 2
+	Sleep % delay / 2
 	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
 		, "New Tab")
 	OpenWebsiteInChrome("www.colorhexa.com", False)
-	Sleep, % delay
+	Sleep % delay
 	OpenWebsiteInChrome("brand.wsu.edu/visual/colors")
-	Sleep, % delay
+	Sleep % delay
 	PositionWindowViaCtrlFN("^F10", 100)
 	LaunchStdApplicationPatiently("C:\Program Files\GIMP 2\bin\gimp-2.8.exe", "GNU Image")
 	PositionWindowViaCtrlFN("^F6", 100)
-	Sleep, % delay * 3
+	Sleep % delay * 3
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.4.1: Hotstring: @arrangeGimp
 
 :*:@arrangeGimp::
-	AppendAhkCmd(":*:@arrangeGimp")
-	WinActivate, Toolbox - Tool Options
-	Sleep, 100
-	WinMove, Toolbox - Tool Options, , 0, 0, 272, 1040
-	Sleep, 100
-	WinActivate, Layers
-	Sleep, 100
-	WinMove, Layers, , 261, 0, 356, 1040
-	Sleep, 100
-	WinActivate, FG/BG
-	Sleep, 100
-	WinMove, FG/BG, , 615, 0, 350, 522
-	Sleep, 100
+	AppendAhkCmd(A_ThisLabel)
+	delay := GetDelay("short")
+	WinActivate Toolbox - Tool Options
+	Sleep %delay%
+	WinMove Toolbox - Tool Options, , 0, 0, 272, 1040
+	Sleep %delay%
+	WinActivate Layers
+	Sleep %delay%
+	WinMove Layers, , 261, 0, 356, 1040
+	Sleep %delay%
+	WinActivate FG/BG
+	Sleep %delay%
+	WinMove FG/BG, , 615, 0, 350, 522
+	Sleep %delay%
 	WinActivate, Navigation
-	Sleep, 100
-	WinMove, Navigation, , 615, 518, 350, 522
+	Sleep %delay%
+	WinMove Navigation, , 615, 518, 350, 522
 Return
 
 ;   ································································································
 ;     >>> §1.5: Setup VD4: Communications and media
 
 :*:@setupVirtualDesktop4::
-	; Initialize local variables
-	delay := g_delayQuantum * 7
-	CheckForCmdEntryGui()
+	AppendAhkCmd(A_ThisLabel)
+	delay := GetDelay("short")
 	switchDesktopByNumber(4)
-
-	; Load a Chrome window for this virtual desktop
-	Sleep, % delay * 1.5
+	Sleep % delay * 1.5
 	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
 		, "New Tab")
-	Sleep, % delay * 10
-
-	; Open default email and news websites in Chrome
+	Sleep % delay * 10
 	OpenWebsiteInChrome("mail.google.com", False)
 	OpenWebsiteInChrome("mail.live.com")
 	OpenWebsiteInChrome("digital.olivesoftware.com/Olive/ODN/SanFranciscoChronicle")
@@ -528,199 +494,172 @@ Return
 	OpenWebsiteInChrome("web.wsu.edu")
 	OpenWebsiteInChrome("wsu-web.slack.com")
 	MoveToNextTabInChrome()
-
-	; Load Outlook 365
 	LaunchStdApplicationPatiently("C:\Program Files (x86)\Microsoft Office\root\Office16"
 		. "\outlook.exe", "Inbox ahk_exe OUTLOOK.EXE")
 	LaunchStdApplicationPatiently("C:\Program Files\iTunes\iTunes.exe", "iTunes")
-	Sleep, % delay * 10
-
-	; Restore default window arrangement
-	Gosub, :*:@arrangeEmail
+	Sleep % delay * 10
+	Gosub :*:@arrangeEmail
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.5.1: Function: OpenWebsiteInChrome
+;       →→→ §1.5.1: OpenWebsiteInChrome
+
 OpenWebsiteInChrome(website, inNewTab := True) {
-	; Declare global variables
-	global g_delayQuantum
-	
-	; Initialize local variables
-	delay := g_delayQuantum * 7
+	delay := GetDelay("short")
 	website .= "{Enter}"
 	attemptCount := 0
-
-	; Begin execution by activating Chrome
-	WinGet, procName, ProcessName, A
+	WinGet procName, ProcessName, A
 	while (procName != "chrome.exe" && attemptCount <= 8) {
-		Sleep, 250
-		WinActivate, % "ahk_exe chrome.exe"
-		Sleep, 120
-		WinGet, procName, ProcessName, A
+		Sleep % delay * 2.5
+		WinActivate % "ahk_exe chrome.exe"
+		Sleep %delay%
+		WinGet procName, ProcessName, A
 		attemptCount++
 	}
-
-	; Handle optional opening of new tab
 	if (inNewTab) {
 		OpenNewTabInChrome()
 	}
-
-	; Navigate to the specified website
 	NavigateToWebsiteInChrome(website)
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.5.2: Function: OpenNewTabInChrome
+;       →→→ §1.5.2: OpenNewTabInChrome
+
 OpenNewTabInChrome() {
-	; Declare global variables
-	global g_delayQuantum
-
-	; Verify that Chrome is active
-	WinGet, procName, ProcessName, A
+	delay := GetDelay("short")
+	WinGet procName, ProcessName, A
 	if (procName == "chrome.exe") {
-		; Open a new tab via keyboard shortcut
 		SendInput, ^t
-		Sleep, % g_delayQuantum * 7	
+		Sleep, %delay%
 	}
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.5.3: Function: NavigateToWebsiteInChrome
+;       →→→ §1.5.3: NavigateToWebsiteInChrome
+
 NavigateToWebsiteInChrome(website) {
-	; Declare global variables
-	global g_delayQuantum
-
-	; Verify that Chrome is active
+	delay := GetDelay("short")
 	WinGet, procName, ProcessName, A
 	if (procName == "chrome.exe") {
-		; Ensure that the address bar has focus via keyboard shortuct
 		SendInput, !d
-		Sleep, % g_delayQuantum * 7
-
-		; Navigate to the specified URL
+		Sleep, %delay%
 		SendInput, % website
-		Sleep, % g_delayQuantum * 21
+		Sleep, % delay * 3
 	}
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.5.4: Function: MoveToNextTabInChrome
+;       →→→ §1.5.4: MoveToNextTabInChrome
+
 MoveToNextTabInChrome() {
-	; Declare global variables
-	global g_delayQuantum
-
-	; Verify that Chrome is active
-	WinGet, procName, ProcessName, A
+	delay := GetDelay("short")
+	WinGet procName, ProcessName, A
 	if (procName == "chrome.exe") {
-		; Move to the next tab via keyboard shortcut
-		SendInput, ^{Tab}
-		Sleep, % g_delayQuantum * 7
+		SendInput ^{Tab}
+		Sleep %delay%
 	}
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.5.5: Hotstring: @arrangeEmail
-:*:@arrangeEmail::
-	; Initialize local variables
-	delay := g_delayQuantum * 14
+;       →→→ §1.5.5: @arrangeEmail
 
-	; Register command in history
-	AppendAhkCmd(":*:@arrangeEmail")
+:*:@arrangeEmail::
+	delay := GetDelay("short", 2)
+	AppendAhkCmd(A_ThisLabel)
 
 	; Reposition Outlook
-	WinActivate, % "Inbox - ahk_exe OUTLOOK.EXE"
-	Sleep, % delay * 2
+	WinActivate % "Inbox - ahk_exe OUTLOOK.EXE"
+	Sleep % delay * 2
 	PositionWindowViaCtrlFN("^F8", delay)
-	Sleep, % delay * 1.25
-	WinMaximize, A
-	Sleep, % delay * 1
+	Sleep % delay * 1.25
+	WinMaximize A
+	Sleep % delay * 1
 
 	; Reposition Chrome window for email and news browsing
-	WinActivate, % "Inbox ahk_exe chrome.exe"
-	Sleep, % delay * 1.25
+	WinActivate % "Inbox ahk_exe chrome.exe"
+	Sleep % delay * 1.25
 	PositionWindowViaCtrlFN("^F6", delay)
-	Sleep, % delay * 2.25
+	Sleep % delay * 2.25
 
 	; Open second Gmail account
-	WinActivate, % "Inbox ahk_exe chrome.exe"
-	Sleep, % delay * 0.5
+	WinActivate % "Inbox ahk_exe chrome.exe"
+	Sleep % delay * 0.5
 	MouseMove 1488, 140
-	Sleep, % delay * 0.5
+	Sleep % delay * 0.5
 	Send {Click}
-	Sleep, % delay * 15
+	Sleep % delay * 15
 	MouseMove 1348, 340
-	Sleep, % delay * 0.5
+	Sleep % delay * 0.5
 	Send {Click}
-	Sleep, % delay * 2.5
-	WinMaximize, A
-	Sleep, % delay * 1
+	Sleep % delay * 2.5
+	WinMaximize A
+	Sleep % delay * 1
 
 	; Reposition iTunes
-	WinActivate, % "iTunes ahk_exe iTunes.exe"
-	Sleep, % delay * 0.5
+	WinActivate % "iTunes ahk_exe iTunes.exe"
+	Sleep % delay * 0.5
 	PositionWindowViaCtrlFN("^F10", delay)
-	Sleep, % delay * 5
-	WinMaximize, A
-	Sleep, % delay * 1
+	Sleep % delay * 5
+	WinMaximize A
+	Sleep % delay * 1
 Return
 
 ;   ································································································
 ;     >>> §1.6: Setup VD5: Diagnostics & talmud
 
 :*:@setupVirtualDesktop5::
-	delay := g_delayQuantum * 7
-	CheckForCmdEntryGui()
+	delay := GetDelay("short")
+	AppendAhkCmd(A_ThisLabel)
 	switchDesktopByNumber(5)
-	Sleep, % delay * 2
+	Sleep % delay * 2
 	LaunchStdApplicationPatiently("C:\Windows\System32\taskmgr.exe", "Task Manager")
-	Sleep, % delay * 10
-	WinMove, % "GPU Temp", , -541, 59, 480, 400
-	Sleep, % delay * 2
-	WinMove, % "RealTemp", , -537, 477, 318, 409
-	Sleep, % delay * 2
-	WinMove, % "Task Manager", , -1528, 184, 976, 600
+	Sleep % delay * 10
+	WinMove % "GPU Temp", , -541, 59, 480, 400
+	Sleep % delay * 2
+	WinMove % "RealTemp", , -537, 477, 318, 409
+	Sleep % delay * 2
+	WinMove % "Task Manager", , -1528, 184, 976, 600
 	Sleep % delay * 2
 	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
 		, "New Tab")
-	Sleep, % delay * 3
+	Sleep % delay * 3
 	OpenWebsiteInChrome("biblegateway.com", False)
 	OpenWebsiteInChrome("hebrew4christians.com")
 	OpenWebsiteInChrome("scripturetyper.com")
 	OpenWebsiteInChrome("www.blueletterbible.org")
-	Sleep, % delay * 10
-	SendInput, ^{Tab}
-	Sleep, % delay * 10
-	WinRestore, % "BibleGateway ahk_exe chrome.exe"
-	WinMove, % "BibleGateway ahk_exe chrome.exe", , 136, 88, 1648, 874
+	Sleep % delay * 10
+	SendInput ^{Tab}
+	Sleep % delay * 10
+	WinRestore % "BibleGateway ahk_exe chrome.exe"
+	WinMove % "BibleGateway ahk_exe chrome.exe", , 136, 88, 1648, 874
 Return
 
 ;   ································································································
 ;     >>> §1.7: Other setup hotstrings
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.7.1: Hotstring: @startNotepadPp
+;       →→→ §1.7.1: @startNotepadPp
 
 :*:@startNotepadPp::
-	; Start up Notepad++, open a second instance, and send the initial, primary instance to desktop 
-	; #2
-	AppendAhkCmd(":*:@startNotepadPp")
+	delay := GetDelay("short")
+	AppendAhkCmd(A_ThisLabel)
 	LaunchApplicationPatiently("C:\Program Files\Notepad++\notepad++.exe"
 		, "C:\Users ahk_exe notepad++.exe")
-	Sleep, 3000
+	Sleep % delay * 30
 	WinActivate, % "C:\Users ahk_exe notepad++.exe"
-	Sleep, 100
-	SendInput, ^{End}
-	Sleep, 500
-	SendInput, !+{F6}
-	Sleep, 3000
-	SendInput, !{Tab}
-	Sleep, 750
+	Sleep %delay%
+	SendInput ^{End}
+	Sleep % delay * 5
+	SendInput !+{F6}
+	Sleep % delay * 30
+	SendInput !{Tab}
+	Sleep % delay * 7.5
 	moveActiveWindowToVirtualDesktop(2)
-	Sleep, 750
+	Sleep % delay * 7.5
 	Gosub % "^F8"
-	Sleep, 140
-	SendInput, {Enter}
-	Sleep, 500
+	Sleep % delay * 2
+	SendInput {Enter}
+	Sleep % delay * 5
 Return
 
 ; --------------------------------------------------------------------------------------------------
@@ -728,7 +667,7 @@ Return
 ; --------------------------------------------------------------------------------------------------
 
 #!r::
-	Gosub, :*:@setupWorkEnvironment
+	Gosub :*:@setupWorkEnvironment
 Return
 
 ; --------------------------------------------------------------------------------------------------
@@ -736,7 +675,7 @@ Return
 ; --------------------------------------------------------------------------------------------------
 
 :*:@quitAhk::
-	AppendAhkCmd(":*:@quitAhk")
+	AppendAhkCmd(A_ThisLabel)
 	PerformScriptShutdownTasks()
 	ExitApp
 Return
