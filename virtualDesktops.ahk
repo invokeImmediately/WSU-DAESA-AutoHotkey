@@ -12,10 +12,10 @@
 ;     >>> §2.2: GetSessionId...................................................................92
 ;     >>> §2.3: SwitchDesktopByNumber.........................................................109
 ;     >>> §2.4: MoveActiveWindowToVirtualDesktop..............................................161
-;     >>> §2.5: CreateVirtualDesktop..........................................................223
-;     >>> §2.6: DeleteVirtualDesktop..........................................................237
-;     >>> §2.7: GetCurrentVirtualDesktop......................................................251
-;     >>> §2.8: CloseOpenWindowsOnVD..........................................................264
+;     >>> §2.5: CreateVirtualDesktop..........................................................224
+;     >>> §2.6: DeleteVirtualDesktop..........................................................238
+;     >>> §2.7: GetCurrentVirtualDesktop......................................................252
+;     >>> §2.8: CloseOpenWindowsOnVD..........................................................265
 ; --------------------------------------------------------------------------------------------------
 
 ; --------------------------------------------------------------------------------------------------
@@ -177,7 +177,7 @@ MoveActiveWindowToVirtualDesktop(targetDesktop) {
 
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	; BEGIN EXECUTION
-	SetKeyDelay, %keyDelay%
+	SetKeyDelay %keyDelay%
 
 	; Re-generate the list of desktops and where we fit in that. We do this because
 	; the user may have switched desktops via some other means than the script.
@@ -185,7 +185,7 @@ MoveActiveWindowToVirtualDesktop(targetDesktop) {
 	
 	; Don't attempt to move to an invalid desktop
 	if (targetDesktop > vdDesktopCount || targetDesktop < 1) {
-		OutputDebug, [invalid] target: %targetDesktop% current: %vdCurrentDesktop%
+		OutputDebug [invalid] target: %targetDesktop% current: %vdCurrentDesktop%
 		return
 	}
 	
@@ -195,28 +195,29 @@ MoveActiveWindowToVirtualDesktop(targetDesktop) {
 		return
 	} else {
 		GetActiveMonitorWorkArea(whichMon, monALeft, monATop, monARight, monABottom)
-		MouseGetPos, currentMouseX, currentMouseY
+		MouseGetPos currentMouseX, currentMouseY
 		clickPosX := monALeft + awThumbnailX
 		clickPosY := monATop + awThumbnailY
-		Send, #{Tab}
-		Sleep, % pauseAmt * 3
+		Send #{Tab}
+		Sleep % pauseAmt * 3
 		Send {Click, %clickPosX%, %clickPosY%, right}
-		Sleep, % pauseAmt
-		Send, {Down 2}{Right}
-		Sleep, % pauseAmt
+		Sleep % pauseAmt
+		Send {Down 2}{Right}
+		Sleep % pauseAmt
 		Send {Click, %currentMouseX%, %currentMouseY%, 0}
 	}
 	
 	iDesktop := 1
 	while(iDesktop < targetDesktop) {
 		if (iDesktop != vdCurrentDesktop) {
-			Send, {Down}
+			SendInput {Down}
+			Sleep % pauseAmt * .85
 		}
 		iDesktop++
 	}
 	Send {Enter}#{Tab}
 
-	SetKeyDelay, prevKeyDelay
+	SetKeyDelay %prevKeyDelay%
 }
 
 ;   ································································································
