@@ -32,7 +32,7 @@
 ;   §13: OTHER SHORTCUTS.......................................................................518
 ;   §14: WORK TIMER............................................................................531
 ;   §15: CUSTOM HOTSTRINGS & HOTKEYS...........................................................537
-;   §16: MAIN SUBROUTINE.......................................................................607
+;   §16: MAIN SUBROUTINE.......................................................................609
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -419,7 +419,7 @@ Return
 ;   ································································································
 ;     >>> §12.2: Text Replacement HOTSTRINGS
 
-#Include, %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\regExStrings.ahk
+#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\regExStrings.ahk
 
 :*:@a5lh::
 	AppendAhkCmd(A_ThisLabel)
@@ -510,9 +510,9 @@ Return
 ;   ································································································
 ;     >>> §12.3: Text Input HOTSTRINGS
 
-#Include, %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\guiRepeatChars.ahk
+#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\guiRepeatChars.ahk
 
-#Include, %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\guiRepeatInputs.ahk
+#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\guiRepeatInputs.ahk
 
 ; --------------------------------------------------------------------------------------------------
 ;   §13: OTHER SHORTCUTS
@@ -537,8 +537,10 @@ Return
 ;   §15: CUSTOM HOTSTRINGS & HOTKEYS
 ; --------------------------------------------------------------------------------------------------
 
+#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\localOnly.ahk
+
 :*:@copyFromExcel::
-	AppendAhkCmd(":*:@copyFromExcel")
+	AppendAhkCmd(A_ThisLabel)
 	CopyTitleFromExcel(1)
 Return
 
