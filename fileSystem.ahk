@@ -17,7 +17,7 @@
 
 :*:@gotoCurrent::
 	AppendAhkCmd(A_ThisLabel)
-	SendInput, %hhdWorkFolder%\{^}Derek-Haqodesh\TheMessage.cc\Messages\Message_The-Man-from-Heaven_2015-12-06{Enter}
+	SendInput %hhdWorkFolder%\{^}Derek-Haqodesh\TheMessage.cc\Messages\Message_The-Man-from-Heaven_2015-12-06{Enter}
 Return
 
 ; --------------------------------------------------------------------------------------------------
@@ -26,7 +26,7 @@ Return
 
 :*:@gotoTorah::
 	AppendAhkCmd(A_ThisLabel)
-	SendInput, %hhdWorkFolder%\{^}Derek-Haqodesh\{Enter}
+	SendInput %hhdWorkFolder%\{^}Derek-Haqodesh\{Enter}
 Return
 
 ; --------------------------------------------------------------------------------------------------
@@ -37,12 +37,12 @@ Return
 
 :*:@gotoDocs::
 	AppendAhkCmd(A_ThisLabel)
-	SendInput, %userAccountFolderHDD%\Documents\{Enter}
+	SendInput %userAccountFolderHDD%\Documents\{Enter}
 Return
 
 :*:@gotoSsdDocs::
 	AppendAhkCmd(A_ThisLabel)
-	SendInput, %userAccountFolderSSD%\Documents\{Enter}
+	SendInput %userAccountFolderSSD%\Documents\{Enter}
 Return
 
 ; --------------------------------------------------------------------------------------------------
@@ -51,7 +51,7 @@ Return
 
 :*:@gotoGithub::
 	AppendAhkCmd(A_ThisLabel)
-	SendInput, %userAccountFolderSSD%\Documents\GitHub{Enter}
+	SendInput %userAccountFolderSSD%\Documents\GitHub{Enter}
 Return
 
 :*:@gotoGhAscc::
@@ -145,7 +145,7 @@ Return
 
 :*:@gotoWebDev::
 	AppendAhkCmd(A_ThisLabel)
-	SendInput, %webDevFolder%{Enter}
+	SendInput %webDevFolder%{Enter}
 Return
 
 :*:@gotoWdAscc::
@@ -218,10 +218,10 @@ Return
 
 :*:@openNodeCodes::
 	AppendAhkCmd(A_ThisLabel)
-	SendInput, %webDevFolder%\{^}Master-VPUE\Node\node-commands.bat{Enter}
+	SendInput %webDevFolder%\{^}Master-VPUE\Node\node-commands.bat{Enter}
 Return
 
 :*:@openGitCodes::
 	AppendAhkCmd(A_ThisLabel)
-	SendInput, %webDevFolder%\GitHub\git-codes.bat{Enter}
+	SendInput %webDevFolder%\GitHub\git-codes.bat{Enter}
 Return
