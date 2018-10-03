@@ -7,27 +7,28 @@
 ; ==================================================================================================
 ; Table of Contents
 ; -----------------
-;   §1: GUI triggering hotstring................................................................34
-;     >>> §1.1: @gcAnyFile......................................................................38
-;     >>> §1.2: gcAnyFile_GetRepoPath...........................................................84
-;       →→→ §1.2.1: gcAnyFile_GetRepoPath_PowerShell............................................99
-;       →→→ §1.2.2: gcAnyFile_GetRepoPath_ST3..................................................114
-;   §2: GUI supporting functions...............................................................131
-;     >>> §2.1: CAF_CommitAnyFile..............................................................135
-;     >>> §2.2: HandleCafAddFiles..............................................................224
-;     >>> §2.3: HandleCafRemoveFiles...........................................................278
-;     >>> §2.4: HandleCafGitDiff...............................................................317
-;     >>> §2.5: HandleCaf1stMsgChange..........................................................352
-;     >>> §2.6: HandleCaf2ndMsgChange..........................................................370
-;     >>> §2.7: HandleCafOk....................................................................384
-;     >>> §2.8: CheckAnyFilePrimaryMsgChanged..................................................456
-;     >>> §2.9: ProcessHandleCafOkError........................................................479
-;     >>> §2.10: HandleCafCancel...............................................................501
-;     >>> §2.11: SaveCafMsgHistory.............................................................510
-;     >>> §2.12: LoadCafMsgHistory.............................................................551
-;     >>> §2.13: ReadKeyForAnyFileCommitMsgHistory.............................................594
-;     >>> §2.14: ReadPrimaryCommitMsgForFileKey................................................618
-;     >>> §2.15: ReadPrimaryCommitMsgForFileKey................................................637
+;   §1: GUI triggering hotstring................................................................35
+;     >>> §1.1: @gcAnyFile......................................................................39
+;     >>> §1.2: gcAnyFile_GetRepoPath...........................................................85
+;       →→→ §1.2.1: gcAnyFile_GetRepoPath_PowerShell...........................................100
+;       →→→ §1.2.2: gcAnyFile_GetRepoPath_ST3..................................................115
+;   §2: GUI supporting functions...............................................................132
+;     >>> §2.1: CAF_CommitAnyFile..............................................................136
+;     >>> §2.2: HandleCafAddFiles..............................................................226
+;     >>> §2.3: HandleCafRemoveFiles...........................................................280
+;     >>> §2.4: HandleCafGitDiff...............................................................319
+;     >>> §2.5: HandleCafGitLog................................................................355
+;     >>> §2.6: HandleCaf1stMsgChange..........................................................392
+;     >>> §2.7: HandleCaf2ndMsgChange..........................................................410
+;     >>> §2.8: HandleCafOk....................................................................424
+;     >>> §2.9: CheckAnyFilePrimaryMsgChanged..................................................496
+;     >>> §2.10: ProcessHandleCafOkError.......................................................519
+;     >>> §2.11: HandleCafCancel...............................................................541
+;     >>> §2.12: SaveCafMsgHistory.............................................................550
+;     >>> §2.13: LoadCafMsgHistory.............................................................591
+;     >>> §2.14: ReadKeyForAnyFileCommitMsgHistory.............................................634
+;     >>> §2.15: ReadPrimaryCommitMsgForFileKey................................................658
+;     >>> §2.16: ReadPrimaryCommitMsgForFileKey................................................677
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -201,6 +202,7 @@ CAF_CommitAnyFile(ahkCmdName, gitFolder, filesToCommit) {
 	Gui, guiCaf: Add, Button, gHandleCafAddFiles xm Y+3, &Add More Files
 	Gui, guiCaf: Add, Button, gHandleCafRemoveFiles X+5, &Remove File(s)
 	Gui, guiCaf: Add, Button, gHandleCafGitDiff X+5, &Git diff selection
+	Gui, guiCaf: Add, Button, gHandleCafGitLog X+5, Git &log selection
 	Gui, guiCaf: Font, bold
 	Gui, guiCaf: Add, Text, Y+12, % "Message(s) to be used for commit: "
 	Gui, guiCaf: Font
@@ -316,7 +318,8 @@ HandleCafRemoveFiles() {
 ;   ································································································
 ;     >>> §2.4: HandleCafGitDiff
 ;
-;   Function handler for activation of the button used to remove selected files to be committed.
+;   Function handler for activation of the button used to perform a git diff command on selected
+;   files.
 
 HandleCafGitDiff() {
 	global cafVars
@@ -349,7 +352,44 @@ HandleCafGitDiff() {
 }
 
 ;   ································································································
-;     >>> §2.5: HandleCaf1stMsgChange
+;     >>> §2.5: HandleCafGitLog
+;
+;   Function handler for activation of the button used to perform a git log command on selected
+;   files.
+
+HandleCafGitLog() {
+	global cafVars
+	delay := GetDelay("short")
+	cmdStr := "git --no-pager log --follow --pretty=""format:%h | %cn | %cd | %s | %b"" "
+	numSelectedRows := LV_GetCount("Selected")
+	consoleStr := "cd " . cafVars.gitFolder . "`r"
+	if (numSelectedRows > 0) {
+		rowNumber := 1
+		Loop
+		{
+			rowNumber := LV_GetNext(rowNumber - 1)
+			if (rowNumber) {
+				LV_GetText(fileName, rowNumber)
+				consoleStr .= cmdStr . fileName . "`r"
+				Sleep, % delay
+			} else {
+				break
+			}
+		}
+	} else {
+		rowNumber := 1
+		numRows := LV_GetCount()
+		while (rowNumber <= numRows) {
+			LV_GetText(fileName, rowNumber)
+			consoleStr .= cmdStr . fileName . "`r"
+			rowNumber++
+		}
+	}
+	PasteTextIntoGitShell(A_ThisLabel, consoleStr)
+}
+
+;   ································································································
+;     >>> §2.6: HandleCaf1stMsgChange
 ;
 ;   Function handler for changes to the primary git commit message for the selected file(s).
 
@@ -367,7 +407,7 @@ HandleCaf1stMsgChange() {
 }
 
 ;   ································································································
-;     >>> §2.6: HandleCaf2ndMsgChange
+;     >>> §2.7: HandleCaf2ndMsgChange
 ;
 ;   Function handler for changes to the secondary git commit message for the selected file(s).
 
@@ -381,7 +421,7 @@ HandleCaf2ndMsgChange() {
 }
 
 ;   ································································································
-;     >>> §2.7: HandleCafOk
+;     >>> §2.8: HandleCafOk
 ;
 ;   Function handler for activation of the 'OK' button.
 
@@ -453,7 +493,7 @@ HandleCafOk() {
 }
 
 ;   ································································································
-;     >>> §2.8: CheckAnyFilePrimaryMsgChanged
+;     >>> §2.9: CheckAnyFilePrimaryMsgChanged
 ;
 ;   Quality control function to prevent accidentally repeated git commits.
 ;
@@ -476,7 +516,7 @@ CheckAnyFilePrimaryMsgChanged() {
 }
 
 ;   ································································································
-;     >>> §2.9: ProcessHandleCafOkError
+;     >>> §2.10: ProcessHandleCafOkError
 ;
 ;	Called by the HandleCafOk function to handle error processing.
 ;
@@ -498,7 +538,7 @@ ProcessHandleCafOkError(gVarCheck) {
 }
 
 ;   ································································································
-;     >>> §2.10: HandleCafCancel
+;     >>> §2.11: HandleCafCancel
 ;
 ;	Function handler for activation of the GUI's "Cancel" button.
 
@@ -507,7 +547,7 @@ HandleCafCancel() {
 }
 
 ;   ································································································
-;     >>> §2.11: SaveCafMsgHistory
+;     >>> §2.12: SaveCafMsgHistory
 ;
 ;	Record git commit messages so they are remembered between scripting sessions.
 ;
@@ -548,7 +588,7 @@ SaveCafMsgHistory() {
 }
 
 ;   ································································································
-;     >>> §2.12: LoadCafMsgHistory
+;     >>> §2.13: LoadCafMsgHistory
 ;
 ;	Load git commit messages recorded from previous scripting sessions.
 
@@ -591,7 +631,7 @@ LoadCafMsgHistory() {
 }
 
 ;   ································································································
-;     >>> §2.13: ReadKeyForAnyFileCommitMsgHistory
+;     >>> §2.14: ReadKeyForAnyFileCommitMsgHistory
 ;
 ;   Reads a key from the next line in the commit message history log file.
 ;
@@ -615,7 +655,7 @@ ReadKeyForAnyFileCommitMsgHistory(ByRef logFile) {
 }
 
 ;   ································································································
-;     >>> §2.14: ReadPrimaryCommitMsgForFileKey
+;     >>> §2.15: ReadPrimaryCommitMsgForFileKey
 ;
 ;   Reads a primary commit message from the next line in the commit message history log file.
 
@@ -634,7 +674,7 @@ ReadPrimaryCommitMsgForFileKey(ByRef logFile, ByRef commitMsgArray, key) {
 }
 
 ;   ································································································
-;     >>> §2.15: ReadPrimaryCommitMsgForFileKey
+;     >>> §2.16: ReadPrimaryCommitMsgForFileKey
 ;
 ;   Reads a secondary commit message from the next line in the commit message history log file.
 
