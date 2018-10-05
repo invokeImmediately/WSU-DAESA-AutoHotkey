@@ -59,7 +59,7 @@ BuildHyperlinkArray(htmlMarkup) {
 		errorMsg := "I was passed an empty markup string."
 	}
 	if (errorMsg != "") {
-		MsgBox, % (0x0 + 0x10)
+		MsgBox % (0x0 + 0x10)
 			, % "Error in " . ahkFuncName
 			, % errorMsg
 	}
@@ -79,12 +79,12 @@ CopyWebpageSourceToClipboard(webBrowserProcess, correctTitleNeedle, viewSourceTi
 	oldMatchMode := 0
 	if (A_TitleMatchMode != RegEx) {
 		oldMatchMode := A_TitleMatchMode
-		SetTitleMatchMode, RegEx
+		SetTitleMatchMode RegEx
 	}
 
 	; Verify chrome as the active process, look for "| Washington State University" in title
-	WinGet, activeProcess, ProcessName, A
-	WinGetActiveTitle, processTitle
+	WinGet activeProcess, ProcessName, A
+	WinGetActiveTitle processTitle
 	if ( !(RegExMatch(activeProcess, webBrowserProcess) && RegExMatch(processTitle
 			, correctTitleNeedle)) ) {
 		ErrorBox(ahkThisCmd, errorMsg)
@@ -92,16 +92,16 @@ CopyWebpageSourceToClipboard(webBrowserProcess, correctTitleNeedle, viewSourceTi
 		oldKeyDelay := 0
 		if (A_KeyDelay != keyDelay)	{
 			oldKeyDelay := A_KeyDelay
-			SetKeyDelay, %keyDelay%
+			SetKeyDelay %keyDelay%
 		}
 		; Trigger view page source, wait for tab to load
-		Send, ^u
-		WinWaitActive, % viewSourceTitle, , 0.5
+		Send ^u
+		WinWaitActive % viewSourceTitle, , 0.5
 		idx := 0
 		idxLimit := 9
 		while(ErrorLevel)
 		{
-			WinWaitActive, % viewSourceTitle, , 0.5
+			WinWaitActive % viewSourceTitle, , 0.5
 			idx++
 			if (idx >= idxLimit) {
 				ErrorBox(ahkThisCmd, "I timed out while waiting for the view source tab to open.")
@@ -111,22 +111,22 @@ CopyWebpageSourceToClipboard(webBrowserProcess, correctTitleNeedle, viewSourceTi
 		if (ErrorLevel) {
 			Return
 		} else {
-			Sleep, % keyDelay * 15
+			Sleep % keyDelay * 15
 		}
 
 		; Copy the markup and close the tab
-		Send, ^a
-		Send, ^c
-		Send, ^w
+		Send ^a
+		Send ^c
+		Send ^w
 		success := Clipboard
 
 		if (oldKeyDelay) {
-			SetKeyDelay, %oldKeyDelay%
+			SetKeyDelay %oldKeyDelay%
 		}
 	}
 
 	if (oldMatchMode) {
-		SetTitleMatchMode, %oldMatchMode%
+		SetTitleMatchMode %oldMatchMode%
 	}
 
 	Sleep %keyDelay%
@@ -164,7 +164,7 @@ ExportHyperlinkArray(hyperlinkArray, pageContent) {
 		exportStr .= "`n`nHyperlinks were found in the following markup:`n" . pageContent
 		clipboard := exportStr
 		; TODO: Replace the following MsgBox with a GUI containing a ListView.
-		MsgBox, 0x0, % ":*:@findHrefsInHtml"
+		MsgBox 0x0, % ":*:@findHrefsInHtml"
 			, % "I found " . hyperlinkArray.Length() . " hyperlinks in markup copied to clipboard. "
 			. "I then overwrote clipboard with the results of my analysis formatted for import into"
 			. " Excel."
@@ -192,7 +192,7 @@ PullHrefsIntoHyperlinkArray(ByRef hyperlinkArray) {
 ;     >>> §2.1: Text Replacement
 
 :*:@cssShorthandBg::
-	SendInput, % "bg-color bg-image position/bg-size bg-repeat bg-origin bg-clip bg-attachment init"
+	SendInput % "bg-color bg-image position/bg-size bg-repeat bg-origin bg-clip bg-attachment init"
 		. "ial|inherit;"
 Return
 
@@ -268,7 +268,7 @@ Return
 ;     >>> §2.2: RegEx
 
 :*:@findStrBldrSctns::
-	SendInput, % "(?<={^}---->\r\n){^}.*$(?:\r\n{^}(?{!}<{!}--|\r\n<{!}--|\Z).*$)*"
+	SendInput % "(?<={^}---->\r\n){^}.*$(?:\r\n{^}(?{!}<{!}--|\r\n<{!}--|\Z).*$)*"
 Return
 
 ;   ································································································
@@ -309,13 +309,13 @@ BackupOueHtml(sourceCode, workingFilePath, targetContentNeedle, cleaningNeedle, 
 
 	if (A_TitleMatchMode != RegEx) {
 		oldMatchMode := A_TitleMatchMode
-		SetTitleMatchMode, RegEx
+		SetTitleMatchMode RegEx
 	}
 
 	oldKeyDelay := 0
 	if (A_KeyDelay != keyDelay)	{
 		oldKeyDelay := A_KeyDelay
-		SetKeyDelay, %keyDelay%
+		SetKeyDelay %keyDelay%
 	}
 
 	; Switch the active process to Sublime Text 3
@@ -339,80 +339,80 @@ BackupOueHtml(sourceCode, workingFilePath, targetContentNeedle, cleaningNeedle, 
 	}
 
 	if (oldKeyDelay) {
-		SetKeyDelay, %oldKeyDelay%
+		SetKeyDelay %oldKeyDelay%
 	}
 
 	if (oldMatchMode) {
-		SetTitleMatchMode, %oldMatchMode%
+		SetTitleMatchMode %oldMatchMode%
 	}
 }
 
 BackupOueHtml_CreateNewFile(keyDelay) {
 	WinActivate
-	Send, ^n
-	Sleep, (%keyDelay% * 2)
-	Send, {Esc}
-	Send, ^v
+	Send ^n
+	Sleep (%keyDelay% * 2)
+	Send {Esc}
+	Send ^v
 }
 
 BackupOueHtml_SaveToWorkingFile(workingFilePath, keyDelay) {
-	Send, ^+s
-	Sleep, (%keyDelay% * 5)
-	SendInput, % "{BackSpace}" . workingFilePath
-	Sleep, %keyDelay%
-	Send, {Enter}{Left}{Enter}
-	Sleep, (%keyDelay% * 5)
+	Send ^+s
+	Sleep (%keyDelay% * 5)
+	SendInput % "{BackSpace}" . workingFilePath
+	Sleep %keyDelay%
+	Send {Enter}{Left}{Enter}
+	Sleep (%keyDelay% * 5)
 }
 
 BackupOueHtml_FixBadMarkup(keyDelay) {
-	Send, ^h
-	Sleep, (%keyDelay% * 2)
+	Send ^h
+	Sleep (%keyDelay% * 2)
 	SendInput, % "(<br ?/?> ?)\n[\t ]{{}0,{}}"
-	Send, {Tab}^a{Del}
+	Send {Tab}^a{Del}
 	SendInput, % "\1"
-	Send, ^!{Enter}
-	Sleep, (%keyDelay% * 2)
-	Send, {Esc}{Right}
-	Sleep, (%keyDelay%)
+	Send ^!{Enter}
+	Sleep (%keyDelay% * 2)
+	Send {Esc}{Right}
+	Sleep (%keyDelay%)
 }
 
 BackupOueHtml_BeautifyHtml(keyDelay) {
 	; Trigger the HTMLPrettify package in Sublime Text to clean up markup and prepare it for RegEx
-	Send, ^+h
-	Sleep, (%keyDelay% * 4)
+	Send ^+h
+	Sleep (%keyDelay% * 4)
 }
 
 BackupOueHtml_CopyMarkupSections(targetContentNeedle, keyDelay) {
 	; Find the portions of the markup that we want to back up, select them all, copy, and
 	;  then overwrite the full markup
-	Send, ^f
-	SendInput, % targetContentNeedle
-	Send, !{Enter}
-	Sleep, (%keyDelay% * 10)
-	Send, ^c
-	Send, ^a
-	Send, ^v
+	Send ^f
+	SendInput % targetContentNeedle
+	Send !{Enter}
+	Sleep (%keyDelay% * 10)
+	Send ^c
+	Send ^a
+	Send ^v
 }
 
 BackupOueHtml_CleanMarkup(cleaningNeedle, keyDelay) {
 	if (cleaningNeedle != "") {
-		Send, ^h
-		Sleep, (%keyDelay% * 2)
-		SendInput, % cleaningNeedle
-		Send, {Tab}^a{Del}
-		Send, ^!{Enter}
-		Sleep, (%keyDelay% * 2)
-		Send, {Esc}{Right}
-		Sleep, (%keyDelay%)
+		Send ^h
+		Sleep (%keyDelay% * 2)
+		SendInput % cleaningNeedle
+		Send {Tab}^a{Del}
+		Send ^!{Enter}
+		Sleep (%keyDelay% * 2)
+		Send {Esc}{Right}
+		Sleep (%keyDelay%)
 	}
 }
 
 BackupOueHtml_InsertEllipses() {
 	; Insert ellipses after breaks in the original markup
-	Send, ^f
-	SendInput, % "</title>$|<body.*$|</section>(?=\n</body)|</div>(?=\n\t*</body)" 
-	Send, !{Enter}
-	Send, {Right}{Enter}...{Esc}
+	Send ^f
+	SendInput % "</title>$|<body.*$|</section>(?=\n</body)|</div>(?=\n\t*</body)" 
+	Send !{Enter}
+	Send {Right}{Enter}...{Esc}
 }
 
 BackupOueHtml_InsertEofBlankLine() {
@@ -479,13 +479,13 @@ TrimAwayBuilderTemplateContentPrev(htmlMarkup) {
 			. "$\r\n"
 		foundPos := RegExMatch(htmlMarkup, regExNeedle, matchLen)
 		if (foundPos > 0) {
-			StringTrimLeft, remainder, htmlMarkup, % (foundPos + matchLen)
+			StringTrimLeft remainder, htmlMarkup, % (foundPos + matchLen)
 		}
 	} else {
 		errorMsg := "I was passed an empty HTML markup string."
 	}
 	if (errorMsg != "") {
-		MsgBox, % (0x0 + 0x10)
+		MsgBox % (0x0 + 0x10)
 			, % "Error in " . ahkFuncName
 			, % errorMsg
 	}
@@ -507,7 +507,7 @@ TrimAwayBuilderTemplateContentNext(htmlMarkup) {
 		regExNeedle := "Pm)^(?:.(?!</div>))*.</div>$\r\n(?:^.*$\r\n){3}^(?:.(?!</main>))*.</main>$"
 		foundPos := RegExMatch(htmlMarkup, regExNeedle, matchLen)
 		if (foundPos > 0) {
-			StringLeft, remainder, htmlMarkup, % (foundPos - 1)
+			StringLeft remainder, htmlMarkup, % (foundPos - 1)
 		} else {
 			errorMsg := "I could not find the closing tag of the <div...>...</div> containing page "
 				. "content within htmlMarkup."
@@ -516,7 +516,7 @@ TrimAwayBuilderTemplateContentNext(htmlMarkup) {
 		errorMsg := "I was passed an empty HTML markup string."
 	}
 	if (errorMsg != "") {
-		MsgBox, % (0x0 + 0x10)
+		MsgBox % (0x0 + 0x10)
 			, % "Error in " . ahkFuncName
 			, % errorMsg
 	}
@@ -538,20 +538,20 @@ TrimAwayBuilderTemplateContentNext(htmlMarkup) {
 :*:@insBldrSctn::
 	AppendAhkCmd(":*:@insBldrSctn")
 	
-	Gui, guiInsBldrSctn: New,, % "Post Minified JS to OUE Websites"
-	Gui, guiInsBldrSctn: Add, Text,, % "Which OUE Websites would you like to update?"
-	Gui, guiInsBldrSctn: Add, Radio, vBldrSctnChosen Checked, % "&Single"
-	Gui, guiInsBldrSctn: Add, Radio, , % "Sidebar &Right"
-	Gui, guiInsBldrSctn: Add, Radio, , % "&Halves"
-	Gui, guiInsBldrSctn: Add, Radio, , % "&Thirds"
-	Gui, guiInsBldrSctn: Add, Radio, , % "&Post"
-	Gui, guiInsBldrSctn: Add, Radio, , % "H&eader"
-	Gui, guiInsBldrSctn: Add, Radio, , % "Column background &image"
-	Gui, guiInsBldrSctn: Add, Radio, , % "&Blank commenting line"
-	Gui, guiInsBldrSctn: Add, Radio, , % "Pa&ge settings"
-	Gui, guiInsBldrSctn: Add, Button, Default gHandleInsBldrSctnOK, &OK
-	Gui, guiInsBldrSctn: Add, Button, gHandleInsBldrSctnCancel X+5, &Cancel
-	Gui, guiInsBldrSctn: Show
+	Gui guiInsBldrSctn: New,, % "Post Minified JS to OUE Websites"
+	Gui guiInsBldrSctn: Add, Text,, % "Which OUE Websites would you like to update?"
+	Gui guiInsBldrSctn: Add, Radio, vBldrSctnChosen Checked, % "&Single"
+	Gui guiInsBldrSctn: Add, Radio, , % "Sidebar &Right"
+	Gui guiInsBldrSctn: Add, Radio, , % "&Halves"
+	Gui guiInsBldrSctn: Add, Radio, , % "&Thirds"
+	Gui guiInsBldrSctn: Add, Radio, , % "&Post"
+	Gui guiInsBldrSctn: Add, Radio, , % "H&eader"
+	Gui guiInsBldrSctn: Add, Radio, , % "Column background &image"
+	Gui guiInsBldrSctn: Add, Radio, , % "&Blank commenting line"
+	Gui guiInsBldrSctn: Add, Radio, , % "Pa&ge settings"
+	Gui guiInsBldrSctn: Add, Button, Default gHandleInsBldrSctnOK, &OK
+	Gui guiInsBldrSctn: Add, Button, gHandleInsBldrSctnCancel X+5, &Cancel
+	Gui guiInsBldrSctn: Show
 Return
 
 HandleInsBldrSctnCancel() {
@@ -560,10 +560,10 @@ HandleInsBldrSctnCancel() {
 
 HandleInsBldrSctnOK() {
 	global
-	Gui, guiInsBldrSctn: Submit
-	Gui, guiInsBldrSctn: Destroy
+	Gui guiInsBldrSctn: Submit
+	Gui guiInsBldrSctn: Destroy
 	
-	WinGet, thisProcess, ProcessName, A
+	WinGet thisProcess, ProcessName, A
 	if (thisProcess = "notepad++.exe") {
 		if (BldrSctnChosen = 1) {
 			commentTxt := "<!-- ╔══════════════════════════════════════════════════════════════════"
@@ -731,7 +731,7 @@ HandleInsBldrSctnOK() {
 			PasteText(commentTxt)
 		}
 	} else {
-		MsgBox, 0
+		MsgBox 0
 			, % "Error in AHK function: HandleInsBldrSctnOK" ; Title
 			, % "An HTML comment for documenting Spine Builder tempalate sections can only be inser"
 				. "ted if [Notepad++.exe] is the active process. Unfortunately, the currently activ"
