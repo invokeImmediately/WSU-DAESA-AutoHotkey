@@ -11,17 +11,17 @@
 ;     >>> §1.3: CountNewlinesInString..........................................................137
 ;     >>> §1.4: ExportHyperlinkArray...........................................................150
 ;     >>> §1.5: PullHrefsIntoHyperlinkArray....................................................175
-;   §2: HOTSTRINGS.............................................................................183
+;   §2: HOTSTRINGS.............................................................................188
 ;     >>> §2.1: Text Replacement...............................................................192
 ;     >>> §2.2: RegEx..........................................................................268
 ;     >>> §2.3: Backup HTML of OUE pages.......................................................275
 ;       →→→ §2.3.1: @backupOuePage.............................................................278
 ;       →→→ §2.3.2: BackupOueHtml & sub-functions..............................................302
-;       →→→ §2.3.3: @backupOuePost.............................................................422
-;     >>> §2.4: Hyperlink collection hotstring.................................................447
-;     >>> §2.5: Checking for WordPress Updates.................................................516
-;   §3: GUI-related hotstrings & functions for automating HTML-related tasks...................521
-;     >>> §3.1: Insert Builder Sections GUI....................................................525
+;       →→→ §2.3.3: @backupOuePost.............................................................433
+;     >>> §2.4: Hyperlink collection hotstring.................................................458
+;     >>> §2.5: Checking for WordPress Updates.................................................527
+;   §3: GUI-related hotstrings & functions for automating HTML-related tasks...................532
+;     >>> §3.1: Insert Builder Sections GUI....................................................536
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -287,8 +287,8 @@ Return
 	viewSourceTitle := "view-source ahk_exe " . webBrowserProcess
 	workingFilePath := "C:\Users\CamilleandDaniel\Documents\GitHub\backupOuePage-workfile.html"
 	targetContentNeedle := "{^}(?:\t| )*<section.*class="".*row.*$\n({^}.*$\n)*{^}(?:\t| )*</sectio"
-		. "n>$(?=\n{^}(?:\t| )*</div>\n{^}(?:\t| )*<{!}-- {#}post -->)|{^}(?:\t| )*<title>.*$\n|{^}"
-		. "(?:\t| )*<body.*$\n|{^}(?:\t| )*</body.*$\n"
+		. "n>$(?=\n{^}(?:\t| )*</div><{!}-- {#}post -->)|{^}(?:\t| )*<title>.*$\n|{^}(?:\t| )*<body"
+		. ".*$\n|{^}(?:\t| )*</body.*$\n"
 
 	AppendAhkCmd(ahkThisCmd)
 	if (CopyWebpageSourceToClipboard(webBrowserProcess, correctTitleNeedle, viewSourceTitle
@@ -329,7 +329,9 @@ BackupOueHtml(sourceCode, workingFilePath, targetContentNeedle, cleaningNeedle, 
 		BackupOueHtml_CleanMarkup(cleaningNeedle, keyDelay)
 		BackupOueHtml_BeautifyHtml(keyDelay)
 		BackupOueHtml_InsertEllipses()
-		BackupOueHtml_InsertBlankLine()
+		BackupOueHtml_InsertEofBlankLine()
+		BackupOueHtml_RemoveBlankLine3()
+		BackupOueHtml_ConvertIndentationToTabs()
 	}
 	Else
 	{
@@ -413,9 +415,18 @@ BackupOueHtml_InsertEllipses() {
 	Send, {Right}{Enter}...{Esc}
 }
 
-BackupOueHtml_InsertBlankLine() {
+BackupOueHtml_InsertEofBlankLine() {
 	; Insert final blank line for the sake of git
-	Send, ^{End}{Enter}^{Home}
+	Send ^{End}{Enter}^{Home}
+}
+
+BackupOueHtml_RemoveBlankLine3() {
+	; Remove extra line that ends up on line 3.
+	Send ^g{Enter}{Backspace}
+}
+
+BackupOueHtml_ConvertIndentationToTabs() {
+	Send ^+p{Backspace}Indentation: Convert to Tabs{Enter}
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
