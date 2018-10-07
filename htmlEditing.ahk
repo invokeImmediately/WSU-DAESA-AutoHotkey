@@ -329,9 +329,9 @@ BackupOueHtml(sourceCode, workingFilePath, targetContentNeedle, cleaningNeedle, 
 		BackupOueHtml_CleanMarkup(cleaningNeedle, keyDelay)
 		BackupOueHtml_BeautifyHtml(keyDelay)
 		BackupOueHtml_InsertEllipses()
-		BackupOueHtml_InsertEofBlankLine()
-		BackupOueHtml_RemoveBlankLine3()
-		BackupOueHtml_ConvertIndentationToTabs()
+		BackupOueHtml_InsertEofBlankLine(keyDelay)
+		BackupOueHtml_RemoveBlankLine3(keyDelay)
+		BackupOueHtml_ConvertIndentationToTabs(keyDelay)
 	}
 	Else
 	{
@@ -415,18 +415,25 @@ BackupOueHtml_InsertEllipses() {
 	Send {Right}{Enter}...{Esc}
 }
 
-BackupOueHtml_InsertEofBlankLine() {
+BackupOueHtml_InsertEofBlankLine(keyDelay) {
 	; Insert final blank line for the sake of git
 	Send ^{End}{Enter}^{Home}
+	Sleep %keyDelay%
 }
 
-BackupOueHtml_RemoveBlankLine3() {
+BackupOueHtml_RemoveBlankLine3(keyDelay) {
 	; Remove extra line that ends up on line 3.
-	Send ^g{Enter}{Backspace}
+	Send ^g3{Enter}{Backspace}
+	Sleep %keyDelay%
 }
 
-BackupOueHtml_ConvertIndentationToTabs() {
-	Send ^+p{Backspace}Indentation: Convert to Tabs{Enter}
+BackupOueHtml_ConvertIndentationToTabs(keyDelay) {
+	Sleep %keyDelay%
+	SendInput ^+p
+	Sleep %keyDelay%
+	SendInput {Backspace}
+	Sleep % keyDelay * 4
+	SendInput % "Indentation: Convert to Ta{Enter}"
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
