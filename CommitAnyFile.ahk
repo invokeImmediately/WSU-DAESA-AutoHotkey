@@ -204,7 +204,7 @@ CAF_CommitAnyFile(ahkCmdName, gitFolder, filesToCommit) {
 	Gui, guiCaf: Add, Button, gHandleCafGitDiff X+5, &Git diff selection
 	Gui, guiCaf: Add, Button, gHandleCafGitLog X+5, Git &log selection
 	Gui, guiCaf: Font, bold
-	Gui, guiCaf: Add, Text, Y+12, % "Message(s) to be used for commit: "
+	Gui, guiCaf: Add, Text, xm Y+12, % "Message(s) to be used for commit: "
 	Gui, guiCaf: Font
 	Gui, guiCaf: Add, Text, Y+3, % "&Primary commit message:"
 	Gui, guiCaf: Add, Edit
