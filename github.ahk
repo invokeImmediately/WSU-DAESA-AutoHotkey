@@ -1288,12 +1288,10 @@ ExecuteCssPasteCmds(manualProcession := false) {
 		if (manualProcession) {
 			MsgBox, 48, % A_ThisFunc, % "Press OK to proceed with update button selection."
 		}
-		Click, 1565, 401
+		Click, 1565, 370
 		Sleep, 60
-		Click, 1565, 421
+		Click, 1565, 405
 		Sleep, 60
-		Click, 1565, 441
-		Sleep, 1000
 	} else {
 		MsgBox, % (0x0 + 0x10)
 			, % "ERROR (" . A_ThisFunc .  "): Clipboard Has Unexpected Contents"
