@@ -350,36 +350,37 @@ BackupOueHtml(sourceCode, workingFilePath, targetContentNeedle, cleaningNeedle, 
 BackupOueHtml_CreateNewFile(keyDelay) {
 	WinActivate
 	Send ^n
-	Sleep (%keyDelay% * 2)
+	Sleep % keyDelay
 	Send {Esc}
 	Send ^v
+	Sleep % keyDelay * 3
 }
 
 BackupOueHtml_SaveToWorkingFile(workingFilePath, keyDelay) {
 	Send ^+s
-	Sleep (%keyDelay% * 5)
+	Sleep % keyDelay * 20
 	SendInput % "{BackSpace}" . workingFilePath
-	Sleep %keyDelay%
+	Sleep % keyDelay * 5
 	Send {Enter}{Left}{Enter}
-	Sleep (%keyDelay% * 5)
+	Sleep % keyDelay * 5
 }
 
 BackupOueHtml_FixBadMarkup(keyDelay) {
 	Send ^h
-	Sleep (%keyDelay% * 2)
+	Sleep % keyDelay * 3
 	SendInput, % "(<br ?/?> ?)\n[\t ]{{}0,{}}"
 	Send {Tab}^a{Del}
 	SendInput, % "\1"
 	Send ^!{Enter}
-	Sleep (%keyDelay% * 2)
+	Sleep % keyDelay * 3
 	Send {Esc}{Right}
-	Sleep (%keyDelay%)
+	Sleep % keyDelay
 }
 
 BackupOueHtml_BeautifyHtml(keyDelay) {
 	; Trigger the HTMLPrettify package in Sublime Text to clean up markup and prepare it for RegEx
 	Send ^+h
-	Sleep (%keyDelay% * 4)
+	Sleep % keyDelay * 5
 }
 
 BackupOueHtml_CopyMarkupSections(targetContentNeedle, keyDelay) {
@@ -388,7 +389,7 @@ BackupOueHtml_CopyMarkupSections(targetContentNeedle, keyDelay) {
 	Send ^f
 	SendInput % targetContentNeedle
 	Send !{Enter}
-	Sleep (%keyDelay% * 10)
+	Sleep % keyDelay * 15
 	Send ^c
 	Send ^a
 	Send ^v
@@ -397,13 +398,13 @@ BackupOueHtml_CopyMarkupSections(targetContentNeedle, keyDelay) {
 BackupOueHtml_CleanMarkup(cleaningNeedle, keyDelay) {
 	if (cleaningNeedle != "") {
 		Send ^h
-		Sleep (%keyDelay% * 2)
+		Sleep % keyDelay * 2
 		SendInput % cleaningNeedle
 		Send {Tab}^a{Del}
 		Send ^!{Enter}
-		Sleep (%keyDelay% * 2)
+		Sleep % keyDelay * 2
 		Send {Esc}{Right}
-		Sleep (%keyDelay%)
+		Sleep % keyDelay
 	}
 }
 
@@ -418,22 +419,22 @@ BackupOueHtml_InsertEllipses() {
 BackupOueHtml_InsertEofBlankLine(keyDelay) {
 	; Insert final blank line for the sake of git
 	Send ^{End}{Enter}^{Home}
-	Sleep %keyDelay%
+	Sleep % keyDelay
 }
 
 BackupOueHtml_RemoveBlankLine3(keyDelay) {
 	; Remove extra line that ends up on line 3.
 	Send ^g3{Enter}{Backspace}
-	Sleep %keyDelay%
+	Sleep % keyDelay
 }
 
 BackupOueHtml_ConvertIndentationToTabs(keyDelay) {
-	Sleep %keyDelay%
+	Sleep % keyDelay
 	SendInput ^+p
-	Sleep %keyDelay%
+	Sleep % keyDelay
 	SendInput {Backspace}
 	Sleep % keyDelay * 4
-	SendInput % "Indentation: Convert to Ta{Enter}"
+	SendInput % "Indentation: Convert to Ta"
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
