@@ -327,10 +327,10 @@ HandleCafGitDiff() {
 	numSelectedRows := LV_GetCount("Selected")
 	consoleStr := "cd " . cafVars.gitFolder . "`r"
 	if (numSelectedRows > 0) {
-		rowNumber := 1
+		rowNumber := 0
 		Loop
 		{
-			rowNumber := LV_GetNext(rowNumber - 1)
+			rowNumber := LV_GetNext(rowNumber)
 			if (rowNumber) {
 				LV_GetText(fileName, rowNumber)
 				consoleStr .= "git --no-pager diff " . fileName . "`r"
@@ -364,10 +364,10 @@ HandleCafGitLog() {
 	numSelectedRows := LV_GetCount("Selected")
 	consoleStr := "cd " . cafVars.gitFolder . "`r"
 	if (numSelectedRows > 0) {
-		rowNumber := 1
+		rowNumber := 0
 		Loop
 		{
-			rowNumber := LV_GetNext(rowNumber - 1)
+			rowNumber := LV_GetNext(rowNumber)
 			if (rowNumber) {
 				LV_GetText(fileName, rowNumber)
 				consoleStr .= cmdStr . fileName . "`r"
