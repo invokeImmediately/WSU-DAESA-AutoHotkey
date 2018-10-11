@@ -3518,7 +3518,7 @@ Return
 	ahkCmdName := ":*:@copyMinJsDsp"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
-		, GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\JS\wp-custom-js-source.min.dsp.js"
+		, GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\JS\dsp-custom-build.min.js"
 		, "", "Couldn't Copy Minified JS for DSP Website")
 Return
 
