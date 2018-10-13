@@ -118,7 +118,7 @@ CommitJsBuild(ahkCmdName, fpGitFolder, fnJsSrcFile, fnJsbuild, fnMinJsBuild) {
 		, % "File Name"
 	LV_Add(, "JS\" . commitJsVars.fnJsSrcFile)
 	Gui, guiCommitJsBuild: Add
-		, Button, gHandleCommitJsAddFiles vctrlCommitJsAddFiles xm Y+3 Disabled, &Add More Files
+		, Button, gHandleCommitJsAddFiles vctrlCommitJsAddFiles xm Y+3 Disabled, Add &More Files
 	Gui, guiCommitJsBuild: Add
 		, Button, gHandleCommitJsRemoveFiles vctrlCommitJsRemoveFiles X+3  Disabled
 		, &Remove selected file
