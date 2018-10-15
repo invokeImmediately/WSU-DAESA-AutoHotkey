@@ -12,8 +12,8 @@
 ;     >>> §2.1: HandleCommitCss1stMsgChange....................................................157
 ;     >>> §2.2: HandleCommitCss2ndMsgChange....................................................174
 ;     >>> §2.3: HandleCommitCssAddFiles........................................................191
-;     >>> §2.4: HandleCommitCssCheckLessFileCommit.............................................233
-;     >>> §2.5: HandleCommitCssGitDiff.........................................................269
+;     >>> §2.4: HandleCommitCssGitDiff.........................................................233
+;     >>> §2.5: HandleCommitCssCheckLessFileCommit.............................................269
 ;     >>> §2.6: HandleCommitCssCheckLessChangesOnly............................................329
 ;     >>> §2.7: HandleCommitCss1stLessMsgChange................................................372
 ;     >>> §2.8: HandleCommitCss2ndLessMsgChange................................................389
@@ -230,7 +230,7 @@ HandleCommitCssAddFiles() {
 }
 
 ;   ································································································
-;     >>> §2.5: HandleCommitCssGitDiff
+;     >>> §2.4: HandleCommitCssGitDiff
 ;
 ;   Function handler for activation of the button used to perform a git diff command on selected
 ;   site-specific CSS build dependencies.
@@ -266,7 +266,7 @@ HandleCommitCssGitDiff() {
 }
 
 ;   ································································································
-;     >>> §2.4: HandleCommitCssCheckLessFileCommit
+;     >>> §2.5: HandleCommitCssCheckLessFileCommit
 
 ; Triggered by state changes in checkbox control in guiCommitCssBuild GUI.
 HandleCommitCssCheckLessFileCommit() {
