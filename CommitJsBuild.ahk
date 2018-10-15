@@ -7,25 +7,26 @@
 ; ==================================================================================================
 ; Table of Contents
 ; -----------------
-;   §1: GUI CREATION FUNCTION: CommitJsBuild....................................................13
-;   §2: GUI EVENT HANDLERS.....................................................................131
-;     >>> §2.1: HandleCommitJs1stMsgChange — Function..........................................135
-;     >>> §2.2: HandleCommitJs2ndMsgChange — Function..........................................152
-;     >>> §2.3: HandleCommitJsAddFiles — Function..............................................169
-;     >>> §2.4: HandleCommitJsCheckJsFileCommit — Function.....................................211
-;     >>> §2.5: HandleCommitJsCheckJsChangesOnly — Function....................................266
-;     >>> §2.6: HandleCommitJs1stJsMsgChange — Function........................................309
-;     >>> §2.7: HandleCommitJs2ndJsMsgChange — Function........................................326
-;     >>> §2.8: HandleCommitJsOk — Function....................................................343
-;       →→→ §2.8.1: ProcessHandleCommitJsOkError — Subfunction.................................423
-;     >>> §2.9: HandleCommitJsCancel — Function................................................451
-;     >>> §2.10: HandleCommitJsRemoveFiles — Function..........................................459
-;   §3: GUI PERSISTENCE FUNCTIONS..............................................................471
-;     >>> §3.1: SaveCommitJsCustomJsMsgHistory — Function......................................475
-;     >>> §3.2: LoadCommitJsCustomJsMsgHistory — Function......................................512
-;     >>> §3.3: ReadKeyForCustonJsMsgHistory — Function........................................549
-;     >>> §3.4: ReadPrimaryMsgForCustomJsFileKey — Function....................................567
-;     >>> §3.5: ReadSecondaryMsgForCustomJsFileKey — Function..................................584
+;   §1: GUI CREATION FUNCTION: CommitJsBuild....................................................33
+;   §2: GUI EVENT HANDLERS.....................................................................153
+;     >>> §2.1: HandleCommitJs1stMsgChange — Function..........................................157
+;     >>> §2.2: HandleCommitJs2ndMsgChange — Function..........................................174
+;     >>> §2.3: HandleCommitJsAddFiles — Function..............................................191
+;     >>> §2.4: HandleCommitJsGitDiff..........................................................233
+;     >>> §2.5: HandleCommitJsCheckJsFileCommit — Function.....................................269
+;     >>> §2.6: HandleCommitJsCheckJsChangesOnly — Function....................................329
+;     >>> §2.7: HandleCommitJs1stJsMsgChange — Function........................................372
+;     >>> §2.8: HandleCommitJs2ndJsMsgChange — Function........................................389
+;     >>> §2.9: HandleCommitJsOk — Function....................................................406
+;       →→→ §2.9.1: ProcessHandleCommitJsOkError — Subfunction.................................486
+;     >>> §2.10: HandleCommitJsCancel — Function...............................................514
+;     >>> §2.11: HandleCommitJsRemoveFiles — Function..........................................522
+;   §3: GUI PERSISTENCE FUNCTIONS..............................................................534
+;     >>> §3.1: SaveCommitJsCustomJsMsgHistory — Function......................................538
+;     >>> §3.2: LoadCommitJsCustomJsMsgHistory — Function......................................576
+;     >>> §3.3: ReadKeyForCustonJsMsgHistory — Function........................................613
+;     >>> §3.4: ReadPrimaryMsgForCustomJsFileKey — Function....................................631
+;     >>> §3.5: ReadSecondaryMsgForCustomJsFileKey — Function..................................648
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -42,6 +43,7 @@ CommitJsBuild(ahkCmdName, fpGitFolder, fnJsSrcFile, fnJsbuild, fnMinJsBuild) {
 	global ctrlCommitJsLV
 	global ctrlCommitJsAddFiles
 	global ctrlCommitJsRemoveFiles
+	global ctrlCommitJsGitDiff
 	global ctrlCommitJs1stMsg
 	global ctrlCommitJs1stMsgCharCount
 	global ctrlCommitJs2ndMsg
@@ -122,6 +124,8 @@ CommitJsBuild(ahkCmdName, fpGitFolder, fnJsSrcFile, fnJsbuild, fnMinJsBuild) {
 	Gui, guiCommitJsBuild: Add
 		, Button, gHandleCommitJsRemoveFiles vctrlCommitJsRemoveFiles X+3  Disabled
 		, &Remove selected file
+	Gui, guiCommitJsBuild: Add
+		, Button, gHandleCommitJsGitDiff vctrlCommitJsGitDiff X+3 Disabled, &Git diff selection
 	Gui, guiCommitJsBuild: Add
 		, Text, xm Y+12, % "Message for custom &JS file changes:"
 	Gui, guiCommitJsBuild: Add
@@ -226,7 +230,43 @@ HandleCommitJsAddFiles() {
 }
 
 ;   ································································································
-;     >>> §2.4: HandleCommitJsCheckJsFileCommit — Function
+;     >>> §2.4: HandleCommitJsGitDiff
+;
+;   Function handler for activation of the button used to perform a git diff command on selected
+;   site-specific JS build dependencies.
+
+HandleCommitJsGitDiff() {
+	global commitJsVars
+	delay := GetDelay("xShort")
+	numSelectedRows := LV_GetCount("Selected")
+	consoleStr := "cd " . GetGitHubFolder() . "\" . commitJsVars.fpGitFolder . "\`r"
+	if (numSelectedRows > 0) {
+		rowNumber := 0
+		Loop
+		{
+			rowNumber := LV_GetNext(rowNumber)
+			if (rowNumber) {
+				LV_GetText(fileName, rowNumber)
+				consoleStr .= "git --no-pager diff " . fileName . "`r"
+				Sleep, % delay
+			} else {
+				break
+			}
+		}		
+	} else {
+		rowNumber := 1
+		numRows := LV_GetCount()
+		while (rowNumber <= numRows) {
+			LV_GetText(fileName, rowNumber)
+			consoleStr .= "git --no-pager diff " . fileName . "`r"
+			rowNumber++
+		}
+	}
+	PasteTextIntoGitShell(A_ThisLabel, consoleStr)
+}
+
+;   ································································································
+;     >>> §2.5: HandleCommitJsCheckJsFileCommit — Function
 
 ; Triggered by state changes in checkbox control in guiCommitJsBuild GUI.
 HandleCommitJsCheckJsFileCommit() {
@@ -240,6 +280,9 @@ HandleCommitJsCheckJsFileCommit() {
 	global ctrlCommitJs2ndJsMsg
 	global ctrlCommitJsAlsoCommitJsSrc
 	global ctrlCommitJsJsChangesOnly
+	global ctrlCommitJsAddFiles
+	global ctrlCommitJsRemoveFiles
+	global ctrlCommitJsGitDiff
 
 	; Submit GUI without hiding to update variables storing states of controls.
 	Gui, guiCommitJsBuild: Submit, NoHide
@@ -248,6 +291,7 @@ HandleCommitJsCheckJsFileCommit() {
 	if (ctrlCommitJsAlsoCommitJsSrc) {
 		GuiControl, Enable, ctrlCommitJsAddFiles
 		GuiControl, Enable, ctrlCommitJsRemoveFiles
+		GuiControl, Enable, ctrlCommitJsGitDiff
 		GuiControl, Enable, ctrlCommitJs1stJsMsg
 		GuiControl, Enable, ctrlCommitJs2ndJsMsg
 		GuiControl, Enable, ctrlCommitJsJsChangesOnly
@@ -264,6 +308,7 @@ HandleCommitJsCheckJsFileCommit() {
 	} else {
 		GuiControl, Disable, ctrlCommitJsAddFiles
 		GuiControl, Disable, ctrlCommitJsRemoveFiles
+		GuiControl, Disable, ctrlCommitJsGitDiff
 		GuiControl, Disable, ctrlCommitJs1stJsMsg
 		GuiControl, Disable, ctrlCommitJs2ndJsMsg
 		GuiControl, Disable, ctrlCommitJsJsChangesOnly
@@ -281,7 +326,7 @@ HandleCommitJsCheckJsFileCommit() {
 }
 
 ;   ································································································
-;     >>> §2.5: HandleCommitJsCheckJsChangesOnly — Function
+;     >>> §2.6: HandleCommitJsCheckJsChangesOnly — Function
 
 ; Triggered by state changes in checkbox control in guiCommitJsBuild GUI.
 HandleCommitJsCheckJsChangesOnly() {
@@ -324,7 +369,7 @@ HandleCommitJsCheckJsChangesOnly() {
 }
 
 ;   ································································································
-;     >>> §2.6: HandleCommitJs1stJsMsgChange — Function
+;     >>> §2.7: HandleCommitJs1stJsMsgChange — Function
 
 ; Triggered when the primary git commit message for the updated LESS source is changed.
 HandleCommitJs1stJsMsgChange() {
@@ -341,7 +386,7 @@ HandleCommitJs1stJsMsgChange() {
 }
 
 ;   ································································································
-;     >>> §2.7: HandleCommitJs2ndJsMsgChange — Function
+;     >>> §2.8: HandleCommitJs2ndJsMsgChange — Function
 
 ; Triggered when the secondary git commit message for the updated LESS source is changed.
 HandleCommitJs2ndJsMsgChange() {
@@ -358,7 +403,7 @@ HandleCommitJs2ndJsMsgChange() {
 }
 
 ;   ································································································
-;     >>> §2.8: HandleCommitJsOk — Function
+;     >>> §2.9: HandleCommitJsOk — Function
 
 ; Triggered by OK button in guiCommitJsBuild GUI.
 HandleCommitJsOk() {
@@ -438,7 +483,7 @@ HandleCommitJsOk() {
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §2.8.1: ProcessHandleCommitJsOkError — Subfunction
+;       →→→ §2.9.1: ProcessHandleCommitJsOkError — Subfunction
 
 ; Called by HandleCommitJsOk() to handle error processing.
 ProcessHandleCommitJsOkError(gVarCheck) {
@@ -466,7 +511,7 @@ ProcessHandleCommitJsOkError(gVarCheck) {
 }
 
 ;   ································································································
-;     >>> §2.9: HandleCommitJsCancel — Function
+;     >>> §2.10: HandleCommitJsCancel — Function
 
 ; Triggered by Cancel button in guiCommitJsBuild GUI.
 HandleCommitJsCancel() {
@@ -474,7 +519,7 @@ HandleCommitJsCancel() {
 }
 
 ;   ································································································
-;     >>> §2.10: HandleCommitJsRemoveFiles — Function
+;     >>> §2.11: HandleCommitJsRemoveFiles — Function
 
 HandleCommitJsRemoveFiles() {
 	Gui, guiCommitJsBuild: Default
