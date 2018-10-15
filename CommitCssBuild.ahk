@@ -12,15 +12,15 @@
 ;     >>> §2.1: HandleCommitCss1stMsgChange....................................................157
 ;     >>> §2.2: HandleCommitCss2ndMsgChange....................................................174
 ;     >>> §2.3: HandleCommitCssAddFiles........................................................191
-;     >>> §2.4: HandleCommitCssGitDiff.........................................................233
-;     >>> §2.5: HandleCommitCssCheckLessFileCommit.............................................269
-;     >>> §2.6: HandleCommitCssCheckLessChangesOnly............................................329
-;     >>> §2.7: HandleCommitCss1stLessMsgChange................................................372
-;     >>> §2.8: HandleCommitCss2ndLessMsgChange................................................389
-;     >>> §2.9: HandleCommitCssOk..............................................................406
-;       →→→ §2.9.1: ProcessHandleCommitCssOkError..............................................486
-;     >>> §2.10: HandleCommitCssCancel.........................................................514
-;     >>> §2.11: HandleCommitCssRemoveFiles....................................................522
+;     >>> §2.4: HandleCommitCssRemoveFiles.....................................................233
+;     >>> §2.5: HandleCommitCssGitDiff.........................................................245
+;     >>> §2.6: HandleCommitCssCheckLessFileCommit.............................................281
+;     >>> §2.7: HandleCommitCssCheckLessChangesOnly............................................341
+;     >>> §2.8: HandleCommitCss1stLessMsgChange................................................384
+;     >>> §2.9: HandleCommitCss2ndLessMsgChange................................................401
+;     >>> §2.10: HandleCommitCssOk.............................................................418
+;       →→→ §2.10.1: ProcessHandleCommitCssOkError.............................................498
+;     >>> §2.11: HandleCommitCssCancel.........................................................526
 ;   §3: GUI PERSISTENCE FUNCTIONS..............................................................534
 ;     >>> §3.1: SaveCommitCssLessMsgHistory....................................................538
 ;     >>> §3.2: LoadCommitCssLessMsgHistory....................................................575
@@ -230,7 +230,19 @@ HandleCommitCssAddFiles() {
 }
 
 ;   ································································································
-;     >>> §2.4: HandleCommitCssGitDiff
+;     >>> §2.4: HandleCommitCssRemoveFiles
+
+HandleCommitCssRemoveFiles() {
+	Gui, guiCommitCssBuild: Default
+	Loop % LV_GetCount("Selected")
+	{
+		rowToRemove := LV_GetNext()
+		LV_Delete(rowToRemove)
+	}
+}
+
+;   ································································································
+;     >>> §2.5: HandleCommitCssGitDiff
 ;
 ;   Function handler for activation of the button used to perform a git diff command on selected
 ;   site-specific CSS build dependencies.
@@ -266,7 +278,7 @@ HandleCommitCssGitDiff() {
 }
 
 ;   ································································································
-;     >>> §2.5: HandleCommitCssCheckLessFileCommit
+;     >>> §2.6: HandleCommitCssCheckLessFileCommit
 
 ; Triggered by state changes in checkbox control in guiCommitCssBuild GUI.
 HandleCommitCssCheckLessFileCommit() {
@@ -326,7 +338,7 @@ HandleCommitCssCheckLessFileCommit() {
 }
 
 ;   ································································································
-;     >>> §2.6: HandleCommitCssCheckLessChangesOnly
+;     >>> §2.7: HandleCommitCssCheckLessChangesOnly
 
 ; Triggered by state changes in checkbox control in guiCommitCssBuild GUI.
 HandleCommitCssCheckLessChangesOnly() {
@@ -369,7 +381,7 @@ HandleCommitCssCheckLessChangesOnly() {
 }
 
 ;   ································································································
-;     >>> §2.7: HandleCommitCss1stLessMsgChange
+;     >>> §2.8: HandleCommitCss1stLessMsgChange
 
 ; Triggered when the primary git commit message for the updated LESS source is changed.
 HandleCommitCss1stLessMsgChange() {
@@ -386,7 +398,7 @@ HandleCommitCss1stLessMsgChange() {
 }
 
 ;   ································································································
-;     >>> §2.8: HandleCommitCss2ndLessMsgChange
+;     >>> §2.9: HandleCommitCss2ndLessMsgChange
 
 ; Triggered when the secondary git commit message for the updated LESS source is changed.
 HandleCommitCss2ndLessMsgChange() {
@@ -403,7 +415,7 @@ HandleCommitCss2ndLessMsgChange() {
 }
 
 ;   ································································································
-;     >>> §2.9: HandleCommitCssOk
+;     >>> §2.10: HandleCommitCssOk
 
 ; Triggered by OK button in guiCommitCssBuild GUI.
 HandleCommitCssOk() {
@@ -483,7 +495,7 @@ HandleCommitCssOk() {
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §2.9.1: ProcessHandleCommitCssOkError
+;       →→→ §2.10.1: ProcessHandleCommitCssOkError
 
 ; Called by HandleCommitCssOk() to handle error processing.
 ProcessHandleCommitCssOkError(gVarCheck) {
@@ -511,23 +523,11 @@ ProcessHandleCommitCssOkError(gVarCheck) {
 }
 
 ;   ································································································
-;     >>> §2.10: HandleCommitCssCancel
+;     >>> §2.11: HandleCommitCssCancel
 
 ; Triggered by Cancel button in guiCommitCssBuild GUI.
 HandleCommitCssCancel() {
 	Gui, guiCommitCssBuild: Destroy
-}
-
-;   ································································································
-;     >>> §2.11: HandleCommitCssRemoveFiles
-
-HandleCommitCssRemoveFiles() {
-	Gui, guiCommitCssBuild: Default
-	Loop % LV_GetCount("Selected")
-	{
-		rowToRemove := LV_GetNext()
-		LV_Delete(rowToRemove)
-	}
 }
 
 ; --------------------------------------------------------------------------------------------------
