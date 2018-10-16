@@ -1168,7 +1168,7 @@ Return
 	if(proceedWithCmd) {
 		SendInput % "git status{enter}"
 	} else {
-		MsgBox % (0x0 + 0x10), % "ERROR (" . hsName . "): Could Not Locate Git PowerShell"
+		MsgBox % (0x0 + 0x10), % "ERROR (" . A_ThisLabel . "): Could Not Locate Git PowerShell"
 			, % "The Git PowerShell process could not be located and activated."
 	}
 Return
@@ -1188,7 +1188,7 @@ Return
 	if(proceedWithCmd) {
 		SendInput % "git --no-pager diff "
 	} else {
-		MsgBox % (0x0 + 0x10), % "ERROR (" . hsName . "): Could Not Locate Git PowerShell"
+		MsgBox % (0x0 + 0x10), % "ERROR (" . A_ThisLabel . "): Could Not Locate Git PowerShell"
 			, % "The Git PowerShell process could not be located and activated."
 	}
 Return
