@@ -319,11 +319,13 @@ SwitchDesktopByNumber(targetDesktop) {
 	global vdCurrentDesktop
 	global vdDesktopCount
 	global alreadySwitchingDesktop
-	global g_delayQuantum
-	keyDelay := g_delayQuantum * 8
+	delay := GetDelay("short")
+	keyDelay := delay
 
 	if (!alreadySwitchingDesktop) {
 		alreadySwitchingDesktop := True
+		oldKeyDelay := A_KeyDelay
+		SetKeyDelay % keyDelay
 
 		; Re-generate the list of desktops and where we fit in that. We do this because
 		; the user may have switched desktops via some other means than the script.
@@ -339,8 +341,8 @@ SwitchDesktopByNumber(targetDesktop) {
 			; Go right until we reach the desktop we want
 			iCounter := 0
 			while(vdCurrentDesktop < targetDesktop) {
-				SendInput, ^#{Right}
-				Sleep, %keyDelay%
+				Send ^#{Right}
+				Sleep delay
 				MapDesktopsFromRegistry()
 				iCounter++
 				if (iCounter > vdDesktopCount * 4) {
@@ -351,8 +353,8 @@ SwitchDesktopByNumber(targetDesktop) {
 			; Go left until we reach the desktop we want
 			iCounter := 0
 			while(vdCurrentDesktop > targetDesktop) {
-				SendInput, ^#{Left}
-				Sleep, %keyDelay%
+				Send ^#{Left}
+				Sleep % delay
 				MapDesktopsFromRegistry()
 				iCounter++
 				if (iCounter > vdDesktopCount * 4) {
@@ -360,6 +362,7 @@ SwitchDesktopByNumber(targetDesktop) {
 				}
 			}
 		}
+		SetKeyDelay % oldKeyDelay
 		alreadySwitchingDesktop := False
 	}
 }
