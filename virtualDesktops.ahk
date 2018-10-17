@@ -319,7 +319,7 @@ SwitchDesktopByNumber(targetDesktop) {
 	global vdCurrentDesktop
 	global vdDesktopCount
 	global alreadySwitchingDesktop
-	delay := GetDelay("short")
+	delay := GetDelay("shortest", 4)
 	keyDelay := delay
 
 	if (!alreadySwitchingDesktop) {
@@ -333,7 +333,7 @@ SwitchDesktopByNumber(targetDesktop) {
 
 		; Don't attempt to switch to an invalid desktop
 		if (targetDesktop > vdDesktopCount || targetDesktop < 1) {
-			OutputDebug, [invalid] target: %targetDesktop% current: %vdCurrentDesktop%
+			OutputDebug [invalid] target: %targetDesktop% current: %vdCurrentDesktop%
 			return
 		}
 
@@ -342,7 +342,7 @@ SwitchDesktopByNumber(targetDesktop) {
 			iCounter := 0
 			while(vdCurrentDesktop < targetDesktop) {
 				Send ^#{Right}
-				Sleep delay
+				Sleep % delay
 				MapDesktopsFromRegistry()
 				iCounter++
 				if (iCounter > vdDesktopCount * 4) {
