@@ -1389,55 +1389,47 @@ ExecuteJsPasteCmds(manualProcession := false) {
 ;   ································································································
 ;     >>> §6.1: Shortucts for backing up custom CSS builds
 
+BackupCss(caller, website, backupFile, gitCommands) {
+	AppendAhkCmd(caller)
+	copiedCss := CopyCssFromWebsite(website)
+	if (VerifyCopiedCode(caller, copiedCss)) {
+		WriteCodeToFile(caller, copiedCss, backupFile)
+		PasteTextIntoGitShell(caller, gitCommands)
+	}
+}
+
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.1.1: @backupCssAscc
 
 :*:@backupCssAscc::
-	AppendAhkCmd(A_ThisLabel)
-	copiedCss := CopyCssFromWebsite("https://ascc.wsu.edu/wp-admin/themes.php?page=editcss")
-	WriteCodeToFile(A_ThisLabel, copiedCss, GetGitHubFolder()
-		. "\ascc.wsu.edu\CSS\ascc-custom.prev.css")
-	PasteTextIntoGitShell(A_ThisLabel
-		, "cd '" . GetGitHubFolder() . "\ascc.wsu.edu\'`r"
-		. "git add CSS\ascc-custom.prev.css`r"
-		. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
-		. "git push`r")
+	BackupCss(A_ThisLabel
+		, "https://ascc.wsu.edu/wp-admin/themes.php?page=editcss"
+		, GetGitHubFolder() . "\ascc.wsu.edu\CSS\ascc-custom.prev.css"
+		, "cd '" . GetGitHubFolder() . "\ascc.wsu.edu\'`rgit add CSS\ascc-custom.prev.css`rgit comm"
+			. "it -m 'Updating backup of latest verified custom CSS build'`rgit push`r")
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.1.2: @backupCssCr
 
 :*:@backupCssCr::
-	AppendAhkCmd(A_ThisLabel)
-	copiedCss := CopyCssFromWebsite("https://commonreading.wsu.edu/wp-admin/themes.php?"
-		. "page=editcss")
-	if (VerifyCopiedCode(A_ThisLabel, copiedCss)) {
-		WriteCodeToFile(A_ThisLabel, copiedCss, GetGitHubFolder()
-			. "\commonreading.wsu.edu\CSS\cr-custom.prev.css")
-		PasteTextIntoGitShell(A_ThisLabel
-			, "cd '" . GetGitHubFolder() . "\commonreading.wsu.edu\'`r"
-			. "git add CSS\cr-custom.prev.css`r"
-			. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
-			. "git push`r")
-	}
+	BackupCss(A_ThisLabel
+		, "https://commonreading.wsu.edu/wp-admin/themes.php?page=editcss"
+		, GetGitHubFolder() . "\commonreading.wsu.edu\CSS\cr-custom.prev.css"
+		, "cd '" . GetGitHubFolder() . "\commonreading.wsu.edu\'`rgit add CSS\cr-custom.prev.css`rg"
+			. "it commit -m 'Updating backup of latest verified custom CSS build'`rgit push`r")
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.1.3: @backupCssDsp
 
 :*:@backupCssDsp::
-	AppendAhkCmd(A_ThisLabel)
-	copiedCss := CopyCssFromWebsite("https://distinguishedscholarships.wsu.edu/wp-admin/themes.php?"
-		. "page=editcss")
-	if (VerifyCopiedCode(A_ThisLabel, copiedCss)) {
-		WriteCodeToFile(A_ThisLabel, copiedCss, GetGitHubFolder()
-			. "\distinguishedscholarships.wsu.edu\CSS\dsp-custom.prev.css")
-		PasteTextIntoGitShell(A_ThisLabel
-			, "cd '" . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\'`r"
-			. "git add CSS\dsp-custom.prev.css`r"
-			. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
-			. "git push`r")
-	}
+	BackupCss(A_ThisLabel
+		, "https://distinguishedscholarships.wsu.edu/wp-admin/themes.php?page=editcss"
+		, GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\CSS\dsp-custom.prev.css"
+		, "cd '" . GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\'`rgit add CSS\dsp-custo"
+			. "m.prev.css`rgit commit -m 'Updating backup of latest verified custom CSS build'`rgit"
+			. " push`r")
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
@@ -1583,18 +1575,13 @@ Return
 ;       →→→ §6.1.12: @backupCssUgr
 
 :*:@backupCssUgr::
-	AppendAhkCmd(A_ThisLabel)
-	copiedCss := CopyCssFromWebsite("https://undergraduateresearch.wsu.edu/wp-admin/themes.php?page"
-		. "=editcss")
-	if (VerifyCopiedCode(A_ThisLabel, copiedCss)) {
-		WriteCodeToFile(A_ThisLabel, copiedCss, GetGitHubFolder()
-			. "\undergraduateresearch.wsu.edu\CSS\undergraduate-research-custom.prev.css")
-		PasteTextIntoGitShell(A_ThisLabel
-			, "cd '" . GetGitHubFolder() . "\undergraduateresearch.wsu.edu\'`r"
-			. "git add CSS\undergraduate-research-custom.prev.css`r"
-			. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
-			. "git push`r")
-	}
+	BackupCss(A_ThisLabel
+		, "https://undergraduateresearch.wsu.edu/wp-admin/themes.php?page=editcss"
+		, GetGitHubFolder() . "\undergraduateresearch.wsu.edu\CSS\undergraduate-research-custom.pre"
+			. "v.css"
+		, "cd '" . GetGitHubFolder() . "\undergraduateresearch.wsu.edu\'`rgit add CSS\undergraduate"
+			. "-research-custom.prev.css`rgit commit -m 'Updating backup of latest verified custom "
+			. "CSS build'`rgit push`r")
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
