@@ -15,19 +15,19 @@
 ;     >>> §2.4: HandleCommitJsRemoveFiles......................................................236
 ;     >>> §2.5: HandleCommitJsGitDiff..........................................................248
 ;     >>> §2.6: HandleCommitJsGitLog...........................................................284
-;     >>> §2.7: HandleCommitJsCheckJsFileCommit................................................321
-;     >>> §2.8: HandleCommitJsCheckJsChangesOnly...............................................384
-;     >>> §2.9: HandleCommitJs1stJsMsgChange...................................................427
-;     >>> §2.10: HandleCommitJs2ndJsMsgChange..................................................444
-;     >>> §2.11: HandleCommitJsOk..............................................................461
-;       →→→ §2.11.1: ProcessHandleCommitJsOkError..............................................541
-;     >>> §2.12: HandleCommitJsCancel..........................................................569
-;   §3: GUI PERSISTENCE FUNCTIONS..............................................................577
-;     >>> §3.1: SaveCommitJsCustomJsMsgHistory.................................................581
-;     >>> §3.2: LoadCommitJsCustomJsMsgHistory.................................................619
-;     >>> §3.3: ReadKeyForCustonJsMsgHistory...................................................656
-;     >>> §3.4: ReadPrimaryMsgForCustomJsFileKey...............................................674
-;     >>> §3.5: ReadSecondaryMsgForCustomJsFileKey.............................................691
+;     >>> §2.7: HandleCommitJsCheckJsFileCommit................................................322
+;     >>> §2.8: HandleCommitJsCheckJsChangesOnly...............................................385
+;     >>> §2.9: HandleCommitJs1stJsMsgChange...................................................428
+;     >>> §2.10: HandleCommitJs2ndJsMsgChange..................................................445
+;     >>> §2.11: HandleCommitJsOk..............................................................462
+;       →→→ §2.11.1: ProcessHandleCommitJsOkError..............................................542
+;     >>> §2.12: HandleCommitJsCancel..........................................................570
+;   §3: GUI PERSISTENCE FUNCTIONS..............................................................578
+;     >>> §3.1: SaveCommitJsCustomJsMsgHistory.................................................582
+;     >>> §3.2: LoadCommitJsCustomJsMsgHistory.................................................620
+;     >>> §3.3: ReadKeyForCustonJsMsgHistory...................................................657
+;     >>> §3.4: ReadPrimaryMsgForCustomJsFileKey...............................................675
+;     >>> §3.5: ReadSecondaryMsgForCustomJsFileKey.............................................692
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -289,7 +289,8 @@ HandleCommitJsGitDiff() {
 HandleCommitJsGitLog() {
 	global commitJsVars
 	delay := GetDelay("short")
-	cmdStr := "git --no-pager log --follow --pretty=""format:%h | %cn | %cd | %s | %b"" "
+	cmdStr := "git --no-pager log --follow --pretty=""format:%h | %cn | %cd | %s | %b"" --max-count"
+	 . "=20 "
 	numSelectedRows := LV_GetCount("Selected")
 	consoleStr := "cd " . GetGitHubFolder() . "\" . commitJsVars.gitFolder . "\`r"
 	if (numSelectedRows > 0) {

@@ -7,27 +7,27 @@
 ; ==================================================================================================
 ; Table of Contents
 ; -----------------
-;   §1: GUI CREATION FUNCTION: CommitCssBuild...................................................33
-;   §2: GUI EVENT HANDLERS.....................................................................153
-;     >>> §2.1: HandleCommitCss1stMsgChange....................................................157
-;     >>> §2.2: HandleCommitCss2ndMsgChange....................................................174
-;     >>> §2.3: HandleCommitCssAddFiles........................................................191
-;     >>> §2.4: HandleCommitCssRemoveFiles.....................................................233
-;     >>> §2.5: HandleCommitCssGitDiff.........................................................245
-;     >>> §2.6: HandleCommitCssGitLog..........................................................355
-;     >>> §2.7: HandleCommitCssCheckLessFileCommit.............................................281
-;     >>> §2.8: HandleCommitCssCheckLessChangesOnly............................................341
-;     >>> §2.9: HandleCommitCss1stLessMsgChange................................................384
-;     >>> §2.10: HandleCommitCss2ndLessMsgChange...............................................401
-;     >>> §2.11: HandleCommitCssOk.............................................................418
-;       →→→ §2.11.1: ProcessHandleCommitCssOkError.............................................498
-;     >>> §2.12: HandleCommitCssCancel.........................................................526
-;   §3: GUI PERSISTENCE FUNCTIONS..............................................................534
-;     >>> §3.1: SaveCommitCssLessMsgHistory....................................................538
-;     >>> §3.2: LoadCommitCssLessMsgHistory....................................................575
-;     >>> §3.3: ReadKeyForLessMsgHistory.......................................................612
-;     >>> §3.4: ReadPrimaryMsgForLessFileKey...................................................630
-;     >>> §3.5: ReadSecondaryMsgForLessFileKey.................................................647
+;   §1: GUI CREATION FUNCTION: CommitCssBuild...................................................34
+;   §2: GUI EVENT HANDLERS.....................................................................156
+;     >>> §2.1: HandleCommitCss1stMsgChange....................................................160
+;     >>> §2.2: HandleCommitCss2ndMsgChange....................................................177
+;     >>> §2.3: HandleCommitCssAddFiles........................................................194
+;     >>> §2.4: HandleCommitCssRemoveFiles.....................................................236
+;     >>> §2.5: HandleCommitCssGitDiff.........................................................248
+;     >>> §2.6: HandleCommitCssGitLog..........................................................358
+;     >>> §2.7: HandleCommitCssCheckLessFileCommit.............................................322
+;     >>> §2.8: HandleCommitCssCheckLessChangesOnly............................................385
+;     >>> §2.9: HandleCommitCss1stLessMsgChange................................................428
+;     >>> §2.10: HandleCommitCss2ndLessMsgChange...............................................425
+;     >>> §2.11: HandleCommitCssOk.............................................................462
+;       →→→ §2.11.1: ProcessHandleCommitCssOkError.............................................542
+;     >>> §2.12: HandleCommitCssCancel.........................................................570
+;   §3: GUI PERSISTENCE FUNCTIONS..............................................................578
+;     >>> §3.1: SaveCommitCssLessMsgHistory....................................................582
+;     >>> §3.2: LoadCommitCssLessMsgHistory....................................................619
+;     >>> §3.3: ReadKeyForLessMsgHistory.......................................................656
+;     >>> §3.4: ReadPrimaryMsgForLessFileKey...................................................674
+;     >>> §3.5: ReadSecondaryMsgForLessFileKey.................................................691
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -289,7 +289,8 @@ HandleCommitCssGitDiff() {
 HandleCommitCssGitLog() {
 	global commitCssVars
 	delay := GetDelay("short")
-	cmdStr := "git --no-pager log --follow --pretty=""format:%h | %cn | %cd | %s | %b"" "
+	cmdStr := "git --no-pager log --follow --pretty=""format:%h | %cn | %cd | %s | %b"" --max-count"
+		. "=20 "
 	numSelectedRows := LV_GetCount("Selected")
 	consoleStr := "cd " . GetGitHubFolder() . "\" . commitCssVars.gitFolder . "\`r"
 	if (numSelectedRows > 0) {
