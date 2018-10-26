@@ -2955,7 +2955,7 @@ RebuildJs(caller, repository, commitCommand) {
 ;       →→→ §6.6.2: @rebuildJsAscc
 
 :*:@rebuildJsAscc::
-	RebuildJs(A_ThisLabel, GetGitHubFolder() . "\ascc.wsu.edu\", :*:@commitJsAscc)
+	RebuildJs(A_ThisLabel, GetGitHubFolder() . "\ascc.wsu.edu\", ":*:@commitJsAscc")
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
@@ -3691,7 +3691,7 @@ Return
 Return
 
 ;   ································································································
-;     >>> §6.10: FOR CHECKING GIT STATUS ON ALL PROJECTS 
+;     >>> §6.10: FOR CHECKING GIT STATUS ON ALL PROJECTS
 
 :*:@checkGitStatus::
 	ahkCmdName := ":*:@checkGitStatus"
