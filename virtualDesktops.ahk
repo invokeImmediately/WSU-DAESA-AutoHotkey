@@ -58,29 +58,60 @@ global vdCurrentDesktop = 1 ; Desktop count is 1-indexed (Microsoft numbers them
 ; 		• Do we need to run checks on each window, e.g., by adding a counter to the object and
 ; 		  running through the loop multiple times?
 
-CloseOpenWindowsOnVD() { ; Alias = cowvd
-	; Declare global variables
-	global g_delayQuantum
-	global g_desktopHwnd
+:*:@testCloseOpenWindows::
+	AppendAhkCmd(A_ThisLabel)
+	CloseOpenWindowsOnVD()	
+Return
 
-	; Initialize local variables
-	delay := g_delayQuantum * 7 ; ~110 ms
-	vdHWnds := Array()
+CloseOpenWindowsOnVD() { ; - Alias = cowvd
+	global g_osDesktopHwnd
+	delay := GetDelay("short")
 
-	; Check active window to see if it is the OS desktop
-	WinGet, aProcess, ProcessName, A
-	WinGetClass, aClass, A
-	if (!cowvd_IsOsActive()) {
+	; Make sure the active window window to see if it is the OS desktop
+	cowvd_CheckOsDesktopHwnd()
+	windowsAlreadyClosed := cowvd_GetStarted(g_osDesktopHwnd, delay)
+	if (!windowsAlreadyClosed) {
+		; Proceed...
+	}
+
+	; First draft of code...
+;	WinGet, aProcess, ID, A
+;	WinGetClass, aClass, A
+;	if (!cowvd_IsOsActive()) {
+;		vdHWnds := Array()
 		; TODO: Finish writing statement block.
 		; Log all open windows
-	} else {
+;	} else {
 		; Perform at least one alt+tab and see if the OS desktop is still active
-		SendInput, !{Tab}
-		Sleep, % delay
-		if (!cowvd_IsOsActive()) {
+;		SendInput, !{Tab}
+;		Sleep, % delay
+;		if (!cowvd_IsOsActive()) {
 			; TODO: Finish writing statement block.
+;		}
+;	}
+}
+
+cowvd_CheckOsDesktopHwnd(overwrite := False) {
+	global g_osDesktopWinTitle
+	global g_osDesktopHwnd
+
+	if (!g_osDesktopHwnd || overwrite) {
+		WinGet g_osDesktopHwnd, ID, % g_osDesktopWinTitle
+	}
+}
+
+cowvd_GetStarted(desktopHwnd, delay) {
+	windowsAlreadyClosed := false
+	WinGet aProcess, ID, A
+	if (aProcess == desktopHwnd) {
+		SendInput !{Tab}
+		Sleep % delay * 2
+		WinGet aProcess, ID, A
+		if (aProcess == desktopHwnd) {
+			windowsAlreadyClosed := true
 		}
 	}
+	return windowsAlreadyClosed
 }
 
 cowvd_IsOsActive() {
