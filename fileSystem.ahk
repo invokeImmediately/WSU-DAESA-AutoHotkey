@@ -168,6 +168,10 @@ Return
     InsertFilePath(A_ThisLabel, webDevFolder . "\FYE & FYF")
 Return
 
+:*:@gotoWdLsamp::
+    InsertFilePath(A_ThisLabel, webDevFolder . "\LSAMP")
+Return
+
 :*:@gotoWdMstr::
     InsertFilePath(A_ThisLabel, webDevFolder . "\{^}Master-VPUE")
 Return
