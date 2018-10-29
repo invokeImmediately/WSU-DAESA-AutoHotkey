@@ -69,7 +69,7 @@ CloseOpenWindowsOnVD() { ; - Alias = cowvd
 
 	; Make sure the active window window to see if it is the OS desktop
 	cowvd_CheckOsDesktopHwnd()
-	windowsAlreadyClosed := cowvd_GetStarted(g_osDesktopHwnd, delay)
+	windowsAlreadyClosed := cowvd_GetStarted(delay)
 	if (!windowsAlreadyClosed) {
 		; Proceed...
 	}
@@ -100,14 +100,12 @@ cowvd_CheckOsDesktopHwnd(overwrite := False) {
 	}
 }
 
-cowvd_GetStarted(desktopHwnd, delay) {
+cowvd_GetStarted(delay) {
 	windowsAlreadyClosed := false
-	WinGet aProcess, ID, A
-	if (aProcess == desktopHwnd) {
+	if (cowvd_IsOsActive()) {
 		SendInput !{Tab}
 		Sleep % delay * 2
-		WinGet aProcess, ID, A
-		if (aProcess == desktopHwnd) {
+		if (cowvd_IsOsActive()) {
 			windowsAlreadyClosed := true
 		}
 	}
@@ -115,14 +113,10 @@ cowvd_GetStarted(desktopHwnd, delay) {
 }
 
 cowvd_IsOsActive() {
-	; Initialize local variables
-	osProcess := "Explorer.EXE"
-	osFalsePositiveClass := "CabinetWClass" ; i.e., the class of File Explorer
+	global g_osDesktopHwnd
 
-	; Check active window to see if it is the OS desktop
-	WinGet, aProcess, ProcessName, A
-	WinGetClass, aClass, A
-	return aProcess == osProcess && aClass != osFalsePositiveClass
+	WinGet aHwnd, ID, A
+	return aHwnd == g_osDesktopHwnd
 }
 
 cowvd_ProcessOpenWindows() {
