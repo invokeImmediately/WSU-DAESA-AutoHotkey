@@ -75,21 +75,21 @@ HandleGuiRptInputsOk() {
 	local keyDelayChanged := False
 	local oldKeyDelay
 
-	Gui, guiRptInputs:Submit, NoHide
+	Gui guiRptInputs:Submit, NoHide
 	if (guiRptInputs_InputStr && guiRptInputs_HowMany && guiRptInputs_KeyDelay) {
-		Gui, guiRptInputs:Destroy
+		Gui guiRptInputs:Destroy
 		if (A_KeyDelay != guiRptInputs_KeyDelay) {
 			keyDelayChanged := True
 			oldKeyDelay := A_KeyDelay
-			SetKeyDelay, % guiRptInputs_KeyDelay
+			SetKeyDelay % guiRptInputs_KeyDelay
 		}
 		while (ctr < guiRptInputs_HowMany) {
-			Send, % guiRptInputs_InputStr
-			Sleep, % guiRptInputs_KeyDelay
+			Send % guiRptInputs_InputStr
+			Sleep % guiRptInputs_KeyDelay
 			ctr++
 		}
 		if (keyDelayChanged) {
-			SetKeyDelay, % oldKeyDelay
+			SetKeyDelay % oldKeyDelay
 		}
 	} else {
 		ErrorBox(A_ThisLabel, "Input must be finished before I can proceed.")
@@ -99,4 +99,3 @@ HandleGuiRptInputsOk() {
 HandleGuiRptInputsCancel() {
 	Gui, guiRptInputs:Destroy
 }
-
