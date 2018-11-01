@@ -32,31 +32,6 @@ global vdCurrentDesktop = 1 ; Desktop count is 1-indexed (Microsoft numbers them
 
 ;   ································································································
 ;     >>> §2.1: CloseOpenWindowsOnVD (Abbreviated prefix: cowvd_…)
-;
-; 		Research:
-; 		--------
-; 		• Anything unique about Explorer.exe (i.e., desktop process) that can distinguish it from
-; 		File Explorer?
-;
-; 		Execution Steps:
-; 		---------------
-; 		• Get the active window process name + title + Hwnd; store in an object.
-; 		• Check if there was already an attempt to close the window, or if we have hit the desktop
-; 		  with no open windows left. If not, add the 
-; 		• If appropriate, tell the active window to close via Ctrl+W or Alt+F4.
-; 		• Then, switch to the next available window via Alt+Tab.
-; 		• Loop as long as there are new open windows to close.
-; 		• Exit conditions: the desktop is now active, or we circled around to a window we already
-; 		  tried to close.
-;
-; 		Testing that is needed:
-; 		----------------------
-; 		• Is there a way to keep track of windows that didn't successfully close? Perhaps they can
-; 		  then be reviewed via a hotstring. Or a message box could report which VD's still have a
-; 		  window open on it. (Perhaps this specific function could return a bool via allWindowsClosed,
-; 		  or an array of Hwnds.)
-; 		• Do we need to run checks on each window, e.g., by adding a counter to the object and
-; 		  running through the loop multiple times?
 
 :*:@closeOpenWindowsOnActiveVd::
 	AppendAhkCmd(A_ThisLabel)
@@ -67,29 +42,12 @@ CloseOpenWindowsOnVD() { ; - Alias = cowvd
 	global g_osDesktopHwnd
 	delay := GetDelay("short")
 
-	; Make sure the active window window to see if it is the OS desktop
 	cowvd_CheckOsDesktopHwnd()
 	windowsAlreadyClosed := cowvd_GetStarted(delay)
 	if (!windowsAlreadyClosed) {
 		vdHWnds := cowvd_LogOpenWindows(delay)
 		cowvd_ClosedLoggedWindows(vdHWnds, delay)
 	}
-
-	; First draft of code...
-;	WinGet, aProcess, ID, A
-;	WinGetClass, aClass, A
-;	if (!cowvd_IsOsActive()) {
-;		vdHWnds := Array()
-		; TODO: Finish writing statement block.
-		; Log all open windows
-;	} else {
-		; Perform at least one alt+tab and see if the OS desktop is still active
-;		SendInput, !{Tab}
-;		Sleep, % delay
-;		if (!cowvd_IsOsActive()) {
-			; TODO: Finish writing statement block.
-;		}
-;	}
 }
 
 cowvd_CheckOsDesktopHwnd(overwrite := False) {
@@ -104,13 +62,11 @@ cowvd_CheckOsDesktopHwnd(overwrite := False) {
 cowvd_ClosedLoggedWindows(vdHWnds, delay) {
 	For index, value in vdHWnds
 	{
-		;WinClose % "ahk_id " . index,, 1
+		; Alternative approach: WinClose % "ahk_id " . index,, 1
 		PostMessage, 0x112, 0xF060,,, % "ahk_id " . index
 		Sleep % delay * 10
-		;if (!WinExist("ahk_id " . index)) {
-		;	vdHWnds.RemoveAt(index)
-		;}
 	}
+	cowvd_VerifyClosingOfWindows(vdHWnds, delay)
 }
 
 cowvd_GetStarted(delay) {
@@ -135,6 +91,7 @@ cowvd_IsOsActive() {
 cowvd_LogOpenWindows(delay) {
 	vdHWnds := {}
 	keepSearching := true
+
 	if (cowvd_IsOsActive()) {
 		cowvd_SwitchToNextWindow(delay)
 	}
@@ -152,12 +109,32 @@ cowvd_LogOpenWindows(delay) {
 	return vdHWnds
 }
 
+cowvd_RetryClosingOfWindows(aVdHWnds, delay) {
+	Loop % aVdHwnds.Length()
+	{
+		PostMessage, 0x112, 0xF060,,, % "ahk_id " . aVdHwnds[A_Index]
+		Sleep % delay * 10
+	}
+}
+
 cowvd_SwitchToNextWindow(delay, wCount := 1) {
 	oldKeyDelay := A_KeyDelay
 	SetKeyDelay % delay
 	Send % "{Alt Down}{Tab " . wCount . "}{Alt Up}"
 	Sleep % delay
 	SetKeyDelay % oldKeyDelay
+}
+
+cowvd_VerifyClosingOfWindows(vdHWnds, delay) {
+	aVdHwnds := Object()
+	For index, value in vdHWnds
+	{
+		if (!WinExist("ahk_id " . index)) {
+			aVdHwnds.Push(index)
+		}
+		Sleep % delay * 2
+	}
+	cowvd_RetryClosingOfWindows(aVdHwnds, delay)
 }
 
 ;   ································································································
