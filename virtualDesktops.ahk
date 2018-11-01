@@ -58,7 +58,7 @@ global vdCurrentDesktop = 1 ; Desktop count is 1-indexed (Microsoft numbers them
 ; 		• Do we need to run checks on each window, e.g., by adding a counter to the object and
 ; 		  running through the loop multiple times?
 
-:*:@testCloseOpenWindows::
+:*:@closeOpenWindowsOnActiveVd::
 	AppendAhkCmd(A_ThisLabel)
 	CloseOpenWindowsOnVD()	
 Return
@@ -71,7 +71,8 @@ CloseOpenWindowsOnVD() { ; - Alias = cowvd
 	cowvd_CheckOsDesktopHwnd()
 	windowsAlreadyClosed := cowvd_GetStarted(delay)
 	if (!windowsAlreadyClosed) {
-		; Proceed...
+		vdHWnds := cowvd_LogOpenWindows(delay)
+		cowvd_ClosedLoggedWindows(vdHWnds, delay)
 	}
 
 	; First draft of code...
@@ -100,6 +101,18 @@ cowvd_CheckOsDesktopHwnd(overwrite := False) {
 	}
 }
 
+cowvd_ClosedLoggedWindows(vdHWnds, delay) {
+	For index, value in vdHWnds
+	{
+		;WinClose % "ahk_id " . index,, 1
+		PostMessage, 0x112, 0xF060,,, % "ahk_id " . index
+		Sleep % delay * 10
+		;if (!WinExist("ahk_id " . index)) {
+		;	vdHWnds.RemoveAt(index)
+		;}
+	}
+}
+
 cowvd_GetStarted(delay) {
 	windowsAlreadyClosed := false
 	if (cowvd_IsOsActive()) {
@@ -119,8 +132,32 @@ cowvd_IsOsActive() {
 	return aHwnd == g_osDesktopHwnd
 }
 
-cowvd_ProcessOpenWindows() {
+cowvd_LogOpenWindows(delay) {
+	vdHWnds := {}
+	keepSearching := true
+	if (cowvd_IsOsActive()) {
+		cowvd_SwitchToNextWindow(delay)
+	}
+	wCount := 0
+	while keepSearching && !cowvd_IsOsActive() {
+		WinGet aHwnd, ID, A
+		if (!vdHWnds[aHwnd]) {
+			vdHWnds[aHwnd] := true
+			wCount++
+			cowvd_SwitchToNextWindow(delay, wCount)
+		} else {
+			keepSearching := false
+		}
+	}
+	return vdHWnds
+}
 
+cowvd_SwitchToNextWindow(delay, wCount := 1) {
+	oldKeyDelay := A_KeyDelay
+	SetKeyDelay % delay
+	Send % "{Alt Down}{Tab " . wCount . "}{Alt Up}"
+	Sleep % delay
+	SetKeyDelay % oldKeyDelay
 }
 
 ;   ································································································
