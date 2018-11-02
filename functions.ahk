@@ -172,9 +172,9 @@ DismissSplashText() {
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §4.1.2: DisplaySplashText
 
-DisplaySplashText(msg) {
-	SplashTextOn, % StrLen(msg) * 8, 24, % A_ScriptName, % msg
-	SetTimer, DismissSplashText, -1000
+DisplaySplashText(msg, displayTime := 1000) {
+	SplashTextOn % StrLen(msg) * 8, 24, % A_ScriptName, % msg
+	SetTimer DismissSplashText, % -1 * displayTime
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
