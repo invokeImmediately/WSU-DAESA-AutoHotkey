@@ -6,9 +6,11 @@
 ;   §1: Current temporary shortcut.............................................................15
 ;   §2: Torah study............................................................................24
 ;   §3: Documents folders......................................................................33
-;   §4: GitHub repository folders..............................................................49
-;   §5: Web development folders...............................................................143
-;   §6: Coding resource folders...............................................................216
+;   §4: GitHub repository folders..............................................................51
+;   §5: Web development folders...............................................................145
+;   §6: Coding resource folders...............................................................222
+;   §7: Photo folders.........................................................................236
+;   §8: Project folders.......................................................................248
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -33,11 +35,13 @@ Return
 ;   §3: Documents folders
 ; --------------------------------------------------------------------------------------------------
 
-:*:@gotoTorah::
-
 :*:@gotoDocs::
 	AppendAhkCmd(A_ThisLabel)
 	SendInput %userAccountFolderHDD%\Documents\{Enter}
+Return
+
+:*:@gotoDaniel::
+	InsertFilePath(A_ThisLabel, userAccountFolderHDD . "\Documents\Daniel\")
 Return
 
 :*:@gotoSsdDocs::
@@ -228,4 +232,24 @@ Return
 :*:@openGitCodes::
 	AppendAhkCmd(A_ThisLabel)
 	SendInput %webDevFolder%\GitHub\git-codes.bat{Enter}
+Return
+
+; --------------------------------------------------------------------------------------------------
+;   §7: Photo folders
+; --------------------------------------------------------------------------------------------------
+
+:*:@gotoPhotos::
+	InsertFilePath(A_ThisLabel, userAccountFolderHDD . "\Pictures")
+Return
+
+:*:@gotoGraphics::
+	InsertFilePath(A_ThisLabel, userAccountFolderHDD . "\Documents\Daniel\Graphics")
+Return
+
+; --------------------------------------------------------------------------------------------------
+;   §8: Project folders
+; --------------------------------------------------------------------------------------------------
+
+:*:@gotoProjects::
+	InsertFilePath(A_ThisLabel, userAccountFolderHDD . "\Documents\Daniel\{^}Projects")
 Return
