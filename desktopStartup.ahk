@@ -13,31 +13,31 @@
 ;       →→→ §1.1.1: @setupVirtualDesktops.......................................................85
 ;       →→→ §1.1.2: @setupCiscoVpn.............................................................102
 ;     >>> §1.2: VD1: Website editing...........................................................122
-;       →→→ §1.2.1: PositionWindowViaCtrlFN....................................................145
-;       →→→ §1.2.3: @startSublimeText3.........................................................160
-;       →→→ §1.2.4: @startChrome...............................................................173
-;       →→→ §1.2.5: PositionChromeVD1..........................................................186
-;       →→→ §1.2.6: Vd1_OpenWorkNotesLog.......................................................200
-;       →→→ §1.2.7: @startMsTodo...............................................................253
-;       →→→ §1.2.8: PositionMsTodo.............................................................264
-;     >>> §1.3: VD2: Programming...............................................................280
-;       →→→ §1.3.1: AddSublimeText3ToVd........................................................298
-;       →→→ §1.3.2: @startGithubClients........................................................338
-;       →→→ §1.3.3: @arrangeGitHub.............................................................357
-;       →→→ §1.3.4: agh_MovePowerShell.........................................................394
-;     >>> §1.4: Setup VD3: Graphic design......................................................449
-;       →→→ §1.4.1: @arrangeGimp...............................................................470
-;     >>> §1.5: Setup VD4: Communications and media............................................493
-;       →→→ §1.5.1: OpenWebsiteInChrome........................................................519
-;       →→→ §1.5.2: OpenNewTabInChrome.........................................................540
-;       →→→ §1.5.3: NavigateToWebsiteInChrome..................................................552
-;       →→→ §1.5.4: MoveToNextTabInChrome......................................................566
-;       →→→ §1.5.5: @arrangeEmail..............................................................578
-;     >>> §1.6: Setup VD5: Diagnostics & talmud................................................622
-;     >>> §1.7: Other setup hotstrings.........................................................652
-;       →→→ §1.7.1: @startNotepadPp............................................................655
-;   §2: STARTUP HOTKEYS........................................................................680
-;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................688
+;       →→→ §1.2.1: PositionWindowViaCtrlFN....................................................148
+;       →→→ §1.2.3: @startSublimeText3.........................................................163
+;       →→→ §1.2.4: @startChrome...............................................................176
+;       →→→ §1.2.5: PositionChromeVD1..........................................................189
+;       →→→ §1.2.6: Vd1_OpenWorkNotesLog.......................................................203
+;       →→→ §1.2.7: @startMsTodo...............................................................256
+;       →→→ §1.2.8: PositionMsTodo.............................................................267
+;     >>> §1.3: VD2: Programming...............................................................283
+;       →→→ §1.3.1: AddSublimeText3ToVd........................................................309
+;       →→→ §1.3.2: @startGithubClients........................................................349
+;       →→→ §1.3.3: @arrangeGitHub.............................................................368
+;       →→→ §1.3.4: agh_MovePowerShell.........................................................405
+;     >>> §1.4: Setup VD3: Graphic design......................................................460
+;       →→→ §1.4.1: @arrangeGimp...............................................................489
+;     >>> §1.5: Setup VD4: Communications and media............................................512
+;       →→→ §1.5.1: OpenWebsiteInChrome........................................................546
+;       →→→ §1.5.2: OpenNewTabInChrome.........................................................567
+;       →→→ §1.5.3: NavigateToWebsiteInChrome..................................................579
+;       →→→ §1.5.4: MoveToNextTabInChrome......................................................593
+;       →→→ §1.5.5: @arrangeEmail..............................................................605
+;     >>> §1.6: Setup VD5: Diagnostics & talmud................................................649
+;     >>> §1.7: Other setup hotstrings.........................................................687
+;       →→→ §1.7.1: @startNotepadPp............................................................690
+;   §2: STARTUP HOTKEYS........................................................................715
+;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................723
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -124,8 +124,11 @@ Return
 :*:@setupVirtualDesktop1::
 	delay := GetDelay("short")
 	AppendAhkCmd(A_ThisLabel)
+
+	; Switch to virtual desktop and notify user of subsequent automated activities.
 	switchDesktopByNumber(1)
 	Sleep % delay * 4
+	DisplaySplashText("Setting up virtual desktop #1 for website editing and coding.")
 
 	; Start Sublime Text 3 & restore its default positioning
 	Gosub :*:@startSublimeText3
@@ -282,7 +285,13 @@ PositionMsTodo() {
 :*:@setupVirtualDesktop2::
 	delay := GetDelay("short", 5)
 	AppendAhkCmd(A_ThisLabel)
+
+	; Switch to virtual desktop and notify user of subsequent automated activities.
 	switchDesktopByNumber(2)
+	Sleep % delay * 2
+	DisplaySplashText("Setting up virtual desktop #2 for coding and source code management.")
+
+	; Load programming IDE, scripting and command-line interface, and coding repository.
 	Sleep % delay * 2
 	AddSublimeText3ToVd(2)
 	Sleep % delay
@@ -291,6 +300,8 @@ PositionMsTodo() {
 	SendInput #e
 	WaitForApplicationPatiently("This PC")
 	Gosub :*:@startGithubClients
+
+	; Restore default arrangement of windows.
 	Gosub :*:@arrangeGitHub
 Return
 
@@ -452,13 +463,21 @@ agh_MovePowerShell() {
 	delay := GetDelay("medium")
 	AppendAhkCmd(A_ThisLabel)
 	CheckForCmdEntryGui()
+
+	; Switch to virtual desktop and notify user of subsequent automated activities.
 	switchDesktopByNumber(3)
+	Sleep % delay / 2
+	DisplaySplashText("Setting up virtual desktop #3 for graphic design.")
+
+	; Load graphics editor and reference materials.
 	Sleep % delay / 2
 	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
 		, "New Tab")
 	OpenWebsiteInChrome("www.colorhexa.com", False)
 	Sleep % delay
 	OpenWebsiteInChrome("brand.wsu.edu/visual/colors")
+
+	; Restore default arrangement of windows.
 	Sleep % delay
 	PositionWindowViaCtrlFN("^F10", 100)
 	LaunchStdApplicationPatiently("C:\Program Files\GIMP 2\bin\gimp-2.8.exe", "GNU Image")
@@ -495,7 +514,13 @@ Return
 :*:@setupVirtualDesktop4::
 	AppendAhkCmd(A_ThisLabel)
 	delay := GetDelay("short")
+
+	; Switch to virtual desktop and notify user of subsequent automated activities.
 	switchDesktopByNumber(4)
+	Sleep % delay * 1.5
+	DisplaySplashText("Setting up virtual desktop #4 for online correspondence.")
+
+	; Load email clients and news websites.
 	Sleep % delay * 1.5
 	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
 		, "New Tab")
@@ -511,6 +536,8 @@ Return
 	LaunchStdApplicationPatiently("C:\Program Files (x86)\Microsoft Office\root\Office16"
 		. "\outlook.exe", "Inbox ahk_exe OUTLOOK.EXE")
 	LaunchStdApplicationPatiently("C:\Program Files\iTunes\iTunes.exe", "iTunes")
+
+	; Restore default arrangement of windows.
 	Sleep % delay * 10
 	Gosub :*:@arrangeEmail
 Return
@@ -624,7 +651,13 @@ Return
 :*:@setupVirtualDesktop5::
 	delay := GetDelay("short")
 	AppendAhkCmd(A_ThisLabel)
+
+	; Switch to virtual desktop and notify user of subsequent automated activities.
 	switchDesktopByNumber(5)
+	Sleep % delay * 2
+	DisplaySplashText("Setting up virtual desktop #5 for computer monitoring and Torah study.")
+
+	; Set up computer monitoring apps.
 	Sleep % delay * 2
 	LaunchStdApplicationPatiently("C:\Windows\System32\taskmgr.exe", "Task Manager")
 	Sleep % delay * 10
@@ -636,6 +669,8 @@ Return
 	Sleep % delay * 2
 	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
 		, "New Tab")
+	
+	; Set up apps for Torah study.
 	Sleep % delay * 3
 	OpenWebsiteInChrome("biblegateway.com", False)
 	OpenWebsiteInChrome("hebrew4christians.com")
