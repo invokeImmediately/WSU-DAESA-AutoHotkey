@@ -470,7 +470,7 @@ agh_MovePowerShell() {
 	DisplaySplashText("Setting up virtual desktop #3 for graphic design.")
 
 	; Load graphics editor and reference materials.
-	Sleep % delay / 2
+	Sleep % delay * 2
 	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
 		, "New Tab")
 	OpenWebsiteInChrome("www.colorhexa.com", False)
