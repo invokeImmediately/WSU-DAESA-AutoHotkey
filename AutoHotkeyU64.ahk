@@ -1,4 +1,4 @@
-﻿; ==================================================================================================
+; ==================================================================================================
 ; AutoHotkeyU64.ahk: Script for automating tasks peformed during WSU OUE web development.
 ; ! = ALT     + = SHIFT     ^ = CONTROL     # = WIN
 ; (see https://autohotkey.com/docs/commands/Send.htm for more info)
@@ -73,8 +73,8 @@ global g_longDelay			:= 63		; A long delay of around 1 s
 ;   ································································································
 ;     >>> §1.3: GLOBALS FOR LOCATIONS OF IMPORTANT FOLDERS & FILES
 
-global userAccountFolderSSD := "C:\Users\CamilleandDaniel"
-global userAccountFolderHDD := "F:\Users\CamilleandDaniel"
+global userAccountFolderSSD := "C:"
+global userAccountFolderHDD := "E:\Users\CamilleandDaniel"
 global relWorkFolder := "\Documents\Daniel"
 global ssdWorkFolder := userAccountFolderSSD . relWorkFolder
 global hhdWorkFolder := userAccountFolderHDD . relWorkFolder
@@ -157,19 +157,19 @@ If not A_IsAdmin
 ;   §3: COMMON FUNCTIONS & CLASSES
 ; --------------------------------------------------------------------------------------------------
 
-#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\guiMsgBox.ahk
+#Include %A_ScriptDir%\guiMsgBox.ahk
 
-#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\API_GetWindowInfo.ahk
+#Include %A_ScriptDir%\API_GetWindowInfo.ahk
 
-#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\functions.ahk
+#Include %A_ScriptDir%\functions.ahk
 
-#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\trie.ahk
+#Include %A_ScriptDir%\trie.ahk
 
 ; --------------------------------------------------------------------------------------------------
 ;   §4: COMMAND HISTORY
 ; --------------------------------------------------------------------------------------------------
 
-#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\commandHistory.ahk
+#Include %A_ScriptDir%\commandHistory.ahk
 
 ; --------------------------------------------------------------------------------------------------
 ;   §5: AUTOHOTKEY SCRIPT WRITING SHORTCUTS
@@ -268,9 +268,9 @@ Return
 ;   §6: WORKSPACE MANAGEMENT
 ; --------------------------------------------------------------------------------------------------
 
-#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\virtualDesktops.ahk
+#Include %A_ScriptDir%\virtualDesktops.ahk
 
-#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\workspaceMngmnt.ahk
+#Include %A_ScriptDir%\workspaceMngmnt.ahk
 
 :*:@toggleOverlayMode::
 	AppendAhkCmd(":*:@toggleOverlayMode")
@@ -312,7 +312,7 @@ Return
 ;   §7: FILE SYSTEM NAVIGATION
 ; --------------------------------------------------------------------------------------------------
 
-#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\fileSystem.ahk
+#Include %A_ScriptDir%\fileSystem.ahk
 
 ; --------------------------------------------------------------------------------------------------
 ;   §8: PROGRAM/FILE LAUNCHING SHORTCUTS
@@ -340,7 +340,7 @@ Return
 ;   §9: GITHUB SHORTCUTS
 ; --------------------------------------------------------------------------------------------------
 
-#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\github.ahk
+#Include %A_ScriptDir%\github.ahk
 
 ; --------------------------------------------------------------------------------------------------
 ;   §10: GOOGLE CHROME SHORTCUTS
@@ -405,7 +405,7 @@ Return
 ;   §11: HTML EDITING
 ; --------------------------------------------------------------------------------------------------
 
-#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\htmlEditing.ahk
+#Include %A_ScriptDir%\htmlEditing.ahk
 
 ; --------------------------------------------------------------------------------------------------
 ;   §12: TEXT REPLACEMENT & INPUT
@@ -414,12 +414,12 @@ Return
 ;   ································································································
 ;     >>> §12.1: Text Replacement HOTKEYS
 
-#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\numpadModifier.ahk
+#Include %A_ScriptDir%\numpadModifier.ahk
 
 ;   ································································································
 ;     >>> §12.2: Text Replacement HOTSTRINGS
 
-#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\regExStrings.ahk
+#Include %A_ScriptDir%\regExStrings.ahk
 
 :*:@a5lh::
 	AppendAhkCmd(A_ThisLabel)
@@ -510,9 +510,9 @@ Return
 ;   ································································································
 ;     >>> §12.3: Text Input HOTSTRINGS
 
-#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\guiRepeatChars.ahk
+#Include %A_ScriptDir%\guiRepeatChars.ahk
 
-#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\guiRepeatInputs.ahk
+#Include %A_ScriptDir%\guiRepeatInputs.ahk
 
 ; --------------------------------------------------------------------------------------------------
 ;   §13: OTHER SHORTCUTS
@@ -531,13 +531,13 @@ Return
 ;   §14: WORK TIMER
 ; --------------------------------------------------------------------------------------------------
 
-#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\workTimer.ahk
+#Include %A_ScriptDir%\workTimer.ahk
 
 ; --------------------------------------------------------------------------------------------------
 ;   §15: CUSTOM HOTSTRINGS & HOTKEYS
 ; --------------------------------------------------------------------------------------------------
 
-#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\localOnly.ahk
+#Include %A_ScriptDir%\localOnly.ahk
 
 :*:@copyFromExcel::
 	AppendAhkCmd(A_ThisLabel)
@@ -609,4 +609,4 @@ Return
 ;   §16: MAIN SUBROUTINE
 ; --------------------------------------------------------------------------------------------------
 
-#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\desktopMain.ahk
+#Include %A_ScriptDir%\desktopMain.ahk

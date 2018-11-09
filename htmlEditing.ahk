@@ -534,7 +534,7 @@ TrimAwayBuilderTemplateContentNext(htmlMarkup) {
 ;   ································································································
 ;     >>> §2.5: Checking for WordPress updates
 
-#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\wordPress.ahk
+#Include %A_ScriptDir%\wordPress.ahk
 
 ; --------------------------------------------------------------------------------------------------
 ;   §3: GUI-related hotstrings & functions for automating HTML-related tasks

@@ -286,7 +286,7 @@ GetCurrentDirFromPS() {
 
 GetGitHubFolder() {
 	global userAccountFolderSSD
-	Return userAccountFolderSSD . "\Documents\GitHub"
+	Return userAccountFolderSSD . "\GitHub"
 }
 
 ;   ································································································
@@ -377,17 +377,17 @@ EscapeCommitMessage(msgToEscape) {
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §2.4.1: For committing CSS builds
 
-#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\CommitCssBuild.ahk
+#Include %A_ScriptDir%\CommitCssBuild.ahk
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §2.4.2: For committing JS builds
 
-#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\CommitJsBuild.ahk
+#Include %A_ScriptDir%\CommitJsBuild.ahk
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §2.4.3: For committing any type of file
 
-#Include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\CommitAnyFile.ahk
+#Include %A_ScriptDir%\CommitAnyFile.ahk
 
 ;   ································································································
 ;     >>> §2.5: CopySrcFileToClipboard

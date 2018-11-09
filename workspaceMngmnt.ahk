@@ -75,7 +75,7 @@
 ;   §1: DEPENDENCIES
 ; --------------------------------------------------------------------------------------------------
 
-#include %A_ScriptDir%\GitHub\WSU-OUE-AutoHotkey\desktopStartup.ahk
+#include %A_ScriptDir%\desktopStartup.ahk
 
 ; --------------------------------------------------------------------------------------------------
 ;   §2: FUNCTIONS & SUBROUTINES
