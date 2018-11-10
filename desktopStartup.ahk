@@ -242,7 +242,7 @@ Vd1_OpenWorkNotesLog() {
 		Sleep % delay
 		SendInput ^o
 		Sleep % delay * 9
-		SendInput % "C:\Users\CamilleandDaniel\Documents\GitHub\log_work-notes.txt{Enter}"
+		SendInput % "C:\GitHub\log_work-notes.txt{Enter}"
 		Sleep % delay * 12
 		PositionWindowViaCtrlFN("^F10", delay)
 	}
@@ -356,9 +356,9 @@ AddSublimeText3ToVd(whichVd) {
 		, "New Tab")
 	Sleep % delay
 	OpenWebsiteInChrome("github.com/invokeImmediately", False)
-	LaunchStdApplicationPatiently(userAccountFolderSSD . "\AppData\Local\GitHubDesktop\GitHubDesktop.exe"
-		, "GitHub ahk_exe GitHubDesktop.exe")
-	Sleep % delay * 3
+	; LaunchStdApplicationPatiently(userAccountFolderSSD . "\AppData\Local\GitHubDesktop\GitHubDesktop.exe"
+	; 	, "GitHub ahk_exe GitHubDesktop.exe")
+	; Sleep % delay * 3
 	LaunchApplicationPatiently("C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe"
 		, "ahk_exe powershell.exe")
 	Sleep % delay * 3
@@ -369,13 +369,13 @@ Return
 
 :*:@arrangeGitHub::
 	delay := GetDelay("short")
+	AppendAhkCmd(A_ThisLabel)
 
 	; Position GitHub Desktop for Windows
-	AppendAhkCmd(":*:@arrangeGitHub")
-	WinRestore, GitHub
-	Sleep, % delay * 2
-	WinMove, GitHub, , -1893, 20, 1868, 772
-	Sleep, % delay * 2
+	; WinRestore, GitHub
+	; Sleep, % delay * 2
+	; WinMove, GitHub, , -1893, 20, 1868, 772
+	; Sleep, % delay * 2
 
 	; Position chrome window containing tab loaded with GitHub profile
 	WinRestore, invokeImmediately
@@ -480,7 +480,8 @@ agh_MovePowerShell() {
 	; Restore default arrangement of windows.
 	Sleep % delay
 	PositionWindowViaCtrlFN("^F10", 100)
-	LaunchStdApplicationPatiently("C:\Program Files\GIMP 2\bin\gimp-2.8.exe", "GNU Image")
+	LaunchStdApplicationPatiently("C:\Program Files\GIMP 2\bin\gimp-2.10.exe", "GNU Image")
+	Sleep % delay * 3
 	PositionWindowViaCtrlFN("^F6", 100)
 	Sleep % delay * 3
 Return
@@ -533,9 +534,8 @@ Return
 	OpenWebsiteInChrome("web.wsu.edu")
 	OpenWebsiteInChrome("wsu-web.slack.com")
 	MoveToNextTabInChrome()
-	LaunchStdApplicationPatiently("C:\Program Files (x86)\Microsoft Office\root\Office16"
-		. "\outlook.exe", "Inbox ahk_exe OUTLOOK.EXE")
-	LaunchStdApplicationPatiently("C:\Program Files\iTunes\iTunes.exe", "iTunes")
+	LaunchStdApplicationPatiently("C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE", "Inbox ahk_exe OUTLOOK.EXE")
+	LaunchStdApplicationPatiently("shell:appsFolder\AppleInc.iTunes_nzyj5cx40ttqa!iTunes", "iTunes")
 
 	; Restore default arrangement of windows.
 	Sleep % delay * 10
