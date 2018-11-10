@@ -286,6 +286,7 @@ MoveActiveWindowToVirtualDesktop(targetDesktop) {
 	prevKeyDelay := A_KeyDelay
 	keyDelay := 120
 	pauseAmt := 200
+	moveMouseBack := False
 
 	; UI interaction variables
 	awThumbnailX := 95 ; Active Window Thumbnail: horizontal click position
@@ -310,17 +311,16 @@ MoveActiveWindowToVirtualDesktop(targetDesktop) {
 	if (vdCurrentDesktop == targetDesktop) {
 		return
 	} else {
-		GetActiveMonitorWorkArea(whichMon, monALeft, monATop, monARight, monABottom)
 		MouseGetPos currentMouseX, currentMouseY
+		GetActiveMonitorWorkArea(whichMon, monALeft, monATop, monARight, monABottom)
 		clickPosX := monALeft + awThumbnailX
 		clickPosY := monATop + awThumbnailY
 		Send #{Tab}
 		Sleep % pauseAmt * 3
 		Send {Click, %clickPosX%, %clickPosY%, right}
 		Sleep % pauseAmt
-		Send {Down 2}{Right}
-		Sleep % pauseAmt
-		Send {Click, %currentMouseX%, %currentMouseY%, 0}
+		SendInput {Down 2}{Right}
+		Sleep % pauseAmt * 1.5
 	}
 	
 	iDesktop := 1
@@ -332,6 +332,9 @@ MoveActiveWindowToVirtualDesktop(targetDesktop) {
 		iDesktop++
 	}
 	Send {Enter}#{Tab}
+	if (moveMouseBack) {
+		MouseMove %currentMouseX%, %currentMouseY%
+	}
 
 	SetKeyDelay %prevKeyDelay%
 }
