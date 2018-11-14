@@ -3099,7 +3099,7 @@ Return
 :*:@rebuildJsSumRes::
 	AppendAhkCmd(A_ThisLabel)
 	PasteTextIntoGitShell(A_ThisLabel
-		, "cd '" . GetGitHubFolder() . "\summerresearch.wsu.edu\JS'`r"
+		, "cd '" . GetGitHubFolder() . "\summerresearch.wsu.edu\'`r"
 		. "gulp buildMinJs`r"
 		. "[console]::beep(1500,300)`r")
 	CommitAfterBuild(A_ThisLabel, ":*:@commitJsSumRes")
@@ -3123,7 +3123,7 @@ Return
 :*:@rebuildJsUgr::
 	AppendAhkCmd(A_ThisLabel)
 	PasteTextIntoGitShell(A_ThisLabel
-		, "cd '" . GetGitHubFolder() . "\undergraduateresearch.wsu.edu\JS'`r"
+		, "cd '" . GetGitHubFolder() . "\undergraduateresearch.wsu.edu\'`r"
 		. "gulp buildMinJs`r"
 		. "[console]::beep(1500,300)`r")
 	CommitAfterBuild(A_ThisLabel, ":*:@commitJsUgr")
@@ -3136,7 +3136,7 @@ Return
 	ahkCmdName := ":*:@rebuildJsUcore"
 	AppendAhkCmd(ahkCmdName)
 	PasteTextIntoGitShell(ahkCmdName
-		, "cd '" . GetGitHubFolder() . "\ucore.wsu.edu\JS'`r"
+		, "cd '" . GetGitHubFolder() . "\ucore.wsu.edu\'`r"
 		. "gulp buildMinJs`r"
 		. "[console]::beep(1500,300)`r")
 	CommitAfterBuild(A_ThisLabel, ":*:@commitJsUcore")
