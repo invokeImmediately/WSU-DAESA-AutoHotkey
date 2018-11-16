@@ -38,7 +38,7 @@
 CommitJsBuild(ahkCmdName, fpGitFolder, fnJsSrcFile, fnJsbuild, fnMinJsBuild) {
 	; Global variable declarations
 	global commitJsVars := Object()
-	global commitJsLastLessCommit
+	global commitJsLastCustomJsCommit
 	global ctrlCommitJsAlsoCommitJsSrc
 	global ctrlCommitJsJsChangesOnly
 	global ctrlCommitJsLV
@@ -79,11 +79,11 @@ CommitJsBuild(ahkCmdName, fpGitFolder, fnJsSrcFile, fnJsbuild, fnMinJsBuild) {
 	lastJsMsg2nd := ""
 	msgLenJs2nd := 0
 	if (commitJsLastCustomJsCommit != undefined) {
-		lessMsgs := commitJsLastCustomJsCommit[commitJsVars.fnJsSrcFile]
-		if (lessMsgs != undefined) {
-			lastJsMsg1st := lessMsgs.primary
+		jsMsgs := commitJsLastCustomJsCommit[commitJsVars.fnJsSrcFile]
+		if (jsMsgs != undefined) {
+			lastJsMsg1st := jsMsgs.primary
 			msgLenJs1st := StrLen(lastJsMsg1st)
-			lastJsMsg2nd := lessMsgs.secondary
+			lastJsMsg2nd := jsMsgs.secondary
 			msgLenJs2nd := StrLen(lastJsMsg2nd)
 		}
 	}
