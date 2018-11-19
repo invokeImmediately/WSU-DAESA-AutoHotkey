@@ -1,4 +1,4 @@
-; ==================================================================================================
+﻿; ==================================================================================================
 ; AutoHotkeyU64.ahk: Script for automating tasks peformed during WSU OUE web development.
 ; ! = ALT     + = SHIFT     ^ = CONTROL     # = WIN
 ; (see https://autohotkey.com/docs/commands/Send.htm for more info)

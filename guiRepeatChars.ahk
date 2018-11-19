@@ -1,4 +1,4 @@
-:*:@rptChars::
+﻿:*:@rptChars::
 	AppendAhkCmd(A_ThisLabel)
 	CreateRptCharsGui()
 Return

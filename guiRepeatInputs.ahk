@@ -1,4 +1,4 @@
-:*:@rptInputs::
+﻿:*:@rptInputs::
 	AppendAhkCmd(A_ThisLabel)
 	CreateRptInputsGui()
 Return

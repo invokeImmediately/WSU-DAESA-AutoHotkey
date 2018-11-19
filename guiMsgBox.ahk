@@ -1,4 +1,4 @@
-class GuiMsgBox
+﻿class GuiMsgBox
 {
 	msg := ""
 	title := ""

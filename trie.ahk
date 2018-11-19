@@ -1,4 +1,4 @@
-class Trie {
+﻿class Trie {
 	_children := Object()
 	_node := ""
 	_isEndOfWord := False
