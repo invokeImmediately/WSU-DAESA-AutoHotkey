@@ -830,7 +830,7 @@ return
 	}
 return
 
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
+; · · · · · · · · · · · · · · · · · · · · · · · · ·7 · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ; TODO: Add hotkeys for moving the window around on the desktop using the keyboard instead of 
 ; dragging with mouse. Can use numpad for additional hotkeys.
@@ -945,6 +945,19 @@ casLButton_MoveMouseToCurrentCoord() {
 	global savedMouseCoords
 
 	if (savedMouseCoords != undefined) {
+		; Automatically save the mouse's current position to the end of the remembered coordinate
+		; array so this initial position can be restored later.
+		if(savedMouseCoords.curCoordSaved) {
+			(savedMouseCoords.array).Pop()
+		}
+		CoordMode, Mouse, Screen
+		MouseGetPos, mouseX, mouseY
+		(savedMouseCoords.array).Push({x: mouseX, y: mouseY})
+		if(!(savedMouseCoords.curCoordSaved)) {
+			savedMouseCoords.curCoordSaved := true
+		}
+
+		; Move the cursor to the active mouse coordinate in the remembered coordinate array.
 		coords := savedMouseCoords.array[savedMouseCoords.idx]
 		mouseX := coords.x
 		mouseY := coords.y
