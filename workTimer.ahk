@@ -1,3 +1,4 @@
+﻿
 ; ==================================================================================================
 ; AUTOHOTKEY SCRIPT IMPORT for Creating a Work Timer
 ; ==================================================================================================
@@ -13,17 +14,17 @@
 ; ==================================================================================================
 ; TABLE OF CONTENTS:
 ; -----------------
-;   §1: WORK TIMER HOTSTRINGS...................................................................30
-;     >>> §1.1: @checkWorkTimer.................................................................34
-;     >>> §1.2: @setupWorkTimer.................................................................53
-;     >>> §1.3: @stopWorkTimer.................................................................210
-;   §2: WORK TIMER FUNCTIONS & LABELS..........................................................239
-;     >>> §2.1: ChimeMinuteBell................................................................243
-;     >>> §2.2: CloseGuiWorkTimer..............................................................262
-;     >>> §2.3: HandleGuiWorkTimerHide.........................................................270
-;     >>> §2.4: PostWorkBreakMessage...........................................................277
-;     >>> §2.5: ShowWorkTimerGui...............................................................330
-;     >>> §2.6: UpdateWorkTimerGui.............................................................357
+;   §1: WORK TIMER HOTSTRINGS...................................................................31
+;     >>> §1.1: @checkWorkTimer.................................................................35
+;     >>> §1.2: @setupWorkTimer.................................................................54
+;     >>> §1.3: @stopWorkTimer.................................................................212
+;   §2: WORK TIMER FUNCTIONS & LABELS..........................................................241
+;     >>> §2.1: ChimeMinuteBell................................................................245
+;     >>> §2.2: CloseGuiWorkTimer..............................................................264
+;     >>> §2.3: HandleGuiWorkTimerHide.........................................................276
+;     >>> §2.4: PostWorkBreakMessage...........................................................283
+;     >>> §2.5: ShowWorkTimerGui...............................................................336
+;     >>> §2.6: UpdateWorkTimerGui.............................................................367
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -150,10 +151,10 @@ Return
 			SetTimer, ChimeMinuteBell, % (1000 * 60)
 			ShowWorkTimerGui("Current progress toward "
 				. Round(workTimerCountdownTime * -1 / 1000 / 60) . " minute work period:"
-				, workTimerCountdownTime * -1, "F:\Users\CamilleandDaniel\Documents\Daniel\^WSU-Web"
-				. "-Dev\^Personnel-File\pomodoro-timer.jpg", 0, (timerTimeWorked
-				- Floor(timerTimeWorked / (-1 * workTimerCountdownTime / 1000)) * (-1
-				* workTimerCountdownTime / 1000)) * 1000)
+				, workTimerCountdownTime * -1
+				, StrReplace((webDevFolder	. "\{^}Personnel-File\pomodoro-timer.jpg"), "{^}", "^")
+				, 0, (timerTimeWorked - Floor(timerTimeWorked / (-1 * workTimerCountdownTime
+					/ 1000)) * (-1 * workTimerCountdownTime / 1000)) * 1000)
 			SetTimer, UpdateWorkTimerGui, % (workTimerCountdownTime * -1 / 1000)
 		}
 		Else IfMsgBox No
@@ -175,9 +176,9 @@ Return
 				Sleep, 1000
 				SetTimer, ChimeMinuteBell, % (1000 * 60)
 				ShowWorkTimerGui("Current progress toward " . Round(workTimerCountdownTime * -1
-					/ 1000 / 60) . " minute work period:", workTimerCountdownTime * -1, "F:\Users\C"
-					. "amilleandDaniel\Documents\Daniel\^WSU-Web-Dev\^Personnel-File\pomodoro-timer"
-					. ".jpg")
+					/ 1000 / 60) . " minute work period:", workTimerCountdownTime * -1
+					, StrReplace((webDevFolder	. "\{^}Personnel-File\pomodoro-timer.jpg"), "{^}"
+						, "^"))
 				SetTimer, UpdateWorkTimerGui, % (workTimerCountdownTime * -1 / 1000)
 			}			
 		}
@@ -199,8 +200,8 @@ Return
 			Sleep, 1000
 			SetTimer, ChimeMinuteBell, % (1000 * 60)
 			ShowWorkTimerGui("Current progress toward " . Round(workTimerCountdownTime * -1 / 1000
-				/ 60) . " minute work period:", workTimerCountdownTime * -1, "F:\Users\CamilleandDa"
-				. "niel\Documents\Daniel\^WSU-Web-Dev\^Personnel-File\pomodoro-timer.jpg")
+				/ 60) . " minute work period:", workTimerCountdownTime * -1
+				, StrReplace((webDevFolder	. "\{^}Personnel-File\pomodoro-timer.jpg"), "{^}", "^"))
 			SetTimer, UpdateWorkTimerGui, % (workTimerCountdownTime * -1 / 1000)
 		}
 	}
@@ -345,13 +346,13 @@ ShowWorkTimerGui(introMsg, totalTime, iconPath, currentTime := 0, timeAlreadyWor
 	Gui, guiWorkTimer: Add, Picture
 		, x+118 w96 h-1, % iconPath
 	Gui, guiWorkTimer: Add, Text
-		, xm+6 Y+-47 w320 vGuiWorkTimerTimeElapsedText
+		, xm+6 y+-47 w320 vGuiWorkTimerTimeElapsedText
 		, % Round((currentTime + timeAlreadyWorked) / 1000 / 60, 2) . " mins."
 	Gui, guiWorkTimer: Add, Progress
-		, xm w416 h20 Y+5 Range0-1000 cRed BackgroundWhite vGuiWorkTimerProgressCtrl Border
+		, xm w416 h20 y+5 Range0-1000 cRed BackgroundWhite vGuiWorkTimerProgressCtrl Border
 		, % Round((currentTime + timeAlreadyWorked) / totalTime * 1000)
 	Gui, guiWorkTimer: Add, Button
-		, gHandleGuiWorkTimerHide Default w80 xm Y+16, % "&Hide"
+		, gHandleGuiWorkTimerHide Default w80 xm y+16, % "&Hide"
 	if (guiWorkTimer_X != undefined && guiWorkTimer_Y != undefined) {
 		Gui, guiWorkTimer: Show, X%guiWorkTimer_X% Y%guiWorkTimer_Y%
 	} else {
