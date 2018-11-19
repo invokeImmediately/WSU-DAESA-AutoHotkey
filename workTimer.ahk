@@ -16,15 +16,15 @@
 ; -----------------
 ;   §1: WORK TIMER HOTSTRINGS...................................................................31
 ;     >>> §1.1: @checkWorkTimer.................................................................35
-;     >>> §1.2: @setupWorkTimer.................................................................54
-;     >>> §1.3: @stopWorkTimer.................................................................212
-;   §2: WORK TIMER FUNCTIONS & LABELS..........................................................241
-;     >>> §2.1: ChimeMinuteBell................................................................245
-;     >>> §2.2: CloseGuiWorkTimer..............................................................264
-;     >>> §2.3: HandleGuiWorkTimerHide.........................................................276
-;     >>> §2.4: PostWorkBreakMessage...........................................................283
-;     >>> §2.5: ShowWorkTimerGui...............................................................336
-;     >>> §2.6: UpdateWorkTimerGui.............................................................367
+;     >>> §1.2: @setupWorkTimer.................................................................53
+;     >>> §1.3: @stopWorkTimer.................................................................210
+;   §2: WORK TIMER FUNCTIONS & LABELS..........................................................239
+;     >>> §2.1: ChimeMinuteBell................................................................243
+;     >>> §2.2: CloseGuiWorkTimer..............................................................262
+;     >>> §2.3: HandleGuiWorkTimerHide.........................................................274
+;     >>> §2.4: PostWorkBreakMessage...........................................................281
+;     >>> §2.5: ShowWorkTimerGui...............................................................334
+;     >>> §2.6: UpdateWorkTimerGui.............................................................365
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -41,8 +41,7 @@
 		EnvSub, timerTimeLeft, %latestTimerStartTime%, seconds
 		if (workTimeLeftOver != 0) {
 			timerTimeLeft := (-1 * workTimeLeftOver / 1000 - timerTimeLeft) / 60
-		}
-		else {
+		} else {
 			timerTimeLeft := (-1 * workTimerCountdownTime / 1000 - timerTimeLeft) / 60
 		}
 		MsgBox % 1, % "Check Work Timer", % "There are " . timerTimeLeft . " minutes left on the wo"
@@ -314,8 +313,8 @@ PostWorkBreakMessage:
 		Sleep, 1000
 		SetTimer, ChimeMinuteBell, % (1000 * 60)
 		ShowWorkTimerGui("Current progress toward " . Round(workTimerCountdownTime * -1 / 1000 / 60)
-			. " minute work period:", workTimerCountdownTime * -1, "F:\Users\CamilleandDaniel\Docum"
-			. "ents\Daniel\^WSU-Web-Dev\^Personnel-File\pomodoro-timer.jpg")
+			. " minute work period:", workTimerCountdownTime * -1
+			, StrReplace((webDevFolder	. "\{^}Personnel-File\pomodoro-timer.jpg"), "{^}", "^"))
 		SetTimer, UpdateWorkTimerGui, % (workTimerCountdownTime * -1 / 1000)
 	}
 	Else {
