@@ -238,14 +238,14 @@
 ;       →→→ §6.9.10: @copyMinJsSurca..........................................................3481
 ;       →→→ §6.9.11: @copyMinJsSumRes.........................................................3492
 ;       →→→ §6.9.12: @copyMinJsXfer...........................................................3503
-;       →→→ §6.9.13: @copyMinJsUgr............................................................3514
-;       →→→ §6.9.14: @copyMinJsUcore..........................................................3524
-;       →→→ §6.9.15: @copyBackupJsUcore.......................................................3535
-;       →→→ §6.9.16: @copyMinJsUcrAss.........................................................3546
-;     >>> §6.10: FOR CHECKING GIT STATUS ON ALL PROJECTS .....................................3557
-;   §7: KEYBOARD SHORTCUTS FOR POWERSHELL.....................................................3643
-;     >>> §7.1: SHORTCUTS.....................................................................3647
-;     >>> §7.2: SUPPORTING FUNCTIONS..........................................................3674
+;       →→→ §6.9.13: @copyMinJsUgr............................................................3513
+;       →→→ §6.9.14: @copyMinJsUcore..........................................................3523
+;       →→→ §6.9.15: @copyBackupJsUcore.......................................................3534
+;       →→→ §6.9.16: @copyMinJsUcrAss.........................................................3545
+;     >>> §6.10: FOR CHECKING GIT STATUS ON ALL PROJECTS .....................................3556
+;   §7: KEYBOARD SHORTCUTS FOR POWERSHELL.....................................................3642
+;     >>> §7.1: SHORTCUTS.....................................................................3646
+;     >>> §7.2: SUPPORTING FUNCTIONS..........................................................3673
 ; ==================================================================================================
 
 sgIsPostingMinCss := false
@@ -3503,10 +3503,9 @@ Return
 ;       →→→ §6.9.12: @copyMinJsXfer
 
 :*:@copyMinJsXfer::
-	ahkCmdName := ":*:@copyMinJsXfer"
-	AppendAhkCmd(ahkCmdName)
-	CopySrcFileToClipboard(ahkCmdName
-		, GetGitHubFolder() . "\transfercredit.wsu.edu\JS\wp-custom-js-source.min.js"
+	AppendAhkCmd(A_ThisLabel)
+	CopySrcFileToClipboard(A_ThisLabel
+		, GetGitHubFolder() . "\transfercredit.wsu.edu\JS\xfercredit-build.min.js"
 		, "", "Couldn't Copy Minified JS for WSU Transfer Credit Website")
 Return
 
