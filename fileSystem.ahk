@@ -19,7 +19,7 @@
 
 :*:@gotoCurrent::
 	AppendAhkCmd(A_ThisLabel)
-	SendInput %hhdWorkFolder%\{^}Derek-Haqodesh\TheMessage.cc\Messages\Message_The-Man-from-Heaven_2015-12-06{Enter}
+	InsertFilePath(A_ThisLabel, "C:\Documents\GitHub (Old)\")
 Return
 
 ; --------------------------------------------------------------------------------------------------
