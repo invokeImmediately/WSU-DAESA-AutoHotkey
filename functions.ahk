@@ -694,7 +694,7 @@ GetDelay(delayLength, multiplier := 0) {
 RestoreMatchMode(oldMatchMode) {
 	argValid := (oldMatchMode == 0) || (oldMatchMode == 1) || (oldMatchMode == 2)
 		|| (oldMatchMode == 3) || (oldMatchMode == RegEx)
-	if (argValid && oldMatchMode) {
+	if (argValid && oldMatchMode && A_TitleMatchMode != oldMatchMode) {
 		SetTitleMatchMode % oldMatchMode
 	} else if (!argValid) {
 		ErrorBox(A_ThisFunc, "I was passed an invalid argument, which contains the value: "
@@ -708,7 +708,7 @@ RestoreMatchMode(oldMatchMode) {
 RestoreMouseCoordMode(oldCoordMode) {
 	argValid := (oldCoordMode == 0) || (oldCoordMode == Screen) || (oldCoordMode == Relative)
 		|| (oldCoordMode == Window) || (oldCoordMode == Client)
-	if (argValid && oldCoordMode) {
+	if (argValid && oldCoordMode && A_CoordModeMouse != oldCoordMode) {
 		CoordMode Mouse, % oldCoordMode
 	} else if (!argValid) {
 		ErrorBox(A_ThisFunc, "I was passed an invalid argument, which contains the value: "
