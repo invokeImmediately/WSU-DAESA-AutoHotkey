@@ -285,7 +285,7 @@ Return
 	webBrowserProcess := "chrome.exe"
 	correctTitleNeedle := "\| Washington State University"
 	viewSourceTitle := "view-source ahk_exe " . webBrowserProcess
-	workingFilePath := "C:\Users\CamilleandDaniel\Documents\GitHub\backupOuePage-workfile.html"
+	workingFilePath := "C:\GitHub\WSU-OUE-AutoHotkey\Local\backupOuePage-workfile.html"
 	targetContentNeedle := "{^}(?:\t| )*<section.*class="".*row.*$\n({^}.*$\n)*{^}(?:\t| )*</sectio"
 		. "n>$(?=\n{^}(?:\t| )*</div><{!}-- {#}post -->)|{^}(?:\t| )*<title>.*$\n|{^}(?:\t| )*<body"
 		. ".*$\n|{^}(?:\t| )*</body.*$\n"
@@ -379,7 +379,7 @@ BackupOueHtml_FixBadMarkup(keyDelay) {
 
 BackupOueHtml_BeautifyHtml(keyDelay) {
 	; Trigger the HTMLPrettify package in Sublime Text to clean up markup and prepare it for RegEx
-	Send ^+h
+	Send ^!+f
 	Sleep % keyDelay * 5
 }
 
@@ -448,7 +448,7 @@ BackupOueHtml_ConvertIndentationToTabs(keyDelay) {
 	webBrowserProcess := "chrome.exe"
 	correctTitleNeedle := "\| Washington State University"
 	viewSourceTitle := "view-source ahk_exe " . webBrowserProcess
-	workingFilePath := "C:\Users\CamilleandDaniel\Documents\GitHub\backupOuePage-workfile.html"
+	workingFilePath := "C:\GitHub\WSU-OUE-AutoHotkey\Local\backupOuePost-workfile.html"
 	targetContentNeedle := "{^}\t*<div.*class="".*one.*$\n({^}.*$\n)*{^}\t*</div><{!}--/column-->$|"
 		. "{^}\t*<title>.*$\n|{^}\t*<body.*$\n|{^}\t*</body.*$\n"
 	cleaningNeedle := "<{!}--.*\.?(?:author-avatar|author-link|author-description|author-info|entry"
