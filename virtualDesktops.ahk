@@ -16,8 +16,8 @@
 ;       →→→ §2.5.1: @getSessionId.............................................................204
 ;     >>> §2.6: MapDesktopsFromRegistry.......................................................215
 ;     >>> §2.7: MoveActiveWindowToVirtualDesktop..............................................277
-;     >>> §2.8: PrimeVirtualDesktops..........................................................340
-;     >>> §2.9: SwitchDesktopByNumber.........................................................359
+;     >>> §2.8: PrimeVirtualDesktops..........................................................348
+;     >>> §2.9: SwitchDesktopByNumber.........................................................367
 ; --------------------------------------------------------------------------------------------------
 
 ; --------------------------------------------------------------------------------------------------
@@ -286,7 +286,7 @@ MoveActiveWindowToVirtualDesktop(targetDesktop) {
 	prevKeyDelay := A_KeyDelay
 	keyDelay := 120
 	pauseAmt := 200
-	moveMouseBack := False
+	oldCoordMode := undefined
 
 	; UI interaction variables
 	awThumbnailX := 95 ; Active Window Thumbnail: horizontal click position
@@ -311,6 +311,7 @@ MoveActiveWindowToVirtualDesktop(targetDesktop) {
 	if (vdCurrentDesktop == targetDesktop) {
 		return
 	} else {
+		oldCoordMode := ChangeMouseCoordMode(Screen)
 		MouseGetPos currentMouseX, currentMouseY
 		GetActiveMonitorWorkArea(whichMon, monALeft, monATop, monARight, monABottom)
 		clickPosX := monALeft + awThumbnailX
@@ -332,10 +333,9 @@ MoveActiveWindowToVirtualDesktop(targetDesktop) {
 		iDesktop++
 	}
 	Send {Enter}#{Tab}
-	if (moveMouseBack) {
-		MouseMove %currentMouseX%, %currentMouseY%
-	}
-
+	Sleep % pauseAmt
+	MouseMove %currentMouseX%, %currentMouseY%
+	RestoreMouseCoordMode(oldCoordMode)
 	SetKeyDelay %prevKeyDelay%
 }
 
