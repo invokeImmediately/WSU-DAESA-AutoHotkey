@@ -608,9 +608,13 @@ Return
 ;       →→→ §5.1.1: ChangeMatchMode
 
 ChangeMatchMode(newMatchMode) {
+	global mmFast
+	global mmRegEx
+	global mmSlow
+
 	oldMatchMode := 0
 	argValid := (newMatchMode == 1) || (newMatchMode == 2) || (newMatchMode == 3)
-		|| (newMatchMode == RegEx)
+		|| (newMatchMode == mmFast) || (newMatchMode == mmRegEx) || (newMatchMode == mmSlow)
 	if (argValid && A_TitleMatchMode != newMatchMode) {
 		oldMatchMode := A_TitleMatchMode
 		SetTitleMatchMode % newMatchMode
@@ -625,9 +629,10 @@ ChangeMatchMode(newMatchMode) {
 ;       →→→ §5.1.2: ChangeMouseCoordMode
 
 ChangeMouseCoordMode(newCoordMode) {
+	global cmClient
 	oldCoordMode := 0
 	argValid := (newCoordMode == Screen) || (newCoordMode == Relative) || (newCoordMode == Window)
-		|| (newCoordMode == Client)
+		|| (newCoordMode == cmClient)
 	if (argValid && A_CoordModeMouse != newCoordMode) {
 		oldCoordMode := A_CoordModeMouse
 		CoordMode Mouse, % newCoordMode
@@ -692,8 +697,13 @@ GetDelay(delayLength, multiplier := 0) {
 ;       →→→ §5.1.4: RestoreMatchMode
 
 RestoreMatchMode(oldMatchMode) {
+	global mmFast
+	global mmRegEx
+	global mmSlow
+
 	argValid := (oldMatchMode == 0) || (oldMatchMode == 1) || (oldMatchMode == 2)
-		|| (oldMatchMode == 3) || (oldMatchMode == RegEx)
+		|| (oldMatchMode == 3) || (newMatchMode == mmFast) || (newMatchMode == mmRegEx)
+		|| (newMatchMode == mmSlow)
 	if (argValid && oldMatchMode && A_TitleMatchMode != oldMatchMode) {
 		SetTitleMatchMode % oldMatchMode
 	} else if (!argValid) {
@@ -706,8 +716,9 @@ RestoreMatchMode(oldMatchMode) {
 ;       →→→ §5.1.5: RestoreMouseCoordMode
 
 RestoreMouseCoordMode(oldCoordMode) {
-	argValid := (oldCoordMode == 0) || (oldCoordMode == Screen) || (oldCoordMode == Relative)
-		|| (oldCoordMode == Window) || (oldCoordMode == Client)
+	global cmClient
+	argValid := (oldCoordMode == 0) || (oldCoordMode == Screen) || (oldCoordMode == cmClient)
+		|| (oldCoordMode == Relative) || (oldCoordMode == Window)
 	if (argValid && oldCoordMode && A_CoordModeMouse != oldCoordMode) {
 		CoordMode Mouse, % oldCoordMode
 	} else if (!argValid) {
