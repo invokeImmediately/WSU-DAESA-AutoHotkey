@@ -679,7 +679,7 @@ RestoreMatchMode(oldMatchMode) {
 		SetTitleMatchMode, % oldMatchMode
 	} else if (!argValid) {
 		ErrorBox(A_ThisFunc, "I was passed an invalid argument, which contains the value: "
-			. newMatchMode)
+			. oldMatchMode)
 	}
 }
 
