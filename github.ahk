@@ -3063,8 +3063,8 @@ Return
 
 :*:@commitJsXfer::
 	AppendAhkCmd(A_ThisLabel)
-	CommitJsBuild(A_ThisLabel, "transfercredit.wsu.edu", "transfer-central-custom.js"
-		, "transfer-central-custom-build.js", "transfer-central-custom-build.min.js")
+	CommitJsBuild(A_ThisLabel, "transfercredit.wsu.edu", "xfercredit-custom.js"
+		, "xfercredit-build.js", "xfercredit-build.min.js")
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
