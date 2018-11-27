@@ -30,18 +30,52 @@ Return
 ; STARTUP FUNCTIONS CALLED BY MAIN SUBROUTINE
 ; --------------------------------------------------------------------------------------------------
 
+SetAhkConstants() {
+	SetCoordModeConstants()
+	SetMatchModeConstants()
+}
+
+SetCoordModeConstants() {
+	global cmClient
+	global cmRelative
+	global cmWindow
+
+	oldCoordMode := A_CoordModeMouse
+	CoordMode Mouse, Client
+	cmClient := A_CoordModeMouse
+	CoordMode Mouse, Relative
+	cmRelative := A_CoordModeMouse
+	CoordMode Mouse, Window
+	cmWindow := A_CoordModeMouse
+	if (oldCoordMode != A_CoordModeMouse) {
+		CoordMode Mouse, % oldCoordMode
+	}
+}
+
 SetGlobalVariables() {
+	SetAhkConstants()
 	SetWinBorders()
 	SetNumMonitors()
 	SetMonitorBounds()
 	SetMonitorWorkAreas()
-	;ReportMonitorDimensions() ; Diagnostic function
+	; ReportMonitorDimensions() ; Diagnostic function
 }
 
-SetWinBorders() {
-	global
-	SysGet, sysWinBorderW, %SM_CXSIZEFRAME%
-	SysGet, sysWinBorderH, %SM_CYSIZEFRAME%
+SetMatchModeConstants() {
+	global mmFast
+	global mmRegEx
+	global mmSlow
+
+	oldMatchMode := A_TitleMatchMode
+	SetTitleMatchMode Fast
+	mmFast := A_TitleMatchMode
+	SetTitleMatchMode RegEx
+	mmRegEx := A_TitleMatchMode
+	SetTitleMatchMode Slow
+	mmSlow := A_TitleMatchMode
+	if (oldMatchMode != A_TitleMatchMode) {
+		SetTitleMatchMode % oldMatchMode
+	}
 }
 
 SetNumMonitors() {
@@ -90,6 +124,12 @@ SetMonitorWorkAreas() {
 			}
 		}
 	}
+}
+
+SetWinBorders() {
+	global
+	SysGet, sysWinBorderW, %SM_CXSIZEFRAME%
+	SysGet, sysWinBorderH, %SM_CYSIZEFRAME%
 }
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
