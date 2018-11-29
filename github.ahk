@@ -1518,13 +1518,13 @@ Return
 
 :*:@backupCssOue::
 	AppendAhkCmd(A_ThisLabel)
-	copiedCss := CopyCssFromWebsite("https://oue.wsu.edu/wp-admin/themes.php?page=editcss")
+	copiedCss := CopyCssFromWebsite("https://stage.web.wsu.edu/oue/wp-admin/themes.php?page=editcss")
 	if (VerifyCopiedCode(A_ThisLabel, copiedCss)) {
-		WriteCodeToFile(A_ThisLabel, copiedCss, GetGitHubFolder() . "\oue.wsu.edu\CSS\oue-custom.pr"
-			. "ev.css")
+		WriteCodeToFile(A_ThisLabel, copiedCss, GetGitHubFolder() . "\oue.wsu.edu\CSS\oue-custom.mi"
+			. "n.prev.css")
 		PasteTextIntoGitShell(A_ThisLabel
 			, "cd '" . GetGitHubFolder() . "\oue.wsu.edu\'`r"
-			. "git add CSS\oue-custom.prev.css`r"
+			. "git add CSS\oue-custom.min.prev.css`r"
 			. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
 			. "git push`r")
 	}
