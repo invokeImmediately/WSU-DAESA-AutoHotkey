@@ -16,8 +16,8 @@
 ;       →→→ §2.5.1: @getSessionId.............................................................204
 ;     >>> §2.6: MapDesktopsFromRegistry.......................................................215
 ;     >>> §2.7: MoveActiveWindowToVirtualDesktop..............................................277
-;     >>> §2.8: PrimeVirtualDesktops..........................................................348
-;     >>> §2.9: SwitchDesktopByNumber.........................................................367
+;     >>> §2.8: PrimeVirtualDesktops..........................................................345
+;     >>> §2.9: SwitchDesktopByNumber.........................................................364
 ; --------------------------------------------------------------------------------------------------
 
 ; --------------------------------------------------------------------------------------------------
@@ -322,13 +322,15 @@ MoveActiveWindowToVirtualDesktop(targetDesktop) {
 		Sleep % pauseAmt
 		SendInput {Down 2}{Right}
 		Sleep % pauseAmt * 1.5
+		SendInput {Left}{Right}
+		Sleep % pauseAmt
 	}
 	
 	iDesktop := 1
 	while(iDesktop < targetDesktop) {
 		if (iDesktop != vdCurrentDesktop) {
 			SendInput {Down}
-			Sleep % pauseAmt * .85
+			Sleep % pauseAmt
 		}
 		iDesktop++
 	}
