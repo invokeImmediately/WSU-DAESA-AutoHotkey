@@ -1,27 +1,33 @@
 ﻿; ==================================================================================================
 ; frontEndCoding.ahk
+;
 ; Autohotkey script import for supporting Front-end Web Development.
+;
 ; Written and maintained by Daniel Rieck, Ph.D. (daniel.rieck@wsu.edu)
 ; ==================================================================================================
 ; TABLE OF CONTENTS
 ; -----------------
-;   §1: FUNCTIONS utilized in automating HTML-related processes.................................28
-;     >>> §1.1: BuildHyperlinkArray.............................................................32
-;     >>> §1.2: CopyWebpageSourceToClipboard....................................................70
-;     >>> §1.3: CountNewlinesInString..........................................................137
-;     >>> §1.4: ExportHyperlinkArray...........................................................150
-;     >>> §1.5: PullHrefsIntoHyperlinkArray....................................................175
-;   §2: HOTSTRINGS.............................................................................188
-;     >>> §2.1: Text Replacement...............................................................192
-;     >>> §2.2: RegEx..........................................................................268
-;     >>> §2.3: Backup HTML of OUE pages.......................................................275
-;       →→→ §2.3.1: @backupOuePage.............................................................278
-;       →→→ §2.3.2: BackupOueHtml & sub-functions..............................................302
-;       →→→ §2.3.3: @backupOuePost.............................................................441
-;     >>> §2.4: Hyperlink collection hotstring.................................................466
-;     >>> §2.5: Checking for WordPress Updates.................................................535
-;   §3: GUI-related hotstrings & functions for automating HTML-related tasks...................540
-;     >>> §3.1: Insert Builder Sections GUI....................................................544
+;   §1: FUNCTIONS utilized in automating HTML-related processes.................................34
+;     >>> §1.1: BuildHyperlinkArray.............................................................38
+;     >>> §1.2: CopyWebpageSourceToClipboard....................................................76
+;     >>> §1.3: CountNewlinesInString..........................................................143
+;     >>> §1.4: ExportHyperlinkArray...........................................................156
+;     >>> §1.5: PullHrefsIntoHyperlinkArray....................................................181
+;   §2: HOTSTRINGS.............................................................................194
+;     >>> §2.1: Text Replacement...............................................................198
+;       →→→ §2.1.1: CSS shorthand insertion strings............................................201
+;       →→→ §2.1.2: URL shortcuts for the NSE website..........................................209
+;       →→→ §2.1.3: URL shortcuts for the Sumnmer Research website.............................244
+;       →→→ §2.1.4: String insertion related to Front-end web development......................279
+;     >>> §2.2: RegEx..........................................................................291
+;     >>> §2.3: Backup HTML of OUE pages.......................................................298
+;       →→→ §2.3.1: @backupOuePage.............................................................301
+;       →→→ §2.3.2: BackupOueHtml & sub-functions..............................................325
+;       →→→ §2.3.3: @backupOuePost.............................................................464
+;     >>> §2.4: Hyperlink collection hotstring.................................................489
+;     >>> §2.5: Checking for WordPress Updates.................................................558
+;   §3: GUI-related hotstrings & functions for automating HTML-related tasks...................563
+;     >>> §3.1: Insert Builder Sections GUI....................................................567
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -191,12 +197,16 @@ PullHrefsIntoHyperlinkArray(ByRef hyperlinkArray) {
 ;   ································································································
 ;     >>> §2.1: Text Replacement
 
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §2.1.1: CSS shorthand insertion strings
+
 :*:@cssShorthandBg::
 	SendInput % "bg-color bg-image position/bg-size bg-repeat bg-origin bg-clip bg-attachment init"
 		. "ial|inherit;"
 Return
 
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §2.1.2: URL shortcuts for the NSE website
 
 :*:@gotoUrlNseAdmin::
 	SendInput https://nse.wsu.edu/wp-admin/
@@ -230,7 +240,8 @@ Return
 	SendInput https://nse.wsu.edu/wp-admin/edit.php?post_type=redirect_rule
 Return
 
-; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §2.1.3: URL shortcuts for the Sumnmer Research website
 
 :*:@gotoUrlSumResAdmin::
 	SendInput https://summerresearch.wsu.edu/wp-admin/
@@ -262,6 +273,18 @@ Return
 
 :*:@gotoUrlSumResRedirects::
 	SendInput https://summerresearch.wsu.edu/wp-admin/edit.php?post_type=redirect_rule
+Return
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §2.1.4: String insertion related to Front-end web development
+
+:*:@insWorkNotesBlock::
+	AppendAhkCmd(A_ThisLabel)
+	Gosub :*:@ddd
+	SendInput % "--"
+	Gosub :*:@ttc
+	SendInput % "__???─────┐{Enter}│ Lorem ipsum dolor sit amet. │{Enter}└───┬─────────────────────"
+		. "────┘{Enter}{Tab}└…{Up 3}{Right 16}+{Right 3}"
 Return
 
 ;   ································································································
