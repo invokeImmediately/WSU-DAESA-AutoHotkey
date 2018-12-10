@@ -68,9 +68,9 @@
 ;       →→→ §8.4.1: @st3......................................................................1380
 ;     >>> §8.5: iTunes........................................................................1387
 ;       →→→ §8.5.1: @restartItunes............................................................1390
-;   §9: Diagnostic hotstrings.................................................................1414
-;     >>> §9.1: @getActiveMonitorWorkArea.....................................................1418
-;     >>> §9.2: @getActiveMonitorWorkArea.....................................................1428
+;   §9: Diagnostic hotstrings.................................................................1423
+;     >>> §9.1: @getActiveMonitorWorkArea.....................................................1427
+;     >>> §9.2: @getActiveMonitorWorkArea.....................................................1437
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -1394,6 +1394,10 @@ Return
 	winTitle := "iTunes ahk_exe iTunes.exe"
 	iTunesHwnd := WinExist(winTitle)
 	if (iTunesHwnd) {
+		aHwnd := WinExist("A")
+		if (aHwnd == iTunesHwnd) {
+			aHwnd := 0
+		}
 		WinActivate % winTitle
 		WinWaitActive %winTitle%, , 7
 		proceed := !ErrorLevel
@@ -1406,6 +1410,11 @@ Return
 			Sleep % delay
 			LaunchStdApplicationPatiently("shell:appsFolder\AppleInc.iTunes_nzyj5cx40ttqa!iTunes"
 				, "iTunes")
+			WinWaitActive %winTitle%, , 10
+			proceed := !ErrorLevel
+		}
+		if (proceed && aHwnd) {
+			WinActivate % "ahk_id " . aHwnd
 		}
 	}
 Return
