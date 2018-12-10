@@ -272,8 +272,8 @@ Return
 	Gosub :*:@ddd
 	SendInput % "--"
 	Gosub :*:@ttc
-	SendInput % "__???─────┐{Enter}│ Lorem ipsum dolor sit amet. │{Enter}└───┬─────────────────────"
-		. "────┘{Enter}{Tab}└…{Up 3}{Right 16}+{Right 3}"
+	SendInput % "──────────┐{Enter}│ Lorem ipsum dolor sit amet. │{Enter}└───┬─────────────────────"
+		. "────┘{Enter}{Tab}└→ …{Up 2}{Left 6}+{Right 27}"
 Return
 
 ;   ································································································
