@@ -1,6 +1,6 @@
 ﻿; ==================================================================================================
-; htmlEditing.ahk
-; AUTOHOTKEY SCRIPT IMPORT for Working with Github Desktop for Windows
+; frontEndCoding.ahk
+; Autohotkey script import for supporting Front-end Web Development.
 ; Written and maintained by Daniel Rieck, Ph.D. (daniel.rieck@wsu.edu)
 ; ==================================================================================================
 ; TABLE OF CONTENTS
