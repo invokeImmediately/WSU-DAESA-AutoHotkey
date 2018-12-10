@@ -7,27 +7,26 @@
 ; ==================================================================================================
 ; TABLE OF CONTENTS
 ; -----------------
-;   §1: FUNCTIONS utilized in automating HTML-related processes.................................34
-;     >>> §1.1: BuildHyperlinkArray.............................................................38
-;     >>> §1.2: CopyWebpageSourceToClipboard....................................................76
-;     >>> §1.3: CountNewlinesInString..........................................................143
-;     >>> §1.4: ExportHyperlinkArray...........................................................156
-;     >>> §1.5: PullHrefsIntoHyperlinkArray....................................................181
-;   §2: HOTSTRINGS.............................................................................194
-;     >>> §2.1: Text Replacement...............................................................198
-;       →→→ §2.1.1: CSS shorthand insertion strings............................................201
-;       →→→ §2.1.2: URL shortcuts for the NSE website..........................................209
-;       →→→ §2.1.3: URL shortcuts for the Sumnmer Research website.............................244
-;       →→→ §2.1.4: String insertion related to Front-end web development......................279
-;     >>> §2.2: RegEx..........................................................................291
-;     >>> §2.3: Backup HTML of OUE pages.......................................................298
-;       →→→ §2.3.1: @backupOuePage.............................................................301
-;       →→→ §2.3.2: BackupOueHtml & sub-functions..............................................325
-;       →→→ §2.3.3: @backupOuePost.............................................................464
-;     >>> §2.4: Hyperlink collection hotstring.................................................489
-;     >>> §2.5: Checking for WordPress Updates.................................................558
-;   §3: GUI-related hotstrings & functions for automating HTML-related tasks...................563
-;     >>> §3.1: Insert Builder Sections GUI....................................................567
+;   §1: FUNCTIONS utilized in automating HTML-related processes.................................33
+;     >>> §1.1: BuildHyperlinkArray.............................................................37
+;     >>> §1.2: CopyWebpageSourceToClipboard....................................................75
+;     >>> §1.3: CountNewlinesInString..........................................................142
+;     >>> §1.4: ExportHyperlinkArray...........................................................155
+;     >>> §1.5: PullHrefsIntoHyperlinkArray....................................................180
+;   §2: HOTSTRINGS.............................................................................193
+;     >>> §2.1: Text Replacement...............................................................197
+;       →→→ §2.1.1: CSS shorthand insertion strings............................................200
+;       →→→ §2.1.2: URL shortcuts for WSUWP websites...........................................208
+;       →→→ §2.1.3: String insertion related to Front-end web development......................268
+;     >>> §2.2: RegEx..........................................................................280
+;     >>> §2.3: Backup HTML of OUE pages.......................................................287
+;       →→→ §2.3.1: @backupOuePage.............................................................290
+;       →→→ §2.3.2: BackupOueHtml & sub-functions..............................................314
+;       →→→ §2.3.3: @backupOuePost.............................................................453
+;     >>> §2.4: Hyperlink collection hotstring.................................................478
+;     >>> §2.5: Checking for WordPress Updates.................................................547
+;   §3: GUI-related hotstrings & functions for automating HTML-related tasks...................552
+;     >>> §3.1: Insert Builder Sections GUI....................................................556
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -201,82 +200,72 @@ PullHrefsIntoHyperlinkArray(ByRef hyperlinkArray) {
 ;       →→→ §2.1.1: CSS shorthand insertion strings
 
 :*:@cssShorthandBg::
-	SendInput % "bg-color bg-image position/bg-size bg-repeat bg-origin bg-clip bg-attachment init"
-		. "ial|inherit;"
+	SendInput % "bg-color bg-image position/bg-size bg-repeat bg-origin bg-clip bg-attachment initi"
+		. "al|inherit;"
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §2.1.2: URL shortcuts for the NSE website
+;       →→→ §2.1.2: URL shortcuts for WSUWP websites
 
-:*:@gotoUrlNseAdmin::
-	SendInput https://nse.wsu.edu/wp-admin/
+:*:@setWsuWpDomain::
+	; TODO: Write a GUI to set the value of global variable aWsuWpDomain.
 Return
 
-:*:@gotoUrlNseUpload::
-	SendInput https://nse.wsu.edu/wp-admin/upload.php
+InsertWsuWpUrl(slug) {
+	global aWsuWpDomain
+	if (aWsuWpDomain) {
+		SendInput % aWsuWpDomain . slug
+	} else {
+		Gosub :*:@setWsuWpDomain
+	}	
+}
+
+:*:@gotoUrlAdmin::
+	InsertWsuWpUrl("wp-admin/")
 Return
 
-:*:@gotoUrlNseCss::
-	SendInput https://nse.wsu.edu/wp-admin/themes.php?page=editcss
+:*:@gotoUrlCss::
+	InsertWsuWpUrl("wp-admin/themes.php?page=editcss")
 Return
 
-:*:@gotoUrlNseJs::
-	SendInput https://nse.wsu.edu/wp-admin/themes.php?page=custom-javascript
+:*:@gotoUrlDocs::
+	InsertWsuWpUrl("wp-admin/edit.php?post_type=document")
 Return
 
-:*:@gotoUrlNsePages::
-	SendInput https://nse.wsu.edu/wp-admin/edit.php?post_type=page
+:*:@gotoUrlDomain::
+	InsertWsuWpUrl("")
 Return
 
-:*:@gotoUrlNsePosts::
-	SendInput https://nse.wsu.edu/wp-admin/edit.php
+:*:@gotoUrlEvents::
+	InsertWsuWpUrl("wp-admin/edit.php?post_type=tribe_events")
 Return
 
-:*:@gotoUrlNseDocs::
-	SendInput https://nse.wsu.edu/wp-admin/edit.php?post_type=document
+:*:@gotoUrlJs::
+	InsertWsuWpUrl("wp-admin/themes.php?page=custom-javascript")
 Return
 
-:*:@gotoUrlNseRedirects::
-	SendInput https://nse.wsu.edu/wp-admin/edit.php?post_type=redirect_rule
+:*:@gotoUrlPages::
+	InsertWsuWpUrl("wp-admin/edit.php?post_type=page")
 Return
 
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §2.1.3: URL shortcuts for the Sumnmer Research website
-
-:*:@gotoUrlSumResAdmin::
-	SendInput https://summerresearch.wsu.edu/wp-admin/
+:*:@gotoUrlPosts::
+	InsertWsuWpUrl("wp-admin/edit.php")
 Return
 
-:*:@gotoUrlSumResUpload::
-	SendInput https://summerresearch.wsu.edu/wp-admin/upload.php
+:*:@gotoUrlRedirects::
+	InsertWsuWpUrl("wp-admin/edit.php?post_type=redirect_rule")
 Return
 
-:*:@gotoUrlSumResCss::
-	SendInput https://summerresearch.wsu.edu/wp-admin/themes.php?page=editcss
+:*:@gotoUrlTables::
+	InsertWsuWpUrl("wp-admin/upload.php")
 Return
 
-:*:@gotoUrlSumResJs::
-	SendInput https://summerresearch.wsu.edu/wp-admin/themes.php?page=custom-javascript
-Return
-
-:*:@gotoUrlSumResPages::
-	SendInput https://summerresearch.wsu.edu/wp-admin/edit.php?post_type=page
-Return
-
-:*:@gotoUrlSumResPosts::
-	SendInput https://summerresearch.wsu.edu/wp-admin/edit.php
-Return
-
-:*:@gotoUrlSumResDocs::
-	SendInput https://summerresearch.wsu.edu/wp-admin/edit.php?post_type=document
-Return
-
-:*:@gotoUrlSumResRedirects::
-	SendInput https://summerresearch.wsu.edu/wp-admin/edit.php?post_type=redirect_rule
+:*:@gotoUrlUpload::
+	InsertWsuWpUrl("wp-admin/admin.php?page=tablepress")
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §2.1.4: String insertion related to Front-end web development
+;       →→→ §2.1.3: String insertion related to Front-end web development
 
 :*:@insWorkNotesBlock::
 	AppendAhkCmd(A_ThisLabel)
