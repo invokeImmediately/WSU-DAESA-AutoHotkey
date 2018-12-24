@@ -8,7 +8,7 @@
 ; TABLE OF CONTENTS
 ; -----------------
 ;   §1: FUNCTIONS utilized in automating HTML-related processes.................................33
-;     >>> §1.1: BuildHyperlinkArray.............................................................37
+;     >>> §1.1:F BuildHyperlinkArray............................................................37
 ;     >>> §1.2: CopyWebpageSourceToClipboard....................................................75
 ;     >>> §1.3: CountNewlinesInString..........................................................142
 ;     >>> §1.4: ExportHyperlinkArray...........................................................155
@@ -22,11 +22,11 @@
 ;     >>> §2.3: Backup HTML of OUE pages.......................................................287
 ;       →→→ §2.3.1: @backupOuePage.............................................................290
 ;       →→→ §2.3.2: BackupOueHtml & sub-functions..............................................314
-;       →→→ §2.3.3: @backupOuePost.............................................................453
-;     >>> §2.4: Hyperlink collection hotstring.................................................478
-;     >>> §2.5: Checking for WordPress Updates.................................................547
-;   §3: GUI-related hotstrings & functions for automating HTML-related tasks...................552
-;     >>> §3.1: Insert Builder Sections GUI....................................................556
+;       →→→ §2.3.3: @backupOuePost.............................................................466
+;     >>> §2.4: Hyperlink collection hotstring.................................................491
+;     >>> §2.5: Checking for WordPress Updates.................................................560
+;   §3: GUI-related hotstrings & functions for automating HTML-related tasks...................565
+;     >>> §3.1: Insert Builder Sections GUI....................................................569
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -342,7 +342,8 @@ BackupOueHtml(sourceCode, workingFilePath, targetContentNeedle, cleaningNeedle, 
 		BackupOueHtml_BeautifyHtml(keyDelay)
 		BackupOueHtml_InsertEllipses()
 		BackupOueHtml_InsertEofBlankLine(keyDelay)
-		BackupOueHtml_RemoveBlankLine3(keyDelay)
+		; BackupOueHtml_RemoveBlankLine3(keyDelay) ; No longer needed?
+		BackupOueHtml_RemoveBlankLines(keyDelay)
 		BackupOueHtml_ConvertIndentationToTabs(keyDelay)
 	}
 	Else
@@ -437,6 +438,18 @@ BackupOueHtml_InsertEofBlankLine(keyDelay) {
 BackupOueHtml_RemoveBlankLine3(keyDelay) {
 	; Remove extra line that ends up on line 3.
 	Send ^g3{Enter}{Backspace}
+	Sleep % keyDelay
+}
+
+BackupOueHtml_RemoveBlankLines(keyDelay) {
+	; Remove extra blank lines that appear throughout the source code file.
+	Send ^h
+	Sleep % keyDelay * 2
+	SendInput % "(?<=\n)\t*\n"
+	Send {Tab}^a{Del}
+	Send ^!{Enter}
+	Sleep % keyDelay * 2
+	Send {Esc}{Right}
 	Sleep % keyDelay
 }
 
