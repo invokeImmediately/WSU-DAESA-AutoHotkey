@@ -304,8 +304,8 @@ UserFolderIsSet() {
 	varDeclared := userAccountFolderSSD != thisIsUndeclared
 	if (!varDeclared) {
 		MsgBox, % (0x0 + 0x10), % "ERROR: Upstream dependency missing in github.ahk"
-			, % "The global variable specifying the user's account folder has not been declared "
-			. "and set upstream."
+			, % "The global variable specifying the user's account folder has not been declared and"
+. " set upstream."
 	}
 	Return varDeclared
 }
@@ -349,16 +349,15 @@ CommitAfterBuild(ahkBuildCmd, ahkCommitCmd) {
 			Gosub, %ahkCommitCmd%
 	} else {
 		if (!qcAhkBuildCmd) {
-			errorMsg .= "Function was called with an invalid argument for the calling build "
-				. "command: " . ahkBuildCmd . "."
+			errorMsg .= "Function was called with an invalid argument for the calling build command"
+. ": " . ahkBuildCmd . "."
 			if (!qcAhkCommitCmd) {
 				errorMsg .= "The argument for the commit command to call next was also invalid: "
-					. ahkCommitCmd . "."
+. ahkCommitCmd . "."
 			}		
 		} else {
-			errorMsg .= "Function was called from the build command " . ahkBuildCmd
-				. ", but an invalid argument for the commit command was found: " . ahkCommitCmd
-				. "."
+			errorMsg .= "Function was called from the build command " . ahkBuildCmd. ", but an inva"
+. "lid argument for the commit command was found: " . ahkCommitCmd . "."
 		}
 	}
 	if (errorMsg != "") {
@@ -408,12 +407,12 @@ CopySrcFileToClipboard(ahkCmdName, srcFileToCopy, strToPrepend, errorMsg) {
 			clipboard := strToPrepend . contents
 		}
 		else {
-			MsgBox, % (0x0 + 0x10), % "ERROR (" . ahkCmdName . ")", % errorMsg
-				. "`rCAUSE = Failed to open file: " . srcFile
+			MsgBox, % (0x0 + 0x10), % "ERROR (" . ahkCmdName . ")", % errorMsg . "`rCAUSE = Failed "
+. "to open file: " . srcFile
 		}
 	} else {
-		MsgBox, % (0x0 + 0x10), % "ERROR (" . ahkCmdName . ")", % errorMsg
-			. "`rCAUSE = User folder is not set."
+		MsgBox, % (0x0 + 0x10), % "ERROR (" . ahkCmdName . ")", % errorMsg . "`rCAUSE = User folder"
+. " is not set."
 	}
 }
 
@@ -464,8 +463,7 @@ ToEscapedPath(path) {
 VerifyCopiedCode(callerStr, copiedCss) {
 	proceed := False
 	title := "VerifyCopiedCode(...)"
-	msg := "Here's what I copied:`n" . SubStr(copiedCss, 1, 320) . "..."
-		. "`n`nProceed with git commit?"
+	msg := "Here's what I copied:`n" . SubStr(copiedCss, 1, 320) . "...`n`nProceed with git commit?"
 	MsgBox, 33, % title, % msg
 	IfMsgBox, OK
 		proceed := True
@@ -624,8 +622,8 @@ HandlePostMinCssOK() {
 			, ":*:@copyMinCssCr", postMinCssAutoMode)
 	}
 	if (PostMinCssToDsp) {
-		PasteMinCssToWebsite("https://distinguishedscholarships.wsu.edu/wp-admin/"
-			. "themes.php?page=editcss", ":*:@copyMinCssDsp", postMinCssAutoMode)
+		PasteMinCssToWebsite("https://distinguishedscholarships.wsu.edu/wp-admin/themes.php?page=ed"
+. "itcss", ":*:@copyMinCssDsp", postMinCssAutoMode)
 	}
 	if (PostMinCssToFye) {
 		PasteMinCssToWebsite("https://firstyear.wsu.edu/wp-admin/themes.php?page=editcss"
@@ -656,8 +654,8 @@ HandlePostMinCssOK() {
 			, ":*:@copyMinCssXfer", postMinCssAutoMode)
 	}
 	if (PostMinCssToUgr) {
-		PasteMinCssToWebsite("https://undergraduateresearch.wsu.edu/wp-admin/"
-			. "themes.php?page=editcss", ":*:@copyMinCssUgr", postMinCssAutoMode)
+		PasteMinCssToWebsite("https://undergraduateresearch.wsu.edu/wp-admin/themes.php?page=editcs"
+. "s", ":*:@copyMinCssUgr", postMinCssAutoMode)
 	}
 	if (PostMinCssToUcore) {
 		PasteMinCssToWebsite("https://ucore.wsu.edu/wp-admin/themes.php?page=editcss"
@@ -790,8 +788,8 @@ HandlePostBackupCssOK() {
 			, ":*:@copyBackupCssCr")
 	}
 	if (PostBackupCssToDsp) {
-		PasteMinCssToWebsite("https://distinguishedscholarships.wsu.edu/wp-admin/"
-		. "themes.php?page=editcss", ":*:@copyBackupCssDsp")
+		PasteMinCssToWebsite("https://distinguishedscholarships.wsu.edu/wp-admin/themes.php?page=ed"
+. "itcss", ":*:@copyBackupCssDsp")
 	}
 	if (PostBackupCssToFye) {
 		PasteMinCssToWebsite("https://firstyear.wsu.edu/wp-admin/themes.php?page=editcss"
@@ -822,8 +820,8 @@ HandlePostBackupCssOK() {
 			, ":*:@copyBackupCssXfer")
 	}
 	if (PostBackupCssToUgr) {
-		PasteMinCssToWebsite("https://undergraduateresearch.wsu.edu/wp-admin/"
-			. "themes.php?page=editcss", ":*:@copyBackupCssUgr")
+		PasteMinCssToWebsite("https://undergraduateresearch.wsu.edu/wp-admin/themes.php?page=editcs"
+. "s", ":*:@copyBackupCssUgr")
 	}
 	if (PostBackupCssToUcore) {
 		PasteMinCssToWebsite("https://ucore.wsu.edu/wp-admin/themes.php?page=editcss"
@@ -951,52 +949,52 @@ HandlePostMinJsOK() {
 			, ":*:@copyMinJsAscc", postMinJsAutoMode)
 	}
 	if (PostMinJsToCr) {
-		PasteMinJsToWebsite("https://commonreading.wsu.edu/wp-admin/"
-			. "themes.php?page=custom-javascript", ":*:@copyMinJsCr", postMinJsAutoMode)
+		PasteMinJsToWebsite("https://commonreading.wsu.edu/wp-admin/themes.php?page=custom-javascri"
+. "pt", ":*:@copyMinJsCr", postMinJsAutoMode)
 	}
 	if (PostMinJsToDsp) {
-		PasteMinJsToWebsite("https://distinguishedscholarships.wsu.edu/wp-admin/"
-			. "themes.php?page=custom-javascript", ":*:@copyMinJsDsp", postMinJsAutoMode)
+		PasteMinJsToWebsite("https://distinguishedscholarships.wsu.edu/wp-admin/themes.php?page=cus"
+. "tom-javascript", ":*:@copyMinJsDsp", postMinJsAutoMode)
 	}
 	if (PostMinJsToFye) {
 		PasteMinJsToWebsite("https://firstyear.wsu.edu/wp-admin/themes.php?page=custom-javascript"
 			, ":*:@copyMinJsFye", postMinJsAutoMode)
 	}
 	if (PostMinJsToFyf) {
-		PasteMinJsToWebsite("https://learningcommunities.wsu.edu/wp-admin/"
-			. "themes.php?page=custom-javascript", ":*:@copyMinJsFyf", postMinJsAutoMode)
+		PasteMinJsToWebsite("https://learningcommunities.wsu.edu/wp-admin/themes.php?page=custom-ja"
+. "vascript", ":*:@copyMinJsFyf", postMinJsAutoMode)
 	}
 	if (PostMinJsToNse) {
 		PasteMinJsToWebsite("https://nse.wsu.edu/wp-admin/themes.php?page=custom-javascript"
 			, ":*:@copyMinJsNse", postMinJsAutoMode)
 	}
 	if (PostMinJsToPbk) {
-		PasteMinJsToWebsite("https://phibetakappa.wsu.edu/wp-admin/"
-			. "themes.php?page=custom-javascript", ":*:@copyMinJsPbk", postMinJsAutoMode)
+		PasteMinJsToWebsite("https://phibetakappa.wsu.edu/wp-admin/themes.php?page=custom-javascrip"
+. "t", ":*:@copyMinJsPbk", postMinJsAutoMode)
 	}
 	if (PostMinJsToSurca) {
 		PasteMinJsToWebsite("https://surca.wsu.edu/wp-admin/themes.php?page=custom-javascript"
 			, ":*:@copyMinJsSurca", postMinJsAutoMode)
 	}
 	if (PostMinJsToSumRes) {
-		PasteMinJsToWebsite("https://summerresearch.wsu.edu/wp-admin/"
-			. "themes.php?page=custom-javascript", ":*:@copyMinJsSumRes", postMinJsAutoMode)
+		PasteMinJsToWebsite("https://summerresearch.wsu.edu/wp-admin/themes.php?page=custom-javascr"
+. "ipt", ":*:@copyMinJsSumRes", postMinJsAutoMode)
 	}
 	if (PostMinJsToXfer) {
-		PasteMinJsToWebsite("https://transfercredit.wsu.edu/wp-admin/"
-			. "themes.php?page=custom-javascript", ":*:@copyMinJsXfer", postMinJsAutoMode)
+		PasteMinJsToWebsite("https://transfercredit.wsu.edu/wp-admin/themes.php?page=custom-javascr"
+. "ipt", ":*:@copyMinJsXfer", postMinJsAutoMode)
 	}
 	if (PostMinJsToUgr) {
-		PasteMinJsToWebsite("https://undergraduateresearch.wsu.edu/wp-admin/"
-			. "themes.php?page=custom-javascript", ":*:@copyMinJsUgr", postMinJsAutoMode)
+		PasteMinJsToWebsite("https://undergraduateresearch.wsu.edu/wp-admin/themes.php?page=custom-"
+. "javascript", ":*:@copyMinJsUgr", postMinJsAutoMode)
 	}
 	if (PostMinJsToUcore) {
 		PasteMinJsToWebsite("https://ucore.wsu.edu/wp-admin/themes.php?page=custom-javascript"
 			, ":*:@copyMinJsUcore", postMinJsAutoMode)
 	}
 	if (PostMinJsToUcrAss) {
-		PasteMinJsToWebsite("https://ucore.wsu.edu/assessment/wp-admin/"
-			. "themes.php?page=custom-javascript", ":*:@copyMinJsUcrAss", postMinJsAutoMode)
+		PasteMinJsToWebsite("https://ucore.wsu.edu/assessment/wp-admin/themes.php?page=custom-javas"
+. "cript", ":*:@copyMinJsUcrAss", postMinJsAutoMode)
 	}
 	sgIsPostingMinJs := false
 }
@@ -1025,31 +1023,26 @@ PasteMinJsToWebsite(websiteUrl, jsCopyCmd, manualProcession := false) {
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@getGitCommitLog::
-	thisAhkCmd := A_ThisLabel
-
-	AppendAhkCmd(thisAhkCmd)
-	PasteTextIntoGitShell(thisAhkCmd, "git log -p --since='last month' "
-		. "--pretty=format:'%h|%an|%ar|%s|%b' > git-log.txt`r")
+	AppendAhkCmd(A_ThisLabel)
+	PasteTextIntoGitShell(A_ThisLabel, "git log -p --since='last month' --pretty=format:'%h|%an|%ar|"
+. "%s|%b' > git-log.txt`r")
 Return
 
 :*:@getNoDiffGitCommitLog::
-	thisAhkCmd := A_ThisLabel
-
-	AppendAhkCmd(thisAhkCmd)
-	PasteTextIntoGitShell(thisAhkCmd, "git log --since='last month' "
-		. "--pretty=format:'%h|%an|%ar|%s|%b' > git-log.txt`r")
+	AppendAhkCmd(A_ThisLabel)
+	PasteTextIntoGitShell(A_ThisLabel, "git log --since='last month' --pretty=format:'%h|%an|%ar|%s|"
+. "%b' > git-log.txt`r")
 Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@findGitChangesRegEx::
-	thisAhkCmd := A_ThisLabel
 	targetProcesses := ["notepad++.exe", "sublime_text.exe"]
-	notActiveErrMsg := "Please ensure Notepad++ or Sublime Text are active before activating this "
-		. "hotstring."
+	notActiveErrMsg := "Please ensure Notepad++ or Sublime Text are active before activating this h"
+. "otstring."
 
-	AppendAhkCmd(thisAhkCmd)
-	activeProcessName := areTargetProcessesActive(targetProcesses, thisAhkCmd, notActiveErrMsg)
+	AppendAhkCmd(A_ThisLabel)
+	activeProcessName := areTargetProcessesActive(targetProcesses, A_ThisLabel, notActiveErrMsg)
 	if (activeProcessName == targetProcess[1]) {
 		FindGitChangesRegExNotepadPp()
 	} else {
@@ -1103,10 +1096,10 @@ FindGitChangesRegExSublimeText() {
 		clipboard = %commitText%
 	} else {
 		MsgBox, % (0x0 + 0x10), % "ERROR: Notepad++ Not Active"
-			, % "Please activate Notepad++ and ensure the correct file is selected before "
-			. "attempting to utilize this hotstring, which is designed to create a 'git add' "
-			. "command for pasting into PowerShell based on Notepad++'s Edit > Copy to Clipboard "
-			. "> Current Full File Path to Clipboard menu command."
+			, % "Please activate Notepad++ and ensure the correct file is selected before attemptin"
+. "g to utilize this hotstring, which is designed to create a 'git add' command for pasting into Po"
+. "werShell based on Notepad++'s Edit > Copy to Clipboard > Current Full File Path to Clipboard men"
+. "u command."
 	}
 Return
 
@@ -1120,8 +1113,9 @@ Return
 		SendInput git commit -m '' -m ''{Left 7}
 	}
 	else {
-		MsgBox, % (0x0 + 0x10), % "ERROR (" . ":*:@doGitCommit" . "): Could Not Locate Git "
-			. "PowerShell", % "The Git PowerShell process could not be located and activated."
+		MsgBox, % (0x0 + 0x10), % "ERROR (" . ":*:@doGitCommit" . "): Could Not Locate Git PowerShe"
+. "ll"
+		, % "The Git PowerShell process could not be located and activated."
 	}
 Return
 
@@ -1141,8 +1135,9 @@ Return
 		SendInput git commit -m ''{Left 1}
 	}
 	else {
-		MsgBox, % (0x0 + 0x10), % "ERROR (" . ":*:@doSnglGitCommit" . "): Could Not Locate Git "
-			. "PowerShell", % "The Git PowerShell process could not be located and activated."
+		MsgBox, % (0x0 + 0x10), % "ERROR (" . ":*:@doSnglGitCommit" . "): Could Not Locate Git Powe"
+. "rShell"
+		, % "The Git PowerShell process could not be located and activated."
 	}
 Return
 
@@ -1270,8 +1265,8 @@ Return
 	thisAhkCmd := A_ThisLabel
 	AppendAhkCmd(thisAhkCmd)
 	WinGetTitle, thisTitle, A
-	posFound := RegExMatch(thisTitle, "i)^CSS[^" . Chr(0x2014) . "]+" . Chr(0x2014)
-		. " WordPress - Google Chrome$")
+	posFound := RegExMatch(thisTitle, "i)^CSS[^" . Chr(0x2014) . "]+" . Chr(0x2014) . " WordPress -"
+. " Google Chrome$")
 	if(posFound) {
 		WinGet, hwndCssPasteWindow, ID, A
 		titleCssPasteWindowTab := thisTitle
@@ -1279,8 +1274,8 @@ Return
 	}
 	else {
 		MsgBox, % (0x0 + 0x10), % "ERROR (:*:@setCssPasteWindow): CSS Stylesheet Editor Not Active"
-			, % "Please select your CSS stylesheet editor tab in Chrome as the currently active "
-			. "window."
+			, % "Please select your CSS stylesheet editor tab in Chrome as the currently active win"
+. "dow."
 	}
 Return
 
@@ -1300,8 +1295,8 @@ Return
 		WinWaitActive, % "ahk_id " . hwndCssPasteWindow, , 1
 		if (ErrorLevel) {
 			MsgBox, % (0x0 + 0x10), % "ERROR (:*:@doCssPaste): Could Not Find Process"
-				, % "The HWND set for the chrome window containing the tab in which the CSS "
-				. "stylesheet editor was loaded can no longer be found."
+				, % "The HWND set for the chrome window containing the tab in which the CSS stylesh"
+. "eet editor was loaded can no longer be found."
 		}
 		else {
 			WinGetTitle, thisTitle, A
@@ -1340,8 +1335,8 @@ Return
 	}
 	else {
 		MsgBox, % (0x0 + 0x10), % "ERROR (:*:@doCssPaste): HWND Not Set Yet"
-			, % "You haven't yet used the @setCssPasteWindow hotstring to set the HWND for the "
-			. "Chrome window containing a tab with the CSS stylsheet editor."
+			, % "You haven't yet used the @setCssPasteWindow hotstring to set the HWND for the Chro"
+. "me window containing a tab with the CSS stylsheet editor."
 	}
 Return
 
@@ -1369,7 +1364,8 @@ Return
 
 ExecuteCssPasteCmds(manualProcession := false) {
 	; Add check for correct CSS in clipboard — the first line is a font import.
-	posFound := RegExMatch(clipboard, "^/\*! Built with the Less CSS preprocessor")
+	posFound := RegExMatch(clipboard
+		, "i)/\*! .*built with the Less CSS preprocessor.*github\.com/invokeImmediately")
 	if (posFound != 0) {
 		Click, 768, 570
 		Sleep, 100
@@ -1390,8 +1386,8 @@ ExecuteCssPasteCmds(manualProcession := false) {
 	} else {
 		MsgBox, % (0x0 + 0x10)
 			, % "ERROR (" . A_ThisFunc .  "): Clipboard Has Unexpected Contents"
-			, % "The clipboard does not begin with the expected '@import ...,' and thus may not "
-			. "contain minified CSS."
+			, % "The clipboard does not begin with the expected inline documentation and thus may n"
+. "ot contain minified CSS."
 	}			
 }
 
@@ -1404,7 +1400,7 @@ ExecuteCssPasteCmds(manualProcession := false) {
 ExecuteJsPasteCmds(manualProcession := false) {
 	; Add check for correct CSS in clipboard — the first line is a font import.
 	posFound := RegExMatch(clipboard, "^(?:// Built with Node.js)|(?:/\*!\*+`n \* jQuery.oue-custom"
-		. ".js)")
+. ".js)")
 	if (posFound != 0) {
 		Click, 461, 371
 		Sleep, 330
@@ -1417,8 +1413,7 @@ ExecuteJsPasteCmds(manualProcession := false) {
 		}
 		SendInput, ^v
 		if (manualProcession) {
-			MsgBox, 48, % A_ThisFunc, % "Press OK to proceed with update button "
-				. "selection."
+			MsgBox, 48, % A_ThisFunc, % "Press OK to proceed with update button selection."
 			Sleep 330
 		} else {
 			Sleep, 10000
@@ -1431,8 +1426,8 @@ ExecuteJsPasteCmds(manualProcession := false) {
 	else {
 		MsgBox, % (0x0 + 0x10)
 			, % "ERROR (" . A_ThisFunc . "): Clipboard Has Unexpected Contents"
-			, % "The clipboard does not begin with the expected '// Built with Node.js ...,' and "
-			. "thus may not contain minified JS."
+			, % "The clipboard does not begin with the expected '// Built with Node.js ...,' and th"
+. "us may not contain minified JS."
 	}			
 }
 
@@ -1451,8 +1446,8 @@ BackupCss(caller, website, repository, backupFile) {
 	copiedCss := CopyCssFromWebsite(website)
 	if (VerifyCopiedCode(caller, copiedCss)) {
 		WriteCodeToFile(caller, copiedCss, repository . backupFile)
-		PasteTextIntoGitShell(caller, "cd '" . repository . "'`rgit add " . backupFile
-			. "`rgit commit -m 'Updating backup of latest verified custom CSS build'`rgit push`r")
+		PasteTextIntoGitShell(caller, "cd '" . repository . "'`rgit add " . backupFile . "`rgit com"
+. "mit -m 'Updating backup of latest verified custom CSS build'`rgit push`r")
 	}
 }
 
@@ -1487,139 +1482,73 @@ Return
 ;       →→→ §6.1.5: @backupCssFye
 
 :*:@backupCssFye::
-	AppendAhkCmd(A_ThisLabel)
-	copiedCss := CopyCssFromWebsite("https://firstyear.wsu.edu/wp-admin/themes.php?page=editcss")
-	if (VerifyCopiedCode(A_ThisLabel, copiedCss)) {
-		WriteCodeToFile(A_ThisLabel, copiedCss, GetGitHubFolder()
-			. "\firstyear.wsu.edu\CSS\fye-custom.prev.css")
-		PasteTextIntoGitShell(A_ThisLabel
-			, "cd '" . GetGitHubFolder() . "\firstyear.wsu.edu\'`r"
-			. "git add CSS\fye-custom.prev.css`r"
-			. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
-			. "git push`r")
-	}
+	BackupCss(A_ThisLabel
+		, "https://firstyear.wsu.edu/wp-admin/themes.php?page=editcss"
+		, GetGitHubFolder() . "\firstyear.wsu.edu\", "CSS\fye-custom.prev.css")
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.1.6: @backupCssFyf
 
 :*:@backupCssFyf::
-	AppendAhkCmd(A_ThisLabel)
-	copiedCss := CopyCssFromWebsite("https://learningcommunities.wsu.edu/wp-admin/themes.php?page=e"
-		. "ditcss")
-	if (VerifyCopiedCode(A_ThisLabel, copiedCss)) {
-		WriteCodeToFile(A_ThisLabel, copiedCss, GetGitHubFolder()
-			. "\learningcommunities.wsu.edu\CSS\learningcommunities-custom.prev.css")
-		PasteTextIntoGitShell(A_ThisLabel
-			, "cd '" . GetGitHubFolder() . "\learningcommunities.wsu.edu\'`r"
-			. "git add CSS\learningcommunities-custom.prev.css`r"
-			. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
-			. "git push`r")
-	}
+	BackupCss(A_ThisLabel
+		, "https://learningcommunities.wsu.edu/wp-admin/themes.php?page=editcss"
+		, GetGitHubFolder() . "\learningcommunities.wsu.edu\", "CSS\learningcommunities-custom.prev"
+. ".css")
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.1.7: @backupCssNse
 
 :*:@backupCssNse::
-	AppendAhkCmd(A_ThisLabel)
-	copiedCss := CopyCssFromWebsite("https://nse.wsu.edu/wp-admin/themes.php?page=editcss")
-	if (VerifyCopiedCode(A_ThisLabel, copiedCss)) {
-		WriteCodeToFile(A_ThisLabel, copiedCss, GetGitHubFolder() . "\nse.wsu.edu\CSS\nse-custom.pr"
-			. "ev.css")
-		PasteTextIntoGitShell(A_ThisLabel
-			, "cd '" . GetGitHubFolder() . "\nse.wsu.edu\'`r"
-			. "git add CSS\nse-custom.prev.css`r"
-			. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
-			. "git push`r")
-	}
+	BackupCss(A_ThisLabel
+		, "https://nse.wsu.edu/wp-admin/themes.php?page=editcss"
+		, GetGitHubFolder() . "\nse.wsu.edu\", "CSS\nse-custom.prev.css")
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.1.8: @backupCssOue
 
 :*:@backupCssOue::
-	AppendAhkCmd(A_ThisLabel)
-	copiedCss := CopyCssFromWebsite("https://stage.web.wsu.edu/oue/wp-admin/themes.php?page=editcss")
-	if (VerifyCopiedCode(A_ThisLabel, copiedCss)) {
-		WriteCodeToFile(A_ThisLabel, copiedCss, GetGitHubFolder() . "\oue.wsu.edu\CSS\oue-custom.mi"
-			. "n.prev.css")
-		PasteTextIntoGitShell(A_ThisLabel
-			, "cd '" . GetGitHubFolder() . "\oue.wsu.edu\'`r"
-			. "git add CSS\oue-custom.min.prev.css`r"
-			. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
-			. "git push`r")
-	}
+	BackupCss(A_ThisLabel
+		, "https://stage.web.wsu.edu/oue/wp-admin/themes.php?page=editcss"
+		, GetGitHubFolder() . "\oue.wsu.edu\", "CSS\oue-custom.prev.css")
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.1.9: @backupCssPbk
 
 :*:@backupCssPbk::
-	AppendAhkCmd(A_ThisLabel)
-	copiedCss := CopyCssFromWebsite("https://phibetakappa.wsu.edu/wp-admin/themes.php?page=editcss")
-	if (VerifyCopiedCode(A_ThisLabel, copiedCss)) {
-		WriteCodeToFile(A_ThisLabel, copiedCss, GetGitHubFolder()
-			. "\phibetakappa.wsu.edu\CSS\pbk-custom.prev.css")
-		PasteTextIntoGitShell(A_ThisLabel
-			, "cd '" . GetGitHubFolder() . "\phibetakappa.wsu.edu\'`r"
-			. "git add CSS\pbk-custom.prev.css`r"
-			. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
-			. "git push`r")
-	}
+	BackupCss(A_ThisLabel
+		, "https://phibetakappa.wsu.edu/wp-admin/themes.php?page=editcss"
+		, GetGitHubFolder() . "\phibetakappa.wsu.edu\", "CSS\pbk-custom.prev.css")
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.1.10: @backupCssSurca
 
 :*:@backupCssSurca::
-	AppendAhkCmd(A_ThisLabel)
-	copiedCss := CopyCssFromWebsite("https://surca.wsu.edu/wp-admin/themes.php?page=editcss")
-	if (VerifyCopiedCode(A_ThisLabel, copiedCss)) {
-		WriteCodeToFile(A_ThisLabel, copiedCss, GetGitHubFolder()
-			. "\surca.wsu.edu\CSS\surca-custom.prev.css")
-		PasteTextIntoGitShell(A_ThisLabel
-			, "cd '" . GetGitHubFolder() . "\surca.wsu.edu\'`r"
-			. "git add CSS\surca-custom.prev.css`r"
-			. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
-			. "git push`r")
-	}
+	BackupCss(A_ThisLabel
+		, "https://surca.wsu.edu/wp-admin/themes.php?page=editcss"
+		, GetGitHubFolder() . "\surca.wsu.edu\", "CSS\surca-custom.prev.css")
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.1.11: @backupCssSumRes
 
 :*:@backupCssSumRes::
-	AppendAhkCmd(A_ThisLabel)
-	copiedCss := CopyCssFromWebsite("https://summerresearch.wsu.edu/wp-admin/themes.php?page=editcs"
-		. "s")
-	if (VerifyCopiedCode(A_ThisLabel, copiedCss)) {
-		WriteCodeToFile(A_ThisLabel, copiedCss, GetGitHubFolder()
-			. "\summerresearch.wsu.edu\CSS\summerresearch-custom.prev.css")
-		PasteTextIntoGitShell(A_ThisLabel
-			, "cd '" . GetGitHubFolder() . "\summerresearch.wsu.edu\'`r"
-			. "git add CSS\summerresearch-custom.prev.css`r"
-			. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
-			. "git push`r")
-	}
+	BackupCss(A_ThisLabel
+		, "https://summerresearch.wsu.edu/wp-admin/themes.php?page=editcss"
+		, GetGitHubFolder() . "\summerresearch.wsu.edu\", "CSS\summerresearch-custom.prev.css")
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.1.12: @backupCssXfer
 
 :*:@backupCssXfer::
-	AppendAhkCmd(A_ThisLabel)
-	copiedCss := CopyCssFromWebsite("https://transfercredit.wsu.edu/wp-admin/themes.php?page=editcs"
-		. "s")
-	if (VerifyCopiedCode(A_ThisLabel, copiedCss)) {
-		WriteCodeToFile(A_ThisLabel, copiedCss, GetGitHubFolder()
-			. "\transfercredit.wsu.edu\CSS\xfercredit-custom.prev.css")
-		PasteTextIntoGitShell(A_ThisLabel
-			, "cd '" . GetGitHubFolder() . "\transfercredit.wsu.edu\'`r"
-			. "git add CSS\xfercredit-custom.prev.css`r"
-			. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
-			. "git push`r")
-	}
+	BackupCss(A_ThisLabel
+		, "https://transfercredit.wsu.edu/wp-admin/themes.php?page=editcss"
+		, GetGitHubFolder() . "\transfercredit.wsu.edu\", "CSS\transfercredit-custom.prev.css")
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
@@ -1636,35 +1565,18 @@ Return
 ;       →→→ §6.1.14: @backupCssXfer
 
 :*:@backupCssUcore::
-	AppendAhkCmd(A_ThisLabel)
-	copiedCss := CopyCssFromWebsite("https://ucore.wsu.edu/wp-admin/themes.php?page=editcss")
-	if (VerifyCopiedCode(A_ThisLabel, copiedCss)) {
-		WriteCodeToFile(A_ThisLabel, copiedCss, GetGitHubFolder()
-			. "\ucore.wsu.edu\CSS\ucore-custom.prev.css")
-		PasteTextIntoGitShell(A_ThisLabel
-			, "cd '" . GetGitHubFolder() . "\ucore.wsu.edu\'`r"
-			. "git add CSS\ucore-custom.prev.css`r"
-			. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
-			. "git push`r")
-	}
+	BackupCss(A_ThisLabel
+		, "https://ucore.wsu.edu/wp-admin/themes.php?page=editcss"
+		, GetGitHubFolder() . "\ucore.wsu.edu\", "CSS\ucore-custom.prev.css")
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.1.15: @backupCssUcrAss
 
 :*:@backupCssUcrAss::
-	AppendAhkCmd(A_ThisLabel)
-	copiedCss := CopyCssFromWebsite("https://ucore.wsu.edu/assessment/wp-admin/themes.php?page=edit"
-		. "css")
-	if (VerifyCopiedCode(A_ThisLabel, copiedCss)) {
-		WriteCodeToFile(A_ThisLabel, copiedCss, GetGitHubFolder()
-			. "\ucore.wsu.edu-assessment\CSS\ucore-assessment-custom.prev.css")
-		PasteTextIntoGitShell(A_ThisLabel
-			, "cd '" . GetGitHubFolder() . "\ucore.wsu.edu-assessment\'`r"
-			. "git add CSS\ucore-assessment-custom.prev.css`r"
-			. "git commit -m 'Updating backup of latest verified custom CSS build'`r"
-			. "git push`r")
-	}
+	BackupCss(A_ThisLabel
+		, "https://ucore.wsu.edu/assessment/wp-admin/themes.php?page=editcss"
+		, GetGitHubFolder() . "\ucore.wsu.edu-assessment\", "CSS\ucore-assessment-custom.prev.css")
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
