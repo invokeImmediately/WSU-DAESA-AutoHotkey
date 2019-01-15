@@ -37,10 +37,10 @@ Return
 
 :*:@findStrJsTocSections1::
 	AppendAhkCmd(A_ThisLabel)
-	SendInput % "{^}(?<=/{{}92{}}\n)\t*// §.*$"
+	SendInput % "({^}(?<=/{{}7{}}\n)\t*// §.*$)"
 Return
 
 :*:@findStrJsTocSections2::
 	AppendAhkCmd(A_ThisLabel)
-	SendInput % "{^} *([0-9]{+}): \t*// §.*$"
+	SendInput % "{^} *([0-9]{+}): \t*(// §.*)$"
 Return
