@@ -1,39 +1,63 @@
 ﻿; ==================================================================================================
-; AutoHotkeyU64.ahk: Script for automating tasks peformed during WSU OUE web development.
+; AutoHotkeyU64.ahk
+; --------------------------------------------------------------------------------------------------
+; SUMMARY: Script for automating tasks peformed during front-end web development work for the WSU
+; Office of Undergraduate Education (OUE).
+;
+; AUTHOR: Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
+; 
+; REPOSITORY: https://github.com/invokeImmediately/WSU-AutoHotkey
+;
+; LICENSE: ISC - Copyright (c) 2019 Daniel C. Rieck.
+;
+;   Permission to use, copy, modify, and/or distribute this software for any purpose with or
+;   without fee is hereby granted, provided that the above copyright notice and this permission
+;   notice appear in all copies.
+;
+;   THE SOFTWARE IS PROVIDED "AS IS" AND DANIEL RIECK DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS
+;   SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+;   DANIEL RIECK BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY
+;   DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF
+;   CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+;   PERFORMANCE OF THIS SOFTWARE.
+; --------------------------------------------------------------------------------------------------
+; AutoHotkey Send Legend:
 ; ! = ALT     + = SHIFT     ^ = CONTROL     # = WIN
 ; (see https://autohotkey.com/docs/commands/Send.htm for more info)
 ; ==================================================================================================
+
+; ==================================================================================================
 ; TABLE OF CONTENTS:
 ; -----------------
-;   §1: Global variables........................................................................40
-;     >>> §1.1: System property globals.........................................................44
-;     >>> §1.2: Operatoin timing globals........................................................66
-;     >>> §1.3: Globals for locations of important folders & files..............................75
-;     >>> §1.4: Pomodoro work timer globals.....................................................85
-;     >>> §1.5: Desktop arrangement auditory cue globals........................................96
-;     >>> §1.6: Simulated memory of user actions...............................................108
-;     >>> §1.7: Keyboard overriding............................................................126
-;     >>> §1.8: Missing AutoHotkey constants...................................................137
-;   §2: Set up script & call main subroutine...................................................147
-;   §3: Common functions & classes.............................................................168
-;   §4: Command history........................................................................180
-;   §5: AutoHotkey script writing shortcuts....................................................186
-;     >>> §5.1: Hotstrings for inserting code-documentation headers............................190
-;     >>> §5.2: Hotstrings for inserting AHK-related RegEx find/replace strings................259
-;   §6: Workspace management...................................................................279
-;   §7: File system navigation.................................................................323
-;   §8: Program/file launching shortcuts.......................................................329
-;   §9: Github shortcuts.......................................................................351
-;   §10: Google chrome shortcuts...............................................................359
-;   §11: Front-end coding......................................................................418
-;   §12: Text replacement & input..............................................................424
-;     >>> §12.1: Text Replacement hotkeys......................................................428
-;     >>> §12.2: Text Replacement hotstrings...................................................433
-;     >>> §12.3: Text Input hotstrings.........................................................530
-;   §13: Other shortcuts.......................................................................537
-;   §14: Work timer............................................................................550
-;   §15: Custom hotstrings & hotkeys...........................................................556
-;   §16: Main subroutine.......................................................................628
+;   §1: Global variables........................................................................64
+;     >>> §1.1: System property globals.........................................................68
+;     >>> §1.2: Operatoin timing globals........................................................90
+;     >>> §1.3: Globals for locations of important folders & files..............................99
+;     >>> §1.4: Pomodoro work timer globals....................................................109
+;     >>> §1.5: Desktop arrangement auditory cue globals.......................................120
+;     >>> §1.6: Simulated memory of user actions...............................................132
+;     >>> §1.7: Keyboard overriding............................................................150
+;     >>> §1.8: Missing AutoHotkey constants...................................................161
+;   §2: Set up script & call main subroutine...................................................171
+;   §3: Common functions & classes.............................................................192
+;   §4: Command history........................................................................204
+;   §5: AutoHotkey script writing shortcuts....................................................210
+;     >>> §5.1: Hotstrings for inserting code-documentation headers............................214
+;     >>> §5.2: Hotstrings for inserting AHK-related RegEx find/replace strings................283
+;   §6: Workspace management...................................................................303
+;   §7: File system navigation.................................................................347
+;   §8: Program/file launching shortcuts.......................................................353
+;   §9: Github shortcuts.......................................................................375
+;   §10: Google chrome shortcuts...............................................................383
+;   §11: Front-end coding......................................................................442
+;   §12: Text replacement & input..............................................................448
+;     >>> §12.1: Text Replacement hotkeys......................................................452
+;     >>> §12.2: Text Replacement hotstrings...................................................457
+;     >>> §12.3: Text Input hotstrings.........................................................554
+;   §13: Other shortcuts.......................................................................561
+;   §14: Work timer............................................................................574
+;   §15: Custom hotstrings & hotkeys...........................................................580
+;   §16: Main subroutine.......................................................................652
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------

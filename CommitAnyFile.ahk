@@ -1,34 +1,55 @@
 ﻿; ==================================================================================================
-; GUI FOR COMMITTING CSS BUILDS & ASSOCIATED SITE-SPECIFIC CUSTOM LESS FILES
-; ==================================================================================================
+; CommitAnyFile.ahk
+; --------------------------------------------------------------------------------------------------
+; SUMMARY: Creates a GUI to support the committing any type of file to a git repository.
+;
+; AUTHOR: Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
+; 
+; REPOSITORY: https://github.com/invokeImmediately/WSU-AutoHotkey
+;
+; LICENSE: ISC - Copyright (c) 2019 Daniel C. Rieck.
+;
+;   Permission to use, copy, modify, and/or distribute this software for any purpose with or
+;   without fee is hereby granted, provided that the above copyright notice and this permission
+;   notice appear in all copies.
+;
+;   THE SOFTWARE IS PROVIDED "AS IS" AND DANIEL RIECK DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS
+;   SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+;   DANIEL RIECK BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY
+;   DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF
+;   CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+;   PERFORMANCE OF THIS SOFTWARE.
+; --------------------------------------------------------------------------------------------------
 ; AutoHotkey Send Legend:
 ; ! = ALT     + = SHIFT     ^ = CONTROL     # = WIN
 ; (see https://autohotkey.com/docs/commands/Send.htm for more info)
 ; ==================================================================================================
+
+; ==================================================================================================
 ; Table of Contents
 ; -----------------
-;   §1: GUI triggering hotstring................................................................35
-;     >>> §1.1: @gcAnyFile......................................................................39
-;     >>> §1.2: gcAnyFile_GetRepoPath...........................................................85
-;       →→→ §1.2.1: gcAnyFile_GetRepoPath_PowerShell...........................................100
-;       →→→ §1.2.2: gcAnyFile_GetRepoPath_ST3..................................................115
-;   §2: GUI supporting functions...............................................................132
-;     >>> §2.1: CAF_CommitAnyFile..............................................................136
-;     >>> §2.2: HandleCafAddFiles..............................................................226
-;     >>> §2.3: HandleCafRemoveFiles...........................................................280
-;     >>> §2.4: HandleCafGitDiff...............................................................319
-;     >>> §2.5: HandleCafGitLog................................................................355
-;     >>> §2.6: HandleCaf1stMsgChange..........................................................393
-;     >>> §2.7: HandleCaf2ndMsgChange..........................................................411
-;     >>> §2.8: HandleCafOk....................................................................425
-;     >>> §2.9: CheckAnyFilePrimaryMsgChanged..................................................497
-;     >>> §2.10: ProcessHandleCafOkError.......................................................520
-;     >>> §2.11: HandleCafCancel...............................................................542
-;     >>> §2.12: SaveCafMsgHistory.............................................................551
-;     >>> §2.13: LoadCafMsgHistory.............................................................592
-;     >>> §2.14: ReadKeyForAnyFileCommitMsgHistory.............................................635
-;     >>> §2.15: ReadPrimaryCommitMsgForFileKey................................................659
-;     >>> §2.16: ReadPrimaryCommitMsgForFileKey................................................678
+;   §1: GUI triggering hotstring................................................................56
+;     >>> §1.1: @gcAnyFile......................................................................60
+;     >>> §1.2: gcAnyFile_GetRepoPath..........................................................106
+;       →→→ §1.2.1: gcAnyFile_GetRepoPath_PowerShell...........................................121
+;       →→→ §1.2.2: gcAnyFile_GetRepoPath_ST3..................................................136
+;   §2: GUI supporting functions...............................................................153
+;     >>> §2.1: CAF_CommitAnyFile..............................................................157
+;     >>> §2.2: HandleCafAddFiles..............................................................247
+;     >>> §2.3: HandleCafRemoveFiles...........................................................301
+;     >>> §2.4: HandleCafGitDiff...............................................................340
+;     >>> §2.5: HandleCafGitLog................................................................376
+;     >>> §2.6: HandleCaf1stMsgChange..........................................................414
+;     >>> §2.7: HandleCaf2ndMsgChange..........................................................432
+;     >>> §2.8: HandleCafOk....................................................................446
+;     >>> §2.9: CheckAnyFilePrimaryMsgChanged..................................................518
+;     >>> §2.10: ProcessHandleCafOkError.......................................................541
+;     >>> §2.11: HandleCafCancel...............................................................563
+;     >>> §2.12: SaveCafMsgHistory.............................................................572
+;     >>> §2.13: LoadCafMsgHistory.............................................................613
+;     >>> §2.14: ReadKeyForAnyFileCommitMsgHistory.............................................656
+;     >>> §2.15: ReadPrimaryCommitMsgForFileKey................................................680
+;     >>> §2.16: ReadPrimaryCommitMsgForFileKey................................................699
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
