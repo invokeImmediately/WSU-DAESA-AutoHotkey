@@ -1,8 +1,8 @@
 ﻿; ==================================================================================================
 ; AutoHotkeyU64.ahk
 ; --------------------------------------------------------------------------------------------------
-; SUMMARY: Script for automating tasks peformed during front-end web development work for the WSU
-; Office of Undergraduate Education (OUE).
+; SUMMARY: Automate coding, opearting system, and file management tasks commonly peformed during
+; front-end web development work for the WSU Office of Undergraduate Education (OUE).
 ;
 ; AUTHOR: Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; 
