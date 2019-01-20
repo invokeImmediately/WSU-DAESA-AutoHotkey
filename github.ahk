@@ -1,22 +1,44 @@
 ﻿; ==================================================================================================
-; AUTOHOTKEY SCRIPT IMPORT for Working with Github Desktop for Windows
-; ==================================================================================================
-; IMPORT DEPENDENCIES
+; github.ahk
+; --------------------------------------------------------------------------------------------------
+; SUMMARY: Automate tasks for working with git in Windows 10 via PowerShell and posting code from
+; git repositories to WordPress.
+;
+; AUTHOR: Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
+;
+; REPOSITORY: https://github.com/invokeImmediately/WSU-AutoHotkey
+;
+; LICENSE: ISC - Copyright (c) 2019 Daniel C. Rieck.
+;
+;   Permission to use, copy, modify, and/or distribute this software for any purpose with or
+;   without fee is hereby granted, provided that the above copyright notice and this permission
+;   notice appear in all copies.
+;
+;   THE SOFTWARE IS PROVIDED "AS IS" AND DANIEL RIECK DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS
+;   SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+;   DANIEL RIECK BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY
+;   DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF
+;   CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+;   PERFORMANCE OF THIS SOFTWARE.
+; --------------------------------------------------------------------------------------------------
+; IMPORT DEPENDENCIES:
 ;   Global Variable Name    Purpose
 ;   -·-·-·-·-·-·-·-·-·-     -·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·-·
 ;   userAccountFolder       Contains the path to the Windows user folder for the script runner
 ; --------------------------------------------------------------------------------------------------
-; IMPORT ASSUMPTIONS
+; IMPORT ASSUMPTIONS:
 ;   Environmental Property           State
 ;   ----------------------------     ---------------------------------------------------------------
 ;   Location of GitHub               …userAccountFolder (see above dependency)…\Documents\GitHub
 ;   Repositories locally present     All those from https://github.com/invokeImmediately 
-; ==================================================================================================
-; AUTOHOTKEY SEND LEGEND
+; --------------------------------------------------------------------------------------------------
+; AUTOHOTKEY SEND LEGEND:
 ; ! = ALT     + = SHIFT     ^ = CONTROL     # = WIN
 ; (see https://autohotkey.com/docs/commands/Send.htm for more info)
 ; ==================================================================================================
-; Table of Contents
+
+; ==================================================================================================
+; TABLE OF CONTENTS:
 ; -----------------
 ;   §1: SETTINGS accessed via functions for this imported file.................................261
 ;     >>> §1.1: GetCmdForMoveToCSSFolder.......................................................265
@@ -3061,10 +3083,9 @@ Return
 ;       →→→ §6.10.2: @copyMinJsCr
 
 :*:@copyMinJsCr::
-	ahkCmdName := ":*:@copyMinJsCr"
-	AppendAhkCmd(ahkCmdName)
-	CopySrcFileToClipboard(ahkCmdName
-		, GetGitHubFolder() . "\commonreading.wsu.edu\JS\wp-custom-js-source.min.js"
+	AppendAhkCmd(A_ThisLabel)
+	CopySrcFileToClipboard(A_ThisLabel
+		, GetGitHubFolder() . "\commonreading.wsu.edu\JS\cr-build.min.js"
 		, "", "Couldn't Copy Minified JS for CR Website")
 Return
 
