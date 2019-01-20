@@ -1,76 +1,98 @@
 ﻿; ==================================================================================================
-; WORKSPACE MANAGEMENT SCRIPTS
-; ==================================================================================================
+; workspaceMngmnt.ahk
+; --------------------------------------------------------------------------------------------------
+; SUMMARY: Script for managing the desktop's workspace.
+;
+; AUTHOR: Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
+; 
+; REPOSITORY: https://github.com/invokeImmediately/WSU-AutoHotkey
+;
+; LICENSE: ISC - Copyright (c) 2019 Daniel C. Rieck.
+;
+;   Permission to use, copy, modify, and/or distribute this software for any purpose with or
+;   without fee is hereby granted, provided that the above copyright notice and this permission
+;   notice appear in all copies.
+;
+;   THE SOFTWARE IS PROVIDED "AS IS" AND DANIEL RIECK DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS
+;   SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+;   DANIEL RIECK BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY
+;   DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF
+;   CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+;   PERFORMANCE OF THIS SOFTWARE.
+; --------------------------------------------------------------------------------------------------
 ; LEGEND
 ; ! = ALT     + = SHIFT     ^ = CONTROL     # = WIN
 ; (see https://autohotkey.com/docs/commands/Send.htm for more info)
 ; ==================================================================================================
+
+; ==================================================================================================
 ; TABLE OF CONTENTS:
 ; -----------------
-;   §1: DEPENDENCIES............................................................................77
-;   §2: FUNCTIONS & SUBROUTINES.................................................................83
-;     >>> §2.1: IsWindowOnLeftDualMonitor.......................................................87
-;     >>> §2.2: IsWindowOnLeftTriMonitor.......................................................110
-;     >>> §2.3: OpenChromeTab..................................................................137
-;   §3: WINDOW POSITIONING HOTKEYS.............................................................161
-;     >>> §3.1: ^F12 — "Always on top" toggle..................................................165
-;     >>> §3.2: ^F1-F6 — Virtual desktop switching.............................................170
-;     >>> §3.3: ^F6-F11 — Snapped positioning of windows on multiple monitor systems...........206
-;     >>> §3.4: ^!m: Mirrored window positioning for multiple monitors.........................312
-;     >>> §3.5: >^!#Left — Snap window to or collapse at left edge.............................349
-;       →→→ §3.5.1: DecrementWinDimension......................................................367
-;       →→→ §3.5.2: SafeWinMove................................................................385
-;     >>> §3.6: <^!#Left — Snap to/collapse at left edge + expand height.......................402
-;       →→→ §3.6.1: UpdateVariableAsNeeded.....................................................425
-;     >>> §3.7: >^!+#Left — Snap to/expand at left edge........................................438
-;       →→→ §3.7.1: IncrementWinDimension......................................................455
-;     >>> §3.8: <^!+#Left — Snap to/expand at left edge + expand height........................473
-;     >>> §3.9: >^!#Right — Snap window to or collapse at right edge...........................495
-;     >>> §3.10: <^!#Right — Snap to/collapse at right edge + expand height....................514
-;     >>> §3.11: >^!+#Right — Snap to/expand at right edge.....................................538
-;     >>> §3.12: <^!+#Right — Snap to/expand at right edge + expand height.....................557
-;     >>> §3.13: >^!#Up — Snap window to or collapse at top edge...............................579
-;     >>> §3.14: <^!#Up — Snap to/collapse at top edge + expand height.........................597
-;     >>> §3.15: >^!+#Up — Snap to/expand at top edge..........................................619
-;     >>> §3.16: <^!+#Up — Snap to/expand at top edge + expand height..........................637
-;     >>> §3.17: >^!#Down — Snap window to or collapse at bottom edge..........................658
-;     >>> §3.18: <^!#Down — Snap to/collapse at bottom edge + expand height....................676
-;     >>> §3.19: >^!+#Down — Snap to/expand at bottom edge.....................................697
-;     >>> §3.20: <^!+#Down — Snap to/expand at bottom edge + expand height.....................715
-;     >>> §3.21: ^!#Numpad5 — Snap to/collapse at midpoint.....................................736
-;     >>> §3.21: ^!#NumpadClear — Snap to/expand at midpoint...................................792
-;   §4: VIRTUAL DESKTOP HOTKEYS................................................................841
-;     >>> §4.1: ^!1-6 — Movement of windows between virtual desktops...........................845
-;   §5: MOUSE HOTKEYS..........................................................................878
-;     >>> §5.1: ^!+RButton — Remember/forget mouse coordinates.................................882
-;     >>> §5.2: ^!+LButton — Move to remembered mouse coordinates..............................914
-;       →→→ §5.2.1: casLButton_IsMouseAtCurrentCoord...........................................925
-;       →→→ §5.2.2: casLButton_MoveMouseToCurrentCoord.........................................944
-;       →→→ §5.2.3: casLButton_MoveMouseToNextCoord............................................972
-;     >>> §5.3: ^!#L/RButton — Move mouse to taskbar...........................................991
-;     >>> §5.4: #LButton — Move mouse to center of active window..............................1004
-;   §6: AUDITORY CUE BINDING..................................................................1022
-;   §7: WINDOW POSITIONING GUIS...............................................................1042
-;     >>> §7.1: Window Adjustment GUI.........................................................1046
-;       →→→ §7.1.1: TriggerWindowAdjustmentGui................................................1049
-;       →→→ §7.1.2: HandleGuiWinAdjWidthSliderChange..........................................1122
-;       →→→ §7.1.3: HandleGuiWinAdjOK.........................................................1157
-;       →→→ §7.1.4: guiWinAdjGuiEscape........................................................1164
-;       →→→ §7.1.5: GuiWinAdjUpdateEdgeSnapping...............................................1171
-;       →→→ §7.1.6: GuiWinAdjCheckNewPosition.................................................1191
-;   §8: APP SPECIFIC WORKSPACE MANAGEMENT SCRIPTS.............................................1212
-;       →→→ §8.1.1: @toggleGimp...............................................................1219
-;     >>> §8.2: NOTEPAD++: TEXT EDITING ENHANCEMENT HOTKEYS & SCRIPTS.........................1263
-;     >>> §8.3: STICKY NOTES FOR CHROME.......................................................1335
-;       →→→ §8.3.1: @initStickyNoteToggle.....................................................1338
-;       →→→ §8.3.2: @toggleStickyNote.........................................................1350
-;     >>> §8.4: SUBLIME TEXT 3................................................................1377
-;       →→→ §8.4.1: @st3......................................................................1380
-;     >>> §8.5: iTunes........................................................................1387
-;       →→→ §8.5.1: @restartItunes............................................................1390
-;   §9: Diagnostic hotstrings.................................................................1423
-;     >>> §9.1: @getActiveMonitorWorkArea.....................................................1427
-;     >>> §9.2: @getActiveMonitorWorkArea.....................................................1437
+;   §1: DEPENDENCIES............................................................................99
+;   §2: FUNCTIONS & SUBROUTINES................................................................105
+;     >>> §2.1: IsWindowOnLeftDualMonitor......................................................109
+;     >>> §2.2: IsWindowOnLeftTriMonitor.......................................................132
+;     >>> §2.3: OpenChromeTab..................................................................159
+;   §3: WINDOW POSITIONING HOTKEYS.............................................................183
+;     >>> §3.1: ^F12 — "Always on top" toggle..................................................187
+;     >>> §3.2: ^F1-F6 — Virtual desktop switching.............................................192
+;     >>> §3.3: ^F6-F11 — Snapped positioning of windows on multiple monitor systems...........228
+;     >>> §3.4: ^!m: Mirrored window positioning for multiple monitors.........................334
+;     >>> §3.5: >^!#Left — Snap window to or collapse at left edge.............................371
+;       →→→ §3.5.1: DecrementWinDimension......................................................389
+;       →→→ §3.5.2: SafeWinMove................................................................407
+;     >>> §3.6: <^!#Left — Snap to/collapse at left edge + expand height.......................424
+;       →→→ §3.6.1: UpdateVariableAsNeeded.....................................................447
+;     >>> §3.7: >^!+#Left — Snap to/expand at left edge........................................460
+;       →→→ §3.7.1: IncrementWinDimension......................................................477
+;     >>> §3.8: <^!+#Left — Snap to/expand at left edge + expand height........................495
+;     >>> §3.9: >^!#Right — Snap window to or collapse at right edge...........................517
+;     >>> §3.10: <^!#Right — Snap to/collapse at right edge + expand height....................536
+;     >>> §3.11: >^!+#Right — Snap to/expand at right edge.....................................560
+;     >>> §3.12: <^!+#Right — Snap to/expand at right edge + expand height.....................579
+;     >>> §3.13: >^!#Up — Snap window to or collapse at top edge...............................601
+;     >>> §3.14: <^!#Up — Snap to/collapse at top edge + expand height.........................619
+;     >>> §3.15: >^!+#Up — Snap to/expand at top edge..........................................641
+;     >>> §3.16: <^!+#Up — Snap to/expand at top edge + expand height..........................659
+;     >>> §3.17: >^!#Down — Snap window to or collapse at bottom edge..........................680
+;     >>> §3.18: <^!#Down — Snap to/collapse at bottom edge + expand height....................698
+;     >>> §3.19: >^!+#Down — Snap to/expand at bottom edge.....................................719
+;     >>> §3.20: <^!+#Down — Snap to/expand at bottom edge + expand height.....................737
+;     >>> §3.21: ^!#Numpad5 — Snap to/collapse at midpoint.....................................758
+;     >>> §3.21: ^!#NumpadClear — Snap to/expand at midpoint...................................814
+;   §4: VIRTUAL DESKTOP HOTKEYS................................................................863
+;     >>> §4.1: ^!1-6 — Movement of windows between virtual desktops...........................867
+;   §5: MOUSE HOTKEYS..........................................................................900
+;     >>> §5.1: ^!+RButton — Remember/forget mouse coordinates.................................904
+;     >>> §5.2: ^!+LButton — Move to remembered mouse coordinates..............................936
+;       →→→ §5.2.1: casLButton_IsMouseAtCurrentCoord...........................................947
+;       →→→ §5.2.2: casLButton_MoveMouseToCurrentCoord.........................................966
+;       →→→ §5.2.3: casLButton_MoveMouseToNextCoord............................................994
+;     >>> §5.3: ^!#L/RButton — Move mouse to taskbar..........................................1013
+;     >>> §5.4: #LButton — Move mouse to center of active window..............................1026
+;   §6: AUDITORY CUE BINDING..................................................................1044
+;   §7: WINDOW POSITIONING GUIS...............................................................1064
+;     >>> §7.1: Window Adjustment GUI.........................................................1068
+;       →→→ §7.1.1: TriggerWindowAdjustmentGui................................................1071
+;       →→→ §7.1.2: HandleGuiWinAdjWidthSliderChange..........................................1144
+;       →→→ §7.1.3: HandleGuiWinAdjOK.........................................................1179
+;       →→→ §7.1.4: guiWinAdjGuiEscape........................................................1186
+;       →→→ §7.1.5: GuiWinAdjUpdateEdgeSnapping...............................................1193
+;       →→→ §7.1.6: GuiWinAdjCheckNewPosition.................................................1213
+;   §8: APP SPECIFIC WORKSPACE MANAGEMENT SCRIPTS.............................................1234
+;       →→→ §8.1.1: @toggleGimp...............................................................1241
+;     >>> §8.2: NOTEPAD++: TEXT EDITING ENHANCEMENT HOTKEYS & SCRIPTS.........................1285
+;     >>> §8.3: STICKY NOTES FOR CHROME.......................................................1357
+;       →→→ §8.3.1: @initStickyNoteToggle.....................................................1360
+;       →→→ §8.3.2: @toggleStickyNote.........................................................1372
+;     >>> §8.4: SUBLIME TEXT 3................................................................1399
+;       →→→ §8.4.1: @sst3 (Start Sublime Text 3)..............................................1402
+;       →→→ §8.4.2: updateTableOfContents.ahk.................................................1409
+;     >>> §8.5: iTunes........................................................................1414
+;       →→→ §8.5.1: @restartItunes............................................................1417
+;   §9: Diagnostic hotstrings.................................................................1450
+;     >>> §9.1: @getActiveMonitorWorkArea.....................................................1454
+;     >>> §9.2: @getActiveMonitorWorkArea.....................................................1464
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -1377,11 +1399,16 @@ Return
 ;     >>> §8.4: SUBLIME TEXT 3
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §8.4.1: @st3
+;       →→→ §8.4.1: @sst3
 
 :*:@sst3::
 	SendInput, % "start sublime_text.exe "
 Return
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §8.4.2: updateTableOfContents.ahk
+
+#Include %A_ScriptDir%\updateTableOfContents.ahk
 
 ;   ································································································
 ;     >>> §8.5: iTunes
