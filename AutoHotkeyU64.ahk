@@ -43,20 +43,20 @@
 ;   §4: Command history........................................................................203
 ;   §5: AutoHotkey script writing shortcuts....................................................209
 ;     >>> §5.1: Hotstrings for inserting code-documentation headers............................213
-;   §6: Workspace management...................................................................282
-;   §7: File system navigation.................................................................326
-;   §8: Program/file launching shortcuts.......................................................332
-;   §9: Github shortcuts.......................................................................354
-;   §10: Google chrome shortcuts...............................................................362
-;   §11: Front-end coding......................................................................421
-;   §12: Text replacement & input..............................................................427
-;     >>> §12.1: Text Replacement hotkeys......................................................431
-;     >>> §12.2: Text Replacement hotstrings...................................................436
-;     >>> §12.3: Text Input hotstrings.........................................................533
-;   §13: Other shortcuts.......................................................................540
-;   §14: Work timer............................................................................553
-;   §15: Custom hotstrings & hotkeys...........................................................559
-;   §16: Main subroutine.......................................................................631
+;   §6: Workspace management...................................................................274
+;   §7: File system navigation.................................................................318
+;   §8: Program/file launching shortcuts.......................................................324
+;   §9: Github shortcuts.......................................................................346
+;   §10: Google chrome shortcuts...............................................................354
+;   §11: Front-end coding......................................................................413
+;   §12: Text replacement & input..............................................................419
+;     >>> §12.1: Text Replacement hotkeys......................................................423
+;     >>> §12.2: Text Replacement hotstrings...................................................428
+;     >>> §12.3: Text Input hotstrings.........................................................525
+;   §13: Other shortcuts.......................................................................532
+;   §14: Work timer............................................................................545
+;   §15: Custom hotstrings & hotkeys...........................................................551
+;   §16: Main subroutine.......................................................................623
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -213,68 +213,60 @@ Gosub, MainSubroutine
 ;     >>> §5.1: Hotstrings for inserting code-documentation headers
 
 :*:@insAhkCommentSection::
-	AppendAhkCmd(":*:@insAhkCommentSection")
+	AppendAhkCmd(A_ThisLabel)
+	delay := GetDelay("xShort")
 	editor := "sublime_text.exe"
-	WinGet, thisProcess, ProcessName, A
-	if (thisProcess = editor) {
+	if (isTargetProcessActive(editor, A_ThisLabel, "An AutoHotkey comment section can only be inser"
+			. "ted if [" . editor . "] is the active process. Currently, the active process is ["
+			. getActiveProcessName() . "].")) {
 		commentTxt := "; --------------------------------------------------------------------------"
 			. "----------------------------------`r;   ***EDIT COMMENT TEXT HERE***`r; ------------"
 			. "------------------------------------------------------------------------------------"
 			. "------------`r`r"
 		if (clipboard != commentTxt) {
 			clipboard := commentTxt
+			Sleep % delay
 		}
 		SendInput, % "^v"
-		Sleep 60
+		Sleep % delay
 		SendInput, % "{Up 3}{Right 2}"
-	} else {
-		MsgBox, 0
-			, % "Error in AHK hotstring: @insAhkCommentSection"
-			, % "An AutoHotkey comment section can only be inserted if [" . editor . "] is the "
-			. "active process. Unfortunately, the currently active process is [" . thisProcess 
-			. "]."
 	}
 Return
 
 :*:@insAhkCommentSubSection::
-	AppendAhkCmd(":*:@insAhkCommentSubSection")
+	AppendAhkCmd(A_ThisLabel)
+	delay := GetDelay("xShort")
 	editor := "sublime_text.exe"
-	WinGet, thisProcess, ProcessName, A
-	if (thisProcess = editor) {
+	if (isTargetProcessActive(editor, A_ThisLabel, "An AutoHotkey comment section can only be inser"
+			. "ted if [" . editor . "] is the "
+			. "active process. Unfortunately, the currently active process is ["
+			. getActiveProcessName() . "].")) {
 		commentTxt := "; ··········································································"
 			. "························`r;   >>> ***EDIT COMMENT TEXT HERE`r`r"
 		if (clipboard != commentTxt) {
 			clipboard := commentTxt
+			Sleep % delay
 		}
 		SendInput, % "^v"
-		Sleep 60
+		Sleep % delay
 		SendInput, % "{Up 2}{Right 6}"
-	} else {
-		MsgBox, 0
-			, % "Error in AHK hotstring: @insAhkCommentSection"
-			, % "An AutoHotkey comment section can only be inserted if [" . editor . "] is the "
-			. "active process. Unfortunately, the currently active process is [" 
-			. thisProcess . "]."
 	}
 Return
 
 :*:@insAhkCommentSeparator::
 	AppendAhkCmd(":*:@insAhkCommentSeparator")
+	delay := GetDelay("xShort")
 	editor := "sublime_text.exe"
-	WinGet, thisProcess, ProcessName, A
-	if (thisProcess = editor) {
+	if (isTargetProcessActive(editor, A_ThisLabel, "An AutoHotkey comment separator can only be ins"
+			. "erted if [" . editor . "] is the active process. Unfortunately, the currently active"
+			. " process is [" . getActiveProcessName() . "].")) {
 		commentTxt := ";  · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·"
 			. " · · · · · · · · · · · · `r`r"
 		if (clipboard != commentTxt) {
 			clipboard := commentTxt
+			Sleep % delay
 		}
 		SendInput, % "^v"
-	} else {
-		MsgBox, 0
-			, % "Error in AHK hotstring: @insAhkCommentSeparator"
-			, % "An AutoHotkey comment separator can only be inserted if [" . editor . "] is the "
-			. "active process. Unfortunately, the currently active process is [" 
-			. thisProcess . "]."
 	}
 Return
 
