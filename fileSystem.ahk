@@ -84,6 +84,10 @@ Return
 	InsertFilePath(A_ThisLabel, GetGitHubFolder() . "\nse.wsu.edu", "nse.wsu.edu")
 Return
 
+:*:@gotoGhNsse::
+	InsertFilePath(A_ThisLabel, GetGitHubFolder() . "\nsse.wsu.edu", "nsse.wsu.edu")
+Return
+
 :*:@gotoGhOue::
 	InsertFilePath(A_ThisLabel, GetGitHubFolder() . "\oue.wsu.edu", "oue.wsu.edu")
 Return
