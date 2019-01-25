@@ -1750,7 +1750,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.2.9: @rebuildCssNsse
 
-:*:@rebuildCssNse::
+:*:@rebuildCssNsse::
 	RebuildCss(A_ThisLabel, "nsse.wsu.edu", ":*:@commitCssNsse")
 Return
 
