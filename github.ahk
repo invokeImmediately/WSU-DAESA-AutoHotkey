@@ -666,7 +666,7 @@ HandlePostMinCssOK() {
 		PasteMinCssToWebsite("https://nse.wsu.edu/wp-admin/themes.php?page=editcss"
 			, ":*:@copyMinCssNse", postMinCssAutoMode)
 	}
-	if (PostMinCssToNse) {
+	if (PostMinCssToNsse) {
 		PasteMinCssToWebsite("https://stage.web.wsu.edu/wsu-nsse/wp-admin/themes.php?page=editcss"
 			, ":*:@copyMinCssNsse", postMinCssAutoMode)
 	}
@@ -2249,7 +2249,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.5.13: @copyMinCssNsse
 
-:*:@copyMinCssNse::
+:*:@copyMinCssNsse::
 	AppendAhkCmd(A_ThisLabel)
 	CopySrcFileToClipboard(A_ThisLabel
 		, GetGitHubFolder() . "\nse.wsu.edu\CSS\nsse-custom.min.css"
