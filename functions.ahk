@@ -618,13 +618,11 @@ Return
 ;       →→→ §5.1.1: ChangeMatchMode
 
 ChangeMatchMode(newMatchMode) {
-	global mmFast
 	global mmRegEx
-	global mmSlow
 
 	oldMatchMode := 0
 	argValid := (newMatchMode == 1) || (newMatchMode == 2) || (newMatchMode == 3)
-		|| (newMatchMode == mmFast) || (newMatchMode == mmRegEx) || (newMatchMode == mmSlow)
+		|| (newMatchMode == mmRegEx)
 	if (argValid && A_TitleMatchMode != newMatchMode) {
 		oldMatchMode := A_TitleMatchMode
 		SetTitleMatchMode % newMatchMode
@@ -707,13 +705,10 @@ GetDelay(delayLength, multiplier := 0) {
 ;       →→→ §5.1.4: RestoreMatchMode
 
 RestoreMatchMode(oldMatchMode) {
-	global mmFast
 	global mmRegEx
-	global mmSlow
 
 	argValid := (oldMatchMode == 0) || (oldMatchMode == 1) || (oldMatchMode == 2)
-		|| (oldMatchMode == 3) || (newMatchMode == mmFast) || (newMatchMode == mmRegEx)
-		|| (newMatchMode == mmSlow)
+		|| (oldMatchMode == 3) || (newMatchMode == mmRegEx)
 	if (argValid && oldMatchMode && A_TitleMatchMode != oldMatchMode) {
 		SetTitleMatchMode % oldMatchMode
 	} else if (!argValid) {
