@@ -12,6 +12,7 @@
 ;     >>> §1.2: NumpadSub.......................................................................64
 ;     >>> §1.3: NumpadDel.......................................................................96
 ;   §2: Contextual numpad hotkeys..............................................................145
+;   §3: Mode persistence timer.................................................................145
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -49,7 +50,7 @@ Return
 Return
 
 :*:@toggleNumpadDiv::
-	AppendAhkCmd(":*:@toggleNumpadDiv")
+	AppendAhkCmd(A_ThisLabel)
 	toggleMsg := "The NumPad / key has been toggled to "
 	bitNumpadDivToggle := !bitNumpadDivToggle
 	if (bitNumpadDivToggle) {
@@ -81,7 +82,7 @@ Return
 Return
 
 :*:@toggleNumpadSub::
-	AppendAhkCmd(":*:@toggleNumpadSub")
+	AppendAhkCmd(A_ThisLabel)
 	toggleMsg := "The NumPad- key has been toggled to "
 	bitNumpadSubToggle := !bitNumpadSubToggle
 	if (bitNumpadSubToggle) {
@@ -106,6 +107,7 @@ Return
 HandleToggleNpBoxArt() {
 	global npBoxArtActive
 	global npArrowArtActive
+	global npModeLastUsed
 	npArrowArtActive := False
 	toggleMsg := "Numpad box art toggled to "
 	if (npBoxArtActive) {
@@ -114,6 +116,7 @@ HandleToggleNpBoxArt() {
 	} else {
 		npBoxArtActive := True
 		toggleMsg .= "ON"
+		npModeLastUsed := A_TickCount
 	}
 	DisplaySplashText(toggleMsg)
 }
@@ -129,6 +132,7 @@ Return
 HandleToggleNpArrowArt() {
 	global npBoxArtActive
 	global npArrowArtActive
+	global npModeLastUsed
 	npBoxArtActive := False
 	toggleMsg := "Numpad arrow art toggled to "
 	if (npArrowArtActive) {
@@ -137,6 +141,7 @@ HandleToggleNpArrowArt() {
 	} else {
 		npArrowArtActive := True
 		toggleMsg .= "ON"
+		npModeLastUsed := A_TickCount
 	}
 	DisplaySplashText(toggleMsg)
 }
@@ -151,6 +156,8 @@ Return
 HandleNumpad7() {
 	global npBoxArtActive
 	global npArrowArtActive
+
+	CheckForNpModeExpiration()
 	if (npBoxArtActive) {
 		SendInput, % "┌"
 	} else if (npArrowArtActive) {
@@ -167,6 +174,8 @@ Return
 HandleNumpad8() {
 	global npBoxArtActive
 	global npArrowArtActive
+
+	CheckForNpModeExpiration()
 	if (npBoxArtActive) {
 		SendInput, % "─"
 	} else if (npArrowArtActive) {
@@ -183,6 +192,8 @@ Return
 HandleNumpad9() {
 	global npBoxArtActive
 	global npArrowArtActive
+
+	CheckForNpModeExpiration()
 	if (npBoxArtActive) {
 		SendInput, % "┐"
 	} else if (npArrowArtActive) {
@@ -199,6 +210,8 @@ Return
 HandleNumpad4() {
 	global npBoxArtActive
 	global npArrowArtActive
+
+	CheckForNpModeExpiration()
 	if (npBoxArtActive) {
 		SendInput, % "│"
 	} else if (npArrowArtActive) {
@@ -215,6 +228,8 @@ Return
 HandleNumpad5() {
 	global npBoxArtActive
 	global npArrowArtActive
+
+	CheckForNpModeExpiration()
 	if (npBoxArtActive) {
 		SendInput, % "├"
 	} else if (npArrowArtActive) {
@@ -231,6 +246,8 @@ Return
 HandleNumpad6() {
 	global npBoxArtActive
 	global npArrowArtActive
+
+	CheckForNpModeExpiration()
 	if (npBoxArtActive) {
 		SendInput, % "┤"
 	} else if (npArrowArtActive) {
@@ -247,6 +264,8 @@ Return
 HandleNumpad1() {
 	global npBoxArtActive
 	global npArrowArtActive
+
+	CheckForNpModeExpiration()
 	if (npBoxArtActive) {
 		SendInput, % "└"
 	} else if (npArrowArtActive) {
@@ -263,6 +282,8 @@ Return
 HandleNumpad2() {
 	global npBoxArtActive
 	global npArrowArtActive
+
+	CheckForNpModeExpiration()
 	if (npBoxArtActive) {
 		SendInput, % "┬"
 	} else if (npArrowArtActive) {
@@ -279,6 +300,8 @@ Return
 HandleNumpad3() {
 	global npBoxArtActive
 	global npArrowArtActive
+
+	CheckForNpModeExpiration()
 	if (npBoxArtActive) {
 		SendInput, % "┘"
 	} else if (npArrowArtActive) {
@@ -295,6 +318,8 @@ Return
 HandleNumpad0() {
 	global npBoxArtActive
 	global npArrowArtActive
+
+	CheckForNpModeExpiration()
 	if (npBoxArtActive) {
 		SendInput, % "┴"
 	} else if (npArrowArtActive) {
@@ -311,6 +336,8 @@ Return
 HandleNumpadDot() {
 	global npBoxArtActive
 	global npArrowArtActive
+
+	CheckForNpModeExpiration()
 	if (npBoxArtActive) {
 		SendInput, % "┼"
 	} else if (npArrowArtActive) {
@@ -326,9 +353,28 @@ Return
 
 HandleNumpadMult() {
 	global npArrowArtActive
+
+	CheckForNpModeExpiration()
 	if (npArrowArtActive) {
 		SendInput, % "•"
 	} else {
 		SendInput, *
+	}
+}
+
+; --------------------------------------------------------------------------------------------------
+;   §3: Mode persistence timer
+; --------------------------------------------------------------------------------------------------
+
+CheckForNpModeExpiration() {
+	global npModeLastUsed
+	global npModeExpirationTime
+	global npArrowArtActive
+	global npBoxArtActive
+	if (A_TickCount - npModeLastUsed > npModeExpirationTime) {
+		npArrowArtActive := False
+		npBoxArtActive := False
+	} else {
+		npModeLastUsed := A_TickCount
 	}
 }
