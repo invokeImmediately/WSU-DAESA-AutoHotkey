@@ -131,7 +131,7 @@ Return
 	DisplaySplashText("Setting up virtual desktop #1 for website editing and coding.")
 
 	; Start Sublime Text 3 & restore its default positioning
-	Gosub :*:@startSublimeText3
+	AddSublimeText3ToVd(1)
 	Sleep % delay * 4
 	PositionWindowViaCtrlFN("^F8", delay)
 
@@ -139,6 +139,9 @@ Return
 	Gosub :*:@startChrome
 	Sleep % delay * 4
 	OpenWebsiteInChrome("distinguishedscholarships.wsu.edu/wp-admin/", False)
+
+	Gosub :*:@startMsStickyNotes
+	PositionMsStickyNotes()
 
 	PositionChromeOnVD1()
 	Vd1_OpenWorkNotesLog()
@@ -168,7 +171,7 @@ PositionWindowViaCtrlFN(posHotkey, delay) {
 	AppendAhkCmd(A_ThisLabel)
 	titleToMatch := "Sublime Text ahk_exe sublime_text\.exe"
 	LaunchApplicationPatiently("C:\Program Files\Sublime Text 3\sublime_text.exe"
-		, titleToMatch, "RegEx")
+		, titleToMatch, mmRegEx)
 	Sleep %delay%
 Return
 
@@ -203,37 +206,45 @@ PositionChromeOnVD1() {
 ;       →→→ §1.2.6: Vd1_OpenWorkNotesLog — Function
 
 Vd1_OpenWorkNotesLog() {
+	Global mmRegEx
 	oldTitleMatchMode := 0
 	delay := GetDelay("medium")
 	st3TitleToMatch := "log_work-notes.txt ahk_exe sublime_text\.exe"
 	st3GeneralTitle := "ahk_exe sublime_text\.exe"
 	st3NewWinTitle := "untitled - Sublime ahk_exe sublime_text\.exe"
 
-	; Proceed in RegEx title matching mode
-	if (A_TitleMatchMode != "RegEx") {
-		SetTitleMatchMode RegEx
-	}
-
-	; Add ST3 window to virtual desktop
+	oldTitleMatchMode := ChangeMatchMode(mmRegEx)
 	IfWinExist %st3TitleToMatch%
 	{
 		; Ensure ST3 is active and restore default position of work notes
 		Sleep % delay
-		SafeWinActivate(st3TitleToMatch, "RegEx")
+		SafeWinActivate(st3TitleToMatch, mmRegEx)
 		PositionWindowViaCtrlFN("^F10", delay)
 		Sleep % delay * 3
+		Loop 3 {
+			GoSub % "<^!#Left"
+			Sleep % (delay * 2 / 3)
+		}
 
 		; Create a new ST3 window and restore its default position on virtual desktop
 		SendInput, ^+n
 		Sleep % delay * 3
 		WaitForApplicationPatiently(st3NewWinTitle)
 		PositionWindowViaCtrlFN("^F8", delay)
+		Loop 3 {
+			GoSub % "<^!#Left"
+			Sleep % (delay * 2 / 3)
+		}
 	} else {
 		; Activate existing ST3 process and restore its default position on virtual desktop
-		SafeWinActivate(st3GeneralTitle, "RegEx")
+		SafeWinActivate(st3GeneralTitle, mmRegEx)
 		Sleep % delay
 		PositionWindowViaCtrlFN("^F8", delay)
 		Sleep % delay * 3
+		Loop 3 {
+			GoSub % "<^!#Left"
+			Sleep % (delay * 2 / 3)
+		}
 
 		; Create a new ST3 window, open the work log, and restore its default position
 		SendInput ^+n
@@ -245,37 +256,37 @@ Vd1_OpenWorkNotesLog() {
 		SendInput % "C:\GitHub\log_work-notes.txt{Enter}"
 		Sleep % delay * 12
 		PositionWindowViaCtrlFN("^F10", delay)
+		Sleep % delay * 3
+		Loop 3 {
+			GoSub % "<^!#Left"
+			Sleep % (delay * 2 / 3)
+		}
 	}
-
-	if (oldTitleMatchMode) {
-		SetTitleMatchMode % oldTitleMatchMode		
-	}
+	RestoreMatchMode(oldTitleMatchMode)
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.2.7: @startMsTodo
+;       →→→ §1.2.7: @startMsStickyNotes
 
-:*:@startMsTodo::
+:*:@startMsStickyNotes::
 	delay := GetDelay("long")
 	AppendAhkCmd(A_ThisLabel)
-	LaunchStdApplicationPatiently("C:\Users\CamilleandDaniel\Desktop\Microsoft To-Do - Shortcut.lnk"
-		, "Microsoft To-Do")
+	LaunchStdApplicationPatiently("shell:appsFolder\Microsoft.MicrosoftStickyNotes_8wekyb3d8bbwe!ap"
+		. "p", "ahk_exe Explorer.EXE ahk_class ApplicationFrameWindow")
 	Sleep, %delay%
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.2.8: PositionMsTodo
 
-PositionMsTodo() {
+PositionMsStickyNotes() {
 	delay := GetDelay("short")
-	msTodoTitle := "Microsoft To-Do ahk_exe ApplicationFrameHost.exe"
-	msTodoActive := SafeWinActivate(msTodoTitle)
+	msStickyNotesTitle := "Microsoft To-Do ahk_exe ApplicationFrameHost.exe"
+	msStickyNotesActive := SafeWinActivate(msStickyNotesTitle)
 
-	if (msTodoActive) {
+	if (msStickyNotesActive) {
 		Sleep % delay * 2
-		PositionWindowViaCtrlFN("^F10", delay)
-		Sleep % delay * 5
-		WinMaximize % msTodoTitle
+		WinMove 1467, 67
 	}
 }
 
@@ -309,13 +320,11 @@ Return
 ;       →→→ §1.3.1: Function: AddSublimeText3ToVd
 
 AddSublimeText3ToVd(whichVd) {
-	oldTitleMatchMode := 0
+	Global mmRegEx
 	delay := GetDelay("medium")
+	oldTitleMatchMode := ChangeMatchMode(mmRegEx)
 	st3TitleToMatch := "Sublime Text ahk_exe sublime_text\.exe"
 	st3NewWinTitle := "untitled - Sublime ahk_exe sublime_text\.exe"
-	if (A_TitleMatchMode != "RegEx") {
-		SetTitleMatchMode, RegEx
-	}
 
 	; Add ST3 window to virtual desktop
 	; TODO: Check to see if ST3 is already on the virtual desktop.
@@ -323,7 +332,7 @@ AddSublimeText3ToVd(whichVd) {
 	{
 		; Switch to ST3 so that a new window can be generated and moved to the virtual desktop
 		Sleep, % delay
-		SafeWinActivate(st3TitleToMatch, "RegEx")
+		SafeWinActivate(st3TitleToMatch, mmRegEx)
 		Sleep, % delay * 2
 		st3Vd := GetCurrentVirtualDesktop()
 		if (st3Vd != whichVd) {
@@ -339,10 +348,7 @@ AddSublimeText3ToVd(whichVd) {
 	{
 		GoSub, :*:@startSublimeText3
 	}
-
-	if (oldTitleMatchMode) {
-		SetTitleMatchMode, % oldTitleMatchMode		
-	}
+	RestoreMatchMode(oldTitleMatchMode)
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
