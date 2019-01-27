@@ -2252,18 +2252,18 @@ Return
 :*:@copyMinCssNsse::
 	AppendAhkCmd(A_ThisLabel)
 	CopySrcFileToClipboard(A_ThisLabel
-		, GetGitHubFolder() . "\nse.wsu.edu\CSS\nsse-custom.min.css"
-		, "", "Couldn't copy minified CSS for NSE website.")
+		, GetGitHubFolder() . "\nsse.wsu.edu\CSS\nsse-custom.min.css"
+		, "", "Couldn't copy minified CSS for NSSE website.")
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.5.14: @copyBackupCssNsse
 
-:*:@copyBackupCssNse::
+:*:@copyBackupCssNsse::
 	AppendAhkCmd(A_ThisLabel)
 	CopySrcFileToClipboard(A_ThisLabel
-		, GetGitHubFolder() . "\nse.wsu.edu\CSS\nsse-custom.prev.css"
-		, "", "Couldn't copy backup CSS for NSE website.")
+		, GetGitHubFolder() . "\nsse.wsu.edu\CSS\nsse-custom.prev.css"
+		, "", "Couldn't copy backup CSS for NSSE website.")
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
