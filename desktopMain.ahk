@@ -65,16 +65,27 @@ SetMatchModeConstants() {
 	global mmFast
 	global mmRegEx
 	global mmSlow
+	delay := GetDelay("short")
 
 	oldMatchMode := A_TitleMatchMode
-	SetTitleMatchMode Fast
-	mmFast := A_TitleMatchMode
+	Sleep % delay
 	SetTitleMatchMode RegEx
+	Sleep % delay
 	mmRegEx := A_TitleMatchMode
-	SetTitleMatchMode Slow
-	mmSlow := A_TitleMatchMode
+	Sleep % delay
 	if (oldMatchMode != A_TitleMatchMode) {
 		SetTitleMatchMode % oldMatchMode
+	}
+
+	oldMatchModeSpeed := A_TitleMatchModeSpeed
+	SetTitleMatchMode Slow
+	Sleep % delay
+	mmSlow := A_TitleMatchModeSpeed
+	SetTitleMatchMode Fast
+	Sleep % delay
+	mmFast := A_TitleMatchModeSpeed
+	if (oldMatchModeSpeed != A_TitleMatchModeSpeed) {
+		SetTitleMatchMode % oldMatchModeSpeed
 	}
 }
 
