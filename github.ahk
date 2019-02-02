@@ -3228,10 +3228,9 @@ Return
 ;       →→→ §6.10.10: @copyMinJsSurca
 
 :*:@copyMinJsSurca::
-	ahkCmdName := ":*:@copyMinJsSurca"
-	AppendAhkCmd(ahkCmdName)
+	AppendAhkCmd(A_ThisLabel)
 	CopySrcFileToClipboard(ahkCmdName
-		, GetGitHubFolder() . "\surca.wsu.edu\JS\wp-custom-js-source.min.js"
+		, GetGitHubFolder() . "\surca.wsu.edu\JS\surca-build.min.js"
 		, "", "Couldn't Copy Minified JS for SURCA Website")
 Return
 
