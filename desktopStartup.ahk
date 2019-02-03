@@ -1,43 +1,73 @@
 ﻿; ==================================================================================================
-; STARTUP SCRIPTS: Dual-Monitor Windows 10 Desktop PC
-; ==================================================================================================
+; desktopStartup.ahk
+; --------------------------------------------------------------------------------------------------
+; SUMMARY: Script for setting up the desktop upon session startup.
+;
+; AUTHOR: Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
+; 
+; REPOSITORY: https://github.com/invokeImmediately/WSU-AutoHotkey
+;
+; LICENSE: ISC - Copyright (c) 2019 Daniel C. Rieck.
+;
+;   Permission to use, copy, modify, and/or distribute this software for any purpose with or
+;   without fee is hereby granted, provided that the above copyright notice and this permission
+;   notice appear in all copies.
+;
+;   THE SOFTWARE IS PROVIDED "AS IS" AND DANIEL RIECK DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS
+;   SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+;   DANIEL RIECK BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY
+;   DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF
+;   CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+;   PERFORMANCE OF THIS SOFTWARE.
+; --------------------------------------------------------------------------------------------------
 ; LEGEND
 ; ! = ALT     + = SHIFT     ^ = CONTROL     # = WIN
 ; (see https://autohotkey.com/docs/commands/Send.htm for more info)
 ; ==================================================================================================
-; Table of Contents
+
+; ==================================================================================================
+; Table of Contents:
 ; -----------------
-;   §1: VIRTUAL DESKTOP SETUP HOTSTRINGS........................................................44
-;     >>> §1.1: Work environment setup..........................................................48
-;       →→→ §1.2.2: @moveTempMonitors...........................................................67
-;       →→→ §1.1.1: @setupVirtualDesktops.......................................................85
-;       →→→ §1.1.2: @setupCiscoVpn.............................................................102
-;     >>> §1.2: VD1: Website editing...........................................................122
-;       →→→ §1.2.1: PositionWindowViaCtrlFN....................................................148
-;       →→→ §1.2.3: @startSublimeText3.........................................................163
-;       →→→ §1.2.4: @startChrome...............................................................176
-;       →→→ §1.2.5: PositionChromeVD1..........................................................189
-;       →→→ §1.2.6: Vd1_OpenWorkNotesLog.......................................................203
-;       →→→ §1.2.7: @startMsTodo...............................................................256
-;       →→→ §1.2.8: PositionMsTodo.............................................................267
-;     >>> §1.3: VD2: Programming...............................................................283
-;       →→→ §1.3.1: AddSublimeText3ToVd........................................................309
-;       →→→ §1.3.2: @startGithubClients........................................................349
-;       →→→ §1.3.3: @arrangeGitHub.............................................................368
-;       →→→ §1.3.4: agh_MovePowerShell.........................................................405
-;     >>> §1.4: Setup VD3: Graphic design......................................................460
-;       →→→ §1.4.1: @arrangeGimp...............................................................489
-;     >>> §1.5: Setup VD4: Communications and media............................................512
-;       →→→ §1.5.1: OpenWebsiteInChrome........................................................546
-;       →→→ §1.5.2: OpenNewTabInChrome.........................................................567
-;       →→→ §1.5.3: NavigateToWebsiteInChrome..................................................579
-;       →→→ §1.5.4: MoveToNextTabInChrome......................................................593
-;       →→→ §1.5.5: @arrangeEmail..............................................................605
-;     >>> §1.6: Setup VD5: Diagnostics & talmud................................................649
-;     >>> §1.7: Other setup hotstrings.........................................................687
-;       →→→ §1.7.1: @startNotepadPp............................................................690
-;   §2: STARTUP HOTKEYS........................................................................715
-;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................723
+;   §1: VIRTUAL DESKTOP SETUP HOTSTRINGS........................................................74
+;     >>> §1.1: Work environment setup..........................................................78
+;       →→→ §1.1.1: @setupWorkEnvironment.......................................................81
+;       →→→ §1.1.2: @moveTempMonitors..........................................................100
+;       →→→ §1.1.3: @setupVirtualDesktops......................................................118
+;       →→→ §1.1.4: @setupCiscoVpn.............................................................135
+;     >>> §1.2: VD1: Website editing...........................................................155
+;       →→→ §1.2.1: @setupVirtualDesktop1......................................................158
+;       →→→ §1.2.2: PositionWindowViaCtrlFN(…).................................................187
+;       →→→ §1.2.3: @startSublimeText3.........................................................202
+;       →→→ §1.2.4: @startChrome...............................................................215
+;       →→→ §1.2.5: PositionChromeVD1()........................................................228
+;       →→→ §1.2.6: Vd1_OpenWorkNotesLog().....................................................242
+;       →→→ §1.2.7: @startMsStickyNotes........................................................305
+;       →→→ §1.2.8: PositionMsStickyNotes()....................................................316
+;     >>> §1.3: VD2: Programming...............................................................330
+;       →→→ §1.3.1: @setupVirtualDesktop2......................................................333
+;       →→→ §1.3.2: AddSublimeText3ToVd()......................................................359
+;       →→→ §1.3.3: @startGithubClients........................................................394
+;       →→→ §1.3.4: @arrangeGitHub.............................................................413
+;       →→→ §1.3.5: agh_MovePowerShell().......................................................450
+;     >>> §1.4: Setup VD3: Graphic design......................................................505
+;       →→→ §1.4.1: @setupVirtualDesktop4......................................................508
+;       →→→ §1.4.2: svd3_OpenGraphicsReferences()..............................................526
+;       →→→ §1.4.3: svd3_OpenGimp()............................................................538
+;       →→→ §1.4.4: @arrangeGimp...............................................................550
+;     >>> §1.5: Setup VD4: Communications and media............................................573
+;       →→→ §1.5.1: @setupVirtualDesktop4......................................................576
+;       →→→ §1.5.2: @arrangeEmail..............................................................609
+;     >>> §1.6: Setup VD5: Diagnostics & talmud................................................653
+;       →→→ §1.6.1: @setupVirtualDesktop5......................................................656
+;     >>> §1.7: Other setup hotstrings.........................................................694
+;       →→→ §1.7.1: @startNotepadPp............................................................697
+;   §2: STARTUP HOTKEYS........................................................................722
+;     >>> §2.1: #!r............................................................................726
+;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................733
+;     >>> §3.1: @quitAhk.......................................................................737
+;     >>> §3.2: PerformScriptShutdownTasks()...................................................746
+;     >>> §3.3: ^#!r...........................................................................756
+;     >>> §3.4: ScriptExitFunc(…)..............................................................765
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -46,6 +76,9 @@
 
 ;   ································································································
 ;     >>> §1.1: Work environment setup
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.1.1: @setupWorkEnvironment
 
 :*:@setupWorkEnvironment::
 	delay := GetDelay("medium")
@@ -64,7 +97,7 @@
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.1.1: @moveTempMonitors
+;       →→→ §1.1.2: @moveTempMonitors
 
 :*:@moveTempMonitors::
 	delay := GetDelay("short")
@@ -82,7 +115,7 @@ Return
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.1.2: @setupVirtualDesktops
+;       →→→ §1.1.3: @setupVirtualDesktops
 
 :*:@setupVirtualDesktops::
 	delay := GetDelay("short")
@@ -99,7 +132,7 @@ Return
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.1.3: @setupCiscoVpn
+;       →→→ §1.1.4: @setupCiscoVpn
 
 :*:@setupCiscoVpn::
 	delay := GetDelay("short", 2)
@@ -120,6 +153,9 @@ Return
 
 ;   ································································································
 ;     >>> §1.2: VD1: Website editing
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.2.1: @setupVirtualDesktop1
 
 :*:@setupVirtualDesktop1::
 	delay := GetDelay("short")
@@ -148,7 +184,7 @@ Return
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.2.1: PositionWindowViaCtrlFN
+;       →→→ §1.2.2: PositionWindowViaCtrlFN(…)
 
 PositionWindowViaCtrlFN(posHotkey, delay) {
 	if (posHotkey == "^F6" || posHotkey == "^F7" || posHotkey == "^F8" || posHotkey == "^F9"
@@ -189,7 +225,7 @@ Return
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.2.5: PositionChromeVD1
+;       →→→ §1.2.5: PositionChromeVD1()
 
 PositionChromeOnVD1() {
 	delay := GetDelay("short")
@@ -203,7 +239,7 @@ PositionChromeOnVD1() {
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.2.6: Vd1_OpenWorkNotesLog — Function
+;       →→→ §1.2.6: Vd1_OpenWorkNotesLog()
 
 Vd1_OpenWorkNotesLog() {
 	Global mmRegEx
@@ -277,7 +313,7 @@ Vd1_OpenWorkNotesLog() {
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.2.8: PositionMsTodo
+;       →→→ §1.2.8: PositionMsStickyNotes()
 
 PositionMsStickyNotes() {
 	delay := GetDelay("short")
@@ -292,6 +328,9 @@ PositionMsStickyNotes() {
 
 ;   ································································································
 ;     >>> §1.3: VD2: Programming
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.3.1: setupVirtualDesktop2
 
 :*:@setupVirtualDesktop2::
 	delay := GetDelay("short", 5)
@@ -317,7 +356,7 @@ PositionMsStickyNotes() {
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.3.1: Function: AddSublimeText3ToVd
+;       →→→ §1.3.2: AddSublimeText3ToVd(…)
 
 AddSublimeText3ToVd(whichVd) {
 	Global mmRegEx
@@ -352,7 +391,7 @@ AddSublimeText3ToVd(whichVd) {
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.3.2: Hotstring: @startGithubClients
+;       →→→ §1.3.3: @startGithubClients
 
 :*:@startGithubClients::
 	delay := GetDelay("short")
@@ -371,7 +410,7 @@ AddSublimeText3ToVd(whichVd) {
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.3.3: Hotstring: @arrangeGitHub
+;       →→→ §1.3.4: @arrangeGitHub
 
 :*:@arrangeGitHub::
 	delay := GetDelay("short")
@@ -408,7 +447,7 @@ Return
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.3.4: Function: agh_MovePowerShell
+;       →→→ §1.3.5: agh_MovePowerShell()
 
 agh_MovePowerShell() {
 	delay := GetDelay("medium")
@@ -465,6 +504,9 @@ agh_MovePowerShell() {
 ;   ································································································
 ;     >>> §1.4: Setup VD3: Graphic design
 
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.4.1: @setupVirtualDesktop3
+
 :*:@setupVirtualDesktop3::
 	delay := GetDelay("medium")
 	AppendAhkCmd(A_ThisLabel)
@@ -475,25 +517,37 @@ agh_MovePowerShell() {
 	Sleep % delay / 2
 	DisplaySplashText("Setting up virtual desktop #3 for graphic design.")
 
-	; Load graphics editor and reference materials.
+	; Open and arrange graphic design apps & websites.
+	svd3_OpenGraphicsReferences()
+	svd3_OpenGimp()
+Return
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.4.2: svd3_OpenGraphicsReferences()
+
+svd3_OpenGraphicsReferences() {
 	Sleep % delay * 2
 	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
 		, "New Tab")
 	OpenWebsiteInChrome("www.colorhexa.com", False)
 	Sleep % delay
 	OpenWebsiteInChrome("brand.wsu.edu/visual/colors")
+}
 
-	; Restore default arrangement of windows.
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.4.3: svd3_OpenGimp()
+
+svd3_OpenGimp() {
 	Sleep % delay
 	PositionWindowViaCtrlFN("^F10", 100)
 	LaunchStdApplicationPatiently("C:\Program Files\GIMP 2\bin\gimp-2.10.exe", "GNU Image")
 	Sleep % delay * 3
 	PositionWindowViaCtrlFN("^F6", 100)
 	Sleep % delay * 3
-Return
+}
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.4.1: Hotstring: @arrangeGimp
+;       →→→ §1.4.4: @arrangeGimp
 
 :*:@arrangeGimp::
 	AppendAhkCmd(A_ThisLabel)
@@ -517,6 +571,9 @@ Return
 
 ;   ································································································
 ;     >>> §1.5: Setup VD4: Communications and media
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.5.1: @setupVirtualDesktop4
 
 :*:@setupVirtualDesktop4::
 	AppendAhkCmd(A_ThisLabel)
@@ -549,66 +606,7 @@ Return
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.5.1: OpenWebsiteInChrome
-
-OpenWebsiteInChrome(website, inNewTab := True) {
-	delay := GetDelay("short")
-	website .= "{Enter}"
-	attemptCount := 0
-	WinGet procName, ProcessName, A
-	while (procName != "chrome.exe" && attemptCount <= 8) {
-		Sleep % delay * 2.5
-		WinActivate % "ahk_exe chrome.exe"
-		Sleep %delay%
-		WinGet procName, ProcessName, A
-		attemptCount++
-	}
-	if (inNewTab) {
-		OpenNewTabInChrome()
-	}
-	NavigateToWebsiteInChrome(website)
-}
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.5.2: OpenNewTabInChrome
-
-OpenNewTabInChrome() {
-	delay := GetDelay("short")
-	WinGet procName, ProcessName, A
-	if (procName == "chrome.exe") {
-		SendInput, ^t
-		Sleep, %delay%
-	}
-}
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.5.3: NavigateToWebsiteInChrome
-
-NavigateToWebsiteInChrome(website) {
-	delay := GetDelay("short")
-	WinGet, procName, ProcessName, A
-	if (procName == "chrome.exe") {
-		SendInput, !d
-		Sleep, %delay%
-		SendInput, % website
-		Sleep, % delay * 3
-	}
-}
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.5.4: MoveToNextTabInChrome
-
-MoveToNextTabInChrome() {
-	delay := GetDelay("short")
-	WinGet procName, ProcessName, A
-	if (procName == "chrome.exe") {
-		SendInput ^{Tab}
-		Sleep %delay%
-	}
-}
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.5.5: @arrangeEmail
+;       →→→ §1.5.2: @arrangeEmail
 
 :*:@arrangeEmail::
 	delay := GetDelay("short", 2)
@@ -653,6 +651,9 @@ Return
 
 ;   ································································································
 ;     >>> §1.6: Setup VD5: Diagnostics & talmud
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.6.1: @setupVirtualDesktop5
 
 :*:@setupVirtualDesktop5::
 	delay := GetDelay("short")
@@ -721,6 +722,9 @@ Return
 ;   §2: STARTUP HOTKEYS
 ; --------------------------------------------------------------------------------------------------
 
+;   ································································································
+;     >>> §2.1: #!r
+
 #!r::
 	Gosub :*:@setupWorkEnvironment
 Return
@@ -729,11 +733,17 @@ Return
 ;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS
 ; --------------------------------------------------------------------------------------------------
 
+;   ································································································
+;     >>> §3.1: @quitAhk
+
 :*:@quitAhk::
 	AppendAhkCmd(A_ThisLabel)
 	PerformScriptShutdownTasks()
 	ExitApp
 Return
+
+;   ································································································
+;     >>> §3.2: PerformScriptShutdownTasks()
 
 PerformScriptShutdownTasks() {
 	SaveAhkCmdHistory()
@@ -742,11 +752,17 @@ PerformScriptShutdownTasks() {
 	SaveCafMsgHistory()
 }
 
+;   ································································································
+;     >>> §3.3: ^#!r
+
 ^#!r::
 	PerformScriptShutdownTasks()
 	Run *RunAs "%A_ScriptFullPath%" 
 	ExitApp
 Return
+
+;   ································································································
+;     >>> §3.4: ScriptExitFunc(…)
 
 ScriptExitFunc(ExitReason, ExitCode) {
 	if ExitReason in Logoff, Shutdown, Menu
