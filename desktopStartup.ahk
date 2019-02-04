@@ -28,44 +28,47 @@
 ; ==================================================================================================
 ; Table of Contents:
 ; -----------------
-;   §1: VIRTUAL DESKTOP SETUP HOTSTRINGS........................................................72
-;     >>> §1.1: Work environment setup..........................................................76
-;       →→→ §1.1.1: @setupWorkEnvironment.......................................................79
-;       →→→ §1.1.2: @moveTempMonitors...........................................................98
-;       →→→ §1.1.3: @setupVirtualDesktops......................................................116
-;       →→→ §1.1.4: @setupCiscoVpn.............................................................133
-;     >>> §1.2: VD1: Website editing...........................................................153
-;       →→→ §1.2.1: @setupVirtualDesktop1......................................................156
-;       →→→ §1.2.2: PositionWindowViaCtrlFN(…).................................................185
-;       →→→ §1.2.3: @startSublimeText3.........................................................200
-;       →→→ §1.2.4: @startChrome...............................................................213
-;       →→→ §1.2.5: PositionChromeVD1()........................................................226
-;       →→→ §1.2.6: Vd1_OpenWorkNotesLog().....................................................240
-;       →→→ §1.2.7: @startMsStickyNotes........................................................303
-;       →→→ §1.2.8: PositionMsStickyNotes()....................................................314
-;     >>> §1.3: VD2: Programming...............................................................328
-;       →→→ §1.3.1: @setupVirtualDesktop2......................................................331
-;       →→→ §1.3.2: AddSublimeText3ToVd()......................................................357
-;       →→→ §1.3.3: @startGithubClients........................................................392
-;       →→→ §1.3.4: @arrangeGitHub.............................................................411
-;       →→→ §1.3.5: agh_MovePowerShell().......................................................448
-;     >>> §1.4: Setup VD3: Graphic design......................................................503
-;       →→→ §1.4.1: @setupVirtualDesktop4......................................................506
-;       →→→ §1.4.2: svd3_OpenGraphicsReferences()..............................................524
-;       →→→ §1.4.3: svd3_OpenGimp()............................................................536
-;       →→→ §1.4.4: @arrangeGimp...............................................................548
-;     >>> §1.5: Setup VD4: Communications and media............................................571
-;       →→→ §1.5.1: @setupVirtualDesktop4......................................................574
-;       →→→ §1.5.2: @arrangeEmail..............................................................607
-;     >>> §1.6: Setup VD5: Diagnostics & talmud................................................651
-;       →→→ §1.6.1: @setupVirtualDesktop5......................................................654
-;   §2: STARTUP HOTKEYS........................................................................692
-;     >>> §2.1: #!r............................................................................696
-;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................703
-;     >>> §3.1: @quitAhk.......................................................................707
-;     >>> §3.2: PerformScriptShutdownTasks()...................................................716
-;     >>> §3.3: ^#!r...........................................................................726
-;     >>> §3.4: ScriptExitFunc(…)..............................................................735
+;   §1: VIRTUAL DESKTOP SETUP HOTSTRINGS........................................................75
+;     >>> §1.1: Work environment setup..........................................................79
+;       →→→ §1.1.1: @setupWorkEnvironment.......................................................82
+;       →→→ §1.1.2: @moveTempMonitors..........................................................101
+;       →→→ §1.1.3: @setupVirtualDesktops......................................................119
+;       →→→ §1.1.4: @setupCiscoVpn.............................................................137
+;     >>> §1.2: VD1—Website editing............................................................157
+;       →→→ §1.2.1: @setupVirtualDesktop1......................................................160
+;       →→→ §1.2.2: PositionWindowViaCtrlFN(…).................................................189
+;       →→→ §1.2.3: @startSublimeText3.........................................................204
+;       →→→ §1.2.4: @startChrome...............................................................217
+;       →→→ §1.2.5: PositionChromeVD1()........................................................230
+;       →→→ §1.2.6: Vd1_OpenWorkNotesLog().....................................................244
+;       →→→ §1.2.7: @startMsStickyNotes........................................................307
+;       →→→ §1.2.8: PositionMsStickyNotes()....................................................318
+;     >>> §1.3: VD2—Programming................................................................332
+;       →→→ §1.3.1: @setupVirtualDesktop2......................................................335
+;       →→→ §1.3.2: AddSublimeText3ToVd()......................................................361
+;       →→→ §1.3.3: @startGithubClients........................................................396
+;       →→→ §1.3.4: @arrangeGitHub.............................................................415
+;       →→→ §1.3.5: agh_MovePowerShell().......................................................452
+;     >>> §1.4: Setup VD3—Graphic design.......................................................507
+;       →→→ §1.4.1: @setupVirtualDesktop4......................................................510
+;       →→→ §1.4.2: svd3_OpenGraphicsReferences(…).............................................528
+;       →→→ §1.4.3: svd3_OpenGimp(…)...........................................................540
+;       →→→ §1.4.4: @arrangeGimp...............................................................552
+;     >>> §1.5: Setup VD4—Communications and media.............................................575
+;       →→→ §1.5.1: @setupVirtualDesktop4......................................................578
+;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)................................................603
+;       →→→ §1.5.3: @arrangeEmail..............................................................618
+;     >>> §1.6: Setup VD5—Talmud...............................................................662
+;       →→→ §1.6.1: @setupVirtualDesktop5......................................................665
+;     >>> §1.7: Setup VD7—Diagnostics & XAMPP..................................................706
+;       →→→ §1.7.1: @setupVirtualDesktop6......................................................709
+;   §2: STARTUP HOTKEYS........................................................................732
+;     >>> §2.1: #!r............................................................................736
+;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................743
+;     >>> §3.1: @quitAhk.......................................................................747
+;     >>> §3.2: PerformScriptShutdownTasks()...................................................756
+;     >>> §3.3: ^#!r...........................................................................766
+;     >>> §3.4: ScriptExitFunc(…)..............................................................775
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -104,11 +107,11 @@ Return
 	Sleep % delay * 3
 	WinActivate % "RealTemp ahk_exe RealTemp.exe"
 	Sleep % delay * 4
-	moveActiveWindowToVirtualDesktop(5)
+	moveActiveWindowToVirtualDesktop(6)
 	Sleep % delay * 2
 	WinActivate % "GPU Temp ahk_exe GPUTemp.exe"
 	Sleep % delay * 4
-	moveActiveWindowToVirtualDesktop(5)
+	moveActiveWindowToVirtualDesktop(6)
 	Sleep % delay * 2
 Return
 
@@ -127,6 +130,7 @@ Return
 	Gosub :*:@setupVirtualDesktop3
 	Gosub :*:@setupVirtualDesktop4
 	Gosub :*:@setupVirtualDesktop5
+	Gosub :*:@setupVirtualDesktop6
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
@@ -150,7 +154,7 @@ Return
 
 
 ;   ································································································
-;     >>> §1.2: VD1: Website editing
+;     >>> §1.2: VD1—Website editing
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.2.1: @setupVirtualDesktop1
@@ -325,7 +329,7 @@ PositionMsStickyNotes() {
 }
 
 ;   ································································································
-;     >>> §1.3: VD2: Programming
+;     >>> §1.3: VD2—Programming
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.3.1: setupVirtualDesktop2
@@ -500,7 +504,7 @@ agh_MovePowerShell() {
 }
 
 ;   ································································································
-;     >>> §1.4: Setup VD3: Graphic design
+;     >>> §1.4: Setup VD3—Graphic design
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.4.1: @setupVirtualDesktop3
@@ -516,14 +520,14 @@ agh_MovePowerShell() {
 	DisplaySplashText("Setting up virtual desktop #3 for graphic design.")
 
 	; Open and arrange graphic design apps & websites.
-	svd3_OpenGraphicsReferences()
-	svd3_OpenGimp()
+	svd3_OpenGraphicsReferences(delay)
+	svd3_OpenGimp(delay)
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.4.2: svd3_OpenGraphicsReferences()
+;       →→→ §1.4.2: svd3_OpenGraphicsReferences(…)
 
-svd3_OpenGraphicsReferences() {
+svd3_OpenGraphicsReferences(delay) {
 	Sleep % delay * 2
 	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
 		, "New Tab")
@@ -533,9 +537,9 @@ svd3_OpenGraphicsReferences() {
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.4.3: svd3_OpenGimp()
+;       →→→ §1.4.3: svd3_OpenGimp(…)
 
-svd3_OpenGimp() {
+svd3_OpenGimp(delay) {
 	Sleep % delay
 	PositionWindowViaCtrlFN("^F10", 100)
 	LaunchStdApplicationPatiently("C:\Program Files\GIMP 2\bin\gimp-2.10.exe", "GNU Image")
@@ -568,7 +572,7 @@ svd3_OpenGimp() {
 Return
 
 ;   ································································································
-;     >>> §1.5: Setup VD4: Communications and media
+;     >>> §1.5: Setup VD4—Communications and media
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.5.1: @setupVirtualDesktop4
@@ -577,34 +581,41 @@ Return
 	AppendAhkCmd(A_ThisLabel)
 	delay := GetDelay("short")
 
-	; Switch to virtual desktop and notify user of subsequent automated activities.
+	; Switch to virtual desktop and notify user of subsequent automated activities
 	switchDesktopByNumber(4)
 	Sleep % delay * 1.5
 	DisplaySplashText("Setting up virtual desktop #4 for online correspondence.")
 
-	; Load email clients and news websites.
+	; Set up email and messaging clients
+	svd4_LoadWebEmailClients(delay)
+	LaunchStdApplicationPatiently("C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE"
+		, "Inbox ahk_exe OUTLOOK.EXE")
+
+	; Load music app
+	LaunchStdApplicationPatiently("shell:appsFolder\AppleInc.iTunes_nzyj5cx40ttqa!iTunes", "iTunes")
+
+	; Restore default arrangement of windows
+	Sleep % delay * 10
+	Gosub :*:@arrangeEmail
+Return
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)
+
+svd4_LoadWebEmailClients(delay) {
 	Sleep % delay * 1.5
 	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
 		, "New Tab")
 	Sleep % delay * 10
 	OpenWebsiteInChrome("mail.google.com", False)
 	OpenWebsiteInChrome("mail.live.com")
-	OpenWebsiteInChrome("digital.olivesoftware.com/Olive/ODN/SanFranciscoChronicle")
-	OpenWebsiteInChrome("news.wsu.edu")
-	OpenWebsiteInChrome("dailyevergreen.com")
 	OpenWebsiteInChrome("web.wsu.edu")
 	OpenWebsiteInChrome("wsu-web.slack.com")
 	MoveToNextTabInChrome()
-	LaunchStdApplicationPatiently("C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE", "Inbox ahk_exe OUTLOOK.EXE")
-	LaunchStdApplicationPatiently("shell:appsFolder\AppleInc.iTunes_nzyj5cx40ttqa!iTunes", "iTunes")
-
-	; Restore default arrangement of windows.
-	Sleep % delay * 10
-	Gosub :*:@arrangeEmail
-Return
+}
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.5.2: @arrangeEmail
+;       →→→ §1.5.3: @arrangeEmail
 
 :*:@arrangeEmail::
 	delay := GetDelay("short", 2)
@@ -648,7 +659,7 @@ Return
 Return
 
 ;   ································································································
-;     >>> §1.6: Setup VD5: Diagnostics & talmud
+;     >>> §1.6: Setup VD6—Talmud
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.6.1: @setupVirtualDesktop5
@@ -662,6 +673,50 @@ Return
 	Sleep % delay * 2
 	DisplaySplashText("Setting up virtual desktop #5 for computer monitoring and Torah study.")
 
+	; Set up apps for catching up on news.
+	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+		, "New Tab")
+	Sleep % delay * 10
+	OpenWebsiteInChrome("digital.olivesoftware.com/Olive/ODN/SanFranciscoChronicle", False)
+	OpenWebsiteInChrome("https://www.nytimes.com/")
+	OpenWebsiteInChrome("news.wsu.edu")
+	OpenWebsiteInChrome("dailyevergreen.com")
+	Sleep % delay * 5
+	MoveToNextTabInChrome()
+	PositionWindowViaCtrlFN("^F6", delay)
+	Sleep % delay * 5
+	WinMaximize A
+
+	; Set up apps for Torah study.
+	Sleep % delay * 3
+	SendInput % "^n"
+	Sleep % delay * 10
+	OpenWebsiteInChrome("biblegateway.com", False)
+	OpenWebsiteInChrome("hebrew4christians.com")
+	OpenWebsiteInChrome("scripturetyper.com")
+	OpenWebsiteInChrome("www.blueletterbible.org")
+	Sleep % delay * 5
+	MoveToNextTabInChrome()
+	PositionWindowViaCtrlFN("^F8", delay)
+	Sleep % delay * 5
+	WinMaximize A
+Return
+
+;   ································································································
+;     >>> §1.7: Setup VD7—Diagnostics & XAMPP
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.7.1: @setupVirtualDesktop6
+
+:*:@setupVirtualDesktop6::
+	delay := GetDelay("short")
+	AppendAhkCmd(A_ThisLabel)
+
+	; Switch to virtual desktop and notify user of subsequent automated activities.
+	switchDesktopByNumber(6)
+	Sleep % delay * 2
+	DisplaySplashText("Setting up virtual desktop #6 for computer monitoring and XAMPP.")
+
 	; Set up computer monitoring apps.
 	Sleep % delay * 2
 	LaunchStdApplicationPatiently("C:\Windows\System32\taskmgr.exe", "Task Manager")
@@ -671,21 +726,6 @@ Return
 	WinMove % "RealTemp", , -537, 477, 318, 409
 	Sleep % delay * 2
 	WinMove % "Task Manager", , -1528, 184, 976, 600
-	Sleep % delay * 2
-	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
-		, "New Tab")
-	
-	; Set up apps for Torah study.
-	Sleep % delay * 3
-	OpenWebsiteInChrome("biblegateway.com", False)
-	OpenWebsiteInChrome("hebrew4christians.com")
-	OpenWebsiteInChrome("scripturetyper.com")
-	OpenWebsiteInChrome("www.blueletterbible.org")
-	Sleep % delay * 10
-	SendInput ^{Tab}
-	Sleep % delay * 10
-	WinRestore % "BibleGateway ahk_exe chrome.exe"
-	WinMove % "BibleGateway ahk_exe chrome.exe", , 136, 88, 1648, 874
 Return
 
 ; --------------------------------------------------------------------------------------------------
