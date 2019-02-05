@@ -35,7 +35,7 @@
 ;     >>> §2.3: OpenChromeTab..................................................................166
 ;   §3: WINDOW POSITIONING HOTKEYS.............................................................190
 ;     >>> §3.1: ^F12 — "Always on top" toggle..................................................194
-;     >>> §3.2: ^F1-F6 — Virtual desktop switching.............................................199
+;     >>> §3.2: ^!F1-F7 — Virtual desktop switching............................................199
 ;       →→→ §3.2.1: caf1thruN_switchToDesktop(…)...............................................230
 ;     >>> §3.3: ^F6-F11 — Snapped positioning of windows on multiple monitor systems...........242
 ;     >>> §3.4: ^!m: Mirrored window positioning for multiple monitors.........................348
@@ -196,7 +196,7 @@ return
 ^F12::WinSet, AlwaysOnTop, Toggle, A
 
 ;   ································································································
-;     >>> §3.2: ^F1-F6 — Virtual desktop switching
+;     >>> §3.2: ^!F1-F7 — Virtual desktop switching
 
 ^!F1::
 	caf1thruN_switchToDesktop(1)
@@ -226,8 +226,8 @@ Return
 	caf1thruN_switchToDesktop(7)
 Return
 
-;   ································································································
-;     >>> §3.2.1: caf1thruN_switchToDesktop(…)
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §3.6.1: §3.2.1: caf1thruN_switchToDesktop(…)
 
 caf1thruN_switchToDesktop(whichDesktop) {
 	global vdDesktopCount
