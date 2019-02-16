@@ -1168,10 +1168,10 @@ HandleGuiWinAdjWidthSliderChange() {
 	global guiWinAdjVars
 	global guiWinAdjWidthSlider
 	global guiWinAdjXSnapOpts
-	global sysWinBorderW
 
 	; Add test to ensure window still exists.
 	whichHwnd := guiWinAdjVars.whichHwnd
+	borderWs := GetWindowBorderWidths(whichHwnd)	
 
 	if (WinExist("ahk_id " . whichHwnd)) {
 		Gui, guiWinAdj: Submit, NoHide
@@ -1180,13 +1180,13 @@ HandleGuiWinAdjWidthSliderChange() {
 		; Move window as dictated by snapping choice and slider position
 		WinGetPos, posX, posY, posW, posH, ahk_id %whichHwnd%
 		newWidth := guiWinAdjVars.minWidth + (guiWinAdjVars.maxWidth 
-			- guiWinAdjVars.minWidth) * (guiWinAdjWidthSlider / 100) + sysWinBorderW * 2
+			- guiWinAdjVars.minWidth) * (guiWinAdjWidthSlider / 100) + (borderWs.Horz * 2)
 		if (guiWinAdjVars.edgeSnapping & 1) {
 			posXNew := posX
 		} else if (guiWinAdjVars.edgeSnapping & (1 << 1)) {
 			posXNew := posX - (newWidth - posW) / 2
 		} else if (guiWinAdjVars.edgeSnapping & (1 << 2)) {
-			posXNew := posX - (newWidth - posW)
+			posXNew := posX - (newWidth - posW) + 1
 		}
 		GuiWinAdjCheckNewPosition(whichHwnd, posXNew, posY, newWidth, posH)
 		WinMove, ahk_id %whichHwnd%, , %posXNew%, %posY%, %newWidth%, %posH%
