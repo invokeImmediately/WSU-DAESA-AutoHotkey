@@ -1141,14 +1141,14 @@ TriggerWindowAdjustmentGui(edgeSnapping, minWidth, maxWidth, initialWidth, minHe
 	; Setup GUI & display to user	
 	Gui, guiWinAdj: New,
 		, % "Adjust Active Window Width"
-	Gui, guiWinAdj: Add, Text, , Window width:
+	Gui, guiWinAdj: Add, Text, , Window &width:
 	Gui, guiWinAdj: Add, Slider
 		, vguiWinAdjWidthSlider gHandleGuiWinAdjWidthSliderChange AltSubmit W300 x+5
 		, %sliderPos%
 	Gui, guiWinAdj: Add, Text, xm, Horizontal snapping:
-	Gui, guiWinAdj: Add, Radio, vguiWinAdjXSnapOpts x+5 Checked%xSnapOptL%, Left
-	Gui, guiWinAdj: Add, Radio, x+5 Checked%xSnapOptC%, Center
-	Gui, guiWinAdj: Add, Radio, x+5 Checked%xSnapOptR%, Right	
+	Gui, guiWinAdj: Add, Radio, vguiWinAdjXSnapOpts x+5 Checked%xSnapOptL%, &Left
+	Gui, guiWinAdj: Add, Radio, x+5 Checked%xSnapOptC%, &Center
+	Gui, guiWinAdj: Add, Radio, x+5 Checked%xSnapOptR%, &Right	
 	Gui, guiWinAdj: Add, Button, Default gHandleGuiWinAdjOK xm y+15, &OK
 	Gui, guiWinAdj: Show
 
