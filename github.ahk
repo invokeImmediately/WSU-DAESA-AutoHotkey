@@ -3198,7 +3198,7 @@ Return
 	ahkCmdName := ":*:@copyMinJsOue"
 	AppendAhkCmd(ahkCmdName)
 	CopySrcFileToClipboard(ahkCmdName
-		, GetGitHubFolder() . "\oue.wsu.edu\JS\oue-custom.min.js"
+		, GetGitHubFolder() . "\oue.wsu.edu\JS\oue-build.min.js"
 		, "", "Couldn't Copy Minified JS for WSU OUE Website")
 Return
 
