@@ -2602,7 +2602,7 @@ Return
 	BackupJs(A_ThisLabel
 		, "https://undergraduateresearch.wsu.edu/wp-admin/themes.php?page=custom-javascript"
 		, GetGitHubFolder() . "\undergraduateresearch.wsu.edu\"
-		, "JS\wp-custom-js-source.min.prev.js")
+		, "JS\ugr-build.min.prev.js")
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
