@@ -210,7 +210,7 @@ HandleCommitJsAddFiles() {
 
 		; Verify that we are in a sub folder of the original git folder
 		gitRepositoryPath := GetGitHubFolder() . "\" . commitJsVars.fpGitFolder . "\"
-		posWhereFound := InStr(gitSubFolder, gitRepositoryPath . "JS\")
+		posWhereFound := InStr(gitSubFolder, gitRepositoryPath)
 		if (posWhereFound) {
 
 			; Remove the root folder path from the subfolder path, leaving a relative path
@@ -226,8 +226,8 @@ HandleCommitJsAddFiles() {
 			}
 
 		} else {
-			ErrorBox(A_ThisFunc, "Unfortunately, you did not select files contained within the JS b"
-. "uild sub-folder of the git repository you indicated. Please try again.")
+			ErrorBox(A_ThisFunc, "Unfortunately, you did not select files contained within the git "
+				. "repository you indicated. Please try again.")
 		}
 	}
 }

@@ -210,7 +210,7 @@ HandleCommitCssAddFiles() {
 
 		; Verify that we are in a sub folder of the original git folder
 		gitRepositoryPath := GetGitHubFolder() . "\" . commitCssVars.fpGitFolder . "\"
-		posWhereFound := InStr(gitSubFolder, gitRepositoryPath . "CSS\")
+		posWhereFound := InStr(gitSubFolder, gitRepositoryPath)
 		if (posWhereFound) {
 
 			; Remove the root folder path from the subfolder path, leaving a relative path
@@ -227,7 +227,7 @@ HandleCommitCssAddFiles() {
 
 		} else {
 			ErrorBox(A_ThisFunc, "Unfortunately, you did not select files contained within the "
-				. "CSS build sub-folder of the git repository you indicated. Please try again.")
+				. "git repository you are working with. Please try again.")
 		}
 	}
 }
