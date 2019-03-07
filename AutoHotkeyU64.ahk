@@ -43,20 +43,20 @@
 ;   §4: Command history........................................................................204
 ;   §5: AutoHotkey script writing shortcuts....................................................210
 ;     >>> §5.1: Hotstrings for inserting code-documentation headers............................214
-;   §6: Workspace management...................................................................275
-;   §7: File system navigation.................................................................319
-;   §8: Program/file launching shortcuts.......................................................325
-;   §9: Github shortcuts.......................................................................347
-;   §10: Google chrome shortcuts...............................................................355
-;   §11: Front-end coding......................................................................414
-;   §12: Text replacement & input..............................................................420
-;     >>> §12.1: Text Replacement hotkeys......................................................424
-;     >>> §12.2: Text Replacement hotstrings...................................................429
-;     >>> §12.3: Text Input hotstrings.........................................................526
-;   §13: Other shortcuts.......................................................................533
-;   §14: Work timer............................................................................546
-;   §15: Custom hotstrings & hotkeys...........................................................552
-;   §16: Main subroutine.......................................................................624
+;   §6: Workspace management...................................................................272
+;   §7: File system navigation.................................................................316
+;   §8: Program/file launching shortcuts.......................................................322
+;   §9: Github shortcuts.......................................................................344
+;   §10: Google chrome shortcuts...............................................................352
+;   §11: Front-end coding......................................................................411
+;   §12: Text replacement & input..............................................................417
+;     >>> §12.1: Text Replacement hotkeys......................................................421
+;     >>> §12.2: Text Replacement hotstrings...................................................426
+;     >>> §12.3: Text Input hotstrings.........................................................523
+;   §13: Other shortcuts.......................................................................530
+;   §14: Work timer............................................................................543
+;   §15: Custom hotstrings & hotkeys...........................................................549
+;   §16: Main subroutine.......................................................................621
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -215,7 +215,6 @@ Gosub, MainSubroutine
 
 :*:@insAhkCommentSection::
 	AppendAhkCmd(A_ThisLabel)
-	delay := GetDelay("xShort")
 	editor := "sublime_text.exe"
 	if (isTargetProcessActive(editor, A_ThisLabel, "An AutoHotkey comment section can only be inser"
 			. "ted if [" . editor . "] is the active process. Currently, the active process is ["
@@ -229,14 +228,13 @@ Gosub, MainSubroutine
 			Sleep % delay
 		}
 		SendInput, % "^v"
-		Sleep % delay
+		execDelayer.Wait( "xShort" )
 		SendInput, % "{Up 3}{Right 2}"
 	}
 Return
 
 :*:@insAhkCommentSubSection::
 	AppendAhkCmd(A_ThisLabel)
-	delay := GetDelay("xShort")
 	editor := "sublime_text.exe"
 	if (isTargetProcessActive(editor, A_ThisLabel, "An AutoHotkey comment section can only be inser"
 			. "ted if [" . editor . "] is the "
@@ -246,17 +244,16 @@ Return
 			. "························`r;   >>> ***EDIT COMMENT TEXT HERE`r`r"
 		if (clipboard != commentTxt) {
 			clipboard := commentTxt
-			Sleep % delay
+			execDelayer.Wait( "xShort" )
 		}
 		SendInput, % "^v"
-		Sleep % delay
+		execDelayer.Wait( "xShort" )
 		SendInput, % "{Up 2}{Right 6}"
 	}
 Return
 
 :*:@insAhkCommentSeparator::
 	AppendAhkCmd(":*:@insAhkCommentSeparator")
-	delay := GetDelay("xShort")
 	editor := "sublime_text.exe"
 	if (isTargetProcessActive(editor, A_ThisLabel, "An AutoHotkey comment separator can only be ins"
 			. "erted if [" . editor . "] is the active process. Unfortunately, the currently active"
@@ -265,7 +262,7 @@ Return
 			. " · · · · · · · · · · · · `r`r"
 		if (clipboard != commentTxt) {
 			clipboard := commentTxt
-			Sleep % delay
+			execDelayer.Wait( "xShort" )
 		}
 		SendInput, % "^v"
 	}
