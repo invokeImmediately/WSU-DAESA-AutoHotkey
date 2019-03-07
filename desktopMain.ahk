@@ -58,6 +58,7 @@ SetGlobalVariables() {
 	SetNumMonitors()
 	SetMonitorBounds()
 	SetMonitorWorkAreas()
+	SetModules()
 	; ReportMonitorDimensions() ; Diagnostic function
 }
 
@@ -89,9 +90,11 @@ SetMatchModeConstants() {
 	}
 }
 
-SetNumMonitors() {
+SetModules() {
 	global
-	SysGet, sysNumMonitors, %SM_CMONITORS%
+	checkType := new TypeChecker
+	execDelayer := new ExecutionDelayer( checkType, g_delayQuantum, g_extraShortDelay, g_shortDelay
+		, g_mediumDelay, g_longDelay)
 }
 
 SetMonitorBounds() {
@@ -135,6 +138,11 @@ SetMonitorWorkAreas() {
 			}
 		}
 	}
+}
+
+SetNumMonitors() {
+	global
+	SysGet, sysNumMonitors, %SM_CMONITORS%
 }
 
 SetWinBorders() {
