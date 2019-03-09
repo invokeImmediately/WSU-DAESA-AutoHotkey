@@ -123,12 +123,14 @@ gcAnyFile_GetRepoPath() {
 ;	Get the active repository's path from within PowerShell using the clipboard.
 
 gcAnyFile_GetRepoPath_PowerShell() {
-	delay := GetDelay("medium")
+	global execDelayer
+
 	SendInput, % "{Esc}"
-	Sleep, % delay
+	execDelayer.Wait( "m" )
 	consoleStr := "Set-Clipboard (Get-Item -Path "".\"").FullName`r"
 	PasteTextIntoGitShell(A_ThisLabel, consoleStr)
-	Sleep, % delay
+	execDelayer.Wait( "m" )
+
 	return Clipboard
 }
 
@@ -138,14 +140,16 @@ gcAnyFile_GetRepoPath_PowerShell() {
 ;	Get the active repository's path from within Sublime Text 3 using the clipboard.
 
 gcAnyFile_GetRepoPath_ST3() {
-	delay := GetDelay("medium")
-	keyDelay := GetDelay("xShort")
+	global execDelayer
+
+	keyDelay := execDelayer.InterpretDelayString( "xs" )
 	oldKeyDelay := A_KeyDelay
 	SetKeyDelay, %keyDelay%
 	Send, % "^+p{Backspace}Copy File Path{Enter}"
-	Sleep, % delay
+	execDelayer.Wait( "m" )
 	path := Clipboard
 	SetKeyDelay, %oldKeyDelay%
+
 	return path
 }
 
@@ -304,8 +308,7 @@ HandleCafAddFiles() {
 
 HandleCafRemoveFiles() {
 	global cafVars
-
-	delay := GetDelay("short")
+	global execDelayer
 
 	; Make sure the user doesn't try to remove all files.
 	numRows := LV_GetCount()
@@ -328,7 +331,7 @@ HandleCafRemoveFiles() {
 							break
 						}
 					}
-					Sleep, % delay
+					execDelayer.Wait( "s" )
 				} else {
 					break
 				}
@@ -355,18 +358,19 @@ HandleCafRemoveFiles() {
 
 HandleCafGitDiff() {
 	global cafVars
-	delay := GetDelay("xShort")
-	numSelectedRows := LV_GetCount("Selected")
+	global execDelayer
+
+	numSelectedRows := LV_GetCount( "Selected" )
 	consoleStr := "cd " . cafVars.gitFolder . "`r"
-	if (numSelectedRows > 0) {
+	if ( numSelectedRows > 0 ) {
 		rowNumber := 0
 		Loop
 		{
-			rowNumber := LV_GetNext(rowNumber)
-			if (rowNumber) {
-				LV_GetText(fileName, rowNumber)
+			rowNumber := LV_GetNext( rowNumber )
+			if ( rowNumber ) {
+				LV_GetText( fileName, rowNumber )
 				consoleStr .= "git --no-pager diff " . fileName . "`r"
-				Sleep, % delay
+				execDelayer.Wait( "xs" )
 			} else {
 				break
 			}
@@ -374,13 +378,13 @@ HandleCafGitDiff() {
 	} else {
 		rowNumber := 1
 		numRows := LV_GetCount()
-		while (rowNumber <= numRows) {
-			LV_GetText(fileName, rowNumber)
+		while ( rowNumber <= numRows ) {
+			LV_GetText( fileName, rowNumber )
 			consoleStr .= "git --no-pager diff " . fileName . "`r"
 			rowNumber++
 		}
 	}
-	PasteTextIntoGitShell(A_ThisLabel, consoleStr)
+	PasteTextIntoGitShell( A_ThisLabel, consoleStr )
 }
 
 ;   ································································································
@@ -391,7 +395,8 @@ HandleCafGitDiff() {
 
 HandleCafGitLog() {
 	global cafVars
-	delay := GetDelay("short")
+	global execDelayer
+
 	cmdStr := "git --no-pager log --follow --pretty=""format:%h | %cn | %cd | %s | %b"" --max-count"
 		. "=20 "
 	numSelectedRows := LV_GetCount("Selected")
@@ -404,7 +409,7 @@ HandleCafGitLog() {
 			if (rowNumber) {
 				LV_GetText(fileName, rowNumber)
 				consoleStr .= cmdStr . fileName . "`r"
-				Sleep, % delay
+				execDelayer.Wait( "s" )
 			} else {
 				break
 			}
