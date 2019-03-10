@@ -96,8 +96,11 @@
 			; Adjust folders
 			CAF_CommitAnyFile(A_ThisLabel, gitFolder, filesToCommit)
 		} else {
-			ErrorBox(ahkCmdName, "Unfortunately, you did not select a file contained within a "
-				. "valid git repository folder. Canceling hotkey; please try again.")
+			ErrorBox(ahkCmdName, 
+( Join
+"Unfortunately, you did not select a file contained within a valid git repository folder. Canceling 
+hotkey; please try again."
+) )
 		}
 	}
 Return
@@ -295,8 +298,11 @@ HandleCafAddFiles() {
 			}
 
 		} else {
-			ErrorBox(A_ThisFunc, "Unfortunately, you did not select files contained within the root"
-				. " folder of the git repository you previously selected. Please try again.")
+			ErrorBox(A_ThisFunc, "
+( Join
+Unfortunately, you did not select files contained within the root folder of the git repository you p
+reviously selected. Please try again.
+)" )
 		}
 	}
 }
@@ -345,8 +351,11 @@ HandleCafRemoveFiles() {
 
 	; If necessary, inform the user that removal of all files from the list view is not permitted.
 	if (triedToRemoveAllFiles) {
-			ErrorBox(A_ThisFunc, "Unfortunately, I cannot remove the file(s); at least one file mus"
-				. "t be entered for the commit process.")
+			ErrorBox(A_ThisFunc, 
+( Join
+"Unfortunately, I cannot remove the file(s); at least one file must be entered for the commit proces
+s."
+) )
 	}
 }
 
@@ -397,8 +406,10 @@ HandleCafGitLog() {
 	global cafVars
 	global execDelayer
 
-	cmdStr := "git --no-pager log --follow --pretty=""format:%h | %cn | %cd | %s | %b"" --max-count"
-		. "=20 "
+	cmdStr :=
+( Join
+"git --no-pager log --follow --pretty=""format:%h | %cn | %cd | %s | %b"" --max-count=20 "
+)
 	numSelectedRows := LV_GetCount("Selected")
 	consoleStr := "cd " . cafVars.gitFolder . "`r"
 	if (numSelectedRows > 0) {
@@ -483,8 +494,10 @@ HandleCafOk() {
 		if (ctrlCaf2ndMsg) {
 			commitMsgTxt .= "`n`nSECONDARY MESSAGE:`n""" . ctrlCaf2ndMsg . """"
 		}
-		MsgBox, 4, % "Ready to Proceed?", % "Are you sure you want to push the git commit "
-			. "message:`n`nPRIMARY MESSAGE:`n" . commitMsgTxt 
+		MsgBox, 4, % "Ready to Proceed?",
+( Join
+% "Are you sure you want to push the git commit message:`n`nPRIMARY MESSAGE:`n"
+) . commitMsgTxt 
 		IfMsgBox, Yes
 		{
 
@@ -516,8 +529,7 @@ HandleCafOk() {
 				cafLastMsg[key].primary := ctrlCaf1stMsg
 				cafLastMsg[key].secondary := ctrlCaf2ndMsg
 			}
-			commandLineInput .= "[console]::beep(2000,150)`r"
-				. "[console]::beep(2000,150)`r"
+			commandLineInput .= "[console]::beep(2000,150)`r[console]::beep(2000,150)`r"
 
 			; Paste the code into the command console.
 			PasteTextIntoGitShell(cafVars.ahkCmdName, commandLineInput)
@@ -543,8 +555,10 @@ CheckAnyFilePrimaryMsgChanged() {
 	global cafVars
 	proceed := cafVars.primaryMsgChanged
 	if (!proceed) {
-		MsgBox, 4, % "Are You Sure?", % "I noticed you didn't change the primary commit message. "
-			. "Do you still want to proceed?"
+		MsgBox, 4, % "Are You Sure?", % "
+( Join
+I noticed you didn't change the primary commit message. Do you still want to proceed?
+)"
 		IfMsgBox, Yes
 		{
 			proceed := True
@@ -565,13 +579,18 @@ ProcessHandleCafOkError(gVarCheck) {
 	functionName := "Caf.ahk / ProcessHandleCafOk()"
 	if (gVarCheck == 1) {
 		ErrorBox(functionName
-			, "Please enter a primary git commit message regarding changes in the LESS source "
-			. "file.")
+			,
+( Join
+"Please enter a primary git commit message regarding changes in the LESS source file."
+) )
 	} else if (gVarCheck != 0) {
 		Gui, guiCaf: Destroy
 		ErrorBox(functionName
-			, "An undefined global variable was encountered; function terminating. Variable "
-			. "checking bitmask was equal to " . gVarCheck . ".")
+			,
+( Join 
+"An undefined global variable was encountered; function terminating. Variable checking bitmask was e
+qual to "
+) . gVarCheck . ".")
 	}
 }
 
@@ -650,12 +669,17 @@ LoadCafMsgHistory() {
 				break
 			} else {
 				if (!ReadPrimaryCommitMsgForFileKey(logFile, cafLastMsg, key)) {
-					ErrorBox(A_ThisFunc, "Log file abruptly stopped after reading a file key. "
-						. "Aborting further reading of log.")
+					ErrorBox(A_ThisFunc,
+( Join
+"Log file abruptly stopped after reading a file key. Aborting further reading of log."
+) )
 					break
 				} else if(!ReadSecondaryCommitMsgForFileKey(logFile, cafLastMsg, key)) {
-					ErrorBox(A_ThisFunc, "Log file abruptly stopped after reading a file key and "
-						. "primary git commit message. Aborting further reading of log.")
+					ErrorBox(A_ThisFunc,
+( Join
+"Log file abruptly stopped after reading a file key and primary git commit message. Aborting further
+ reading of log."
+) )
 					break
 				}
 			}
@@ -685,8 +709,11 @@ ReadKeyForAnyFileCommitMsgHistory(ByRef logFile) {
 		if (logFileLine != "") {
 			key := logFileLine
 		} else {
-			ErrorBox(A_ThisFunc, "Blank line encountered when attempting to read the next file "
-				. "path in the log. Aborting further reading of log.")
+			ErrorBox(A_ThisFunc,
+( Join
+"Blank line encountered when attempting to read the next file path in the log. Aborting further read
+ing of log."
+) )
 		}
 	}
 	return key
