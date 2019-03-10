@@ -252,7 +252,8 @@ HandleCommitJsRemoveFiles() {
 
 HandleCommitJsGitDiff() {
 	global commitJsVars
-	delay := GetDelay("xShort")
+	global execDelayer
+
 	numSelectedRows := LV_GetCount("Selected")
 	consoleStr := "cd " . GetGitHubFolder() . "\" . commitJsVars.fpGitFolder . "\`r"
 	if (numSelectedRows > 0) {
@@ -263,7 +264,7 @@ HandleCommitJsGitDiff() {
 			if (rowNumber) {
 				LV_GetText(fileName, rowNumber)
 				consoleStr .= "git --no-pager diff " . fileName . "`r"
-				Sleep, % delay
+				execDelayer.Wait( "xs" )
 			} else {
 				break
 			}
@@ -288,7 +289,8 @@ HandleCommitJsGitDiff() {
 
 HandleCommitJsGitLog() {
 	global commitJsVars
-	delay := GetDelay("short")
+	global execDelayer
+
 	cmdStr := "git --no-pager log --follow --pretty=""format:%h | %cn | %cd | %s | %b"" --max-count"
 	 . "=20 "
 	numSelectedRows := LV_GetCount("Selected")
@@ -301,7 +303,7 @@ HandleCommitJsGitLog() {
 			if (rowNumber) {
 				LV_GetText(fileName, rowNumber)
 				consoleStr .= cmdStr . fileName . "`r"
-				Sleep, % delay
+				execDelayer.Wait( "xs" )
 			} else {
 				break
 			}

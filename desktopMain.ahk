@@ -63,27 +63,27 @@ SetGlobalVariables() {
 }
 
 SetMatchModeConstants() {
+	global execDelayer
 	global mmFast
 	global mmRegEx
 	global mmSlow
-	delay := GetDelay("short")
 
 	oldMatchMode := A_TitleMatchMode
-	Sleep % delay
+	execDelayer.Wait( "s" )
 	SetTitleMatchMode RegEx
-	Sleep % delay
+	execDelayer.Wait( "s" )
 	mmRegEx := A_TitleMatchMode
-	Sleep % delay
+	execDelayer.Wait( "s" )
 	if (oldMatchMode != A_TitleMatchMode) {
 		SetTitleMatchMode % oldMatchMode
 	}
 
 	oldMatchModeSpeed := A_TitleMatchModeSpeed
 	SetTitleMatchMode Slow
-	Sleep % delay
+	execDelayer.Wait( "s" )
 	mmSlow := A_TitleMatchModeSpeed
 	SetTitleMatchMode Fast
-	Sleep % delay
+	execDelayer.Wait( "s" )
 	mmFast := A_TitleMatchModeSpeed
 	if (oldMatchModeSpeed != A_TitleMatchModeSpeed) {
 		SetTitleMatchMode % oldMatchModeSpeed

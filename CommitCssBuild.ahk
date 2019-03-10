@@ -252,7 +252,8 @@ HandleCommitCssRemoveFiles() {
 
 HandleCommitCssGitDiff() {
 	global commitCssVars
-	delay := GetDelay("xShort")
+	global execDelayer
+
 	numSelectedRows := LV_GetCount("Selected")
 	consoleStr := "cd " . GetGitHubFolder() . "\" . commitCssVars.fpGitFolder . "\`r"
 	if (numSelectedRows > 0) {
@@ -263,7 +264,7 @@ HandleCommitCssGitDiff() {
 			if (rowNumber) {
 				LV_GetText(fileName, rowNumber)
 				consoleStr .= "git --no-pager diff " . fileName . "`r"
-				Sleep, % delay
+				execDelayer.wait( "xs" )
 			} else {
 				break
 			}
@@ -288,7 +289,8 @@ HandleCommitCssGitDiff() {
 
 HandleCommitCssGitLog() {
 	global commitCssVars
-	delay := GetDelay("short")
+	global execDelayer
+
 	cmdStr := "git --no-pager log --follow --pretty=""format:%h | %cn | %cd | %s | %b"" --max-count"
 		. "=20 "
 	numSelectedRows := LV_GetCount("Selected")
@@ -301,7 +303,7 @@ HandleCommitCssGitLog() {
 			if (rowNumber) {
 				LV_GetText(fileName, rowNumber)
 				consoleStr .= cmdStr . fileName . "`r"
-				Sleep, % delay
+				execDelayer.Wait( "s" )
 			} else {
 				break
 			}
