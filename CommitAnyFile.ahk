@@ -60,43 +60,43 @@
 ;     >>> §1.1: @gcAnyFile
 
 :*:@gcAnyFile::
-	AppendAhkCmd(A_ThisLabel)
+	AppendAhkCmd( A_ThisLabel )
 	subFolder := ""
-	gitFolderLen := StrLen(GetGitHubFolder() . "\")
+	gitFolderLen := StrLen( GetGitHubFolder() . "\" )
 	path := gcAnyFile_GetRepoPath()
-	if (path != "") {
+	if ( path != "" ) {
 		FileSelectFile, selectedFiles, M3, %path%, % "Select (a) file(s) to be committed."
 	} else {
 		FileSelectFile, selectedFiles, M3, , % "Select (a) file(s) to be committed."
 	}
-	if (selectedFiles != "") {
+	if ( selectedFiles != "" ) {
 		filesToCommit := Object()
 		Loop, Parse, selectedFiles, `n
 		{
-			if (a_index = 1) {
+			if ( a_index = 1 ) {
 				gitFolder := A_LoopField . "\"
-				if (InStr(gitFolder, GetGitHubFolder() . "\")) {
-					subFolder := SubStr(gitFolder, gitFolderLen + 1)
+				if ( InStr( gitFolder, GetGitHubFolder() . "\" ) ) {
+					subFolder := SubStr( gitFolder, gitFolderLen + 1 )
 				}
-				if (StrLen(subFolder)) {
-					subFolderPos := InStr(subFolder, "\")
-					gitFolder := SubStr(gitFolder, 1, gitFolderLen + subFolderPos)
-					subFolder := SubStr(subFolder, subFolderPos + 1)
+				if ( StrLen( subFolder ) ) {
+					subFolderPos := InStr( subFolder, "\" )
+					gitFolder := SubStr( gitFolder, 1, gitFolderLen + subFolderPos )
+					subFolder := SubStr( subFolder, subFolderPos + 1 )
 				}
 			} else {
-				filesToCommit.Push(subFolder . A_LoopField)
+				filesToCommit.Push( subFolder . A_LoopField )
 			}
 		}
 
 		; Verify that the file is contained within a valid git repository
-		isGitFolder := (gitFolder = GetGitHubFolder() . "\")
+		isGitFolder := ( gitFolder = GetGitHubFolder() . "\" )
 			? 0
-			: InStr(gitFolder, GetGitHubFolder())
-		if (isGitFolder) {
+			: InStr( gitFolder, GetGitHubFolder() )
+		if ( isGitFolder ) {
 			; Adjust folders
-			CAF_CommitAnyFile(A_ThisLabel, gitFolder, filesToCommit)
+			CAF_CommitAnyFile( A_ThisLabel, gitFolder, filesToCommit )
 		} else {
-			ErrorBox(ahkCmdName, 
+			ErrorBox( ahkCmdName, 
 ( Join
 "Unfortunately, you did not select a file contained within a valid git repository folder. Canceling 
 hotkey; please try again."
@@ -112,9 +112,9 @@ Return
 
 gcAnyFile_GetRepoPath() {
 	path := ""
-	if (IsGitShellActive()) {
+	if ( IsGitShellActive() ) {
 		path := gcAnyFile_GetRepoPath_PowerShell()
-	} else if (isTargetProcessActive("sublime_text.exe")) {
+	} else if ( isTargetProcessActive( "sublime_text.exe" ) ) {
 		path := gcAnyFile_GetRepoPath_ST3()
 	}
 	return path
@@ -130,8 +130,8 @@ gcAnyFile_GetRepoPath_PowerShell() {
 
 	SendInput, % "{Esc}"
 	execDelayer.Wait( "m" )
-	consoleStr := "Set-Clipboard (Get-Item -Path "".\"").FullName`r"
-	PasteTextIntoGitShell(A_ThisLabel, consoleStr)
+	consoleStr := "Set-Clipboard(Get-Item -Path "".\"").FullName`r"
+	PasteTextIntoGitShell( A_ThisLabel, consoleStr )
 	execDelayer.Wait( "m" )
 
 	return Clipboard
@@ -177,7 +177,7 @@ gcAnyFile_GetRepoPath_ST3() {
 ;   @param {string}			gitFolder		File system folder containing the local git repo.
 ;   @param {simple array}	filesToCommit	Array of files to be committed.
 
-CAF_CommitAnyFile(ahkCmdName, gitFolder, filesToCommit) {
+CAF_CommitAnyFile( ahkCmdName, gitFolder, filesToCommit ) {
 	global cafVars := Object()
 	global cafLastMsg
 	global ctrlCafLV
@@ -195,14 +195,14 @@ CAF_CommitAnyFile(ahkCmdName, gitFolder, filesToCommit) {
 	msgLenAnyFile1st := 0
 	lastAnyFileMsg2nd := ""
 	msgLenAnyFile2nd := 0
-	if (cafLastMsg != undefined) {
+	if ( cafLastMsg != undefined ) {
 		lastMsgs := cafLastMsg[cafVars.gitFolder 
 			. cafVars.filesToCommit[1]]
-		if (lastMsgs != undefined) {
+		if ( lastMsgs != undefined ) {
 			lastAnyFileMsg1st := lastMsgs.primary
-			msgLenAnyFile1st := StrLen(lastAnyFileMsg1st)
+			msgLenAnyFile1st := StrLen( lastAnyFileMsg1st )
 			lastAnyFileMsg2nd := lastMsgs.secondary
-			msgLenAnyFile2nd := StrLen(lastAnyFileMsg2nd)
+			msgLenAnyFile2nd := StrLen( lastAnyFileMsg2nd )
 		}
 	}
 
@@ -223,12 +223,12 @@ CAF_CommitAnyFile(ahkCmdName, gitFolder, filesToCommit) {
 	fileCount := cafVars.filesToCommit.Length()
 	Loop, %fileCount%
 	{
-		LV_Add(, cafVars.filesToCommit[A_Index])
+		LV_Add( , cafVars.filesToCommit[A_Index] )
 	}
 
 	;Continue adding controls to GUI
 	Gui, guiCaf: Add, Button, gHandleCafAddFiles xm Y+3, &Add More Files
-	Gui, guiCaf: Add, Button, gHandleCafRemoveFiles X+5, &Remove File(s)
+	Gui, guiCaf: Add, Button, gHandleCafRemoveFiles X+5, &Remove File( s )
 	Gui, guiCaf: Add, Button, gHandleCafGitDiff X+5, &Git diff selection
 	Gui, guiCaf: Add, Button, gHandleCafGitLog X+5, Git &log selection
 	Gui, guiCaf: Font, bold
@@ -258,23 +258,23 @@ CAF_CommitAnyFile(ahkCmdName, gitFolder, filesToCommit) {
 HandleCafAddFiles() {
 	global cafVars
 	FileSelectFile, selectedFiles, M3, , % "Select (a) file(s) to be committed."
-	if (selectedFiles != "") {
+	if ( selectedFiles != "" ) {
 		newFilesToCommit := Object()
 		Loop, Parse, selectedFiles, `n
 		{
-			if (a_index = 1) {
+			if ( a_index = 1 ) {
 				gitSubFolder := A_LoopField . "\"
 			} else {
-				newFilesToCommit.Push(A_LoopField)
+				newFilesToCommit.Push( A_LoopField )
 			}
 		}
 
 		; Verify that we are in a sub folder of the original git folder
-		posWhereFound := InStr(gitSubFolder, cafVars.gitFolder)
-		if (posWhereFound) {
+		posWhereFound := InStr( gitSubFolder, cafVars.gitFolder )
+		if ( posWhereFound ) {
 
 			; Remove the root folder path from the subfolder path, leaving a relative path
-			gitSubFolder := StrReplace(gitSubFolder, cafVars.gitFolder, "")
+			gitSubFolder := StrReplace( gitSubFolder, cafVars.gitFolder, "" )
 
 			; Ensure the proper GUI is default to LV_Add function works as expected
 			Gui, guiCaf: Default
@@ -286,19 +286,19 @@ HandleCafAddFiles() {
 				outerIdx := A_Index
 				Loop % LV_GetCount()
 				{
-					LV_GetText(retrievedFile, A_Index)
-					if (retrievedFile == gitSubFolder . newFilesToCommit[outerIdx]) {
+					LV_GetText( retrievedFile, A_Index )
+					if ( retrievedFile == gitSubFolder . newFilesToCommit[outerIdx] ) {
 						fileAlreadyPresent := True
 					}
 				}
-				if (!fileAlreadyPresent) {
-					(cafVars.filesToCommit).Push(gitSubFolder . newFilesToCommit[A_Index])
-					LV_Add(, gitSubFolder . newFilesToCommit[A_Index])
+				if ( !fileAlreadyPresent ) {
+					( cafVars.filesToCommit ).Push( gitSubFolder . newFilesToCommit[A_Index] )
+					LV_Add( , gitSubFolder . newFilesToCommit[A_Index] )
 				}
 			}
 
 		} else {
-			ErrorBox(A_ThisFunc, "
+			ErrorBox( A_ThisFunc, "
 ( Join
 Unfortunately, you did not select files contained within the root folder of the git repository you p
 reviously selected. Please try again.
@@ -319,21 +319,21 @@ HandleCafRemoveFiles() {
 	; Make sure the user doesn't try to remove all files.
 	numRows := LV_GetCount()
 	triedToRemoveAllFiles := False
-	if (numRows > 1) {
-		numSelectedRows := LV_GetCount("Selected")
-		if (numSelectedRows < numRows) {
+	if ( numRows > 1 ) {
+		numSelectedRows := LV_GetCount( "Selected" )
+		if ( numSelectedRows < numRows ) {
 			rowNumber := 1
 			Loop
 			{
-				rowNumber := LV_GetNext(rowNumber - 1)
-				if (rowNumber) {
-					LV_GetText(removedFile, rowNumber)
-					LV_Delete(rowNumber)
+				rowNumber := LV_GetNext( rowNumber - 1 )
+				if ( rowNumber ) {
+					LV_GetText( removedFile, rowNumber )
+					LV_Delete( rowNumber )
 					numFilesLeft := cafVars.filesToCommit.Length()
 					Loop % numFilesLeft
 					{
-						if (cafVars.filesToCommit[A_Index] == removedFile) {
-							cafVars.filesToCommit.RemoveAt(A_Index)
+						if ( cafVars.filesToCommit[A_Index] == removedFile ) {
+							cafVars.filesToCommit.RemoveAt( A_Index )
 							break
 						}
 					}
@@ -350,8 +350,8 @@ HandleCafRemoveFiles() {
 	}
 
 	; If necessary, inform the user that removal of all files from the list view is not permitted.
-	if (triedToRemoveAllFiles) {
-			ErrorBox(A_ThisFunc, 
+	if ( triedToRemoveAllFiles ) {
+			ErrorBox( A_ThisFunc, 
 ( Join
 "Unfortunately, I cannot remove the file(s); at least one file must be entered for the commit proces
 s."
@@ -410,15 +410,15 @@ HandleCafGitLog() {
 ( Join
 "git --no-pager log --follow --pretty=""format:%h | %cn | %cd | %s | %b"" --max-count=20 "
 )
-	numSelectedRows := LV_GetCount("Selected")
+	numSelectedRows := LV_GetCount( "Selected" )
 	consoleStr := "cd " . cafVars.gitFolder . "`r"
-	if (numSelectedRows > 0) {
+	if ( numSelectedRows > 0 ) {
 		rowNumber := 0
 		Loop
 		{
-			rowNumber := LV_GetNext(rowNumber)
-			if (rowNumber) {
-				LV_GetText(fileName, rowNumber)
+			rowNumber := LV_GetNext( rowNumber )
+			if ( rowNumber ) {
+				LV_GetText( fileName, rowNumber )
 				consoleStr .= cmdStr . fileName . "`r"
 				execDelayer.Wait( "s" )
 			} else {
@@ -428,13 +428,13 @@ HandleCafGitLog() {
 	} else {
 		rowNumber := 1
 		numRows := LV_GetCount()
-		while (rowNumber <= numRows) {
-			LV_GetText(fileName, rowNumber)
+		while ( rowNumber <= numRows ) {
+			LV_GetText( fileName, rowNumber )
 			consoleStr .= cmdStr . fileName . "`r"
 			rowNumber++
 		}
 	}
-	PasteTextIntoGitShell(A_ThisLabel, consoleStr)
+	PasteTextIntoGitShell( A_ThisLabel, consoleStr )
 }
 
 ;   ································································································
@@ -447,11 +447,11 @@ HandleCaf1stMsgChange() {
 	global ctrlCaf1stMsg
 	global ctrlCaf1stMsgCharCount
 
-	if (cafVars.primaryMsgChanged != True) {
+	if ( cafVars.primaryMsgChanged != True ) {
 		cafVars.primaryMsgChanged := True
 	}
 	Gui, guiCaf: Submit, NoHide
-	msgLen := StrLen(ctrlCaf1stMsg)
+	msgLen := StrLen( ctrlCaf1stMsg )
 	GuiControl, , ctrlCaf1stMsgCharCount, % "Length = " . msgLen . " characters"
 }
 
@@ -465,7 +465,7 @@ HandleCaf2ndMsgChange() {
 	global ctrlCaf2ndMsgCharCount
 
 	Gui, guiCaf: Submit, NoHide
-	msgLen := StrLen(ctrlCaf2ndMsg)
+	msgLen := StrLen( ctrlCaf2ndMsg )
 	GuiControl, , ctrlCaf2ndMsgCharCount, % "Length = " . msgLen . " characters"
 }
 
@@ -485,13 +485,13 @@ HandleCafOk() {
 
 	; Ensure that state of global variables is consistent with a valid GUI submission
 	gVarCheck := cafVars.ahkCmdName == undefined
-	gVarCheck := (gVarCheck << 1) | (cafVars.gitFolder == undefined)
-	gVarCheck := (gVarCheck << 1) | (cafVars.filesToCommit == undefined)
-	gVarCheck := (gVarCheck << 1) | (ctrlCaf1stMsg == undefined)
+	gVarCheck := ( gVarCheck << 1 ) | ( cafVars.gitFolder == undefined )
+	gVarCheck := ( gVarCheck << 1 ) | ( cafVars.filesToCommit == undefined )
+	gVarCheck := ( gVarCheck << 1 ) | ( ctrlCaf1stMsg == undefined )
 
-	if (!gVarCheck && CheckAnyFilePrimaryMsgChanged()) {
+	if ( !gVarCheck && CheckAnyFilePrimaryMsgChanged() ) {
 		commitMsgTxt := """" . ctrlCaf1stMsg . """"
-		if (ctrlCaf2ndMsg) {
+		if ( ctrlCaf2ndMsg ) {
 			commitMsgTxt .= "`n`nSECONDARY MESSAGE:`n""" . ctrlCaf2ndMsg . """"
 		}
 		MsgBox, 4, % "Ready to Proceed?",
@@ -508,10 +508,10 @@ HandleCafOk() {
 			commandLineInput := "cd '" . cafVars.gitFolder . "'`r"
 			Loop % cafVars.filesToCommit.Length()
 				commandLineInput .= "git add " . cafVars.filesToCommit[A_Index] . "`r"
-			escaped1stMsg := EscapeCommitMessage(ctrlCaf1stMsg)
+			escaped1stMsg := EscapeCommitMessage( ctrlCaf1stMsg )
 			commandLineInput .= "git commit -m """ . escaped1stMsg . """"
-			if (ctrlCaf2ndMsg != "") {
-				escaped2ndMsg := EscapeCommitMessage(ctrlCaf2ndMsg)
+			if ( ctrlCaf2ndMsg != "" ) {
+				escaped2ndMsg := EscapeCommitMessage( ctrlCaf2ndMsg )
 				commandLineInput .= " -m """ . escaped2ndMsg . """ `r"
 			} else {
 				commandLineInput .= "`r"
@@ -519,7 +519,7 @@ HandleCafOk() {
 			commandLineInput .= "git push`r"
 
 			; Store commit for later use as a guide
-			if (cafLastMsg == undefined) {
+			if ( cafLastMsg == undefined ) {
 				cafLastMsg := Object()
 			}
 			Loop % cafVars.filesToCommit.Length()
@@ -532,13 +532,13 @@ HandleCafOk() {
 			commandLineInput .= "[console]::beep(2000,150)`r[console]::beep(2000,150)`r"
 
 			; Paste the code into the command console.
-			PasteTextIntoGitShell(cafVars.ahkCmdName, commandLineInput)
+			PasteTextIntoGitShell( cafVars.ahkCmdName, commandLineInput )
 
 		}
 	} else {
 
 		; Determine what went wrong, notify user, and handle accordingly.
-		ProcessHandleCafOkError(gVarCheck)
+		ProcessHandleCafOkError( gVarCheck )
 	}
 }
 
@@ -554,7 +554,7 @@ HandleCafOk() {
 CheckAnyFilePrimaryMsgChanged() {
 	global cafVars
 	proceed := cafVars.primaryMsgChanged
-	if (!proceed) {
+	if ( !proceed ) {
 		MsgBox, 4, % "Are You Sure?", % "
 ( Join
 I noticed you didn't change the primary commit message. Do you still want to proceed?
@@ -575,22 +575,22 @@ I noticed you didn't change the primary commit message. Do you still want to pro
 ;   @param {bitmask}	gVarCheck		Represents the correctness of global variables associated
 ;   									with the GUI.
 
-ProcessHandleCafOkError(gVarCheck) {
+ProcessHandleCafOkError( gVarCheck ) {
 	functionName := "Caf.ahk / ProcessHandleCafOk()"
-	if (gVarCheck == 1) {
-		ErrorBox(functionName
+	if ( gVarCheck == 1 ) {
+		ErrorBox( functionName
 			,
 ( Join
 "Please enter a primary git commit message regarding changes in the LESS source file."
 ) )
-	} else if (gVarCheck != 0) {
+	} else if ( gVarCheck != 0 ) {
 		Gui, guiCaf: Destroy
-		ErrorBox(functionName
+		ErrorBox( functionName
 			,
 ( Join 
 "An undefined global variable was encountered; function terminating. Variable checking bitmask was e
 qual to "
-) . gVarCheck . ".")
+) . gVarCheck . "." )
 	}
 }
 
@@ -615,31 +615,32 @@ SaveCafMsgHistory() {
 	global cafLastMsg
 	global commitAnyFileMsgLog
 
-	if (cafLastMsg != undefined) {
-		logFile := FileOpen(commitAnyFileMsgLog, "w `n")
-		if (logFile) {
+	if ( cafLastMsg != undefined ) {
+		logFile := FileOpen( commitAnyFileMsgLog, "w `n" )
+		if ( logFile ) {
 			For key, value in cafLastMsg {
-				numBytes := logFile.WriteLine(key)
-				if (numBytes) {
-					numBytes := logFile.WriteLine(value.primary)
-					if (numBytes) {
-						numBytes := logFile.WriteLine(value.secondary)
-						if (!numBytes) {
-							ErrorBox(A_ThisFunc, "Could not write the secondary commit message for "
-								. key . ".")
+				numBytes := logFile.WriteLine( key )
+				if ( numBytes ) {
+					numBytes := logFile.WriteLine( value.primary )
+					if ( numBytes ) {
+						numBytes := logFile.WriteLine( value.secondary )
+						if ( !numBytes ) {
+							ErrorBox( A_ThisFunc, "Could not write the secondary commit message for "
+								. key . "." )
 						}
 					} else {
-						ErrorBox(A_ThisFunc, "Could not write the primary commit message for "
-							. key . ".")
+						ErrorBox( A_ThisFunc, "Could not write the primary commit message for "
+							. key . "." )
 					}
 				} else {
-					ErrorBox(A_ThisFunc, "Could not record the next LESS file name, " . key . ".")
+					ErrorBox( A_ThisFunc, "Could not record the next LESS file name, " . key . "." )
 				}
 			}
 			logFile.Close()
 		} else {
-			ErrorBox(A_ThisFunc, "Could not open any file commit message history log file '"
-				. commitAnyFileMsgLog . "'. Error code reported by FileOpen: '" . A_LastError . "'")
+			ErrorBox( A_ThisFunc, "Could not open any file commit message history log file '"
+				. commitAnyFileMsgLog . "'. Error code reported by FileOpen: '" . A_LastError
+				. "'" )
 		}
 	}
 }
@@ -657,25 +658,25 @@ LoadCafMsgHistory() {
 	global cafLastMsg
 	global commitAnyFileMsgLog
 
-	if (cafLastMsg == undefined) {
+	if ( cafLastMsg == undefined ) {
 		cafLastMsg := Object()
 	}
 
-	logFile := FileOpen(commitAnyFileMsgLog, "r `n")
-	if (logFile) {
+	logFile := FileOpen( commitAnyFileMsgLog, "r `n" )
+	if ( logFile ) {
 		Loop {
-			key := ReadKeyForAnyFileCommitMsgHistory(logFile)
-			if (key == "") {
+			key := ReadKeyForAnyFileCommitMsgHistory( logFile )
+			if ( key == "" ) {
 				break
 			} else {
-				if (!ReadPrimaryCommitMsgForFileKey(logFile, cafLastMsg, key)) {
-					ErrorBox(A_ThisFunc,
+				if ( !ReadPrimaryCommitMsgForFileKey( logFile, cafLastMsg, key ) ) {
+					ErrorBox( A_ThisFunc,
 ( Join
 "Log file abruptly stopped after reading a file key. Aborting further reading of log."
 ) )
 					break
-				} else if(!ReadSecondaryCommitMsgForFileKey(logFile, cafLastMsg, key)) {
-					ErrorBox(A_ThisFunc,
+				} else if( !ReadSecondaryCommitMsgForFileKey( logFile, cafLastMsg, key ) ) {
+					ErrorBox( A_ThisFunc,
 ( Join
 "Log file abruptly stopped after reading a file key and primary git commit message. Aborting further
  reading of log."
@@ -686,8 +687,8 @@ LoadCafMsgHistory() {
 		}
 		logFile.Close()
 	} else {
-		ErrorBox(A_ThisFunc, "Could not open commit message history log file '" 
-			. commitAnyFileMsgLog . "'. Error code reported by FileOpen: '" . A_LastError . "'")
+		ErrorBox( A_ThisFunc, "Could not open commit message history log file '" 
+			. commitAnyFileMsgLog . "'. Error code reported by FileOpen: '" . A_LastError . "'" )
 	}
 
 }
@@ -701,15 +702,15 @@ LoadCafMsgHistory() {
 ;   treated as an error condition, as this would otherwise result in a nonsensical blank string
 ;   being used as a key.
 
-ReadKeyForAnyFileCommitMsgHistory(ByRef logFile) {
+ReadKeyForAnyFileCommitMsgHistory( ByRef logFile ) {
 	key := ""
 	logFileLine := logFile.ReadLine()
-	if (logFileLine != "") {
-		logFileLine := StrReplace(logFileLine, "`n", "")
-		if (logFileLine != "") {
+	if ( logFileLine != "" ) {
+		logFileLine := StrReplace( logFileLine, "`n", "" )
+		if ( logFileLine != "" ) {
 			key := logFileLine
 		} else {
-			ErrorBox(A_ThisFunc,
+			ErrorBox( A_ThisFunc,
 ( Join
 "Blank line encountered when attempting to read the next file path in the log. Aborting further read
 ing of log."
@@ -724,12 +725,12 @@ ing of log."
 ;
 ;   Reads a primary commit message from the next line in the commit message history log file.
 
-ReadPrimaryCommitMsgForFileKey(ByRef logFile, ByRef commitMsgArray, key) {
+ReadPrimaryCommitMsgForFileKey( ByRef logFile, ByRef commitMsgArray, key ) {
 	success := false
 	logFileLine := logFile.ReadLine()
-	if (logFileLine != "") {
-		logFileLine := StrReplace(logFileLine, "`n", "")
-		if (logFileLine != "") {
+	if ( logFileLine != "" ) {
+		logFileLine := StrReplace( logFileLine, "`n", "" )
+		if ( logFileLine != "" ) {
 			success := true
 			commitMsgArray[key] := Object()
 			commitMsgArray[key].primary := logFileLine
@@ -743,12 +744,12 @@ ReadPrimaryCommitMsgForFileKey(ByRef logFile, ByRef commitMsgArray, key) {
 ;
 ;   Reads a secondary commit message from the next line in the commit message history log file.
 
-ReadSecondaryCommitMsgForFileKey(ByRef logFile, ByRef commitMsgArray, key) {
+ReadSecondaryCommitMsgForFileKey( ByRef logFile, ByRef commitMsgArray, key ) {
 	success := false
 	logFileLine := logFile.ReadLine()
-	if (logFileLine != "") {
+	if ( logFileLine != "" ) {
 		success := true
-		logFileLine := StrReplace(logFileLine, "`n", "")
+		logFileLine := StrReplace( logFileLine, "`n", "" )
 		commitMsgArray[key].secondary := logFileLine
 	}
 	return success
