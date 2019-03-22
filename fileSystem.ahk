@@ -11,6 +11,7 @@
 ;   §6: Coding resource folders...............................................................228
 ;   §7: Photo folders.........................................................................242
 ;   §8: Project folders.......................................................................254
+;   §9: @gotoFL...............................................................................???
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -260,4 +261,29 @@ Return
 
 :*:@gotoProjects::
 	InsertFilePath(A_ThisLabel, userAccountFolderHDD . "\Documents\Daniel\{^}Projects")
+Return
+
+
+; --------------------------------------------------------------------------------------------------
+;   §9: @gotoFL: Goto file location
+; --------------------------------------------------------------------------------------------------
+
+:*:@gotoFL::
+	MsgBox % A_ThisLabel . ": This hotstring is still being designed."
+	; TODO: Design log file structure.
+	; TODO: Write log file from the above locations.
+	; TODO: Decide: Object-oriented approach?
+	; TODO: Decide: Is there a need to preserve meaning of global variables such as
+	;	userAccountFolderHDD?
+	; TODO: Decide: Incorporate trie functionality when searching for file locations?
+	; TODO: Write function: gtfl_CreateGUI - Start the GUI.
+	; TODO: Write function: gtfl_CheckLog - See if the file location log has already been loaded.
+	; TODO: Write function: gtfl_CheckLogFile - See if log file exists and respond accordingly
+	; TODO: Write function: gtfl_LoadLogFromFile - Open log file and use RegEx to parse it into
+	;	file locations and shorthand strings.
+	; TODO: Write function: gtfl_CheckFileLocation
+	; TODO: Write function: gtfl_SaveLogToFile
+	; TODO: Write function: gtfl_AddLocationToLog
+	; TODO: Write function: gtfl_RemoveLocationFromLog
+	; TODO: Write functions: GUI handlers.
 Return
