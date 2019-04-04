@@ -76,12 +76,12 @@
 ;       →→→ §7.1.1: AddWinBordersToMonitorWorkArea.............................................866
 ;       →→→ §7.1.2: ClipActiveWindowToMonitor..................................................881
 ;       →→→ §7.1.3: FindActiveMonitor..........................................................913
-;       →→→ §7.1.4: FindNearestActiveMonitor...................................................933
-;       →→→ §7.1.5: GetActiveMonitorWorkArea...................................................960
-;       →→→ §7.1.6: RemoveWinBorderFromRectCoordinate.........................................1001
-;       →→→ §7.1.8: ResolveActiveMonitorWorkArea..............................................1040
-;     >>> §7.2: Hotstrings....................................................................1075
-;       →→→ §7.2.1: @clipActiveWindowToMonitor................................................1078
+;       →→→ §7.1.4: FindNearestActiveMonitor...................................................937
+;       →→→ §7.1.5: GetActiveMonitorWorkArea...................................................971
+;       →→→ §7.1.6: RemoveWinBorderFromRectCoordinate.........................................1012
+;       →→→ §7.1.8: ResolveActiveMonitorWorkArea..............................................1051
+;     >>> §7.2: Hotstrings....................................................................1086
+;       →→→ §7.2.1: @clipActiveWindowToMonitor................................................1089
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -913,14 +913,18 @@ ClipActiveWindowToMonitor() {
 ;       →→→ §7.1.3: FindActiveMonitor
 
 FindActiveMonitor() {
-	whichMon := 0
+	global
+	local whichMon := 0
+	local x
+	local y
+	local w
+	local h
 
 	WinGetPos, x, y, w, h, A
 	RemoveWinBorderFromRectCoordinate(0, x, y)
 	Loop, %sysNumMonitors% {
-		if (winCoords.x >= mon%A_Index%Bounds_Left && winCoords.y >= mon%A_Index%Bounds_Top
-				&& winCoords.x < mon%A_Index%Bounds_Right
-				&& winCoords.y < mon%A_Index%Bounds_Bottom) {
+		if (x >= mon%A_Index%Bounds_Left && y >= mon%A_Index%Bounds_Top
+				&& x < mon%A_Index%Bounds_Right && y < mon%A_Index%Bounds_Bottom) {
 			whichMon := A_Index
 			break
 		}
@@ -933,9 +937,16 @@ FindActiveMonitor() {
 ;       →→→ §7.1.4: FindNearestActiveMonitor
 
 FindNearestActiveMonitor() {
-	minDistance := -1
-	winMidpt := {}
-	monMidpt := {}
+	global
+	local minDistance := -1
+	local winMidpt := {}
+	local monMidpt := {}
+	local x
+	local y
+	local w
+	local h
+	local distance
+	local correctMon
 
 	WinGetPos, x, y, w, h, A
 	RemoveWinBorderFromRectCoordinate(0, x, y)
