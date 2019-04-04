@@ -196,7 +196,7 @@ Gosub, MainSubroutine
 
 #Include %A_ScriptDir%\API_GetWindowInfo.ahk
 
-#Include %A_ScriptDir%\functions.ahk
+#Include %A_ScriptDir%\Functions\functions.ahk
 
 #Include %A_ScriptDir%\trie.ahk
 
