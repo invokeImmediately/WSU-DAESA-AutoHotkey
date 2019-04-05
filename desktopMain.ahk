@@ -160,8 +160,19 @@ ListAhkFiles() {
 	FileList := Object()
 	
 	;Get list of file paths to AHK files
-	Loop, % GetGitHubFolder() . "\WSU-OUE-AutoHotkey\*.ahk" {
+	Loop, Files, % A_ScriptDir . "\*.ahk"
+	{
 		FileList.push(A_LoopFileFullPath)
+	}
+	Loop, Files, % A_ScriptDir . "\*", D
+	{
+		if ( A_LoopFileName != "Local" ) {
+			folderPath := A_LoopFileFullPath
+			Loop, Files, % folderPath . "\*.ahk"
+			{
+				FileList.push(A_LoopFileFullPath)
+			}
+		}
 	}
 	
 	;Find all hotstrings within files and store to an array
