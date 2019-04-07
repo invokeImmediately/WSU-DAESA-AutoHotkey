@@ -28,81 +28,77 @@
 ; ==================================================================================================
 ; TABLE OF CONTENTS:
 ; -----------------
-;   §1: AUTOMATED DESKTOP SET UP...............................................................109
-;   §2: FUNCTIONS & SUBROUTINES................................................................115
-;     >>> §2.1: IsWindowOnLeftDualMonitor......................................................119
-;     >>> §2.2: IsWindowOnLeftTriMonitor.......................................................142
-;     >>> §2.3: OpenChromeTab..................................................................169
-;   §3: WINDOW POSITIONING HOTKEYS.............................................................193
-;     >>> §3.1: ^F12 — "Always on top" toggle..................................................197
-;     >>> §3.2: ^!F1-F7 — Virtual desktop switching............................................202
-;       →→→ §3.2.1: caf1thruN_switchToDesktop(…)...............................................245
-;     >>> §3.3: ^F6-F11 — Snapped positioning of windows on multiple monitor systems...........257
-;     >>> §3.4: ^!m: Mirrored window positioning for multiple monitors.........................363
-;     >>> §3.5: >^!#Left — Snap window to or collapse at left edge.............................400
-;       →→→ §3.5.1: DecrementWinDimension......................................................418
-;       →→→ §3.5.2: SafeWinMove................................................................436
-;     >>> §3.6: <^!#Left — Snap to/collapse at left edge + expand height.......................453
-;       →→→ §3.6.1: UpdateVariableAsNeeded.....................................................476
-;     >>> §3.7: >^!+#Left — Snap to/expand at left edge........................................489
-;       →→→ §3.7.1: IncrementWinDimension......................................................506
-;     >>> §3.8: <^!+#Left — Snap to/expand at left edge + expand height........................524
-;     >>> §3.9: >^!#Right — Snap window to or collapse at right edge...........................546
-;     >>> §3.10: <^!#Right — Snap to/collapse at right edge + expand height....................565
-;     >>> §3.11: >^!+#Right — Snap to/expand at right edge.....................................589
-;     >>> §3.12: <^!+#Right — Snap to/expand at right edge + expand height.....................608
-;     >>> §3.13: >^!#Up — Snap window to or collapse at top edge...............................630
-;     >>> §3.14: <^!#Up — Snap to/collapse at top edge + expand height.........................648
-;     >>> §3.15: >^!+#Up — Snap to/expand at top edge..........................................670
-;     >>> §3.16: <^!+#Up — Snap to/expand at top edge + expand height..........................688
-;     >>> §3.17: >^!#Down — Snap window to or collapse at bottom edge..........................709
-;     >>> §3.18: <^!#Down — Snap to/collapse at bottom edge + expand height....................727
-;     >>> §3.19: >^!+#Down — Snap to/expand at bottom edge.....................................748
-;     >>> §3.20: <^!+#Down — Snap to/expand at bottom edge + expand height.....................766
-;     >>> §3.21: ^!#Numpad5 — Snap to/collapse at midpoint.....................................787
-;     >>> §3.22: ^!#NumpadClear — Snap to/expand at midpoint...................................843
-;	  >>> §3.23: ^NumpadX — Keyboard based movement of active windows..........................887
-;       →→→ §3.23.1: TranslateActiveWindow(…)..................................................922
-;   §4: VIRTUAL DESKTOP HOTKEYS................................................................944
-;     >>> §4.1: ^!1-7 — Movement of windows between virtual desktops...........................948
-;       →→→ §4.1.1: ca1thruN_moveToDesktop(…)..................................................991
-;   §5: MOUSE HOTKEYS..........................................................................999
-;     >>> §5.1: ^!+RButton — Remember/forget mouse coordinates.................................1003
-;     >>> §5.2: ^!+LButton — Move to remembered mouse coordinates..............................1039
-;       →→→ §5.2.1: casLButton_IsMouseAtCurrentCoord...........................................1050
-;       →→→ §5.2.2: casLButton_MoveMouseToCurrentCoord........................................1070
-;       →→→ §5.2.3: casLButton_MoveMouseToNextCoord...........................................1099
-;     >>> §5.3: ^!#L/RButton — Move mouse to taskbar..........................................1118
-;     >>> §5.4: #LButton — Move mouse to center of active window..............................1131
-;   §6: AUDITORY CUE BINDING..................................................................1149
-;   §7: WINDOW POSITIONING GUIS...............................................................1169
-;     >>> §7.1: Window Adjustment GUI.........................................................1173
-;       →→→ §7.1.1: TriggerWindowAdjustmentGui................................................1176
-;       →→→ §7.1.2: HandleGuiWinAdjWidthSliderChange..........................................1249
-;       →→→ §7.1.3: HandleGuiWinAdjOK.........................................................1284
-;       →→→ §7.1.4: guiWinAdjGuiEscape........................................................1291
-;       →→→ §7.1.5: GuiWinAdjUpdateEdgeSnapping...............................................1298
-;       →→→ §7.1.6: GuiWinAdjCheckNewPosition.................................................1318
-;   §8: APP SPECIFIC WORKSPACE MANAGEMENT SCRIPTS.............................................1339
-;     >>> §8.1: CHROME........................................................................1343
-;       →→→ §8.1.1: OpenWebsiteInChrome.......................................................1346
-;       →→→ §8.1.2: OpenNewTabInChrome........................................................1367
-;       →→→ §8.1.3: NavigateToWebsiteInChrome.................................................1379
-;       →→→ §8.1.4: MoveToNextTabInChrome.....................................................1393
-;     >>> §8.2: GNU IMAGE MANIPULATION PROGRAM................................................1405
-;       →→→ §8.2.1: @toggleGimp...............................................................1408
-;     >>> §8.3: NOTEPAD++: TEXT EDITING ENHANCEMENT HOTKEYS & SCRIPTS.........................1452
-;     >>> §8.4: STICKY NOTES FOR CHROME.......................................................1524
-;       →→→ §8.4.1: @initStickyNoteToggle.....................................................1527
-;       →→→ §8.4.2: @toggleStickyNote.........................................................1539
-;     >>> §8.5: SUBLIME TEXT 3................................................................1566
-;       →→→ §8.5.1: @sst3 (Start Sublime Text 3)..............................................1569
-;       →→→ §8.5.2: updateTableOfContents.ahk.................................................1576
-;     >>> §8.6: iTunes........................................................................1581
-;       →→→ §8.6.1: @restartItunes............................................................1584
-;   §9: Diagnostic hotstrings.................................................................1617
-;     >>> §9.1: @getActiveMonitorWorkArea.....................................................1621
-;     >>> §9.2: @getActiveMonitorWorkArea.....................................................1631
+;   §1: AUTOMATED DESKTOP SET UP...............................................................105
+;   §2: WINDOW POSITIONING HOTKEYS.............................................................111
+;     >>> §2.1: ^F12 — "Always on top" toggle..................................................115
+;     >>> §2.2: ^!F1-F7 — Virtual desktop switching............................................120
+;       →→→ §2.2.1: caf1thruN_switchToDesktop(…)...............................................163
+;     >>> §2.3: ^F6-F11 — Snapped positioning of windows on multiple monitor systems...........175
+;     >>> §2.4: ^!m: Mirrored window positioning for multiple monitors.........................281
+;     >>> §2.5: >^!#Left — Snap window to or collapse at left edge.............................318
+;       →→→ §2.5.1: DecrementWinDimension......................................................336
+;       →→→ §2.5.2: SafeWinMove................................................................354
+;     >>> §2.6: <^!#Left — Snap to/collapse at left edge + expand height.......................371
+;       →→→ §2.6.1: UpdateVariableAsNeeded.....................................................394
+;     >>> §2.7: >^!+#Left — Snap to/expand at left edge........................................407
+;       →→→ §2.7.1: IncrementWinDimension......................................................424
+;     >>> §2.8: <^!+#Left — Snap to/expand at left edge + expand height........................442
+;     >>> §2.9: >^!#Right — Snap window to or collapse at right edge...........................464
+;     >>> §2.10: <^!#Right — Snap to/collapse at right edge + expand height....................483
+;     >>> §2.11: >^!+#Right — Snap to/expand at right edge.....................................507
+;     >>> §2.12: <^!+#Right — Snap to/expand at right edge + expand height.....................526
+;     >>> §2.13: >^!#Up — Snap window to or collapse at top edge...............................548
+;     >>> §2.14: <^!#Up — Snap to/collapse at top edge + expand height.........................566
+;     >>> §2.15: >^!+#Up — Snap to/expand at top edge..........................................588
+;     >>> §2.16: <^!+#Up — Snap to/expand at top edge + expand height..........................606
+;     >>> §2.17: >^!#Down — Snap window to or collapse at bottom edge..........................627
+;     >>> §2.18: <^!#Down — Snap to/collapse at bottom edge + expand height....................645
+;     >>> §2.19: >^!+#Down — Snap to/expand at bottom edge.....................................666
+;     >>> §2.20: <^!+#Down — Snap to/expand at bottom edge + expand height.....................684
+;     >>> §2.21: ^!#Numpad5 — Snap to/collapse at midpoint.....................................705
+;     >>> §2.22: ^!#NumpadClear — Snap to/expand at midpoint...................................761
+;	  >>> §2.23: ^NumpadX — Keyboard based movement of active windows..........................805
+;       →→→ §2.23.1: TranslateActiveWindow(…)..................................................840
+;   §3: VIRTUAL DESKTOP HOTKEYS................................................................862
+;     >>> §3.1: ^!1-7 — Movement of windows between virtual desktops...........................866
+;       →→→ §3.1.1: ca1thruN_moveToDesktop(…)..................................................909
+;   §4: MOUSE HOTKEYS..........................................................................917
+;     >>> §4.1: ^!+RButton — Remember/forget mouse coordinates................................921
+;     >>> §4.2: ^!+LButton — Move to remembered mouse coordinates.............................957
+;       →→→ §4.2.1: casLButton_IsMouseAtCurrentCoord..........................................968
+;       →→→ §4.2.2: casLButton_MoveMouseToCurrentCoord........................................988
+;       →→→ §4.2.3: casLButton_MoveMouseToNextCoord...........................................1017
+;     >>> §4.3: ^!#L/RButton — Move mouse to taskbar..........................................1036
+;     >>> §4.4: #LButton — Move mouse to center of active window..............................1049
+;   §5: AUDITORY CUE BINDING..................................................................1067
+;   §6: WINDOW POSITIONING GUIS...............................................................1087
+;     >>> §6.1: Window Adjustment GUI.........................................................1091
+;       →→→ §6.1.1: TriggerWindowAdjustmentGui................................................1094
+;       →→→ §6.1.2: HandleGuiWinAdjWidthSliderChange..........................................1167
+;       →→→ §6.1.3: HandleGuiWinAdjOK.........................................................1202
+;       →→→ §6.1.4: guiWinAdjGuiEscape........................................................1209
+;       →→→ §6.1.5: GuiWinAdjUpdateEdgeSnapping...............................................1216
+;       →→→ §6.1.6: GuiWinAdjCheckNewPosition.................................................1236
+;   §7: APP SPECIFIC WORKSPACE MANAGEMENT SCRIPTS.............................................1257
+;     >>> §7.1: CHROME........................................................................1261
+;       →→→ §7.1.1: OpenWebsiteInChrome.......................................................1264
+;       →→→ §7.1.2: OpenNewTabInChrome........................................................1285
+;       →→→ §7.1.3: NavigateToWebsiteInChrome.................................................1297
+;       →→→ §7.1.4: MoveToNextTabInChrome.....................................................1311
+;     >>> §7.2: GNU IMAGE MANIPULATION PROGRAM................................................1323
+;       →→→ §7.2.1: @toggleGimp...............................................................1326
+;     >>> §7.3: NOTEPAD++: TEXT EDITING ENHANCEMENT HOTKEYS & SCRIPTS.........................1370
+;     >>> §7.4: STICKY NOTES FOR CHROME.......................................................1442
+;       →→→ §7.4.1: @initStickyNoteToggle.....................................................1445
+;       →→→ §7.4.2: @toggleStickyNote.........................................................1457
+;     >>> §7.5: SUBLIME TEXT 3................................................................1484
+;       →→→ §7.5.1: @sst3 (Start Sublime Text 3)..............................................1487
+;       →→→ §7.5.2: updateTableOfContents.ahk.................................................1494
+;     >>> §7.6: iTunes........................................................................1499
+;       →→→ §7.6.1: @restartItunes............................................................1502
+;   §8: Diagnostic hotstrings.................................................................1535
+;     >>> §8.1: @getActiveMonitorWorkArea.....................................................1539
+;     >>> §8.2: @getInfoOnSystemMonitors......................................................1549
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -112,94 +108,16 @@
 #include %A_ScriptDir%\WorkspaceManagement\automatedDesktopSetUp.ahk
 
 ; --------------------------------------------------------------------------------------------------
-;   §2: FUNCTIONS & SUBROUTINES
+;   §2: WINDOW POSITIONING HOTKEYS
 ; --------------------------------------------------------------------------------------------------
 
 ;   ································································································
-;     >>> §2.1: IsWindowOnLeftDualMonitor
-
-IsWindowOnLeftDualMonitor(title := "A") {
-	global sysWinBorderW
-
-	WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, %title%
-	SysGet, Mon1, Monitor, 1
-	SysGet, Mon2, Monitor, 2
-
-	if (Mon1Right < Mon2Right) {
-		MonLRight = Mon1Right
-	} else {
-		MonLRight = Mon2Right		
-	}
-
-	if (thisWinX < MonLRight - sysWinBorderW) {
-		return true
-	} else {
-		return false
-	}
-}
-
-;   ································································································
-;     >>> §2.2: IsWindowOnLeftTriMonitor
-
-IsWindowOnLeftTriMonitor(title := "A") {
-	global sysWinBorderW
-
-	WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, %title%
-	SysGet, Mon1, Monitor, 1
-	SysGet, Mon2, Monitor, 2
-	SysGet, Mon3, Monitor, 3
-
-	MonLRight := Mon1Right
-	if (Mon2Right < MonLRight) {
-		MonLRight := Mon2Right
-	}
-	if (Mon3Right < MonLRight) {
-		MonLRight := Mon3Right
-	}
-	MsgBox, %MonLRight%
-
-	if (thisWinX < MonLRight - sysWinBorderW) {
-		return true
-	} else {
-		return false
-	}
-}
-
-;   ································································································
-;     >>> §2.3: OpenChromeTab
-
-OpenChromeTab:
-	WinGet, thisProcess, ProcessName, A
-	if (thisProcess = "chrome.exe") {
-		SendInput ^n
-		Sleep 250
-		isReady := false
-		while !isReady
-		{
-			IfWinExist, % "New Tab"
-			{
-				isReady := true
-				Sleep, 500
-			}
-			else
-			{
-				Sleep, 250
-			}
-		}
-	}
-return
-
-; --------------------------------------------------------------------------------------------------
-;   §3: WINDOW POSITIONING HOTKEYS
-; --------------------------------------------------------------------------------------------------
-
-;   ································································································
-;     >>> §3.1: ^F12 — "Always on top" toggle
+;     >>> §2.1: ^F12 — "Always on top" toggle
 
 ^F12::WinSet, AlwaysOnTop, Toggle, A
 
 ;   ································································································
-;     >>> §3.2: ^!F1-F7 — Virtual desktop switching
+;     >>> §2.2: ^!F1-F7 — Virtual desktop switching
 
 ^!F1::
 	caf1thruN_switchToDesktop(1)
@@ -242,7 +160,7 @@ Return
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §3.6.1: §3.2.1: caf1thruN_switchToDesktop(…)
+;       →→→ §2.2.1: caf1thruN_switchToDesktop(…)
 
 caf1thruN_switchToDesktop(whichDesktop) {
 	global vdDesktopCount
@@ -254,7 +172,7 @@ caf1thruN_switchToDesktop(whichDesktop) {
 }
 
 ;   ································································································
-;     >>> §3.3: ^F6-F11 — Snapped positioning of windows on multiple monitor systems
+;     >>> §2.3: ^F6-F11 — Snapped positioning of windows on multiple monitor systems
 
 ^F11::
 	RemoveMinMaxStateForActiveWin()
@@ -360,7 +278,7 @@ Return
 Return
 
 ;   ································································································
-;     >>> §3.4: ^!m: Mirrored window positioning for multiple monitors
+;     >>> §2.4: ^!m: Mirrored window positioning for multiple monitors
 
 ^!m::
 	aMon := FindNearestActiveMonitor()
@@ -397,7 +315,7 @@ CtrlAltM_GetNewXCoord(aMon, oldX, winW) {
 }
 
 ;   ································································································
-;     >>> §3.5: >^!#Left — Snap window to or collapse at left edge
+;     >>> §2.5: >^!#Left — Snap window to or collapse at left edge
 
 ; Snap the active window to the left edge of its monitor; if already snapped, reduce its width.
 >^!#Left::
@@ -415,7 +333,7 @@ CtrlAltM_GetNewXCoord(aMon, oldX, winW) {
 return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §3.5.1: DecrementWinDimension
+;       →→→ §2.5.1: DecrementWinDimension
 
 DecrementWinDimension(ByRef winDim, winPos, ByRef targetPos, decrement, minWinDim, maxWinDim
 		, adjustPos, maxPos) {
@@ -433,7 +351,7 @@ DecrementWinDimension(ByRef winDim, winPos, ByRef targetPos, decrement, minWinDi
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §3.5.2: SafeWinMove
+;       →→→ §2.5.2: SafeWinMove
 
 SafeWinMove(WinTitle, WinText, X, Y, Width, Height, ExcludeTitle := "", ExcludeText := "") {
 	; TODO: Refactor this function for improved performance. Can use an hWnd array to check whether
@@ -450,7 +368,7 @@ SafeWinMove(WinTitle, WinText, X, Y, Width, Height, ExcludeTitle := "", ExcludeT
 }
 
 ;   ································································································
-;     >>> §3.6: <^!#Left — Snap to/collapse at left edge + expand height
+;     >>> §2.6: <^!#Left — Snap to/collapse at left edge + expand height
 
 ; Snap the active window to the left edge of its monitor; if already snapped, reduce its width. 
 ; Additionally, resize the window vertically to fill up the full vertical extent of the monitor's 
@@ -473,7 +391,7 @@ SafeWinMove(WinTitle, WinText, X, Y, Width, Height, ExcludeTitle := "", ExcludeT
 return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §3.6.1: UpdateVariableAsNeeded
+;       →→→ §2.6.1: UpdateVariableAsNeeded
 
 UpdateVariableAsNeeded(ByRef variable, newValue) {
 	if (variable != newValue) {
@@ -486,7 +404,7 @@ UpdateVariableAsNeeded(ByRef variable, newValue) {
 }
 
 ;   ································································································
-;     >>> §3.7: >^!+#Left — Snap to/expand at left edge
+;     >>> §2.7: >^!+#Left — Snap to/expand at left edge
 
 ; Snap the active window to the left edge of its monitor; if already snapped, increase its width.
 >^!+#Left::
@@ -503,7 +421,7 @@ UpdateVariableAsNeeded(ByRef variable, newValue) {
 return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §3.7.1: IncrementWinDimension
+;       →→→ §2.7.1: IncrementWinDimension
 
 IncrementWinDimension(ByRef winDim, winPos, ByRef targetPos, increment, minWinDim, maxWinDim
 		, adjustPos, maxPos) {
@@ -521,7 +439,7 @@ IncrementWinDimension(ByRef winDim, winPos, ByRef targetPos, increment, minWinDi
 }
 
 ;   ································································································
-;     >>> §3.8: <^!+#Left — Snap to/expand at left edge + expand height
+;     >>> §2.8: <^!+#Left — Snap to/expand at left edge + expand height
 
 ; Snap the active window to the left edge of its monitor; if already snapped, increase its width. 
 ; Additionally, match the height of the window to the full height of the active monitor's work area.
@@ -543,7 +461,7 @@ IncrementWinDimension(ByRef winDim, winPos, ByRef targetPos, increment, minWinDi
 return
 
 ;   ································································································
-;     >>> §3.9: >^!#Right — Snap window to or collapse at right edge
+;     >>> §2.9: >^!#Right — Snap window to or collapse at right edge
 
 ; Snap the active window to the right edge of its monitor; if already snapped, reduce its width.
 >^!#Right::
@@ -562,7 +480,7 @@ return
 return
 
 ;   ································································································
-;     >>> §3.10: <^!#Right — Snap to/collapse at right edge + expand height
+;     >>> §2.10: <^!#Right — Snap to/collapse at right edge + expand height
 
 ; Snap the active window to the right edge of its monitor; if already snapped, reduce its width.
 ; Additionally, resize the window vertically to fill up the full vertical extent of the monitor's 
@@ -586,7 +504,7 @@ return
 return
 
 ;   ································································································
-;     >>> §3.11: >^!+#Right — Snap to/expand at right edge
+;     >>> §2.11: >^!+#Right — Snap to/expand at right edge
 
 ; Snap the active window to the right edge of its monitor; if already snapped, increase its width.
 >^!+#Right::
@@ -605,7 +523,7 @@ return
 return
 
 ;   ································································································
-;     >>> §3.12: <^!+#Right — Snap to/expand at right edge + expand height
+;     >>> §2.12: <^!+#Right — Snap to/expand at right edge + expand height
 
 ; Snap the active window to the right edge of its monitor; if already snapped, increase its width.
 <^!+#Right::
@@ -627,7 +545,7 @@ return
 return
 
 ;   ································································································
-;     >>> §3.13: >^!#Up — Snap window to or collapse at top edge
+;     >>> §2.13: >^!#Up — Snap window to or collapse at top edge
 
 >^!#Up::
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
@@ -645,7 +563,7 @@ return
 return
 
 ;   ································································································
-;     >>> §3.14: <^!#Up — Snap to/collapse at top edge + expand height
+;     >>> §2.14: <^!#Up — Snap to/collapse at top edge + expand height
 
 
 <^!#Up::
@@ -667,7 +585,7 @@ return
 return
 
 ;   ································································································
-;     >>> §3.15: >^!+#Up — Snap to/expand at top edge
+;     >>> §2.15: >^!+#Up — Snap to/expand at top edge
 
 >^!+#Up::
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
@@ -685,7 +603,7 @@ return
 return
 
 ;   ································································································
-;     >>> §3.16: <^!+#Up — Snap to/expand at top edge + expand height
+;     >>> §2.16: <^!+#Up — Snap to/expand at top edge + expand height
 
 <^!+#Up::
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
@@ -706,7 +624,7 @@ return
 return
 
 ;   ································································································
-;     >>> §3.17: >^!#Down — Snap window to or collapse at bottom edge
+;     >>> §2.17: >^!#Down — Snap window to or collapse at bottom edge
 
 >^!#Down::
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
@@ -724,7 +642,7 @@ return
 return
 
 ;   ································································································
-;     >>> §3.18: <^!#Down — Snap to/collapse at bottom edge + expand height
+;     >>> §2.18: <^!#Down — Snap to/collapse at bottom edge + expand height
 
 <^!#Down::
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
@@ -745,7 +663,7 @@ return
 return
 
 ;   ································································································
-;     >>> §3.19: >^!+#Down — Snap to/expand at bottom edge
+;     >>> §2.19: >^!+#Down — Snap to/expand at bottom edge
 
 >^!+#Down::
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
@@ -763,7 +681,7 @@ return
 return
 
 ;   ································································································
-;     >>> §3.20: <^!+#Down — Snap to/expand at bottom edge + expand height
+;     >>> §2.20: <^!+#Down — Snap to/expand at bottom edge + expand height
 
 <^!+#Down::
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
@@ -784,7 +702,7 @@ return
 return
 
 ;   ································································································
-;     >>> §3.21: ^!#Numpad5 — Snap to/collapse at midpoint
+;     >>> §2.21: ^!#Numpad5 — Snap to/collapse at midpoint
 
 ^!#Numpad5::
 	; Snap the center of the active window to the center of its monitor. Decrement its width & 
@@ -840,7 +758,7 @@ return
 return
 
 ;   ································································································
-;     >>> §3.22: ^!#NumpadClear — Snap to/expand at midpoint
+;     >>> §2.22: ^!#NumpadClear — Snap to/expand at midpoint
 
 ^!#NumpadClear:: ; Equivalent to ^!+#Numpad5
 	; Snap the center of the active window to the center of its monitor. Increment its width & 
@@ -884,7 +802,7 @@ return
 return
 
 ;   ································································································
-;     >>> §3.23: ^NumpadX — Keyboard based movement of active windows
+;     >>> §2.23: ^NumpadX — Keyboard based movement of active windows
 
 ^Numpad1::
 	TranslateActiveWindow(-10, 10)
@@ -919,7 +837,7 @@ Return
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §3.23.1: TranslateActiveWindow(…)
+;       →→→ §2.23.1: TranslateActiveWindow(…)
 
 TranslateActiveWindow(delX, delY) {
 	WinGetPos xl, yt, w, h, A
@@ -941,11 +859,11 @@ TranslateActiveWindow(delX, delY) {
 }
 
 ; --------------------------------------------------------------------------------------------------
-;   §4: VIRTUAL DESKTOP HOTKEYS
+;   §3: VIRTUAL DESKTOP HOTKEYS
 ; --------------------------------------------------------------------------------------------------
 
 ;   ································································································
-;     >>> §4.1: ^!1-7 — Movement of windows between virtual desktops
+;     >>> §3.1: ^!1-7 — Movement of windows between virtual desktops
 
 ^!1::
 	ca1thruN_moveToDesktop(1)
@@ -988,7 +906,7 @@ Return
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §4.1.1: ca1thruN_moveToDesktop(…)
+;       →→→ §3.1.1: ca1thruN_moveToDesktop(…)
 
 ca1thruN_moveToDesktop(whichDesktop) {
 	MoveActiveWindowToVirtualDesktop(whichDesktop)
@@ -996,11 +914,11 @@ ca1thruN_moveToDesktop(whichDesktop) {
 }
 
 ; --------------------------------------------------------------------------------------------------
-;   §5: MOUSE HOTKEYS
+;   §4: MOUSE HOTKEYS
 ; --------------------------------------------------------------------------------------------------
 
 ;   ································································································
-;     >>> §5.1: ^!+RButton — Remember/forget mouse coordinates
+;     >>> §4.1: ^!+RButton — Remember/forget mouse coordinates
 
 ;TODO: Convert these functions into an array based format
 <^!+RButton::
@@ -1036,7 +954,7 @@ Return
 Return
 
 ;   ································································································
-;     >>> §5.2: ^!+LButton — Move to remembered mouse coordinates
+;     >>> §4.2: ^!+LButton — Move to remembered mouse coordinates
 
 ^!+LButton::
 	if (casLButton_IsMouseAtCurrentCoord()) {
@@ -1047,7 +965,7 @@ Return
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §5.2.1: casLButton_IsMouseAtCurrentCoord
+;       →→→ §4.2.1: casLButton_IsMouseAtCurrentCoord
 
 casLButton_IsMouseAtCurrentCoord() {
 	global savedMouseCoords
@@ -1067,7 +985,7 @@ casLButton_IsMouseAtCurrentCoord() {
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §5.2.2: casLButton_MoveMouseToCurrentCoord
+;       →→→ §4.2.2: casLButton_MoveMouseToCurrentCoord
 
 casLButton_MoveMouseToCurrentCoord() {
 	global savedMouseCoords
@@ -1096,7 +1014,7 @@ casLButton_MoveMouseToCurrentCoord() {
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §5.2.3: casLButton_MoveMouseToNextCoord
+;       →→→ §4.2.3: casLButton_MoveMouseToNextCoord
 
 casLButton_MoveMouseToNextCoord() {
 	global savedMouseCoords
@@ -1115,7 +1033,7 @@ casLButton_MoveMouseToNextCoord() {
 }
 
 ;   ································································································
-;     >>> §5.3: ^!#L/RButton — Move mouse to taskbar
+;     >>> §4.3: ^!#L/RButton — Move mouse to taskbar
 
 ^!#LButton::
 	CoordMode, Mouse, Screen
@@ -1128,7 +1046,7 @@ Return
 Return
 
 ;   ································································································
-;     >>> §5.4: #LButton — Move mouse to center of active window
+;     >>> §4.4: #LButton — Move mouse to center of active window
 
 #LButton::
 	CoordMode, Mouse, Window
@@ -1146,7 +1064,7 @@ Return
 Return
 
 ; --------------------------------------------------------------------------------------------------
-;   §6: AUDITORY CUE BINDING
+;   §5: AUDITORY CUE BINDING
 ; --------------------------------------------------------------------------------------------------
 
 ~^#Left::
@@ -1166,14 +1084,14 @@ Return
 Return
 
 ; --------------------------------------------------------------------------------------------------
-;   §7: WINDOW POSITIONING GUIS
+;   §6: WINDOW POSITIONING GUIS
 ; --------------------------------------------------------------------------------------------------
 
 ;   ································································································
-;     >>> §7.1: Window Adjustment GUI
+;     >>> §6.1: Window Adjustment GUI
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §7.1.1: TriggerWindowAdjustmentGui
+;       →→→ §6.1.1: TriggerWindowAdjustmentGui
 
 ; Edge snapping values & meaning:
 ;   0b000001 = snap left
@@ -1246,7 +1164,7 @@ TriggerWindowAdjustmentGui(edgeSnapping, minWidth, maxWidth, initialWidth, minHe
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §7.1.2: HandleGuiWinAdjWidthSliderChange
+;       →→→ §6.1.2: HandleGuiWinAdjWidthSliderChange
 
 HandleGuiWinAdjWidthSliderChange() {
 	global guiWinAdjVars
@@ -1281,21 +1199,21 @@ HandleGuiWinAdjWidthSliderChange() {
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §7.1.3: HandleGuiWinAdjOK
+;       →→→ §6.1.3: HandleGuiWinAdjOK
 
 HandleGuiWinAdjOK() {
 	Gui, guiWinAdj: Destroy
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §7.1.4: guiWinAdjGuiEscape
+;       →→→ §6.1.4: guiWinAdjGuiEscape
 
 guiWinAdjGuiEscape() {
 	Gui, guiWinAdj: Destroy
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §7.1.5: GuiWinAdjUpdateEdgeSnapping
+;       →→→ §6.1.5: GuiWinAdjUpdateEdgeSnapping
 
 GuiWinAdjUpdateEdgeSnapping() {
 	global guiWinAdjVars
@@ -1315,7 +1233,7 @@ GuiWinAdjUpdateEdgeSnapping() {
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §7.1.6: GuiWinAdjCheckNewPosition
+;       →→→ §6.1.6: GuiWinAdjCheckNewPosition
 
 GuiWinAdjCheckNewPosition(whichHwnd, ByRef posX, ByRef posY, ByRef winWidth, ByRef winHeight) {
 	global sysWinBorderW
@@ -1336,14 +1254,14 @@ GuiWinAdjCheckNewPosition(whichHwnd, ByRef posX, ByRef posY, ByRef winWidth, ByR
 }
 
 ; --------------------------------------------------------------------------------------------------
-;   §8: APP SPECIFIC WORKSPACE MANAGEMENT SCRIPTS
+;   §7: APP SPECIFIC WORKSPACE MANAGEMENT SCRIPTS
 ; --------------------------------------------------------------------------------------------------
 
 ;   ································································································
-;     >>> §8.1: CHROME
+;     >>> §7.1: CHROME
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §8.1.1: OpenWebsiteInChrome
+;       →→→ §7.1.1: OpenWebsiteInChrome
 
 OpenWebsiteInChrome(website, inNewTab := True) {
 	delay := GetDelay("short")
@@ -1364,7 +1282,7 @@ OpenWebsiteInChrome(website, inNewTab := True) {
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §8.1.2: OpenNewTabInChrome
+;       →→→ §7.1.2: OpenNewTabInChrome
 
 OpenNewTabInChrome() {
 	delay := GetDelay("short")
@@ -1376,7 +1294,7 @@ OpenNewTabInChrome() {
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §8.1.3: NavigateToWebsiteInChrome
+;       →→→ §7.1.3: NavigateToWebsiteInChrome
 
 NavigateToWebsiteInChrome(website) {
 	delay := GetDelay("short")
@@ -1390,7 +1308,7 @@ NavigateToWebsiteInChrome(website) {
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §8.1.4: MoveToNextTabInChrome
+;       →→→ §7.1.4: MoveToNextTabInChrome
 
 MoveToNextTabInChrome() {
 	delay := GetDelay("short")
@@ -1402,10 +1320,10 @@ MoveToNextTabInChrome() {
 }
 
 ;   ································································································
-;     >>> §8.2: GNU IMAGE MANIPULATION PROGRAM
+;     >>> §7.2: GNU IMAGE MANIPULATION PROGRAM
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §8.2.1: @toggleGimp
+;       →→→ §7.2.1: @toggleGimp
 
 :*:@toggleGimp::
 	CheckForCmdEntryGui()
@@ -1449,7 +1367,7 @@ PeformBypassingCtrlM:
 Return
 
 ;   ································································································
-;     >>> §8.3: NOTEPAD++: TEXT EDITING ENHANCEMENT HOTKEYS & SCRIPTS
+;     >>> §7.3: NOTEPAD++: TEXT EDITING ENHANCEMENT HOTKEYS & SCRIPTS
 
 DoChangeDelimiter(leftDelimiter, rightDelimeter) {
 	Sleep 20
@@ -1521,10 +1439,10 @@ Return
 Return
 
 ;   ································································································
-;     >>> §8.4: STICKY NOTES FOR CHROME
+;     >>> §7.4: STICKY NOTES FOR CHROME
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §8.4.1: @initStickyNoteToggle
+;       →→→ §7.4.1: @initStickyNoteToggle
 
 :*:@initStickyNoteToggle::
 	global hwndStickyNoteWindow
@@ -1536,7 +1454,7 @@ Return
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §8.4.2: @toggleStickyNote
+;       →→→ §7.4.2: @toggleStickyNote
 
 :*:@toggleStickyNote::
 	global hwndStickyNoteWindow
@@ -1563,25 +1481,25 @@ Return
 Return
 
 ;   ································································································
-;     >>> §8.5: SUBLIME TEXT 3
+;     >>> §7.5: SUBLIME TEXT 3
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §8.5.1: @sst3
+;       →→→ §7.5.1: @sst3
 
 :*:@sst3::
 	SendInput, % "start sublime_text.exe "
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §8.5.2: updateTableOfContents.ahk
+;       →→→ §7.5.2: updateTableOfContents.ahk
 
 #Include %A_ScriptDir%\updateTableOfContents.ahk
 
 ;   ································································································
-;     >>> §8.6: iTunes
+;     >>> §7.6: iTunes
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §8.6.1: @restartItunes
+;       →→→ §7.6.1: @restartItunes
 
 :*:@restartItunes::
 	delay := GetDelay("long")
@@ -1614,11 +1532,11 @@ Return
 Return
 
 ; --------------------------------------------------------------------------------------------------
-;   §9: Diagnostic hotstrings
+;   §8: Diagnostic hotstrings
 ; --------------------------------------------------------------------------------------------------
 
 ;   ································································································
-;     >>> §9.1: @getActiveMonitorWorkArea
+;     >>> §8.1: @getActiveMonitorWorkArea
 
 :*:@getActiveMonitorWorkArea::
 	GetActiveMonitorWorkArea(aMon, aMon_Left, aMon_Top, aMon_Right, aMon_Bottom)
@@ -1628,7 +1546,7 @@ Return
 Return
 
 ;   ································································································
-;     >>> §9.2: @getActiveMonitorWorkArea
+;     >>> §8.2: @getInfoOnSystemMonitors
 
 :*:@getInfoOnSystemMonitors::
 	AppendAhkCmd(A_ThisLabel)	
