@@ -272,9 +272,9 @@ Return
 ;   §6: WORKSPACE MANAGEMENT
 ; --------------------------------------------------------------------------------------------------
 
-#Include %A_ScriptDir%\virtualDesktops.ahk
+#Include %A_ScriptDir%\WorkspaceManagement\virtualDesktops.ahk
 
-#Include %A_ScriptDir%\workspaceMngmnt.ahk
+#Include %A_ScriptDir%\WorkspaceManagement\workspaceManagement.ahk
 
 :*:@toggleOverlayMode::
 	AppendAhkCmd(":*:@toggleOverlayMode")
