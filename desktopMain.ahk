@@ -90,6 +90,30 @@ SetMatchModeConstants() {
 	}
 }
 
+SetMinMonitorWorkAreas() {
+	global
+	local monWorkAreaW
+	local monWorkAreaH
+
+	minMonWorkAreaW := 0
+	minMonWorkAreaH := 0
+	Loop, % sysNumMonitors {
+		monWorkAreaW := Round( (mon%A_Index%WorkArea_Right) - (mon%A_Index%WorkArea_Left) )
+		monWorkAreaH := Round( (mon%A_Index%WorkArea_Bottom) - (mon%A_Index%WorkArea_Top) )
+		if ( minMonWorkAreaW == 0 || monWorkAreaW < minMonWorkAreaW ) {
+			minMonWorkAreaW := monWorkAreaW
+		}
+		if ( minMonWorkAreaH == 0 || monWorkAreaH < minMonWorkAreaH ) {
+			minMonWorkAreaH := monWorkAreaH
+		}
+	}
+	if ( minMonWorkAreaW < minMonWorkAreaH ) {
+		minMonWorkAreaDim := minMonWorkAreaW
+	} else {
+		minMonWorkAreaDim := minMonWorkAreaH		
+	}
+}
+
 SetModules() {
 	global
 	checkType := new TypeChecker
@@ -121,6 +145,9 @@ SetMonitorBounds() {
 ; Assumes window has a resizable border.
 SetMonitorWorkAreas() {
 	global
+	local monWorkAreaW
+	local monWorkAreaH
+
 	Loop, % sysNumMonitors {
 		SysGet, mon%A_Index%WorkArea_, MonitorWorkArea, %A_Index%
 	}
@@ -138,6 +165,8 @@ SetMonitorWorkAreas() {
 			}
 		}
 	}
+
+	SetMinMonitorWorkAreas()
 }
 
 SetNumMonitors() {

@@ -805,41 +805,44 @@ return
 ;     >>> §2.23: ^NumpadX — Keyboard based movement of active windows
 
 ^Numpad1::
-	TranslateActiveWindow(-10, 10)
+	TranslateActiveWindow(-1, 1)
 Return
 
 ^Numpad2::
-	TranslateActiveWindow(0, 10)
+	TranslateActiveWindow(0, 1)
 Return
 
 ^Numpad3::
-	TranslateActiveWindow(10, 10)
+	TranslateActiveWindow(1, 1)
 Return
 
 ^Numpad4::
-	TranslateActiveWindow(-10, 0)
+	TranslateActiveWindow(-1, 0)
 Return
 
 ^Numpad6::
-	TranslateActiveWindow(10, 0)
+	TranslateActiveWindow(1, 0)
 Return
 
 ^Numpad7::
-	TranslateActiveWindow(-10, -10)
+	TranslateActiveWindow(-1, -1)
 Return
 
 ^Numpad8::
-	TranslateActiveWindow(0, -10)
+	TranslateActiveWindow(0, -1)
 Return
 
 ^Numpad9::
-	TranslateActiveWindow(10, -10)
+	TranslateActiveWindow(1, -1)
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §2.23.1: TranslateActiveWindow(…)
 
 TranslateActiveWindow(delX, delY) {
+	global twMvDelta
+
+	TAW_CheckDefaultDelta()
 	WinGetPos xl, yt, w, h, A
 	xr := xl + w
 	yb := yt + h
@@ -853,10 +856,56 @@ TranslateActiveWindow(delX, delY) {
 	; } else if ( delY > 0 && yb + delY > bottomMostMonWorkAreaCoord ) {
 	; 	delY := bottomMostMonWorkAreaCoord - yb
 	; }
-	newX := xl + delX
-	newY := yt + delY
+	newX := xl + delX * twMvDelta
+	newY := yt + delY * twMvDelta
 	WinMove A, , %newX%, %newY%
 }
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §2.23.2: TAW_ChangeDelta() [TAW = TranslateActiveWindow]
+
+TAW_ChangeDelta() {
+	global checkType
+	global minMonWorkAreaDim
+	global twMvDelta
+
+	TAW_CheckDefaultDelta()
+	InputBox newTwMvDelta, % "Numpad-mediated Window Movement", % "Please enter a new value for the"
+		. " number of pixels a window should be translated with each keystroke when the numpad is u"
+		. "sed to move a window around on the desktop."
+	if ( !ErrorLevel ) {
+		maxDelta := minMonWorkAreaDim / 4
+		if ( checkType.IsInteger( newTwMvDelta ) && newTwMvDelta > 0 && newTwMvDelta <= maxDelta ) {
+			oldMvDelta := twMvDelta
+			twMvDelta := newTwMvDelta
+			DisplaySplashText( "Numpad-mediated window movement delta changed from " . oldMvDelta
+				. " to " . twMvDelta )
+		} else {
+			DisplaySplashText( "Due to invalid input, the numpad-mediated window movement delta has"
+				. " been left unchanged. (New delta requirements: integer, >0, ≤" . maxDelta .  ")"
+				, 3000 )
+		}
+	}
+}
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §2.23.3: TAW_ChechkDefaultDelta()
+
+TAW_CheckDefaultDelta() {
+	global twMvDelta
+
+	if ( !doesVarExist( twMvDelta ) || isVarEmpty( twMvDelta ) ) {
+		twMvDelta := 10
+	}
+}
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §2.23.4: @changeNumpadMovementDelta
+
+:*:@changeNumpadMovementDelta::
+	AppendAhkCmd( A_ThisLabel )
+	TAW_ChangeDelta()
+Return
 
 ; --------------------------------------------------------------------------------------------------
 ;   §3: VIRTUAL DESKTOP HOTKEYS
