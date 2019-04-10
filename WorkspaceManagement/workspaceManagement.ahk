@@ -1542,7 +1542,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §7.5.2: updateTableOfContents.ahk
 
-#Include %A_ScriptDir%\updateTableOfContents.ahk
+#Include %A_ScriptDir%\WorkspaceManagement\updateTableOfContents.ahk
 
 ;   ································································································
 ;     >>> §7.6: iTunes
