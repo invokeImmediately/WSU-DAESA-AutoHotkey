@@ -420,12 +420,12 @@ Return
 ;   ································································································
 ;     >>> §12.1: Text Replacement HOTKEYS
 
-#Include %A_ScriptDir%\numpadModifier.ahk
+#Include %A_ScriptDir%\TextInput\numpadModifier.ahk
 
 ;   ································································································
 ;     >>> §12.2: Text Replacement HOTSTRINGS
 
-#Include %A_ScriptDir%\regExStrings.ahk
+#Include %A_ScriptDir%\TextInput\regExStrings.ahk
 
 :*:@a5lh::
 	AppendAhkCmd(A_ThisLabel)
@@ -522,9 +522,9 @@ Return
 ;   ································································································
 ;     >>> §12.3: Text Input HOTSTRINGS
 
-#Include %A_ScriptDir%\guiRepeatChars.ahk
+#Include %A_ScriptDir%\TextInput\guiRepeatChars.ahk
 
-#Include %A_ScriptDir%\guiRepeatInputs.ahk
+#Include %A_ScriptDir%\TextInput\guiRepeatInputs.ahk
 
 ; --------------------------------------------------------------------------------------------------
 ;   §13: OTHER SHORTCUTS
