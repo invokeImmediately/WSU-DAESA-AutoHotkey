@@ -410,17 +410,17 @@ EscapeCommitMessage(msgToEscape) {
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §2.4.1: For committing CSS builds
 
-#Include %A_ScriptDir%\CommitCssBuild.ahk
+#Include %A_ScriptDir%\GitHub\CommitCssBuild.ahk
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §2.4.2: For committing JS builds
 
-#Include %A_ScriptDir%\CommitJsBuild.ahk
+#Include %A_ScriptDir%\GitHub\CommitJsBuild.ahk
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §2.4.3: For committing any type of file
 
-#Include %A_ScriptDir%\CommitAnyFile.ahk
+#Include %A_ScriptDir%\GitHub\CommitAnyFile.ahk
 
 ;   ································································································
 ;     >>> §2.5: CopySrcFileToClipboard
