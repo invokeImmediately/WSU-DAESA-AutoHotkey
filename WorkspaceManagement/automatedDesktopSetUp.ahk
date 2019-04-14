@@ -193,7 +193,7 @@ PositionWindowViaCtrlFN(posHotkey, delay) {
 		SendInput % "{Enter}"
 	} else {
 		errorMsg := New GuiMsgBox( "Error in " . A_ThisFunc . ": I was passed a window positioning "
-			. "hotkey that I do not recognize: " . posHotkey, Func( "HandleGuiMsgBoxOk" ) )
+			. "hotkey that I do not recognize: " . posHotkey )
 	}
 }
 
@@ -446,18 +446,18 @@ Return
 ;       →→→ §1.3.5: agh_MovePowerShell()
 
 agh_MovePowerShell() {
-	delay := GetDelay("medium")
+	global execDelayer
+	delay := GetDelay( "medium" )
 	destX := 2313 ; units = pixels, destination X coordinate
 	destY := 161 ; units = pixels, destination Y coordinate
 	attemptsLimit := 9 ; make repeated attempts over 3 seconds
 	attemptsCount := 0
-	attemptDelay := delay
 
 	; Activate Powershell console window
-	hWnd := WinExist("Administrator: ahk_class ConsoleWindowClass")
-	while (!hWnd && attemptsCount <= attemptsLimit) {
-		Sleep % attemptDelay
-		hWnd := WinExist("Administrator: ahk_class ConsoleWindowClass")
+	hWnd := WinExist( "Administrator: ahk_class ConsoleWindowClass" )
+	while ( !hWnd && attemptsCount <= attemptsLimit ) {
+		execDelayer.Wait( "m" )
+		hWnd := WinExist( "Administrator: ahk_class ConsoleWindowClass" )
 		attemptsCount++
 	}
 
@@ -465,34 +465,33 @@ agh_MovePowerShell() {
 	if (hWnd) {
 		; Set up a loop for repeated move attemps
 		psTitle := "ahk_id " . hWnd ; i.e., PowerShell's identifying criteria
-		Sleep % delay
+		execDelayer.Wait( "m" )
 		WinGetPos x, y, w, h, % psTitle
 		attempts := 0
 
 		; Execute a loop for repeated move attempts
-		while (attempts <= attemptsLimit && (x != destX && y != destY)) {
+		while ( attempts <= attemptsLimit && ( x != destX && y != destY ) ) {
 			WinMove % psTitle, , % destX, % destY
 			attempts++
-			Sleep % delay
+			execDelayer.Wait( "m" )
 			WinGetPos x, y, w, h, % psTitle
 		}
 
 		; If necessary, report failure to move Powershell console window
-		if (attempts > attemptsLimit && (x != destX && y != destY)) {
-			errorMsgBox := New GuiMsgBox("Error in " . A_ThisFunc . ": Failed to move PowerShell "
-				. "after " . (delay * attemptsLimit / 1000) . " seconds.", Func("HandleGuiMsgBoxOk")
-				, "PowerShellWontMove")
+		if ( attempts > attemptsLimit && ( x != destX && y != destY ) ) {
+			errorMsgBox := New GuiMsgBox( "Error in " . A_ThisFunc . ": Failed to move PowerShell "
+				. "after " . ( delay * attemptsLimit / 1000 ) . " seconds.", "PowerShellWontMove" )
 			errorMsgBox.ShowGui()
 		} else {
-			Sleep % delay
+			execDelayer.Wait( "m" )
 			WinActivate % psTitle
-			Sleep % delay * 2
+			execDelayer.Wait( "m", 2 )
 			Gosub % "<^!+#Left"
 		}
 	} else {
 		; Report failure to activate Powershell console window
-		errorMsgBox := New GuiMsgBox("Error in " . A_ThisFunc . ": Could not find PowerShell."
-			, Func("HandleGuiMsgBoxOk"), "NoPowerShell")
+		errorMsgBox := New GuiMsgBox( "Error in " . A_ThisFunc . ": Could not find PowerShell."
+			, "NoPowerShell" )
 		errorMsgBox.ShowGui()
 	}
 }
