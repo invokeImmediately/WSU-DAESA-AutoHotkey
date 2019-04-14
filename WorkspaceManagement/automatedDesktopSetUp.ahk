@@ -1,5 +1,5 @@
 ; ==================================================================================================
-; desktopStartup.ahk
+; automatedDesktopSetUp.ahk
 ; --------------------------------------------------------------------------------------------------
 ; SUMMARY: Script for setting up the desktop upon session startup.
 ;
@@ -19,10 +19,6 @@
 ;   DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF
 ;   CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 ;   PERFORMANCE OF THIS SOFTWARE.
-; --------------------------------------------------------------------------------------------------
-; LEGEND
-; ! = ALT     + = SHIFT     ^ = CONTROL     # = WIN
-; (see https://autohotkey.com/docs/commands/Send.htm for more info)
 ; ==================================================================================================
 
 ; ==================================================================================================
