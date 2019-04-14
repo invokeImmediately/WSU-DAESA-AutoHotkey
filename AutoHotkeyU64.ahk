@@ -195,7 +195,7 @@ Gosub, MainSubroutine
 ;   §3: COMMON FUNCTIONS & CLASSES
 ; --------------------------------------------------------------------------------------------------
 
-#Include %A_ScriptDir%\guiMsgBox.ahk
+#Include %A_ScriptDir%\GUIs\guiMsgBox.ahk
 
 #Include %A_ScriptDir%\API_GetWindowInfo.ahk
 
