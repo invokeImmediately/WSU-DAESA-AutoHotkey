@@ -165,7 +165,7 @@ HandleNumpad7() {
 	if (npBoxArtActive) {
 		SendInput, % "┌"
 	} else if (npArrowArtActive) {
-		SendInput, % "↰"
+		SendInput, % "└"
 	} else {
 		SendInput, % "7"
 	}
@@ -273,7 +273,7 @@ HandleNumpad1() {
 	if (npBoxArtActive) {
 		SendInput, % "└"
 	} else if (npArrowArtActive) {
-		SendInput, % "↲"
+		SendInput, % "─"
 	} else {
 		SendInput, % "1"
 	}
