@@ -640,13 +640,12 @@ svd4_LoadWebEmailClients(delay) {
 	Sleep % delay * 0.5
 	Send {Click}
 	Sleep % delay * 2.5
-	WinMaximize A
-	Sleep % delay * 1
 
 	; Reposition iTunes
 	WinActivate % "iTunes ahk_exe iTunes.exe"
 	Sleep % delay * 0.5
 	PositionWindowViaCtrlFN("^F10", delay)
+	WinMaximize A
 	Sleep % delay * 5
 Return
 
