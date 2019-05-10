@@ -54,17 +54,17 @@
 ;       →→→ §1.5.1: @setupVirtualDesktop4......................................................567
 ;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)................................................592
 ;       →→→ §1.5.3: @arrangeEmail..............................................................612
-;     >>> §1.6: Setup VD5—Talmud...............................................................654
-;       →→→ §1.6.1: @setupVirtualDesktop5......................................................657
-;     >>> §1.7: Setup VD7—Diagnostics & XAMPP..................................................698
-;       →→→ §1.7.1: @setupVirtualDesktop6......................................................701
-;   §2: STARTUP HOTKEYS........................................................................726
-;     >>> §2.1: #!r............................................................................730
-;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................737
-;     >>> §3.1: @quitAhk.......................................................................741
-;     >>> §3.2: PerformScriptShutdownTasks()...................................................750
-;     >>> §3.3: ^#!r...........................................................................760
-;     >>> §3.4: ScriptExitFunc(…)..............................................................769
+;     >>> §1.6: Setup VD5—Talmud...............................................................653
+;       →→→ §1.6.1: @setupVirtualDesktop5......................................................656
+;     >>> §1.7: Setup VD7—Diagnostics & XAMPP..................................................697
+;       →→→ §1.7.1: @setupVirtualDesktop6......................................................700
+;   §2: STARTUP HOTKEYS........................................................................725
+;     >>> §2.1: #!r............................................................................729
+;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................736
+;     >>> §3.1: @quitAhk.......................................................................740
+;     >>> §3.2: PerformScriptShutdownTasks()...................................................749
+;     >>> §3.3: ^#!r...........................................................................759
+;     >>> §3.4: ScriptExitFunc(…)..............................................................768
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -312,11 +312,11 @@ Return
 PositionMsStickyNotes() {
 	global execDelayer
 
-	msStickyNotesTitle := "Microsoft To-Do ahk_exe ApplicationFrameHost.exe"
+	msStickyNotesTitle := "ahk_exe Explorer.EXE ahk_class ApplicationFrameWindow"
 	msStickyNotesActive := SafeWinActivate(msStickyNotesTitle)
 	if (msStickyNotesActive) {
 		execDelayer.Wait( "s", 2 )
-		WinMove 1467, 67
+		WinMove A, , 1467, 67, 470, 906
 	}
 }
 
@@ -650,7 +650,7 @@ svd4_LoadWebEmailClients(delay) {
 Return
 
 ;   ································································································
-;     >>> §1.6: Setup VD6—Talmud
+;     >>> §1.6: Setup VD5—Talmud
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.6.1: @setupVirtualDesktop5
@@ -667,34 +667,34 @@ Return
 	; Set up apps for catching up on news.
 	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
 		, "New Tab")
-	Sleep % delay * 10
+	Sleep % delay * 50
 	OpenWebsiteInChrome("digital.olivesoftware.com/Olive/ODN/SanFranciscoChronicle", False)
 	OpenWebsiteInChrome("https://www.nytimes.com/")
 	OpenWebsiteInChrome("news.wsu.edu")
 	OpenWebsiteInChrome("dailyevergreen.com")
-	Sleep % delay * 5
+	Sleep % delay * 20
 	MoveToNextTabInChrome()
 	PositionWindowViaCtrlFN("^F6", delay)
-	Sleep % delay * 5
+	Sleep % delay * 10
 	WinMaximize A
 
 	; Set up apps for Torah study.
-	Sleep % delay * 3
+	Sleep % delay * 6
 	SendInput % "^n"
-	Sleep % delay * 10
+	Sleep % delay * 20
 	OpenWebsiteInChrome("biblegateway.com", False)
 	OpenWebsiteInChrome("hebrew4christians.com")
 	OpenWebsiteInChrome("scripturetyper.com")
 	OpenWebsiteInChrome("www.blueletterbible.org")
-	Sleep % delay * 5
+	Sleep % delay * 10
 	MoveToNextTabInChrome()
 	PositionWindowViaCtrlFN("^F8", delay)
-	Sleep % delay * 5
+	Sleep % delay * 10
 	WinMaximize A
 Return
 
 ;   ································································································
-;     >>> §1.7: Setup VD7—Diagnostics & XAMPP
+;     >>> §1.7: Setup VD6—Diagnostics & XAMPP
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.7.1: @setupVirtualDesktop6
