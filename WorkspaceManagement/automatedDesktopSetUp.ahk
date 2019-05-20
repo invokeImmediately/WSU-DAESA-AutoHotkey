@@ -316,7 +316,7 @@ PositionMsStickyNotes() {
 	msStickyNotesActive := SafeWinActivate(msStickyNotesTitle)
 	if (msStickyNotesActive) {
 		execDelayer.Wait( "s", 2 )
-		WinMove A, , 1467, 67, 470, 906
+		WinMove A, , 1400, 67, 470, 906
 	}
 }
 
@@ -639,14 +639,14 @@ svd4_LoadWebEmailClients(delay) {
 	MouseMove 1348, 340
 	Sleep % delay * 0.5
 	Send {Click}
-	Sleep % delay * 2.5
+	Sleep % delay * 10
 
 	; Reposition iTunes
 	WinActivate % "iTunes ahk_exe iTunes.exe"
 	Sleep % delay * 0.5
 	PositionWindowViaCtrlFN("^F10", delay)
 	WinMaximize A
-	Sleep % delay * 5
+	Sleep % delay * 10
 Return
 
 ;   ································································································
@@ -668,7 +668,7 @@ Return
 	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
 		, "New Tab")
 	Sleep % delay * 50
-	OpenWebsiteInChrome("digital.olivesoftware.com/Olive/ODN/SanFranciscoChronicle", False)
+	OpenWebsiteInChrome("https://www.sfchronicle.com/", False)
 	OpenWebsiteInChrome("https://www.nytimes.com/")
 	OpenWebsiteInChrome("news.wsu.edu")
 	OpenWebsiteInChrome("dailyevergreen.com")
