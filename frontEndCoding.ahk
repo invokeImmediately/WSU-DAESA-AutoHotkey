@@ -273,7 +273,7 @@ Return
 	SendInput % "--"
 	Gosub :*:@ttc
 	SendInput % "──────────┐{Enter}│ Lorem ipsum dolor sit amet. │{Enter}└───┬─────────────────────"
-		. "────┘{Enter}{Tab}└─→ …{Up 2}{Left 6}+{Right 27}"
+		. "────┘{Enter}{Tab}└─→ …{Up 2}{Left 7}+{Right 27}"
 Return
 
 ;   ································································································
