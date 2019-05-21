@@ -7,12 +7,15 @@
 ; ==================================================================================================
 ; TABLE OF CONTENTS:
 ; -----------------
-;   §1: Numpad modification hotkeys.............................................................19
-;     >>> §1.1: NumpadDiv.......................................................................23
-;     >>> §1.2: NumpadSub.......................................................................65
-;     >>> §1.3: NumpadDel.......................................................................97
-;   §2: Contextual numpad hotkeys..............................................................154
-;   §3: Mode persistence timer.................................................................370
+;   §1: Numpad modification hotkeys.............................................................22
+;     >>> §1.1: NumpadDiv.......................................................................26
+;     >>> §1.2: NumpadSub.......................................................................68
+;     >>> §1.3: NumpadDel......................................................................100
+;   §2: Contextual numpad hotkeys..............................................................157
+;   §3: Mode persistence timer.................................................................373
+;     >>> §3.1: AutomaticCheckForNpModeExpiration..............................................377
+;     >>> §3.2: CheckForNpModeExpiration.......................................................389
+;     >>> §3.3: TerminateNpModes...............................................................411
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -370,15 +373,51 @@ HandleNumpadMult() {
 ;   §3: Mode persistence timer
 ; --------------------------------------------------------------------------------------------------
 
+;   ································································································
+;     >>> §3.1: AutomaticCheckForNpModeExpiration()
+
+AutomaticCheckForNpModeExpiration() {
+	global npModeLastUsed
+	global npModeExpirationTime
+
+	if (A_TickCount - npModeLastUsed > npModeExpirationTime) {
+		TerminateNpModes()
+	}
+}
+
+;   ································································································
+;     >>> §3.2: CheckForNpModeExpiration()
+
 CheckForNpModeExpiration() {
 	global npModeLastUsed
 	global npModeExpirationTime
+	global npModeTimerActive
 	global npArrowArtActive
 	global npBoxArtActive
-	if (A_TickCount - npModeLastUsed > npModeExpirationTime) {
-		npArrowArtActive := False
-		npBoxArtActive := False
+
+	if ( ( npArrowArtActive || npBoxArtActive ) && !npModeTimerActive ) {
+		npModeTimerActive := True
+		SetTimer AutomaticCheckForNpModeExpiration, 5000
+	}
+	if ( ( npArrowArtActive || npBoxArtActive )
+			&& A_TickCount - npModeLastUsed > npModeExpirationTime ) {
+		TerminateNpModes()
 	} else {
 		npModeLastUsed := A_TickCount
 	}
+}
+
+;   ································································································
+;     >>> §3.3: TerminateNpModes()
+
+TerminateNpModes() {
+	global npModeTimerActive
+	global npArrowArtActive
+	global npBoxArtActive
+
+	npArrowArtActive := False
+	npBoxArtActive := False
+	npModeTimerActive := False
+	SetTimer AutomaticCheckForNpModeExpiration, Off
+	DisplaySplashText("Numpad box art automatically disabled after set period of disuse.", 3000)
 }
