@@ -294,7 +294,7 @@ HandleCommitCssGitLog() {
 	cmdStr := "git --no-pager log --follow --pretty=""format:%h | %cn | %cd | %s | %b"" --max-count"
 		. "=20 "
 	numSelectedRows := LV_GetCount("Selected")
-	consoleStr := "cd " . GetGitHubFolder() . "\" . commitCssVars.gitFolder . "\`r"
+	consoleStr := "cd " . GetGitHubFolder() . "\" . commitCssVars.fpGitFolder . "\`r"
 	if (numSelectedRows > 0) {
 		rowNumber := 0
 		Loop
