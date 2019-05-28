@@ -24,7 +24,7 @@
 class CfgFile {
 	__New( cfgFilePath ) {
 		this.cfgFilePath := cfgFilePath
-		this.cfgFile := FileOpen( cfgFilePath, "r" )
+		this.cfgFile := FileOpen( cfgFilePath, "r`n" )
 		if ( this.cfgFile ) {
 			this.LoadCfgSettings()
 			this.cfgFile.Close()
@@ -36,7 +36,7 @@ class CfgFile {
 	LoadCfgKeys() {
 		if ( this.cfgFile && !this.cfgFile.AtEOF ) {
 			this.cfgKeys := []
-			line := this.cfgFile.ReadLine()
+			line := StrReplace( this.cfgFile.ReadLine(), "`n", "" )
 			startPos := 1
 			foundPos := InStr( line, "`t", True, startPos )
 			while ( foundPos ) {
@@ -59,7 +59,7 @@ class CfgFile {
 		errEncd := False
 		while ( !errEncd && !this.cfgFile.AtEOF && lineCount <= 1024 ) {
 			vals := []
-			line := this.cfgFile.ReadLine()
+			line := StrReplace( this.cfgFile.ReadLine(), "`n", "" )
 			startPos := 1
 			foundPos := InStr( line, "`t", True, startPos )
 			idx := 1
