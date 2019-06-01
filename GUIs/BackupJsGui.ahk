@@ -38,7 +38,7 @@ class BackupJsGui extends GhGui {
 		Gui, guiGh%guiType%%guiName%: Add, Text, w320 y16
 			, % "Select a repository in which the JS backup will be performed:"
 		Gui, guiGh%guiType%%guiName%: Add, ListView
-			, vctrlGh%guiType%%guiName%LV grid BackgroundEBF8FE NoSortHdr -Multi r15 W728 xm+1 Y+3
+			, vctrlGh%guiType%%guiName%LV BackgroundWhite NoSortHdr -Multi r15 W728 xm+1 Y+3
 			, % "Name|Path|Site URL|Backup File"
 		numRepos := this.repos.cfgSettings.Length()
 		Loop %numRepos% {
@@ -48,6 +48,11 @@ class BackupJsGui extends GhGui {
 			repoBackupFile := this.repos.cfgSettings[ A_Index ][ "backupFile" ]
 			LV_Add( , repoName, repoPath, siteUrl, repoBackupFile )
 		}
+		LV_Modify( 1, "Focus" )
+		LV_ModifyCol( 1, "AutoHdr" )
+		LV_ModifyCol( 2, 192 )
+		LV_ModifyCol( 3, 192 )
+		LV_ModifyCol( 4, "AutoHdr" )
 		Gui, guiGh%guiType%%guiName%: Add, Button
 			, vguiGh%guiType%Ok%guiName% Default w80 x140 xm Y+16, % "&Ok"
 		guiCallback := this.okBtnHandler.handlerRef
