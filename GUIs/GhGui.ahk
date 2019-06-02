@@ -19,7 +19,6 @@ class GhGui
 			, guiType
 			, guiName
 			, guiTitle
-			, okBtnHandler
 			, cancelBtnHandler ) {
 
 		; Safely set configuration settings
@@ -54,7 +53,6 @@ class GhGui
 		} else {
 			this.title := A_ScriptName
 		}
-		this.okBtnHandler := new GuiControlHandler( okBtnHandler, this )
 		this.cancelBtnHandler := new GuiControlHandler( cancelBtnHandler, this )
 	}
 

@@ -20,7 +20,8 @@ class BackupJsGui extends GhGui {
 			, guiTitle := ""
 			, okBtnHandler := "HandleGuiGhBackupJsOk"
 			, cancelBtnHandler := "HandleGuiGhBackupJsCancel" ) {
-		base.__New( cfgSettings, typer, guiType, guiName, guiTitle, okBtnHandler, cancelBtnHandler )
+		base.__New( cfgSettings, typer, guiType, guiName, guiTitle, cancelBtnHandler )
+		this.okBtnHandler := new GuiControlHandler( okBtnHandler, this )
 	}
 
 	ShowGui() {
