@@ -14,37 +14,24 @@
 ; ==================================================================================================
 ; TABLE OF CONTENTS:
 ; -----------------
-;   §1: Entry point: StartScript()..............................................................66
-;     >>> §1.1: System property globals.........................................................70
-;     >>> §1.2: Operation timing globals........................................................92
-;     >>> §1.3: Globals for locations of important folders & files.............................101
-;     >>> §1.4: Pomodoro work timer globals....................................................111
-;     >>> §1.5: Desktop arrangement auditory cue globals.......................................122
-;     >>> §1.6: Simulated memory of user actions...............................................134
-;     >>> §1.7: Keyboard overriding............................................................152
-;     >>> §1.8: Missing AutoHotkey constants...................................................164
-;   §2: Set up script & call main subroutine...................................................174
-;   §3: Common functions & classes.............................................................195
-;   §4: Command history........................................................................211
-;   §5: AutoHotkey script writing shortcuts....................................................217
-;     >>> §5.1: Hotstrings for inserting code-documentation headers............................221
-;   §6: Workspace management...................................................................279
-;   §7: File system navigation.................................................................323
-;   §8: Program/file launching shortcuts.......................................................329
-;     >>> §8.1: Notepad/text editor program....................................................333
-;     >>> §8.2: Miscellaneous files............................................................344
-;   §9: Powershell scripting...................................................................353
-;   §10: Github scripting......................................................................359
-;   §11: Google chrome scripting...............................................................365
-;   §12: Front-end coding......................................................................422
-;   §13: Text replacement & input..............................................................428
-;     >>> §13.1: Text Replacement hotkeys......................................................432
-;     >>> §13.2: Text Replacement hotstrings...................................................437
-;     >>> §13.3: Text Input hotstrings.........................................................534
-;   §14: Other shortcuts.......................................................................541
-;   §15: Work timer............................................................................554
-;   §16: Custom hotstrings & hotkeys...........................................................560
-;   §17: Script entry point....................................................................632
+;   §1: Entry point: StartScript()..............................................................39
+;   §2: Script initialization functions.........................................................60
+;     >>> §2.1: ListAhkFiles()..................................................................64
+;     >>> §2.2: LoadScriptConfiguration()......................................................141
+;     >>> §2.3: PrintHsTrie()..................................................................151
+;       →→→ §2.3.1: For committing CSS builds..................................................160
+;     >>> §2.4: ReportMonitorDimensions()......................................................167
+;     >>> §2.5: SetAhkConstants()..............................................................185
+;     >>> §2.6: SetCoordModeConstants()........................................................193
+;     >>> §2.7: SetGlobalVariables()...........................................................213
+;     >>> §2.8: SetMatchModeConstants()........................................................226
+;     >>> §2.9: SetMinMonitorWorkAreas().......................................................257
+;     >>> §2.10: SetModules()..................................................................284
+;     >>> §2.11: SetMonitorBounds()............................................................294
+;     >>> §2.12: SetMonitorBounds()............................................................318
+;     >>> §2.12: SetNumMonitors()..............................................................348
+;     >>> §2.13: SetWinBorders()...............................................................356
+;     >>> §2.14: SetupLogAutoSaving()..........................................................365
 ; ==================================================================================================
 
 
@@ -70,8 +57,11 @@ StartScript() {
 }
 
 ; --------------------------------------------------------------------------------------------------
-; STARTUP FUNCTIONS CALLED BY MAIN SUBROUTINE
+;   §2: Script initialization functions
 ; --------------------------------------------------------------------------------------------------
+
+;   ································································································
+;     >>> §2.1: ListAhkFiles()
 
 ListAhkFiles() {
 	global hsListPiped
@@ -147,21 +137,34 @@ ListAhkFiles() {
 	}
 }
 
+;   ································································································
+;     >>> §2.2: LoadScriptConfiguration()
+
 LoadScriptConfiguration() {
 	global scriptCfg := {}
 
 	scriptCfg.backupJs := new CfgFile( "C:\GitHub\WSU-OUE-AutoHotkey\Config\backupJs.ahk.cfg" )
+	scriptCfg.cssBuilds := new CfgFile( "C:\GitHub\WSU-OUE-AutoHotkey\Config\cssBuilds.ahk.cfg" )
 }
 
-:*:@PrintHsTrie::
-	PrintHsTrie()
-Return
+;   ································································································
+;     >>> §2.3: PrintHsTrie()
 
 PrintHsTrie() {
 	global hsTrie
 	hsWordsArray := hsTrie.GetWordsArray()
 	MsgBox, % hsWordsArray[1]
 }
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §2.3.1: For committing CSS builds
+
+:*:@PrintHsTrie::
+	PrintHsTrie()
+Return
+
+;   ································································································
+;     >>> §2.4: ReportMonitorDimensions()
 
 ReportMonitorDimensions() {
 	global
@@ -178,10 +181,16 @@ ReportMonitorDimensions() {
 	MsgBox, % msg
 }
 
+;   ································································································
+;     >>> §2.5: SetAhkConstants()
+
 SetAhkConstants() {
 	SetCoordModeConstants()
 	SetMatchModeConstants()
 }
+
+;   ································································································
+;     >>> §2.6: SetCoordModeConstants()
 
 SetCoordModeConstants() {
 	global cmClient
@@ -200,6 +209,9 @@ SetCoordModeConstants() {
 	}
 }
 
+;   ································································································
+;     >>> §2.7: SetGlobalVariables()
+
 SetGlobalVariables() {
 	SetAhkConstants()
 	SetWinBorders()
@@ -209,6 +221,9 @@ SetGlobalVariables() {
 	SetModules()
 	; ReportMonitorDimensions() ; Diagnostic function
 }
+
+;   ································································································
+;     >>> §2.8: SetMatchModeConstants()
 
 SetMatchModeConstants() {
 	global execDelayer
@@ -238,6 +253,9 @@ SetMatchModeConstants() {
 	}
 }
 
+;   ································································································
+;     >>> §2.9: SetMinMonitorWorkAreas()
+
 SetMinMonitorWorkAreas() {
 	global
 	local monWorkAreaW
@@ -262,12 +280,18 @@ SetMinMonitorWorkAreas() {
 	}
 }
 
+;   ································································································
+;     >>> §2.10: SetModules()
+
 SetModules() {
 	global
 	checkType := new TypeChecker
 	execDelayer := new ExecutionDelayer( checkType, g_delayQuantum, g_extraShortDelay, g_shortDelay
 		, g_mediumDelay, g_longDelay)
 }
+
+;   ································································································
+;     >>> §2.11: SetMonitorBounds()
 
 SetMonitorBounds() {
 	global
@@ -289,6 +313,9 @@ SetMonitorBounds() {
 		}
 	}
 }
+
+;   ································································································
+;     >>> §2.12: SetMonitorBounds()
 
 ; Assumes window has a resizable border.
 SetMonitorWorkAreas() {
@@ -317,16 +344,25 @@ SetMonitorWorkAreas() {
 	SetMinMonitorWorkAreas()
 }
 
+;   ································································································
+;     >>> §2.12: SetNumMonitors()
+
 SetNumMonitors() {
 	global
 	SysGet, sysNumMonitors, %SM_CMONITORS%
 }
+
+;   ································································································
+;     >>> §2.13: SetWinBorders()
 
 SetWinBorders() {
 	global
 	SysGet, sysWinBorderW, %SM_CXSIZEFRAME%
 	SysGet, sysWinBorderH, %SM_CYSIZEFRAME%
 }
+
+;   ································································································
+;     >>> §2.14: SetupLogAutoSaving()
 
 SetupLogAutoSaving() {
 	SetTimer, PerformScriptShutdownTasks, 900000 ; 1000 * 60 * 15 = 15 minutes
