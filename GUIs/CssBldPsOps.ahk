@@ -28,6 +28,20 @@ class CssBldPsOps extends GhGui {
 		this.cmtCssBtnHdlr := new GuiControlHandler( cmtCssBtnHdlr, this )
 	}
 
+	ChangeDefaultButton( defMode ) {
+		global
+		local guiName := this.name
+		local guiType := this.type
+
+		if ( defMode == "update" || defMode == "u" ) {
+			GuiControl, +Default, guiGh%guiType%%guiName%UpdateSM
+		} else if ( defMode == "rebuild" || defMode == "r" ) {
+			GuiControl, +Default, guiGh%guiType%%guiName%RbldCss
+		} else if ( defMode := "commit" || defMode == "m" ) {
+			GuiControl, +Default, guiGh%guiType%%guiName%CmtCss
+		}
+	}
+
 	ShowGui( dfltMode := "" ) {
 		global
 		local guiName := this.name
@@ -91,10 +105,12 @@ class CssBldPsOps extends GhGui {
 
 		; Set up cancel button
 		Gui, guiGh%guiType%%guiName%: Add, Button
-			, vguiGh%guiType%Cancel%guiName% X+5
+			, vguiGh%guiType%%guiName%Cancel X+5
 			, % "&Close"
 		guiCallback := this.cancelBtnHandler.handlerRef
-		GuiControl, +g, guiGh%guiType%Cancel%guiName%, %guiCallback%
+		GuiControl, +g, guiGh%guiType%%guiName%Cancel, %guiCallback%
+
+		this.ChangeDefaultButton( defMode )
 
 		; Display the completed GUI to the user
 		Gui, guiGh%guiType%%guiName%: Show
