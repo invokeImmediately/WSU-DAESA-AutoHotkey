@@ -1,8 +1,8 @@
 ﻿; ==================================================================================================
-; BackupJsGui.ahk
+; CssBldPsOps.ahk
 ; --------------------------------------------------------------------------------------------------
-; SUMMARY: Object-oriented implementation of GUI for backing up custom JS builds that are verified
-;   to be working on WSUWP websites.
+; SUMMARY: Object-oriented implementation of GUI for automating CSS build operations in PowerShell
+;   to support the production of custom CSS files to be utilized on WSUWP websites.
 ;
 ; AUTHOR: Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; 
