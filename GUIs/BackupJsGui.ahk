@@ -69,7 +69,7 @@ class BackupJsGui extends GhGui {
 		guiName := this.name
 		Gui, guiGh%guiType%%guiName%: Default
 		if ( LV_GetCount( "Selected" ) ) {
-			Gui, guiGhBackupJs%guiName%: Submit
+			Gui, guiGh%guiType%%guiName%: Submit, NoHide
 			selRow := LV_GetNext()
 			LV_GetText( website, selRow, 3)
 			LV_GetText( repository, selRow, 2)
