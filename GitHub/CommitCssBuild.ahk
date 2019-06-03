@@ -209,7 +209,7 @@ HandleCommitCssAddFiles() {
 		}
 
 		; Verify that we are in a sub folder of the original git folder
-		gitRepositoryPath := GetGitHubFolder() . "\" . commitCssVars.fpGitFolder . "\"
+		gitRepositoryPath := commitCssVars.fpGitFolder
 		posWhereFound := InStr(gitSubFolder, gitRepositoryPath)
 		if (posWhereFound) {
 
@@ -255,7 +255,7 @@ HandleCommitCssGitDiff() {
 	global execDelayer
 
 	numSelectedRows := LV_GetCount("Selected")
-	consoleStr := "cd " . GetGitHubFolder() . "\" . commitCssVars.fpGitFolder . "\`r"
+	consoleStr := "cd " . commitCssVars.fpGitFolder . "`r"
 	if (numSelectedRows > 0) {
 		rowNumber := 0
 		Loop
@@ -294,7 +294,7 @@ HandleCommitCssGitLog() {
 	cmdStr := "git --no-pager log --follow --pretty=""format:%h | %cn | %cd | %s | %b"" --max-count"
 		. "=20 "
 	numSelectedRows := LV_GetCount("Selected")
-	consoleStr := "cd " . GetGitHubFolder() . "\" . commitCssVars.fpGitFolder . "\`r"
+	consoleStr := "cd " . commitCssVars.fpGitFolder . "`r"
 	if (numSelectedRows > 0) {
 		rowNumber := 0
 		Loop
@@ -493,7 +493,7 @@ HandleCommitCssOk() {
 	if (!gVarCheck) {
 		; Build the command line inputs for commiting the code to the appropriate git repository.
 		escaped1stCssMsg := EscapeCommitMessage(ctrlCommitCss1stMsg)
-		commandLineInput := "cd '" . GetGitHubFolder() . "\" . commitCssVars.fpGitFolder . "\'`r"
+		commandLineInput := "cd '" . commitCssVars.fpGitFolder . "'`r"
 			. "git add CSS\" . commitCssVars.fnCssBuild . "`r"
 			. "git add CSS\" . commitCssVars.fnMinCssBuild . "`r"
 			. "git commit -m """ . escaped1stCssMsg . """"
