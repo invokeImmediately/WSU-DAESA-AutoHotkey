@@ -28,16 +28,16 @@ class CssBldPsOps extends GhGui {
 		this.cmtCssBtnHdlr := new GuiControlHandler( cmtCssBtnHdlr, this )
 	}
 
-	ChangeDefaultButton( defMode ) {
+	ChangeDefaultButton( dfltMode ) {
 		global
 		local guiName := this.name
 		local guiType := this.type
 
-		if ( defMode == "update" || defMode == "u" ) {
+		if ( dfltMode == "update" || dfltMode == "u" ) {
 			GuiControl, +Default, guiGh%guiType%%guiName%UpdateSM
-		} else if ( defMode == "rebuild" || defMode == "r" ) {
+		} else if ( dfltMode == "rebuild" || dfltMode == "r" ) {
 			GuiControl, +Default, guiGh%guiType%%guiName%RbldCss
-		} else if ( defMode := "commit" || defMode == "m" ) {
+		} else if ( dfltMode == "commit" || dfltMode == "m" ) {
 			GuiControl, +Default, guiGh%guiType%%guiName%CmtCss
 		}
 	}
@@ -110,7 +110,7 @@ class CssBldPsOps extends GhGui {
 		guiCallback := this.cancelBtnHandler.handlerRef
 		GuiControl, +g, guiGh%guiType%%guiName%Cancel, %guiCallback%
 
-		this.ChangeDefaultButton( defMode )
+		this.ChangeDefaultButton( dfltMode )
 
 		; Display the completed GUI to the user
 		Gui, guiGh%guiType%%guiName%: Show
@@ -129,7 +129,7 @@ class CssBldPsOps extends GhGui {
 				. "Updating custom CSS master submodule for OUE websites' -m 'Obtaining recent chan"
 				. "ges in OUE-wide Less/CSS source code for use in builds'`rgit push`r")
 			MsgBox, % (0x4 + 0x20)
-				, % caller . ": Proceed with rebuild?", % "After updating the CSS submodule, would "
+				, % A_ScriptName . ": Proceed with rebuild?", % "After updating the CSS submodule, would "
 				. "you like to proceed with a CSS rebuild?"
 			IfMsgBox Yes
 			{
@@ -154,7 +154,7 @@ class CssBldPsOps extends GhGui {
 				. "gulp buildMinCss`r"
 				. "[console]::beep(1500,300)`r" )
 			MsgBox, % (0x4 + 0x20)
-				, % caller . ": Proceed with code commit?", % "After rebuilding the custom CSS file"
+				, % A_ScriptName . ": Proceed with code commit?", % "After rebuilding the custom CSS file"
 				. " for use on the WSUWP website, would you like to proceed with committing CSS bui"
 				. "ld-related files?"
 			IfMsgBox Yes
@@ -177,7 +177,7 @@ class CssBldPsOps extends GhGui {
 			LV_GetText( repository, selRow, 2)
 			LV_GetText( srcEntryPt, selRow, 4)
 			LV_GetText( cssBld, selRow, 5)
-			LV_GetText( minBld, selRow, 5)
+			LV_GetText( minBld, selRow, 6)
 			CommitCssBuild( A_ThisFunc, repository, srcEntryPt, cssBld, minBld )
 		} else {
 			MsgBox % "Please select a repository for which files related to the custom CSS build sh"
