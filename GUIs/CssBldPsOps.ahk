@@ -15,17 +15,21 @@
 class CssBldPsOps extends GhGui {
 	__New( cfgSettings
 			, typer
+			, delayer
 			, guiType := "CssBldPsOps"
 			, guiName := "Default"
 			, guiTitle := ""
 			, updateSmBtnHdlr := "CssBldPsOpsUpdateSmBtnHdlr"
 			, rbldCssBtnHdlr := "CssBldPsOpsRbldCssBtnHdlr"
 			, cmtCssBtnHdlr := "CssBldPsOpsCmtCssBtnHdlr"
+			, postCssBtnHdlr := "CssBldPsOpsPostCssBtnHdlr"
 			, cancelBtnHdlr := "CssBldPsOpsCancelHdlr" ) {
 		base.__New( cfgSettings, typer, guiType, guiName, guiTitle, cancelBtnHdlr )
+		this.delayer := delayer
 		this.updateSmBtnHdlr := new GuiControlHandler( updateSmBtnHdlr, this )
 		this.rbldCssBtnHdlr := new GuiControlHandler( rbldCssBtnHdlr, this )
 		this.cmtCssBtnHdlr := new GuiControlHandler( cmtCssBtnHdlr, this )
+		this.postCssBtnHdlr := new GuiControlHandler( postCssBtnHdlr, this )
 	}
 
 	ChangeDefaultButton( dfltMode ) {
@@ -39,6 +43,99 @@ class CssBldPsOps extends GhGui {
 			GuiControl, +Default, guiGh%guiType%%guiName%RbldCss
 		} else if ( dfltMode == "commit" || dfltMode == "m" ) {
 			GuiControl, +Default, guiGh%guiType%%guiName%CmtCss
+		}
+	}
+
+	HandleCmtCssBtn() {
+		guiType := this.type
+		guiName := this.name
+		Gui, guiGh%guiType%%guiName%: Default
+		if ( LV_GetCount( "Selected" ) ) {
+			Gui, guiGh%guiType%%guiName%: Submit, NoHide
+			selRow := LV_GetNext()
+			LV_GetText( repository, selRow, 2)
+			LV_GetText( srcEntryPt, selRow, 4)
+			LV_GetText( cssBld, selRow, 5)
+			LV_GetText( minBld, selRow, 6)
+			CommitCssBuild( A_ThisFunc, repository, srcEntryPt, cssBld, minBld )
+		} else {
+			MsgBox % "Please select a repository for which files related to the custom CSS build sh"
+				. "ould be committed to GitHub."
+		}
+	}
+
+	HandlePostCssBtn() {
+		guiType := this.type
+		guiName := this.name
+		Gui, guiGh%guiType%%guiName%: Default
+		if ( LV_GetCount( "Selected" ) ) {
+			Gui, guiGh%guiType%%guiName%: Submit, NoHide
+			selRow := LV_GetNext()
+			LV_GetText( repoPath, selRow, 2)
+			LV_GetText( minCssRelPath, selRow, 6)
+			LV_GetText( websiteUrl, selRow, 3)
+			fullPath := repoPath . "CSS\" . minCssRelPath
+			LoadWordPressSiteInChrome(websiteUrl)
+			CopySrcFileToClipboard( A_ThisFunc
+				, fullPath
+				, ""
+				, "Couldn't copy minified CSS in repository " . repoPath )
+			this.delayer.Wait( "l" )
+			ExecuteCssPasteCmds()
+		} else {
+			MsgBox % "Please select a repository from which its built and minified custom CSS file "
+				. "will be posted to its WSUWP website."
+		}
+	}
+
+	HandleRbldCssBtn() {
+		guiType := this.type
+		guiName := this.name
+		Gui, guiGh%guiType%%guiName%: Default
+		if ( LV_GetCount( "Selected" ) ) {
+			Gui, guiGh%guiType%%guiName%: Submit, NoHide
+			selRow := LV_GetNext()
+			LV_GetText( repository, selRow, 2)
+			PasteTextIntoGitShell( A_ThisFunc
+				, "cd '" . repository . "'`r"
+				. "gulp buildMinCss`r"
+				. "[console]::beep(1500,300)`r" )
+			MsgBox, % (0x4 + 0x20)
+				, % A_ScriptName . ": Proceed with code commit?", % "After rebuilding the custom CS"
+				. "S file for use on the WSUWP website, would you like to proceed with committing C"
+				. "SS build-related files?"
+			IfMsgBox Yes
+			{
+				this.HandleCmtCssBtn()
+			}
+		} else {
+			MsgBox % "Please select a repository in which to rebuild the WSUWP website's custom CSS"
+				. " file."
+		}
+	}
+
+	HandleUpdateSmBtn() {
+		guiType := this.type
+		guiName := this.name
+		Gui, guiGh%guiType%%guiName%: Default
+		if ( LV_GetCount( "Selected" ) ) {
+			Gui, guiGh%guiType%%guiName%: Submit, NoHide
+			selRow := LV_GetNext()
+			LV_GetText( repository, selRow, 2)
+			PasteTextIntoGitShell( A_ThisFunc, "cd '" . repository . "WSU-UE---CSS'`r"
+				. "git fetch`rgit merge origin/master`rcd ..`rgit add WSU-UE---CSS`rgit commit -m '"
+				. "Updating custom CSS master submodule for OUE websites' -m 'Obtaining recent chan"
+				. "ges in OUE-wide Less/CSS source code for use in builds'`rgit push`r")
+			MsgBox, % (0x4 + 0x20)
+				, % A_ScriptName . ": Proceed with rebuild?", % "After updating the CSS submodule, "
+				. "would you like to proceed with a CSS rebuild?"
+			IfMsgBox Yes
+			{
+				this.HandleRbldCssBtn()
+			}
+		} else {
+			MsgBox % "Please select a repository in which the CSS dependency submodule should be up"
+				. "dated."
 		}
 	}
 
@@ -103,6 +200,13 @@ class CssBldPsOps extends GhGui {
 		guiCallback := this.cmtCssBtnHdlr.handlerRef
 		GuiControl, +g, guiGh%guiType%%guiName%CmtCss, %guiCallback%
 
+		; Set up button for posting CSS to appropriate website
+		Gui, guiGh%guiType%%guiName%: Add, Button
+			, vguiGh%guiType%%guiName%CmtCss X+5
+			, % "&Post to website"
+		guiCallback := this.postCssBtnHdlr.handlerRef
+		GuiControl, +g, guiGh%guiType%%guiName%PostCss, %guiCallback%
+
 		; Set up cancel button
 		Gui, guiGh%guiType%%guiName%: Add, Button
 			, vguiGh%guiType%%guiName%Cancel X+5
@@ -115,75 +219,6 @@ class CssBldPsOps extends GhGui {
 		; Display the completed GUI to the user
 		Gui, guiGh%guiType%%guiName%: Show
 	}
-
-	HandleUpdateSmBtn() {
-		guiType := this.type
-		guiName := this.name
-		Gui, guiGh%guiType%%guiName%: Default
-		if ( LV_GetCount( "Selected" ) ) {
-			Gui, guiGh%guiType%%guiName%: Submit, NoHide
-			selRow := LV_GetNext()
-			LV_GetText( repository, selRow, 2)
-			PasteTextIntoGitShell( A_ThisFunc, "cd '" . repository . "WSU-UE---CSS'`r"
-				. "git fetch`rgit merge origin/master`rcd ..`rgit add WSU-UE---CSS`rgit commit -m '"
-				. "Updating custom CSS master submodule for OUE websites' -m 'Obtaining recent chan"
-				. "ges in OUE-wide Less/CSS source code for use in builds'`rgit push`r")
-			MsgBox, % (0x4 + 0x20)
-				, % A_ScriptName . ": Proceed with rebuild?", % "After updating the CSS submodule, would "
-				. "you like to proceed with a CSS rebuild?"
-			IfMsgBox Yes
-			{
-				this.HandleRbldCssBtn()
-			}
-		} else {
-			MsgBox % "Please select a repository in which the CSS dependency submodule should be up"
-				. "dated."
-		}
-	}
-
-	HandleRbldCssBtn() {
-		guiType := this.type
-		guiName := this.name
-		Gui, guiGh%guiType%%guiName%: Default
-		if ( LV_GetCount( "Selected" ) ) {
-			Gui, guiGh%guiType%%guiName%: Submit, NoHide
-			selRow := LV_GetNext()
-			LV_GetText( repository, selRow, 2)
-			PasteTextIntoGitShell( A_ThisFunc
-				, "cd '" . repository . "'`r"
-				. "gulp buildMinCss`r"
-				. "[console]::beep(1500,300)`r" )
-			MsgBox, % (0x4 + 0x20)
-				, % A_ScriptName . ": Proceed with code commit?", % "After rebuilding the custom CSS file"
-				. " for use on the WSUWP website, would you like to proceed with committing CSS bui"
-				. "ld-related files?"
-			IfMsgBox Yes
-			{
-				this.HandleCmtCssBtn()
-			}
-		} else {
-			MsgBox % "Please select a repository in which to rebuild the WSUWP website's custom CSS"
-				. " file."
-		}
-	}
-
-	HandleCmtCssBtn() {
-		guiType := this.type
-		guiName := this.name
-		Gui, guiGh%guiType%%guiName%: Default
-		if ( LV_GetCount( "Selected" ) ) {
-			Gui, guiGh%guiType%%guiName%: Submit, NoHide
-			selRow := LV_GetNext()
-			LV_GetText( repository, selRow, 2)
-			LV_GetText( srcEntryPt, selRow, 4)
-			LV_GetText( cssBld, selRow, 5)
-			LV_GetText( minBld, selRow, 6)
-			CommitCssBuild( A_ThisFunc, repository, srcEntryPt, cssBld, minBld )
-		} else {
-			MsgBox % "Please select a repository for which files related to the custom CSS build sh"
-				. "ould be committed to GitHub."
-		}
-	}
 }
 
 CssBldPsOpsCancelHdlr( args* ) {
@@ -191,9 +226,14 @@ CssBldPsOpsCancelHdlr( args* ) {
 	guiToClose.CloseGui()
 }
 
-CssBldPsOpsUpdateSmBtnHdlr( args* ) {
+CssBldPsOpsCmtCssBtnHdlr( args* ) {
 	guiToHandle := args[1]
-	guiToHandle.HandleUpdateSmBtn()
+	guiToHandle.HandleCmtCssBtn()
+}
+
+CssBldPsOpsPostCssBtnHdlr( args* ) {
+	guiToHandle := args[1]
+	guiToHandle.HandlePostCssBtn()
 }
 
 CssBldPsOpsRbldCssBtnHdlr( args* ) {
@@ -201,7 +241,7 @@ CssBldPsOpsRbldCssBtnHdlr( args* ) {
 	guiToHandle.HandleRbldCssBtn()
 }
 
-CssBldPsOpsCmtCssBtnHdlr( args* ) {
+CssBldPsOpsUpdateSmBtnHdlr( args* ) {
 	guiToHandle := args[1]
-	guiToHandle.HandleCmtCssBtn()
+	guiToHandle.HandleUpdateSmBtn()
 }
