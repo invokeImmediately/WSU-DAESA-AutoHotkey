@@ -43,6 +43,8 @@ class CssBldPsOps extends GhGui {
 			GuiControl, +Default, guiGh%guiType%%guiName%RbldCss
 		} else if ( dfltMode == "commit" || dfltMode == "m" ) {
 			GuiControl, +Default, guiGh%guiType%%guiName%CmtCss
+		} else if ( dfltMode == "post" || dfltMode == "p" ) {
+			GuiControl, +Default, guiGh%guiType%%guiName%PostCss
 		}
 	}
 
@@ -159,7 +161,7 @@ class CssBldPsOps extends GhGui {
 		Gui, guiGh%guiType%%guiName%: Add, Text, w320 y16
 			, % "Select a repository and a CSS-build related PowerShell operation:"
 		Gui, guiGh%guiType%%guiName%: Add, ListView
-			, vctrlGh%guiType%%guiName%LV BackgroundWhite NoSortHdr -Multi r15 W960 xm+1 Y+3
+			, vctrlGh%guiType%%guiName%LV BackgroundWhite NoSortHdr -Multi r15 W1440 xm+1 Y+3
 			, % "Repo Name|Local Path|Site URL|Build Entry Point|Built CSS|Minified"
 		numRepos := this.repos.cfgSettings.Length()
 		Loop %numRepos% {
@@ -202,7 +204,7 @@ class CssBldPsOps extends GhGui {
 
 		; Set up button for posting CSS to appropriate website
 		Gui, guiGh%guiType%%guiName%: Add, Button
-			, vguiGh%guiType%%guiName%CmtCss X+5
+			, vguiGh%guiType%%guiName%PostCss X+5
 			, % "&Post to website"
 		guiCallback := this.postCssBtnHdlr.handlerRef
 		GuiControl, +g, guiGh%guiType%%guiName%PostCss, %guiCallback%
