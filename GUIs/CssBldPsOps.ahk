@@ -22,14 +22,18 @@ class CssBldPsOps extends GhGui {
 			, updateSmBtnHdlr := "CssBldPsOpsUpdateSmBtnHdlr"
 			, rbldCssBtnHdlr := "CssBldPsOpsRbldCssBtnHdlr"
 			, cmtCssBtnHdlr := "CssBldPsOpsCmtCssBtnHdlr"
+			, bakCssBtnHdlr := "CssBldPsOpsBakCssBtnHdlr"
 			, postCssBtnHdlr := "CssBldPsOpsPostCssBtnHdlr"
+			, postPrevCssBtnHdlr := "CssBldPsOpsPostPrevCssBtnHdlr"
 			, cancelBtnHdlr := "CssBldPsOpsCancelHdlr" ) {
 		base.__New( cfgSettings, typer, guiType, guiName, guiTitle, cancelBtnHdlr )
 		this.delayer := delayer
 		this.updateSmBtnHdlr := new GuiControlHandler( updateSmBtnHdlr, this )
 		this.rbldCssBtnHdlr := new GuiControlHandler( rbldCssBtnHdlr, this )
 		this.cmtCssBtnHdlr := new GuiControlHandler( cmtCssBtnHdlr, this )
+		this.bakCssBtnHdlr := new GuiControlHandler( bakCssBtnHdlr, this )
 		this.postCssBtnHdlr := new GuiControlHandler( postCssBtnHdlr, this )
+		this.postPrevCssBtnHdlr := new GuiControlHandler( postPrevCssBtnHdlr, this )
 	}
 
 	ChangeDefaultButton( dfltMode ) {
@@ -43,8 +47,37 @@ class CssBldPsOps extends GhGui {
 			GuiControl, +Default, guiGh%guiType%%guiName%RbldCss
 		} else if ( dfltMode == "commit" || dfltMode == "m" ) {
 			GuiControl, +Default, guiGh%guiType%%guiName%CmtCss
+		} else if ( dfltMode == "backup" || dfltMode == "b" ) {
+			GuiControl, +Default, guiGh%guiType%%guiName%BakCss
 		} else if ( dfltMode == "post" || dfltMode == "p" ) {
 			GuiControl, +Default, guiGh%guiType%%guiName%PostCss
+		} else if ( dfltMode == "postBackup" || dfltMode == "pb" ) {
+			GuiControl, +Default, guiGh%guiType%%guiName%PostPrevCss
+		}
+	}
+
+	HandleBakCssBtn() {
+		guiType := this.type
+		guiName := this.name
+		Gui, guiGh%guiType%%guiName%: Default
+		if ( LV_GetCount( "Selected" ) ) {
+			Gui, guiGh%guiType%%guiName%: Submit, NoHide
+			selRow := LV_GetNext()
+			LV_GetText( repository, selRow, 2)
+			LV_GetText( website, selRow, 3)
+			LV_GetText( backup, selRow, 7)
+			copiedCss := CopyCssFromWebsite(website)
+			if ( VerifyCopiedCode( A_ThisFunc, copiedCss ) ) {
+				success := WriteCodeToFile( A_ThisFunc, copiedCss, repository . "CSS\" . backup )
+				if ( success ) {
+					PasteTextIntoGitShell(caller, "cd '" . repository . "'`rgit add CSS\" . backup
+						. "`rgit commit -m 'Updating backup of latest verified custom CSS build'`rg"
+						. "it push`r")					
+				}
+			}
+		} else {
+			MsgBox % "Please select a repository for which the CSS build in use on its WSUWP websit"
+				. "e should be backed up."
 		}
 	}
 
@@ -73,11 +106,11 @@ class CssBldPsOps extends GhGui {
 		if ( LV_GetCount( "Selected" ) ) {
 			Gui, guiGh%guiType%%guiName%: Submit, NoHide
 			selRow := LV_GetNext()
-			LV_GetText( repoPath, selRow, 2)
-			LV_GetText( minCssRelPath, selRow, 6)
-			LV_GetText( websiteUrl, selRow, 3)
+			LV_GetText( repoPath, selRow, 2 )
+			LV_GetText( minCssRelPath, selRow, 6 )
+			LV_GetText( websiteUrl, selRow, 3 )
 			fullPath := repoPath . "CSS\" . minCssRelPath
-			LoadWordPressSiteInChrome(websiteUrl)
+			LoadWordPressSiteInChrome( websiteUrl )
 			CopySrcFileToClipboard( A_ThisFunc
 				, fullPath
 				, ""
@@ -87,6 +120,30 @@ class CssBldPsOps extends GhGui {
 		} else {
 			MsgBox % "Please select a repository from which its built and minified custom CSS file "
 				. "will be posted to its WSUWP website."
+		}
+	}
+
+	HandlePostPrevCssBtn() {
+		guiType := this.type
+		guiName := this.name
+		Gui, guiGh%guiType%%guiName%: Default
+		if ( LV_GetCount( "Selected" ) ) {
+			Gui, guiGh%guiType%%guiName%: Submit, NoHide
+			selRow := LV_GetNext()
+			LV_GetText( repoPath, selRow, 2 )
+			LV_GetText( prevCssRelPath, selRow, 7 )
+			LV_GetText( websiteUrl, selRow, 3 )
+			fullPath := repoPath . "CSS\" . prevCssRelPath
+			LoadWordPressSiteInChrome( websiteUrl )
+			CopySrcFileToClipboard( A_ThisFunc
+				, fullPath
+				, ""
+				, "Couldn't copy backup CSS in repository " . repoPath )
+			this.delayer.Wait( "l" )
+			ExecuteCssPasteCmds()
+		} else {
+			MsgBox % "Please select a repository from which its backup custom CSS file will be post"
+				. "ed to its WSUWP website."
 		}
 	}
 
@@ -153,6 +210,7 @@ class CssBldPsOps extends GhGui {
 		local lessSrcFile
 		local cssBuildFile
 		local minBuildFile
+		local prevBuildFile
 
 		; Start by creating an empty template for the GUI
 		Gui, guiGh%guiType%%guiName%: New, , % this.title
@@ -162,7 +220,7 @@ class CssBldPsOps extends GhGui {
 			, % "Select a repository and a CSS-build related PowerShell operation:"
 		Gui, guiGh%guiType%%guiName%: Add, ListView
 			, vctrlGh%guiType%%guiName%LV BackgroundWhite NoSortHdr -Multi r15 W1440 xm+1 Y+3
-			, % "Repo Name|Local Path|Site URL|Build Entry Point|Built CSS|Minified"
+			, % "Repo Name|Local Path|Site URL|Build Entry Point|Built CSS|Minified|Backup"
 		numRepos := this.repos.cfgSettings.Length()
 		Loop %numRepos% {
 			repoName := this.repos.cfgSettings[ A_Index ][ "name" ]
@@ -171,7 +229,9 @@ class CssBldPsOps extends GhGui {
 			lessSrcFile := this.repos.cfgSettings[ A_Index ][ "lessSrcFile" ]
 			cssBuildFile := this.repos.cfgSettings[ A_Index ][ "cssBuildFile" ]
 			minBuildFile := this.repos.cfgSettings[ A_Index ][ "minBuildFile" ]
-			LV_Add( , repoName, repoPath, siteUrl, lessSrcFile, cssBuildFile, minBuildFile )
+			prevBuildFile := this.repos.cfgSettings[ A_Index ][ "prevBuildFile" ]
+			LV_Add( , repoName, repoPath, siteUrl, lessSrcFile, cssBuildFile, minBuildFile
+				, prevBuildfile )
 		}
 		LV_Modify( 1, "Focus" )
 		LV_ModifyCol( 1, "AutoHdr" )
@@ -202,12 +262,26 @@ class CssBldPsOps extends GhGui {
 		guiCallback := this.cmtCssBtnHdlr.handlerRef
 		GuiControl, +g, guiGh%guiType%%guiName%CmtCss, %guiCallback%
 
+		; Set up button for backing up live custom CSS file in use on the website
+		Gui, guiGh%guiType%%guiName%: Add, Button
+			, vguiGh%guiType%%guiName%BakCss X+5
+			, % "&Backup from website"
+		guiCallback := this.bakCssBtnHdlr.handlerRef
+		GuiControl, +g, guiGh%guiType%%guiName%BakCss, %guiCallback%
+
 		; Set up button for posting CSS to appropriate website
 		Gui, guiGh%guiType%%guiName%: Add, Button
 			, vguiGh%guiType%%guiName%PostCss X+5
 			, % "&Post to website"
 		guiCallback := this.postCssBtnHdlr.handlerRef
 		GuiControl, +g, guiGh%guiType%%guiName%PostCss, %guiCallback%
+
+		; Set up button for posting backup CSS to appropriate website
+		Gui, guiGh%guiType%%guiName%: Add, Button
+			, vguiGh%guiType%%guiName%PostPrevCss X+5
+			, % "Post &backup"
+		guiCallback := this.postPrevCssBtnHdlr.handlerRef
+		GuiControl, +g, guiGh%guiType%%guiName%PostPrevCss, %guiCallback%
 
 		; Set up cancel button
 		Gui, guiGh%guiType%%guiName%: Add, Button
@@ -223,6 +297,11 @@ class CssBldPsOps extends GhGui {
 	}
 }
 
+CssBldPsOpsBakCssBtnHdlr( args* ) {
+	guiToHandle := args[1]
+	guiToHandle.HandleBakCssBtn()
+}
+
 CssBldPsOpsCancelHdlr( args* ) {
 	guiToClose := args[1]
 	guiToClose.CloseGui()
@@ -236,6 +315,11 @@ CssBldPsOpsCmtCssBtnHdlr( args* ) {
 CssBldPsOpsPostCssBtnHdlr( args* ) {
 	guiToHandle := args[1]
 	guiToHandle.HandlePostCssBtn()
+}
+
+CssBldPsOpsPostPrevCssBtnHdlr( args* ) {
+	guiToHandle := args[1]
+	guiToHandle.HandlePostPrevCssBtn()
 }
 
 CssBldPsOpsRbldCssBtnHdlr( args* ) {
