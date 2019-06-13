@@ -109,8 +109,9 @@ class CssBldPsOps extends GhGui {
 			LV_GetText( repoPath, selRow, 2 )
 			LV_GetText( minCssRelPath, selRow, 6 )
 			LV_GetText( websiteUrl, selRow, 3 )
+			LV_GetText( winTitle, selRow, 8 )
 			fullPath := repoPath . "CSS\" . minCssRelPath
-			LoadWordPressSiteInChrome( websiteUrl )
+			LoadWordPressSiteInChrome( websiteUrl, winTitle )
 			CopySrcFileToClipboard( A_ThisFunc
 				, fullPath
 				, ""
@@ -133,8 +134,9 @@ class CssBldPsOps extends GhGui {
 			LV_GetText( repoPath, selRow, 2 )
 			LV_GetText( prevCssRelPath, selRow, 7 )
 			LV_GetText( websiteUrl, selRow, 3 )
+			LV_GetText( winTitle, selRow, 8 )
 			fullPath := repoPath . "CSS\" . prevCssRelPath
-			LoadWordPressSiteInChrome( websiteUrl )
+			LoadWordPressSiteInChrome( websiteUrl, winTitle )
 			CopySrcFileToClipboard( A_ThisFunc
 				, fullPath
 				, ""
@@ -220,7 +222,8 @@ class CssBldPsOps extends GhGui {
 			, % "Select a repository and a CSS-build related PowerShell operation:"
 		Gui, guiGh%guiType%%guiName%: Add, ListView
 			, vctrlGh%guiType%%guiName%LV BackgroundWhite NoSortHdr -Multi r15 W1440 xm+1 Y+3
-			, % "Repo Name|Local Path|Site URL|Build Entry Point|Built CSS|Minified|Backup"
+			, % "Repo Name|Local Path|Site URL|Build Entry Point|Built CSS|Minified|Backup|Editor T"
+			. "itle"
 		numRepos := this.repos.cfgSettings.Length()
 		Loop %numRepos% {
 			repoName := this.repos.cfgSettings[ A_Index ][ "name" ]
@@ -230,8 +233,9 @@ class CssBldPsOps extends GhGui {
 			cssBuildFile := this.repos.cfgSettings[ A_Index ][ "cssBuildFile" ]
 			minBuildFile := this.repos.cfgSettings[ A_Index ][ "minBuildFile" ]
 			prevBuildFile := this.repos.cfgSettings[ A_Index ][ "prevBuildFile" ]
+			winTitle := this.repos.cfgSettings[ A_Index ][ "cssIntfTitle" ]
 			LV_Add( , repoName, repoPath, siteUrl, lessSrcFile, cssBuildFile, minBuildFile
-				, prevBuildfile )
+				, prevBuildfile, winTitle )
 		}
 		LV_Modify( 1, "Focus" )
 		LV_ModifyCol( 1, "AutoHdr" )
