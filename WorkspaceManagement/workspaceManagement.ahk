@@ -256,7 +256,7 @@ Return
 	minWidth := Round(maxWidth / 20 * 3)
 	widthDecrement := minWidth
 	newWidth := maxWidth - (widthDecrement * 4 / 3)
-	newPosX := -(maxWidth - widthDecrement * 4 / 3) + (borderWidths.Horz - 1)
+	newPosX := mon1WorkArea_Left + (widthDecrement * 4 / 3) - (borderWidths.Horz - 1)
 	maxHeight := mon1WorkArea_Bottom + (borderWidths.Vert - 1)
 	minHeight := Round(maxHeight / 20 * 3)
 	newHeight := maxHeight
@@ -273,7 +273,7 @@ Return
 	minWidth := Round(maxWidth / 20 * 3)
 	widthDecrement := minWidth
 	newWidth := maxWidth - widthDecrement * 4 / 3
-	newPosX := -maxWidth + (borderWidths.Horz - 1)
+	newPosX := mon1WorkArea_Left - (borderWidths.Horz - 1)
 	maxHeight := mon1WorkArea_Bottom + (borderWidths.Vert - 1)
 	minHeight := Round(maxHeight / 20 * 3)
 	newHeight := maxHeight
