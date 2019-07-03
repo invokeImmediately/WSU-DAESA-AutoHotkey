@@ -4,21 +4,22 @@
 ; * Script code adapted from https://www.computerhope.com/tips/tip224.htm, "Using AutoHotkey to 
 ;   switch Virtual Desktops in Windows 10." The article there indicates that the code is ultimately 
 ;   adapted from https://github.com/pmb6tz/windows-desktop-switcher.
-; --------------------------------------------------------------------------------------------------
+; ==================================================================================================
 ; TABLE OF CONTENTS:
-;   §1: GLOBAL VARIABLES.......................................................................24
-;   §2: FUNCTIONS & SUBROUTINES................................................................30
-;     >>> §2.1: CloseOpenWindowsOnVD...........................................................34
-;     >>> §2.2: CreateVirtualDesktop..........................................................143
-;     >>> §2.3: DeleteVirtualDesktop..........................................................157
-;     >>> §2.4: GetCurrentVirtualDesktop......................................................171
-;     >>> §2.5: GetSessionId..................................................................184
-;       →→→ §2.5.1: @getSessionId.............................................................204
-;     >>> §2.6: MapDesktopsFromRegistry.......................................................215
-;     >>> §2.7: MoveActiveWindowToVirtualDesktop..............................................277
-;     >>> §2.8: PrimeVirtualDesktops..........................................................345
-;     >>> §2.9: SwitchDesktopByNumber.........................................................364
-; --------------------------------------------------------------------------------------------------
+; -----------------
+;   §1: GLOBAL VARIABLES.......................................................................25
+;   §2: FUNCTIONS & SUBROUTINES................................................................31
+;     >>> §2.1: CloseOpenWindowsOnVD...........................................................35
+;     >>> §2.2: CreateVirtualDesktop..........................................................144
+;     >>> §2.3: DeleteVirtualDesktop..........................................................158
+;     >>> §2.4: GetCurrentVirtualDesktop......................................................172
+;     >>> §2.5: GetSessionId..................................................................185
+;       →→→ §2.5.1: @getSessionId.............................................................205
+;     >>> §2.6: MapDesktopsFromRegistry.......................................................216
+;     >>> §2.7: MoveActiveWindowToVirtualDesktop..............................................278
+;     >>> §2.8: PrimeVirtualDesktops..........................................................347
+;     >>> §2.9: SwitchDesktopByNumber.........................................................366
+; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
 ;   §1: GLOBAL VARIABLES
@@ -281,6 +282,7 @@ MoveActiveWindowToVirtualDesktop(targetDesktop) {
 	; DECLARATIONS
 	global vdCurrentDesktop
 	global vdDesktopCount
+	global execDelayer
 
 	; Timing variables
 	prevKeyDelay := A_KeyDelay
@@ -317,25 +319,25 @@ MoveActiveWindowToVirtualDesktop(targetDesktop) {
 		clickPosX := monALeft + awThumbnailX
 		clickPosY := monATop + awThumbnailY
 		Send #{Tab}
-		Sleep % pauseAmt * 3
+		execDelayer.Wait( "s", 8 )
 		Send {Click, %clickPosX%, %clickPosY%, right}
-		Sleep % pauseAmt
+		execDelayer.Wait( "s", 3 )
 		SendInput {Down 2}{Right}
-		Sleep % pauseAmt * 1.5
+		execDelayer.Wait( "s", 5 )
 		SendInput {Left}{Right}
-		Sleep % pauseAmt
+		execDelayer.Wait( "s", 3 )
 	}
 	
 	iDesktop := 1
 	while(iDesktop < targetDesktop) {
 		if (iDesktop != vdCurrentDesktop) {
 			SendInput {Down}
-			Sleep % pauseAmt
+			execDelayer.Wait( "s" )
 		}
 		iDesktop++
 	}
 	Send {Enter}#{Tab}
-	Sleep % pauseAmt
+	execDelayer.Wait( "s", 2 )
 	MouseMove %currentMouseX%, %currentMouseY%
 	RestoreMouseCoordMode(oldCoordMode)
 	SetKeyDelay %prevKeyDelay%
