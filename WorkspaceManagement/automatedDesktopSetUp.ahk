@@ -633,11 +633,11 @@ svd4_LoadWebEmailClients(delay) {
 	; Open second Gmail account
 	WinActivate % "Inbox ahk_exe chrome.exe"
 	Sleep % delay * 0.5
-	MouseMove 1488, 140
+	MouseMove 1495, 110
 	Sleep % delay * 0.5
 	Send {Click}
 	Sleep % delay * 15
-	MouseMove 1348, 340
+	MouseMove 1245, 315
 	Sleep % delay * 0.5
 	Send {Click}
 	Sleep % delay * 10
