@@ -179,72 +179,80 @@ caf1thruN_switchToDesktop(whichDesktop) {
 ;     >>> §2.3: ^F6-F11 — Snapped positioning of windows on multiple monitor systems
 
 ^F11::
-	RemoveMinMaxStateForActiveWin()
-	SoundPlay, %windowSizingSound%
-	borderWidths := GetActiveWindowBorderWidths()
-	maxWidth := (mon3WorkArea_Right + (borderWidths.Horz - 1)) - (mon3WorkArea_Left 
-		- (borderWidths.Horz - 1))
-	minWidth := Round(maxWidth / 20 * 3)
-	widthDecrement := minWidth
-	newWidth := maxWidth - (widthDecrement * 4 / 3)
-	newPosX := mon3WorkArea_Left + (widthDecrement * 4 / 3) - (borderWidths.Horz - 1)
-	maxHeight := mon3WorkArea_Bottom + (borderWidths.Vert - 1)
-	minHeight := Round(maxHeight / 20 * 3)
-	newHeight := maxHeight
-	WinMove, A, , %newPosX%, 0, %newWidth%, %maxHeight%
-	TriggerWindowAdjustmentGui(4, minWidth, maxWidth, newWidth, minHeight, maxHeight, newHeight)
+	if ( sysNumMonitors >= 3 ) {
+		RemoveMinMaxStateForActiveWin()
+		SoundPlay, %windowSizingSound%
+		borderWidths := GetActiveWindowBorderWidths()
+		maxWidth := (mon3WorkArea_Right + (borderWidths.Horz - 1)) - (mon3WorkArea_Left 
+			- (borderWidths.Horz - 1))
+		minWidth := Round(maxWidth / 20 * 3)
+		widthDecrement := minWidth
+		newWidth := maxWidth - (widthDecrement * 4 / 3)
+		newPosX := mon3WorkArea_Left + (widthDecrement * 4 / 3) - (borderWidths.Horz - 1)
+		maxHeight := mon3WorkArea_Bottom + (borderWidths.Vert - 1)
+		minHeight := Round(maxHeight / 20 * 3)
+		newHeight := maxHeight
+		WinMove, A, , %newPosX%, 0, %newWidth%, %maxHeight%
+		TriggerWindowAdjustmentGui(4, minWidth, maxWidth, newWidth, minHeight, maxHeight, newHeight)
+	}
 Return
 
 ^F10::
-	RemoveMinMaxStateForActiveWin()
-	SoundPlay, %windowSizingSound%
-	borderWidths := GetActiveWindowBorderWidths()
-	maxWidth := (mon3WorkArea_Right + (borderWidths.Horz - 1)) - (mon3WorkArea_Left 
-		- (borderWidths.Horz - 1))
-	minWidth := Round(maxWidth / 20 * 3)
-	widthDecrement := minWidth
-	newWidth := maxWidth - widthDecrement * 4 / 3
-	newPosX := mon3WorkArea_Left - borderWidths.Horz + 1
-	maxHeight := mon3WorkArea_Bottom + (borderWidths.Vert - 1)
-	minHeight := Round(maxHeight / 20 * 3)
-	newHeight := maxHeight
-	WinMove, A, , %newPosX%, 0, %newWidth%, %maxHeight%
-	TriggerWindowAdjustmentGui(1, minWidth, maxWidth, newWidth, minHeight, maxHeight, newHeight)
+	if ( sysNumMonitors >= 3 ) {
+		RemoveMinMaxStateForActiveWin()
+		SoundPlay, %windowSizingSound%
+		borderWidths := GetActiveWindowBorderWidths()
+		maxWidth := (mon3WorkArea_Right + (borderWidths.Horz - 1)) - (mon3WorkArea_Left 
+			- (borderWidths.Horz - 1))
+		minWidth := Round(maxWidth / 20 * 3)
+		widthDecrement := minWidth
+		newWidth := maxWidth - widthDecrement * 4 / 3
+		newPosX := mon3WorkArea_Left - borderWidths.Horz + 1
+		maxHeight := mon3WorkArea_Bottom + (borderWidths.Vert - 1)
+		minHeight := Round(maxHeight / 20 * 3)
+		newHeight := maxHeight
+		WinMove, A, , %newPosX%, 0, %newWidth%, %maxHeight%
+		TriggerWindowAdjustmentGui(1, minWidth, maxWidth, newWidth, minHeight, maxHeight, newHeight)
+	}
 Return
 
 ; TODO: Refactor to compensate for window border widths and how they affect positioning
 ^F9::
-	RemoveMinMaxStateForActiveWin()
-	SoundPlay, %windowSizingSound%
-	borderWidths := GetActiveWindowBorderWidths()
-	maxWidth := (mon2WorkArea_Right + (borderWidths.Horz - 1)) - (mon2WorkArea_Left 
-		- (borderWidths.Horz - 1))
-	minWidth := Round(maxWidth / 20 * 3)
-	widthDecrement := minWidth
-	newWidth := maxWidth - (widthDecrement * 4 / 3)
-	newPosX := mon2WorkArea_Left + (widthDecrement * 4 / 3) - (borderWidths.Horz - 1)
-	maxHeight := mon2WorkArea_Bottom + (borderWidths.Vert - 1)
-	minHeight := Round(maxHeight / 20 * 3)
-	newHeight := maxHeight
-	WinMove, A, , %newPosX%, 0, %newWidth%, %maxHeight%
-	TriggerWindowAdjustmentGui(4, minWidth, maxWidth, newWidth, minHeight, maxHeight, newHeight)
+	if ( sysNumMonitors >= 2 ) {
+		RemoveMinMaxStateForActiveWin()
+		SoundPlay, %windowSizingSound%
+		borderWidths := GetActiveWindowBorderWidths()
+		maxWidth := (mon2WorkArea_Right + (borderWidths.Horz - 1)) - (mon2WorkArea_Left 
+			- (borderWidths.Horz - 1))
+		minWidth := Round(maxWidth / 20 * 3)
+		widthDecrement := minWidth
+		newWidth := maxWidth - (widthDecrement * 4 / 3)
+		newPosX := mon2WorkArea_Left + (widthDecrement * 4 / 3) - (borderWidths.Horz - 1)
+		maxHeight := mon2WorkArea_Bottom + (borderWidths.Vert - 1)
+		minHeight := Round(maxHeight / 20 * 3)
+		newHeight := maxHeight
+		WinMove, A, , %newPosX%, 0, %newWidth%, %maxHeight%
+		TriggerWindowAdjustmentGui(4, minWidth, maxWidth, newWidth, minHeight, maxHeight, newHeight)
+	}
 Return
 
 ^F8::
-	RemoveMinMaxStateForActiveWin()
-	SoundPlay %windowSizingSound%
-	borderWidths := GetActiveWindowBorderWidths()
-	maxWidth := (mon2WorkArea_Right + (borderWidths.Horz - 1)) - (mon2WorkArea_Left 
-		- (borderWidths.Horz - 1))
-	minWidth := Round(maxWidth / 20 * 3)
-	widthDecrement := minWidth
-	newWidth := maxWidth - widthDecrement * 4 / 3
-	newPosX := mon2WorkArea_Left - borderWidths.Horz + 1
-	maxHeight := mon2WorkArea_Bottom + (borderWidths.Vert - 1)
-	minHeight := Round(maxHeight / 20 * 3)
-	newHeight := maxHeight
-	WinMove, A, , %newPosX%, 0, %newWidth%, %maxHeight%
-	TriggerWindowAdjustmentGui(1, minWidth, maxWidth, newWidth, minHeight, maxHeight, newHeight)
+	if ( sysNumMonitors >= 2 ) {
+		RemoveMinMaxStateForActiveWin()
+		SoundPlay %windowSizingSound%
+		borderWidths := GetActiveWindowBorderWidths()
+		maxWidth := (mon2WorkArea_Right + (borderWidths.Horz - 1)) - (mon2WorkArea_Left 
+			- (borderWidths.Horz - 1))
+		minWidth := Round(maxWidth / 20 * 3)
+		widthDecrement := minWidth
+		newWidth := maxWidth - widthDecrement * 4 / 3
+		newPosX := mon2WorkArea_Left - borderWidths.Horz + 1
+		maxHeight := mon2WorkArea_Bottom + (borderWidths.Vert - 1)
+		minHeight := Round(maxHeight / 20 * 3)
+		newHeight := maxHeight
+		WinMove, A, , %newPosX%, 0, %newWidth%, %maxHeight%
+		TriggerWindowAdjustmentGui(1, minWidth, maxWidth, newWidth, minHeight, maxHeight, newHeight)
+	}
 Return
 
 ^F7::
