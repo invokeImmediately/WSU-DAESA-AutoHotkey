@@ -417,13 +417,13 @@ Return
 	; Position chrome window containing tab loaded with GitHub profile
 	WinRestore, invokeImmediately
 	execDelayer.Wait( "s" )
-	WinMove, invokeImmediately, , -1830, 0, 1700, 1040
+	WinMove, invokeImmediately, , Mon1WorkArea_Left + 90, 0, 1700, 1040
 	execDelayer.Wait( "s", 2 )
 
 	; Position File Explorer window
 	WinRestore, File Explorer
 	execDelayer.Wait( "s" )
-	WinMove, File Explorer, , 200, 0, 1720, 1040
+	WinMove, File Explorer, , Mon1WorkArea_Left + 200, 0, 1720, 1040
 	execDelayer.Wait( "s", 2 )
 
 	; Position Sublime Text 3 window
