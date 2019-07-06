@@ -14,24 +14,25 @@
 ; ==================================================================================================
 ; TABLE OF CONTENTS:
 ; -----------------
-;   §1: Entry point: StartScript()..............................................................39
-;   §2: Script initialization functions.........................................................60
-;     >>> §2.1: ListAhkFiles()..................................................................64
-;     >>> §2.2: LoadScriptConfiguration()......................................................141
-;     >>> §2.3: PrintHsTrie()..................................................................151
-;       →→→ §2.3.1: For committing CSS builds..................................................160
-;     >>> §2.4: ReportMonitorDimensions()......................................................167
-;     >>> §2.5: SetAhkConstants()..............................................................185
-;     >>> §2.6: SetCoordModeConstants()........................................................193
-;     >>> §2.7: SetGlobalVariables()...........................................................213
-;     >>> §2.8: SetMatchModeConstants()........................................................226
-;     >>> §2.9: SetMinMonitorWorkAreas().......................................................257
-;     >>> §2.10: SetModules()..................................................................284
-;     >>> §2.11: SetMonitorBounds()............................................................294
-;     >>> §2.12: SetMonitorBounds()............................................................318
-;     >>> §2.12: SetMonitorWorkAreas().........................................................348
-;     >>> §2.13: SetWinBorders()...............................................................356
-;     >>> §2.14: SetupLogAutoSaving()..........................................................365
+;   §1: Entry point: StartScript()..............................................................40
+;   §2: Script initialization functions.........................................................61
+;     >>> §2.1: CheckMonitorWorkAreas().........................................................65
+;     >>> §2.2: ListAhkFiles()..................................................................86
+;     >>> §2.3: LoadScriptConfiguration()......................................................163
+;     >>> §2.4: PrintHsTrie()..................................................................173
+;       →→→ §2.4.1: For committing CSS builds..................................................182
+;     >>> §2.5: ReportMonitorDimensions()......................................................189
+;     >>> §2.6: SetAhkConstants()..............................................................207
+;     >>> §2.7: SetCoordModeConstants()........................................................215
+;     >>> §2.8: SetGlobalVariables()...........................................................235
+;     >>> §2.9: SetMatchModeConstants()........................................................248
+;     >>> §2.10: SetMinMonitorWorkAreas()......................................................279
+;     >>> §2.11: SetModules()..................................................................306
+;     >>> §2.12: SetMonitorBounds()............................................................316
+;     >>> §2.13: SetMonitorBounds()............................................................340
+;     >>> §2.13: SetMonitorWorkAreas().........................................................369
+;     >>> §2.14: SetWinBorders()...............................................................377
+;     >>> §2.15: SetupLogAutoSaving()..........................................................386
 ; ==================================================================================================
 
 
@@ -61,7 +62,28 @@ StartScript() {
 ; --------------------------------------------------------------------------------------------------
 
 ;   ································································································
-;     >>> §2.1: ListAhkFiles()
+;     >>> §2.1: CheckMonitorWorkAreas()
+
+CheckMonitorWorkAreas() {
+	global
+
+	if ( sysNumMonitors < 2 ) {
+		mon2WorkAreaLeft = mon1WorkAreaLeft
+		mon2WorkAreaTop = mon1WorkAreaTop
+		mon2WorkAreaRight = mon1WorkAreaRight
+		mon2WorkAreaBottom = mon1WorkAreaBottom
+	}
+	if ( sysNumMonitors < 3 ) {
+		mon3WorkAreaLeft = mon2WorkAreaLeft
+		mon3WorkAreaTop = mon2WorkAreaTop
+		mon3WorkAreaRight = mon2WorkAreaRight
+		mon3WorkAreaBottom = mon2WorkAreaBottom
+	}
+}
+
+
+;   ································································································
+;     >>> §2.2: ListAhkFiles()
 
 ListAhkFiles() {
 	global hsListPiped
@@ -138,7 +160,7 @@ ListAhkFiles() {
 }
 
 ;   ································································································
-;     >>> §2.2: LoadScriptConfiguration()
+;     >>> §2.3: LoadScriptConfiguration()
 
 LoadScriptConfiguration() {
 	global scriptCfg := {}
@@ -148,7 +170,7 @@ LoadScriptConfiguration() {
 }
 
 ;   ································································································
-;     >>> §2.3: PrintHsTrie()
+;     >>> §2.4: PrintHsTrie()
 
 PrintHsTrie() {
 	global hsTrie
@@ -157,14 +179,14 @@ PrintHsTrie() {
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §2.3.1: For committing CSS builds
+;       →→→ §2.4.1: For committing CSS builds
 
 :*:@PrintHsTrie::
 	PrintHsTrie()
 Return
 
 ;   ································································································
-;     >>> §2.4: ReportMonitorDimensions()
+;     >>> §2.5: ReportMonitorDimensions()
 
 ReportMonitorDimensions() {
 	global
@@ -182,7 +204,7 @@ ReportMonitorDimensions() {
 }
 
 ;   ································································································
-;     >>> §2.5: SetAhkConstants()
+;     >>> §2.6: SetAhkConstants()
 
 SetAhkConstants() {
 	SetCoordModeConstants()
@@ -190,7 +212,7 @@ SetAhkConstants() {
 }
 
 ;   ································································································
-;     >>> §2.6: SetCoordModeConstants()
+;     >>> §2.7: SetCoordModeConstants()
 
 SetCoordModeConstants() {
 	global cmClient
@@ -210,7 +232,7 @@ SetCoordModeConstants() {
 }
 
 ;   ································································································
-;     >>> §2.7: SetGlobalVariables()
+;     >>> §2.8: SetGlobalVariables()
 
 SetGlobalVariables() {
 	SetAhkConstants()
@@ -223,7 +245,7 @@ SetGlobalVariables() {
 }
 
 ;   ································································································
-;     >>> §2.8: SetMatchModeConstants()
+;     >>> §2.9: SetMatchModeConstants()
 
 SetMatchModeConstants() {
 	global execDelayer
@@ -254,7 +276,7 @@ SetMatchModeConstants() {
 }
 
 ;   ································································································
-;     >>> §2.9: SetMinMonitorWorkAreas()
+;     >>> §2.10: SetMinMonitorWorkAreas()
 
 SetMinMonitorWorkAreas() {
 	global
@@ -281,7 +303,7 @@ SetMinMonitorWorkAreas() {
 }
 
 ;   ································································································
-;     >>> §2.10: SetModules()
+;     >>> §2.11: SetModules()
 
 SetModules() {
 	global
@@ -291,7 +313,7 @@ SetModules() {
 }
 
 ;   ································································································
-;     >>> §2.11: SetMonitorBounds()
+;     >>> §2.12: SetMonitorBounds()
 
 SetMonitorBounds() {
 	global
@@ -315,13 +337,11 @@ SetMonitorBounds() {
 }
 
 ;   ································································································
-;     >>> §2.12: SetMonitorWorkAreas()
+;     >>> §2.13: SetMonitorWorkAreas()
 
 ; Assumes window has a resizable border.
 SetMonitorWorkAreas() {
 	global
-	local monWorkAreaW
-	local monWorkAreaH
 
 	Loop, % sysNumMonitors {
 		SysGet, mon%A_Index%WorkArea_, MonitorWorkArea, %A_Index%
@@ -342,10 +362,11 @@ SetMonitorWorkAreas() {
 	}
 
 	SetMinMonitorWorkAreas()
+	CheckMonitorWorkAreas()
 }
 
 ;   ································································································
-;     >>> §2.12: SetNumMonitors()
+;     >>> §2.13: SetNumMonitors()
 
 SetNumMonitors() {
 	global
@@ -353,7 +374,7 @@ SetNumMonitors() {
 }
 
 ;   ································································································
-;     >>> §2.13: SetWinBorders()
+;     >>> §2.14: SetWinBorders()
 
 SetWinBorders() {
 	global
@@ -362,7 +383,7 @@ SetWinBorders() {
 }
 
 ;   ································································································
-;     >>> §2.14: SetupLogAutoSaving()
+;     >>> §2.15: SetupLogAutoSaving()
 
 SetupLogAutoSaving() {
 	SetTimer, PerformScriptShutdownTasks, 900000 ; 1000 * 60 * 15 = 15 minutes
