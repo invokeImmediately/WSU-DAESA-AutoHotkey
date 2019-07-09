@@ -68,16 +68,16 @@ CheckMonitorWorkAreas() {
 	global
 
 	if ( sysNumMonitors < 2 ) {
-		mon2WorkAreaLeft = mon1WorkAreaLeft
-		mon2WorkAreaTop = mon1WorkAreaTop
-		mon2WorkAreaRight = mon1WorkAreaRight
-		mon2WorkAreaBottom = mon1WorkAreaBottom
+		mon2WorkArea_Left = mon1WorkArea_Left
+		mon2WorkArea_Top = mon1WorkArea_Top
+		mon2WorkArea_Right = mon1WorkArea_Right
+		mon2WorkArea_Bottom = mon1WorkArea_Bottom
 	}
 	if ( sysNumMonitors < 3 ) {
-		mon3WorkAreaLeft = mon2WorkAreaLeft
-		mon3WorkAreaTop = mon2WorkAreaTop
-		mon3WorkAreaRight = mon2WorkAreaRight
-		mon3WorkAreaBottom = mon2WorkAreaBottom
+		mon3WorkArea_Left = mon2WorkArea_Left
+		mon3WorkArea_Top = mon2WorkArea_Top
+		mon3WorkArea_Right = mon2WorkArea_Right
+		mon3WorkArea_Bottom = mon2WorkArea_Bottom
 	}
 }
 
@@ -202,6 +202,10 @@ ReportMonitorDimensions() {
 	msg := msg . "`rWindow border thickness: (" . sysWinBorderW . "," . sysWinBorderH . ")"
 	MsgBox, % msg
 }
+
+:*:@reportMonitorDimensions::
+	ReportMonitorDimensions()
+Return
 
 ;   ································································································
 ;     >>> §2.6: SetAhkConstants()
