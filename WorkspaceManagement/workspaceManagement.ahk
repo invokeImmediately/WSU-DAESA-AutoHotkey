@@ -907,7 +907,7 @@ TAW_CheckDefaultDelta() {
 	global twMvDelta
 
 	if ( !doesVarExist( twMvDelta ) || isVarEmpty( twMvDelta ) ) {
-		twMvDelta := 10
+		twMvDelta := 50
 	}
 }
 
