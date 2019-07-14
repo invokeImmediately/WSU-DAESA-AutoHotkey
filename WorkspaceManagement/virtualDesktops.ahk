@@ -319,7 +319,7 @@ MoveActiveWindowToVirtualDesktop(targetDesktop) {
 		clickPosX := monALeft + awThumbnailX
 		clickPosY := monATop + awThumbnailY
 		Send #{Tab}
-		execDelayer.Wait( "s", 8 )
+		execDelayer.Wait( "s", 12 )
 		Send {Click, %clickPosX%, %clickPosY%, right}
 		execDelayer.Wait( "s", 3 )
 		SendInput {Down 2}{Right}
