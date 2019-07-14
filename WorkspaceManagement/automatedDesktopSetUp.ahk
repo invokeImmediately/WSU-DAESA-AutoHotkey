@@ -10,7 +10,7 @@
 ; LICENSE: ISC - Copyright (c) 2019 Daniel C. Rieck.
 ;
 ;   Permission to use, copy, modify, and/or distribute this software for any purpose with or
-;   without fee is hereby granted, provided that the above copyright notice and this permission
+;   without fee iOs hereby granted, provided that the above copyright notice and this permission
 ;   notice appear in all copies.
 ;
 ;   THE SOFTWARE IS PROVIDED "AS IS" AND DANIEL RIECK DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS
@@ -633,11 +633,11 @@ svd4_LoadWebEmailClients(delay) {
 	; Open second Gmail account
 	WinActivate % "Inbox ahk_exe chrome.exe"
 	Sleep % delay * 0.5
-	MouseMove 1495, 110
+	MouseMove 1495, 145
 	Sleep % delay * 0.5
 	Send {Click}
 	Sleep % delay * 15
-	MouseMove 1245, 315
+	MouseMove 1245, 360
 	Sleep % delay * 0.5
 	Send {Click}
 	Sleep % delay * 10
@@ -701,23 +701,22 @@ Return
 ;       →→→ §1.7.1: @setupVirtualDesktop6
 
 :*:@setupVirtualDesktop6::
-	delay := GetDelay("short")
 	AppendAhkCmd(A_ThisLabel)
 
 	; Switch to virtual desktop and notify user of subsequent automated activities.
 	switchDesktopByNumber(6)
-	Sleep % delay * 2
+	execDelayer.Wait( "s", 2 )
 	DisplaySplashText("Setting up virtual desktop #6 for computer monitoring and XAMPP.")
 
 	; Set up computer monitoring apps.
-	Sleep % delay * 2
+	execDelayer.Wait( "s", 2 )
 	LaunchStdApplicationPatiently("C:\Windows\System32\taskmgr.exe", "Task Manager")
-	Sleep % delay * 10
-	WinMove % "GPU Temp", , -541, 59, 480, 400
-	Sleep % delay * 2
-	WinMove % "RealTemp", , -537, 477, 318, 409
-	Sleep % delay * 2
-	WinMove % "Task Manager", , -1528, 184, 976, 600
+	execDelayer.Wait( "s", 10 )
+	WinMove % "GPU Temp", , % 1379 + Mon1WorkArea_Left, 59, 480, 400
+	execDelayer.Wait( "s", 2 )
+	WinMove % "RealTemp", , % 1383 + Mon1WorkArea_Left, 477, 318, 409
+	execDelayer.Wait( "s", 2 )
+	WinMove % "Task Manager", , % 392 + Mon1WorkArea_Left, 184, 976, 600
 
 	LaunchApplicationPatiently("C:\xampp\xampp-control.exe", "XAMPP ahk_exe xampp-control.exe")
 Return
