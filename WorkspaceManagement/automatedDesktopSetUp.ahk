@@ -532,7 +532,7 @@ svd3_OpenGraphicsReferences(delay) {
 svd3_OpenGimp(delay) {
 	Sleep % delay
 	PositionWindowViaCtrlFN("^F10", 100)
-	LaunchStdApplicationPatiently("C:\Program Files\GIMP 2\bin\gimp-2.10.exe", "GNU Image")
+	LaunchApplicationPatiently("C:\Program Files\GIMP 2\bin\gimp-2.10.exe", "GNU Image")
 	Sleep % delay * 3
 	PositionWindowViaCtrlFN("^F6", 100)
 	Sleep % delay * 3
