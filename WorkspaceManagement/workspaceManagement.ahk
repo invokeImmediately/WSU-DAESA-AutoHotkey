@@ -416,10 +416,10 @@ UpdateVariableAsNeeded(ByRef variable, newValue) {
 }
 
 ;   ································································································
-;     >>> §2.7: >^!+#Left — Snap to/expand at left edge
+;     >>> §2.7: >^!+Left — Snap to/expand at left edge
 
 ; Snap the active window to the left edge of its monitor; if already snapped, increase its width.
->^!+#Left::
+>^!+Left::
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		WinGetPos, winX, winY, winW, winH, A
@@ -451,11 +451,11 @@ IncrementWinDimension(ByRef winDim, winPos, ByRef targetPos, increment, minWinDi
 }
 
 ;   ································································································
-;     >>> §2.8: <^!+#Left — Snap to/expand at left edge + expand height
+;     >>> §2.8: <^!+Left — Snap to/expand at left edge + expand height
 
 ; Snap the active window to the left edge of its monitor; if already snapped, increase its width. 
 ; Additionally, match the height of the window to the full height of the active monitor's work area.
-<^!+#Left::
+<^!+Left::
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		WinGetPos, winX, winY, winW, winH, A
@@ -516,10 +516,10 @@ return
 return
 
 ;   ································································································
-;     >>> §2.11: >^!+#Right — Snap to/expand at right edge
+;     >>> §2.11: >^!+Right — Snap to/expand at right edge
 
 ; Snap the active window to the right edge of its monitor; if already snapped, increase its width.
->^!+#Right::
+>^!+Right::
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		WinGetPos, winX, winY, winW, winH, A
@@ -535,10 +535,10 @@ return
 return
 
 ;   ································································································
-;     >>> §2.12: <^!+#Right — Snap to/expand at right edge + expand height
+;     >>> §2.12: <^!+Right — Snap to/expand at right edge + expand height
 
 ; Snap the active window to the right edge of its monitor; if already snapped, increase its width.
-<^!+#Right::
+<^!+Right::
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		WinGetPos, winX, winY, winW, winH, A
@@ -597,9 +597,9 @@ return
 return
 
 ;   ································································································
-;     >>> §2.15: >^!+#Up — Snap to/expand at top edge
+;     >>> §2.15: >^!+Up — Snap to/expand at top edge
 
->^!+#Up::
+>^!+Up::
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		WinGetPos, winX, winY, winW, winH, A
@@ -615,9 +615,9 @@ return
 return
 
 ;   ································································································
-;     >>> §2.16: <^!+#Up — Snap to/expand at top edge + expand height
+;     >>> §2.16: <^!+Up — Snap to/expand at top edge + expand height
 
-<^!+#Up::
+<^!+Up::
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		WinGetPos, winX, winY, winW, winH, A
@@ -675,9 +675,9 @@ return
 return
 
 ;   ································································································
-;     >>> §2.19: >^!+#Down — Snap to/expand at bottom edge
+;     >>> §2.19: >^!+Down — Snap to/expand at bottom edge
 
->^!+#Down::
+>^!+Down::
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		WinGetPos, winX, winY, winW, winH, A
@@ -693,9 +693,9 @@ return
 return
 
 ;   ································································································
-;     >>> §2.20: <^!+#Down — Snap to/expand at bottom edge + expand height
+;     >>> §2.20: <^!+Down — Snap to/expand at bottom edge + expand height
 
-<^!+#Down::
+<^!+Down::
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		WinGetPos, winX, winY, winW, winH, A
