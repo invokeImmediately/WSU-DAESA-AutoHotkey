@@ -40,21 +40,21 @@
 ;       →→→ §2.5.2: SafeWinMove................................................................366
 ;     >>> §2.6: <^!#Left — Snap to/collapse at left edge + expand height.......................383
 ;       →→→ §2.6.1: UpdateVariableAsNeeded.....................................................406
-;     >>> §2.7: >^!+#Left — Snap to/expand at left edge........................................419
+;     >>> §2.7: >^!+Left — Snap to/expand at left edge........................................419
 ;       →→→ §2.7.1: IncrementWinDimension......................................................436
-;     >>> §2.8: <^!+#Left — Snap to/expand at left edge + expand height........................454
+;     >>> §2.8: <^!+Left — Snap to/expand at left edge + expand height........................454
 ;     >>> §2.9: >^!#Right — Snap window to or collapse at right edge...........................476
 ;     >>> §2.10: <^!#Right — Snap to/collapse at right edge + expand height....................495
-;     >>> §2.11: >^!+#Right — Snap to/expand at right edge.....................................519
-;     >>> §2.12: <^!+#Right — Snap to/expand at right edge + expand height.....................538
+;     >>> §2.11: >^!+Right — Snap to/expand at right edge.....................................519
+;     >>> §2.12: <^!+Right — Snap to/expand at right edge + expand height.....................538
 ;     >>> §2.13: >^!#Up — Snap window to or collapse at top edge...............................560
 ;     >>> §2.14: <^!#Up — Snap to/collapse at top edge + expand height.........................578
-;     >>> §2.15: >^!+#Up — Snap to/expand at top edge..........................................600
-;     >>> §2.16: <^!+#Up — Snap to/expand at top edge + expand height..........................618
+;     >>> §2.15: >^!+Up — Snap to/expand at top edge..........................................600
+;     >>> §2.16: <^!+Up — Snap to/expand at top edge + expand height..........................618
 ;     >>> §2.17: >^!#Down — Snap window to or collapse at bottom edge..........................639
 ;     >>> §2.18: <^!#Down — Snap to/collapse at bottom edge + expand height....................657
-;     >>> §2.19: >^!+#Down — Snap to/expand at bottom edge.....................................678
-;     >>> §2.20: <^!+#Down — Snap to/expand at bottom edge + expand height.....................696
+;     >>> §2.19: >^!+Down — Snap to/expand at bottom edge.....................................678
+;     >>> §2.20: <^!+Down — Snap to/expand at bottom edge + expand height.....................696
 ;     >>> §2.21: ^!#Numpad5 — Snap to/collapse at midpoint.....................................717
 ;     >>> §2.22: ^!#NumpadClear — Snap to/expand at midpoint...................................773
 ;	  >>> §2.23: ^NumpadX — Keyboard based movement of active windows..........................817
