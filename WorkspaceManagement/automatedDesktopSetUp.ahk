@@ -483,7 +483,7 @@ agh_MovePowerShell() {
 			execDelayer.Wait( "m" )
 			WinActivate % psTitle
 			execDelayer.Wait( "m", 2 )
-			Gosub % "<^!+#Left"
+			Gosub % "<^!+Left"
 		}
 	} else {
 		; Report failure to activate Powershell console window
