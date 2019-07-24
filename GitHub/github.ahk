@@ -68,7 +68,7 @@
 ;       →→→ §4.4.3: HandlePostMinJsCancel......................................................911
 ;       →→→ §4.4.4: HandlePostMinJsOK..........................................................918
 ;       →→→ §4.4.5: PasteMinJsToWebsite........................................................985
-;   §5: UTILITY HOTSTRINGS for working with GitHub Desktop.....................................1000
+;   §5: UTILITY HOTSTRINGS for working with GitHub Desktop....................................1000
 ;     >>> §5.1: FILE COMMITTING...............................................................1004
 ;     >>> §5.2: STATUS CHECKING...............................................................1151
 ;       →→→ §5.2.1: @doGitStataus & @dogs.....................................................1154
@@ -1359,8 +1359,9 @@ ExecuteCssPasteCmds( manualProcession := false ) {
 			MsgBox, 48, % A_ThisFunc, % "Press OK to proceed with update button selection."
 		}
 		buttonX := (winInfo.Client.Right - winInfo.Client.Left + winInfo.XBorders) - 100
-		buttonY1 := 370
-		buttonY2 := buttonY1 + 40
+		buttonY1 := 420
+		buttonYDelta := 45
+		buttonY2 := buttonY1 + buttonYDelta
 		Click, %buttonX%, %buttonY1%
 		Sleep, 60
 		Click, %buttonX%, %buttonY2%
