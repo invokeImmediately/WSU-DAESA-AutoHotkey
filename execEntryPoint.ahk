@@ -167,6 +167,7 @@ LoadScriptConfiguration() {
 
 	scriptCfg.backupJs := new CfgFile( "C:\GitHub\WSU-OUE-AutoHotkey\Config\backupJs.ahk.cfg" )
 	scriptCfg.cssBuilds := new CfgFile( "C:\GitHub\WSU-OUE-AutoHotkey\Config\cssBuilds.ahk.cfg" )
+	scriptCfg.gitStatus := new CfgFile( "C:\GitHub\WSU-OUE-AutoHotkey\Config\gitStatus.ahk.cfg" )
 }
 
 ;   ································································································
