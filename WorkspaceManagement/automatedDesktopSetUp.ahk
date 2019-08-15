@@ -52,19 +52,19 @@
 ;       →→→ §1.4.4: @arrangeGimp...............................................................542
 ;     >>> §1.5: Setup VD4—Communications and media.............................................565
 ;       →→→ §1.5.1: @setupVirtualDesktop4......................................................568
-;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)................................................593
-;       →→→ §1.5.3: @arrangeEmail..............................................................613
-;     >>> §1.6: Setup VD5—Talmud...............................................................654
-;       →→→ §1.6.1: @setupVirtualDesktop5......................................................657
-;     >>> §1.7: Setup VD7—Diagnostics & XAMPP..................................................698
-;       →→→ §1.7.1: @setupVirtualDesktop6......................................................701
-;   §2: STARTUP HOTKEYS........................................................................726
-;     >>> §2.1: #!r............................................................................730
-;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................737
-;     >>> §3.1: @quitAhk.......................................................................741
-;     >>> §3.2: PerformScriptShutdownTasks()...................................................750
-;     >>> §3.3: ^#!r...........................................................................760
-;     >>> §3.4: ScriptExitFunc(…)..............................................................769
+;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)................................................589
+;       →→→ §1.5.3: @arrangeEmail..............................................................609
+;     >>> §1.6: Setup VD5—Talmud...............................................................643
+;       →→→ §1.6.1: @setupVirtualDesktop5......................................................646
+;     >>> §1.7: Setup VD7—Diagnostics & XAMPP..................................................696
+;       →→→ §1.7.1: @setupVirtualDesktop6......................................................699
+;   §2: STARTUP HOTKEYS........................................................................723
+;     >>> §2.1: #!r............................................................................727
+;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................734
+;     >>> §3.1: @quitAhk.......................................................................738
+;     >>> §3.2: PerformScriptShutdownTasks()...................................................747
+;     >>> §3.3: ^#!r...........................................................................757
+;     >>> §3.4: ScriptExitFunc(…)..............................................................766
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -569,85 +569,74 @@ Return
 
 :*:@setupVirtualDesktop4::
 	AppendAhkCmd(A_ThisLabel)
-	delay := GetDelay("short")
 
 	; Switch to virtual desktop and notify user of subsequent automated activities
 	switchDesktopByNumber(4)
-	Sleep % delay * 1.5
+	execDelayer.Wait( "s", 1.5 )
 	DisplaySplashText("Setting up virtual desktop #4 for online correspondence.")
 
 	; Set up email and messaging clients
-	svd4_LoadWebEmailClients(delay)
+	svd4_LoadWebEmailClients( execDelayer.InterpretDelayString( "s" ) )
 	LaunchStdApplicationPatiently("C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE"
 		, "Inbox ahk_exe OUTLOOK.EXE")
 
-	; Load music app
-	LaunchStdApplicationPatiently("shell:appsFolder\AppleInc.iTunes_nzyj5cx40ttqa!iTunes", "iTunes")
-
 	; Restore default arrangement of windows
-	Sleep % delay * 10
+	execDelayer.Wait( "s", 10 )
 	Gosub :*:@arrangeEmail
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)
 
-svd4_LoadWebEmailClients(delay) {
-	Sleep % delay * 1.5
+svd4_LoadWebEmailClients( delay ) {
+	execDelayer.Wait( delay, 1.5 )
 	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
 		, "New Tab")
-	Sleep % delay * 10
+	execDelayer.Wait( delay, 10 )
 	OpenWebsiteInChrome("mail.google.com", False)
 	OpenWebsiteInChrome("mail.live.com")
 	OpenWebsiteInChrome("web.wsu.edu")
 	OpenWebsiteInChrome("wsu-web.slack.com")
 	MoveToNextTabInChrome()
-	Sleep % delay * 3
+	execDelayer.Wait( delay, 3 )
 
 	OpenNewWindowInChrome()
 	OpenWebsiteInChrome("trello.com", False)
-	PositionWindowViaCtrlFN("^F7", delay)
+	PositionWindowViaCtrlFN("^F10", delay)
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.5.3: @arrangeEmail
 
 :*:@arrangeEmail::
-	delay := GetDelay("short", 2)
+	delay := execDelayer.InterpretDelayString( "s" ) * 2
 	AppendAhkCmd(A_ThisLabel)
 
 	; Reposition Outlook
 	WinActivate % "Inbox - ahk_exe OUTLOOK.EXE"
-	Sleep % delay * 2
+	execDelayer.Wait( delay, 2 )
 	PositionWindowViaCtrlFN("^F8", delay)
-	Sleep % delay * 1.25
+	execDelayer.Wait( delay, 1.25 )
 	WinMaximize A
-	Sleep % delay * 1
+	execDelayer.Wait( delay )
 
 	; Reposition Chrome window for email and news browsing
 	WinActivate % "Inbox ahk_exe chrome.exe"
-	Sleep % delay * 1.25
+	execDelayer.Wait( delay, 1.25 )
 	PositionWindowViaCtrlFN("^F6", delay)
-	Sleep % delay * 2.25
+	execDelayer.Wait( delay, 2.25 )
 
 	; Open second Gmail account
 	WinActivate % "Inbox ahk_exe chrome.exe"
-	Sleep % delay * 0.5
+	execDelayer.Wait( delay, 0.5 )
 	MouseMove 1495, 145
-	Sleep % delay * 0.5
+	execDelayer.Wait( delay, 0.5 )
 	Send {Click}
-	Sleep % delay * 15
+	execDelayer.Wait( delay, 15 )
 	MouseMove 1245, 360
-	Sleep % delay * 0.5
+	execDelayer.Wait( delay, 0.5 )
 	Send {Click}
-	Sleep % delay * 10
-
-	; Reposition iTunes
-	WinActivate % "iTunes ahk_exe iTunes.exe"
-	Sleep % delay * 0.5
-	PositionWindowViaCtrlFN("^F10", delay)
-	WinMaximize A
-	Sleep % delay * 10
+	execDelayer.Wait( delay, 10 )
 Return
 
 ;   ································································································
@@ -657,41 +646,50 @@ Return
 ;       →→→ §1.6.1: @setupVirtualDesktop5
 
 :*:@setupVirtualDesktop5::
-	delay := GetDelay("short")
+	delay := execDelayer.InterpretDelayString( "s" )
 	AppendAhkCmd(A_ThisLabel)
 
 	; Switch to virtual desktop and notify user of subsequent automated activities.
 	switchDesktopByNumber(5)
-	Sleep % delay * 2
+	execDelayer.Wait( delay, 2 )
 	DisplaySplashText("Setting up virtual desktop #5 for computer monitoring and Torah study.")
 
 	; Set up apps for catching up on news.
 	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
 		, "New Tab")
-	Sleep % delay * 50
+	execDelayer.Wait( delay, 50 )
 	OpenWebsiteInChrome("https://www.sfchronicle.com/", False)
 	OpenWebsiteInChrome("https://www.nytimes.com/")
 	OpenWebsiteInChrome("news.wsu.edu")
 	OpenWebsiteInChrome("dailyevergreen.com")
-	Sleep % delay * 20
+	execDelayer.Wait( delay, 20 )
 	MoveToNextTabInChrome()
 	PositionWindowViaCtrlFN("^F6", delay)
-	Sleep % delay * 10
+	execDelayer.Wait( delay, 10 )
 	WinMaximize A
 
 	; Set up apps for Torah study.
-	Sleep % delay * 6
+	execDelayer.Wait( delay, 6 )
 	SendInput % "^n"
-	Sleep % delay * 20
+	execDelayer.Wait( delay, 20 )
 	OpenWebsiteInChrome("biblegateway.com", False)
 	OpenWebsiteInChrome("hebrew4christians.com")
 	OpenWebsiteInChrome("scripturetyper.com")
 	OpenWebsiteInChrome("www.blueletterbible.org")
-	Sleep % delay * 10
+	execDelayer.Wait( delay, 10 )
 	MoveToNextTabInChrome()
 	PositionWindowViaCtrlFN("^F8", delay)
-	Sleep % delay * 10
+	execDelayer.Wait( delay, 10 )
 	WinMaximize A
+
+	; Load music app
+	LaunchStdApplicationPatiently("shell:appsFolder\AppleInc.iTunes_nzyj5cx40ttqa!iTunes", "iTunes")
+	execDelayer.Wait( delay )
+	WinActivate % "iTunes ahk_exe iTunes.exe"
+	execDelayer.Wait( delay )
+	PositionWindowViaCtrlFN("^F10", delay)
+	WinMaximize A
+	execDelayer.Wait( delay, 10 )
 Return
 
 ;   ································································································
