@@ -203,7 +203,7 @@ StartScript()
 
 #Include %A_ScriptDir%\Functions\functions.ahk
 
-#Include %A_ScriptDir%\trie.ahk
+#Include %A_ScriptDir%\Functions\trie.ahk
 
 #Include %A_ScriptDir%\Functions\cfgFile.ahk
 
@@ -211,7 +211,7 @@ StartScript()
 ;   §4: COMMAND HISTORY
 ; --------------------------------------------------------------------------------------------------
 
-#Include %A_ScriptDir%\commandHistory.ahk
+#Include %A_ScriptDir%\Functions\commandHistory.ahk
 
 ; --------------------------------------------------------------------------------------------------
 ;   §5: AUTOHOTKEY SCRIPT WRITING SHORTCUTS
