@@ -332,12 +332,12 @@ Return
 ;   ································································································
 ;     >>> §8.1: NOTEPAD/TEXT EDITOR PROGRAM
 
-:R*?:runNotepad::
-	Run C:\Program Files (x86)\Notepad++\notepad++.exe
+:*:@runZoom::
+	Run C:\Users\danie\AppData\Roaming\Zoom\bin\Zoom.exe
 Return
 
 #z::
-	Run notepad++.exe, C:\Program Files (x86)\Notepad++, Max
+	Gosub :*:@runZoom
 Return
 
 ;   ································································································
