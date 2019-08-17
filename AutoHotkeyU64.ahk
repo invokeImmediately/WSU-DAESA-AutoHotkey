@@ -422,7 +422,7 @@ Return
 ;   §12: FRONT-END CODING
 ; --------------------------------------------------------------------------------------------------
 
-#Include %A_ScriptDir%\frontEndCoding.ahk
+#Include %A_ScriptDir%\Coding\frontEndCoding.ahk
 
 ; --------------------------------------------------------------------------------------------------
 ;   §13: TEXT REPLACEMENT & INPUT
