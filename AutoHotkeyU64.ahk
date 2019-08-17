@@ -199,7 +199,7 @@ StartScript()
 
 #Include %A_ScriptDir%\GUIs\guiMsgBox.ahk
 
-#Include %A_ScriptDir%\API_GetWindowInfo.ahk
+#Include %A_ScriptDir%\Functions\API_GetWindowInfo.ahk
 
 #Include %A_ScriptDir%\Functions\functions.ahk
 
