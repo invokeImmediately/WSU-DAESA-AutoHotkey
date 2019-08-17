@@ -559,7 +559,7 @@ Return
 ;   §5: AutoHotkey state inquiry and manipulation
 ; --------------------------------------------------------------------------------------------------
 
-#Include %A_ScriptDir%\executionDelayer.ahk
+#Include %A_ScriptDir%\Functions\executionDelayer.ahk
 
 ;   ································································································
 ;     >>> §5.1: Functions
