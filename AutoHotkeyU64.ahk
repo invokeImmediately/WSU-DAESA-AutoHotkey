@@ -323,7 +323,7 @@ Return
 ;   §7: FILE SYSTEM NAVIGATION
 ; --------------------------------------------------------------------------------------------------
 
-#Include %A_ScriptDir%\fileSystem.ahk
+#Include %A_ScriptDir%\WorkspaceManagement\fileSystem.ahk
 
 ; --------------------------------------------------------------------------------------------------
 ;   §8: PROGRAM/FILE LAUNCHING SHORTCUTS
