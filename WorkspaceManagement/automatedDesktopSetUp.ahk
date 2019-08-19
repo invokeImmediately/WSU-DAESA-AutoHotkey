@@ -27,44 +27,43 @@
 ;   §1: VIRTUAL DESKTOP SETUP HOTSTRINGS........................................................71
 ;     >>> §1.1: Work environment setup..........................................................75
 ;       →→→ §1.1.1: @setupWorkEnvironment.......................................................78
-;       →→→ §1.1.2: @moveTempMonitors...........................................................96
-;       →→→ §1.1.3: @setupVirtualDesktops......................................................113
-;       →→→ §1.1.4: @setupCiscoVpn.............................................................130
-;     >>> §1.2: VD1—Website editing............................................................149
-;       →→→ §1.2.1: @setupVirtualDesktop1......................................................152
-;       →→→ §1.2.2: PositionWindowViaCtrlFN(…).................................................180
-;       →→→ §1.2.3: @startSublimeText3.........................................................197
-;       →→→ §1.2.4: @startChrome...............................................................209
-;       →→→ §1.2.5: PositionChromeVD1()........................................................221
-;       →→→ §1.2.6: Vd1_OpenWorkNotesLog().....................................................236
-;       →→→ §1.2.7: @startMsStickyNotes........................................................300
-;       →→→ §1.2.8: PositionMsStickyNotes()....................................................310
-;     >>> §1.3: VD2—Programming................................................................324
-;       →→→ §1.3.1: @setupVirtualDesktop2......................................................327
-;       →→→ §1.3.2: AddSublimeText3ToVd()......................................................352
-;       →→→ §1.3.3: @startGithubClients........................................................388
-;       →→→ §1.3.4: @arrangeGitHub.............................................................406
-;       →→→ §1.3.5: agh_MovePowerShell().......................................................442
-;     >>> §1.4: Setup VD3—Graphic design.......................................................497
-;       →→→ §1.4.1: @setupVirtualDesktop4......................................................500
-;       →→→ §1.4.2: svd3_OpenGraphicsReferences(…).............................................518
-;       →→→ §1.4.3: svd3_OpenGimp(…)...........................................................530
-;       →→→ §1.4.4: @arrangeGimp...............................................................542
-;     >>> §1.5: Setup VD4—Communications and media.............................................565
-;       →→→ §1.5.1: @setupVirtualDesktop4......................................................568
-;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)................................................589
-;       →→→ §1.5.3: @arrangeEmail..............................................................609
-;     >>> §1.6: Setup VD5—Talmud...............................................................643
-;       →→→ §1.6.1: @setupVirtualDesktop5......................................................646
-;     >>> §1.7: Setup VD7—Diagnostics & XAMPP..................................................696
-;       →→→ §1.7.1: @setupVirtualDesktop6......................................................699
-;   §2: STARTUP HOTKEYS........................................................................723
-;     >>> §2.1: #!r............................................................................727
-;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................734
-;     >>> §3.1: @quitAhk.......................................................................738
-;     >>> §3.2: PerformScriptShutdownTasks()...................................................747
-;     >>> §3.3: ^#!r...........................................................................757
-;     >>> §3.4: ScriptExitFunc(…)..............................................................766
+;       →→→ §1.1.2: @moveTempMonitors...........................................................95
+;       →→→ §1.1.3: @setupVirtualDesktops......................................................112
+;     >>> §1.2: VD1—Website editing............................................................129
+;       →→→ §1.2.1: @setupVirtualDesktop1......................................................132
+;       →→→ §1.2.2: PositionWindowViaCtrlFN(…).................................................160
+;       →→→ §1.2.3: @startSublimeText3.........................................................177
+;       →→→ §1.2.4: @startChrome...............................................................189
+;       →→→ §1.2.5: PositionChromeVD1()........................................................201
+;       →→→ §1.2.6: Vd1_OpenWorkNotesLog().....................................................216
+;       →→→ §1.2.7: @startMsStickyNotes........................................................280
+;       →→→ §1.2.8: PositionMsStickyNotes()....................................................290
+;     >>> §1.3: VD2—Programming................................................................304
+;       →→→ §1.3.1: @setupVirtualDesktop2......................................................307
+;       →→→ §1.3.2: AddSublimeText3ToVd()......................................................332
+;       →→→ §1.3.3: @startGithubClients........................................................368
+;       →→→ §1.3.4: @arrangeGitHub.............................................................386
+;       →→→ §1.3.5: agh_MovePowerShell().......................................................422
+;     >>> §1.4: Setup VD3—Graphic design.......................................................477
+;       →→→ §1.4.1: @setupVirtualDesktop4......................................................480
+;       →→→ §1.4.2: svd3_OpenGraphicsReferences(…).............................................498
+;       →→→ §1.4.3: svd3_OpenGimp(…)...........................................................510
+;       →→→ §1.4.4: @arrangeGimp...............................................................522
+;     >>> §1.5: Setup VD4—Communications and media.............................................545
+;       →→→ §1.5.1: @setupVirtualDesktop4......................................................548
+;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)................................................569
+;       →→→ §1.5.3: @arrangeEmail..............................................................589
+;     >>> §1.6: Setup VD5—Talmud...............................................................623
+;       →→→ §1.6.1: @setupVirtualDesktop5......................................................626
+;     >>> §1.7: Setup VD7—Diagnostics & XAMPP..................................................677
+;       →→→ §1.7.1: @setupVirtualDesktop6......................................................680
+;   §2: STARTUP HOTKEYS........................................................................704
+;     >>> §2.1: #!r............................................................................708
+;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................715
+;     >>> §3.1: @quitAhk.......................................................................719
+;     >>> §3.2: PerformScriptShutdownTasks()...................................................728
+;     >>> §3.3: ^#!r...........................................................................738
+;     >>> §3.4: ScriptExitFunc(…)..............................................................747
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -84,12 +83,11 @@
 	Gosub :*:@moveTempMonitors
 	Gosub :*:@setupVirtualDesktops
 	switchDesktopByNumber(1)
-	Gosub % ":*:@setupCiscoVpn"
 	execDelayer.Wait( "m" )
 	SoundPlay %desktopArrangedSound%
 	Gosub % ":*:@setupWorkTimer"
 	switchDesktopByNumber(5)
-	DisplaySplashText("Desktop set up is complete.")
+	DisplaySplashText("Desktop set up is complete.", 3000)
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
@@ -97,7 +95,7 @@ Return
 
 :*:@moveTempMonitors::
 	AppendAhkCmd(A_ThisLabel)
-	DisplaySplashText("Moving temperature monitors.")
+	DisplaySplashText("Moving temperature monitors.", 3000)
 	execDelayer.Wait( "s", 3 )
 	WinActivate % "RealTemp ahk_exe RealTemp.exe"
 	execDelayer.Wait( "s", 4 )
@@ -114,7 +112,7 @@ Return
 
 :*:@setupVirtualDesktops::
 	AppendAhkCmd(A_ThisLabel)
-	DisplaySplashText("Setting up virtual desktops.")
+	DisplaySplashText("Setting up virtual desktops.", 3000)
 	execDelayer.Wait( "s", 4 )
 	MapDesktopsFromRegistry()
 	execDelayer.Wait( "s", 4 )
@@ -125,25 +123,6 @@ Return
 	Gosub :*:@setupVirtualDesktop5
 	Gosub :*:@setupVirtualDesktop6
 Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.1.4: @setupCiscoVpn
-
-:*:@setupCiscoVpn::
-	AppendAhkCmd(A_ThisLabel)
-	DisplaySplashText("Setting up Cisco VPN for a connection to WSU.")
-	execDelayer.Wait( "s", 4 )
-	WinActivate % "ahk_exe explorer.exe ahk_class Shell_TrayWnd"
-	execDelayer.Wait( "s", 2 )
-	MouseClick Left, 1678, 16
-	execDelayer.Wait( "s", 10 )
-	WinActivate % "Cisco ahk_exe vpnui.exe"
-	execDelayer.Wait( "s", 2 )
-	MouseClick Left, 116, 82
-	execDelayer.Wait( "s", 2 )
-	SendInput % "sslvpn.wsu.edu{Enter}"
-Return
-
 
 ;   ································································································
 ;     >>> §1.2: VD1—Website editing
@@ -157,7 +136,7 @@ Return
 	; Switch to virtual desktop and notify user of subsequent automated activities.
 	switchDesktopByNumber(1)
 	execDelayer.Wait( "s", 4 )
-	DisplaySplashText("Setting up virtual desktop #1 for website editing and coding.")
+	DisplaySplashText("Setting up virtual desktop #1 for website editing and coding.", 3000)
 
 	; Start Sublime Text 3 & restore its default positioning
 	AddSublimeText3ToVd(1)
@@ -254,7 +233,7 @@ Vd1_OpenWorkNotesLog() {
 		execDelayer.Wait( "m", 3 )
 		Loop 3 {
 			GoSub % "<^!#Left"
-			execDelayer.Wait( "m", 2 / 3 )
+			execDelayer.Wait( "m" )
 		}
 
 		; Create a new ST3 window and restore its default position on virtual desktop
@@ -264,7 +243,7 @@ Vd1_OpenWorkNotesLog() {
 		PositionWindowViaCtrlFN("^F8", execDelayer.InterpretDelayString( "m" ) )
 		Loop 3 {
 			GoSub % "<^!#Left"
-			execDelayer.Wait( "m", 2 / 3 )
+			execDelayer.Wait( "m" )
 		}
 	} else {
 		; Activate existing ST3 process and restore its default position on virtual desktop
@@ -274,7 +253,7 @@ Vd1_OpenWorkNotesLog() {
 		execDelayer.Wait( "m", 3 )
 		Loop 3 {
 			GoSub % "<^!#Left"
-			execDelayer.Wait( "m", 2 / 3 )
+			execDelayer.Wait( "m" )
 		}
 
 		; Create a new ST3 window, open the work log, and restore its default position
@@ -290,7 +269,7 @@ Vd1_OpenWorkNotesLog() {
 		execDelayer.Wait( "m", 3 )
 		Loop 3 {
 			GoSub % "<^!#Left"
-			execDelayer.Wait( "m", 2 / 3 )
+			execDelayer.Wait( "m" )
 		}
 	}
 	RestoreMatchMode(oldTitleMatchMode)
@@ -332,7 +311,7 @@ PositionMsStickyNotes() {
 	; Switch to virtual desktop and notify user of subsequent automated activities.
 	switchDesktopByNumber(2)
 	execDelayer.Wait( "s", 10 )
-	DisplaySplashText("Setting up virtual desktop #2 for coding and source code management.")
+	DisplaySplashText("Setting up virtual desktop #2 for coding and source code management.", 3000)
 
 	; Load programming IDE, scripting and command-line interface, and coding repository.
 	execDelayer.Wait( "s", 10 )
@@ -507,7 +486,7 @@ agh_MovePowerShell() {
 	; Switch to virtual desktop and notify user of subsequent automated activities.
 	switchDesktopByNumber(3)
 	Sleep % delay / 2
-	DisplaySplashText("Setting up virtual desktop #3 for graphic design.")
+	DisplaySplashText("Setting up virtual desktop #3 for graphic design.", 3000)
 
 	; Open and arrange graphic design apps & websites.
 	svd3_OpenGraphicsReferences(delay)
@@ -573,7 +552,7 @@ Return
 	; Switch to virtual desktop and notify user of subsequent automated activities
 	switchDesktopByNumber(4)
 	execDelayer.Wait( "s", 1.5 )
-	DisplaySplashText("Setting up virtual desktop #4 for online correspondence.")
+	DisplaySplashText("Setting up virtual desktop #4 for online correspondence.", 3000)
 
 	; Set up email and messaging clients
 	svd4_LoadWebEmailClients( execDelayer.InterpretDelayString( "s" ) )
@@ -652,7 +631,8 @@ Return
 	; Switch to virtual desktop and notify user of subsequent automated activities.
 	switchDesktopByNumber(5)
 	execDelayer.Wait( delay, 2 )
-	DisplaySplashText("Setting up virtual desktop #5 for computer monitoring and Torah study.")
+	DisplaySplashText("Setting up virtual desktop #5 for computer monitoring and Torah study."
+		, 3000)
 
 	; Set up apps for catching up on news.
 	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
@@ -704,7 +684,7 @@ Return
 	; Switch to virtual desktop and notify user of subsequent automated activities.
 	switchDesktopByNumber(6)
 	execDelayer.Wait( "s", 2 )
-	DisplaySplashText("Setting up virtual desktop #6 for computer monitoring and XAMPP.")
+	DisplaySplashText("Setting up virtual desktop #6 for computer monitoring and XAMPP.", 3000)
 
 	; Set up computer monitoring apps.
 	execDelayer.Wait( "s", 2 )
