@@ -503,7 +503,7 @@ Return
 
 :*:@shrug::
 	AppendAhkCmd(A_ThisLabel)
-	SendInput, % "¯\_(ツ)_/¯"
+	SendInput, % "¯\_(·_·)_/¯"
 Return
 
 :*:@ttt::
