@@ -91,11 +91,11 @@ global g_maxTries 		:= 10		; Number of attempts at an open-ended goal, such as m
 ;   ································································································
 ;     >>> §1.2: OPERATION TIMING GLOBALS
 
-global g_delayQuantum		:= 15.6		; Minimum amount of time the Sleep command can wait.
-global g_extraShortDelay	:= 3		; An extra short delay of around .05 s
-global g_shortDelay			:= 7		; A short delay of around .1 s
-global g_mediumDelay		:= 21		; A medium delay of around .3 s
-global g_longDelay			:= 63		; A long delay of around 1 s
+global g_delayQuantum		:= 15.6		; Min. amt. of time the Sleep command can wait; 0.0156s
+global g_extraShortDelay	:= 3		; An extra short delay of .0468s
+global g_shortDelay			:= 7		; A short delay of .1092s
+global g_mediumDelay		:= 21		; A medium delay of .3276s
+global g_longDelay			:= 63		; A long delay of around 0.9828s
 
 ;   ································································································
 ;     >>> §1.3: GLOBALS FOR LOCATIONS OF IMPORTANT FOLDERS & FILES
