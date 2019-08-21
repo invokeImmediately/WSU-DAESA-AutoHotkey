@@ -1339,6 +1339,7 @@ Return
 
 ExecuteCssPasteCmds( manualProcession := false ) {
 	; Add check for correct CSS in clipboard — the first line is a font import.
+	global execDelayer
 	posFound := RegExMatch(clipboard
 		, "i)/\*! .*built with the Less CSS preprocessor.*github\.com/invokeImmediately")
 	if ( posFound != 0 ) {
@@ -1347,25 +1348,25 @@ ExecuteCssPasteCmds( manualProcession := false ) {
 		editorX := 430
 		editorY := 400
 		Click, %editorX%, %editorY%
-		Sleep, 100
+		execDelayer.Wait( "s" )
 		SendInput, ^a
-		Sleep 330
+		execDelayer.Wait( "m" )
 		if ( manualProcession ) {
 			MsgBox, 48, % A_ThisFunc, % "Press OK to proceed with paste command."
 		}
 		SendInput, ^v
-		Sleep 330
+		execDelayer.Wait( "m" )
 		if ( manualProcession ) {
 			MsgBox, 48, % A_ThisFunc, % "Press OK to proceed with update button selection."
 		}
 		buttonX := (winInfo.Client.Right - winInfo.Client.Left + winInfo.XBorders) - 100
-		buttonY1 := 420
-		buttonYDelta := 45
+		buttonY1 := 370
+		buttonYDelta := 40
 		buttonY2 := buttonY1 + buttonYDelta
 		Click, %buttonX%, %buttonY1%
-		Sleep, 60
+		execDelayer.Wait( "s" )
 		Click, %buttonX%, %buttonY2%
-		Sleep, 60
+		execDelayer.Wait( "s" )
 	} else {
 		MsgBox, % ( 0x0 + 0x10 )
 			, % "ERROR (" . A_ThisFunc . "): Clipboard Has Unexpected Contents"
