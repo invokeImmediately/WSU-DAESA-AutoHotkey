@@ -192,6 +192,7 @@ FindCmdEditBoxKeyup(wParam, lParam, msg, hwnd) {
 	global FindCmdEditBoxHwnd
 	global FindCmdListBox
 	VK_DOWN := 0x28
+	VK_UP := 0x26
 
 	if (hwnd == FindCmdEditBoxHwnd && wParam == VK_DOWN) {
 		GuiControl, +AltSubmit, FindCmdListBox
@@ -199,6 +200,15 @@ FindCmdEditBoxKeyup(wParam, lParam, msg, hwnd) {
 		cmdToSelect := FindCmdListBox + 1
 		GuiControl, -AltSubmit, FindCmdListBox
 		GuiControl, Choose, FindCmdListBox, %cmdToSelect%
+		GuiControl, Focus, FindCmdListBox
+	} else if (hwnd == FindCmdEditBoxHwnd && wParam == VK_UP) {
+		GuiControl, +AltSubmit, FindCmdListBox
+		Gui, AhkGuiFindCmd:Submit, NoHide
+		GuiControl, -AltSubmit, FindCmdListBox
+		if ( FindCmdListBox > 1 ) {
+			cmdToSelect := FindCmdListBox - 1
+			GuiControl, Choose, FindCmdListBox, %cmdToSelect%
+		}
 		GuiControl, Focus, FindCmdListBox
 	}
 }
