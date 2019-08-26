@@ -341,9 +341,9 @@ BackupOueHtml(sourceCode, workingFilePath, targetContentNeedle, cleaningNeedle, 
 		BackupOueHtml_CleanMarkup(cleaningNeedle, keyDelay)
 		BackupOueHtml_BeautifyHtml(keyDelay)
 		BackupOueHtml_InsertEllipses()
-		BackupOueHtml_InsertEofBlankLine(keyDelay)
 		; BackupOueHtml_RemoveBlankLine3(keyDelay) ; No longer needed?
 		BackupOueHtml_RemoveBlankLines(keyDelay)
+		BackupOueHtml_InsertEofBlankLine(keyDelay)
 		BackupOueHtml_ConvertIndentationToTabs(keyDelay)
 	}
 	Else
@@ -392,7 +392,7 @@ BackupOueHtml_FixBadMarkup(keyDelay) {
 
 BackupOueHtml_BeautifyHtml(keyDelay) {
 	; Trigger the HTMLPrettify package in Sublime Text to clean up markup and prepare it for RegEx
-	Send ^!+f
+	Send ^k^h
 	Sleep % keyDelay * 5
 }
 
