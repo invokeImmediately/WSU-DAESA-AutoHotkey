@@ -55,15 +55,15 @@
 ;       →→→ §1.5.3: @arrangeEmail..............................................................594
 ;     >>> §1.6: Setup VD5—Talmud...............................................................628
 ;       →→→ §1.6.1: @setupVirtualDesktop5......................................................631
-;     >>> §1.7: Setup VD7—Diagnostics & XAMPP..................................................682
-;       →→→ §1.7.1: @setupVirtualDesktop6......................................................685
-;   §2: STARTUP HOTKEYS........................................................................709
-;     >>> §2.1: #!r............................................................................713
-;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................720
-;     >>> §3.1: @quitAhk.......................................................................724
-;     >>> §3.2: PerformScriptShutdownTasks()...................................................733
-;     >>> §3.3: ^#!r...........................................................................743
-;     >>> §3.4: ScriptExitFunc(…)..............................................................752
+;     >>> §1.7: Setup VD7—Diagnostics & XAMPP..................................................688
+;       →→→ §1.7.1: @setupVirtualDesktop6......................................................691
+;   §2: STARTUP HOTKEYS........................................................................715
+;     >>> §2.1: #!r............................................................................719
+;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................726
+;     >>> §3.1: @quitAhk.......................................................................730
+;     >>> §3.2: PerformScriptShutdownTasks()...................................................739
+;     >>> §3.3: ^#!r...........................................................................749
+;     >>> §3.4: ScriptExitFunc(…)..............................................................758
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -574,14 +574,19 @@ Return
 ;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)
 
 svd4_LoadWebEmailClients( delay ) {
+	global execDelayer
 	execDelayer.Wait( delay, 1.5 )
 	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
 		, "New Tab")
 	execDelayer.Wait( delay, 10 )
 	OpenWebsiteInChrome("mail.google.com", False)
+	execDelayer.Wait( delay )
 	OpenWebsiteInChrome("mail.live.com")
+	execDelayer.Wait( delay )
 	OpenWebsiteInChrome("web.wsu.edu")
+	execDelayer.Wait( delay )
 	OpenWebsiteInChrome("wsu-web.slack.com")
+	execDelayer.Wait( delay )
 	MoveToNextTabInChrome()
 	execDelayer.Wait( delay, 3 )
 
@@ -644,9 +649,12 @@ Return
 	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
 		, "New Tab")
 	execDelayer.Wait( delay, 50 )
-	OpenWebsiteInChrome("https://www.sfchronicle.com/", False)
+	OpenWebsiteInChrome("https://www.sfchronicle.com/")
+	execDelayer.Wait( delay, 10 )
 	OpenWebsiteInChrome("https://www.nytimes.com/")
+	execDelayer.Wait( delay, 10 )
 	OpenWebsiteInChrome("news.wsu.edu")
+	execDelayer.Wait( delay, 10 )
 	OpenWebsiteInChrome("dailyevergreen.com")
 	execDelayer.Wait( delay, 20 )
 	MoveToNextTabInChrome()
@@ -659,8 +667,11 @@ Return
 	SendInput % "^n"
 	execDelayer.Wait( delay, 20 )
 	OpenWebsiteInChrome("biblegateway.com", False)
+	execDelayer.Wait( delay, 10 )
 	OpenWebsiteInChrome("hebrew4christians.com")
+	execDelayer.Wait( delay, 10 )
 	OpenWebsiteInChrome("scripturetyper.com")
+	execDelayer.Wait( delay, 10 )
 	OpenWebsiteInChrome("www.blueletterbible.org")
 	execDelayer.Wait( delay, 10 )
 	MoveToNextTabInChrome()
