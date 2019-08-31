@@ -40,21 +40,21 @@
 ;       →→→ §2.5.2: SafeWinMove................................................................366
 ;     >>> §2.6: <^!#Left — Snap to/collapse at left edge + expand height.......................383
 ;       →→→ §2.6.1: UpdateVariableAsNeeded.....................................................406
-;     >>> §2.7: >^!+Left — Snap to/expand at left edge........................................419
+;     >>> §2.7: >^!+Left — Snap to/expand at left edge.........................................419
 ;       →→→ §2.7.1: IncrementWinDimension......................................................436
-;     >>> §2.8: <^!+Left — Snap to/expand at left edge + expand height........................454
+;     >>> §2.8: <^!+Left — Snap to/expand at left edge + expand height.........................454
 ;     >>> §2.9: >^!#Right — Snap window to or collapse at right edge...........................476
 ;     >>> §2.10: <^!#Right — Snap to/collapse at right edge + expand height....................495
-;     >>> §2.11: >^!+Right — Snap to/expand at right edge.....................................519
-;     >>> §2.12: <^!+Right — Snap to/expand at right edge + expand height.....................538
+;     >>> §2.11: >^!+Right — Snap to/expand at right edge......................................519
+;     >>> §2.12: <^!+Right — Snap to/expand at right edge + expand height......................538
 ;     >>> §2.13: >^!#Up — Snap window to or collapse at top edge...............................560
 ;     >>> §2.14: <^!#Up — Snap to/collapse at top edge + expand height.........................578
-;     >>> §2.15: >^!+Up — Snap to/expand at top edge..........................................600
-;     >>> §2.16: <^!+Up — Snap to/expand at top edge + expand height..........................618
+;     >>> §2.15: >^!+Up — Snap to/expand at top edge...........................................600
+;     >>> §2.16: <^!+Up — Snap to/expand at top edge + expand height...........................618
 ;     >>> §2.17: >^!#Down — Snap window to or collapse at bottom edge..........................639
 ;     >>> §2.18: <^!#Down — Snap to/collapse at bottom edge + expand height....................657
-;     >>> §2.19: >^!+Down — Snap to/expand at bottom edge.....................................678
-;     >>> §2.20: <^!+Down — Snap to/expand at bottom edge + expand height.....................696
+;     >>> §2.19: >^!+Down — Snap to/expand at bottom edge......................................678
+;     >>> §2.20: <^!+Down — Snap to/expand at bottom edge + expand height......................696
 ;     >>> §2.21: ^!#Numpad5 — Snap to/collapse at midpoint.....................................717
 ;     >>> §2.22: ^!#NumpadClear — Snap to/expand at midpoint...................................773
 ;	  >>> §2.23: ^NumpadX — Keyboard based movement of active windows..........................817
@@ -67,9 +67,9 @@
 ;       →→→ §3.1.1: ca1thruN_moveToDesktop(…)..................................................970
 ;   §4: MOUSE HOTKEYS..........................................................................978
 ;     >>> §4.1: ^!+RButton — Remember/forget mouse coordinates.................................982
-;     >>> §4.2: ^!+LButton — Move to remembered mouse coordinates..............................1018
-;       →→→ §4.2.1: casLButton_IsMouseAtCurrentCoord...........................................1029
-;       →→→ §4.2.2: casLButton_MoveMouseToCurrentCoord.........................................1049
+;     >>> §4.2: ^!+LButton — Move to remembered mouse coordinates.............................1018
+;       →→→ §4.2.1: casLButton_IsMouseAtCurrentCoord..........................................1029
+;       →→→ §4.2.2: casLButton_MoveMouseToCurrentCoord........................................1049
 ;       →→→ §4.2.3: casLButton_MoveMouseToNextCoord...........................................1078
 ;     >>> §4.3: ^!#L/RButton — Move mouse to taskbar..........................................1097
 ;     >>> §4.4: #LButton — Move mouse to center of active window..............................1110
@@ -85,24 +85,24 @@
 ;   §7: APP SPECIFIC WORKSPACE MANAGEMENT SCRIPTS.............................................1318
 ;     >>> §7.1: CHROME........................................................................1322
 ;       →→→ §7.1.1: OpenWebsiteInChrome.......................................................1325
-;       →→→ §7.1.2: OpenNewTabInChrome........................................................1346
-;       →→→ §7.1.3: OpenNewWindowInChrome.....................................................1358
-;       →→→ §7.1.4: NavigateToWebsiteInChrome.................................................1371
-;       →→→ §7.1.5: MoveToNextTabInChrome.....................................................1385
-;     >>> §7.2: GNU IMAGE MANIPULATION PROGRAM................................................1397
-;       →→→ §7.2.1: @toggleGimp...............................................................1400
-;     >>> §7.3: NOTEPAD++: TEXT EDITING ENHANCEMENT HOTKEYS & SCRIPTS.........................1444
-;     >>> §7.4: STICKY NOTES FOR CHROME.......................................................1516
-;       →→→ §7.4.1: @initStickyNoteToggle.....................................................1519
-;       →→→ §7.4.2: @toggleStickyNote.........................................................1531
-;     >>> §7.5: SUBLIME TEXT 3................................................................1558
-;       →→→ §7.5.1: @sst3 (Start Sublime Text 3)..............................................1561
-;       →→→ §7.5.2: updateTableOfContents.ahk.................................................1568
-;     >>> §7.6: iTunes........................................................................1573
-;       →→→ §7.6.1: @restartItunes............................................................1576
-;   §8: Diagnostic hotstrings.................................................................1609
-;     >>> §8.1: @getActiveMonitorWorkArea.....................................................1613
-;     >>> §8.2: @getInfoOnSystemMonitors......................................................1623
+;       →→→ §7.1.2: OpenNewTabInChrome........................................................1349
+;       →→→ §7.1.3: OpenNewWindowInChrome.....................................................1364
+;       →→→ §7.1.4: NavigateToWebsiteInChrome.................................................1377
+;       →→→ §7.1.5: MoveToNextTabInChrome.....................................................1400
+;     >>> §7.2: GNU IMAGE MANIPULATION PROGRAM................................................1412
+;       →→→ §7.2.1: @toggleGimp...............................................................1415
+;     >>> §7.3: NOTEPAD++: TEXT EDITING ENHANCEMENT HOTKEYS & SCRIPTS.........................1459
+;     >>> §7.4: STICKY NOTES FOR CHROME.......................................................1531
+;       →→→ §7.4.1: @initStickyNoteToggle.....................................................1534
+;       →→→ §7.4.2: @toggleStickyNote.........................................................1546
+;     >>> §7.5: SUBLIME TEXT 3................................................................1573
+;       →→→ §7.5.1: @sst3 (Start Sublime Text 3)..............................................1576
+;       →→→ §7.5.2: updateTableOfContents.ahk.................................................1583
+;     >>> §7.6: iTunes........................................................................1588
+;       →→→ §7.6.1: @restartItunes............................................................1591
+;   §8: Diagnostic hotstrings.................................................................1624
+;     >>> §8.1: @getActiveMonitorWorkArea.....................................................1628
+;     >>> §8.2: @getInfoOnSystemMonitors......................................................1638
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -1325,32 +1325,38 @@ GuiWinAdjCheckNewPosition(whichHwnd, ByRef posX, ByRef posY, ByRef winWidth, ByR
 ;       →→→ §7.1.1: OpenWebsiteInChrome
 
 OpenWebsiteInChrome(website, inNewTab := True) {
-	delay := GetDelay("short")
+	global execDelayer
+	delay := execDelayer.InterpretDelayString("short")
 	website .= "{Enter}"
 	attemptCount := 0
 	WinGet procName, ProcessName, A
 	while (procName != "chrome.exe" && attemptCount <= 8) {
-		Sleep % delay * 2.5
+		execDelayer.Wait( delay, 2.5 )
 		WinActivate % "ahk_exe chrome.exe"
-		Sleep %delay%
+		execDelayer.Wait( delay )
 		WinGet procName, ProcessName, A
 		attemptCount++
 	}
 	if (inNewTab) {
 		OpenNewTabInChrome()
+	} else {
+		execDelayer.Wait( delay, 2 )
 	}
-	NavigateToWebsiteInChrome(website)
+	NavigateToWebsiteInChrome( website )
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §7.1.2: OpenNewTabInChrome
 
 OpenNewTabInChrome() {
-	delay := GetDelay("short")
+	global execDelayer
 	WinGet procName, ProcessName, A
 	if (procName == "chrome.exe") {
-		SendInput, ^t
-		Sleep, %delay%
+		WinGetTitle, title, A
+		if ( InStr(title, "New Tab") != 1 ) {
+			SendInput, ^t
+		}
+		execDelayer.Wait( "short", 2 )
 	}
 }
 
@@ -1370,14 +1376,23 @@ OpenNewWindowInChrome() {
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §7.1.4: NavigateToWebsiteInChrome
 
-NavigateToWebsiteInChrome(website) {
-	delay := GetDelay("short")
+NavigateToWebsiteInChrome( website ) {
+	global execDelayer
+	delay := execDelayer.InterpretDelayString( "short" )
 	WinGet, procName, ProcessName, A
 	if (procName == "chrome.exe") {
+		WinGetTitle, curTitle, A
 		SendInput, !d
-		Sleep, %delay%
+		execDelayer.Wait( delay )
 		SendInput, % website
-		Sleep, % delay * 3
+		execDelayer.Wait( delay, 5 )
+		WinGetTitle, newTitle, A
+		idx := 0
+		while ( curTitle == newTitle && idx < 10 ) {
+			WinGetTitle, newTitle, A
+			execDelayer.Wait( delay, 5 )
+			idx++
+		}
 	}
 }
 
