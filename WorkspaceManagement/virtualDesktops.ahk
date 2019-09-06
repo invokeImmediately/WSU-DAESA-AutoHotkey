@@ -393,8 +393,9 @@ SwitchDesktopByNumber(targetDesktop) {
 			iCounter := 0
 			while(vdCurrentDesktop < targetDesktop) {
 				SendInput ^#{Right}
-				Sleep % delay * 2.5
+				Sleep % delay * 2
 				MapDesktopsFromRegistry()
+				Sleep % delay
 				iCounter++
 				if (iCounter > vdDesktopCount * 4) {
 					Break
@@ -405,8 +406,9 @@ SwitchDesktopByNumber(targetDesktop) {
 			iCounter := 0
 			while(vdCurrentDesktop > targetDesktop) {
 				SendInput ^#{Left}
-				Sleep % delay * 2.5
+				Sleep % delay * 2
 				MapDesktopsFromRegistry()
+				Sleep % delay
 				iCounter++
 				if (iCounter > vdDesktopCount * 4) {
 					Break
