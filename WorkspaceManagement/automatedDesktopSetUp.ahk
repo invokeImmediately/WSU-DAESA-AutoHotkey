@@ -79,7 +79,7 @@
 :*:@setupWorkEnvironment::
 	AppendAhkCmd(A_ThisLabel)
 	PrimeVirtualDesktops()
-	execDelayer.Wait( "m" )
+	execDelayer.Wait( "l" )
 	Gosub :*:@moveTempMonitors
 	Gosub :*:@setupVirtualDesktops
 	switchDesktopByNumber(1)
@@ -113,9 +113,9 @@ Return
 :*:@setupVirtualDesktops::
 	AppendAhkCmd(A_ThisLabel)
 	DisplaySplashText("Setting up virtual desktops.", 3000)
-	execDelayer.Wait( "s", 4 )
+	execDelayer.Wait( "l", 4 )
 	MapDesktopsFromRegistry()
-	execDelayer.Wait( "s", 4 )
+	execDelayer.Wait( "l", 4 )
 	Gosub :*:@setupVirtualDesktop1
 	Gosub :*:@setupVirtualDesktop2
 	Gosub :*:@setupVirtualDesktop3

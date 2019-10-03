@@ -350,17 +350,18 @@ MoveActiveWindowToVirtualDesktop(targetDesktop) {
 ;   Move between virtual desktops to make sure the registry is accurately populated.
 
 PrimeVirtualDesktops() {
-	delay := GetDelay("long")
-	DisplaySplashText("Priming the registry with information about virtual desktops in use.")
-	Sleep %delay%
+	global execDelayer
+	
+	DisplaySplashText("Priming the registry with information about virtual desktops in use.", 3000)
+	execDelayer.Wait( "l" )
 	SendInput % "^#{Right}"
-	Sleep %delay%
+	execDelayer.Wait( "l" )
 	SendInput % "^#{Left}"
-	Sleep %delay%
+	execDelayer.Wait( "l" )
 	SendInput % "#{Tab}"
-	Sleep % delay * 2
+	execDelayer.Wait( "l" )
 	SendInput % "{Esc}"
-	Sleep % delay * 0.5
+	execDelayer.Wait( "l" )
 }
 
 ;   ································································································
