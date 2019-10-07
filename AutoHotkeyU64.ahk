@@ -33,33 +33,33 @@
 ;     >>> §1.1: System property globals.........................................................70
 ;     >>> §1.2: Operation timing globals........................................................93
 ;     >>> §1.3: Globals for locations of important folders & files.............................102
-;     >>> §1.4: Pomodoro work timer globals....................................................112
-;     >>> §1.5: Desktop arrangement auditory cue globals.......................................123
-;     >>> §1.6: Simulated memory of user actions...............................................135
-;     >>> §1.7: Keyboard overriding............................................................153
-;     >>> §1.8: Missing AutoHotkey constants...................................................165
-;   §2: Set up script & call main subroutine...................................................175
-;   §3: Common functions & classes.............................................................197
-;   §4: Command history........................................................................213
-;   §5: AutoHotkey script writing shortcuts....................................................219
-;     >>> §5.1: Hotstrings for inserting code-documentation headers............................223
-;   §6: Workspace management...................................................................281
-;   §7: File system navigation.................................................................325
-;   §8: Program/file launching shortcuts.......................................................331
-;     >>> §8.1: Notepad/text editor program....................................................335
-;     >>> §8.2: Miscellaneous files............................................................346
-;   §9: Powershell scripting...................................................................355
-;   §10: Github scripting......................................................................361
-;   §11: Google chrome scripting...............................................................367
-;   §12: Front-end coding......................................................................424
-;   §13: Text replacement & input..............................................................430
-;     >>> §13.1: Text Replacement hotkeys......................................................434
-;     >>> §13.2: Text Replacement hotstrings...................................................439
-;     >>> §13.3: Text Input hotstrings.........................................................536
-;   §14: Other shortcuts.......................................................................543
-;   §15: Work timer............................................................................556
-;   §16: Custom hotstrings & hotkeys...........................................................562
-;   §17: Execution entry point.................................................................634
+;     >>> §1.4: Pomodoro work timer globals....................................................123
+;     >>> §1.5: Desktop arrangement auditory cue globals.......................................134
+;     >>> §1.6: Simulated memory of user actions...............................................146
+;     >>> §1.7: Keyboard overriding............................................................161
+;     >>> §1.8: Missing AutoHotkey constants...................................................173
+;   §2: Set up script & call main subroutine...................................................183
+;   §3: Common functions & classes.............................................................205
+;   §4: Command history........................................................................221
+;   §5: AutoHotkey script writing shortcuts....................................................227
+;     >>> §5.1: Hotstrings for inserting code-documentation headers............................231
+;   §6: Workspace management...................................................................289
+;   §7: File system navigation.................................................................333
+;   §8: Program/file launching shortcuts.......................................................339
+;     >>> §8.1: Notepad/text editor program....................................................343
+;     >>> §8.2: Miscellaneous files............................................................354
+;   §9: Powershell scripting...................................................................363
+;   §10: Github scripting......................................................................369
+;   §11: Google chrome scripting...............................................................375
+;   §12: Front-end coding......................................................................432
+;   §13: Text replacement & input..............................................................438
+;     >>> §13.1: Text Replacement hotkeys......................................................442
+;     >>> §13.2: Text Replacement hotstrings...................................................447
+;     >>> §13.3: Text Input hotstrings.........................................................544
+;   §14: Other shortcuts.......................................................................551
+;   §15: Work timer............................................................................564
+;   §16: Custom hotstrings & hotkeys...........................................................570
+;   §17: Execution entry point.................................................................642
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -101,6 +101,14 @@ global g_longDelay			:= 63		; A long delay of around 0.9828s
 ;   ································································································
 ;     >>> §1.3: GLOBALS FOR LOCATIONS OF IMPORTANT FOLDERS & FILES
 
+; TODO: Currently, the following variables are based on the author's idiosyncratic approach to
+;  organizing files on his local system. In his current scheme, the OS is installed on a SSD,
+;  whereas file storage is relegated to a HDD. Consequently, the following global variables were
+;  originally created as file path components for use in the script to build paths to specific file
+;  system locations based on a developer-changeable root specification. However, this approach is
+;  not ideal due to the issue of the system-specific nature of the underlying scheme; a better
+;  method would be to use a script configuration file containing paths to specific components that
+;  can more be easily updated for use on a different system.
 global userAccountFolderSSD := "C:"
 global userAccountFolderHDD := "E:\Users\CamilleandDaniel"
 global relWorkFolder := "\Documents\Daniel"
