@@ -115,21 +115,21 @@ global logFileName := A_ScriptDir . "\Config\workTimerLog.txt"
 global workTimerCountdownTime := -1500000
 global workTimeLeftOver := 0
 global workTimerMinuteCount := 0
-global workTimerNotificationSound := ssdWorkFolder . "\Sound Library\chinese-gong-daniel_simon.wav"
-global workTimerMinutesound := ssdWorkFolder . "\Sound Library\Bell-tone_C-4.wav"
-global workTimer5MinuteSound := ssdWorkFolder . "\Sound Library\Metal_Gong-Dianakc-109711828.wav"
+global workTimerNotificationSound := A_ScriptDir . "\Sounds\chinese-gong-daniel_simon.wav"
+global workTimerMinutesound := A_ScriptDir . "\Sounds\Bell-tone_C-4.wav"
+global workTimer5MinuteSound := A_ScriptDir . "\Sounds\Metal_Gong-Dianakc-109711828.wav"
 
 ;   ································································································
 ;     >>> §1.5: DESKTOP ARRANGEMENT AUDITORY CUE GLOBALS
 
-global windowMovementSound := ssdWorkFolder . "\Sound Library\323413__sethroph__glass-slide-3_-12.5"
+global windowMovementSound := A_ScriptDir . "\Sounds\323413__sethroph__glass-slide-3_-12.5"
 . "db_faster.wav"
-global windowSizingSound := ssdWorkFolder . "\Sound Library\68222__xtyl33__paper3_-7.5db_faster.wav"
-global windowShiftingSound := ssdWorkFolder . "\Sound Library\185849__lloydevans09__warping.wav"
-global desktopSwitchingSound := ssdWorkFolder . "\Sound Library\352719__dalesome__woosh-stick-swung"
+global windowSizingSound := A_ScriptDir . "\Sounds\68222__xtyl33__paper3_-7.5db_faster.wav"
+global windowShiftingSound := A_ScriptDir . "\Sounds\185849__lloydevans09__warping.wav"
+global desktopSwitchingSound := A_ScriptDir . "\Sounds\352719__dalesome__woosh-stick-swung"
 . "-in-the-air_-15db.wav"
-global scriptLoadedSound := ssdWorkFolder . "\Sound Library\Storm_exclamation.wav"
-global desktopArrangedSound := ssdWorkFolder . "\Sound Library\zelda_lttp-mstr-swrd.wav"
+global scriptLoadedSound := A_ScriptDir . "\Sounds\Storm_exclamation.wav"
+global desktopArrangedSound := A_ScriptDir . "\Sounds\zelda_lttp-mstr-swrd.wav"
 
 ;   ································································································
 ;     >>> §1.6: SIMULATED MEMORY OF USER ACTIONS
