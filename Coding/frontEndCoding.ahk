@@ -5,10 +5,10 @@
 ;
 ; Written and maintained by Daniel Rieck, Ph.D. (daniel.rieck@wsu.edu)
 ; ==================================================================================================
-; TABLE OF CONTENTS
+; TABLE OF CONTENTS:
 ; -----------------
 ;   §1: FUNCTIONS utilized in automating HTML-related processes.................................33
-;     >>> §1.1:F BuildHyperlinkArray............................................................37
+;     >>> §1.1: BuildHyperlinkArray.............................................................37
 ;     >>> §1.2: CopyWebpageSourceToClipboard....................................................75
 ;     >>> §1.3: CountNewlinesInString..........................................................142
 ;     >>> §1.4: ExportHyperlinkArray...........................................................155
@@ -21,12 +21,12 @@
 ;     >>> §2.2: RegEx..........................................................................280
 ;     >>> §2.3: Backup HTML of OUE pages.......................................................287
 ;       →→→ §2.3.1: @backupOuePage.............................................................290
-;       →→→ §2.3.2: BackupOueHtml & sub-functions..............................................314
-;       →→→ §2.3.3: @backupOuePost.............................................................466
-;     >>> §2.4: Hyperlink collection hotstring.................................................491
-;     >>> §2.5: Checking for WordPress Updates.................................................560
-;   §3: GUI-related hotstrings & functions for automating HTML-related tasks...................565
-;     >>> §3.1: Insert Builder Sections GUI....................................................569
+;       →→→ §2.3.2: BackupOueHtml & sub-functions..............................................315
+;       →→→ §2.3.3: @backupOuePost.............................................................467
+;     >>> §2.4: Hyperlink collection hotstring.................................................493
+;     >>> §2.5: Checking for WordPress Updates.................................................562
+;   §3: GUI-related hotstrings & functions for automating HTML-related tasks...................567
+;     >>> §3.1: Insert Builder Sections GUI....................................................571
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -303,6 +303,7 @@ Return
 		. ".*$\n|{^}(?:\t| )*</body.*$\n"
 
 	AppendAhkCmd(ahkThisCmd)
+	DisplaySplashText("Now backuping up WordPress page on active DAESA website.")
 	if (CopyWebpageSourceToClipboard(webBrowserProcess, correctTitleNeedle, viewSourceTitle
 			, "Before using this hotstring, please activate a tab of your web browser into which a "
 			. "WSU OUE website is loaded.")) {
@@ -480,6 +481,7 @@ BackupOueHtml_ConvertIndentationToTabs(keyDelay) {
 		. "-meta|/column).*-->"
 
 	AppendAhkCmd(ahkThisCmd)
+	DisplaySplashText("Now backuping up WordPress post on active DAESA website.")
 	if (CopyWebpageSourceToClipboard(webBrowserProcess, correctTitleNeedle, viewSourceTitle
 			, "Before using this hotstring, please activate a tab of your web browser into which a "
 			. "WSU OUE website is loaded.")) {
