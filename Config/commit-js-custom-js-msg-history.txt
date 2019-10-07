@@ -1,0 +1,15 @@
+﻿dsp-custom.js
+Modify AnimatedGalleryWall.panHeader with enhancement
+Add a finishing touch to the animation wherein the background is panned to a point other than the far left edge.
+sumres-custom.js
+Update form setup function
+Update population of faculty mentor names for the abstract submission form for the summer research symposium.
+ucore-custom.js
+Add handler for focus events in selected content
+Add handler to cause the correct selected content to be triggered as actively being viewed when hidden content receives focus.
+ugr-custom.js
+Remove application of removed GfCheckboxValidators module
+Removed module was causing accessibility problems under the following specific and unforseen condition. When save and continue links are being used on a graviy form and the user saves the form to continue it later from the page the validated checkboxes are on, the checkbox validator field does not properly keep its validated value after the user accesses the link again in the future. Moreover, the error messaging provided by the valdiation scheme proved not to be helpful enough in practice.
+xfercredit-custom.js
+Refactor functions that set institution name options
+Adopt a more efficient design by moving duplicate switch statements appearing in both initInstitutionSelectors(…) and setupInstitutionSelectors(…) to a separate function, getNewNameOpts(…). Also clean up format of code throughout file.

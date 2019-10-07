@@ -1,0 +1,849 @@
+﻿C:\GitHub\admissions.wsu.edu-research-scholars\package.json
+Add an initial package.json for gulp task automation
+
+C:\GitHub\ascc.wsu.edu\CSS\ascc-custom.less
+Update inline documentation
+Update format of section comments in inline documentation to match latest OUE wide conventions.
+C:\GitHub\ascc.wsu.edu\CSS\ascc-custom_legacy.less
+Update inline documentation
+Update format of section comments in inline documentation to match latest OUE wide conventions.
+C:\GitHub\ascc.wsu.edu\CSS\ascc-custom_new.less
+Update inline documentation
+Update format of section comments in inline documentation to match latest OUE wide conventions.
+C:\GitHub\ascc.wsu.edu\CSS\ascc-custom_staff-addins.css
+Add new dependency to CSS builds
+Add a file containing CSS code written by ASCC office staff members.
+C:\GitHub\ascc.wsu.edu\gulpfile.js
+Add new dependency to CSS builds
+Add a file containing CSS code written by ASCC office staff members.
+C:\GitHub\ascc.wsu.edu\HTML\career-services_careers-abroad.html
+Update markup used to build page in WSUWP
+Update bio of Judy Hopkins with change in degree status.
+C:\GitHub\ascc.wsu.edu\JS\ascc-specific.js
+Reduce line length to 100 characters
+For better readability
+C:\GitHub\ascc.wsu.edu\JS\build-production-file.js
+Add missing newline to end of file
+
+C:\GitHub\ascc.wsu.edu\JS\gravityforms-export_cea-scholarship-application_2018-19.json
+Add JSON used to build gravity form
+Add JSON used to build the 2018-19 CEA scholarship application.
+C:\GitHub\ascc.wsu.edu\package-lock.json
+Update project manifests after updating dependencies
+
+C:\GitHub\ascc.wsu.edu\package.json
+Update project manifests after updating dependencies
+
+C:\GitHub\commonreading.wsu.edu\CSS\cr-custom.less
+Modify dependencies used in CSS build 
+Remove src_cr-legacy.less from build sequence. Replace individual files within WSU-UE---CSS currently being used with wp-master-style-sheet.less so that the Common Reading custom CSS file incorporates all OUE-wide CSS build dependencies. Proivde Less variable settings necesary for a successful build.
+C:\GitHub\commonreading.wsu.edu\CSS\src_cr-new.less
+Fix mistake in inline documentation
+Fix copy/paste error in the table of contents.
+C:\GitHub\commonreading.wsu.edu\gulpfile.js
+Modify function getJsBuildSettings
+Change dependencies for built custom JS file.
+C:\GitHub\commonreading.wsu.edu\HTML\2019_05_03_common-reading-book-2019-20.html
+Add markup for building new post in WSUWP
+Markup added is for the news headline announcing the 2019-20 common reading.
+C:\GitHub\commonreading.wsu.edu\HTML\2019_09_19_lecture-on-on-communication-and-rohingya-refugee-crisis.html
+Add backup of markup used to build post in WSUWP
+Add backup of markup used to build the news post covering Irom Biimbisar's Common Reading lecture on the humanitarian communication and the Rohingya refugee crisis.
+C:\GitHub\commonreading.wsu.edu\HTML\archives_2014-15.html
+Update markup with changes made online via WSUWP
+Update with addition of mw--none utility class to event calendar lists.
+C:\GitHub\commonreading.wsu.edu\HTML\assessment-reports.html
+Add markup for building webpage
+Add markup for building the assessment reports page via the Spine builder template in WordPress
+C:\GitHub\commonreading.wsu.edu\HTML\home.html
+Update backup of markup used to build webpage in WSUWP
+Update list of recent news articles with latest news post.
+C:\GitHub\commonreading.wsu.edu\package-lock.json
+Update lockfile after invoking npm update
+
+C:\GitHub\commonreading.wsu.edu\package.json
+Update dev dependency
+Update gulp to version 4.0.0 to resolve JS vulnerabilities.
+C:\GitHub\distinguishedscholarships.wsu.edu\CSS\dsp-custom_home-intro.less
+Add Less file dsp-custom_home-intro.less
+Add Less import that contains style rules for the DSP website's introductory section on the home page
+C:\GitHub\distinguishedscholarships.wsu.edu\gulpfile.js
+Remove masonry and images loaded plugins as dependencies
+These plugins are now being provided through import options available in WSUWP's Custom JavaScript Editor.
+C:\GitHub\distinguishedscholarships.wsu.edu\HTML\2017_05_25_more-gilman-winners-2017.html
+asdfdaf
+asdfadsf
+C:\GitHub\distinguishedscholarships.wsu.edu\HTML\2017_08_10_fall-2017-gilman-winners.html
+asdfdaf
+asdfadsf
+C:\GitHub\distinguishedscholarships.wsu.edu\HTML\2018_04_13_junior-zachary-howard-receives-goldwater.html
+asdfdaf
+asdfadsf
+C:\GitHub\distinguishedscholarships.wsu.edu\HTML\2018_06_29_fulbright-winner-2018.html
+Add markup for building web page
+Add markup used to build the Fulbright winner 2018 news post using the Spine parent theme in WSUWP
+C:\GitHub\distinguishedscholarships.wsu.edu\HTML\2019_03_18_fulbright-winner-2019.html
+Add markup used to build post in WSUWP
+Markup added is for constructing that Ryan Booth has received a Fulbright in the 2019 award cycle.
+C:\GitHub\distinguishedscholarships.wsu.edu\HTML\2019_04_18_2nd-fulbright-winner-2019.html
+Update copy of markup used to build post in WSUWP
+Update Fulbrighter news story with adjustment of image style, inclusion of a YouTube video embed.
+C:\GitHub\distinguishedscholarships.wsu.edu\HTML\2019_05_17_fulbright-winner-2019-melanie-kirby.html
+Add markup for building post in WSUWP
+Add markup used to build news post about 2019 Fulbright-National Geographic Award recipient Melanie Kirby.
+C:\GitHub\distinguishedscholarships.wsu.edu\HTML\2019_05_20_fulbright-uk-2019-winner-beck.html
+Add markup for building post in WSUWP
+Add markup used to build news post about 2019 Fulbright U.K. Summer Institute award recipient Ava Beck.
+C:\GitHub\distinguishedscholarships.wsu.edu\HTML\2019_06_20_goldwaters-to-goto-gubsch-klappenbach.html
+Add markup for building post in WSUWP
+Add markup used to build news post about 2019 Goldwater award recipients.
+C:\GitHub\distinguishedscholarships.wsu.edu\HTML\about_from-the-director.html
+asdfdaf
+asdfdasf
+C:\GitHub\distinguishedscholarships.wsu.edu\HTML\annual-events.html
+Update markup used to build page in WSUWP
+Update markup with fixes and content changes made online.
+C:\GitHub\distinguishedscholarships.wsu.edu\HTML\awards.html
+asdfdaf
+asdfdasf
+C:\GitHub\distinguishedscholarships.wsu.edu\HTML\awards_boren.html
+Update markup used to build page in WSUWP
+Replace VPUE jump bar with On This Page section, update visual design of page to match latest approach being used on Fulbright and Hollings award info pages.
+C:\GitHub\distinguishedscholarships.wsu.edu\HTML\awards_fulbright-uk.html
+asdfdaf
+asdfdasf
+C:\GitHub\distinguishedscholarships.wsu.edu\HTML\awards_fulbright.html
+Modify class names utilized within markup
+Change class names .subtle-link.no-highlight to .non-text-link
+C:\GitHub\distinguishedscholarships.wsu.edu\HTML\awards_gates-cambridge.html
+asdfdaf
+asdfdasf
+C:\GitHub\distinguishedscholarships.wsu.edu\HTML\awards_gilman.html
+Update markup used to build page in WSUWP
+Add award recipients table to markup.
+C:\GitHub\distinguishedscholarships.wsu.edu\HTML\awards_goldwater.html
+Update markup used to build pages in WSUWP
+Update with addition of TablePress-mediated list of award recipients.
+C:\GitHub\distinguishedscholarships.wsu.edu\HTML\awards_hollings.html
+Add markup for building page in WSUWP
+Markup added is for building the Hollings scholarship information page.
+C:\GitHub\distinguishedscholarships.wsu.edu\HTML\awards_marshall.html
+Update markup used to build pages in WSUWP
+Update local copies of markup utilized to build web pages in the builder template of the Spine parent theme in WSUWP
+C:\GitHub\distinguishedscholarships.wsu.edu\HTML\awards_mitchell.html
+asdfdaf
+asdfdasf
+C:\GitHub\distinguishedscholarships.wsu.edu\HTML\awards_rhodes.html
+Update markup used to build pages in WSUWP
+Update local copies of markup utilized to build web pages in the builder template of the Spine parent theme in WSUWP
+C:\GitHub\distinguishedscholarships.wsu.edu\HTML\awards_schwarzman.html
+Update markup used to build pages in WSUWP
+Update local copies of markup utilized to build web pages in the builder template of the Spine parent theme in WSUWP
+C:\GitHub\distinguishedscholarships.wsu.edu\HTML\awards_truman.html
+Update markup used to build pages in WSUWP
+Update with addition of TablePress-mediated list of award recipients.
+C:\GitHub\distinguishedscholarships.wsu.edu\HTML\awards_udall.html
+Update markup used to build pages in WSUWP
+Update with additio of TablePress-mediated list of Udall recipients.
+C:\GitHub\distinguishedscholarships.wsu.edu\HTML\benefits-of-applying.html
+Update markup used to build pages in WSUWP
+Update local copies of markup utilized to build web pages in the builder template of the Spine parent theme in WSUWP
+C:\GitHub\distinguishedscholarships.wsu.edu\HTML\calendar_workshops.html
+Update markup used to build page in WSUWP
+Updates consist of changes made online via the WSUWP interface.
+C:\GitHub\distinguishedscholarships.wsu.edu\HTML\committees.html
+Update backup of markup used to construct page in WSUWP
+Update with changes to position titles for members of the Goldwater committee
+C:\GitHub\distinguishedscholarships.wsu.edu\HTML\home.html
+Update markup used to build page in WSUWP
+Updates consist of restoration of workshop events feed.
+C:\GitHub\distinguishedscholarships.wsu.edu\HTML\other-awards_list.html
+Update markup used to build page in WSUWP
+Update markup with changes to address accessibility issues with how headings are nested.
+C:\GitHub\distinguishedscholarships.wsu.edu\HTML\other-awards_massie-fellowship.html
+Update markup used to build web page in WSUWP
+Update information about the Massie Fellowship for the 2018-19 award cycle.
+C:\GitHub\distinguishedscholarships.wsu.edu\HTML\progression-2018-photo-gallery.html
+Add markup for building webpage
+Add markup used to build the Progression 2018 photo gallery for downlaoding page via the Spine builder template in WSUWP
+C:\GitHub\distinguishedscholarships.wsu.edu\HTML\recipients.html
+Update markup used to build page in WSUWP
+Update with additions of recent winners, several styling improvements, introduction of on this page section, and corrections to alt text attribute settings on image tags.
+C:\GitHub\distinguishedscholarships.wsu.edu\JS\build-production-file.js
+Update build dependencies
+
+C:\GitHub\distinguishedscholarships.wsu.edu\JS\dsp-custom-build.js
+Develop gulp task for building custom JS file
+Process includes preservation of third-party comment headers throughout minification process
+C:\GitHub\distinguishedscholarships.wsu.edu\JS\dsp-custom.js
+Add iniline documentation to class AnimatedGalleryWall
+Provide documentation for private methods.
+C:\GitHub\distinguishedscholarships.wsu.edu\JS\gravityforms-export_massie-application-form-2018-19.json
+Add backup of 2018-19 Massie Fellowship application form
+
+C:\GitHub\distinguishedscholarships.wsu.edu\JS\massie-fellowship-application_gravityforms-export-2017-12-05.json
+Add JSON export of latest form version to repository
+Form added is used by students to apply for the 2017-18 round of the Massie Fellowship
+C:\GitHub\distinguishedscholarships.wsu.edu\JS\tablepress-export_6-Explore-awards-table.json
+Add backup of explore awards table
+
+C:\GitHub\distinguishedscholarships.wsu.edu\package-lock.json
+Update dev dependencies list after npm install
+
+C:\GitHub\distinguishedscholarships.wsu.edu\package.json
+Update dev dependencies
+Update with changes from npm update, removal of gulp-dest.
+C:\GitHub\firstyear.wsu.edu\HTML\2019_10_03_adobe-creative-jam-features-finalist-teams-from-univ-104-thursday-oct-3.html
+Add backup of markup used to create post in WSUWP
+Add backup of markup entered online for news post that was created via the WSUWP editor.
+C:\GitHub\firstyear.wsu.edu\HTML\home.html
+Updating backup of markup used to build page in WSUWP
+Updating markup with changes made online in the WSUWP interface.
+C:\GitHub\firstyear.wsu.edu\package.json
+Add an initial package.json for gulp task automation
+
+C:\GitHub\learningcommunities.wsu.edu\CSS\learningcommunities-custom.less
+Update inline documentation
+Fix line numbers in table of contents
+C:\GitHub\learningcommunities.wsu.edu\gulpfile.js
+Refactor tasks for automating CSS and JS builds
+Refactor tasks to utilized the latest build method, which relies on a dependendcy imported through the master OUE JS development submodule WSU-UE---JS.
+C:\GitHub\learningcommunities.wsu.edu\HTML\html-snippet_fyf-course-descriptions_2019-08-07.html
+Add markup snippet used to update FYF course list
+
+C:\GitHub\learningcommunities.wsu.edu\JS\console-cmds_fyf-instructor-list-editing.js
+Add console commands for adjusting WSUWP interface
+Commands added are for using jQuery to adjust the WSUWP editor's TablePress interface for lengthening rows and widening columns when updating First-Year Focus course and instructor information.
+C:\GitHub\learningcommunities.wsu.edu\JS\tablepress-export_fyf-courses-by-subject-number-2019-2020_id-5.json
+Add backup of TablePress table
+Backup added is for the list of First-Year Focus courses by subject and number for the 2019-20 academic year.
+C:\GitHub\learningcommunities.wsu.edu\JS\tablepress-export_fyf-instructors-2019-2020_id-4.json
+Add backup of TablePress table
+Backup added is for the list of First-Year Focus instructors for the 2019-20 academic year.
+C:\GitHub\learningcommunities.wsu.edu\JS\tinyMCE-Advanced-settings.json
+Add export of tiny MCE plugin settings
+
+C:\GitHub\learningcommunities.wsu.edu\package-lock.json
+Update package-lock.json after running npm update
+
+C:\GitHub\learningcommunities.wsu.edu\package.json
+Remove unused dependency gulp-dest
+
+C:\GitHub\lsamp.wsu.edu\CSS\lsamp__qualtrics_ccc-to-wsu-2019.css
+Add add-on styling for Qualtrics survey
+Styling is for customizing the look and feel of the CCC to WSU 2019 event hosted by the LSAMP program.
+C:\GitHub\lsamp.wsu.edu\gulpfile.js
+Update JS build dependencies, fix setting error
+To increase site functionality, expand the complement of JS build dependencies that are utilized on the LSAMP website; also correct the name of the site's built custom JS source file.
+C:\GitHub\lsamp.wsu.edu\HTML\sab.html
+Update markup used to build page in WSUWP
+Update the list of LSAMP STEM ambassadors for 2019-20 with last student that needs to be added.
+C:\GitHub\lsamp.wsu.edu\HTML\stem-colleges.html
+Update markup used to build page in WSUWP
+Update markup with changes made online that include improved formatting and heirarchical organization, plus the introduction of links to descriptions of majors on the admissions website.
+C:\GitHub\lsamp.wsu.edu\JS\Connecting_Community_Colleges_to_WSU_2019-20.qsf
+Update backup of qualtrics survey form
+Update with revisions to existing questions that came from feedback from YP and BM.
+C:\GitHub\lsamp.wsu.edu\JS\gravityforms-export_lsamp-stem-ambassador-application-2019-2020.json
+Add export of gravity form for student application
+Application is for the STEM Ambassador program.
+C:\GitHub\lsamp.wsu.edu\JS\lsamp--legacy.js
+Update coding style to match guide
+
+C:\GitHub\lsamp.wsu.edu\JS\LSAMP-STEM-Ambassador-Activity-Reports-for-Fall-2019.qsf
+Update backup of Qualtrics form
+Update backup of LSAMP SAB activity reporting form with changes made by program director.
+C:\GitHub\lsamp.wsu.edu\JS\tinyMCE-Advanced-settings.json
+Add export of tiny MCE plugin settings
+
+C:\GitHub\nsse.wsu.edu\CSS\nsse-custom.less
+Update inline documentation
+Update sections and line numbers in table of contents.
+C:\GitHub\nsse.wsu.edu\gulpfile.js
+Add gulp tasks for building CSS and JS files
+
+C:\GitHub\nsse.wsu.edu\HTML\help-promote-nsse.html
+Add markup used to build page in WSUWP
+Add markup used to build the page for assisting with promotions of NSSE at WSU.
+C:\GitHub\nsse.wsu.edu\HTML\home.html
+Update markup used to build page in WSUWP
+Update markup with changes made online in WSUWP.
+C:\GitHub\nsse.wsu.edu\package-lock.json
+Add package manifest & lockfile to project
+Add package manifest & lockfile after initial installation of development dependencies to the project.
+C:\GitHub\nsse.wsu.edu\package.json
+Add package manifest & lockfile to project
+Add package manifest & lockfile after initial installation of development dependencies to the project.
+C:\GitHub\oue.wsu.edu\CSS\oue-custom.less
+Modify overall design of custom Less/CSS source file
+Replace previous, experimental design contained in oue-custom.less with a design based off of a simplified version of the UCORE website's custom Less/CSS file.
+C:\GitHub\oue.wsu.edu\gulpfile.js
+Update inline documentation
+Add a license to the file header comment.
+C:\GitHub\oue.wsu.edu\HTML\home.html
+Add markup for building page using WSUWP
+
+C:\GitHub\oue.wsu.edu\JS\build-production-file.js
+Update files used to build CSS/JS
+
+C:\GitHub\oue.wsu.edu\package-lock.json
+Update dev dependencies
+Update installed dependencies to latest version, and add missing dependencies needed for building JS files.
+C:\GitHub\oue.wsu.edu\package.json
+Update dev dependencies
+Update installed dependencies to latest version, and add missing dependencies needed for building JS files.
+C:\GitHub\phibetakappa.wsu.edu\package-lock.json
+Update manifest and lockfile after npm install, audit
+
+C:\GitHub\phibetakappa.wsu.edu\package.json
+Update manifest and lockfile after npm install, audit
+
+C:\GitHub\RendPhys\RendPhys.js
+Finish writing unit conversion functions
+Finish writing RendPhys.degToRad and RendPhys.radToDeg for converting units on angles.
+C:\GitHub\summerresearch.wsu.edu\.gitignore
+Add node_modules to git ignore list
+
+C:\GitHub\summerresearch.wsu.edu\gulpfile.js
+Modify file header string
+Make header comment persistent, correct a typo
+C:\GitHub\summerresearch.wsu.edu\HTML\2019_07_31_upcoming-2019-symposium.html
+Add markup for building post in WSUWP
+Markup added is for constructing the news story announcing the 2019 summer research symposium.
+C:\GitHub\summerresearch.wsu.edu\HTML\events.html
+Update markup used for building page in WSUWP
+Update with tweaks to workshop slides.
+C:\GitHub\summerresearch.wsu.edu\HTML\home.html
+Update markup with changes made online in WSUWP editor
+Changes include a formatting correction via CSS class change, addition of latest news story to page.
+C:\GitHub\summerresearch.wsu.edu\HTML\programs.html
+Update markup used to build page in WSUWP
+Remove one SURE that has been canceled due to conflicting faculty commitments.
+C:\GitHub\summerresearch.wsu.edu\HTML\summer-in-pullman.html
+Update copy of markup used to build page in WSUWP
+Update markup used to construct the summer in Pullman page with accessibility fixes, layout change.
+C:\GitHub\summerresearch.wsu.edu\HTML\training-videos.html
+Add markup used to build page in WSUWP
+Add markup for building the training videos page in WSUWP.
+C:\GitHub\summerresearch.wsu.edu\HTML\visiting-students_research-programs.html
+Update copy of markup used to build page in WSUWP
+Update with inclusion of latest revision of YouTube video advertising program to external students.
+C:\GitHub\summerresearch.wsu.edu\JS\build-production-file.js
+Update build sequence
+Add qTip2 package to build order
+C:\GitHub\summerresearch.wsu.edu\package-lock.json
+Update project manifests after npm audit
+Update project manifests after resolving vulnerabilities in dependencies.
+C:\GitHub\summerresearch.wsu.edu\package.json
+Update project manifests after npm audit
+Update project manifests after resolving vulnerabilities in dependencies.
+C:\GitHub\surca.wsu.edu\CSS\surca-custom.less
+Update inline documentation
+Update line number in table of contents.
+C:\GitHub\surca.wsu.edu\gulpfile.js
+Fix build dependency list
+
+C:\GitHub\surca.wsu.edu\HTML\2019_03_28_surca-2019-award-winners.html
+Add markup used to build post in WSUWP
+Markup added is for constructing post announcing SURCA 2019 award winners.
+C:\GitHub\surca.wsu.edu\HTML\awards.html
+Fix markup used to build pages in WSUWP
+Update markup with fixes that address accessibility issues.
+C:\GitHub\surca.wsu.edu\HTML\calendar.html
+Fix markup used to build pages in WSUWP
+Update markup with fixes that address accessibility issues.
+C:\GitHub\surca.wsu.edu\HTML\categories.html
+Fix markup used to build pages in WSUWP
+Update markup with fixes that address accessibility issues.
+C:\GitHub\surca.wsu.edu\HTML\chunk_from-surca-student-application_poster-class.html
+Add markup chunk that advertises poster making class
+
+C:\GitHub\surca.wsu.edu\HTML\home.html
+Update markup used to build page in WSUWP
+Update home page with changes to formatting from modified CSS class usage.
+C:\GitHub\surca.wsu.edu\HTML\judges.html
+Enhance markup used to build page in WSUWP
+Improve semantic structuring of judge's schedule and add a clarifying note to the SURCA 2018 abstract book download notice.
+C:\GitHub\surca.wsu.edu\HTML\judges_directors-message.html
+Update markup used to build pages in WSUWP
+Remove instances of deprecated spacing and padding classes.
+C:\GitHub\surca.wsu.edu\HTML\judges_sign-up.html
+Add markup used to build pages in WSUWP
+Markup added is used to build the SURCA application forms for student presenters and judges.
+C:\GitHub\surca.wsu.edu\HTML\overview.html
+Fix markup used to build pages in WSUWP
+Update markup with fixes that address accessibility issues.
+C:\GitHub\surca.wsu.edu\HTML\overview_vice-provost-message.html
+Fix markup used to build pages in WSUWP
+Update markup with fixes that address accessibility issues.
+C:\GitHub\surca.wsu.edu\HTML\overview_welcome-info.html
+Fix markup used to build pages in WSUWP
+Update markup with fixes that address accessibility issues.
+C:\GitHub\surca.wsu.edu\HTML\participants.html
+Fix markup used to build pages in WSUWP
+Update markup with fixes that address accessibility issues.
+C:\GitHub\surca.wsu.edu\HTML\participants_application-guidelines.html
+Fix markup used to build pages in WSUWP
+Update markup with fixes that address accessibility issues.
+C:\GitHub\surca.wsu.edu\HTML\participants_apply.html
+Add markup used to build pages in WSUWP
+Markup added is used to build the SURCA application forms for student presenters and judges.
+C:\GitHub\surca.wsu.edu\HTML\participants_directors-message.html
+Fix markup used to build pages in WSUWP
+Update markup with fixes that address accessibility issues.
+C:\GitHub\surca.wsu.edu\HTML\participants_faqs.html
+Fix markup used to build pages in WSUWP
+Update markup with fixes that address accessibility issues.
+C:\GitHub\surca.wsu.edu\HTML\participants_online-poster-archive.html
+Fix markup used to build pages in WSUWP
+Update markup with fixes that address accessibility issues.
+C:\GitHub\surca.wsu.edu\HTML\participants_poster-presentations.html
+Fix markup used to build pages in WSUWP
+Update markup with fixes that address accessibility issues.
+C:\GitHub\surca.wsu.edu\HTML\participants_virtual-presentations.html
+Fix markup used to build pages in WSUWP
+Update markup with fixes that address accessibility issues.
+C:\GitHub\surca.wsu.edu\HTML\past-surca.html
+Update markup used to build pages in WSUWP
+Remove instances of deprecated spacing and padding classes.
+C:\GitHub\surca.wsu.edu\HTML\past-surca_awards-2018.html
+Update markup used to build page in WSUWP
+Add markup used to build the 2018 award winners page on the SURCA website.
+C:\GitHub\surca.wsu.edu\HTML\snippet_706-2017_2019-poster-making-workshops-from-bcu.html
+Add HTML snippet
+Snippet added is for inserting a poster design workshop notice relevant to SURCA 2019.
+C:\GitHub\surca.wsu.edu\HTML\support-surca.html
+Update markup used to build page in WSUWP
+Update list of sponsors for 2019 and move 2018 to past years; also clean up markup to meet accessibility best practices.
+C:\GitHub\surca.wsu.edu\HTML\support-surca_be-a-sponsor.html
+Update markup used to build page in WSUWP
+Update the link used to give through the foundation.
+C:\GitHub\surca.wsu.edu\HTML\support-surca_committee.html
+Update markup used to build page in WSUWP
+Update the list of members who serve on the SURCA committee.
+C:\GitHub\surca.wsu.edu\JS\build-production-file.js
+Modify build sequence
+
+C:\GitHub\surca.wsu.edu\JS\surca-build.min.prev.js
+Updating backup of latest verified custom JS build
+
+C:\GitHub\surca.wsu.edu\package-lock.json
+Update lockfile after npm install
+
+C:\GitHub\surca.wsu.edu\package.json
+Add gulpfile, dependencies for making CSS, JS builds
+
+C:\GitHub\surca.wsu.edu\WSU-UE---CSS\headings.less
+Tweak padding for solid headers
+Tweak produces produce a sharper and more consistent alignment of headings with left edge of column.
+C:\GitHub\teachingacademy.wsu.edu\HTML\snippet_hnav_2018-10-10.html
+Add HTML code snippet
+Add draft markup for building a horizontal menu on the teaching academy site.
+C:\GitHub\teachingacademy.wsu.edu\HTML\snippet_old-home_2018-11-07.html
+Add HTML code snippet
+Add markup for the outdated version of the homepage that has been removed.
+C:\GitHub\transfercredit.wsu.edu\.gitignore
+Add npm modules to repository
+Initialize repository for node module installation, install modules needed to build CSS and JS files via gulp mediated automation, and update gitignore to leave installed node modules untracked
+C:\GitHub\transfercredit.wsu.edu\gulpfile.js
+Refactor file to rely on dependency from WSU-UE---JS
+Refactor file to utilize new node module in WSU-UE---JS that centralizes code common to all gulp-mediated, OUE-wide CSS and JS build processes.
+C:\GitHub\transfercredit.wsu.edu\HTML\home.html
+Update markup used to build page in WSUWP
+Update with changes to applied classes to compensate for breaking changes made in the WSU-UE---CSS submodule.
+C:\GitHub\transfercredit.wsu.edu\HTML\policies_transfer-credit-equivalency-database.html
+Update markup used to build page in WSUWP
+Update with changes to applied classes to compensate for breaking changes made in the WSU-UE---CSS submodule.
+C:\GitHub\transfercredit.wsu.edu\HTML\transfer-credit-process.html
+Update markup used to build page in WSUWP
+Update with changes to applied classes to compensate for breaking changes made in the WSU-UE---CSS submodule.
+C:\GitHub\transfercredit.wsu.edu\HTML\transfer-credit-reports.html
+Update markup used to build page in WSUWP
+Update with changes to applied classes to compensate for breaking changes made in the WSU-UE---CSS submodule.
+C:\GitHub\transfercredit.wsu.edu\JS\build-production-file.js
+Update build dependency loading sequence
+Update loading sequence to reflect changes in how repositories of dependencies are organized
+C:\GitHub\transfercredit.wsu.edu\JS\gf-location-carryover.js
+Finish module for initiating automatic course carry over
+Finishin writing module that initiates the carry over of the previous course's institution to a newly added course to be evaluated on transfer course evaluation request forms. Add script necessary to apply the module on window load.
+C:\GitHub\transfercredit.wsu.edu\JS\transfer-central-custom.js
+Add & apply function initInstitutionSelectors
+Add function for setting the selection options for institution related controls
+C:\GitHub\transfercredit.wsu.edu\JS\xfercredit-custom.js
+Remove deprecated, commented out code
+
+C:\GitHub\transfercredit.wsu.edu\package-lock.json
+Update dev dependencies in manifests
+Update manifests with results of npm update.
+C:\GitHub\transfercredit.wsu.edu\package.json
+Update dev dependencies in manifests
+Update manifests with results of npm update.
+C:\GitHub\ucore.wsu.edu-assessment\package-lock.json
+Update dev dependencies list after npm install
+
+C:\GitHub\ucore.wsu.edu-assessment\package.json
+Add an initial package.json for gulp task automation
+
+C:\GitHub\ucore.wsu.edu\gulpfile.js
+Add gulp tasks, modules for building CSS and JS files
+
+C:\GitHub\ucore.wsu.edu\HTML\faculty_proposing-courses.html
+Update markup used to build page in WSUWP
+Update markup with additional edits being worked on by Clif Stratton.
+C:\GitHub\ucore.wsu.edu\HTML\home.html
+Update markup used to build page in WSUWP
+Update the What's New feed with incorporation of recent post from the ATL website.
+C:\GitHub\ucore.wsu.edu\HTML\resources_handbook.html
+Update markup used to build web page in WSUWP
+Update with new version of the UCORE handbook.
+C:\GitHub\ucore.wsu.edu\HTML\snippet_1303-1281_proposing-and-renewing-courses-content-selector.html
+Update markup snippet
+Update language, classes applied to content selection buttons.
+C:\GitHub\ucore.wsu.edu\HTML\students_understanding-ucore.html
+Update copy of markup used to build page in WSUWP
+Update markup with improvements to styling and layout.
+C:\GitHub\ucore.wsu.edu\package-lock.json
+Update development dependencies, project manifests
+
+C:\GitHub\ucore.wsu.edu\package.json
+Update development dependencies, project manifests
+
+C:\GitHub\undergraduateresearch.wsu.edu\CSS\undergraduate-research-custom.less
+Update inline documentation
+Update file section demarcations to latest conventions and add table of contents
+C:\GitHub\undergraduateresearch.wsu.edu\gulpfile.js
+Add jQuery.css-data.js plugin as build dependency
+
+C:\GitHub\undergraduateresearch.wsu.edu\HTML\2018_07_16_undergraduate-research-award-winners.html
+Add markup for creating new post
+
+C:\GitHub\undergraduateresearch.wsu.edu\HTML\for-faculty_why-mentor.html
+Add markup file to repository
+Makrup is for building the 'Why Mentor' page, which targets a faculty audience
+C:\GitHub\undergraduateresearch.wsu.edu\HTML\funding_travel-awards.html
+Update markup used to build web page in WSUWP
+Update markup with changes made online to article tagline, updated body classes.
+C:\GitHub\undergraduateresearch.wsu.edu\HTML\funding_undergraduate-research-awards.html
+Update copy of markup used to build page in WSUWP
+Update markup used to build undergraduateresearch.wsu.edu/funding/undergraduate-research-awards with removal of notice about last year's anonymous donation.
+C:\GitHub\undergraduateresearch.wsu.edu\HTML\get-started.html
+Add markup for building page in WSUWP
+
+C:\GitHub\undergraduateresearch.wsu.edu\HTML\programs_drop-in-mentoring.html
+Update markup used to build page in WSUWP
+Fix heading heirarchy and add additional information to make the copy clearer.
+C:\GitHub\undergraduateresearch.wsu.edu\HTML\ug-research-club.html
+Add markup used to build page in WSUWP
+Add markup used to build Undergraduate Research Club page in WSUWP.
+C:\GitHub\undergraduateresearch.wsu.edu\JS\gravity-forms-export_travel-award-application.json
+Add JSON used to build gravity form
+Add JSON used to build the Office of Undergraduate Research travel award application.
+C:\GitHub\undergraduateresearch.wsu.edu\JS\gravityforms-export_ugr-support-application-2019.json
+Add JSON used to build gravity form
+Add JSON used to build the 2019 application for Office of Undergraduate Research Awards.
+C:\GitHub\undergraduateresearch.wsu.edu\JS\Peer_Mentor_Drop-In_Feedback.qsf
+Add bacup of Qualtrics-based form
+Add backup of peer mentor feedback form, which is implemented in Qualtrics.
+C:\GitHub\undergraduateresearch.wsu.edu\JS\ugr-custom.js
+Add inline documentation for new class
+Add inline documentation for new class GfCheckboxValidators.
+C:\GitHub\undergraduateresearch.wsu.edu\package-lock.json
+Update dev dependencies list after npm install
+
+C:\GitHub\undergraduateresearch.wsu.edu\package.json
+Add gulpfile, dependencies for making CSS, JS builds
+
+C:\GitHub\WebsiteMapper\package.json
+Update project manifest
+Update with addition of new development dependencies.
+C:\GitHub\WebsiteMapper\tree.js
+Update inline documentation
+Add a file header comment block, sectional comment blocks, and a table of contents to the file's inline documentation.
+C:\GitHub\WebsiteMapper\WsMapper.screenshots.js
+Add interface for creating screenshots
+Write a class that provides an interface to headless Chromium for generating screenshots of webpages.
+C:\GitHub\WSU-OUE-AutoHotkey\API_GetWindowInfo.ahk
+Add new API
+New API servers as an interface to the User32.dll function GetWindowInfo.
+C:\GitHub\WSU-OUE-AutoHotkey\AutoHotkeyU64.ahk
+Fix bug from missing global variable specification
+
+C:\GitHub\WSU-OUE-AutoHotkey\Coding\frontEndCoding.ahk
+Fix bugs in function for backing up OUE HTML
+Update keystrokes for triggering the BeautifulHTML plugin in sublime text, and ensure that the end of file newline is inserted after blank line removal.
+C:\GitHub\WSU-OUE-AutoHotkey\commandHistory.ahk
+Modify file encoding for unicode support
+Modify file encoding to UTF-8 BOM so that AutoHotkey correctly parses unicode characters present in script files.
+C:\GitHub\WSU-OUE-AutoHotkey\CommitAnyFile.ahk
+Refactor by cleaning up coding style
+Add spacing after/before parentheses according to JavaScript style conventions for easier reading.
+C:\GitHub\WSU-OUE-AutoHotkey\CommitCssBuild.ahk
+Refactor how pausing works in functions throughout file
+Replace calls to GetDelay function with use of object-oriented ExecutionDelay module.
+C:\GitHub\WSU-OUE-AutoHotkey\CommitJsBuild.ahk
+Refactor how pausing works in functions throughout file
+Replace calls to GetDelay function with use of object-oriented ExecutionDelay module.
+C:\GitHub\WSU-OUE-AutoHotkey\Config\backupJs.ahk.cfg
+Fix bug from typo in file name
+
+C:\GitHub\WSU-OUE-AutoHotkey\Config\cssBuilds.ahk.cfg
+Add new data column
+Add the window title for each WSUWP website's custom CSS Stylesheet Editor interface.
+C:\GitHub\WSU-OUE-AutoHotkey\desktopMain.ahk
+Modify entry point, fix bug in cataloging function
+Change nature and name of entry point subroutine 'MainSubroutine' to the function 'StartScript()'; also correct error in cataloging function 'ListAhkFiles()' wherein refactoring work files were accidentally getting included in the collection of all the script's hotstring-mediated commands.
+C:\GitHub\WSU-OUE-AutoHotkey\desktopStartup.ahk
+Refactor how pausing works in several functions
+Replace calls to GetDelay function with use of object-oriented ExecutionDelay module.
+C:\GitHub\WSU-OUE-AutoHotkey\execEntryPoint.ahk
+Fix bugs from incorrect global variable names
+
+C:\GitHub\WSU-OUE-AutoHotkey\executionDelayer.ahk
+Add execution delaying module to script
+Module added is the ExecutionDelayer class, which provides an interface for timing script operations according to predefined, script-wide, and semantic delay values.
+C:\GitHub\WSU-OUE-AutoHotkey\fileSystem.ahk
+Add hotstring for quickly moving to a file path
+Add @gotoLsamp for quickly moving to the LSAMP program's GitHub repo.
+C:\GitHub\WSU-OUE-AutoHotkey\frontEndCoding.ahk
+Fix bug in note taking hotstring
+Correct automated keystrokes for selecting the default text in the work notes block's title.
+C:\GitHub\WSU-OUE-AutoHotkey\functions.ahk
+Fix bugs in functions that locate a window's monitor 
+Bug fixes consist of corrections to how global variables are declared and handled in FindActiveMonitor() and FindNearestActiveMonitor().
+C:\GitHub\WSU-OUE-AutoHotkey\Functions\cfgFile.ahk
+Fix bugs in line reading of configuration file
+Change reading mode to convert end of line encodings to the newline character, and strip off unneeded newline characters from lines read from the configuration file.
+C:\GitHub\WSU-OUE-AutoHotkey\Functions\functions.ahk
+Fix bugs in several calls to AhkCmdName
+
+C:\GitHub\WSU-OUE-AutoHotkey\Functions\monitorWorkAreas.ahk
+Refactor functions that handle monitor work areas
+Move functions from functions.ahk to their own included script, monitorWorkareas.ahk.
+C:\GitHub\WSU-OUE-AutoHotkey\Functions\variableStateChecks.ahk
+Fix error in inline documentation
+Correct file name in header comment.
+C:\GitHub\WSU-OUE-AutoHotkey\github.ahk
+Update file name referenced in @backupMinJsUgr
+
+C:\GitHub\WSU-OUE-AutoHotkey\GitHub\CommitCssBuild.ahk
+Modify usage of key parameter in CommitCssBuild function
+Instead of assuming that the parameter fpGitFolder (which contains the file path to the git folder in which CSS build related files will be committed) is relative to the git folder, assume it is a complete file path. This enables different git folder root locations to be utilized with the function.
+C:\GitHub\WSU-OUE-AutoHotkey\GitHub\github.ahk
+Update function for pasting built CSS into WSUWP
+Reposition mouse clicking to accomodate reset to normal master text size setting in browser; incorporate use of execDelayer module for timing operations.
+C:\GitHub\WSU-OUE-AutoHotkey\guiMsgBox.ahk
+Modify file encoding for unicode support
+Modify file encoding to UTF-8 BOM so that AutoHotkey correctly parses unicode characters present in script files.
+C:\GitHub\WSU-OUE-AutoHotkey\guiRepeatChars.ahk
+Update inline documentation
+Add or update file header comments and ensure that ISC license text is included.
+C:\GitHub\WSU-OUE-AutoHotkey\guiRepeatInputs.ahk
+Update inline documentation
+Add license to file header comment.
+C:\GitHub\WSU-OUE-AutoHotkey\GUIs\BackupJsGui.ahk
+Modify GUI for backing up verified custom JS builds
+Fix mistake in GUI name specification in Gui Submit command and add the NoHide option when obtaining data from the GUI for the JS backup operation.
+C:\GitHub\WSU-OUE-AutoHotkey\GUIs\CssBldPsOps.ahk
+Add CSS editor window titles to CSS posting process
+
+C:\GitHub\WSU-OUE-AutoHotkey\GUIs\GhGui.ahk
+Refactor GUIs for automating GitHub related processes
+Move the less general OK button handler from GhGui to BackupJsGui, as planned objects that will inherit from GhGui may not have an OK button.
+C:\GitHub\WSU-OUE-AutoHotkey\GUIs\guiGhBackupJs.ahk
+Refactor module for GUI-mediated backups of JS builds
+Refactor code for module GhGui by moving it into its won separate development file.
+C:\GitHub\WSU-OUE-AutoHotkey\numpadModifier.ahk
+Fix bugs in numpad mode expiration timer operation
+Add calls to CheckForNpModeExpiration() in functions HandleToggleNpBoxArt() and HandleToggleNpArrowArt() to ensure intended expiration behavior occurs.
+C:\GitHub\WSU-OUE-AutoHotkey\package.json
+Add an initial package.json for gulp task automation
+
+C:\GitHub\WSU-OUE-AutoHotkey\PowerShell.ahk
+Add script include PowerShell.ahk
+Add script that supports working with PowerShell.
+C:\GitHub\WSU-OUE-AutoHotkey\regExStrings.ahk
+Fix bugs in hotstrings for finding tables of contents
+Add escaping to exclamation mark characters where needed.
+C:\GitHub\WSU-OUE-AutoHotkey\scriptEntryPoint.ahk
+Add GUI for automating CSS build operations in PowerShell
+Add GUI that automates CSS build depdendency updating, custom CSS file rebuilding, and build file committing via PowerShell. Also add a configuration file on which the GUI depends.
+C:\GitHub\WSU-OUE-AutoHotkey\test.ahk
+Add new functions to AHK testing script
+New functions test aspects of writing classes in AHK, whether a new trie-implementing class functions properly, and whether a string can be treated as an array of characteres in AHK
+C:\GitHub\WSU-OUE-AutoHotkey\TextInput\numpadModifier.ahk
+Update inline documentation
+Update file header comment in inline documentation.
+C:\GitHub\WSU-OUE-AutoHotkey\trie.ahk
+Modify file encoding for unicode support
+Modify file encoding to UTF-8 BOM so that AutoHotkey correctly parses unicode characters present in script files.
+C:\GitHub\WSU-OUE-AutoHotkey\typeChecker.ahk
+Add type checking module to script
+Module added is the TypeChecker class, which translates if ... is statments into expression compatible functions.
+C:\GitHub\WSU-OUE-AutoHotkey\updateTableOfContents.ahk
+Add new hotstring @updateTocInFile
+Add new hotstring, along with supporting functions, that trigers the automatic updating of table of contents headers in AHK, JS, and Less files via Sublime Text 3.
+C:\GitHub\WSU-OUE-AutoHotkey\virtualDesktops.ahk
+Fix bug in MoveActiveWindowToVirtualDesktop
+Send additional keystroke inputs as a workaround to ensure that the virtual desktop selection cursor is in position before moving down to the correct intended virtual desktop.
+C:\GitHub\WSU-OUE-AutoHotkey\wordPress.ahk
+Modify file encoding for unicode support
+Modify file encoding to UTF-8 BOM so that AutoHotkey correctly parses unicode characters present in script files.
+C:\GitHub\WSU-OUE-AutoHotkey\WorkspaceManagement\automatedDesktopSetUp.ahk
+Adjust timing of work environment setup
+Increase delays between steps as virtual desktops are primed.
+C:\GitHub\WSU-OUE-AutoHotkey\WorkspaceManagement\virtualDesktops.ahk
+Adjust timing of work environment setup
+Increase delays between steps as virtual desktops are primed.
+C:\GitHub\WSU-OUE-AutoHotkey\WorkspaceManagement\workspaceManagement.ahk
+Modify process for opening websites in Chrome
+Improve reliability of process for opening websites in a new tab in Chrome by checking for a change in window title to determine when the website has loaded.
+C:\GitHub\WSU-OUE-AutoHotkey\workspaceMngmnt.ahk
+Add hotkeys for using the keyboard to position windows
+Add numpad-based hotkeys that move the active window around on the desktop based on user-keyboard interaction.
+C:\GitHub\WSU-OUE-AutoHotkey\workTimer.ahk
+Fix bug in subroutine PostWorkBreakMessage
+Due to system changes, the location of the timer icon changed; because the path to this file was entered inline, the GUI setup became corrupted. To fix the problem, base the location of the icon on global variables that specify paths to important locations.
+C:\GitHub\WSU-UE---CSS\animations.less
+Modify animation mixins for efficiency
+Remove prefixes, as web browser development has made these largely unnecessary.
+C:\GitHub\WSU-UE---CSS\article.less
+Modify style rules for article notices
+Make sectionally based padding universal to all paragraph children of article notice columns
+C:\GitHub\WSU-UE---CSS\aside.less
+Fix style setting on floating article sidebars
+Add a z-index specification to avoid other elements from appearing over the sidebar when it is in hovering mode.
+C:\GitHub\WSU-UE---CSS\color-palette.less
+Tweak color in palette
+Increase the color intensity of darker yellow in the WSU yellow color palette to make WCAG color contrast compliance easier to typically achieve.
+C:\GitHub\WSU-UE---CSS\components.less
+Fix style conflict involving static page header columns
+
+C:\GitHub\WSU-UE---CSS\cycle-slideshow.less
+Fix layout problem with pagers and reorganize code
+Add margin-based componesation for responsive positioning of slideshow pager buttons, and reorganize code so that style rules are grouped better according to the ancestral element to which they relate.
+C:\GitHub\WSU-UE---CSS\div.column.less
+Remove deprecated style rules
+Remove .large-format-friendly class and associated style rules.
+C:\GitHub\WSU-UE---CSS\div.cycle-slideshow.less
+Fix design flaws in font-sizing & component layout
+Adjust style rules so hover-induced enlargment of the font size for slide content is reasonable on mobile screen formats; add horizontally oriented padding around slide content so that it doesn't accidentally crowd the buttons for moving the slideshow back and forward.
+C:\GitHub\WSU-UE---CSS\drop-down-toggles.less
+Make toggled panel implementation accessibility friendly
+Switching to a CSS3 based approach that relies on class toggling coupled with CSS3 transitions and height/overflow changes
+C:\GitHub\WSU-UE---CSS\events-calendar.less
+Update visual design of workshop notes.
+Darken the notes for improved contrast.
+C:\GitHub\WSU-UE---CSS\fonts.less
+Modify .ff--mono/.has-mono-font
+Remove font weight setting.
+C:\GitHub\WSU-UE---CSS\forms.less
+Fix design mistake
+Remove default blue outlining of form input and select fields; this style was intended to be applied only under a focused state for accessibility purposes.
+C:\GitHub\WSU-UE---CSS\headers.less
+Modify layout of main website headers
+Improve how the main header is responsively sized.
+C:\GitHub\WSU-UE---CSS\headings.less
+Modify how how bordering on solid headings are drawn
+
+C:\GitHub\WSU-UE---CSS\hr.less
+Make improvements to design of horizontal rules
+Remove unnecessary styling options and improve default contrast of rules.
+C:\GitHub\WSU-UE---CSS\hyperlink.less
+Remove custom styling for in-focus hyperlinks
+While it provided improved visual contrast in some situations, it is proving to be less reliable than hoped in terms of consistency and accidentally breaking layouts.
+C:\GitHub\WSU-UE---CSS\iframe.less
+Modify approach to declaring rules
+Replace call to mixin function .declare-iframe-ruleset with call to .declare-ruleset to enable use of an optional ruleset wrapper; clean up formatting of code
+C:\GitHub\WSU-UE---CSS\img.less
+Modify .show-on-mobile & .hide-on-mobile
+Move these classes from img.less to utility-classes.less and modify their selector strings to render them generalized utility classes.
+C:\GitHub\WSU-UE---CSS\interactively-flipped-panels.less
+Fix error in style conflict resolution
+Add important specification to property to resolve conflict
+C:\GitHub\WSU-UE---CSS\lists.less
+Modify default styling for FAQ definition lists
+Remove default indiscriminate bolding to enable bolding of specific parts of a frequently asked question.
+C:\GitHub\WSU-UE---CSS\main.less
+Modify approach to declaring rules
+Replace call to mixin function .declare-main-rulesets with call to .declare-ruleset to enable use of an optional ruleset wrapper
+C:\GitHub\WSU-UE---CSS\mixins.less
+Modify mixin for improved efficiency
+Modify selectors utilized in .has-sectionally-responsive-font(…) by eliminating unnecessary specificity to achieve a leaner stylesheet.
+C:\GitHub\WSU-UE---CSS\news-posts.less
+Fix bug in news feed styling
+Restrict shrunken font size to two column layout where it is more appropriate.
+C:\GitHub\WSU-UE---CSS\notices.less
+Fix syntax error in mixin .add-new-notice-class
+
+C:\GitHub\WSU-UE---CSS\on-this-page.less
+Modify selectors for semantic style rules
+Remove unnecessary inclusional mixin wrapper; entire page of code is already included in an inclusional mixin
+C:\GitHub\WSU-UE---CSS\package.json
+Add an initial package.json for gulp task automation
+
+C:\GitHub\WSU-UE---CSS\page-covering-notice.less
+Modify approach to declaring rules
+Utilize mixin function .declare-ruleset to avoid missing selector errors when the optional ruleset wrapper is not utilized
+C:\GitHub\WSU-UE---CSS\paragraphs.less
+Fix selector compatibility with mixin .declare-ruleset
+Previous usage of ampersand operator within corrected selector strings resulted in unintended output when argument for @oue-rules-wrapper was not an empty string.
+C:\GitHub\WSU-UE---CSS\qtips.less
+Add empty line to beginning of file as workaround
+Current build processes may fail without space due to the qtips minified source terminating with a comment
+C:\GitHub\WSU-UE---CSS\quick-tabs.less
+Modify selectors for style declarations
+Remove unnecessary inclusional mixin wrapper; entire page of code is already included in an inclusional mixin
+C:\GitHub\WSU-UE---CSS\recent-updates.less
+Modify approach to declaring rules
+Replace call to mixin function .declare-recent-updates-rulesets with call to .declare-ruleset to enable use of an optional ruleset wrapper
+C:\GitHub\WSU-UE---CSS\section.less
+Remove unnecessary style rules that are no longer used
+
+C:\GitHub\WSU-UE---CSS\span.less
+Modify visual design of tool tips
+Improve the visual design of tool tips by increasing color contrast.
+C:\GitHub\WSU-UE---CSS\tables.less
+Modify approach to declaring rules
+Replace call to mixin function .declare-table-rulesets with call to .declare-ruleset to enable use of an optional ruleset wrapper
+C:\GitHub\WSU-UE---CSS\targets.less
+Fix styling problems with gravity form anchors
+Remove the highlighting of gravity form anchors that is breaking layout.
+C:\GitHub\WSU-UE---CSS\utility-classes.less
+Add important directive to maximum width ultility classes
+Add important directive to compensate for high specificity of conflicting style rules in the spine theme.
+C:\GitHub\WSU-UE---CSS\utility-mixins.less
+Modify default array of predefined pixels widths
+Expand the overall horizontal breadth of available width options at the cost of granularity.
+C:\GitHub\WSU-UE---CSS\variables.less
+Modify design of coloring classes for efficiency
+Make color scheme utility classes optional to help produce leaner style sheets for websites that do not need to use the full extent of the WSU color palette.
+C:\GitHub\WSU-UE---CSS\wp-master-style-sheet.less
+Enhance responsive design of column gutters
+Provide a gated mixin-mediated mechanism to cut out style rules that match default WSUWP settings, and redesign selectors to be more efficient.
+C:\GitHub\WSU-UE---JS\gulpBuilder.js
+Modify CSS build task with enhancement
+Enable the user to specify that a file with CSS added by a unit's staff members be appended to the built CSS file.
+C:\GitHub\WSU-UE---JS\jquery.are-you-sure.js
+Refactor so that custom code is separate from plugin
+From now on, AreYouSure plugin code will now be imported from git repostiroy via gulp
+C:\GitHub\WSU-UE---JS\jQuery.countdown-custom.js
+Fix variable naming bug in processCountdownTimerById(…)
+
+C:\GitHub\WSU-UE---JS\jQuery.css-data.js
+Fix problem in inline documentation
+Fill in missing description.
+C:\GitHub\WSU-UE---JS\jQuery.forms.js
+Remove GfCheckboxValidators module
+Remove module that is causing accessibility problems under the following specific and unforseen condition. When save and continue links are being used on a graviy form and the user saves the form to continue it later from the page the validated checkboxes are on, the checkbox validator field does not properly keep its validated value after the user accesses the link again in the future. Moreover, the error messaging provided by the valdiation scheme proved not to be helpful enough in practice.
+C:\GitHub\WSU-UE---JS\jQuery.oue-custom.js
+Remove interactive support for in-focus link styling
+This code is no longer necessary, as custom in-focus link styling was removed because of its limited reliability due to inconsistent application and unpredictable layout breaking.
+C:\GitHub\WSU-UE---JS\jQuery.qTip.js
+Fix bug in function QTipContent
+Resolve undeclared local variable regExPttrn & rename it to clearer regExReplPttrn
+C:\GitHub\WSU-UE---JS\jQuery.textResize.js
+Fix bugs in TextAutoResizingElem class
+Remove unnecessary call to jQuery in function initArticleHeaderText(…); also refactor method TextAutoResizers.initTextAutoResizing to resolve a strange fatal JS error that is triggered by utilizing a regular expression literal on pages that have a gravity form with a rich text editor. I suspect it is related to the fact that RegEx literals are compiled only on script loading, and rich text editors use an iframe to embed WordPress' TinyMCE rich editor into the form.
+C:\GitHub\WSU-UE---JS\package.json
+Add an initial package.json for gulp task automation
+

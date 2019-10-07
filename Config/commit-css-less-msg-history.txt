@@ -1,0 +1,45 @@
+﻿ascc-custom_new.less
+Design style for displaying candid career widget
+Design style for responsively displaying candid career widget on the ASCC homepage.
+dsp-custom.less
+Update style of article header on fulbright info page
+
+learningcommunities-custom.less
+Update dependencies, add style for new residence hall
+Update how dependencies are imported to match latest build method, and add a style for Waller hall.
+lsamp-custom.less
+Update bodering on spine, binder components
+
+nse-custom.less
+Further addressing rounding error in IE11, Edge
+
+nsse-custom.less
+Modify style of main site header
+Set background to crimson and remove maximum width restriction.
+oue-custom.less
+Fix bug from missing dependency
+Add in inclusion of WSU-UE---CSS\variables.less that was removed by a breaking change in the WSU-UE---CSS project.
+pbk-custom.less
+Update importing of Less file dependencies
+Import variables.less separately from wp-master-style-sheet.less to enable variable settings to be overwritten.
+src_cr-new.less
+Remove style rules that are no longer needed
+Remove style rules that are no longer necessary thanks to improved design of the layout approach for main headers.
+summerresearch-custom.less
+Fix syntax error from dependency import change
+Explicitly import variables.less, which used to be imported via wp-master-style-sheet.less; the new format allows for common variables to be redefined for a specific site.
+surca-custom.less
+Clean up code, inline documentation
+Remove depreciated styles for sidebars and add ISC license to persistent file header comment.
+ucore-assessment-custom.less
+Revise LESS variable name
+Revise name of Less variable @v-p-lnhght to @body-text--lHeight
+ucore-custom.less
+Add style for recent posts
+
+ugr-custom.less
+Delete unused style rules & replace removed style rules
+Replace style rules that were removed in WSU-UE---CSS with utility classes that replace them.
+undergraduate-research-custom.less
+Add new style for validators on the travel award form
+Add a style that will render validators and their component elements hidden except for validation messages.

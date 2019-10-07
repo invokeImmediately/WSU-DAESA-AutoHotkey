@@ -111,7 +111,7 @@ global webDevFolder := hhdWorkFolder . "\{^}WSU-Web-Dev"
 ;   ································································································
 ;     >>> §1.4: POMODORO WORK TIMER GLOBALS
 
-global logFileName := hhdWorkFolder . "\^WSU-Web-Dev\^Personnel-File\Work-log.txt"
+global logFileName := A_ScriptDir . "\Config\workTimerLog.txt"
 global workTimerCountdownTime := -1500000
 global workTimeLeftOver := 0
 global workTimerMinuteCount := 0
@@ -134,7 +134,7 @@ global desktopArrangedSound := ssdWorkFolder . "\Sound Library\zelda_lttp-mstr-s
 ;   ································································································
 ;     >>> §1.6: SIMULATED MEMORY OF USER ACTIONS
 
-global cmdHistoryLog := hhdWorkFolder . "\^WSU-Web-Dev\^Personnel-File\ahk-cmd-history.txt"
+global cmdHistoryLog := A_ScriptDir . "\Config\ahk-cmd-history.txt"
 global ahkCmds := Array()
 global ahkCmdLimit := 140
 global CmdChosen
@@ -142,12 +142,9 @@ global savedMouseX := 0
 global savedMouseY := 0
 global lineLength := 125
 
-global commitCssLessMsgLog := hhdWorkFolder . "\^WSU-Web-Dev\^Personnel-File\commit-css-less-msg-hi"
-. "story.txt"
-global commitAnyFileMsgLog := hhdWorkFolder . "\^WSU-Web-Dev\^Personnel-File\commit-any-file-msg-hi"
-. "story.txt"
-global commitJsCustomJsMsgLog := hhdWorkFolder . "\^WSU-Web-Dev\^Personnel-File\commit-js-custom-js-ms"
-. "g-history.txt"
+global commitCssLessMsgLog := A_ScriptDir . "\Config\commit-css-less-msg-history.txt"
+global commitAnyFileMsgLog := A_ScriptDir . "\Config\commit-any-file-msg-history.txt"
+global commitJsCustomJsMsgLog := A_ScriptDir . "\Config\commit-js-custom-js-msg-history.txt"
 
 ;   ································································································
 ;     >>> §1.7: KEYBOARD OVERRIDING
@@ -562,7 +559,7 @@ Return
 ;   §16: CUSTOM HOTSTRINGS & HOTKEYS
 ; --------------------------------------------------------------------------------------------------
 
-#Include %A_ScriptDir%\localOnly.ahk
+#Include *i %A_ScriptDir%\localOnly.ahk
 
 :*:@copyFromExcel::
 	AppendAhkCmd(A_ThisLabel)
