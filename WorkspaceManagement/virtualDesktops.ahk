@@ -10,15 +10,15 @@
 ;   §1: GLOBAL VARIABLES.......................................................................25
 ;   §2: FUNCTIONS & SUBROUTINES................................................................31
 ;     >>> §2.1: CloseOpenWindowsOnVD...........................................................35
-;     >>> §2.2: CreateVirtualDesktop..........................................................145
-;     >>> §2.3: DeleteVirtualDesktop..........................................................159
-;     >>> §2.4: GetCurrentVirtualDesktop......................................................173
-;     >>> §2.5: GetSessionId..................................................................186
-;       →→→ §2.5.1: @getSessionId.............................................................206
-;     >>> §2.6: MapDesktopsFromRegistry.......................................................217
-;     >>> §2.7: MoveActiveWindowToVirtualDesktop..............................................279
-;     >>> §2.8: PrimeVirtualDesktops..........................................................348
-;     >>> §2.9: SwitchDesktopByNumber.........................................................367
+;     >>> §2.2: CreateVirtualDesktop..........................................................147
+;     >>> §2.3: DeleteVirtualDesktop..........................................................161
+;     >>> §2.4: GetCurrentVirtualDesktop......................................................175
+;     >>> §2.5: GetSessionId..................................................................188
+;       →→→ §2.5.1: @getSessionId.............................................................208
+;     >>> §2.6: MapDesktopsFromRegistry.......................................................219
+;     >>> §2.7: MoveActiveWindowToVirtualDesktop..............................................281
+;     >>> §2.8: PrimeVirtualDesktops..........................................................350
+;     >>> §2.9: SwitchDesktopByNumber.........................................................370
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -44,12 +44,14 @@ CloseOpenWindowsOnVD() { ; - Alias = cowvd
 	global execDelayer
 	delay := execDelayer.InterpretDelayString("short") * 1.5
 
+	DisplahSplashText( "Now closing the open windows on the active virtual desktop." )
 	cowvd_CheckOsDesktopHwnd()
 	windowsAlreadyClosed := cowvd_GetStarted(delay)
 	if (!windowsAlreadyClosed) {
 		vdHWnds := cowvd_LogOpenWindows(delay)
 		cowvd_ClosedLoggedWindows(vdHWnds, delay)
 	}
+	DisplahSplashText( "The process for closing the open windows on the active virtual desktop has just finished." )
 }
 
 cowvd_CheckOsDesktopHwnd(overwrite := False) {
