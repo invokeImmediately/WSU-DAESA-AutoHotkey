@@ -44,14 +44,14 @@ CloseOpenWindowsOnVD() { ; - Alias = cowvd
 	global execDelayer
 	delay := execDelayer.InterpretDelayString("short") * 1.5
 
-	DisplahSplashText( "Now closing the open windows on the active virtual desktop." )
+	DisplaySplashText( "Now closing the open windows on the active virtual desktop." )
 	cowvd_CheckOsDesktopHwnd()
 	windowsAlreadyClosed := cowvd_GetStarted(delay)
 	if (!windowsAlreadyClosed) {
 		vdHWnds := cowvd_LogOpenWindows(delay)
 		cowvd_ClosedLoggedWindows(vdHWnds, delay)
 	}
-	DisplahSplashText( "The process for closing the open windows on the active virtual desktop has just finished." )
+	DisplaySplashText( "The process for closing the open windows on the active virtual desktop has just finished." )
 }
 
 cowvd_CheckOsDesktopHwnd(overwrite := False) {
