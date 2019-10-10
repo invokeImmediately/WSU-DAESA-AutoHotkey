@@ -135,7 +135,7 @@ cowvd_VerifyClosingOfWindows(vdHWnds, delay) {
 	aVdHwnds := Object()
 	For index, value in vdHWnds
 	{
-		if (!WinExist("ahk_id " . index)) {
+		if (WinExist("ahk_id " . index)) {
 			aVdHwnds.Push(index)
 		}
 		Sleep % delay * 2
