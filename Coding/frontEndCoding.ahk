@@ -10,23 +10,23 @@
 ;   §1: FUNCTIONS utilized in automating HTML-related processes.................................33
 ;     >>> §1.1: BuildHyperlinkArray.............................................................37
 ;     >>> §1.2: CopyWebpageSourceToClipboard....................................................75
-;     >>> §1.3: CountNewlinesInString..........................................................142
-;     >>> §1.4: ExportHyperlinkArray...........................................................155
-;     >>> §1.5: PullHrefsIntoHyperlinkArray....................................................180
-;   §2: HOTSTRINGS.............................................................................193
-;     >>> §2.1: Text Replacement...............................................................197
-;       →→→ §2.1.1: CSS shorthand insertion strings............................................200
-;       →→→ §2.1.2: URL shortcuts for WSUWP websites...........................................208
-;       →→→ §2.1.3: String insertion related to Front-end web development......................268
-;     >>> §2.2: RegEx..........................................................................280
-;     >>> §2.3: Backup HTML of OUE pages.......................................................287
-;       →→→ §2.3.1: @backupOuePage.............................................................290
-;       →→→ §2.3.2: BackupOueHtml & sub-functions..............................................315
-;       →→→ §2.3.3: @backupOuePost.............................................................467
-;     >>> §2.4: Hyperlink collection hotstring.................................................493
-;     >>> §2.5: Checking for WordPress Updates.................................................562
-;   §3: GUI-related hotstrings & functions for automating HTML-related tasks...................567
-;     >>> §3.1: Insert Builder Sections GUI....................................................571
+;     >>> §1.3: CountNewlinesInString..........................................................154
+;     >>> §1.4: ExportHyperlinkArray...........................................................167
+;     >>> §1.5: PullHrefsIntoHyperlinkArray....................................................192
+;   §2: HOTSTRINGS.............................................................................205
+;     >>> §2.1: Text Replacement...............................................................209
+;       →→→ §2.1.1: CSS shorthand insertion strings............................................212
+;       →→→ §2.1.2: URL shortcuts for WSUWP websites...........................................220
+;       →→→ §2.1.3: String insertion related to Front-end web development......................280
+;     >>> §2.2: RegEx..........................................................................292
+;     >>> §2.3: Backup HTML of OUE pages.......................................................299
+;       →→→ §2.3.1: @backupOuePage.............................................................302
+;       →→→ §2.3.2: BackupOueHtml & sub-functions..............................................328
+;       →→→ §2.3.3: @backupOuePost.............................................................538
+;     >>> §2.4: Hyperlink collection hotstring.................................................566
+;     >>> §2.5: Checking for WordPress Updates.................................................635
+;   §3: GUI-related hotstrings & functions for automating HTML-related tasks...................640
+;     >>> §3.1: Insert Builder Sections GUI....................................................644
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -49,7 +49,7 @@ BuildHyperlinkArray(htmlMarkup) {
 			newStart := foundPos + matchLen
 			foundPos := RegExMatch(htmlMarkup, regExNeedle, matchLen, newStart)
 			while (foundPos > 0) {
-				numNewlines += CountNewlinesInString(SubStr(htmlMarkup, newStart, foundPos 
+				numNewlines += CountNewlinesInString(SubStr(htmlMarkup, newStart, foundPos
 					- newStart))
 				hyperlinkArray[hyperlinkArray.Length() + 1] := {position: foundPos - numNewlines
 					, length: matchLen, markup: SubStr(htmlMarkup, foundPos, matchLen)}
@@ -74,12 +74,12 @@ BuildHyperlinkArray(htmlMarkup) {
 ;   ································································································
 ;     >>> §1.2: CopyWebpageSourceToClipboard
 
-CopyWebpageSourceToClipboard(webBrowserProcess, correctTitleNeedle, viewSourceTitle, errorMsg) {
-	ahkThisCmd := A_ThisFunc
+CopyWebpageSourceToClipboard( webBrowserProcess, correctTitleNeedle, viewSourceTitle, errorMsg ) {
+	global execDelayer
 	keyDelay := 200
 	success := False
 
-	; Use RegEx match mode so that any appearance of "| Washington State University" will easily be 
+	; Use RegEx match mode so that any appearance of "| Washington State University" will easily be
 	; found in window titles; this textual phrase is appended to all WSU websites
 	oldMatchMode := 0
 	if (A_TitleMatchMode != RegEx) {
@@ -90,30 +90,42 @@ CopyWebpageSourceToClipboard(webBrowserProcess, correctTitleNeedle, viewSourceTi
 	; Verify chrome as the active process, look for "| Washington State University" in title
 	WinGet activeProcess, ProcessName, A
 	WinGetActiveTitle processTitle
-	if ( !(RegExMatch(activeProcess, webBrowserProcess) && RegExMatch(processTitle
+	if ( !( RegExMatch( activeProcess, webBrowserProcess ) && RegExMatch( processTitle
 			, correctTitleNeedle)) ) {
-		ErrorBox(ahkThisCmd, errorMsg)
+		ErrorBox( A_ThisFunc, errorMsg )
 	} else {
 		oldKeyDelay := 0
 		if (A_KeyDelay != keyDelay)	{
 			oldKeyDelay := A_KeyDelay
 			SetKeyDelay %keyDelay%
 		}
+
+		; Copy the URL of the webpage
+		Send !d
+		exceDelayer.Wait( "medium" )
+		Send ^c
+		exceDelayer.Wait( "medium" )
+		success := {}
+		success.url := Clipboard
+		execDelayer.Wait( "long" )
+		Send +{F6}
+		exceDelayer.Wait( "medium" )
+
 		; Trigger view page source, wait for tab to load
 		Send ^u
 		WinWaitActive % viewSourceTitle, , 0.5
 		idx := 0
 		idxLimit := 9
-		while(ErrorLevel)
+		while( ErrorLevel )
 		{
 			WinWaitActive % viewSourceTitle, , 0.5
 			idx++
-			if (idx >= idxLimit) {
-				ErrorBox(ahkThisCmd, "I timed out while waiting for the view source tab to open.")
+			if ( idx >= idxLimit ) {
+				ErrorBox( A_ThisFunc, "I timed out while waiting for the view source tab to open." )
 				break
 			}
 		}
-		if (ErrorLevel) {
+		if ( ErrorLevel ) {
 			Return
 		} else {
 			Sleep % keyDelay * 15
@@ -123,7 +135,7 @@ CopyWebpageSourceToClipboard(webBrowserProcess, correctTitleNeedle, viewSourceTi
 		Send ^a
 		Send ^c
 		Send ^w
-		success := Clipboard
+		success.code := Clipboard
 
 		if (oldKeyDelay) {
 			SetKeyDelay %oldKeyDelay%
@@ -162,7 +174,7 @@ ExportHyperlinkArray(hyperlinkArray, pageContent) {
 		} else {
 			exportStr .= "Character Position`tMatch Length`tMarkup`tHref`n"
 		}
-		exportStr .= hyperlinkArray[A_Index].position . "`t" . hyperlinkArray[A_Index].length 
+		exportStr .= hyperlinkArray[A_Index].position . "`t" . hyperlinkArray[A_Index].length
 			. "`t" . hyperlinkArray[A_Index].markup . "`t" . hyperlinkArray[A_Index].href
 	}
 	if (exportStr != "") {
@@ -185,7 +197,7 @@ PullHrefsIntoHyperlinkArray(ByRef hyperlinkArray) {
 		foundPos := RegExMatch(hyperlinkArray[A_Index].markup, regExNeedle, match)
 		hyperlinkArray[A_Index].href := SubStr(hyperlinkArray[A_Index].markup, matchPos1, matchLen1)
 	}
-	; TODO: determine which line hyperlink appears on, then copy the entire line to contents (to 
+	; TODO: determine which line hyperlink appears on, then copy the entire line to contents (to
 	; provide context)
 }
 
@@ -217,7 +229,7 @@ InsertWsuWpUrl(slug) {
 		SendInput % aWsuWpDomain . slug
 	} else {
 		Gosub :*:@setWsuWpDomain
-	}	
+	}
 }
 
 :*:@gotoUrlAdmin::
@@ -292,7 +304,6 @@ Return
 ;	Backup the markup used to construct a web page in WSUWP.
 
 :*:@backupOuePage::
-	ahkThisCmd := A_ThisLabel
 	keyDelay := 140
 	webBrowserProcess := "chrome.exe"
 	correctTitleNeedle := "\| Washington State University"
@@ -302,12 +313,14 @@ Return
 		. "n>$(?=\n{^}(?:\t| )*</div><{!}-- {#}post -->)|{^}(?:\t| )*<title>.*$\n|{^}(?:\t| )*<body"
 		. ".*$\n|{^}(?:\t| )*</body.*$\n"
 
-	AppendAhkCmd(ahkThisCmd)
-	DisplaySplashText("Now backuping up WordPress page on active DAESA website.")
-	if (CopyWebpageSourceToClipboard(webBrowserProcess, correctTitleNeedle, viewSourceTitle
-			, "Before using this hotstring, please activate a tab of your web browser into which a "
-			. "WSU OUE website is loaded.")) {
-		BackupOueHtml(Clipboard, workingFilePath, targetContentNeedle, "", keyDelay)
+	AppendAhkCmd( A_ThisLabel )
+	DisplaySplashText( "Now backuping up WordPress page on active DAESA website." )
+	results := CopyWebpageSourceToClipboard( webBrowserProcess, correctTitleNeedle
+		, viewSourceTitle, "Before using this hotstring, please activate a tab of your web browser "
+		. "into which a WSU OUE website is loaded.")
+	if ( results ) {
+		BackupOueHtml( results, workingFilePath, targetContentNeedle, "", keyDelay )
+		DisplaySplashText( "Finished backuping up WordPress page on active DAESA website." )
 	}
 Return
 
@@ -316,7 +329,8 @@ Return
 ;
 ;	Regardless of the specific post type, backup markup used to construct something in WSUWP.
 
-BackupOueHtml(sourceCode, workingFilePath, targetContentNeedle, cleaningNeedle, keyDelay) {
+BackupOueHtml( source, workingFilePath, targetContentNeedle, cleaningNeedle
+		, keyDelay ) {
 	sublimeTextTitle := "Sublime Text ahk_exe sublime_text.exe"
 	oldMatchMode := 0
 
@@ -334,8 +348,8 @@ BackupOueHtml(sourceCode, workingFilePath, targetContentNeedle, cleaningNeedle, 
 	; Switch the active process to Sublime Text 3
 	IfWinExist, % sublimeTextTitle
 	{
-		BackupOueHtml_CreateNewFile(keyDelay)
-		BackupOueHtml_SaveToWorkingFile(workingFilePath, keyDelay)
+		BackupOueHtml_CreateNewFile(source.code, keyDelay)
+		BackupOueHtml_SaveToWorkingFile(source.url, workingFilePath, keyDelay)
 		BackupOueHtml_FixBadMarkup(keyDelay)
 		BackupOueHtml_BeautifyHtml(keyDelay)
 		BackupOueHtml_CopyMarkupSections(targetContentNeedle, keyDelay)
@@ -361,52 +375,10 @@ BackupOueHtml(sourceCode, workingFilePath, targetContentNeedle, cleaningNeedle, 
 	}
 }
 
-BackupOueHtml_CreateNewFile(keyDelay) {
-	WinActivate
-	Send ^n
-	Sleep % keyDelay
-	Send {Esc}
-	Send ^v
-	Sleep % keyDelay * 3
-}
-
-BackupOueHtml_SaveToWorkingFile(workingFilePath, keyDelay) {
-	Send ^+s
-	Sleep % keyDelay * 20
-	SendInput % "{BackSpace}" . workingFilePath
-	Sleep % keyDelay * 5
-	Send {Enter}{Left}{Enter}
-	Sleep % keyDelay * 5
-}
-
-BackupOueHtml_FixBadMarkup(keyDelay) {
-	Send ^h
-	Sleep % keyDelay * 3
-	SendInput, % "(<br ?/?> ?)\n[\t ]{{}0,{}}"
-	Send {Tab}^a{Del}
-	SendInput, % "\1"
-	Send ^!{Enter}
-	Sleep % keyDelay * 3
-	Send {Esc}{Right}
-	Sleep % keyDelay
-}
-
 BackupOueHtml_BeautifyHtml(keyDelay) {
 	; Trigger the HTMLPrettify package in Sublime Text to clean up markup and prepare it for RegEx
 	Send ^k^h
 	Sleep % keyDelay * 5
-}
-
-BackupOueHtml_CopyMarkupSections(targetContentNeedle, keyDelay) {
-	; Find the portions of the markup that we want to back up, select them all, copy, and
-	;  then overwrite the full markup
-	Send ^f
-	SendInput % targetContentNeedle
-	Send !{Enter}
-	Sleep % keyDelay * 15
-	Send ^c
-	Send ^a
-	Send ^v
 }
 
 BackupOueHtml_CleanMarkup(cleaningNeedle, keyDelay) {
@@ -422,12 +394,92 @@ BackupOueHtml_CleanMarkup(cleaningNeedle, keyDelay) {
 	}
 }
 
-BackupOueHtml_InsertEllipses() {
-	; Insert ellipses after breaks in the original markup
+BackupOueHtml_ConvertIndentationToTabs(keyDelay) {
+	Sleep % keyDelay
+	SendInput ^+p
+	Sleep % keyDelay
+	SendInput {Backspace}
+	Sleep % keyDelay * 4
+	SendInput % "Indentation: Convert to Ta"
+}
+
+BackupOueHtml_ConvertUrlToFp( url, subdomain, repoFp ) {
+	sdLen := StrLen( subdomain ) + 9
+	urlLen := StrLen( url )
+	if ( urlLen <= sdLen ) {
+		urlSubStr := "home"
+	} else {
+		urlSubStr := SubStr( url, sdLen + 1, urlLen - sdLen - 1 )
+		if ( SubStr( urlSubStr, StrLen( urlSubStr ), 1) == "/" ) {
+			urlSubStr := SubStr( urlSubStr, 1, StrLen( urlSubStr ) - 1 )
+		}
+	}
+	fpFromUrl := StrReplace( urlSubStr, "/", "_" )
+	fpFromUrl := repoFp . "HTML\" . fpFromUrl . ".html"
+
+	return fpFromUrl
+}
+
+BackupOueHtml_CopyMarkupSections(targetContentNeedle, keyDelay) {
+	; Find the portions of the markup that we want to back up, select them all, copy, and
+	;  then overwrite the full markup
 	Send ^f
-	SendInput % "</title>$|<body.*$|</section>(?=\n</body)|</div>(?=\n\t*</body)" 
+	SendInput % targetContentNeedle
 	Send !{Enter}
-	Send {Right}{Enter}...{Esc}
+	Sleep % keyDelay * 15
+	Send ^c
+	Send ^a
+	Send ^v
+}
+
+BackupOueHtml_CreateNewFile( srcCode, keyDelay ) {
+	global execDelayer
+
+	WinActivate
+	Send ^n
+	execDelayer.Wait( keyDelay )
+	Send {Esc}
+	execDelayer.Wait( "short" )
+	if ( Clipboard != srcCode ) {
+		Clipboard := srcCode
+		execDelayer.Wait( "long" )
+	}
+	Send ^v
+	execDelayer.Wait( keyDelay, 3 )
+}
+
+BackupOueHtml_FixBadMarkup(keyDelay) {
+	Send ^h
+	Sleep % keyDelay * 3
+	SendInput, % "(<br ?/?> ?)\n[\t ]{{}0,{}}"
+	Send {Tab}^a{Del}
+	SendInput, % "\1"
+	Send ^!{Enter}
+	Sleep % keyDelay * 3
+	Send {Esc}{Right}
+	Sleep % keyDelay
+}
+
+BackupOueHtml_GetPathFromUrl( url ) {
+	global execDelayer
+	global scriptCfg
+
+	repoFp := False
+	cfgFile := scriptCfg.daesaRepos
+	numRepos := cfgFile.cfgSettings.Length()
+	Loop %numRepos% {
+		sd := cfgFile.cfgSettings[ A_Index ][ "subdomain" ]
+		foundPos := InStr( url, sd )
+		if ( foundPos == 9 ) {
+			repoFp := cfgFile.cfgSettings[ A_Index ][ "repository" ]
+			Break
+		}
+	}
+	if ( repoFp ) {
+		repoFp := BackupOueHtml_ConvertUrlToFp( url, sd, repoFp )
+	}
+
+	Return repoFp
 }
 
 BackupOueHtml_InsertEofBlankLine(keyDelay) {
@@ -436,10 +488,12 @@ BackupOueHtml_InsertEofBlankLine(keyDelay) {
 	Sleep % keyDelay
 }
 
-BackupOueHtml_RemoveBlankLine3(keyDelay) {
-	; Remove extra line that ends up on line 3.
-	Send ^g3{Enter}{Backspace}
-	Sleep % keyDelay
+BackupOueHtml_InsertEllipses() {
+	; Insert ellipses after breaks in the original markup
+	Send ^f
+	SendInput % "</title>$|<body.*$|</section>(?=\n</body)|</div>(?=\n\t*</body)"
+	Send !{Enter}
+	Send {Right}{Enter}...{Esc}
 }
 
 BackupOueHtml_RemoveBlankLines(keyDelay) {
@@ -454,13 +508,30 @@ BackupOueHtml_RemoveBlankLines(keyDelay) {
 	Sleep % keyDelay
 }
 
-BackupOueHtml_ConvertIndentationToTabs(keyDelay) {
+BackupOueHtml_RemoveBlankLine3(keyDelay) {
+	; Remove extra line that ends up on line 3.
+	Send ^g3{Enter}{Backspace}
 	Sleep % keyDelay
-	SendInput ^+p
-	Sleep % keyDelay
-	SendInput {Backspace}
-	Sleep % keyDelay * 4
-	SendInput % "Indentation: Convert to Ta"
+}
+
+BackupOueHtml_SaveToWorkingFile(url, workingFilePath, keyDelay) {
+	global execDelayer
+
+	pathToUse := BackupOueHtml_GetPathFromUrl( url )
+	MsgBox % pathToUse
+	if ( !pathToUse ) {
+		pathToUse := workingFilePath
+	} else {
+		if ( !FileExist( pathToUse ) ) {
+			FileAppend % "", % pathToUse
+		}
+	}
+	Send ^+s
+	Sleep % keyDelay * 20
+	SendInput % "{BackSpace}" . pathToUse
+	Sleep % keyDelay * 5
+	Send {Enter}{Left}{Enter}
+	Sleep % keyDelay * 5
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
@@ -481,11 +552,13 @@ BackupOueHtml_ConvertIndentationToTabs(keyDelay) {
 		. "-meta|/column).*-->"
 
 	AppendAhkCmd(ahkThisCmd)
-	DisplaySplashText("Now backuping up WordPress post on active DAESA website.")
-	if (CopyWebpageSourceToClipboard(webBrowserProcess, correctTitleNeedle, viewSourceTitle
-			, "Before using this hotstring, please activate a tab of your web browser into which a "
-			. "WSU OUE website is loaded.")) {
-		BackupOueHtml(Clipboard, workingFilePath, targetContentNeedle, cleaningNeedle, keyDelay)
+	DisplaySplashText( "Now backuping up WordPress post on active DAESA website." )
+	results := CopyWebpageSourceToClipboard( webBrowserProcess, correctTitleNeedle
+		, viewSourceTitle , "Before using this hotstring, please activate a tab of your web browser"
+		. " into which a WSU OUE website is loaded." )
+	if ( results ) {
+		BackupOueHtml( results, workingFilePath, targetContentNeedle, cleaningNeedle, keyDelay )
+		DisplaySplashText( "Finished backuping up WordPress post on active DAESA website." )
 	}
 Return
 
@@ -498,7 +571,7 @@ Return
 	if (pageContent == "" && CheckForValidOueHtml(clipboard)) {
 		pageContent := clipboard
 	} else if (pageContent != "") {
-		pageContent := TrimAwayBuilderTemplateContentNext(pageContent)		
+		pageContent := TrimAwayBuilderTemplateContentNext(pageContent)
 	}
 	if (pageContent != "") {
 		hyperlinkArray := BuildHyperlinkArray(pageContent)
@@ -572,7 +645,7 @@ TrimAwayBuilderTemplateContentNext(htmlMarkup) {
 
 :*:@insBldrSctn::
 	AppendAhkCmd(":*:@insBldrSctn")
-	
+
 	Gui guiInsBldrSctn: New,, % "Post Minified JS to OUE Websites"
 	Gui guiInsBldrSctn: Add, Text,, % "Which OUE Websites would you like to update?"
 	Gui guiInsBldrSctn: Add, Radio, vBldrSctnChosen Checked, % "&Single"
@@ -597,7 +670,7 @@ HandleInsBldrSctnOK() {
 	global
 	Gui guiInsBldrSctn: Submit
 	Gui guiInsBldrSctn: Destroy
-	
+
 	WinGet thisProcess, ProcessName, A
 	if (thisProcess = "notepad++.exe") {
 		if (BldrSctnChosen = 1) {
