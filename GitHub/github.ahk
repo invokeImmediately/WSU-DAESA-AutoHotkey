@@ -196,9 +196,9 @@
 ;       →→→ §6.11.15: @copyBackupJsUcore......................................................2585
 ;       →→→ §6.11.16: @copyMinJsUcrAss........................................................2596
 ;     >>> §6.12: FOR CHECKING GIT STATUS ON ALL PROJECTS......................................2607
-;   §7: KEYBOARD SHORTCUTS FOR POWERSHELL.....................................................2642
-;     >>> §7.1: SHORTCUTS.....................................................................2646
-;     >>> §7.2: SUPPORTING FUNCTIONS..........................................................2673
+;   §7: KEYBOARD SHORTCUTS FOR POWERSHELL.....................................................2643
+;     >>> §7.1: SHORTCUTS.....................................................................2647
+;     >>> §7.2: SUPPORTING FUNCTIONS..........................................................2674
 ; ==================================================================================================
 
 sgIsPostingMinCss := false
@@ -2608,13 +2608,13 @@ Return
 
 :*:@checkGitStatus::
 	AppendAhkCmd(A_ThisLabel)
-	DisplaySplashText("Now checking the status of all Git Repositories that are being tracked by th"
-		. "is script.", 3000)
 	shellTxt := ""
 	numRepos := scriptCfg.gitStatus.cfgSettings.Length()
 	repoRoot := scriptCfg.gitStatus.cfgSettings[ 1 ][ "repository" ]
 	foundPos := RegExMatch( repoRoot, "^(.*\\)(.*\\)$", Match )
 	repoRoot := Match1
+	DisplaySplashText("Now checking the status of the " . numRepos . " Git Repositories that are be"
+		. "ing tracked by this script.", 3000)
 	Loop %numRepos% {
 		repoName := scriptCfg.gitStatus.cfgSettings[ A_Index ][ "name" ]
 		repoPath := scriptCfg.gitStatus.cfgSettings[ A_Index ][ "repository" ]
@@ -2636,6 +2636,7 @@ Return
 	}
 	shellTxt .= "cd """ . repoRoot . """`r`n"
 	PasteTextIntoGitShell( A_ThisLabel, shellTxt)
+	DisplaySplashText("Git status commands have been pasted to PowerShell.", 3000)
 Return
 
 ; --------------------------------------------------------------------------------------------------
