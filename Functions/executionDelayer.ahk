@@ -1,4 +1,36 @@
+; ==================================================================================================
+; executionDelayer.ahk
+; --------------------
+; Module for adjusting the timing of operations through systematic, enhanced usage of AutoHotkey's
+; Sleep command.
+; --------------
+; Written by Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
+; ISC License - Copyright (c) 2019 Daniel C. Rieck, see WSU-OUE-AutoHotkey repo for more details.
+; ==================================================================================================
+; Table of Contents:
+; -----------------
+;   §1: ExecutionDelayer........................................................................26
+;     >>> §1.1: Properties......................................................................32
+;     >>> §1.2: Constructor __New(…)............................................................46
+;     >>> §1.3: Member functions................................................................60
+;       →→→ §1.3.1: AreMembersValid()...........................................................63
+;       →→→ §1.3.2: CompleteCurrentProcess()....................................................79
+;       →→→ §1.3.3: InterpretDelayString(…).....................................................89
+;       →→→ §1.3.4: ScaleDelay(…)..............................................................113
+;       →→→ §1.3.5: SetDefaultDelay(…).........................................................134
+;       →→→ §1.3.6: SetUpNewProcess(…).........................................................152
+;       →→→ §1.3.7: Wait([…])..................................................................162
+; ==================================================================================================
+
+; --------------------------------------------------------------------------------------------------
+;   §1: ExecutionDelayer module
+; --------------------------------------------------------------------------------------------------
+
 class ExecutionDelayer {
+
+;   ································································································
+;     >>> §1.1: Properties
+
 	quantum := 0
 	xsDelay := 0
 	sDelay := 0
@@ -6,6 +38,12 @@ class ExecutionDelayer {
 	lDelay := 0
 	defaultDelay := 0
 	checkType := 0
+	curStep := 0
+	totSteps := 0
+	curProc := ""
+
+;   ································································································
+;     >>> §1.2: Constructor __New(…)
 
 	__New( aTypeChecker, aQuantum, aXsScalar, aSScalar, aMScalar, aLScalar ) {
 		this.checkType := aTypeChecker
@@ -17,6 +55,12 @@ class ExecutionDelayer {
 		this.lDelay := aLScalar * this.qDelay
 		this.defaultDelay := this.sDelay
 	}
+
+;   ································································································
+;     >>> §1.3: Member Functions
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.3.1: AreMembersValid()
 
 	AreMembersValid() {
 		ct := this.checkType
@@ -30,6 +74,19 @@ class ExecutionDelayer {
 
 		return validity
 	}
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.3.2: CompleteCurrentProcess()
+
+	CompleteCurrentProcess() {
+		if ( this.curStep < this.totSteps ) {
+			this.curStep := this.totSteps
+			DisplaySplashProgress( Round( this.curStep / this.totSteps * 100 ) )
+		}
+	}
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.3.3: InterpretDelayString(…)
 
 	InterpretDelayString( delayStr ) {
 		if ( delayStr == "shortest" || delayStr == "zs" ) {
@@ -52,6 +109,9 @@ class ExecutionDelayer {
 		return delay		
 	}
 
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.3.4: ScaleDelay(…)
+
 	ScaleDelay( delay, multiplier ) {
 		if ( this.checkType.IsNumber( delay ) && delay > 0 ) {
 			if (multiplier > 0) {
@@ -70,6 +130,9 @@ class ExecutionDelayer {
 		return delay
 	}
 
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.3.5: SetDefaultDelay(…)
+
 	SetDefaultDelay( delayLength, multiplier := 0 ) {
 		delay := -1
 		if ( this.checkType.IsAlpha( delayLength ) ) {
@@ -85,7 +148,24 @@ class ExecutionDelayer {
 		}
 	}
 
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.3.6: SetUpNewProcess(…)
+
+	SetUpNewProcess( totSteps, procName ) {
+		this.curStep := 0
+		this.totSteps := totSteps
+		this.curProc := procName
+		DisplaySplashProgress( 0, this.curProc )
+	}
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.3.7: Wait([…])
+
 	Wait( delayLength := 0, multiplier := 0 ) {
+		if ( this.totSteps != 0 && this.curStep < this.totSteps ) {
+			this.curStep++
+			DisplaySplashProgress( Round( this.curStep / this.totSteps * 100 ) )
+		}
 		if ( this.checkType.IsAlpha( delayLength ) ) {
 			delay := this.InterpretDelayString( delayLength )
 		} else if ( this.checkType.IsNumber( delayLength ) && delayLength > 0 ) {
