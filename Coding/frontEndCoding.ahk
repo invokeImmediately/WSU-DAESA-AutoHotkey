@@ -22,11 +22,11 @@
 ;     >>> §2.3: Backup HTML of OUE pages.......................................................299
 ;       →→→ §2.3.1: @backupOuePage.............................................................302
 ;       →→→ §2.3.2: BackupOueHtml & sub-functions..............................................328
-;       →→→ §2.3.3: @backupOuePost.............................................................538
-;     >>> §2.4: Hyperlink collection hotstring.................................................566
-;     >>> §2.5: Checking for WordPress Updates.................................................635
-;   §3: GUI-related hotstrings & functions for automating HTML-related tasks...................640
-;     >>> §3.1: Insert Builder Sections GUI....................................................644
+;       →→→ §2.3.3: @backupOuePost.............................................................537
+;     >>> §2.4: Hyperlink collection hotstring.................................................565
+;     >>> §2.5: Checking for WordPress Updates.................................................634
+;   §3: GUI-related hotstrings & functions for automating HTML-related tasks...................639
+;     >>> §3.1: Insert Builder Sections GUI....................................................643
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -518,12 +518,11 @@ BackupOueHtml_SaveToWorkingFile(url, workingFilePath, keyDelay) {
 	global execDelayer
 
 	pathToUse := BackupOueHtml_GetPathFromUrl( url )
-	MsgBox % pathToUse
 	if ( !pathToUse ) {
 		pathToUse := workingFilePath
 	} else {
 		if ( !FileExist( pathToUse ) ) {
-			FileAppend % "", % pathToUse
+			FileAppend, % "", %pathToUse%
 		}
 	}
 	Send ^+s
