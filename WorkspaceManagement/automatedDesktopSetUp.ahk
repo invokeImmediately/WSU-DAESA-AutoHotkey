@@ -96,15 +96,15 @@ Return
 :*:@moveTempMonitors::
 	AppendAhkCmd(A_ThisLabel)
 	DisplaySplashText("Moving temperature monitors.", 3000)
-	execDelayer.Wait( "s", 3 )
+	execDelayer.Wait( "m", 3 )
 	WinActivate % "RealTemp ahk_exe RealTemp.exe"
-	execDelayer.Wait( "s", 4 )
+	execDelayer.Wait( "m", 3 )
 	moveActiveWindowToVirtualDesktop(6)
-	execDelayer.Wait( "s", 2 )
+	execDelayer.Wait( "l", 2 )
 	WinActivate % "GPU Temp ahk_exe GPUTemp.exe"
-	execDelayer.Wait( "s", 4 )
+	execDelayer.Wait( "m", 2 )
 	moveActiveWindowToVirtualDesktop(6)
-	execDelayer.Wait( "s", 2 )
+	execDelayer.Wait( "l", 2 )
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·

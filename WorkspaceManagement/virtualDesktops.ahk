@@ -361,9 +361,9 @@ PrimeVirtualDesktops() {
 	SendInput % "^#{Left}"
 	execDelayer.Wait( "l" )
 	SendInput % "#{Tab}"
-	execDelayer.Wait( "l" )
+	execDelayer.Wait( "l", 3 )
 	SendInput % "{Esc}"
-	execDelayer.Wait( "l" )
+	execDelayer.Wait( "l", 3 )
 }
 
 ;   ································································································
