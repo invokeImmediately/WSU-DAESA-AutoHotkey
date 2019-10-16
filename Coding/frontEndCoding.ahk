@@ -22,11 +22,11 @@
 ;     >>> §2.3: Backup HTML of OUE pages.......................................................299
 ;       →→→ §2.3.1: @backupOuePage.............................................................302
 ;       →→→ §2.3.2: BackupOueHtml & sub-functions..............................................328
-;       →→→ §2.3.3: @backupOuePost.............................................................537
-;     >>> §2.4: Hyperlink collection hotstring.................................................565
-;     >>> §2.5: Checking for WordPress Updates.................................................634
-;   §3: GUI-related hotstrings & functions for automating HTML-related tasks...................639
-;     >>> §3.1: Insert Builder Sections GUI....................................................643
+;       →→→ §2.3.3: @backupOuePost.............................................................546
+;     >>> §2.4: Hyperlink collection hotstring.................................................574
+;     >>> §2.5: Checking for WordPress Updates.................................................643
+;   §3: GUI-related hotstrings & functions for automating HTML-related tasks...................648
+;     >>> §3.1: Insert Builder Sections GUI....................................................652
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -360,6 +360,7 @@ BackupOueHtml( source, workingFilePath, targetContentNeedle, cleaningNeedle
 		BackupOueHtml_RemoveBlankLines(keyDelay)
 		BackupOueHtml_InsertEofBlankLine(keyDelay)
 		BackupOueHtml_ConvertIndentationToTabs(keyDelay)
+		BackupOueHtml_PerformFinalSave(keyDelay)
 	}
 	Else
 	{
@@ -401,6 +402,8 @@ BackupOueHtml_ConvertIndentationToTabs(keyDelay) {
 	SendInput {Backspace}
 	Sleep % keyDelay * 4
 	SendInput % "Indentation: Convert to Ta"
+	Sleep % keyDelay * 8
+	SendInput % "{Enter}"
 }
 
 BackupOueHtml_ConvertUrlToFp( url, subdomain, repoFp ) {
@@ -494,6 +497,12 @@ BackupOueHtml_InsertEllipses() {
 	SendInput % "</title>$|<body.*$|</section>(?=\n</body)|</div>(?=\n\t*</body)"
 	Send !{Enter}
 	Send {Right}{Enter}...{Esc}
+}
+
+BackupOueHtml_PerformFinalSave(keyDelay) {
+	; Remove extra line that ends up on line 3.
+	Sleep % keyDelay * 8
+	SendInput % "^s"
 }
 
 BackupOueHtml_RemoveBlankLines(keyDelay) {
