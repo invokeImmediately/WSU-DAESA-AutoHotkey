@@ -1113,7 +1113,7 @@ Return
 	AppendAhkCmd(thisAhkCmd)
 	proceedWithCmd := ActivateGitShell()
 	if(proceedWithCmd) {
-		SendInput git commit -m '' -m ''{Left 7}
+		SendInput git commit -m "" -m ""{Left 7}
 	}
 	else {
 		MsgBox, % (0x0 + 0x10), % "ERROR (" . ":*:@doGitCommit" . "): Could Not Locate Git PowerShe"
@@ -1130,12 +1130,12 @@ Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
-:*:@doSnglGitCommit::
+:*:@doSingleGitCommit::
 	thisAhkCmd := A_ThisLabel
 	AppendAhkCmd(thisAhkCmd)
 	proceedWithCmd := ActivateGitShell()
 	if(proceedWithCmd) {
-		SendInput git commit -m ''{Left 1}
+		SendInput git commit -m ""{Left 1}
 	}
 	else {
 		MsgBox, % (0x0 + 0x10), % "ERROR (" . ":*:@doSnglGitCommit" . "): Could Not Locate Git Powe"
@@ -1147,7 +1147,7 @@ Return
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 :*:@dosgc::
-	Gosub, :*:@doSnglGitCommit
+	Gosub, :*:@doSingleGitCommit
 Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
