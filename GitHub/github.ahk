@@ -269,20 +269,20 @@ ActivateGitShell() {
 
 	WinGet, thisProcess, ProcessName, A
 	shellActivated := false
-	if (thisProcess != "powershell.exe") {
-		IfWinExist, % "ahk_exe powershell.exe"
+	if ( thisProcess != "PowerShell.exe" ) {
+		IfWinExist, % "ahk_exe PowerShell.exe"
 		{
 			execDelayer.SetUpNewProcess( 24, A_ThisFunc )
-			WinActivate, % "ahk_exe powershell.exe"
+			WinActivate, % "ahk_exe PowerShell.exe"
 			checkCount := 0
 			while( checkCount < 12 && !shellActivated ) {
 				checkCount++
 				execDelayer.Wait( "medium" )
 				WinGet, thisProcess, ProcessName, A
 				execDelayer.Wait( "medium" )
-				shellActivated := thisProcess == "powershell.exe"
+				shellActivated := thisProcess == "PowerShell.exe"
 				if ( !shellActivated && Mod( checkCount, 3 ) == 0 ) {
-					WinActivate, % "ahk_exe powershell.exe"
+					WinActivate, % "ahk_exe PowerShell.exe"
 				}
 			}
 			execDelayer.CompleteCurrentProcess()
