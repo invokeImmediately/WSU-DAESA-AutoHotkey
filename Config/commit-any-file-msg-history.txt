@@ -47,8 +47,8 @@ C:\GitHub\commonreading.wsu.edu\HTML\2019_05_03_common-reading-book-2019-20.html
 Add markup for building new post in WSUWP
 Markup added is for the news headline announcing the 2019-20 common reading.
 C:\GitHub\commonreading.wsu.edu\HTML\2019_09_19_lecture-on-on-communication-and-rohingya-refugee-crisis.html
-Add backup of markup used to build post in WSUWP
-Add backup of markup used to build the news post covering Irom Biimbisar's Common Reading lecture on the humanitarian communication and the Rohingya refugee crisis.
+Update backup of markup used to build post in WSUWP
+Update with improved organization of sections and CSS-mediated formatting improvements.
 C:\GitHub\commonreading.wsu.edu\HTML\archives_2014-15.html
 Update markup with changes made online via WSUWP
 Update with addition of mw--none utility class to event calendar lists.
@@ -58,6 +58,9 @@ Add markup for building the assessment reports page via the Spine builder templa
 C:\GitHub\commonreading.wsu.edu\HTML\home.html
 Update backup of markup used to build webpage in WSUWP
 Update list of recent news articles with latest news post.
+C:\GitHub\commonreading.wsu.edu\HTML\resources.html
+Add markup used to build page in WSUWP
+Add markup used to build the resources page in WSUWP via the Spine builder template.
 C:\GitHub\commonreading.wsu.edu\package-lock.json
 Update lockfile after invoking npm update
 
@@ -566,11 +569,11 @@ C:\GitHub\WSU-OUE-AutoHotkey\API_GetWindowInfo.ahk
 Add new API
 New API servers as an interface to the User32.dll function GetWindowInfo.
 C:\GitHub\WSU-OUE-AutoHotkey\AutoHotkeyU64.ahk
-Fix bug from missing global variable specification
+Add todo for updating globals for file path construction
 
 C:\GitHub\WSU-OUE-AutoHotkey\Coding\frontEndCoding.ahk
-Fix bugs in function for backing up OUE HTML
-Update keystrokes for triggering the BeautifulHTML plugin in sublime text, and ensure that the end of file newline is inserted after blank line removal.
+Enhance functions for saving backed up markup to disk
+Add additional functionality to function BackupOueHtml(…) by having it apply the final conversion of spacing to tabs instead of merely setting it up, and also performing a final save operation on the file.
 C:\GitHub\WSU-OUE-AutoHotkey\commandHistory.ahk
 Modify file encoding for unicode support
 Modify file encoding to UTF-8 BOM so that AutoHotkey correctly parses unicode characters present in script files.
@@ -589,6 +592,9 @@ Fix bug from typo in file name
 C:\GitHub\WSU-OUE-AutoHotkey\Config\cssBuilds.ahk.cfg
 Add new data column
 Add the window title for each WSUWP website's custom CSS Stylesheet Editor interface.
+C:\GitHub\WSU-OUE-AutoHotkey\Config\daesaRepos.ahk.cfg
+Add script config file for matching project urls to repos
+
 C:\GitHub\WSU-OUE-AutoHotkey\desktopMain.ahk
 Modify entry point, fix bug in cataloging function
 Change nature and name of entry point subroutine 'MainSubroutine' to the function 'StartScript()'; also correct error in cataloging function 'ListAhkFiles()' wherein refactoring work files were accidentally getting included in the collection of all the script's hotstring-mediated commands.
@@ -596,7 +602,7 @@ C:\GitHub\WSU-OUE-AutoHotkey\desktopStartup.ahk
 Refactor how pausing works in several functions
 Replace calls to GetDelay function with use of object-oriented ExecutionDelay module.
 C:\GitHub\WSU-OUE-AutoHotkey\execEntryPoint.ahk
-Fix bugs from incorrect global variable names
+Add script config file for matching project urls to repos
 
 C:\GitHub\WSU-OUE-AutoHotkey\executionDelayer.ahk
 Add execution delaying module to script
@@ -613,9 +619,12 @@ Bug fixes consist of corrections to how global variables are declared and handle
 C:\GitHub\WSU-OUE-AutoHotkey\Functions\cfgFile.ahk
 Fix bugs in line reading of configuration file
 Change reading mode to convert end of line encodings to the newline character, and strip off unneeded newline characters from lines read from the configuration file.
+C:\GitHub\WSU-OUE-AutoHotkey\Functions\executionDelayer.ahk
+Add capability to incorporate a progess bar during timing
+Using the script's splash progress window supporting functions, add the capability to specify the number of timing steps a process will take, and then have the Wait member function automatically update a progress bar based on that initial set up.
 C:\GitHub\WSU-OUE-AutoHotkey\Functions\functions.ahk
-Fix bugs in several calls to AhkCmdName
-
+Modify function for displaying splash progress windows
+Modify the function DisplaySplashProgress(…) by setting up the splash window to appear at the bottom right corner of the primary monitor, instead of the default position which is in the center of the screen.
 C:\GitHub\WSU-OUE-AutoHotkey\Functions\monitorWorkAreas.ahk
 Refactor functions that handle monitor work areas
 Move functions from functions.ahk to their own included script, monitorWorkareas.ahk.
@@ -625,12 +634,15 @@ Correct file name in header comment.
 C:\GitHub\WSU-OUE-AutoHotkey\github.ahk
 Update file name referenced in @backupMinJsUgr
 
+C:\GitHub\WSU-OUE-AutoHotkey\GitHub\CommitAnyFile.ahk
+Update line numbers in inline documentation's TOC
+
 C:\GitHub\WSU-OUE-AutoHotkey\GitHub\CommitCssBuild.ahk
 Modify usage of key parameter in CommitCssBuild function
 Instead of assuming that the parameter fpGitFolder (which contains the file path to the git folder in which CSS build related files will be committed) is relative to the git folder, assume it is a complete file path. This enables different git folder root locations to be utilized with the function.
 C:\GitHub\WSU-OUE-AutoHotkey\GitHub\github.ahk
-Update function for pasting built CSS into WSUWP
-Reposition mouse clicking to accomodate reset to normal master text size setting in browser; incorporate use of execDelayer module for timing operations.
+Enhance git commit hotstrings
+Enhance hotstrings @doGitCommit and @doSingleGitCommit by switching the character used to delimit strings from single quotation marks to double quotation marks; this allows backticks to be used for escaping.
 C:\GitHub\WSU-OUE-AutoHotkey\guiMsgBox.ahk
 Modify file encoding for unicode support
 Modify file encoding to UTF-8 BOM so that AutoHotkey correctly parses unicode characters present in script files.
@@ -689,11 +701,11 @@ C:\GitHub\WSU-OUE-AutoHotkey\wordPress.ahk
 Modify file encoding for unicode support
 Modify file encoding to UTF-8 BOM so that AutoHotkey correctly parses unicode characters present in script files.
 C:\GitHub\WSU-OUE-AutoHotkey\WorkspaceManagement\automatedDesktopSetUp.ahk
-Adjust timing of work environment setup
-Increase delays between steps as virtual desktops are primed.
+Modify set up of diagnostics virtual desktop
+Reposition task manager so it fits next to XAMPP.
 C:\GitHub\WSU-OUE-AutoHotkey\WorkspaceManagement\virtualDesktops.ahk
-Adjust timing of work environment setup
-Increase delays between steps as virtual desktops are primed.
+Modify timing of work environment setup
+Increase delays between steps as virtual desktops are primed and temperature monitors are moved.
 C:\GitHub\WSU-OUE-AutoHotkey\WorkspaceManagement\workspaceManagement.ahk
 Modify process for opening websites in Chrome
 Improve reliability of process for opening websites in a new tab in Chrome by checking for a change in window title to determine when the website has loaded.
@@ -710,8 +722,8 @@ C:\GitHub\WSU-UE---CSS\article.less
 Modify style rules for article notices
 Make sectionally based padding universal to all paragraph children of article notice columns
 C:\GitHub\WSU-UE---CSS\aside.less
-Fix style setting on floating article sidebars
-Add a z-index specification to avoid other elements from appearing over the sidebar when it is in hovering mode.
+Improve responsive behavior of news feed thumbnail images
+
 C:\GitHub\WSU-UE---CSS\color-palette.less
 Tweak color in palette
 Increase the color intensity of darker yellow in the WSU yellow color palette to make WCAG color contrast compliance easier to typically achieve.
@@ -743,8 +755,8 @@ C:\GitHub\WSU-UE---CSS\headers.less
 Modify layout of main website headers
 Improve how the main header is responsively sized.
 C:\GitHub\WSU-UE---CSS\headings.less
-Modify how how bordering on solid headings are drawn
-
+Improve visual design of article headings in news blog
+Add a faint gray background to article headers within DAESA blog feeds; also, move appropriate style rules from headings.less to news-posts.less.
 C:\GitHub\WSU-UE---CSS\hr.less
 Make improvements to design of horizontal rules
 Remove unnecessary styling options and improve default contrast of rules.
@@ -770,8 +782,8 @@ C:\GitHub\WSU-UE---CSS\mixins.less
 Modify mixin for improved efficiency
 Modify selectors utilized in .has-sectionally-responsive-font(…) by eliminating unnecessary specificity to achieve a leaner stylesheet.
 C:\GitHub\WSU-UE---CSS\news-posts.less
-Fix bug in news feed styling
-Restrict shrunken font size to two column layout where it is more appropriate.
+Fix issues in styling of recent post widgets
+Make corrects to font sizing and padding that were breaking the intended layout.
 C:\GitHub\WSU-UE---CSS\notices.less
 Fix syntax error in mixin .add-new-notice-class
 

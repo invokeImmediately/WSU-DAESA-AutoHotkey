@@ -23,8 +23,8 @@ pbk-custom.less
 Update importing of Less file dependencies
 Import variables.less separately from wp-master-style-sheet.less to enable variable settings to be overwritten.
 src_cr-new.less
-Remove style rules that are no longer needed
-Remove style rules that are no longer necessary thanks to improved design of the layout approach for main headers.
+Fix problem with whitespace in news post widgets
+
 summerresearch-custom.less
 Fix syntax error from dependency import change
 Explicitly import variables.less, which used to be imported via wp-master-style-sheet.less; the new format allows for common variables to be redefined for a specific site.
