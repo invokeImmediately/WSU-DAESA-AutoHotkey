@@ -78,7 +78,7 @@
 
 :*:@setupWorkEnvironment::
 	AppendAhkCmd(A_ThisLabel)
-	PrimeVirtualDesktops()
+;	PrimeVirtualDesktops()
 	execDelayer.Wait( "l" )
 	Gosub :*:@moveTempMonitors
 	Gosub :*:@setupVirtualDesktops
@@ -94,17 +94,20 @@ Return
 ;       →→→ §1.1.2: @moveTempMonitors
 
 :*:@moveTempMonitors::
-	AppendAhkCmd(A_ThisLabel)
-	DisplaySplashText("Moving temperature monitors.", 3000)
+	AppendAhkCmd( A_ThisLabel )
+	DisplaySplashText( "Moving temperature monitors.", 3000 )
+	execDelayer.SetUpNewProcess( 5.1, A_ThisLabel )
 	execDelayer.Wait( "m", 3 )
 	WinActivate % "RealTemp ahk_exe RealTemp.exe"
 	execDelayer.Wait( "m", 3 )
-	moveActiveWindowToVirtualDesktop(6)
+	moveActiveWindowToVirtualDesktop( 6 )
 	execDelayer.Wait( "l", 2 )
 	WinActivate % "GPU Temp ahk_exe GPUTemp.exe"
 	execDelayer.Wait( "m", 2 )
-	moveActiveWindowToVirtualDesktop(6)
+	moveActiveWindowToVirtualDesktop( 6 )
 	execDelayer.Wait( "l", 2 )
+	execDelayer.CompleteCurrentProcess()
+	DisplaySplashText( "Finished moving temperature monitors.", 3000 )
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
