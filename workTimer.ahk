@@ -17,14 +17,14 @@
 ;   §1: WORK TIMER HOTSTRINGS...................................................................31
 ;     >>> §1.1: @checkWorkTimer.................................................................35
 ;     >>> §1.2: @setupWorkTimer.................................................................53
-;     >>> §1.3: @stopWorkTimer.................................................................210
-;   §2: WORK TIMER FUNCTIONS & LABELS..........................................................239
-;     >>> §2.1: ChimeMinuteBell................................................................243
-;     >>> §2.2: CloseGuiWorkTimer..............................................................262
-;     >>> §2.3: HandleGuiWorkTimerHide.........................................................274
-;     >>> §2.4: PostWorkBreakMessage...........................................................281
-;     >>> §2.5: ShowWorkTimerGui...............................................................334
-;     >>> §2.6: UpdateWorkTimerGui.............................................................365
+;     >>> §1.3: @stopWorkTimer.................................................................209
+;   §2: WORK TIMER FUNCTIONS & LABELS..........................................................238
+;     >>> §2.1: ChimeMinuteBell................................................................242
+;     >>> §2.2: CloseGuiWorkTimer..............................................................261
+;     >>> §2.3: HandleGuiWorkTimerHide.........................................................273
+;     >>> §2.4: PostWorkBreakMessage...........................................................280
+;     >>> §2.5: ShowWorkTimerGui...............................................................333
+;     >>> §2.6: UpdateWorkTimerGui.............................................................364
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -176,8 +176,7 @@ Return
 				SetTimer, ChimeMinuteBell, % (1000 * 60)
 				ShowWorkTimerGui("Current progress toward " . Round(workTimerCountdownTime * -1
 					/ 1000 / 60) . " minute work period:", workTimerCountdownTime * -1
-					, StrReplace((webDevFolder	. "\{^}Personnel-File\pomodoro-timer.jpg"), "{^}"
-						, "^"))
+					, A_ScriptDir . "\Images\pomodoro-timer.jpg" )
 				SetTimer, UpdateWorkTimerGui, % (workTimerCountdownTime * -1 / 1000)
 			}			
 		}
@@ -200,7 +199,7 @@ Return
 			SetTimer, ChimeMinuteBell, % (1000 * 60)
 			ShowWorkTimerGui("Current progress toward " . Round(workTimerCountdownTime * -1 / 1000
 				/ 60) . " minute work period:", workTimerCountdownTime * -1
-				, StrReplace((webDevFolder	. "\{^}Personnel-File\pomodoro-timer.jpg"), "{^}", "^"))
+				, A_ScriptDir . "\Images\pomodoro-timer.jpg" )
 			SetTimer, UpdateWorkTimerGui, % (workTimerCountdownTime * -1 / 1000)
 		}
 	}
