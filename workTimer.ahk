@@ -151,7 +151,7 @@ Return
 			ShowWorkTimerGui("Current progress toward "
 				. Round(workTimerCountdownTime * -1 / 1000 / 60) . " minute work period:"
 				, workTimerCountdownTime * -1
-				, StrReplace((webDevFolder	. "\{^}Personnel-File\pomodoro-timer.jpg"), "{^}", "^")
+				, A_ScriptDir . "\Images\pomodoro-timer.jpg"
 				, 0, (timerTimeWorked - Floor(timerTimeWorked / (-1 * workTimerCountdownTime
 					/ 1000)) * (-1 * workTimerCountdownTime / 1000)) * 1000)
 			SetTimer, UpdateWorkTimerGui, % (workTimerCountdownTime * -1 / 1000)
