@@ -313,7 +313,7 @@ PostWorkBreakMessage:
 		SetTimer, ChimeMinuteBell, % (1000 * 60)
 		ShowWorkTimerGui("Current progress toward " . Round(workTimerCountdownTime * -1 / 1000 / 60)
 			. " minute work period:", workTimerCountdownTime * -1
-			, StrReplace((webDevFolder	. "\{^}Personnel-File\pomodoro-timer.jpg"), "{^}", "^"))
+			, A_ScriptDir . "\Images\pomodoro-timer.jpg" )
 		SetTimer, UpdateWorkTimerGui, % (workTimerCountdownTime * -1 / 1000)
 	}
 	Else {
