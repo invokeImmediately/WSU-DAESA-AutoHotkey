@@ -720,7 +720,7 @@ Return
 	execDelayer.Wait( "s", 2 )
 	WinMove % "RealTemp", , % 1383 + Mon1WorkArea_Left, 477, 318, 409
 	execDelayer.Wait( "s", 2 )
-	WinMove % "Task Manager", , % 392 + Mon1WorkArea_Left, 184, 976, 600
+	WinMove % "Task Manager", , % 392 + Mon1WorkArea_Left, 477, 976, 533
 
 	LaunchApplicationPatiently("C:\xampp\xampp-control.exe", "XAMPP ahk_exe xampp-control.exe")
 Return
