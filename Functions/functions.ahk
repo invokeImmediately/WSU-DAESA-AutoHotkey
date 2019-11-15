@@ -118,11 +118,14 @@ DismissSplashText() {
 ;       →→→ §4.1.4: DisplaySplashProgress(…)
 
 DisplaySplashProgress( normProg, mainText := "Progress for current operation" ) {
+	global g_dpiScalar
 	if ( normProg == 0 ) {
 		SysGet, primaryMon, MonitorWorkArea
-		progWinX := primaryMonRight - 488
-		progWinY := primaryMonBottom - 90
-		Progress, W480 H60 X%progWinX% Y%progWinY%, , %mainText%, %A_ScriptName%
+		progWinX := primaryMonRight - 488 * g_dpiScalar
+		progWinY := primaryMonBottom - 90 * g_dpiScalar
+		progWinW := 480 * g_dpiScalar
+		progWinH := 60 * g_dpiScalar
+		Progress, W%progWinW% H%progWinH% X%progWinX% Y%progWinY%, , %mainText%, %A_ScriptName%
 	} else {
 		Progress, %normProg%
 	}
@@ -136,7 +139,8 @@ DisplaySplashProgress( normProg, mainText := "Progress for current operation" ) 
 ;       →→→ §4.1.5: DisplaySplashText(…)
 
 DisplaySplashText(msg, displayTime := 1000) {
-	SplashTextOn % StrLen(msg) * 8, 24, % A_ScriptName, % msg
+	global g_dpiScalar
+	SplashTextOn % StrLen(msg) * 8 * g_dpiScalar, 24 * g_dpiScalar, % A_ScriptName, % msg
 	SetTimer DismissSplashText, % -1 * displayTime
 }
 
