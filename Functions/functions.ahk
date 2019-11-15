@@ -123,8 +123,8 @@ DisplaySplashProgress( normProg, mainText := "Progress for current operation" ) 
 		SysGet, primaryMon, MonitorWorkArea
 		progWinX := primaryMonRight - 488 * g_dpiScalar
 		progWinY := primaryMonBottom - 90 * g_dpiScalar
-		progWinW := 480 * g_dpiScalar
-		progWinH := 60 * g_dpiScalar
+		progWinW := 480
+		progWinH := 60
 		Progress, W%progWinW% H%progWinH% X%progWinX% Y%progWinY%, , %mainText%, %A_ScriptName%
 	} else {
 		Progress, %normProg%
