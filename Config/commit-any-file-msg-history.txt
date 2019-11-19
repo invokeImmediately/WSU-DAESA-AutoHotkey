@@ -156,7 +156,7 @@ Update markup used to build page in WSUWP
 Updates consist of changes made online via the WSUWP interface.
 C:\GitHub\distinguishedscholarships.wsu.edu\HTML\committees.html
 Update backup of markup used to construct page in WSUWP
-Update with changes to position titles for members of the Goldwater committee
+Update with more changes to position titles.
 C:\GitHub\distinguishedscholarships.wsu.edu\HTML\home.html
 Update markup used to build page in WSUWP
 Updates consist of restoration of workshop events feed.
@@ -641,8 +641,8 @@ C:\GitHub\WSU-OUE-AutoHotkey\GitHub\CommitCssBuild.ahk
 Modify usage of key parameter in CommitCssBuild function
 Instead of assuming that the parameter fpGitFolder (which contains the file path to the git folder in which CSS build related files will be committed) is relative to the git folder, assume it is a complete file path. This enables different git folder root locations to be utilized with the function.
 C:\GitHub\WSU-OUE-AutoHotkey\GitHub\github.ahk
-Enhance git commit hotstrings
-Enhance hotstrings @doGitCommit and @doSingleGitCommit by switching the character used to delimit strings from single quotation marks to double quotation marks; this allows backticks to be used for escaping.
+Fix bug in function for activating shell interface to git
+Fix function ActivateGitShell() by making it able to handle case variations in the naming of the PowerShell executable.
 C:\GitHub\WSU-OUE-AutoHotkey\guiMsgBox.ahk
 Modify file encoding for unicode support
 Modify file encoding to UTF-8 BOM so that AutoHotkey correctly parses unicode characters present in script files.
@@ -701,8 +701,8 @@ C:\GitHub\WSU-OUE-AutoHotkey\wordPress.ahk
 Modify file encoding for unicode support
 Modify file encoding to UTF-8 BOM so that AutoHotkey correctly parses unicode characters present in script files.
 C:\GitHub\WSU-OUE-AutoHotkey\WorkspaceManagement\automatedDesktopSetUp.ahk
-Modify set up of diagnostics virtual desktop
-Reposition task manager so it fits next to XAMPP.
+Modify hotstring for moving CPU temp monitors
+Enhance hotstring @moveTempMonitors by adding progress bar monitoring of the execution sequence.
 C:\GitHub\WSU-OUE-AutoHotkey\WorkspaceManagement\virtualDesktops.ahk
 Modify timing of work environment setup
 Increase delays between steps as virtual desktops are primed and temperature monitors are moved.
@@ -713,8 +713,8 @@ C:\GitHub\WSU-OUE-AutoHotkey\workspaceMngmnt.ahk
 Add hotkeys for using the keyboard to position windows
 Add numpad-based hotkeys that move the active window around on the desktop based on user-keyboard interaction.
 C:\GitHub\WSU-OUE-AutoHotkey\workTimer.ahk
-Fix bug in subroutine PostWorkBreakMessage
-Due to system changes, the location of the timer icon changed; because the path to this file was entered inline, the GUI setup became corrupted. To fix the problem, base the location of the icon on global variables that specify paths to important locations.
+Fix bug involving outdated setting for work timer GUI
+Fix one bug in subroutine PostWorkBreakMessage by updating the location of the pomodoro timer image that is used in the work timer GUI.
 C:\GitHub\WSU-UE---CSS\animations.less
 Modify animation mixins for efficiency
 Remove prefixes, as web browser development has made these largely unnecessary.
@@ -761,8 +761,8 @@ C:\GitHub\WSU-UE---CSS\hr.less
 Make improvements to design of horizontal rules
 Remove unnecessary styling options and improve default contrast of rules.
 C:\GitHub\WSU-UE---CSS\hyperlink.less
-Remove custom styling for in-focus hyperlinks
-While it provided improved visual contrast in some situations, it is proving to be less reliable than hoped in terms of consistency and accidentally breaking layouts.
+Add new switchable ruleset for provost-style links
+Add a design for provost-style links, which involves some improvements to the design of those found on the Provost's Office website, that can be switched on or off via detached ruleset declaration.
 C:\GitHub\WSU-UE---CSS\iframe.less
 Modify approach to declaring rules
 Replace call to mixin function .declare-iframe-ruleset with call to .declare-ruleset to enable use of an optional ruleset wrapper; clean up formatting of code
@@ -779,8 +779,8 @@ C:\GitHub\WSU-UE---CSS\main.less
 Modify approach to declaring rules
 Replace call to mixin function .declare-main-rulesets with call to .declare-ruleset to enable use of an optional ruleset wrapper
 C:\GitHub\WSU-UE---CSS\mixins.less
-Modify mixin for improved efficiency
-Modify selectors utilized in .has-sectionally-responsive-font(…) by eliminating unnecessary specificity to achieve a leaner stylesheet.
+Modify mixin for declaring detached rulesets
+Modify mixin .declare-ruleset(…) by adding an additional switching argument, which allows Less variables to be set that control what rulesets get declared by default, but also can be changed by the developer to override default behavior.
 C:\GitHub\WSU-UE---CSS\news-posts.less
 Fix issues in styling of recent post widgets
 Make corrects to font sizing and padding that were breaking the intended layout.
@@ -827,8 +827,8 @@ C:\GitHub\WSU-UE---CSS\utility-mixins.less
 Modify default array of predefined pixels widths
 Expand the overall horizontal breadth of available width options at the cost of granularity.
 C:\GitHub\WSU-UE---CSS\variables.less
-Modify design of coloring classes for efficiency
-Make color scheme utility classes optional to help produce leaner style sheets for websites that do not need to use the full extent of the WSU color palette.
+Modify mixin for declaring detached rulesets
+Modify mixin .declare-ruleset(…) by adding an additional switching argument, which allows Less variables to be set that control what rulesets get declared by default, but also can be changed by the developer to override default behavior.
 C:\GitHub\WSU-UE---CSS\wp-master-style-sheet.less
 Enhance responsive design of column gutters
 Provide a gated mixin-mediated mechanism to cut out style rules that match default WSUWP settings, and redesign selectors to be more efficient.

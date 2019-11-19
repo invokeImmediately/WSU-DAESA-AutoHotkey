@@ -1,6 +1,6 @@
 ﻿dsp-custom.js
-Modify AnimatedGalleryWall.panHeader with enhancement
-Add a finishing touch to the animation wherein the background is panned to a point other than the far left edge.
+Remove automatic resizing of main header text
+
 sumres-custom.js
 Update form setup function
 Update population of faculty mentor names for the abstract submission form for the summer research symposium.

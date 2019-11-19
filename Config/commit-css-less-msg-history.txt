@@ -29,8 +29,11 @@ summerresearch-custom.less
 Fix syntax error from dependency import change
 Explicitly import variables.less, which used to be imported via wp-master-style-sheet.less; the new format allows for common variables to be redefined for a specific site.
 surca-custom.less
-Clean up code, inline documentation
-Remove depreciated styles for sidebars and add ISC license to persistent file header comment.
+Update dependency name & add optional design
+Update name of CSS build entry point, and add the glass button layout for hyperlinks to the build.
+ta-custom.less
+Fix accidental maximum width restriction on WP admin bar
+
 ucore-assessment-custom.less
 Revise LESS variable name
 Revise name of Less variable @v-p-lnhght to @body-text--lHeight
