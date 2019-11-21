@@ -10,15 +10,15 @@
 ;   §1: GLOBAL VARIABLES.......................................................................25
 ;   §2: FUNCTIONS & SUBROUTINES................................................................31
 ;     >>> §2.1: CloseOpenWindowsOnVD...........................................................35
-;     >>> §2.2: CreateVirtualDesktop..........................................................147
-;     >>> §2.3: DeleteVirtualDesktop..........................................................161
-;     >>> §2.4: GetCurrentVirtualDesktop......................................................175
-;     >>> §2.5: GetSessionId..................................................................188
-;       →→→ §2.5.1: @getSessionId.............................................................208
-;     >>> §2.6: MapDesktopsFromRegistry.......................................................219
-;     >>> §2.7: MoveActiveWindowToVirtualDesktop..............................................281
-;     >>> §2.8: PrimeVirtualDesktops..........................................................350
-;     >>> §2.9: SwitchDesktopByNumber.........................................................370
+;     >>> §2.2: CreateVirtualDesktop..........................................................158
+;     >>> §2.3: DeleteVirtualDesktop..........................................................172
+;     >>> §2.4: GetCurrentVirtualDesktop......................................................186
+;     >>> §2.5: GetSessionId..................................................................199
+;       →→→ §2.5.1: @getSessionId.............................................................219
+;     >>> §2.6: MapDesktopsFromRegistry.......................................................230
+;     >>> §2.7: MoveActiveWindowToVirtualDesktop..............................................292
+;     >>> §2.8: PrimeVirtualDesktops..........................................................361
+;     >>> §2.9: SwitchDesktopByNumber.........................................................381
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -64,12 +64,15 @@ cowvd_CheckOsDesktopHwnd(overwrite := False) {
 }
 
 cowvd_ClosedLoggedWindows(vdHWnds, delay) {
+	global execDelayer
+	execDelayer.SetUpNewProcess( vdHWnds.Count(), A_ThisFunc )
 	For index, value in vdHWnds
 	{
 		; Alternative approach: WinClose % "ahk_id " . index,, 1
 		PostMessage, 0x112, 0xF060,,, % "ahk_id " . index
-		Sleep % delay * 10
+		execDelayer.Wait( delay * 10 )
 	}
+	execDelayer.CompleteCurrentProcess()
 	cowvd_VerifyClosingOfWindows(vdHWnds, delay)
 }
 
@@ -116,10 +119,15 @@ cowvd_LogOpenWindows(delay) {
 }
 
 cowvd_RetryClosingOfWindows(aVdHWnds, delay) {
-	Loop % aVdHwnds.Length()
-	{
-		PostMessage, 0x112, 0xF060,,, % "ahk_id " . aVdHwnds[A_Index]
-		Sleep % delay * 10
+	global execDelayer
+	if ( aVdHWnds.Length() > 0 ) {
+		execDelayer.SetUpNewProcess( aVdHWnds.Length(), A_ThisFunc )
+		Loop % aVdHwnds.Length()
+		{
+			PostMessage, 0x112, 0xF060,,, % "ahk_id " . aVdHwnds[A_Index]
+			execDelayer.Wait( delay * 10 )
+		}
+		execDelayer.CompleteCurrentProcess()
 	}
 }
 
@@ -132,14 +140,17 @@ cowvd_SwitchToNextWindow(delay, wCount := 1) {
 }
 
 cowvd_VerifyClosingOfWindows(vdHWnds, delay) {
+	global execDelayer
+	execDelayer.SetUpNewProcess( vdHWnds.Count(), A_ThisFunc )
 	aVdHwnds := Object()
 	For index, value in vdHWnds
 	{
 		if (WinExist("ahk_id " . index)) {
 			aVdHwnds.Push(index)
 		}
-		Sleep % delay * 2
+		execDelayer.Wait( delay * 2 )
 	}
+	execDelayer.CompleteCurrentProcess()
 	cowvd_RetryClosingOfWindows(aVdHwnds, delay)
 }
 
