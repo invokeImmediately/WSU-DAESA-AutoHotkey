@@ -496,7 +496,7 @@ BackupOueHtml_InsertEllipses() {
 	Send ^f
 	SendInput % "</title>$|<body.*$|</section>(?=\n</body)|</div>(?=\n\t*</body)"
 	Send !{Enter}
-	Send {Right}{Enter}...{Esc}
+	Send % "{Right}{Enter}<{!}--...-->{Esc}"
 }
 
 BackupOueHtml_PerformFinalSave(keyDelay) {
