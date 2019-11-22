@@ -1,33 +1,48 @@
 ﻿; ==================================================================================================
-; GUI FOR COMMITTING CSS BUILDS & ASSOCIATED SITE-SPECIFIC CUSTOM LESS FILES
+; AutoHotkeyU64.ahk
+; --------------------------------------------------------------------------------------------------
+; SUMMARY: GUI for committing CSS builds & associated site-specific custom less files.
+;
+; AUTHOR: Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
+; 
+; REPOSITORY: https://github.com/invokeImmediately/WSU-AutoHotkey
+;
+; LICENSE: ISC - Copyright (c) 2019 Daniel C. Rieck.
+;
+;   Permission to use, copy, modify, and/or distribute this software for any purpose with or
+;   without fee is hereby granted, provided that the above copyright notice and this permission
+;   notice appear in all copies.
+;
+;   THE SOFTWARE IS PROVIDED "AS IS" AND DANIEL RIECK DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS
+;   SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+;   DANIEL RIECK BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY
+;   DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF
+;   CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+;   PERFORMANCE OF THIS SOFTWARE.
 ; ==================================================================================================
-; AutoHotkey Send Legend:
-; ! = ALT     + = SHIFT     ^ = CONTROL     # = WIN
-; (see https://autohotkey.com/docs/commands/Send.htm for more info)
-; ==================================================================================================
-; Table of Contents
+; Table of Contents:
 ; -----------------
-;   §1: GUI CREATION FUNCTION: CommitCssBuild...................................................34
-;   §2: GUI EVENT HANDLERS.....................................................................156
-;     >>> §2.1: HandleCommitCss1stMsgChange....................................................160
-;     >>> §2.2: HandleCommitCss2ndMsgChange....................................................177
-;     >>> §2.3: HandleCommitCssAddFiles........................................................194
-;     >>> §2.4: HandleCommitCssRemoveFiles.....................................................236
-;     >>> §2.5: HandleCommitCssGitDiff.........................................................248
-;     >>> §2.6: HandleCommitCssGitLog..........................................................358
-;     >>> §2.7: HandleCommitCssCheckLessFileCommit.............................................322
-;     >>> §2.8: HandleCommitCssCheckLessChangesOnly............................................385
-;     >>> §2.9: HandleCommitCss1stLessMsgChange................................................428
-;     >>> §2.10: HandleCommitCss2ndLessMsgChange...............................................425
-;     >>> §2.11: HandleCommitCssOk.............................................................462
-;       →→→ §2.11.1: ProcessHandleCommitCssOkError.............................................542
-;     >>> §2.12: HandleCommitCssCancel.........................................................570
-;   §3: GUI PERSISTENCE FUNCTIONS..............................................................578
-;     >>> §3.1: SaveCommitCssLessMsgHistory....................................................582
-;     >>> §3.2: LoadCommitCssLessMsgHistory....................................................619
-;     >>> §3.3: ReadKeyForLessMsgHistory.......................................................656
-;     >>> §3.4: ReadPrimaryMsgForLessFileKey...................................................674
-;     >>> §3.5: ReadSecondaryMsgForLessFileKey.................................................691
+;   §1: GUI CREATION FUNCTION: CommitCssBuild...................................................49
+;   §2: GUI EVENT HANDLERS.....................................................................172
+;     >>> §2.1: HandleCommitCss1stMsgChange....................................................176
+;     >>> §2.2: HandleCommitCss2ndMsgChange....................................................193
+;     >>> §2.3: HandleCommitCssAddFiles........................................................210
+;     >>> §2.4: HandleCommitCssRemoveFiles.....................................................252
+;     >>> §2.5: HandleCommitCssGitDiff.........................................................264
+;     >>> §2.6: HandleCommitCssGitLog..........................................................301
+;     >>> §2.7: HandleCommitCssCheckLessFileCommit.............................................340
+;     >>> §2.8: HandleCommitCssCheckLessChangesOnly............................................403
+;     >>> §2.9: HandleCommitCss1stLessMsgChange................................................446
+;     >>> §2.10: HandleCommitCss2ndLessMsgChange...............................................463
+;     >>> §2.11: HandleCommitCssOk.............................................................480
+;       →→→ §2.11.1: ProcessHandleCommitCssOkError.............................................560
+;     >>> §2.12: HandleCommitCssCancel.........................................................588
+;   §3: GUI PERSISTENCE FUNCTIONS..............................................................596
+;     >>> §3.1: SaveCommitCssLessMsgHistory....................................................600
+;     >>> §3.2: LoadCommitCssLessMsgHistory....................................................637
+;     >>> §3.3: ReadKeyForLessMsgHistory.......................................................674
+;     >>> §3.4: ReadPrimaryMsgForLessFileKey...................................................692
+;     >>> §3.5: ReadSecondaryMsgForLessFileKey.................................................709
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -66,12 +81,13 @@ CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssbuild, fnMinCssBuild
 	commitCssVars.dflt1stCommitMsgAlt2 := "Updating custom CSS build w/ site-specific source change"
 . "s"
 	commitCssVars.dflt2ndCommitMsg := "Rebuilding custom CSS production files to incorporate recent"
-. " changes to submodules containing OUE-wide build dependencies."
+. " changes to submodules containing DAESA-wide build dependencies."
 	commitCssVars.dflt2ndCommitMsgAlt := "Rebuilding custom CSS production files to incorporate rec"
-. "ent changes to site-specific source files and submodules containing OUE-wide build dependencies."
-. " Please see the next commit for more details."
+. "ent changes to site-specific source files and submodules containing DAESA-wide build dependencie"
+. "s. Please see the next commit for more details on the site-specific changes that were included."
 	commitCssVars.dflt2ndCommitMsgAlt2 := "Rebuilding custom CSS production files to incorporate re"
-. "cent changes to site-specific source files; please see the next commit for more details."
+. "cent changes to site-specific source files; please see the next commit for more details on the s"
+. "ite-specific changes that were included."
 	msgLen1st := StrLen(commitCssVars.dflt1stCommitMsg)
 	msgLen2nd := StrLen(commitCssVars.dflt2ndCommitMsg)
 	lastLessMsg1st := ""
