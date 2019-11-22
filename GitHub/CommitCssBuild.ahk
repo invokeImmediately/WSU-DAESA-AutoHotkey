@@ -307,8 +307,8 @@ HandleCommitCssGitLog() {
 	global commitCssVars
 	global execDelayer
 
-	cmdStr := "git --no-pager log --follow --pretty=""format:%h | %cn | %cd | %s | %b"" --max-count"
-		. "=20 "
+	cmdStr := "git --no-pager log --follow --pretty=""format:%h | %cn | %cd | %s%n  ╘═> %b"" --max-"
+		. "count=20 "
 	numSelectedRows := LV_GetCount("Selected")
 	consoleStr := "cd " . commitCssVars.fpGitFolder . "`r"
 	if (numSelectedRows > 0) {
