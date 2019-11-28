@@ -38,11 +38,11 @@ C:\GitHub\commonreading.wsu.edu\CSS\cr-custom.less
 Modify dependencies used in CSS build 
 Remove src_cr-legacy.less from build sequence. Replace individual files within WSU-UE---CSS currently being used with wp-master-style-sheet.less so that the Common Reading custom CSS file incorporates all OUE-wide CSS build dependencies. Proivde Less variable settings necesary for a successful build.
 C:\GitHub\commonreading.wsu.edu\CSS\src_cr-new.less
-Fix mistake in inline documentation
-Fix copy/paste error in the table of contents.
+Fix persistent comment blocks in inline documentation
+Fix comment blocks in inline documentation that should not be persistent but currently are, and refactor the code they were labeling for improved readability.
 C:\GitHub\commonreading.wsu.edu\gulpfile.js
-Modify function getJsBuildSettings
-Change dependencies for built custom JS file.
+Update CSS build process
+Update insertion of inline documentation to mark the media queries section which occurs as part of the automated build process.
 C:\GitHub\commonreading.wsu.edu\HTML\2019_05_03_common-reading-book-2019-20.html
 Add markup for building new post in WSUWP
 Markup added is for the news headline announcing the 2019-20 common reading.
@@ -160,6 +160,12 @@ Update with more changes to position titles.
 C:\GitHub\distinguishedscholarships.wsu.edu\HTML\home.html
 Update markup used to build page in WSUWP
 Updates consist of restoration of workshop events feed.
+C:\GitHub\distinguishedscholarships.wsu.edu\HTML\html-snippet_50-5272_homepage-upcoming-events.html
+Add snippet of markup used to build homepage section
+Add HTML snippet of the markup used on the homepage to build the upcoming events section.
+C:\GitHub\distinguishedscholarships.wsu.edu\HTML\html-snippet_50-5285_give-now-button.html
+Add snippet of markup used to build homepage section
+Add HTML snippet of the markup used on the homepage to build the 'Give Now' button.
 C:\GitHub\distinguishedscholarships.wsu.edu\HTML\other-awards_list.html
 Update markup used to build page in WSUWP
 Update markup with changes to address accessibility issues with how headings are nested.
@@ -238,6 +244,9 @@ Styling is for customizing the look and feel of the CCC to WSU 2019 event hosted
 C:\GitHub\lsamp.wsu.edu\gulpfile.js
 Update JS build dependencies, fix setting error
 To increase site functionality, expand the complement of JS build dependencies that are utilized on the LSAMP website; also correct the name of the site's built custom JS source file.
+C:\GitHub\lsamp.wsu.edu\HTML\collegevisit.html
+Update backup of markup used to build page in WSUWP
+Update backup of the markup for the Connecting Community Colleges to WSU page with recent edits made to the content to reflect the fact that this year's event has passed.
 C:\GitHub\lsamp.wsu.edu\HTML\sab.html
 Update markup used to build page in WSUWP
 Update the list of LSAMP STEM ambassadors for 2019-20 with last student that needs to be added.
@@ -344,8 +353,8 @@ C:\GitHub\surca.wsu.edu\CSS\surca-custom.less
 Update inline documentation
 Update line number in table of contents.
 C:\GitHub\surca.wsu.edu\gulpfile.js
-Fix build dependency list
-
+Update CSS build process
+Update insertion of inline documentation, which marks the media queries section, that occurs as part of the automated build process.
 C:\GitHub\surca.wsu.edu\HTML\2019_03_28_surca-2019-award-winners.html
 Add markup used to build post in WSUWP
 Markup added is for constructing post announcing SURCA 2019 award winners.
@@ -353,8 +362,8 @@ C:\GitHub\surca.wsu.edu\HTML\awards.html
 Fix markup used to build pages in WSUWP
 Update markup with fixes that address accessibility issues.
 C:\GitHub\surca.wsu.edu\HTML\calendar.html
-Fix markup used to build pages in WSUWP
-Update markup with fixes that address accessibility issues.
+Update backup of markup used to build page in WSUWP
+Update backup of markup used to build the SURCA calendar page via the Spine builder template in WSUWP.
 C:\GitHub\surca.wsu.edu\HTML\categories.html
 Fix markup used to build pages in WSUWP
 Update markup with fixes that address accessibility issues.
@@ -569,11 +578,11 @@ C:\GitHub\WSU-OUE-AutoHotkey\API_GetWindowInfo.ahk
 Add new API
 New API servers as an interface to the User32.dll function GetWindowInfo.
 C:\GitHub\WSU-OUE-AutoHotkey\AutoHotkeyU64.ahk
-Add todo for updating globals for file path construction
-
+Update inline documentation
+Update file header comment in inline documentation.
 C:\GitHub\WSU-OUE-AutoHotkey\Coding\frontEndCoding.ahk
-Enhance functions for saving backed up markup to disk
-Add additional functionality to function BackupOueHtml(…) by having it apply the final conversion of spacing to tabs instead of merely setting it up, and also performing a final save operation on the file.
+Modify insertion of ellipses during markup backup process
+Modify how ellipses are inserted by wrapping them in an HTML comment block.
 C:\GitHub\WSU-OUE-AutoHotkey\commandHistory.ahk
 Modify file encoding for unicode support
 Modify file encoding to UTF-8 BOM so that AutoHotkey correctly parses unicode characters present in script files.
@@ -590,8 +599,8 @@ C:\GitHub\WSU-OUE-AutoHotkey\Config\backupJs.ahk.cfg
 Fix bug from typo in file name
 
 C:\GitHub\WSU-OUE-AutoHotkey\Config\cssBuilds.ahk.cfg
-Add new data column
-Add the window title for each WSUWP website's custom CSS Stylesheet Editor interface.
+Update setting for a specific website
+Update the setting for the OUE website to reflect the change in name from OUE to DAESA.
 C:\GitHub\WSU-OUE-AutoHotkey\Config\daesaRepos.ahk.cfg
 Add script config file for matching project urls to repos
 
@@ -635,14 +644,17 @@ C:\GitHub\WSU-OUE-AutoHotkey\github.ahk
 Update file name referenced in @backupMinJsUgr
 
 C:\GitHub\WSU-OUE-AutoHotkey\GitHub\CommitAnyFile.ahk
-Update line numbers in inline documentation's TOC
-
+Modify formatting string for git log invocations
+Modify formatting string for git log invocations by putting secondary commit message on its own line.
 C:\GitHub\WSU-OUE-AutoHotkey\GitHub\CommitCssBuild.ahk
-Modify usage of key parameter in CommitCssBuild function
-Instead of assuming that the parameter fpGitFolder (which contains the file path to the git folder in which CSS build related files will be committed) is relative to the git folder, assume it is a complete file path. This enables different git folder root locations to be utilized with the function.
+Modify formatting string for git log invocations
+Modify formatting string for git log invocations by putting secondary commit message on its own line.
+C:\GitHub\WSU-OUE-AutoHotkey\GitHub\CommitJsBuild.ahk
+Modify formatting string for git log invocations
+Modify formatting string for git log invocations by putting secondary commit message on its own line.
 C:\GitHub\WSU-OUE-AutoHotkey\GitHub\github.ahk
-Fix bug in function for activating shell interface to git
-Fix function ActivateGitShell() by making it able to handle case variations in the naming of the PowerShell executable.
+Modify regex needle for verifying files as CSS builds
+
 C:\GitHub\WSU-OUE-AutoHotkey\guiMsgBox.ahk
 Modify file encoding for unicode support
 Modify file encoding to UTF-8 BOM so that AutoHotkey correctly parses unicode characters present in script files.
@@ -685,6 +697,9 @@ New functions test aspects of writing classes in AHK, whether a new trie-impleme
 C:\GitHub\WSU-OUE-AutoHotkey\TextInput\numpadModifier.ahk
 Update inline documentation
 Update file header comment in inline documentation.
+C:\GitHub\WSU-OUE-AutoHotkey\TextInput\regExStrings.ahk
+Modify RegEx needle for use in coding Less files
+Modify RegEx needle for isolating the table of contents section in the inline documentation of Less files by reducing its specificity.
 C:\GitHub\WSU-OUE-AutoHotkey\trie.ahk
 Modify file encoding for unicode support
 Modify file encoding to UTF-8 BOM so that AutoHotkey correctly parses unicode characters present in script files.
@@ -701,11 +716,11 @@ C:\GitHub\WSU-OUE-AutoHotkey\wordPress.ahk
 Modify file encoding for unicode support
 Modify file encoding to UTF-8 BOM so that AutoHotkey correctly parses unicode characters present in script files.
 C:\GitHub\WSU-OUE-AutoHotkey\WorkspaceManagement\automatedDesktopSetUp.ahk
-Modify hotstring for moving CPU temp monitors
-Enhance hotstring @moveTempMonitors by adding progress bar monitoring of the execution sequence.
+Modify apps loaded during startup sequence
+Modify apps loaded on virtual desktop for website editing by adding a file explorer instance and replacing Microsoft Sticky Notes with Windows Notepad.
 C:\GitHub\WSU-OUE-AutoHotkey\WorkspaceManagement\virtualDesktops.ahk
-Modify timing of work environment setup
-Increase delays between steps as virtual desktops are primed and temperature monitors are moved.
+Enhance process of closing windows on virtual desktop
+Add progress bars to closing and verification functions, which take significant time, so the user is aware of the script's activity.
 C:\GitHub\WSU-OUE-AutoHotkey\WorkspaceManagement\workspaceManagement.ahk
 Modify process for opening websites in Chrome
 Improve reliability of process for opening websites in a new tab in Chrome by checking for a change in window title to determine when the website has loaded.
@@ -730,6 +745,9 @@ Increase the color intensity of darker yellow in the WSU yellow color palette to
 C:\GitHub\WSU-UE---CSS\components.less
 Fix style conflict involving static page header columns
 
+C:\GitHub\WSU-UE---CSS\css-build-entry-point.less
+Update inline documentation
+Reorganize header comments for improved clarity and easier reading.
 C:\GitHub\WSU-UE---CSS\cycle-slideshow.less
 Fix layout problem with pagers and reorganize code
 Add margin-based componesation for responsive positioning of slideshow pager buttons, and reorganize code so that style rules are grouped better according to the ancestral element to which they relate.
@@ -752,11 +770,14 @@ C:\GitHub\WSU-UE---CSS\forms.less
 Fix design mistake
 Remove default blue outlining of form input and select fields; this style was intended to be applied only under a focused state for accessibility purposes.
 C:\GitHub\WSU-UE---CSS\headers.less
-Modify layout of main website headers
-Improve how the main header is responsively sized.
+Modify design of UP CMS style article headers
+Move the design of University Publishing CMS style article headers from sections.less to headers.less, and modify its implementation to that of a switchable Less ruleset declaration. Also modify its design so that the potential for style collisions is reduced, and a bottom aligned variant is made available.
 C:\GitHub\WSU-UE---CSS\headings.less
 Improve visual design of article headings in news blog
 Add a faint gray background to article headers within DAESA blog feeds; also, move appropriate style rules from headings.less to news-posts.less.
+C:\GitHub\WSU-UE---CSS\horizontal-rules.less
+Add an additional styling option for horizontal rules
+Add a crimson coloring scheme.
 C:\GitHub\WSU-UE---CSS\hr.less
 Make improvements to design of horizontal rules
 Remove unnecessary styling options and improve default contrast of rules.
@@ -797,8 +818,8 @@ C:\GitHub\WSU-UE---CSS\page-covering-notice.less
 Modify approach to declaring rules
 Utilize mixin function .declare-ruleset to avoid missing selector errors when the optional ruleset wrapper is not utilized
 C:\GitHub\WSU-UE---CSS\paragraphs.less
-Fix selector compatibility with mixin .declare-ruleset
-Previous usage of ampersand operator within corrected selector strings resulted in unintended output when argument for @oue-rules-wrapper was not an empty string.
+Update inline documentation
+Fix comment blocks for labeling file sections that are persistent but should not be.
 C:\GitHub\WSU-UE---CSS\qtips.less
 Add empty line to beginning of file as workaround
 Current build processes may fail without space due to the qtips minified source terminating with a comment
@@ -811,6 +832,9 @@ Replace call to mixin function .declare-recent-updates-rulesets with call to .de
 C:\GitHub\WSU-UE---CSS\section.less
 Remove unnecessary style rules that are no longer used
 
+C:\GitHub\WSU-UE---CSS\sections.less
+Modify design of UP CMS style article headers
+Move the design of University Publishing CMS style article headers from sections.less to headers.less, and modify its implementation to that of a switchable Less ruleset declaration. Also modify its design so that the potential for style collisions is reduced, and a bottom aligned variant is made available.
 C:\GitHub\WSU-UE---CSS\span.less
 Modify visual design of tool tips
 Improve the visual design of tool tips by increasing color contrast.
@@ -821,14 +845,14 @@ C:\GitHub\WSU-UE---CSS\targets.less
 Fix styling problems with gravity form anchors
 Remove the highlighting of gravity form anchors that is breaking layout.
 C:\GitHub\WSU-UE---CSS\utility-classes.less
-Add important directive to maximum width ultility classes
-Add important directive to compensate for high specificity of conflicting style rules in the spine theme.
+Add utility classes for specifying heights
+Add utility classes for specifying heights in units of pixels.
 C:\GitHub\WSU-UE---CSS\utility-mixins.less
-Modify default array of predefined pixels widths
-Expand the overall horizontal breadth of available width options at the cost of granularity.
+Fix whitespace issues in code formatting
+
 C:\GitHub\WSU-UE---CSS\variables.less
-Modify mixin for declaring detached rulesets
-Modify mixin .declare-ruleset(…) by adding an additional switching argument, which allows Less variables to be set that control what rulesets get declared by default, but also can be changed by the developer to override default behavior.
+Fix bug from syntax error
+
 C:\GitHub\WSU-UE---CSS\wp-master-style-sheet.less
 Enhance responsive design of column gutters
 Provide a gated mixin-mediated mechanism to cut out style rules that match default WSUWP settings, and redesign selectors to be more efficient.
