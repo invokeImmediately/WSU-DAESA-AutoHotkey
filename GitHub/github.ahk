@@ -1366,7 +1366,9 @@ ExecuteCssPasteCmds( manualProcession := false ) {
 	; Add check for correct CSS in clipboard — the first line is a font import.
 	global execDelayer
 	posFound := RegExMatch(clipboard
-		, "i)/\*! .*built with the Less CSS preprocessor.*github\.com/invokeImmediately")
+		, "im)/\*! .*built with the Less CSS preprocessor.*github\.com/invokeImmediately|/*! ======"
+. "==========================================================================================*** WS"
+. "U DAESA Styling Section")
 	if ( posFound != 0 ) {
 		WinGet, hwnd, ID, A
 		winInfo := API_GetWindowInfo(hwnd)
