@@ -4,12 +4,25 @@
 ; SUMMARY: Object-oriented implementation of GUI for automating CSS build operations in PowerShell
 ;   to support the production of custom CSS files to be utilized on WSUWP websites.
 ;
+; DESCRIPTION: This script depends on other functions from the AutoHotkey scripting project that 
+;   supports development and coordination of WSU DAESA's websites while working on a Windows
+;   platform. The project is developed and maintained on GitHub at:
+;   https://github.com/invokeImmediately/WSU-OUE-AutoHotkey
+;
 ; AUTHOR: Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; 
-; REPOSITORY: https://github.com/invokeImmediately/WSU-AutoHotkey
+; LICENSE: ISC - Copyright (c) 2019 Daniel C. Rieck.
 ;
-; LICENSE: ISC - Copyright (c) 2019 Daniel C. Rieck. (Please refer to AutoHotkeyU64.ahk for full
-;   license text.)
+;   Permission to use, copy, modify, and/or distribute this software for any purpose with or
+;   without fee is hereby granted, provided that the above copyright notice and this permission
+;   notice appear in all copies.
+;
+;   THE SOFTWARE IS PROVIDED "AS IS" AND DANIEL C. RIECK DISCLAIMS ALL WARRANTIES WITH REGARD TO
+;   THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+;   DANIEL C. RIECK BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY
+;   DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF
+;   CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+;   PERFORMANCE OF THIS SOFTWARE.
 ; ==================================================================================================
 
 class CssBldPsOps extends GhGui {
@@ -183,10 +196,8 @@ class CssBldPsOps extends GhGui {
 			Gui, guiGh%guiType%%guiName%: Submit, NoHide
 			selRow := LV_GetNext()
 			LV_GetText( repository, selRow, 2)
-			PasteTextIntoGitShell( A_ThisFunc, "cd '" . repository . "WSU-UE---CSS'`r"
-				. "git fetch`rgit merge origin/master`rcd ..`rgit add WSU-UE---CSS`rgit commit -m '"
-				. "Updating custom CSS master submodule for OUE websites' -m 'Obtaining recent chan"
-				. "ges in OUE-wide Less/CSS source code for use in builds'`rgit push`r")
+			PasteTextIntoGitShell( A_ThisFunc, "cd '" . repository . "\WSU-UE---CSS'`rgit checkout "
+				. "master`rgit pull`rcd ..`rgit submodule update WSU-UE---CSS`r")
 			MsgBox, % (0x4 + 0x20)
 				, % A_ScriptName . ": Proceed with rebuild?", % "After updating the CSS submodule, "
 				. "would you like to proceed with a CSS rebuild?"
