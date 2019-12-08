@@ -477,7 +477,7 @@ HandleCommitCssOk() {
 
 		; Add the submodule to the commit if it has changed.
 		if ( !ctrlCommitCssLessChangesOnly ) {
-			commandLineInput .= "git add WSU-UE---CSS"
+			commandLineInput .= "git add WSU-UE---CSS`r"
 		}
 
 		; Add any changed local dependencies to the commit, if appropriate.
