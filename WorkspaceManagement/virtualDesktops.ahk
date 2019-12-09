@@ -17,8 +17,8 @@
 ;       →→→ §2.5.1: @getSessionId.............................................................219
 ;     >>> §2.6: MapDesktopsFromRegistry.......................................................230
 ;     >>> §2.7: MoveActiveWindowToVirtualDesktop..............................................292
-;     >>> §2.8: PrimeVirtualDesktops..........................................................361
-;     >>> §2.9: SwitchDesktopByNumber.........................................................381
+;     >>> §2.8: PrimeVirtualDesktops..........................................................362
+;     >>> §2.9: SwitchDesktopByNumber.........................................................382
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -297,6 +297,7 @@ MoveActiveWindowToVirtualDesktop(targetDesktop) {
 	global vdCurrentDesktop
 	global vdDesktopCount
 	global execDelayer
+	global g_dpiScalar
 
 	; Timing variables
 	prevKeyDelay := A_KeyDelay
@@ -305,8 +306,8 @@ MoveActiveWindowToVirtualDesktop(targetDesktop) {
 	oldCoordMode := undefined
 
 	; UI interaction variables
-	awThumbnailX := 95 ; Active Window Thumbnail: horizontal click position
-	awThumbnailY := 220 ; Active Window Thumbnail: vertical click position
+	awThumbnailX := 95 * g_dpiScalar ; Active Window Thumbnail: horizontal click position
+	awThumbnailY := 220 * g_dpiScalar ; Active Window Thumbnail: vertical click position
 
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	; BEGIN EXECUTION

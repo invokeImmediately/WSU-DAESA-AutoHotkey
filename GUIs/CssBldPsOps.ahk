@@ -197,17 +197,17 @@ class CssBldPsOps extends GhGui {
 			selRow := LV_GetNext()
 			LV_GetText( repository, selRow, 2)
 			PasteTextIntoGitShell( A_ThisFunc, "cd '" . repository . "\WSU-UE---CSS'`rgit checkout "
-				. "master`rgit pull`rcd ..`rgit submodule update WSU-UE---CSS`r")
+ . "master`rgit pull`rcd ..`rgit submodule update --remote --merge WSU-UE---CSS`r")
 			MsgBox, % (0x4 + 0x20)
 				, % A_ScriptName . ": Proceed with rebuild?", % "After updating the CSS submodule, "
-				. "would you like to proceed with a CSS rebuild?"
+ . "would you like to proceed with a CSS rebuild?"
 			IfMsgBox Yes
 			{
 				this.HandleRbldCssBtn()
 			}
 		} else {
 			MsgBox % "Please select a repository in which the CSS dependency submodule should be up"
-				. "dated."
+ . "dated."
 		}
 	}
 

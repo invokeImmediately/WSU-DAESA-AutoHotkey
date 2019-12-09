@@ -22,27 +22,26 @@
 ; ==================================================================================================
 ; Table of Contents:
 ; -----------------
-;   §1: GUI CREATION FUNCTION: CommitCssBuild...................................................49
-;   §2: GUI EVENT HANDLERS.....................................................................172
-;     >>> §2.1: HandleCommitCss1stMsgChange....................................................176
-;     >>> §2.2: HandleCommitCss2ndMsgChange....................................................193
-;     >>> §2.3: HandleCommitCssAddFiles........................................................210
-;     >>> §2.4: HandleCommitCssRemoveFiles.....................................................252
-;     >>> §2.5: HandleCommitCssGitDiff.........................................................264
-;     >>> §2.6: HandleCommitCssGitLog..........................................................301
-;     >>> §2.7: HandleCommitCssCheckLessFileCommit.............................................340
-;     >>> §2.8: HandleCommitCssCheckLessChangesOnly............................................403
-;     >>> §2.9: HandleCommitCss1stLessMsgChange................................................446
-;     >>> §2.10: HandleCommitCss2ndLessMsgChange...............................................463
-;     >>> §2.11: HandleCommitCssOk.............................................................480
-;       →→→ §2.11.1: ProcessHandleCommitCssOkError.............................................560
-;     >>> §2.12: HandleCommitCssCancel.........................................................588
-;   §3: GUI PERSISTENCE FUNCTIONS..............................................................596
-;     >>> §3.1: SaveCommitCssLessMsgHistory....................................................600
-;     >>> §3.2: LoadCommitCssLessMsgHistory....................................................637
-;     >>> §3.3: ReadKeyForLessMsgHistory.......................................................674
-;     >>> §3.4: ReadPrimaryMsgForLessFileKey...................................................692
-;     >>> §3.5: ReadSecondaryMsgForLessFileKey.................................................709
+;   §1: GUI CREATION FUNCTION: CommitCssBuild...................................................48
+;   §2: GUI EVENT HANDLERS.....................................................................159
+;     >>> §2.1: HandleCommitCss1stMsgChange....................................................163
+;     >>> §2.2: HandleCommitCss2ndMsgChange....................................................180
+;     >>> §2.3: HandleCommitCssAddFiles........................................................197
+;     >>> §2.4: HandleCommitCssRemoveFiles.....................................................239
+;     >>> §2.5: HandleCommitCssGitDiff.........................................................251
+;     >>> §2.6: HandleCommitCssGitLog..........................................................288
+;     >>> §2.7: HandleCommitCssCheckLessFileCommit.............................................327
+;     >>> §2.8: HandleCommitCssCheckLessChangesOnly............................................387
+;     >>> §2.9: HandleCommitCss2ndLessMsgChange................................................430
+;     >>> §2.10: HandleCommitCssOk.............................................................447
+;       →→→ §2.10.1: ProcessHandleCommitCssOkError.............................................540
+;     >>> §2.11: HandleCommitCssCancel.........................................................568
+;   §3: GUI PERSISTENCE FUNCTIONS..............................................................576
+;     >>> §3.1: SaveCommitCssLessMsgHistory....................................................580
+;     >>> §3.2: LoadCommitCssLessMsgHistory....................................................617
+;     >>> §3.3: ReadKeyForLessMsgHistory.......................................................653
+;     >>> §3.4: ReadPrimaryMsgForLessFileKey...................................................671
+;     >>> §3.5: ReadSecondaryMsgForLessFileKey.................................................688
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -64,9 +63,6 @@ CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssbuild, fnMinCssBuild
 	global ctrlCommitCss1stMsgCharCount
 	global ctrlCommitCss2ndMsg
 	global ctrlCommitCss2ndMsgCharCount
-	global ctrlCommitCss1stLessMsg
-	global ctrlCommitCss1stLessMsgCharCount
-	global commitCssDflt1stCommitMsg
 	global ctrlCommitCss2ndLessMsg
 	global ctrlCommitCss2ndLessMsgCharCount
 
@@ -76,18 +72,17 @@ CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssbuild, fnMinCssBuild
 	commitCssVars.fnLessSrcFile := fnLessSrcFile
 	commitCssVars.fnCssbuild := fnCssbuild
 	commitCssVars.fnMinCssBuild := fnMinCssBuild
-	commitCssVars.dflt1stCommitMsg := "Updating custom CSS build with recent submodule changes"
-	commitCssVars.dflt1stCommitMsgAlt := "Updating custom CSS build w/ source & submodule changes"
-	commitCssVars.dflt1stCommitMsgAlt2 := "Updating custom CSS build w/ site-specific source change"
-. "s"
-	commitCssVars.dflt2ndCommitMsg := "Rebuilding custom CSS production files to incorporate recent"
-. " changes to submodules containing DAESA-wide build dependencies."
-	commitCssVars.dflt2ndCommitMsgAlt := "Rebuilding custom CSS production files to incorporate rec"
-. "ent changes to site-specific source files and submodules containing DAESA-wide build dependencie"
-. "s. Please see the next commit for more details on the site-specific changes that were included."
-	commitCssVars.dflt2ndCommitMsgAlt2 := "Rebuilding custom CSS production files to incorporate re"
-. "cent changes to site-specific source files; please see the next commit for more details on the s"
-. "ite-specific changes that were included."
+	commitCssVars.dflt1stCommitMsg := "Update CSS builds & submodule w/ CSS build dependencies"
+	commitCssVars.dflt1stCommitMsgAlt := "Modify CSS build dependencies & update CSS builds"
+	commitCssVars.dflt1stCommitMsgAlt2 := "Modify local CSS build dependency & update CSS builds"
+	commitCssVars.dflt2ndCommitMsg := "Update the submodule for the DAESA-wide CSS development proj"
+ . "ect, then rebuild the custom CSS production files to incorporate any changes from build depende"
+ . "ncies contained in the submodule."
+ 	commitCssVars.dflt2ndCommitMsgAlt := "Next, update the submodule for the DAESA-wide CSS develop"
+ . "ment project. Finally, rebuild the custom CSS production files to incorporate all of these chan"
+ . "ges to DAESA-wide and local build dependencies."
+	commitCssVars.dflt2ndCommitMsgAlt2 := "Next, rebuild the custom CSS production files to incorpo"
+ . "rate these changes."
 	msgLen1st := StrLen(commitCssVars.dflt1stCommitMsg)
 	msgLen2nd := StrLen(commitCssVars.dflt2ndCommitMsg)
 	lastLessMsg1st := ""
@@ -109,28 +104,20 @@ CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssbuild, fnMinCssBuild
 	Gui, guiCommitCssBuild: Add
 		, Text, , % "&Primary commit message:"
 	Gui, guiCommitCssBuild: Add
-		, Edit, vctrlCommitCss1stMsg gHandleCommitCss1stMsgChange X+5 W606
+		, Edit, vctrlCommitCss1stMsg gHandleCommitCss1stMsgChange xm Y+3 W606
 		, % commitCssVars.dflt1stCommitMsg
 	Gui, guiCommitCssbuild: Add
 		, Text, vctrlCommitCss1stMsgCharCount Y+1 W500
 		, % "Length = " . msgLen1st . " characters"
 	Gui, guiCommitCssBuild: Add
-		, Text, xm Y+12, % "&Secondary commit message:"
-	Gui, guiCommitCssBuild: Add, Edit
-		, vctrlCommitCss2ndMsg gHandleCommitCss2ndMsgChange X+5 W589
-		, % commitCssVars.dflt2ndCommitMsg
-	Gui, guiCommitCssbuild: Add
-		, Text, vctrlCommitCss2ndMsgCharCount Y+1 W500
-		, % "Length = " . msgLen2nd . " characters"
-	Gui, guiCommitCssBuild: Add
 		, Checkbox, vctrlCommitCssAlsoCommitLessSrc gHandleCommitCssCheckLessFileCommit xm Y+12
-		, % "&Also commit site-specific Less source(s), e.g., " . commitCssVars.fnLessSrcFile . "?"
+		, % "&Also commit local build dependencies, e.g., " . commitCssVars.fnLessSrcFile . "?"
 	Gui, guiCommitCssBuild: Add, Checkbox
 		, vctrlCommitCssLessChangesOnly gHandleCommitCssCheckLessChangesOnly xm Disabled
-		, % "Site-specific less source(s) &is/are only changed dependency(ies)"
+		, % "Rebuild &involves only changes to local dependencies"
 	Gui, guiCommitCssBuild: Font, italic
 	Gui, guiCommitCssBuild: Add
-		, Text, Y+12, % "Site-specific less source(s): "
+		, Text, Y+12, % "Local dependencies to be added to commit: "
 	Gui, guiCommitCssBuild: Font
 	Gui, guiCommitCssBuild: Add
 		, ListView, vctrlCommitCssLV grid BackgroundEBF8FE NoSortHdr r5 W700 xm+1 Y+3
@@ -146,21 +133,21 @@ CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssbuild, fnMinCssBuild
 	Gui, guiCommitCssBuild: Add
 		, Button, gHandleCommitCssGitLog vctrlCommitCssGitLog X+3 Disabled, Gi&t log selection
 	Gui, guiCommitCssBuild: Add
-		, Text, xm Y+12, % "Message for &Less file changes:"
+		, Text, xm Y+12, % "Secondary commit message, part &1 (RE: local dependency changes):"
 	Gui, guiCommitCssBuild: Add
-		, Edit, vctrlCommitCss1stLessMsg gHandleCommitCss1stLessMsgChange X+5 W573 Disabled
-		, % lastLessMsg1st
-	Gui, guiCommitCssbuild: Add
-		, Text, vctrlCommitCss1stLessMsgCharCount Y+1 W500
-		, % "Length = " . msgLenLess1st . " characters"
-	Gui, guiCommitCssBuild: Add
-		, Text, xm Y+12, % "Secondary L&ess message (optional):"
-	Gui, guiCommitCssBuild: Add
-		, Edit, vctrlCommitCss2ndLessMsg gHandleCommitCss2ndLessMsgChange X+5 W549 Disabled
+		, Edit, vctrlCommitCss2ndLessMsg gHandleCommitCss2ndLessMsgChange xm Y+3 W549 Disabled
 		, % lastLessMsg2nd
 	Gui, guiCommitCssbuild: Add
 		, Text, vctrlCommitCss2ndLessMsgCharCount Y+1 W500
 		, % "Length = " . msgLenLess2nd . " characters"
+	Gui, guiCommitCssBuild: Add
+		, Text, xm Y+12, % "&Secondary commit message, part &2:"
+	Gui, guiCommitCssBuild: Add, Edit
+		, vctrlCommitCss2ndMsg gHandleCommitCss2ndMsgChange xm Y+3 W589
+		, % commitCssVars.dflt2ndCommitMsg
+	Gui, guiCommitCssbuild: Add
+		, Text, vctrlCommitCss2ndMsgCharCount Y+1 W500
+		, % "Length = " . msgLen2nd . " characters"
 	Gui, guiCommitCssBuild: Add
 		, Button, Default gHandleCommitCssOk xm, &Ok
 	Gui, guiCommitCssBuild: Add
@@ -347,7 +334,6 @@ HandleCommitCssCheckLessFileCommit() {
 	global ctrlCommitCss1stMsgCharCount
 	global ctrlCommitCss2ndMsg
 	global ctrlCommitCss2ndMsgCharCount
-	global ctrlCommitCss1stLessMsg
 	global ctrlCommitCss2ndLessMsg
 	global ctrlCommitCssAlsoCommitLessSrc
 	global ctrlCommitCssLessChangesOnly
@@ -360,22 +346,21 @@ HandleCommitCssCheckLessFileCommit() {
 	Gui, guiCommitCssBuild: Submit, NoHide
 
 	; Respond to user input.
-	if (ctrlCommitCssAlsoCommitLessSrc) {
+	if ( ctrlCommitCssAlsoCommitLessSrc ) {
 		GuiControl, Enable, ctrlCommitCssAddFiles
 		GuiControl, Enable, ctrlCommitCssRemoveFiles
 		GuiControl, Enable, ctrlCommitCssGitDiff
 		GuiControl, Enable, ctrlCommitCssGitLog
-		GuiControl, Enable, ctrlCommitCss1stLessMsg
 		GuiControl, Enable, ctrlCommitCss2ndLessMsg
 		GuiControl, Enable, ctrlCommitCssLessChangesOnly
-		if (ctrlCommitCss1stMsg == commitCssVars.dflt1stCommitMsg) {
+		if ( ctrlCommitCss1stMsg == commitCssVars.dflt1stCommitMsg ) {
 			GuiControl, , ctrlCommitCss1stMsg, % commitCssVars.dflt1stCommitMsgAlt
 			msgLen := StrLen(commitCssVars.dflt1stCommitMsgAlt)
 			GuiControl, , ctrlCommitCss1stMsgCharCount, % "Length = " . msgLen . " characters"
 		}
-		if (ctrlCommitCss2ndMsg == commitCssVars.dflt2ndCommitMsg) {
+		if ( ctrlCommitCss2ndMsg == commitCssVars.dflt2ndCommitMsg ) {
 			GuiControl, , ctrlCommitCss2ndMsg, % commitCssVars.dflt2ndCommitMsgAlt
-			msgLen := StrLen(commitCssVars.dflt2ndCommitMsgAlt)
+			msgLen := StrLen( commitCssVars.dflt2ndCommitMsgAlt )
 			GuiControl, , ctrlCommitCss2ndMsgCharCount, % "Length = " . msgLen . " characters"
 		}
 	} else {
@@ -383,17 +368,16 @@ HandleCommitCssCheckLessFileCommit() {
 		GuiControl, Disable, ctrlCommitCssRemoveFiles
 		GuiControl, Disable, ctrlCommitCssGitDiff
 		GuiControl, Disable, ctrlCommitCssGitLog
-		GuiControl, Disable, ctrlCommitCss1stLessMsg
 		GuiControl, Disable, ctrlCommitCss2ndLessMsg
 		GuiControl, Disable, ctrlCommitCssLessChangesOnly
-		if (ctrlCommitCss1stMsg == commitCssVars.dflt1stCommitMsgAlt) {
+		if ( ctrlCommitCss1stMsg == commitCssVars.dflt1stCommitMsgAlt ) {
 			GuiControl, , ctrlCommitCss1stMsg, % commitCssVars.dflt1stCommitMsg
-			msgLen := StrLen(commitCssVars.dflt1stCommitMsg)
+			msgLen := StrLen( commitCssVars.dflt1stCommitMsg )
 			GuiControl, , ctrlCommitCss1stMsgCharCount, % "Length = " . msgLen . " characters"
 		}
-		if (ctrlCommitCss2ndMsg == commitCssVars.dflt2ndCommitMsgAlt) {
+		if ( ctrlCommitCss2ndMsg == commitCssVars.dflt2ndCommitMsgAlt ) {
 			GuiControl, , ctrlCommitCss2ndMsg, % commitCssVars.dflt2ndCommitMsg
-			msgLen := StrLen(commitCssVars.dflt2ndCommitMsg)
+			msgLen := StrLen( commitCssVars.dflt2ndCommitMsg )
 			GuiControl, , ctrlCommitCss2ndMsgCharCount, % "Length = " . msgLen . " characters"
 		}
 	}
@@ -417,50 +401,33 @@ HandleCommitCssCheckLessChangesOnly() {
 	Gui, guiCommitCssBuild: Submit, NoHide
 
 	; Respond to user input.
-	if (ctrlCommitCssLessChangesOnly) {
-		if (ctrlCommitCss1stMsg == commitCssVars.dflt1stCommitMsgAlt) {
+	if ( ctrlCommitCssLessChangesOnly ) {
+		if ( ctrlCommitCss1stMsg == commitCssVars.dflt1stCommitMsgAlt ) {
 			GuiControl, , ctrlCommitCss1stMsg, % commitCssVars.dflt1stCommitMsgAlt2
-			msgLen := StrLen(commitCssVars.dflt1stCommitMsgAlt2)
+			msgLen := StrLen( commitCssVars.dflt1stCommitMsgAlt2 )
 			GuiControl, , ctrlCommitCss1stMsgCharCount, % "Length = " . msgLen . " characters"
 		}
-		if (ctrlCommitCss2ndMsg == commitCssVars.dflt2ndCommitMsgAlt) {
+		if ( ctrlCommitCss2ndMsg == commitCssVars.dflt2ndCommitMsgAlt ) {
 			GuiControl, , ctrlCommitCss2ndMsg, % commitCssVars.dflt2ndCommitMsgAlt2
-			msgLen := StrLen(commitCssVars.dflt2ndCommitMsgAlt2)
+			msgLen := StrLen( commitCssVars.dflt2ndCommitMsgAlt2 )
 			GuiControl, , ctrlCommitCss2ndMsgCharCount, % "Length = " . msgLen . " characters"
 		}
 	} else {
-		if (ctrlCommitCss1stMsg == commitCssVars.dflt1stCommitMsgAlt2) {
+		if ( ctrlCommitCss1stMsg == commitCssVars.dflt1stCommitMsgAlt2 ) {
 			GuiControl, , ctrlCommitCss1stMsg, % commitCssVars.dflt1stCommitMsgAlt
 			msgLen := StrLen(commitCssVars.dflt1stCommitMsgAlt)
 			GuiControl, , ctrlCommitCss1stMsgCharCount, % "Length = " . msgLen . " characters"
 		}
-		if (ctrlCommitCss2ndMsg == commitCssVars.dflt2ndCommitMsgAlt2) {
+		if ( ctrlCommitCss2ndMsg == commitCssVars.dflt2ndCommitMsgAlt2 ) {
 			GuiControl, , ctrlCommitCss2ndMsg, % commitCssVars.dflt2ndCommitMsgAlt
-			msgLen := StrLen(commitCssVars.dflt2ndCommitMsgAlt)
+			msgLen := StrLen( commitCssVars.dflt2ndCommitMsgAlt )
 			GuiControl, , ctrlCommitCss2ndMsgCharCount, % "Length = " . msgLen . " characters"
 		}
 	}
 }
 
 ;   ································································································
-;     >>> §2.9: HandleCommitCss1stLessMsgChange
-
-; Triggered when the primary git commit message for the updated LESS source is changed.
-HandleCommitCss1stLessMsgChange() {
-	; Make global variable declarations.
-	global ctrlCommitCss1stLessMsg
-	global ctrlCommitCss1stLessMsgCharCount
-
-	; Submit GUI without hiding to update variables storing states of controls.
-	Gui, guiCommitCssBuild: Submit, NoHide
-
-	; Update character count field
-	msgLen := StrLen(ctrlCommitCss1stLessMsg)
-	GuiControl, , ctrlCommitCss1stLessMsgCharCount, % "Length = " . msgLen . " characters"
-}
-
-;   ································································································
-;     >>> §2.10: HandleCommitCss2ndLessMsgChange
+;     >>> §2.9: HandleCommitCss2ndLessMsgChange
 
 ; Triggered when the secondary git commit message for the updated LESS source is changed.
 HandleCommitCss2ndLessMsgChange() {
@@ -477,7 +444,7 @@ HandleCommitCss2ndLessMsgChange() {
 }
 
 ;   ································································································
-;     >>> §2.11: HandleCommitCssOk
+;     >>> §2.10: HandleCommitCssOk
 
 ; Triggered by OK button in guiCommitCssBuild GUI.
 HandleCommitCssOk() {
@@ -486,7 +453,7 @@ HandleCommitCssOk() {
 	global ctrlCommitCss1stMsg
 	global ctrlCommitCss2ndMsg
 	global ctrlCommitCssAlsoCommitLessSrc
-	global ctrlCommitCss1stLessMsg
+	global ctrlCommitCssLessChangesOnly
 	global ctrlCommitCss2ndLessMsg
 
 	; Submit GUI to finalize variables storing user input.
@@ -497,67 +464,80 @@ HandleCommitCssOk() {
 
 	; Ensure that state of global variables is consistent with a valid GUI submission.
 	gVarCheck := commitCssVars.ahkCmdName == undefined
-	gVarCheck := (gVarCheck << 1) | (commitCssVars.fpGitFolder == undefined)
-	gVarCheck := (gVarCheck << 1) | (commitCssVars.fnLessSrcFile == undefined)
-	gVarCheck := (gVarCheck << 1) | (commitCssVars.fnCssbuild == undefined)
-	gVarCheck := (gVarCheck << 1) | (commitCssVars.fnMinCssBuild == undefined)
-	gVarCheck := (gVarCheck << 1) | (ctrlCommitCssAlsoCommitLessSrc && numFilesToCommit == 0)
-	gVarCheck := (gVarCheck << 1) | (ctrlCommitCss1stMsg == undefined)
-	gVarCheck := (gVarCheck << 1) | (ctrlCommitCssAlsoCommitLessSrc
-		&& ctrlCommitCss1stLessMsg == undefined)
+	gVarCheck := ( gVarCheck << 1 ) | ( commitCssVars.fpGitFolder == undefined )
+	gVarCheck := ( gVarCheck << 1 ) | ( commitCssVars.fnLessSrcFile == undefined )
+	gVarCheck := ( gVarCheck << 1 ) | ( commitCssVars.fnCssbuild == undefined )
+	gVarCheck := ( gVarCheck << 1 ) | ( commitCssVars.fnMinCssBuild == undefined )
+	gVarCheck := ( gVarCheck << 1 ) | ( ctrlCommitCssAlsoCommitLessSrc && numFilesToCommit == 0 )
 
-	if (!gVarCheck) {
+	if ( !gVarCheck ) {
 		; Build the command line inputs for commiting the code to the appropriate git repository.
-		escaped1stCssMsg := EscapeCommitMessage(ctrlCommitCss1stMsg)
+		; First, have the shell enter the project's directory.
 		commandLineInput := "cd '" . commitCssVars.fpGitFolder . "'`r"
-			. "git add CSS\" . commitCssVars.fnCssBuild . "`r"
-			. "git add CSS\" . commitCssVars.fnMinCssBuild . "`r"
-			. "git commit -m """ . escaped1stCssMsg . """"
-		if (ctrlCommitCss2ndMsg != "") {
-			escaped2ndCssMsg := EscapeCommitMessage(ctrlCommitCss2ndMsg)
-			commandLineInput .= " -m """ . escaped2ndCssMsg . """`r"
+
+		; Add the submodule to the commit if it has changed.
+		if ( !ctrlCommitCssLessChangesOnly ) {
+			commandLineInput .= "git add WSU-UE---CSS`r"
+		}
+
+		; Add any changed local dependencies to the commit, if appropriate.
+		if ( ctrlCommitCssAlsoCommitLessSrc ) {
+			Loop % numFilesToCommit {
+				LV_GetText( nextFileToCommit, A_Index )
+				commandLineInput .= "git add " . nextFileToCommit . "`r"
+			}
+ 		}
+
+		; Add the CSS builds to the commit.
+		commandLineInput .= "git add CSS\" . commitCssVars.fnCssBuild . "`r"
+ . "git add CSS\" . commitCssVars.fnMinCssBuild . "`r"
+
+		; Now build the commit command, starting with the first commit message.
+		escaped1stCssMsg := EscapeCommitMessage( ctrlCommitCss1stMsg )
+		commandLineInput .= "git commit -m """ . escaped1stCssMsg . """"
+
+		if ( ctrlCommitCss2ndMsg != "" ) {
+			escaped2ndCssMsg := EscapeCommitMessage( ctrlCommitCss2ndMsg )
+			commandLineInput .= " -m """ . escaped2ndCssMsg
+			if ( ctrlCommitCssAlsoCommitLessSrc && ctrlCommitCss2ndLessMsg != "" ) {
+				escaped2ndLessMsg := EscapeCommitMessage( ctrlCommitCss2ndLessMsg )
+				commandLineInput .= " " & . escaped2ndLessMsg . """`r"
+			} else {
+				commandLineInput .= """`r"
+			}
+		} else if ( ctrlCommitCssAlsoCommitLessSrc && ctrlCommitCss2ndLessMsg != "" ) {
+			escaped2ndLessMsg := EscapeCommitMessage( ctrlCommitCss2ndLessMsg )
+			commandLineInput .= " -m """ . escaped2ndLessMsg . """`r"
 		} else {
 			commandLineInput .= "`r"
 		}
-		commandLineInput .= "git push`r"
-		if (ctrlCommitCssAlsoCommitLessSrc) {
-			escaped1stLessMsg := EscapeCommitMessage(ctrlCommitCss1stLessMsg)
-			Loop % numFilesToCommit {
-				LV_GetText(nextFileToCommit, A_Index)
-				commandLineInput .= "git add " . nextFileToCommit . "`r"
-			}
-			commandLineInput .= "git commit -m """ . escaped1stLessMsg . """"
-			if (ctrlCommitCss2ndLessMsg != "") {
-				escaped2ndLessMsg := EscapeCommitMessage(ctrlCommitCss2ndLessMsg)
-				commandLineInput .= " -m """ . escaped2ndLessMsg . """`r"
-			} else {
-				commandLineInput .= "`r"
-			}
-			commandLineInput .= "git push`r"
 
+		; Finally, add in the push command & an auditory cue.
+		commandLineInput .= "git push`r[console]::beep(2000,150)`r[console]::beep(2000,150)`r"
+
+		if ( ctrlCommitCssAlsoCommitLessSrc ) {
 			; Store commit for later use as a guide
-			if (commitCssLastLessCommit == undefined) {
+			if ( commitCssLastLessCommit == undefined ) {
 				commitCssLastLessCommit := Object()
 			}
-			commitCssLastLessCommit[commitCssVars.fnLessSrcFile] := Object()
-			commitCssLastLessCommit[commitCssVars.fnLessSrcFile].primary := ctrlCommitCss1stLessMsg
-			commitCssLastLessCommit[commitCssVars.fnLessSrcFile].secondary := ctrlCommitCss2ndLessMsg
+			commitCssLastLessCommit[ commitCssVars.fnLessSrcFile ] := Object()
+			commitCssLastLessCommit[ commitCssVars.fnLessSrcFile ].primary := ctrlCommitCss1stMsg
+			commitCssLastLessCommit[ commitCssVars.fnLessSrcFile ].secondary := ctrlCommitCss2ndLessMsg
 		}
-		commandLineInput .= "[console]::beep(2000,150)`r"
-			. "[console]::beep(2000,150)`r"
 
+		; Dismiss the GUI now that the user is done with it.
 		Gui, guiCommitCssBuild: Destroy
 
 		; Paste the code into the command console.
-		PasteTextIntoGitShell(commitCssVars.ahkCmdName, commandLineInput)
+		PasteTextIntoGitShell( commitCssVars.ahkCmdName, commandLineInput )
 	} else {
 		; Determine what went wrong, notify user, and handle accordingly.
-		ProcessHandleCommitCssOkError(gVarCheck)
+		ProcessHandleCommitCssOkError( gVarCheck )
 	}
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §2.11.1: ProcessHandleCommitCssOkError
+;       →→→ §2.10.1: ProcessHandleCommitCssOkError
 
 ; Called by HandleCommitCssOk() to handle error processing.
 ProcessHandleCommitCssOkError(gVarCheck) {
@@ -565,14 +545,14 @@ ProcessHandleCommitCssOkError(gVarCheck) {
 	if (gVarCheck == 1) {
 		ErrorBox(functionName
 			, "Please enter a primary git commit message regarding changes in the LESS source"
-. " file.")
+ . " file.")
 	} else if (gVarCheck == 2) {
 		ErrorBox(functionName
 			, "Please enter a primary git commit message regarding changes in the CSS builds.")
 	} else if (gVarCheck == 3) {
 		ErrorBox(functionName
 			, "Please enter primary git commit messages regarding changes in the CSS builds and"
-. " the LESS source file.")
+ . " the LESS source file.")
 	} else if (gVarCheck & 4) {
 		ErrorBox(functionName
 			, "Please select at least one site-specific Less file to be committed.")
@@ -580,12 +560,12 @@ ProcessHandleCommitCssOkError(gVarCheck) {
 		Gui, guiCommitCssBuild: Destroy
 		ErrorBox(functionName
 			, "An undefined global variable was encountered; function terminating. Variable"
-. " checking bitmask was equal to " . gVarCheck . ".")
+ . " checking bitmask was equal to " . gVarCheck . ".")
 	}
 }
 
 ;   ································································································
-;     >>> §2.12: HandleCommitCssCancel
+;     >>> §2.11: HandleCommitCssCancel
 
 ; Triggered by Cancel button in guiCommitCssBuild GUI.
 HandleCommitCssCancel() {
@@ -615,11 +595,11 @@ SaveCommitCssLessMsgHistory() {
 						numBytes := logFile.WriteLine(value.secondary)
 						if (!numBytes) {
 							ErrorBox(A_ThisFunc, "Could not write the secondary LESS commit message"
-. " for " . key . ".")
+ . " for " . key . ".")
 						}
 					} else {
 						ErrorBox(A_ThisFunc, "Could not write the primary LESS commit message for "
-. key . ".")
+ . key . ".")
 					}
 				} else {
 					ErrorBox(A_ThisFunc, "Could not record the next LESS file name, " . key . ".")
@@ -628,7 +608,7 @@ SaveCommitCssLessMsgHistory() {
 			logFile.Close()
 		} else {
 			ErrorBox(A_ThisFunc, "Could not open less commit message history log file '"
-. commitCssLessMsgLog . "'. Error code reported by FileOpen: '" . A_LastError . "'")
+ . commitCssLessMsgLog . "'. Error code reported by FileOpen: '" . A_LastError . "'")
 		}
 	}
 }
@@ -637,7 +617,6 @@ SaveCommitCssLessMsgHistory() {
 ;     >>> §3.2: LoadCommitCssLessMsgHistory
 
 LoadCommitCssLessMsgHistory() {
-	; TODO: Rewrite code below
 	global commitCssLastLessCommit
 	global commitCssLessMsgLog
 
@@ -654,11 +633,11 @@ LoadCommitCssLessMsgHistory() {
 			} else {
 				if (!ReadPrimaryMsgForLessFileKey(logFile, commitCssLastLessCommit, key)) {
 					ErrorBox(A_ThisFunc, "Log file abruptly stopped after reading a LESS file key. "
-. "Aborting further reading of log.")
+ . "Aborting further reading of log.")
 					break
 				} else if(!ReadSecondaryMsgForLessFileKey(logFile, commitCssLastLessCommit, key)) {
 					ErrorBox(A_ThisFunc, "Log file abruptly stopped after reading a LESS file key a"
-. "nd primary git commit message. Aborting further reading of log.")
+ . "nd primary git commit message. Aborting further reading of log.")
 					break
 				}
 			}

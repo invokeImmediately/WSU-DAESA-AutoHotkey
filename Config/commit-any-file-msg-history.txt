@@ -647,14 +647,14 @@ C:\GitHub\WSU-OUE-AutoHotkey\GitHub\CommitAnyFile.ahk
 Modify formatting string for git log invocations
 Modify formatting string for git log invocations by putting secondary commit message on its own line.
 C:\GitHub\WSU-OUE-AutoHotkey\GitHub\CommitCssBuild.ahk
-Modify formatting string for git log invocations
-Modify formatting string for git log invocations by putting secondary commit message on its own line.
+Fix bug in formation of shell output for committing files
+Add missing carriage return character after the WSU-UE---CSS submodule is added to the commit.
 C:\GitHub\WSU-OUE-AutoHotkey\GitHub\CommitJsBuild.ahk
 Modify formatting string for git log invocations
 Modify formatting string for git log invocations by putting secondary commit message on its own line.
 C:\GitHub\WSU-OUE-AutoHotkey\GitHub\github.ahk
-Modify regex needle for verifying files as CSS builds
-
+Refactor file by cleaning up code
+Add more whitespace for better readability, and fix a few other minor formatting issues throughout the file.
 C:\GitHub\WSU-OUE-AutoHotkey\guiMsgBox.ahk
 Modify file encoding for unicode support
 Modify file encoding to UTF-8 BOM so that AutoHotkey correctly parses unicode characters present in script files.
@@ -668,8 +668,8 @@ C:\GitHub\WSU-OUE-AutoHotkey\GUIs\BackupJsGui.ahk
 Modify GUI for backing up verified custom JS builds
 Fix mistake in GUI name specification in Gui Submit command and add the NoHide option when obtaining data from the GUI for the JS backup operation.
 C:\GitHub\WSU-OUE-AutoHotkey\GUIs\CssBldPsOps.ahk
-Add CSS editor window titles to CSS posting process
-
+Modify function for updating CSS submodules in projects
+Fix the command line input to perform the git update command based on the remote-tracking branch of the CSS build dependency development submodule, and adjust some code formatting.
 C:\GitHub\WSU-OUE-AutoHotkey\GUIs\GhGui.ahk
 Refactor GUIs for automating GitHub related processes
 Move the less general OK button handler from GhGui to BackupJsGui, as planned objects that will inherit from GhGui may not have an OK button.
@@ -719,8 +719,8 @@ C:\GitHub\WSU-OUE-AutoHotkey\WorkspaceManagement\automatedDesktopSetUp.ahk
 Modify apps loaded during startup sequence
 Modify apps loaded on virtual desktop for website editing by adding a file explorer instance and replacing Microsoft Sticky Notes with Windows Notepad.
 C:\GitHub\WSU-OUE-AutoHotkey\WorkspaceManagement\virtualDesktops.ahk
-Enhance process of closing windows on virtual desktop
-Add progress bars to closing and verification functions, which take significant time, so the user is aware of the script's activity.
+Fix bug in function that moves windows between VDs
+Fix broken functionality for systems who have a display scale factor applied to them by including the script's DPI scalar in  positioning of mouse clicks.
 C:\GitHub\WSU-OUE-AutoHotkey\WorkspaceManagement\workspaceManagement.ahk
 Modify process for opening websites in Chrome
 Improve reliability of process for opening websites in a new tab in Chrome by checking for a change in window title to determine when the website has loaded.
@@ -742,6 +742,9 @@ Improve responsive behavior of news feed thumbnail images
 C:\GitHub\WSU-UE---CSS\color-palette.less
 Tweak color in palette
 Increase the color intensity of darker yellow in the WSU yellow color palette to make WCAG color contrast compliance easier to typically achieve.
+C:\GitHub\WSU-UE---CSS\columns.less
+Modify implementation and design of styles for columns
+Refactor implementation of styles for Spine Builder template columns by defining them as switchable declared rulesets; also remove outdated styling options, and modify default font weight to match the style of the Provost's office (but darken the font color for better readability).
 C:\GitHub\WSU-UE---CSS\components.less
 Fix style conflict involving static page header columns
 
@@ -764,8 +767,8 @@ C:\GitHub\WSU-UE---CSS\events-calendar.less
 Update visual design of workshop notes.
 Darken the notes for improved contrast.
 C:\GitHub\WSU-UE---CSS\fonts.less
-Modify .ff--mono/.has-mono-font
-Remove font weight setting.
+Update inline documentation
+Update format of file header and coding section comments.
 C:\GitHub\WSU-UE---CSS\forms.less
 Fix design mistake
 Remove default blue outlining of form input and select fields; this style was intended to be applied only under a focused state for accessibility purposes.
@@ -851,8 +854,8 @@ C:\GitHub\WSU-UE---CSS\utility-mixins.less
 Fix whitespace issues in code formatting
 
 C:\GitHub\WSU-UE---CSS\variables.less
-Fix bug from syntax error
-
+Modify implementation and design of styles for columns
+Refactor implementation of styles for Spine Builder template columns by defining them as switchable declared rulesets; also remove outdated styling options, and modify default font weight to match the style of the Provost's office (but darken the font color for better readability).
 C:\GitHub\WSU-UE---CSS\wp-master-style-sheet.less
 Enhance responsive design of column gutters
 Provide a gated mixin-mediated mechanism to cut out style rules that match default WSUWP settings, and redesign selectors to be more efficient.
