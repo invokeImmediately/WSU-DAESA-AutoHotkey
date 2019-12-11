@@ -34,14 +34,14 @@
 ;     >>> §2.8: HandleCommitCssCheckLessChangesOnly............................................387
 ;     >>> §2.9: HandleCommitCss2ndLessMsgChange................................................430
 ;     >>> §2.10: HandleCommitCssOk.............................................................447
-;       →→→ §2.10.1: ProcessHandleCommitCssOkError.............................................540
-;     >>> §2.11: HandleCommitCssCancel.........................................................568
-;   §3: GUI PERSISTENCE FUNCTIONS..............................................................576
-;     >>> §3.1: SaveCommitCssLessMsgHistory....................................................580
-;     >>> §3.2: LoadCommitCssLessMsgHistory....................................................617
-;     >>> §3.3: ReadKeyForLessMsgHistory.......................................................653
-;     >>> §3.4: ReadPrimaryMsgForLessFileKey...................................................671
-;     >>> §3.5: ReadSecondaryMsgForLessFileKey.................................................688
+;       →→→ §2.10.1: ProcessHandleCommitCssOkError.............................................539
+;     >>> §2.11: HandleCommitCssCancel.........................................................567
+;   §3: GUI PERSISTENCE FUNCTIONS..............................................................575
+;     >>> §3.1: SaveCommitCssLessMsgHistory....................................................579
+;     >>> §3.2: LoadCommitCssLessMsgHistory....................................................616
+;     >>> §3.3: ReadKeyForLessMsgHistory.......................................................652
+;     >>> §3.4: ReadPrimaryMsgForLessFileKey...................................................670
+;     >>> §3.5: ReadSecondaryMsgForLessFileKey.................................................687
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -497,14 +497,13 @@ HandleCommitCssOk() {
 		commandLineInput .= "git commit -m """ . escaped1stCssMsg . """"
 
 		if ( ctrlCommitCss2ndMsg != "" ) {
-			escaped2ndCssMsg := EscapeCommitMessage( ctrlCommitCss2ndMsg )
-			commandLineInput .= " -m """ . escaped2ndCssMsg
+			commandLineInput .= " -m """
 			if ( ctrlCommitCssAlsoCommitLessSrc && ctrlCommitCss2ndLessMsg != "" ) {
 				escaped2ndLessMsg := EscapeCommitMessage( ctrlCommitCss2ndLessMsg )
-				commandLineInput .= " " & . escaped2ndLessMsg . """`r"
-			} else {
-				commandLineInput .= """`r"
+				commandLineInput .= escaped2ndLessMsg . " "
 			}
+			escaped2ndCssMsg := EscapeCommitMessage( ctrlCommitCss2ndMsg )
+			commandLineInput .= escaped2ndCssMsg . """`r"
 		} else if ( ctrlCommitCssAlsoCommitLessSrc && ctrlCommitCss2ndLessMsg != "" ) {
 			escaped2ndLessMsg := EscapeCommitMessage( ctrlCommitCss2ndLessMsg )
 			commandLineInput .= " -m """ . escaped2ndLessMsg . """`r"
