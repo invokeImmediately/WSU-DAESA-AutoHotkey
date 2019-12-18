@@ -73,8 +73,8 @@ CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssbuild, fnMinCssBuild
 	commitCssVars.fnCssbuild := fnCssbuild
 	commitCssVars.fnMinCssBuild := fnMinCssBuild
 	commitCssVars.dflt1stCommitMsg := "Update CSS dependency submodule & incorporate into builds"
-	commitCssVars.dflt1stCommitMsgAlt := "Modify CSS build dependency & update CSS builds"
-	commitCssVars.dflt1stCommitMsgAlt2 := "Update CSS builds w/ repo & submodule dependency changes"
+	commitCssVars.dflt1stCommitMsgAlt := "Update CSS builds w/ repo & submodule dependency changes"
+	commitCssVars.dflt1stCommitMsgAlt2 := "Modify CSS build dependency & update CSS builds"
 	commitCssVars.dflt2ndCommitMsg := "Update the submodule containing CSS build dependencies from "
  . "the DAESA-wide CSS development project, then rebuild the website's custom CSS production files "
  . "to incorporate any dependency changes."
