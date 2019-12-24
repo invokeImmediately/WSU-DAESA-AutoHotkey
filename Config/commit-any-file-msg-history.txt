@@ -728,8 +728,8 @@ C:\GitHub\WSU-OUE-AutoHotkey\wordPress.ahk
 Modify file encoding for unicode support
 Modify file encoding to UTF-8 BOM so that AutoHotkey correctly parses unicode characters present in script files.
 C:\GitHub\WSU-OUE-AutoHotkey\WorkspaceManagement\automatedDesktopSetUp.ahk
-Modify apps loaded during startup sequence
-Modify apps loaded on virtual desktop for website editing by adding a file explorer instance and replacing Microsoft Sticky Notes with Windows Notepad.
+Modify VD set up automation hotstrings
+Modify names of hostrings for automatically setting up window arrangements on VDs and change their behavior by assuming that the currently active VD is the intended VD on which set up should take place, rather than first switching to a predetermined VD in the script.
 C:\GitHub\WSU-OUE-AutoHotkey\WorkspaceManagement\virtualDesktops.ahk
 Fix bug in function that moves windows between VDs
 Fix broken functionality for systems who have a display scale factor applied to them by including the script's DPI scalar in  positioning of mouse clicks.
