@@ -2,8 +2,8 @@
 Design style for displaying candid career widget
 Design style for responsively displaying candid career widget on the ASCC homepage.
 dsp-custom.less
-Update import setting to match file name change
-
+Modify CSS build dependencies & update CSS builds
+Improve how the program logo is positioned in the main header.
 learningcommunities-custom.less
 Update dependencies, add style for new residence hall
 Update how dependencies are imported to match latest build method, and add a style for Waller hall.
@@ -17,8 +17,8 @@ nsse-custom.less
 Modify style of main site header
 Set background to crimson and remove maximum width restriction.
 oue-custom.less
-Update inline documentation
-
+Update CSS builds w/ repo & submodule dependency changes
+Modify superproject build dependency oue-custom.less by adding styles for the event feed that goes on the homepage.
 pbk-custom.less
 Update importing of Less file dependencies
 Import variables.less separately from wp-master-style-sheet.less to enable variable settings to be overwritten.
@@ -38,8 +38,8 @@ ucore-assessment-custom.less
 Revise LESS variable name
 Revise name of Less variable @v-p-lnhght to @body-text--lHeight
 ucore-custom.less
-Add style for recent posts
-
+Modify CSS build dependency & update CSS builds
+In superproject's CSS build depdendency ucore-custom.less, add a default fade-in animation to sectional article headers.
 ugr-custom.less
 Delete unused style rules & replace removed style rules
 Replace style rules that were removed in WSU-UE---CSS with utility classes that replace them.
