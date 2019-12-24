@@ -1,4 +1,4 @@
-﻿; ==================================================================================================
+; ==================================================================================================
 ; regExStrings.ahk
 ; --------------------------------------------------------------------------------------------------
 ; SUMMARY: Automate the insertion of RegEx strings used in find/replace editing via Sublime Text 3.
@@ -29,14 +29,22 @@
 ; TABLE OF CONTENTS:
 ; -----------------
 ;   §1: Regex strings for working with AHK files................................................38
+;     >>> §1.1: @findStrAhkTocSections1.........................................................00
+;     >>> §1.2: @findStrAhkTocSections2.........................................................00
+;     >>> §1.3: @replStrAhkTocSections2.........................................................00
+;     >>> §1.4: findStrAhkTocHeader.............................................................00
 ;   §2: Less/CSS files..........................................................................65
 ;   §3: JS files................................................................................91
 ;   §4: HTML files.............................................................................111
+;   §5: General note taking....................................................................111
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
 ;   §1: Regex strings for working with AHK files
 ; --------------------------------------------------------------------------------------------------
+
+;   ································································································
+;     >>> §1.1: @findStrAhkTocSections1
 
 :*:@findStrAhkTocSections1::
 	AppendAhkCmd(A_ThisLabel)
@@ -44,16 +52,25 @@
 		. "^}; {{}5{}}>>> .*$)|(?:{^}; {{}5{}}(?: ·){{}47{}}$\n{^}; {{}7{}}→→→ .*$)"
 Return
 
+;   ································································································
+;     >>> §1.2: @findStrAhkTocSections2
+
 :*:@findStrAhkTocSections2::
 	AppendAhkCmd(A_ThisLabel)
 	SendInput, % "{^} {{}1,{}}([0-9]{{}1,{}}): (; {{}3{}}.*§.{+})$"
 Return
+
+;   ································································································
+;     >>> §1.3: @replStrAhkTocSections2
 
 :*:@replStrAhkTocSections2::
 	AppendAhkCmd(A_ThisLabel)
 	SendInput, % "\1\2............................................................................."
 		. ".........."
 Return
+
+;   ································································································
+;     >>> §1.4: findStrAhkTocHeader
 
 :*:@findStrAhkTocHeader::
 	AppendAhkCmd(A_ThisLabel)
@@ -115,3 +132,58 @@ Return
 	AppendAhkCmd(A_ThisLabel)
 	SendInput, % "<img([{^}>](?{!}alt=))*>"
 Return
+
+; --------------------------------------------------------------------------------------------------
+;   §5: General note taking
+; --------------------------------------------------------------------------------------------------
+
+;   ································································································
+;     >>> §5.1: @finishNotesBlock
+
+:*:@finishNotesBlock::
+Return
+
+class NoteBlockFinisher {
+	static procNotFound := 1
+	static lineNotFound := 1 << 1
+
+	CheckProcess() {
+		return False
+	}
+
+	ErrorMsg( whatHappened ) {
+		WinGet, curProc, ProcessName, A
+		if( whatHappened == NoteBlockFinisher.procNotFound ) {
+			return "The active process, " . curProc . ", was not found to be among the list of approved processes including: " . this.GetApprovedProcList()
+		} else if ( whatHappened == NoteBlockFinisher.lineNotFound ) {
+			return "I determined that the line you are on in " . curProc . " wasn't inside the heading of a note block."
+		} else {
+			return "An unclassified error was encountered, so I'm giving up on finishing the note block."
+		}
+	}
+
+	Execute() {
+		this.ResetApprovedProcs()
+
+		procOk := this.CheckProcess()
+		if ( !procOk ) {
+			Return this.ErrorMsg( NoteBlockFinisher.procNotFound )
+		}
+
+		lineFound := this.FindTitleLine()
+		if ( !lineFound ) {
+			Return this.ErrorMsg( NoteBlockFinisher.lineNotFound )
+		}
+
+		Return 0
+	}
+
+	FindTitleLine() {
+		return False
+	}
+
+	ResetApprovedProcs() {
+		this.approvedProcs := [ { desc: "Sublime Text 3"
+			, titleStr: "ahk_exe sublime_text.exe" } ]
+	}
+}
