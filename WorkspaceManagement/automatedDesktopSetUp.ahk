@@ -4,7 +4,7 @@
 ; SUMMARY: Script for setting up the desktop upon session startup.
 ;
 ; AUTHOR: Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
-; 
+;
 ; REPOSITORY: https://github.com/invokeImmediately/WSU-AutoHotkey
 ;
 ; LICENSE: ISC - Copyright (c) 2019 Daniel C. Rieck.
@@ -24,44 +24,37 @@
 ; ==================================================================================================
 ; Table of Contents:
 ; -----------------
-;   §1: VIRTUAL DESKTOP SET UP HOTSTRINGS.......................................................68
-;     >>> §1.1: Work environment set up.........................................................72
-;       →→→ §1.1.1: @setupWorkEnvironment.......................................................75
-;       →→→ §1.1.2: @moveTempMonitors...........................................................92
-;       →→→ §1.1.3: @setupVirtualDesktops......................................................112
-;     >>> §1.2: Website editing VD.............................................................147
-;       →→→ §1.2.1: @setupVdForWebEditing......................................................150
-;       →→→ §1.2.2: PositionWindowViaCtrlFN(…).................................................186
-;       →→→ §1.2.3: @startSublimeText3.........................................................203
-;       →→→ §1.2.4: @startChrome...............................................................215
-;       →→→ §1.2.5: PositionChromeVD1()........................................................227
-;       →→→ §1.2.6: Vd1_OpenWorkNotesLog().....................................................242
-;     >>> §1.3: Programming VD.................................................................306
-;       →→→ §1.3.1: @setupVdForProgramming.....................................................309
-;       →→→ §1.3.2: AddSublimeText3ToVd() + @addSublimeText3ToVd...............................332
-;       →→→ §1.3.3: @startGithubClients........................................................374
-;       →→→ §1.3.4: @arrangeGitHub.............................................................392
-;       →→→ §1.3.5: agh_MovePowerShell().......................................................428
-;     >>> §1.4: Graphic design VD..............................................................483
-;       →→→ §1.4.1: @setupVdForGraphicDesign...................................................486
-;       →→→ §1.4.2: svd3_OpenGraphicsReferences(…).............................................503
-;       →→→ §1.4.3: svd3_OpenGimp(…)...........................................................515
-;       →→→ §1.4.4: @arrangeGimp...............................................................527
-;     >>> §1.5: Communications and media VD....................................................550
-;       →→→ §1.5.1: @setupVdForCommunications..................................................553
-;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)................................................571
-;       →→→ §1.5.3: @arrangeEmail..............................................................596
-;     >>> §1.6: Research VD....................................................................636
-;       →→→ §1.6.1: @setupVdForResearch........................................................639
-;     >>> §1.7: PC monitoring VD...............................................................693
-;       →→→ §1.7.1: @setupVdForPcMonitoring....................................................696
-;   §2: STARTUP HOTKEYS........................................................................717
-;     >>> §2.1: #!r............................................................................721
-;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................728
-;     >>> §3.1: @quitAhk.......................................................................732
-;     >>> §3.2: PerformScriptShutdownTasks()...................................................741
-;     >>> §3.3: ^#!r...........................................................................751
-;     >>> §3.4: ScriptExitFunc(…)..............................................................760
+;   §1: VIRTUAL DESKTOP SET UP HOTSTRINGS.......................................................61
+;     >>> §1.1: Work environment set up — @setupWorkEnvironment.................................65
+;       →→→ §1.1.1: @moveTempMonitors...........................................................82
+;       →→→ §1.1.2: @setupVirtualDesktops......................................................102
+;     >>> §1.2: Website editing VD — @setupVdForWebEditing.....................................137
+;       →→→ §1.2.1: @startChrome...............................................................173
+;       →→→ §1.2.2: @startSublimeText3.........................................................183
+;       →→→ §1.2.3: PositionChromeVD1()........................................................194
+;       →→→ §1.2.4: PositionWindowViaCtrlFN(…).................................................209
+;       →→→ §1.2.5: Vd1_OpenWorkNotesLog().....................................................226
+;     >>> §1.3: Programming VD — @setupVdForProgramming........................................290
+;       →→→ §1.3.1: @addSublimeText3ToVd + AddSublimeText3ToVd()...............................311
+;       →→→ §1.3.2: @arrangeGitHub.............................................................351
+;       →→→ §1.3.3: @startGithubClients........................................................387
+;       →→→ §1.3.4: agh_MovePowerShell().......................................................405
+;     >>> §1.4: Graphic design VD — @setupVdForGraphicDesign...................................460
+;       →→→ §1.4.1: @arrangeGimp...............................................................477
+;       →→→ §1.4.2: svd3_OpenGimp(…)...........................................................500
+;       →→→ §1.4.3: svd3_OpenGraphicsReferences(…).............................................512
+;     >>> §1.5: Communications and media VD — @setupVdForCommunications........................524
+;       →→→ §1.5.1: @arrangeEmail..............................................................542
+;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)................................................582
+;     >>> §1.6: Research VD — @setupVdForResearch..............................................607
+;     >>> §1.7: PC monitoring VD — @setupVdForPcMonitoring.....................................661
+;   §2: STARTUP HOTKEYS........................................................................682
+;     >>> §2.1: #!r............................................................................686
+;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................693
+;     >>> §3.1: @quitAhk.......................................................................697
+;     >>> §3.2: ^#!r...........................................................................706
+;     >>> §3.3: PerformScriptShutdownTasks()...................................................715
+;     >>> §3.4: ScriptExitFunc(…)..............................................................725
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -69,10 +62,7 @@
 ; --------------------------------------------------------------------------------------------------
 
 ;   ································································································
-;     >>> §1.1: Work environment set up
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.1.1: @setupWorkEnvironment
+;     >>> §1.1: Work environment set up — @setupWorkEnvironment
 
 :*:@setupWorkEnvironment::
 	AppendAhkCmd(A_ThisLabel)
@@ -89,7 +79,7 @@
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.1.2: @moveTempMonitors
+;       →→→ §1.1.1: @moveTempMonitors
 
 :*:@moveTempMonitors::
 	AppendAhkCmd( A_ThisLabel )
@@ -109,7 +99,7 @@ Return
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.1.3: @setupVirtualDesktops
+;       →→→ §1.1.2: @setupVirtualDesktops
 
 :*:@setupVirtualDesktops::
 	AppendAhkCmd(A_ThisLabel)
@@ -144,10 +134,7 @@ Return
 Return
 
 ;   ································································································
-;     >>> §1.2: Website editing VD
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.2.1: @setupVdForWebEditing
+;     >>> §1.2: Website editing VD — @setupVdForWebEditing
 
 :*:@setupVdForWebEditing::
 	AppendAhkCmd(A_ThisLabel)
@@ -183,7 +170,43 @@ Return
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.2.2: PositionWindowViaCtrlFN(…)
+;       →→→ §1.2.1: @startChrome
+
+:*:@startChrome::
+	AppendAhkCmd( A_ThisLabel )
+	LaunchStdApplicationPatiently( "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+		, "New Tab ahk_exe chrome.exe" )
+	execDelayer.Wait( "l" )
+Return
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.2.2: @startSublimeText3
+
+:*:@startSublimeText3::
+	AppendAhkCmd( A_ThisLabel )
+	titleToMatch := "Sublime Text ahk_exe sublime_text\.exe"
+	LaunchApplicationPatiently( "C:\Program Files\Sublime Text 3\sublime_text.exe"
+		, titleToMatch, mmRegEx )
+	execDelayer.Wait( "s", 2 )
+Return
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.2.3: PositionChromeVD1()
+
+PositionChromeOnWebEditVd() {
+	global execDelayer
+
+	chromeTitle := "Log In ahk_exe chrome.exe"
+	chromeActive := SafeWinActivate( chromeTitle )
+	if ( chromeActive ) {
+		PositionWindowViaCtrlFN( "^F7", execDelayer.InterpretDelayString( "s" ) * 5 )
+		execDelayer.Wait( "s", 5 )
+		WinMaximize % chromeTitle
+	}
+}
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.2.4: PositionWindowViaCtrlFN(…)
 
 PositionWindowViaCtrlFN(posHotkey, delay) {
 	global execDelayer
@@ -200,46 +223,7 @@ PositionWindowViaCtrlFN(posHotkey, delay) {
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.2.3: @startSublimeText3
-
-:*:@startSublimeText3::
-	; Start up Sublime Text, open a new window, and send the initial, primary instance to desktop #2
-	AppendAhkCmd(A_ThisLabel)
-	titleToMatch := "Sublime Text ahk_exe sublime_text\.exe"
-	LaunchApplicationPatiently("C:\Program Files\Sublime Text 3\sublime_text.exe"
-		, titleToMatch, mmRegEx)
-	execDelayer.Wait( "s", 2 )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.2.4: @startChrome
-
-:*:@startChrome::
-	; Start up Chrome and direct it to a WSU WordPress login page; wait for it to load before
-	; proceeding
-	AppendAhkCmd(A_ThisLabel)
-	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
-		, "New Tab ahk_exe chrome.exe")
-	execDelayer.Wait( "l" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.2.5: PositionChromeVD1()
-
-PositionChromeOnWebEditVd() {
-	global execDelayer
-
-	chromeTitle := "Log In ahk_exe chrome.exe"
-	chromeActive := SafeWinActivate(chromeTitle)
-	if (chromeActive) {
-		PositionWindowViaCtrlFN("^F7", execDelayer.InterpretDelayString( "s" ) * 5 )
-		execDelayer.Wait( "s", 5 )
-		WinMaximize % chromeTitle
-	}
-}
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.2.6: Vd1_OpenWorkNotesLog()
+;       →→→ §1.2.5: Vd1_OpenWorkNotesLog()
 
 WebEditVd_OpenWorkNotesLog() {
 	global mmRegEx
@@ -303,35 +287,36 @@ WebEditVd_OpenWorkNotesLog() {
 }
 
 ;   ································································································
-;     >>> §1.3: Programming VD
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.3.1: setupVdForProgramming
+;     >>> §1.3: Programming VD — @setupVdForProgramming
 
 :*:@setupVdForProgramming::
-	AppendAhkCmd(A_ThisLabel)
+	AppendAhkCmd( A_ThisLabel )
 	execDelayer.Wait( "s", 10 )
 	DisplaySplashText("Setting up current virtual desktop for coding and source code management."
 		, 3000)
 
 	; Load programming IDE, scripting and command-line interface, and coding repository.
 	execDelayer.Wait( "s", 10 )
-	AddSublimeText3ToVd(2)
-	execDelayer.Wait( "s", 5 )
-	switchDesktopByNumber(2)
+	curVd := GetCurrentVirtualDesktop()
+	AddSublimeText3ToVd( curVd )
 	execDelayer.Wait( "s", 5 )
 	SendInput #e
-	WaitForApplicationPatiently("This PC")
+	WaitForApplicationPatiently( "This PC" )
 	Gosub :*:@startGithubClients
-
-	; Restore default arrangement of windows.
+	execDelayer.Wait( "s", 5 )
 	Gosub :*:@arrangeGitHub
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.3.2: AddSublimeText3ToVd(…) + @addSublimeText3ToVd
+;       →→→ §1.3.1: @addSublimeText3ToVd + AddSublimeText3ToVd(…)
 
-AddSublimeText3ToVd(whichVd) {
+:*:@addSublimeText3ToVd::
+	AppendAhkCmd( A_ThisLabel )
+	curVd := GetCurrentVirtualDesktop()
+	AddSublimeText3ToVd( curVd )
+Return
+
+AddSublimeText3ToVd( whichVd ) {
 	global mmRegEx
 	global execDelayer
 
@@ -345,51 +330,25 @@ AddSublimeText3ToVd(whichVd) {
 	{
 		; Switch to ST3 so that a new window can be generated and moved to the virtual desktop
 		execDelayer.InterpretDelayString( "m" )
-		SafeWinActivate(st3TitleToMatch, mmRegEx)
+		SafeWinActivate( st3TitleToMatch, mmRegEx )
 		execDelayer.InterpretDelayString( "m", 2 )
 		st3Vd := GetCurrentVirtualDesktop()
-		if (st3Vd != whichVd) {
+		if ( st3Vd != whichVd ) {
 			SendInput, ^+n
 			execDelayer.InterpretDelayString( "m", 3 )
-			WaitForApplicationPatiently(st3NewWinTitle)
-			moveActiveWindowToVirtualDesktop(whichVd)
+			WaitForApplicationPatiently( st3NewWinTitle )
+			moveActiveWindowToVirtualDesktop( whichVd )
 			execDelayer.InterpretDelayString( "m", 3 )
-			switchDesktopByNumber(whichVd)
+			switchDesktopByNumber( whichVd )
 		}
-	}
-	else
-	{
+	} else {
 		GoSub, :*:@startSublimeText3
 	}
 	RestoreMatchMode(oldTitleMatchMode)
 }
 
-:*:@addSublimeText3ToVd::
-	AppendAhkCmd( A_ThisLabel )
-	curVd := GetCurrentVirtualDesktop()
-	AddSublimeText3ToVd( curVd )
-Return
-
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.3.3: @startGithubClients
-
-:*:@startGithubClients::
-	AppendAhkCmd( A_ThisLabel )
-	execDelayer.Wait( "s" )
-	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
-		, "New Tab")
-	execDelayer.Wait( "s" )
-	OpenWebsiteInChrome("github.com/invokeImmediately", False)
-	; LaunchStdApplicationPatiently(userAccountFolderSSD . "\AppData\Local\GitHubDesktop\GitHubDesktop.exe"
-	; 	, "GitHub ahk_exe GitHubDesktop.exe")
-	; Sleep % delay * 3
-	LaunchApplicationPatiently("C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe"
-		, "ahk_exe powershell.exe")
-	execDelayer.Wait( "s", 3 )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.3.4: @arrangeGitHub
+;       →→→ §1.3.2: @arrangeGitHub
 
 :*:@arrangeGitHub::
 	AppendAhkCmd(A_ThisLabel)
@@ -425,7 +384,25 @@ Return
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.3.5: agh_MovePowerShell()
+;       →→→ §1.3.3: @startGithubClients
+
+:*:@startGithubClients::
+	AppendAhkCmd( A_ThisLabel )
+	execDelayer.Wait( "s" )
+	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+		, "New Tab")
+	execDelayer.Wait( "s" )
+	OpenWebsiteInChrome("github.com/invokeImmediately", False)
+	; LaunchStdApplicationPatiently(userAccountFolderSSD . "\AppData\Local\GitHubDesktop\GitHubDesktop.exe"
+	; 	, "GitHub ahk_exe GitHubDesktop.exe")
+	; Sleep % delay * 3
+	LaunchApplicationPatiently("C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe"
+		, "ahk_exe powershell.exe")
+	execDelayer.Wait( "s", 3 )
+Return
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.3.4: agh_MovePowerShell()
 
 agh_MovePowerShell() {
 	global execDelayer
@@ -480,10 +457,7 @@ agh_MovePowerShell() {
 }
 
 ;   ································································································
-;     >>> §1.4: Graphic design VD
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.4.1: @setupVdForGraphicDesign
+;     >>> §1.4: Graphic design VD — @setupVdForGraphicDesign
 
 :*:@setupVdForGraphicDesign::
 	delay := GetDelay("medium")
@@ -500,31 +474,7 @@ agh_MovePowerShell() {
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.4.2: svd3_OpenGraphicsReferences(…)
-
-svd3_OpenGraphicsReferences(delay) {
-	Sleep % delay * 2
-	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
-		, "New Tab")
-	OpenWebsiteInChrome("www.colorhexa.com", False)
-	Sleep % delay
-	OpenWebsiteInChrome("brand.wsu.edu/visual/colors")
-}
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.4.3: svd3_OpenGimp(…)
-
-svd3_OpenGimp(delay) {
-	Sleep % delay
-	PositionWindowViaCtrlFN("^F10", 100)
-	LaunchApplicationPatiently("C:\Program Files\GIMP 2\bin\gimp-2.10.exe", "GNU Image")
-	Sleep % delay * 3
-	PositionWindowViaCtrlFN("^F6", 100)
-	Sleep % delay * 3
-}
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.4.4: @arrangeGimp
+;       →→→ §1.4.1: @arrangeGimp
 
 :*:@arrangeGimp::
 	AppendAhkCmd(A_ThisLabel)
@@ -546,11 +496,32 @@ svd3_OpenGimp(delay) {
 	WinMove Navigation, , 615, 518, 350, 522
 Return
 
-;   ································································································
-;     >>> §1.5: Communications and media VD
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.4.2: svd3_OpenGimp(…)
+
+svd3_OpenGimp(delay) {
+	Sleep % delay
+	PositionWindowViaCtrlFN("^F10", 100)
+	LaunchApplicationPatiently("C:\Program Files\GIMP 2\bin\gimp-2.10.exe", "GNU Image")
+	Sleep % delay * 3
+	PositionWindowViaCtrlFN("^F6", 100)
+	Sleep % delay * 3
+}
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.5.1: @setupVdForCommunications
+;       →→→ §1.4.3: svd3_OpenGraphicsReferences(…)
+
+svd3_OpenGraphicsReferences(delay) {
+	Sleep % delay * 2
+	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+		, "New Tab")
+	OpenWebsiteInChrome("www.colorhexa.com", False)
+	Sleep % delay
+	OpenWebsiteInChrome("brand.wsu.edu/visual/colors")
+}
+
+;   ································································································
+;     >>> §1.5: Communications and media VD — @setupVdForCommunications
 
 :*:@setupVdForCommunications::
 	AppendAhkCmd(A_ThisLabel)
@@ -568,32 +539,7 @@ Return
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)
-
-svd4_LoadWebEmailClients( delay ) {
-	global execDelayer
-	execDelayer.Wait( delay, 1.5 )
-	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
-		, "New Tab")
-	execDelayer.Wait( delay, 10 )
-	OpenWebsiteInChrome("mail.google.com", False)
-	execDelayer.Wait( delay )
-	OpenWebsiteInChrome("mail.live.com")
-	execDelayer.Wait( delay )
-	OpenWebsiteInChrome("web.wsu.edu")
-	execDelayer.Wait( delay )
-	OpenWebsiteInChrome("wsu-web.slack.com")
-	execDelayer.Wait( delay )
-	MoveToNextTabInChrome()
-	execDelayer.Wait( delay, 3 )
-
-	OpenNewWindowInChrome()
-	OpenWebsiteInChrome("trello.com", False)
-	PositionWindowViaCtrlFN("^F10", delay)
-}
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.5.3: @arrangeEmail
+;       →→→ §1.5.1: @arrangeEmail
 
 :*:@arrangeEmail::
 	delay := execDelayer.InterpretDelayString( "s" ) * 2
@@ -632,11 +578,33 @@ svd4_LoadWebEmailClients( delay ) {
 	execDelayer.Wait( delay )
 Return
 
-;   ································································································
-;     >>> §1.6: Research VD
-
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.6.1: @setupVdForResearch
+;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)
+
+svd4_LoadWebEmailClients( delay ) {
+	global execDelayer
+	execDelayer.Wait( delay, 1.5 )
+	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+		, "New Tab")
+	execDelayer.Wait( delay, 10 )
+	OpenWebsiteInChrome("mail.google.com", False)
+	execDelayer.Wait( delay )
+	OpenWebsiteInChrome("mail.live.com")
+	execDelayer.Wait( delay )
+	OpenWebsiteInChrome("web.wsu.edu")
+	execDelayer.Wait( delay )
+	OpenWebsiteInChrome("wsu-web.slack.com")
+	execDelayer.Wait( delay )
+	MoveToNextTabInChrome()
+	execDelayer.Wait( delay, 3 )
+
+	OpenNewWindowInChrome()
+	OpenWebsiteInChrome("trello.com", False)
+	PositionWindowViaCtrlFN("^F10", delay)
+}
+
+;   ································································································
+;     >>> §1.6: Research VD — @setupVdForResearch
 
 :*:@setupVdForResearch::
 	delay := execDelayer.InterpretDelayString( "s" )
@@ -690,10 +658,7 @@ Return
 Return
 
 ;   ································································································
-;     >>> §1.7: PC monitoring VD
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.7.1: @setupVdForPcMonitoring
+;     >>> §1.7: PC monitoring VD — @setupVdForPcMonitoring
 
 :*:@setupVdForPcMonitoring::
 	AppendAhkCmd(A_ThisLabel)
@@ -738,7 +703,16 @@ Return
 Return
 
 ;   ································································································
-;     >>> §3.2: PerformScriptShutdownTasks()
+;     >>> §3.2: ^#!r
+
+^#!r::
+	PerformScriptShutdownTasks()
+	Run *RunAs "%A_ScriptFullPath%"
+	ExitApp
+Return
+
+;   ································································································
+;     >>> §3.3: PerformScriptShutdownTasks()
 
 PerformScriptShutdownTasks() {
 	SaveAhkCmdHistory()
@@ -746,15 +720,6 @@ PerformScriptShutdownTasks() {
 	SaveCommitJsCustomJsMsgHistory()
 	SaveCafMsgHistory()
 }
-
-;   ································································································
-;     >>> §3.3: ^#!r
-
-^#!r::
-	PerformScriptShutdownTasks()
-	Run *RunAs "%A_ScriptFullPath%" 
-	ExitApp
-Return
 
 ;   ································································································
 ;     >>> §3.4: ScriptExitFunc(…)
