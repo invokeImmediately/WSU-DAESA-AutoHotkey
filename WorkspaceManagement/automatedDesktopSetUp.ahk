@@ -24,37 +24,38 @@
 ; ==================================================================================================
 ; Table of Contents:
 ; -----------------
-;   §1: VIRTUAL DESKTOP SET UP HOTSTRINGS.......................................................61
-;     >>> §1.1: Work environment set up — @setupWorkEnvironment.................................65
-;       →→→ §1.1.1: @moveTempMonitors...........................................................82
-;       →→→ §1.1.2: @setupVirtualDesktops......................................................102
-;     >>> §1.2: Website editing VD — @setupVdForWebEditing.....................................137
-;       →→→ §1.2.1: @startChrome...............................................................173
-;       →→→ §1.2.2: @startSublimeText3.........................................................183
-;       →→→ §1.2.3: PositionChromeVD1()........................................................194
-;       →→→ §1.2.4: PositionWindowViaCtrlFN(…).................................................209
-;       →→→ §1.2.5: Vd1_OpenWorkNotesLog().....................................................226
-;     >>> §1.3: Programming VD — @setupVdForProgramming........................................290
-;       →→→ §1.3.1: @addSublimeText3ToVd + AddSublimeText3ToVd()...............................311
-;       →→→ §1.3.2: @arrangeGitHub.............................................................351
-;       →→→ §1.3.3: @startGithubClients........................................................387
-;       →→→ §1.3.4: agh_MovePowerShell().......................................................405
-;     >>> §1.4: Graphic design VD — @setupVdForGraphicDesign...................................460
-;       →→→ §1.4.1: @arrangeGimp...............................................................477
-;       →→→ §1.4.2: svd3_OpenGimp(…)...........................................................500
-;       →→→ §1.4.3: svd3_OpenGraphicsReferences(…).............................................512
-;     >>> §1.5: Communications and media VD — @setupVdForCommunications........................524
-;       →→→ §1.5.1: @arrangeEmail..............................................................542
-;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)................................................582
-;     >>> §1.6: Research VD — @setupVdForResearch..............................................607
-;     >>> §1.7: PC monitoring VD — @setupVdForPcMonitoring.....................................661
-;   §2: STARTUP HOTKEYS........................................................................682
-;     >>> §2.1: #!r............................................................................686
-;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................693
-;     >>> §3.1: @quitAhk.......................................................................697
-;     >>> §3.2: ^#!r...........................................................................706
-;     >>> §3.3: PerformScriptShutdownTasks()...................................................715
-;     >>> §3.4: ScriptExitFunc(…)..............................................................725
+;   §1: VIRTUAL DESKTOP SET UP HOTSTRINGS.......................................................62
+;     >>> §1.1: Work environment set up — @setupWorkEnvironment.................................66
+;       →→→ §1.1.1: @moveTempMonitors...........................................................83
+;       →→→ §1.1.2: @setupVirtualDesktops......................................................103
+;     >>> §1.2: Website editing VD — @setupVdForWebEditing.....................................138
+;       →→→ §1.2.1: @startChrome...............................................................174
+;       →→→ §1.2.2: @startSublimeText3.........................................................184
+;       →→→ §1.2.3: PositionChromeVD1()........................................................195
+;       →→→ §1.2.4: MoveActWinToMonViaCtrlFN(…)................................................210
+;       →→→ §1.2.5: EnsureActWinMaxed()........................................................236
+;       →→→ §1.2.6: Vd1_OpenWorkNotesLog().....................................................246
+;     >>> §1.3: Programming VD — @setupVdForProgramming........................................310
+;       →→→ §1.3.1: @addSublimeText3ToVd + AddSublimeText3ToVd()...............................331
+;       →→→ §1.3.2: @arrangeGitHub.............................................................371
+;       →→→ §1.3.3: @startGithubClients........................................................407
+;       →→→ §1.3.4: agh_MovePowerShell().......................................................425
+;     >>> §1.4: Graphic design VD — @setupVdForGraphicDesign...................................480
+;       →→→ §1.4.1: @arrangeGimp...............................................................497
+;       →→→ §1.4.2: svd3_OpenGimp(…)...........................................................520
+;       →→→ §1.4.3: svd3_OpenGraphicsReferences(…).............................................532
+;     >>> §1.5: Communications and media VD — @setupVdForCommunications........................544
+;       →→→ §1.5.1: @arrangeEmail..............................................................562
+;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)................................................602
+;     >>> §1.6: Research VD — @setupVdForResearch..............................................627
+;     >>> §1.7: PC monitoring VD — @setupVdForPcMonitoring.....................................681
+;   §2: STARTUP HOTKEYS........................................................................702
+;     >>> §2.1: #!r............................................................................706
+;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................713
+;     >>> §3.1: @quitAhk.......................................................................717
+;     >>> §3.2: ^#!r...........................................................................726
+;     >>> §3.3: PerformScriptShutdownTasks()...................................................735
+;     >>> §3.4: ScriptExitFunc(…)..............................................................745
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -144,7 +145,7 @@ Return
 	MapDesktopsFromRegistry()
 	AddSublimeText3ToVd( vdCurrentDesktop )
 	execDelayer.Wait( "s", 4 )
-	PositionWindowViaCtrlFN( "^F8", execDelayer.InterpretDelayString( "s" ) * 4 )
+	MoveActWinToMonViaCtrlFN( "^F8", execDelayer.InterpretDelayString( "s" ) * 4 )
 
 	; Load chrome & navigate to WSUWP login page
 	Gosub :*:@startChrome
@@ -199,31 +200,50 @@ PositionChromeOnWebEditVd() {
 	chromeTitle := "Log In ahk_exe chrome.exe"
 	chromeActive := SafeWinActivate( chromeTitle )
 	if ( chromeActive ) {
-		PositionWindowViaCtrlFN( "^F7", execDelayer.InterpretDelayString( "s" ) * 5 )
+		MoveActWinToMonViaCtrlFN( "^F7", execDelayer.InterpretDelayString( "s" ) * 5 )
 		execDelayer.Wait( "s", 5 )
-		WinMaximize % chromeTitle
+		EnsureActWinMaxed()
 	}
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.2.4: PositionWindowViaCtrlFN(…)
+;       →→→ §1.2.4: MoveActWinToMonViaCtrlFN(…)
 
-PositionWindowViaCtrlFN(posHotkey, delay) {
+MoveActWinToMonViaCtrlFN(posHotkey, delay) {
 	global execDelayer
 
-	if ( posHotkey == "^F6" || posHotkey == "^F7" || posHotkey == "^F8" || posHotkey == "^F9"
-			|| posHotkey == "^F10" || posHotkey == "^F11" ) {
-		Gosub % posHotkey
-		execDelayer.Wait( delay )
-		SendInput % "{Enter}"
-	} else {
+	if ( !( posHotkey == "^F6" || posHotkey == "^F7" || posHotkey == "^F8" || posHotkey == "^F9"
+			|| posHotkey == "^F10" || posHotkey == "^F11" ) ) {
 		errorMsg := New GuiMsgBox( "Error in " . A_ThisFunc . ": I was passed a window positioning "
 			. "hotkey that I do not recognize: " . posHotkey )
+		Return
+	}
+	if ( posHotkey == "^F6" || posHotkey == "^F7" && FindNearestActiveMonitor() == 1 ) {
+		Return
+	}
+	if ( posHotkey == "^F8" || posHotkey == "^F9" && FindNearestActiveMonitor() == 2 ) {
+		Return
+	}
+	if ( posHotkey == "^F10" || posHotkey == "^F11" && FindNearestActiveMonitor() == 3 ) {
+		Return
+	}
+	Gosub % posHotkey
+	execDelayer.Wait( delay )
+	SendInput % "{Enter}"
+}
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.2.5: EnsureActWinMaxed()
+
+EnsureActWinMaxed() {
+	WinGet, state, MinMax
+	if ( state != 1 ) {
+		WinMaximize, A
 	}
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.2.5: Vd1_OpenWorkNotesLog()
+;       →→→ §1.2.6: Vd1_OpenWorkNotesLog()
 
 WebEditVd_OpenWorkNotesLog() {
 	global mmRegEx
@@ -240,7 +260,7 @@ WebEditVd_OpenWorkNotesLog() {
 		; Ensure ST3 is active and restore default position of work notes
 		execDelayer.Wait( "m" )
 		SafeWinActivate(st3TitleToMatch, mmRegEx)
-		PositionWindowViaCtrlFN("^F10", execDelayer.InterpretDelayString( "m" ) )
+		MoveActWinToMonViaCtrlFN("^F10", execDelayer.InterpretDelayString( "m" ) )
 		execDelayer.Wait( "m", 3 )
 		Loop 3 {
 			GoSub % "<^!#Left"
@@ -251,7 +271,7 @@ WebEditVd_OpenWorkNotesLog() {
 		SendInput, ^+n
 		execDelayer.Wait( "m", 3 )
 		WaitForApplicationPatiently(st3NewWinTitle)
-		PositionWindowViaCtrlFN("^F8", execDelayer.InterpretDelayString( "m" ) )
+		MoveActWinToMonViaCtrlFN("^F8", execDelayer.InterpretDelayString( "m" ) )
 		Loop 3 {
 			GoSub % "<^!#Left"
 			execDelayer.Wait( "m" )
@@ -260,7 +280,7 @@ WebEditVd_OpenWorkNotesLog() {
 		; Activate existing ST3 process and restore its default position on virtual desktop
 		SafeWinActivate(st3GeneralTitle, mmRegEx)
 		execDelayer.Wait( "m" )
-		PositionWindowViaCtrlFN("^F8", execDelayer.InterpretDelayString( "m" ) )
+		MoveActWinToMonViaCtrlFN("^F8", execDelayer.InterpretDelayString( "m" ) )
 		execDelayer.Wait( "m", 3 )
 		Loop 3 {
 			GoSub % "<^!#Left"
@@ -276,7 +296,7 @@ WebEditVd_OpenWorkNotesLog() {
 		execDelayer.Wait( "m", 9 )
 		SendInput % "C:\GitHub\log_work-notes.txt{Enter}"
 		execDelayer.Wait( "m", 12 )
-		PositionWindowViaCtrlFN("^F10", execDelayer.InterpretDelayString( "m" ) )
+		MoveActWinToMonViaCtrlFN("^F10", execDelayer.InterpretDelayString( "m" ) )
 		execDelayer.Wait( "m", 3 )
 		Loop 3 {
 			GoSub % "<^!#Left"
@@ -376,7 +396,7 @@ AddSublimeText3ToVd( whichVd ) {
 	execDelayer.Wait( "s", 3 )
 	WinRestore, ahk_exe sublime_text.exe
 	execDelayer.Wait( "s" )
-	PositionWindowViaCtrlFN( "^F8", execDelayer.InterpretDelayString( "s", 2 ) )
+	MoveActWinToMonViaCtrlFN( "^F8", execDelayer.InterpretDelayString( "s", 2 ) )
 
 	; Position Powershell console window
 	agh_MovePowerShell()
@@ -501,10 +521,10 @@ Return
 
 svd3_OpenGimp(delay) {
 	Sleep % delay
-	PositionWindowViaCtrlFN("^F10", 100)
+	MoveActWinToMonViaCtrlFN("^F10", 100)
 	LaunchApplicationPatiently("C:\Program Files\GIMP 2\bin\gimp-2.10.exe", "GNU Image")
 	Sleep % delay * 3
-	PositionWindowViaCtrlFN("^F6", 100)
+	MoveActWinToMonViaCtrlFN("^F6", 100)
 	Sleep % delay * 3
 }
 
@@ -548,15 +568,15 @@ Return
 	; Reposition Outlook
 	WinActivate % "Inbox - ahk_exe OUTLOOK.EXE"
 	execDelayer.Wait( delay, 2 )
-	PositionWindowViaCtrlFN("^F8", delay)
+	MoveActWinToMonViaCtrlFN("^F8", delay)
 	execDelayer.Wait( delay, 1.25 )
-	WinMaximize A
+	EnsureActWinMaxed()
 	execDelayer.Wait( delay )
 
 	; Reposition Chrome window for email and news browsing
 	WinActivate % "Inbox ahk_exe chrome.exe"
 	execDelayer.Wait( delay, 1.25 )
-	PositionWindowViaCtrlFN("^F6", delay)
+	MoveActWinToMonViaCtrlFN("^F6", delay)
 	execDelayer.Wait( delay, 2.25 )
 
 	; Open second Gmail account
@@ -600,7 +620,7 @@ svd4_LoadWebEmailClients( delay ) {
 
 	OpenNewWindowInChrome()
 	OpenWebsiteInChrome("trello.com", False)
-	PositionWindowViaCtrlFN("^F10", delay)
+	MoveActWinToMonViaCtrlFN("^F10", delay)
 }
 
 ;   ································································································
@@ -626,9 +646,9 @@ svd4_LoadWebEmailClients( delay ) {
 	OpenWebsiteInChrome("dailyevergreen.com")
 	execDelayer.Wait( delay, 20 )
 	MoveToNextTabInChrome()
-	PositionWindowViaCtrlFN("^F6", delay)
+	MoveActWinToMonViaCtrlFN("^F6", delay)
 	execDelayer.Wait( delay, 10 )
-	WinMaximize A
+	EnsureActWinMaxed()
 
 	; Set up apps for Torah study.
 	execDelayer.Wait( delay, 6 )
@@ -643,17 +663,17 @@ svd4_LoadWebEmailClients( delay ) {
 	OpenWebsiteInChrome("www.blueletterbible.org")
 	execDelayer.Wait( delay, 10 )
 	MoveToNextTabInChrome()
-	PositionWindowViaCtrlFN("^F8", delay)
+	MoveActWinToMonViaCtrlFN("^F8", delay)
 	execDelayer.Wait( delay, 10 )
-	WinMaximize A
+	EnsureActWinMaxed()
 
 	; Load music app
 	LaunchStdApplicationPatiently("shell:appsFolder\AppleInc.iTunes_nzyj5cx40ttqa!iTunes", "iTunes")
 	execDelayer.Wait( delay )
 	WinActivate % "iTunes ahk_exe iTunes.exe"
 	execDelayer.Wait( delay )
-	PositionWindowViaCtrlFN("^F10", delay)
-	WinMaximize A
+	MoveActWinToMonViaCtrlFN("^F10", delay)
+	EnsureActWinMaxed()
 	execDelayer.Wait( delay, 10 )
 Return
 
