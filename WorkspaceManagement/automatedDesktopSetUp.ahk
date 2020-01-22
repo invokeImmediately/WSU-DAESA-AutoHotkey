@@ -218,13 +218,13 @@ MoveActWinToMonViaCtrlFN(posHotkey, delay) {
 			. "hotkey that I do not recognize: " . posHotkey )
 		Return
 	}
-	if ( posHotkey == "^F6" || posHotkey == "^F7" && FindNearestActiveMonitor() == 1 ) {
+	if ( ( posHotkey == "^F6" || posHotkey == "^F7" ) && FindNearestActiveMonitor() == 1 ) {
 		Return
 	}
-	if ( posHotkey == "^F8" || posHotkey == "^F9" && FindNearestActiveMonitor() == 2 ) {
+	if ( ( posHotkey == "^F8" || posHotkey == "^F9" ) && FindNearestActiveMonitor() == 2 ) {
 		Return
 	}
-	if ( posHotkey == "^F10" || posHotkey == "^F11" && FindNearestActiveMonitor() == 3 ) {
+	if ( ( posHotkey == "^F10" || posHotkey == "^F11" ) && FindNearestActiveMonitor() == 3 ) {
 		Return
 	}
 	Gosub % posHotkey
