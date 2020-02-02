@@ -106,6 +106,14 @@ class CssBldPsOps extends GhGui {
 			LV_GetText( cssBld, selRow, 5)
 			LV_GetText( minBld, selRow, 6)
 			CommitCssBuild( A_ThisFunc, repository, srcEntryPt, cssBld, minBld )
+			MsgBox, % (0x4 + 0x20)
+				, % A_ScriptName . ": Post CSS to website", % "After committing custom CSS build "
+				. "files and dependencies, would you like to apply the custom stylesheet built for "
+				. "production to the website via the WSUWP CSS Stylesheet Editor?"
+			IfMsgBox Yes
+			{
+				this.HandlePostCssBtn()
+			}
 		} else {
 			MsgBox % "Please select a repository for which files related to the custom CSS build sh"
 				. "ould be committed to GitHub."
@@ -181,6 +189,15 @@ class CssBldPsOps extends GhGui {
 			IfMsgBox Yes
 			{
 				this.HandleCmtCssBtn()
+				Return
+			}
+			MsgBox, % (0x4 + 0x20)
+				, % A_ScriptName . ": Post custom CSS to website", % "After rebuilding the the "
+				. "custom stylesheet built for production, would you like to apply it to the "
+				. "website via the WSUWP CSS Stylesheet Editor?"
+			IfMsgBox Yes
+			{
+				this.HandlePostCssBtn()
 			}
 		} else {
 			MsgBox % "Please select a repository in which to rebuild the WSUWP website's custom CSS"
