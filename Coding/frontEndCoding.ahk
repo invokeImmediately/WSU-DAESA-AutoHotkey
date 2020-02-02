@@ -10,23 +10,23 @@
 ;   §1: FUNCTIONS utilized in automating HTML-related processes.................................33
 ;     >>> §1.1: BuildHyperlinkArray.............................................................37
 ;     >>> §1.2: CopyWebpageSourceToClipboard....................................................75
-;     >>> §1.3: CountNewlinesInString..........................................................154
-;     >>> §1.4: ExportHyperlinkArray...........................................................167
-;     >>> §1.5: PullHrefsIntoHyperlinkArray....................................................192
-;   §2: HOTSTRINGS.............................................................................205
-;     >>> §2.1: Text Replacement...............................................................209
-;       →→→ §2.1.1: CSS shorthand insertion strings............................................212
-;       →→→ §2.1.2: URL shortcuts for WSUWP websites...........................................220
-;       →→→ §2.1.3: String insertion related to Front-end web development......................280
-;     >>> §2.2: RegEx..........................................................................292
-;     >>> §2.3: Backup HTML of OUE pages.......................................................299
-;       →→→ §2.3.1: @backupOuePage.............................................................302
-;       →→→ §2.3.2: BackupOueHtml & sub-functions..............................................328
-;       →→→ §2.3.3: @backupOuePost.............................................................546
-;     >>> §2.4: Hyperlink collection hotstring.................................................574
-;     >>> §2.5: Checking for WordPress Updates.................................................643
-;   §3: GUI-related hotstrings & functions for automating HTML-related tasks...................648
-;     >>> §3.1: Insert Builder Sections GUI....................................................652
+;     >>> §1.3: CountNewlinesInString..........................................................158
+;     >>> §1.4: ExportHyperlinkArray...........................................................171
+;     >>> §1.5: PullHrefsIntoHyperlinkArray....................................................196
+;   §2: HOTSTRINGS.............................................................................209
+;     >>> §2.1: Text Replacement...............................................................213
+;       →→→ §2.1.1: CSS shorthand insertion strings............................................216
+;       →→→ §2.1.2: URL shortcuts for WSUWP websites...........................................224
+;       →→→ §2.1.3: String insertion related to Front-end web development......................284
+;     >>> §2.2: RegEx..........................................................................296
+;     >>> §2.3: Backup HTML of OUE pages.......................................................303
+;       →→→ §2.3.1: @backupOuePage.............................................................306
+;       →→→ §2.3.2: BackupOueHtml & sub-functions..............................................332
+;       →→→ §2.3.3: @backupOuePost.............................................................550
+;     >>> §2.4: Hyperlink collection hotstring.................................................578
+;     >>> §2.5: Checking for WordPress Updates.................................................647
+;   §3: GUI-related hotstrings & functions for automating HTML-related tasks...................652
+;     >>> §3.1: Insert Builder Sections GUI....................................................656
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -130,12 +130,16 @@ CopyWebpageSourceToClipboard( webBrowserProcess, correctTitleNeedle, viewSourceT
 		} else {
 			Sleep % keyDelay * 15
 		}
+		execDelayer.Wait( "long", 2 )
 
 		; Copy the markup and close the tab
 		Send ^a
+		execDelayer.Wait( "long" )
 		Send ^c
+		execDelayer.Wait( "medium" )
 		Send ^w
 		success.code := Clipboard
+		execDelayer.Wait( "long" )
 
 		if (oldKeyDelay) {
 			SetKeyDelay %oldKeyDelay%
