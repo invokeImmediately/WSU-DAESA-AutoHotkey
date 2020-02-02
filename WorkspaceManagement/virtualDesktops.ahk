@@ -36,9 +36,10 @@ global vdCurrentDesktop = 1 ; Desktop count is 1-indexed (Microsoft numbers them
 
 :*:@closeOpenWindowsOnActiveVd::
 	AppendAhkCmd(A_ThisLabel)
-	CloseOpenWindowsOnVD()	
+	CloseOpenWindowsOnVD()
 Return
 
+; TODO: Replace with OOP approach.
 CloseOpenWindowsOnVD() { ; - Alias = cowvd
 	global g_osDesktopHwnd
 	global execDelayer
