@@ -182,7 +182,6 @@ caf1thruN_switchToDesktop(whichDesktop) {
 ^F11::
 	if ( sysNumMonitors >= 3 ) {
 		RemoveMinMaxStateForActiveWin()
-		SoundPlay, %windowSizingSound%
 		borderWidths := GetActiveWindowBorderWidths()
 		maxWidth := ( mon3WorkArea_Right + ( borderWidths.Horz - 1 ) ) - ( mon3WorkArea_Left
 			- ( borderWidths.Horz - 1 ) )
@@ -196,6 +195,7 @@ caf1thruN_switchToDesktop(whichDesktop) {
 		WinMove, A, , %newPosX%, 0, %newWidth%, %maxHeight%
 		TriggerWindowAdjustmentGui( 4, minWidth, maxWidth, newWidth, minHeight, maxHeight
 			, newHeight )
+		SoundPlay, %windowSizingSound%
 	} else {
 		Gosub, % "^F9"
 	}
@@ -204,7 +204,6 @@ Return
 ^F10::
 	if ( sysNumMonitors >= 3 ) {
 		RemoveMinMaxStateForActiveWin()
-		SoundPlay, %windowSizingSound%
 		borderWidths := GetActiveWindowBorderWidths()
 		maxWidth := ( mon3WorkArea_Right + ( borderWidths.Horz - 1 ) ) - ( mon3WorkArea_Left
 			- ( borderWidths.Horz - 1 ) )
@@ -218,6 +217,7 @@ Return
 		WinMove, A, , %newPosX%, 0, %newWidth%, %maxHeight%
 		TriggerWindowAdjustmentGui( 1, minWidth, maxWidth, newWidth, minHeight, maxHeight
 			, newHeight )
+		SoundPlay, %windowSizingSound%
 	} else {
 		Gosub, % "^F8"
 	}
@@ -226,7 +226,6 @@ Return
 ^F9::
 	if ( sysNumMonitors >= 2 ) {
 		RemoveMinMaxStateForActiveWin()
-		SoundPlay, %windowSizingSound%
 		borderWidths := GetActiveWindowBorderWidths()
 		maxWidth := ( mon2WorkArea_Right + ( borderWidths.Horz - 1 ) ) - ( mon2WorkArea_Left
 			- ( borderWidths.Horz - 1 ) )
@@ -240,6 +239,7 @@ Return
 		WinMove, A, , %newPosX%, 0, %newWidth%, %maxHeight%
 		TriggerWindowAdjustmentGui( 4, minWidth, maxWidth, newWidth, minHeight, maxHeight
 			, newHeight )
+		SoundPlay, %windowSizingSound%
 	} else {
 		Gosub, % "^F7"
 	}
@@ -248,7 +248,6 @@ Return
 ^F8::
 	if ( sysNumMonitors >= 2 ) {
 		RemoveMinMaxStateForActiveWin()
-		SoundPlay %windowSizingSound%
 		borderWidths := GetActiveWindowBorderWidths()
 		maxWidth := ( mon2WorkArea_Right + ( borderWidths.Horz - 1 ) ) - ( mon2WorkArea_Left
 			- ( borderWidths.Horz - 1 ) )
@@ -262,6 +261,7 @@ Return
 		WinMove, A, , %newPosX%, 0, %newWidth%, %maxHeight%
 		TriggerWindowAdjustmentGui( 1, minWidth, maxWidth, newWidth, minHeight, maxHeight
 			, newHeight )
+		SoundPlay %windowSizingSound%
 	} else {
 		Gosub, % "^F6"
 	}
@@ -269,7 +269,6 @@ Return
 
 ^F7::
 	RemoveMinMaxStateForActiveWin()
-	SoundPlay %windowSizingSound%
 	borderWidths := GetActiveWindowBorderWidths()
 	maxWidth := ( mon1WorkArea_Right + ( borderWidths.Horz - 1 ) ) - ( mon1WorkArea_Left
 		- ( borderWidths.Horz - 1 ) )
@@ -282,11 +281,11 @@ Return
 	newHeight := maxHeight
 	WinMove, A, , %newPosX%, 0, %newWidth%, %maxHeight%
 	TriggerWindowAdjustmentGui( 4, minWidth, maxWidth, newWidth, minHeight, maxHeight, newHeight )
+	SoundPlay %windowSizingSound%
 Return
 
 ^F6::
 	RemoveMinMaxStateForActiveWin()
-	SoundPlay %windowSizingSound%
 	borderWidths := GetActiveWindowBorderWidths()
 	maxWidth := (mon1WorkArea_Right + (borderWidths.Horz - 1)) - (mon1WorkArea_Left
 		- (borderWidths.Horz - 1))
@@ -299,6 +298,7 @@ Return
 	newHeight := maxHeight
 	WinMove, A, , %newPosX%, 0, %newWidth%, %newHeight%
 	TriggerWindowAdjustmentGui( 1, minWidth, maxWidth, newWidth, minHeight, maxHeight, newHeight )
+	SoundPlay %windowSizingSound%
 Return
 
 ;   ································································································
