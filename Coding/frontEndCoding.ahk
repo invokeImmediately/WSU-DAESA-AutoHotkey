@@ -17,7 +17,7 @@
 ;     >>> §2.1: Text Replacement...............................................................213
 ;       →→→ §2.1.1: CSS shorthand insertion strings............................................216
 ;       →→→ §2.1.2: URL shortcuts for WSUWP websites...........................................224
-;       →→→ §2.1.3: String insertion related to Front-end web development......................284
+;       →→→ §2.1.3: String insertion related to fsront-end web development.....................284
 ;     >>> §2.2: RegEx..........................................................................296
 ;     >>> §2.3: Backup HTML of OUE pages.......................................................303
 ;       →→→ §2.3.1: @backupOuePage.............................................................306
@@ -281,7 +281,7 @@ Return
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §2.1.3: String insertion related to Front-end web development
+;       →→→ §2.1.3: String insertion related to front-end web development
 
 :*:@insWorkNotesBlock::
 	AppendAhkCmd(A_ThisLabel)
@@ -289,7 +289,7 @@ Return
 	SendInput % "--"
 	Gosub :*:@ttc
 	SendInput % "──────────┐{Enter}│ Lorem ipsum dolor sit amet. │{Enter}└───┬─────────────────────"
-		. "────┘{Enter}{Tab}└─→ …{Up 2}{Left 7}+{Right 27}"
+		. "────┘{Enter}+{Tab}{Tab}└─→ …{Up 2}{Left 7}+{Right 27}"
 Return
 
 ;   ································································································
