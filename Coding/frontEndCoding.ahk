@@ -312,7 +312,7 @@ Return
 	webBrowserProcess := "chrome.exe"
 	correctTitleNeedle := "\| Washington State University"
 	viewSourceTitle := "view-source ahk_exe " . webBrowserProcess
-	workingFilePath := "C:\GitHub\WSU-OUE-AutoHotkey\Local\backupOuePage-workfile.html"
+	workingFilePath := A_ScriptDir . "\Local\backupOuePage-workfile.html"
 	targetContentNeedle := "{^}(?:\t| )*.*<section.*class="".*row.*$\n({^}.*$\n)*{^}(?:\t| )*</sect"
 		. "ion>$(?=\n{^}(?:\t| )*</div><{!}-- {#}post -->)|{^}(?:\t| )*<title>.*$\n|{^}(?:\t| )*<bo"
 		. "dy.*$\n|{^}(?:\t| )*</body.*$\n"

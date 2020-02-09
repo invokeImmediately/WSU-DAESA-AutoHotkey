@@ -151,7 +151,7 @@ ListAhkFiles() {
 		hsListPiped := StrReplace(hsList, "`n", "|")
 
 		; Store list of hotstrings to a backup file.
-		hsFile := GetGitHubFolder() . "\WSU-OUE-AutoHotkey\hotstrings.txt"
+		hsFile := A_ScriptDir . "\hotstrings.txt"
 		fileObj := FileOpen(hsFile, "w")
 		if (fileObj != 0) {
 			fileObj.Write(hsList)
@@ -166,10 +166,10 @@ ListAhkFiles() {
 LoadScriptConfiguration() {
 	global scriptCfg := {}
 
-	scriptCfg.backupJs := new CfgFile( "C:\GitHub\WSU-OUE-AutoHotkey\Config\backupJs.ahk.cfg" )
-	scriptCfg.cssBuilds := new CfgFile( "C:\GitHub\WSU-OUE-AutoHotkey\Config\cssBuilds.ahk.cfg" )
-	scriptCfg.daesaRepos := new CfgFile( "C:\GitHub\WSU-OUE-AutoHotkey\Config\daesaRepos.ahk.cfg" )
-	scriptCfg.gitStatus := new CfgFile( "C:\GitHub\WSU-OUE-AutoHotkey\Config\gitStatus.ahk.cfg" )
+	scriptCfg.backupJs := new CfgFile( A_ScriptDir . "\Config\backupJs.ahk.cfg" )
+	scriptCfg.cssBuilds := new CfgFile( A_ScriptDir . "\Config\cssBuilds.ahk.cfg" )
+	scriptCfg.daesaRepos := new CfgFile( A_ScriptDir . "\Config\daesaRepos.ahk.cfg" )
+	scriptCfg.gitStatus := new CfgFile( A_ScriptDir . "\Config\gitStatus.ahk.cfg" )
 }
 
 ;   ································································································

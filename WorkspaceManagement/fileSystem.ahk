@@ -149,7 +149,7 @@ Return
 Return
 
 :*:@gotoGhAhk::
-	InsertFilePath(A_ThisLabel, GetGitHubFolder() . "\WSU-OUE-AutoHotkey", "WSU-OUE-AutoHotkey")
+	InsertFilePath(A_ThisLabel, GetGitHubFolder() . "\WSU-DAESA-AutoHotkey", "WSU-DAESA-AutoHotkey")
 Return
 
 :*:cdcss::cd wsu-ue---css

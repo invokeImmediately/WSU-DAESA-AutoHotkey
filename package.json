@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/invokeImmediately/WSU-OUE-AutoHotkey.git"
+    "url": "git+https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey.git"
   },
   "keywords": [
     "WSU",
@@ -19,7 +19,7 @@
   "author": "Daniel Rieck <danielcrieck@gmail.com> (https://www.linkedin.com/in/danielcrieck/)",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/invokeImmediately/WSU-OUE-AutoHotkey/issues"
+    "url": "https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/issues"
   },
-  "homepage": "https://github.com/invokeImmediately/WSU-OUE-AutoHotkey#readme"
+  "homepage": "https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey#readme"
 }

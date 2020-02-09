@@ -7,7 +7,7 @@
 ; DESCRIPTION: This script depends on other functions from the AutoHotkey scripting project that 
 ;   supports development and coordination of WSU DAESA's websites while working on a Windows
 ;   platform. The project is developed and maintained on GitHub at:
-;   https://github.com/invokeImmediately/WSU-OUE-AutoHotkey
+;   https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey
 ;
 ; AUTHOR: Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; 

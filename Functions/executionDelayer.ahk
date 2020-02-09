@@ -5,7 +5,7 @@
 ; Sleep command.
 ; --------------
 ; Written by Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
-; ISC License - Copyright (c) 2019 Daniel C. Rieck, see WSU-OUE-AutoHotkey repo for more details.
+; ISC License - Copyright (c) 2019 Daniel C. Rieck, see WSU-DAESA-AutoHotkey repo for more details.
 ; ==================================================================================================
 ; Table of Contents:
 ; -----------------

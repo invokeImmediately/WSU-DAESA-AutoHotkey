@@ -7,7 +7,7 @@
 ;
 ; DESCRIPTION: Formerly, this project was conducted by the Office of Undergraduate Education (OUE),
 ;   which was combined with the Office of Academic Engagement to form DAESA. It is developed and
-;   maintained on GitHub at: https://github.com/invokeImmediately/WSU-OUE-AutoHotkey.
+;   maintained on GitHub at: https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey.
 ;
 ; AUTHOR: Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; 
