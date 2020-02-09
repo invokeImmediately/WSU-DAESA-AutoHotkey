@@ -1,6 +1,6 @@
 ﻿ascc-custom_new.less
-Design style for displaying candid career widget
-Design style for responsively displaying candid career widget on the ASCC homepage.
+Update CSS builds w/ repo & submodule dependency changes
+First, update inline documentation in ascc-custom.less by providing greater clarity and fixing a mistake in the file header comment.
 dsp-custom.less
 Modify CSS build dependencies & update CSS builds
 Improve how the program logo is positioned in the main header.
@@ -8,8 +8,8 @@ learningcommunities-custom.less
 Update dependencies, add style for new residence hall
 Update how dependencies are imported to match latest build method, and add a style for Waller hall.
 lsamp-custom.less
-Update bodering on spine, binder components
-
+Update CSS builds w/ repo & submodule dependency changes
+In CSS build dependency lsamp-custom.less, update inline documentation and the name of the CSS build entry point from the submodule WSU-UE---CSS.
 nse-custom.less
 Further addressing rounding error in IE11, Edge
 
@@ -32,17 +32,17 @@ surca-custom.less
 Update inline documentation
 
 ta-custom.less
-Fix accidental maximum width restriction on WP admin bar
-
+Modify CSS build dependency & update CSS builds
+Hide submit buttons on gravity forms that are being used to expose page controls that do not involve the submission of data back to the server.
 ucore-assessment-custom.less
 Revise LESS variable name
 Revise name of Less variable @v-p-lnhght to @body-text--lHeight
 ucore-custom.less
-Modify CSS build dependency & update CSS builds
-In superproject's CSS build depdendency ucore-custom.less, add a default fade-in animation to sectional article headers.
+Update CSS builds w/ repo & submodule dependency changes
+In superproject's CSS build depdendency ucore-custom.less, create a new style for governance tiles.
 ugr-custom.less
-Delete unused style rules & replace removed style rules
-Replace style rules that were removed in WSU-UE---CSS with utility classes that replace them.
+Update CSS builds w/ repo & submodule dependency changes
+First, update inline documentation in dependency ugr-custom.less.
 undergraduate-research-custom.less
 Add new style for validators on the travel award form
 Add a style that will render validators and their component elements hidden except for validation messages.

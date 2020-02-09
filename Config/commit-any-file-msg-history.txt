@@ -19,6 +19,9 @@ Add a file containing CSS code written by ASCC office staff members.
 C:\GitHub\ascc.wsu.edu\HTML\career-services_careers-abroad.html
 Update markup used to build page in WSUWP
 Update bio of Judy Hopkins with change in degree status.
+C:\GitHub\ascc.wsu.edu\HTML\home.html
+Add backup of markup used to build page via WSUWP
+Add backup of markup used to build the ASCC home page via the Spine builder template in WSUWP.
 C:\GitHub\ascc.wsu.edu\JS\ascc-specific.js
 Reduce line length to 100 characters
 For better readability
@@ -244,6 +247,9 @@ Update package-lock.json after running npm update
 C:\GitHub\learningcommunities.wsu.edu\package.json
 Remove unused dependency gulp-dest
 
+C:\GitHub\lsamp.wsu.edu\CSS\lsamp--legacy.less
+Update inline documentation
+Add a file header comment with  table of contents; a persistent file section comment that will document the code in the final, built stylesheet; and file sectioning comment blocks.
 C:\GitHub\lsamp.wsu.edu\CSS\lsamp__qualtrics_ccc-to-wsu-2019.css
 Add add-on styling for Qualtrics survey
 Styling is for customizing the look and feel of the CCC to WSU 2019 event hosted by the LSAMP program.
@@ -253,6 +259,9 @@ To increase site functionality, expand the complement of JS build dependencies t
 C:\GitHub\lsamp.wsu.edu\HTML\collegevisit.html
 Update backup of markup used to build page in WSUWP
 Update backup of the markup for the Connecting Community Colleges to WSU page with recent edits made to the content to reflect the fact that this year's event has passed.
+C:\GitHub\lsamp.wsu.edu\HTML\home.html
+Update markup used to build page in WSUWP
+Update markup used to build the LSAMP homepage page in WSUWP, via the Page Builder template of the Spine theme, with recent content changes made online.
 C:\GitHub\lsamp.wsu.edu\HTML\sab.html
 Update markup used to build page in WSUWP
 Update the list of LSAMP STEM ambassadors for 2019-20 with last student that needs to be added.
@@ -454,6 +463,9 @@ Add gulpfile, dependencies for making CSS, JS builds
 C:\GitHub\surca.wsu.edu\WSU-UE---CSS\headings.less
 Tweak padding for solid headers
 Tweak produces produce a sharper and more consistent alignment of headings with left edge of column.
+C:\GitHub\teachingacademy.wsu.edu\gulpfile.js
+Refactor gulp automation processes
+Add inline documentation to file and improve design by wrapping code in an IIFE and changing syntactical approach to declaring multiline strings; finally, update CSS build settings.
 C:\GitHub\teachingacademy.wsu.edu\HTML\snippet_hnav_2018-10-10.html
 Add HTML code snippet
 Add draft markup for building a horizontal menu on the teaching academy site.
@@ -532,18 +544,27 @@ Update development dependencies, project manifests
 C:\GitHub\ucore.wsu.edu\package.json
 Update development dependencies, project manifests
 
+C:\GitHub\ucore.wsu.edu\WSU-UE---CSS\components.less
+Fix bug from variable naming syntax error
+
 C:\GitHub\undergraduateresearch.wsu.edu\CSS\undergraduate-research-custom.less
 Update inline documentation
 Update file section demarcations to latest conventions and add table of contents
 C:\GitHub\undergraduateresearch.wsu.edu\gulpfile.js
-Add jQuery.css-data.js plugin as build dependency
-
+Update inline documentation
+Update the year in the copyright notices appearing in licensing related sections of the file.
 C:\GitHub\undergraduateresearch.wsu.edu\HTML\2018_07_16_undergraduate-research-award-winners.html
 Add markup for creating new post
 
+C:\GitHub\undergraduateresearch.wsu.edu\HTML\about-ug-research_why-and-when.html
+Update backups of markup used to build pages in WSUWP
+Update backups of markup used to build pages in WSUWP via the Spine builder template to incorporate recent fixes to accessibility issues found in these pages.
 C:\GitHub\undergraduateresearch.wsu.edu\HTML\for-faculty_why-mentor.html
 Add markup file to repository
 Makrup is for building the 'Why Mentor' page, which targets a faculty audience
+C:\GitHub\undergraduateresearch.wsu.edu\HTML\funding.html
+Update backups of markup used to build pages in WSUWP
+Update backups of markup used to build pages in WSUWP via the Spine builder template to incorporate recent fixes to accessibility issues found in these pages.
 C:\GitHub\undergraduateresearch.wsu.edu\HTML\funding_travel-awards.html
 Update markup used to build web page in WSUWP
 Update markup with changes made online to article tagline, updated body classes.
@@ -551,8 +572,17 @@ C:\GitHub\undergraduateresearch.wsu.edu\HTML\funding_undergraduate-research-awar
 Update copy of markup used to build page in WSUWP
 Update markup used to build undergraduateresearch.wsu.edu/funding/undergraduate-research-awards with removal of notice about last year's anonymous donation.
 C:\GitHub\undergraduateresearch.wsu.edu\HTML\get-started.html
-Add markup for building page in WSUWP
-
+Update backups of markup used to build pages in WSUWP
+Update backups of markup used to build pages in WSUWP via the Spine builder template to incorporate recent fixes to accessibility issues found in these pages.
+C:\GitHub\undergraduateresearch.wsu.edu\HTML\get-started_peer-mentoring.html
+Update backups of markup used to build pages in WSUWP
+Update backups of markup used to build pages in WSUWP via the Spine builder template to incorporate recent fixes to accessibility issues found in these pages.
+C:\GitHub\undergraduateresearch.wsu.edu\HTML\get-started_univ-199.html
+Update backups of markup used to build pages in WSUWP
+Update backups of markup used to build pages in WSUWP via the Spine builder template to incorporate recent fixes to accessibility issues found in these pages.
+C:\GitHub\undergraduateresearch.wsu.edu\HTML\home.html
+Update backups of markup used to build pages in WSUWP
+Update backups of markup used to build pages in WSUWP via the Spine builder template to incorporate recent fixes to accessibility issues found in these pages.
 C:\GitHub\undergraduateresearch.wsu.edu\HTML\programs_drop-in-mentoring.html
 Update markup used to build page in WSUWP
 Fix heading heirarchy and add additional information to make the copy clearer.
@@ -593,8 +623,8 @@ C:\GitHub\WSU-OUE-AutoHotkey\AutoHotkeyU64.ahk
 Update inline documentation
 Update file header comment in inline documentation.
 C:\GitHub\WSU-OUE-AutoHotkey\Coding\frontEndCoding.ahk
-Modify insertion of ellipses during markup backup process
-Modify how ellipses are inserted by wrapping them in an HTML comment block.
+Fix bug in hotstring @insWorkNotesBlock
+Fix issue where Sublime Text 3 improperly indents in random cases, likely because of mistaken contextual processing. Add a shift-tab key press before the tab press that triggers the desired indent, which seems to break out of the context ST3 is suspected to be stuck in.
 C:\GitHub\WSU-OUE-AutoHotkey\commandHistory.ahk
 Modify file encoding for unicode support
 Modify file encoding to UTF-8 BOM so that AutoHotkey correctly parses unicode characters present in script files.
@@ -611,10 +641,10 @@ C:\GitHub\WSU-OUE-AutoHotkey\Config\backupJs.ahk.cfg
 Fix bug from typo in file name
 
 C:\GitHub\WSU-OUE-AutoHotkey\Config\cssBuilds.ahk.cfg
-Update setting for a specific website
-Update the setting for the OUE website to reflect the change in name from OUE to DAESA.
+Update config. settings for teaching academy website
+Change the configuration settings for updating the custom CSS stylesheet on the Teaching Academy website now that it has gone live.
 C:\GitHub\WSU-OUE-AutoHotkey\Config\daesaRepos.ahk.cfg
-Fix mistake in script configuration settings
+Update configuration settings for DAESA repository
 
 C:\GitHub\WSU-OUE-AutoHotkey\desktopMain.ahk
 Modify entry point, fix bug in cataloging function
@@ -665,8 +695,8 @@ C:\GitHub\WSU-OUE-AutoHotkey\GitHub\CommitJsBuild.ahk
 Modify formatting string for git log invocations
 Modify formatting string for git log invocations by putting secondary commit message on its own line.
 C:\GitHub\WSU-OUE-AutoHotkey\GitHub\github.ahk
-Refactor file by cleaning up code
-Add more whitespace for better readability, and fix a few other minor formatting issues throughout the file.
+Modify hotstring for swapping slashes in clipboard text
+Modify hotstring @swapSlashes by updating its name to @reverseFwdSlashes, removing logical restrictions on which process is active, and removing the behavior of pasting modified text into PowerShell.
 C:\GitHub\WSU-OUE-AutoHotkey\guiMsgBox.ahk
 Modify file encoding for unicode support
 Modify file encoding to UTF-8 BOM so that AutoHotkey correctly parses unicode characters present in script files.
@@ -680,8 +710,8 @@ C:\GitHub\WSU-OUE-AutoHotkey\GUIs\BackupJsGui.ahk
 Modify GUI for backing up verified custom JS builds
 Fix mistake in GUI name specification in Gui Submit command and add the NoHide option when obtaining data from the GUI for the JS backup operation.
 C:\GitHub\WSU-OUE-AutoHotkey\GUIs\CssBldPsOps.ahk
-Modify function for updating CSS submodules in projects
-Fix the command line input to perform the git update command based on the remote-tracking branch of the CSS build dependency development submodule, and adjust some code formatting.
+Modify functions for handling button presses
+Modify functions HandleCmtCssBtn() and HandleRbldCssBtn() by adding additional options for follow up steps.
 C:\GitHub\WSU-OUE-AutoHotkey\GUIs\GhGui.ahk
 Refactor GUIs for automating GitHub related processes
 Move the less general OK button handler from GhGui to BackupJsGui, as planned objects that will inherit from GhGui may not have an OK button.
@@ -728,14 +758,14 @@ C:\GitHub\WSU-OUE-AutoHotkey\wordPress.ahk
 Modify file encoding for unicode support
 Modify file encoding to UTF-8 BOM so that AutoHotkey correctly parses unicode characters present in script files.
 C:\GitHub\WSU-OUE-AutoHotkey\WorkspaceManagement\automatedDesktopSetUp.ahk
-Modify VD set up automation hotstrings
-Modify names of hostrings for automatically setting up window arrangements on VDs and change their behavior by assuming that the currently active VD is the intended VD on which set up should take place, rather than first switching to a predetermined VD in the script.
+Fix lingering bugs in automated desktop set up process
+Fix missing maximization state checks in function MaxActWinOnMonViaCtrlFN(…); reintroduce and apply function for positioning the active window on the system monitors via Ctrl + FN hotkeys; and make fixes to the steps that open up my second gmail client.
 C:\GitHub\WSU-OUE-AutoHotkey\WorkspaceManagement\virtualDesktops.ahk
-Fix bug in function that moves windows between VDs
-Fix broken functionality for systems who have a display scale factor applied to them by including the script's DPI scalar in  positioning of mouse clicks.
+Add development note to inline documentation
+
 C:\GitHub\WSU-OUE-AutoHotkey\WorkspaceManagement\workspaceManagement.ahk
-Modify defaults for snapped positioning hotkeys
-Simplify the default window widths for snapped window positioning hotkeys ^F6 through ^F11.
+Modify hotkeys for snapping windows on system monitors
+Modify Ctrl + FN series of hotkeys by playing the window sizing sound at the end of the sequence of operations.
 C:\GitHub\WSU-OUE-AutoHotkey\workspaceMngmnt.ahk
 Add hotkeys for using the keyboard to position windows
 Add numpad-based hotkeys that move the active window around on the desktop based on user-keyboard interaction.
@@ -758,11 +788,11 @@ C:\GitHub\WSU-UE---CSS\columns.less
 Modify implementation and design of styles for columns
 Refactor implementation of styles for Spine Builder template columns by defining them as switchable declared rulesets; also remove outdated styling options, and modify default font weight to match the style of the Provost's office (but darken the font color for better readability).
 C:\GitHub\WSU-UE---CSS\components.less
-Fix style conflict involving static page header columns
-
+Modify specification in ruleset for hero containers
+Change the shade of crimson used in the design to match what is used on the WSU Strategic Plan website.
 C:\GitHub\WSU-UE---CSS\css-build-entry-point.less
-Update inline documentation
-Reorganize header comments for improved clarity and easier reading.
+Add missing import as build dependency
+Add new footers.less import as an imported build dependency.
 C:\GitHub\WSU-UE---CSS\cycle-slideshow.less
 Fix layout problem with pagers and reorganize code
 Add margin-based componesation for responsive positioning of slideshow pager buttons, and reorganize code so that style rules are grouped better according to the ancestral element to which they relate.
@@ -784,15 +814,18 @@ Darken the notes for improved contrast.
 C:\GitHub\WSU-UE---CSS\fonts.less
 Modify utility classes for specifying font families
 Reduce the number of font options for the site to lower impact on loading.
+C:\GitHub\WSU-UE---CSS\footers.less
+Add rewritten style for footers and global top bars
+Rewrite footer styling according to the BEM paradigm and make it possible to include the resulting ruleset via a guarded mixin.
 C:\GitHub\WSU-UE---CSS\forms.less
-Fix design mistake
-Remove default blue outlining of form input and select fields; this style was intended to be applied only under a focused state for accessibility purposes.
+Modify styling of section titles in gravity forms
+Bump up font size to a level more consistent with what is utilized on a typical DAESA website.
 C:\GitHub\WSU-UE---CSS\headers.less
-Modify dynamic behavior of article headers
-Remove fade in animation as a default dynamic behavior of article headers.
+Modify sizing of sectional article headers
+Add a selector string to prevent the default height from interfering with applications of utility classes.
 C:\GitHub\WSU-UE---CSS\headings.less
-Update design of default DAESA styles for headings
-Remove little used styling options, reduce the potential for style conflicts, and employ more nesting in design of default styles for headings.
+Adjust padding on solid headings
+Increase top padding to compensate for visual change from switching to a new font.
 C:\GitHub\WSU-UE---CSS\horizontal-rules.less
 Add an additional styling option for horizontal rules
 Add a crimson coloring scheme.
@@ -803,8 +836,8 @@ C:\GitHub\WSU-UE---CSS\hyperlink.less
 Add new switchable ruleset for provost-style links
 Add a design for provost-style links, which involves some improvements to the design of those found on the Provost's Office website, that can be switched on or off via detached ruleset declaration.
 C:\GitHub\WSU-UE---CSS\hyperlinks.less
-Update default font weight of hyperlinks
-Now that a finer font weight is generally being used for normal body text on DAESA websites, restore hyperlinks to normal font weight to have them stand out a little more.
+Further modify style of non-text links
+Update visual design by slightly brightening the bottom border color.
 C:\GitHub\WSU-UE---CSS\iframe.less
 Modify approach to declaring rules
 Replace call to mixin function .declare-iframe-ruleset with call to .declare-ruleset to enable use of an optional ruleset wrapper; clean up formatting of code
@@ -815,8 +848,8 @@ C:\GitHub\WSU-UE---CSS\interactively-flipped-panels.less
 Fix error in style conflict resolution
 Add important specification to property to resolve conflict
 C:\GitHub\WSU-UE---CSS\lists.less
-Modify default styling for FAQ definition lists
-Remove default indiscriminate bolding to enable bolding of specific parts of a frequently asked question.
+Modify background coloring of terms in definition lists
+Improve background coloring of definition lists by lightening it to achieve greater textual contrast while keeping some color for contrasting the definition term boxes with their surroundings.
 C:\GitHub\WSU-UE---CSS\main.less
 Modify approach to declaring rules
 Replace call to mixin function .declare-main-rulesets with call to .declare-ruleset to enable use of an optional ruleset wrapper
@@ -824,14 +857,14 @@ C:\GitHub\WSU-UE---CSS\mixins.less
 Modify mixin for declaring detached rulesets
 Modify mixin .declare-ruleset(…) by adding an additional switching argument, which allows Less variables to be set that control what rulesets get declared by default, but also can be changed by the developer to override default behavior.
 C:\GitHub\WSU-UE---CSS\news-posts.less
-Fix issues in styling of recent post widgets
-Make corrects to font sizing and padding that were breaking the intended layout.
+Fix font weighting of hyperlinked article titles
+
 C:\GitHub\WSU-UE---CSS\notices.less
 Fix syntax error in mixin .add-new-notice-class
 
 C:\GitHub\WSU-UE---CSS\on-this-page.less
-Modify selectors for semantic style rules
-Remove unnecessary inclusional mixin wrapper; entire page of code is already included in an inclusional mixin
+Fix layout-breaking style conflict
+Fix conflicting style from .column a that is breaking layout on hover interactions.
 C:\GitHub\WSU-UE---CSS\package.json
 Add an initial package.json for gulp task automation
 
@@ -839,8 +872,8 @@ C:\GitHub\WSU-UE---CSS\page-covering-notice.less
 Modify approach to declaring rules
 Utilize mixin function .declare-ruleset to avoid missing selector errors when the optional ruleset wrapper is not utilized
 C:\GitHub\WSU-UE---CSS\paragraphs.less
-Update inline documentation
-Fix comment blocks for labeling file sections that are persistent but should not be.
+Modify visual design of article taglines
+Change the visual design of article taglines so that it matches what is in use for introductions on the Office of the Provost website.
 C:\GitHub\WSU-UE---CSS\qtips.less
 Add empty line to beginning of file as workaround
 Current build processes may fail without space due to the qtips minified source terminating with a comment
@@ -866,14 +899,14 @@ C:\GitHub\WSU-UE---CSS\targets.less
 Fix styling problems with gravity form anchors
 Remove the highlighting of gravity form anchors that is breaking layout.
 C:\GitHub\WSU-UE---CSS\utility-classes.less
-Fix bug in utility class declaration mixin
-Correct name mixin called in inner loop.
-C:\GitHub\WSU-UE---CSS\utility-mixins.less
-Fix whitespace issues in code formatting
+Add utility class for specifying automatic heights
 
+C:\GitHub\WSU-UE---CSS\utility-mixins.less
+Modify mixin-mediated rule sets for styling cards
+Remove the hard-coded background, and make designers and authors rely on coloring classes from the spine.min.css stylesheet.
 C:\GitHub\WSU-UE---CSS\variables.less
-Modify default coloring of text in Spine builder columns
-Slighty brighten the default text color of Spine builder columns from black to the darkest gray of the color palette.
+Add rewritten style for footers and global top bars
+Rewrite footer styling according to the BEM paradigm and make it possible to include the resulting ruleset via a guarded mixin.
 C:\GitHub\WSU-UE---CSS\wp-master-style-sheet.less
 Enhance responsive design of column gutters
 Provide a gated mixin-mediated mechanism to cut out style rules that match default WSUWP settings, and redesign selectors to be more efficient.
