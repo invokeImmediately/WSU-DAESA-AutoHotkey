@@ -5,7 +5,7 @@
 ;
 ; AUTHOR: Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ;
-; REPOSITORY: https://github.com/invokeImmediately/WSU-AutoHotkey
+; REPOSITORY: https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey
 ;
 ; LICENSE: ISC - Copyright (c) 2019 Daniel C. Rieck.
 ;
@@ -284,7 +284,7 @@ WebEditVd_OpenWorkNotesLog() {
 		; Ensure ST3 is active and restore default position of work notes
 		execDelayer.Wait( "m" )
 		SafeWinActivate(st3TitleToMatch, mmRegEx)
-		MaxActWinOnMonViaCtrlFN("^F10", execDelayer.InterpretDelayString( "m" ) )
+		PosActWinOnMonsViaCtrlFN("^F10", execDelayer.InterpretDelayString( "m" ) )
 		execDelayer.Wait( "m", 3 )
 		Loop 3 {
 			GoSub % "<^!#Left"
@@ -295,7 +295,7 @@ WebEditVd_OpenWorkNotesLog() {
 		SendInput, ^+n
 		execDelayer.Wait( "m", 3 )
 		WaitForApplicationPatiently(st3NewWinTitle)
-		MaxActWinOnMonViaCtrlFN("^F8", execDelayer.InterpretDelayString( "m" ) )
+		PosActWinOnMonsViaCtrlFN("^F8", execDelayer.InterpretDelayString( "m" ) )
 		Loop 3 {
 			GoSub % "<^!#Left"
 			execDelayer.Wait( "m" )
@@ -304,7 +304,7 @@ WebEditVd_OpenWorkNotesLog() {
 		; Activate existing ST3 process and restore its default position on virtual desktop
 		SafeWinActivate(st3GeneralTitle, mmRegEx)
 		execDelayer.Wait( "m" )
-		MaxActWinOnMonViaCtrlFN("^F8", execDelayer.InterpretDelayString( "m" ) )
+		PosActWinOnMonsViaCtrlFN("^F8", execDelayer.InterpretDelayString( "m" ) )
 		execDelayer.Wait( "m", 3 )
 		Loop 3 {
 			GoSub % "<^!#Left"
@@ -320,7 +320,7 @@ WebEditVd_OpenWorkNotesLog() {
 		execDelayer.Wait( "m", 9 )
 		SendInput % "C:\GitHub\log_work-notes.txt{Enter}"
 		execDelayer.Wait( "m", 12 )
-		MaxActWinOnMonViaCtrlFN("^F10", execDelayer.InterpretDelayString( "m" ) )
+		PosActWinOnMonsViaCtrlFN("^F10", execDelayer.InterpretDelayString( "m" ) )
 		execDelayer.Wait( "m", 3 )
 		Loop 3 {
 			GoSub % "<^!#Left"
