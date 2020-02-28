@@ -526,6 +526,9 @@ Update backup of markup used to make the Spine builder page with recent changes,
 C:\GitHub\ucore.wsu.edu\HTML\faculty_proposing-courses.html
 Update markup used to build page in WSUWP
 Update markup with additional edits being worked on by Clif Stratton.
+C:\GitHub\ucore.wsu.edu\HTML\faculty_the-ucore-curriculum.html
+Add backup of markup used to build page in WSUWP
+Add backup of markup used to create the UCORE curriculum page in WSUWP via the Page Builder template in the Spine theme.
 C:\GitHub\ucore.wsu.edu\HTML\home.html
 Update markup used to build page in WSUWP
 Update the What's New feed with incorporation of recent post from the ATL website.
@@ -545,7 +548,7 @@ C:\GitHub\ucore.wsu.edu\package.json
 Update development dependencies, project manifests
 
 C:\GitHub\ucore.wsu.edu\WSU-UE---CSS\components.less
-Fix bug from variable naming syntax error
+Add new rule set for styling lists of breadcrumbs
 
 C:\GitHub\undergraduateresearch.wsu.edu\CSS\undergraduate-research-custom.less
 Update inline documentation
@@ -616,6 +619,9 @@ Add a file header comment block, sectional comment blocks, and a table of conten
 C:\GitHub\WebsiteMapper\WsMapper.screenshots.js
 Add interface for creating screenshots
 Write a class that provides an interface to headless Chromium for generating screenshots of webpages.
+C:\GitHub\WSU-DAESA-AutoHotkey\WorkspaceManagement\automatedDesktopSetUp.ahk
+Update how windows associated with git are arranged
+
 C:\GitHub\WSU-OUE-AutoHotkey\API_GetWindowInfo.ahk
 Add new API
 New API servers as an interface to the User32.dll function GetWindowInfo.
@@ -788,11 +794,11 @@ C:\GitHub\WSU-UE---CSS\columns.less
 Modify implementation and design of styles for columns
 Refactor implementation of styles for Spine Builder template columns by defining them as switchable declared rulesets; also remove outdated styling options, and modify default font weight to match the style of the Provost's office (but darken the font color for better readability).
 C:\GitHub\WSU-UE---CSS\components.less
-Modify specification in ruleset for hero containers
-Change the shade of crimson used in the design to match what is used on the WSU Strategic Plan website.
+Fix styling bug and tweak spacing
+Add missing specification of absolute positioning.
 C:\GitHub\WSU-UE---CSS\css-build-entry-point.less
-Add missing import as build dependency
-Add new footers.less import as an imported build dependency.
+Update default styling of strong elements
+Slightly reduce font weight to match what is present on the Provost's Office's website for improved brand consistency; also, 700 against background 300 weight appears to be overly bold.
 C:\GitHub\WSU-UE---CSS\cycle-slideshow.less
 Fix layout problem with pagers and reorganize code
 Add margin-based componesation for responsive positioning of slideshow pager buttons, and reorganize code so that style rules are grouped better according to the ancestral element to which they relate.
@@ -827,8 +833,8 @@ C:\GitHub\WSU-UE---CSS\headings.less
 Adjust padding on solid headings
 Increase top padding to compensate for visual change from switching to a new font.
 C:\GitHub\WSU-UE---CSS\horizontal-rules.less
-Add an additional styling option for horizontal rules
-Add a crimson coloring scheme.
+Refactor styling approach to horizontal rules
+Refactor to use an approach based on background coloring, which allows the color of the horizontal rule to be modified by application of classes from spine.min.css.
 C:\GitHub\WSU-UE---CSS\hr.less
 Make improvements to design of horizontal rules
 Remove unnecessary styling options and improve default contrast of rules.
@@ -836,8 +842,8 @@ C:\GitHub\WSU-UE---CSS\hyperlink.less
 Add new switchable ruleset for provost-style links
 Add a design for provost-style links, which involves some improvements to the design of those found on the Provost's Office website, that can be switched on or off via detached ruleset declaration.
 C:\GitHub\WSU-UE---CSS\hyperlinks.less
-Further modify style of non-text links
-Update visual design by slightly brightening the bottom border color.
+Modify default styling of hyperlinks
+Match the design of the Provost's Office more cleanly by removing some property settings; also, I think the normal font weight is too bold compared to surrounding lighter text.
 C:\GitHub\WSU-UE---CSS\iframe.less
 Modify approach to declaring rules
 Replace call to mixin function .declare-iframe-ruleset with call to .declare-ruleset to enable use of an optional ruleset wrapper; clean up formatting of code
@@ -857,7 +863,7 @@ C:\GitHub\WSU-UE---CSS\mixins.less
 Modify mixin for declaring detached rulesets
 Modify mixin .declare-ruleset(…) by adding an additional switching argument, which allows Less variables to be set that control what rulesets get declared by default, but also can be changed by the developer to override default behavior.
 C:\GitHub\WSU-UE---CSS\news-posts.less
-Fix font weighting of hyperlinked article titles
+Change default visual design of article footers
 
 C:\GitHub\WSU-UE---CSS\notices.less
 Fix syntax error in mixin .add-new-notice-class
@@ -899,7 +905,7 @@ C:\GitHub\WSU-UE---CSS\targets.less
 Fix styling problems with gravity form anchors
 Remove the highlighting of gravity form anchors that is breaking layout.
 C:\GitHub\WSU-UE---CSS\utility-classes.less
-Add utility class for specifying automatic heights
+Fix syntax errors from variable misnamings
 
 C:\GitHub\WSU-UE---CSS\utility-mixins.less
 Modify mixin-mediated rule sets for styling cards

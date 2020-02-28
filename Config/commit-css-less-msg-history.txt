@@ -18,13 +18,13 @@ Modify style of main site header
 Set background to crimson and remove maximum width restriction.
 oue-custom.less
 Update CSS builds w/ repo & submodule dependency changes
-Modify superproject build dependency oue-custom.less by adding styles for the event feed that goes on the homepage.
+Refactor superproject build dependency oue-custom.less by removing commented-out code.
 pbk-custom.less
 Update importing of Less file dependencies
 Import variables.less separately from wp-master-style-sheet.less to enable variable settings to be overwritten.
 src_cr-new.less
-Udpate inline documentation, remove unused styling
-Update file header comments inline documentation, and remove unused styling in src_cr-new.less.
+Update CSS builds w/ repo & submodule dependency changes
+First, in src_cr-new.less, tweak visual design of content syndicate lists appearing on home pages. Then, in gulpfile.js, update the font import settings to pull in more font weights and allow font swapping.
 summerresearch-custom.less
 Fix syntax error from dependency import change
 Explicitly import variables.less, which used to be imported via wp-master-style-sheet.less; the new format allows for common variables to be redefined for a specific site.
@@ -33,13 +33,13 @@ Update inline documentation
 
 ta-custom.less
 Modify CSS build dependency & update CSS builds
-Hide submit buttons on gravity forms that are being used to expose page controls that do not involve the submission of data back to the server.
+In superproject's CSS build dependency gulpfile.js, update the comment block that documents the media query section.
 ucore-assessment-custom.less
 Revise LESS variable name
 Revise name of Less variable @v-p-lnhght to @body-text--lHeight
 ucore-custom.less
 Update CSS builds w/ repo & submodule dependency changes
-In superproject's CSS build depdendency ucore-custom.less, create a new style for governance tiles.
+Starting with superproject's CSS build depdendency gulpfile.js, refactor the file to utilize node module in WSU-UE---JS that centralizes code common to all gulp-mediated, DAESA-wide CSS and JS build processes.
 ugr-custom.less
 Update CSS builds w/ repo & submodule dependency changes
 First, update inline documentation in dependency ugr-custom.less.
