@@ -39,24 +39,24 @@
 ;     >>> §1.3: Programming VD — @setupVdForProgramming........................................334
 ;       →→→ §1.3.1: @addSublimeText3ToVd + AddSublimeText3ToVd()...............................355
 ;       →→→ §1.3.2: @arrangeGitHub.............................................................395
-;       →→→ §1.3.3: @startGithubClients........................................................431
-;       →→→ §1.3.4: agh_MovePowerShell().......................................................449
-;     >>> §1.4: Graphic design VD — @setupVdForGraphicDesign...................................504
-;       →→→ §1.4.1: @arrangeGimp...............................................................521
-;       →→→ §1.4.2: svd3_OpenGimp(…)...........................................................544
-;       →→→ §1.4.3: svd3_OpenGraphicsReferences(…).............................................556
-;     >>> §1.5: Communications and media VD — @setupVdForCommunications........................568
-;       →→→ §1.5.1: @arrangeEmail..............................................................586
-;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)................................................634
-;     >>> §1.6: Research VD — @setupVdForResearch..............................................660
-;     >>> §1.7: PC monitoring VD — @setupVdForPcMonitoring.....................................708
-;   §2: STARTUP HOTKEYS........................................................................729
-;     >>> §2.1: #!r............................................................................733
-;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................740
-;     >>> §3.1: @quitAhk.......................................................................744
-;     >>> §3.2: ^#!r...........................................................................753
-;     >>> §3.3: PerformScriptShutdownTasks()...................................................762
-;     >>> §3.4: ScriptExitFunc(…)..............................................................772
+;       →→→ §1.3.3: @startGithubClients........................................................432
+;       →→→ §1.3.4: agh_MovePowerShell().......................................................450
+;     >>> §1.4: Graphic design VD — @setupVdForGraphicDesign...................................505
+;       →→→ §1.4.1: @arrangeGimp...............................................................522
+;       →→→ §1.4.2: svd3_OpenGimp(…)...........................................................545
+;       →→→ §1.4.3: svd3_OpenGraphicsReferences(…).............................................557
+;     >>> §1.5: Communications and media VD — @setupVdForCommunications........................569
+;       →→→ §1.5.1: @arrangeEmail..............................................................587
+;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)................................................635
+;     >>> §1.6: Research VD — @setupVdForResearch..............................................661
+;     >>> §1.7: PC monitoring VD — @setupVdForPcMonitoring.....................................709
+;   §2: STARTUP HOTKEYS........................................................................730
+;     >>> §2.1: #!r............................................................................734
+;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................741
+;     >>> §3.1: @quitAhk.......................................................................745
+;     >>> §3.2: ^#!r...........................................................................754
+;     >>> §3.3: PerformScriptShutdownTasks()...................................................763
+;     >>> §3.4: ScriptExitFunc(…)..............................................................773
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -404,22 +404,23 @@ AddSublimeText3ToVd( whichVd ) {
 	; Sleep, % delay * 2
 
 	; Position chrome window containing tab loaded with GitHub profile
-	WinRestore, invokeImmediately
-	execDelayer.Wait( "s" )
+	WinActivate, % "invokeImmediately ahk_exe chrome.exe"
+	execDelayer.Wait( "m" )
 	PosActWinOnMonsViaCtrlFN( "^F6", execDelayer.InterpretDelayString( "s", 2 ) )
 	execDelayer.Wait( "s", 2 )
 
 	; Position File Explorer window
-	WinRestore, File Explorer
-	execDelayer.Wait( "s" )
-	WinMove, File Explorer, , Mon1WorkArea_Left + 200, 0, 1720, 1040
+	WinRestore, % "This PC ahk_exe explorer.exe"
+	execDelayer.Wait( "m" )
+	WinActivate,  % "This PC ahk_exe explorer.exe"
+	execDelayer.Wait( "m" )
+	WinMove,  % "This PC ahk_exe explorer.exe", , Mon1WorkArea_Left + 200, 0, 1720, 1040
 	execDelayer.Wait( "s", 2 )
+	WinActivate, % "invokeImmediately ahk_exe chrome.exe"
 
 	; Position Sublime Text 3 window
 	WinActivate, ahk_exe sublime_text.exe
 	execDelayer.Wait( "s", 3 )
-	WinRestore, ahk_exe sublime_text.exe
-	execDelayer.Wait( "s" )
 	PosActWinOnMonsViaCtrlFN( "^F8", execDelayer.InterpretDelayString( "s", 2 ) )
 
 	; Position Powershell console window
