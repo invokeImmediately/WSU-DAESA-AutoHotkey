@@ -11,7 +11,7 @@
 ;
 ; AUTHOR: Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; 
-; LICENSE: ISC - Copyright (c) 2019 Daniel C. Rieck.
+; LICENSE: ISC - Copyright (c) 2020 Daniel C. Rieck.
 ;
 ;   Permission to use, copy, modify, and/or distribute this software for any purpose with or
 ;   without fee is hereby granted, provided that the above copyright notice and this permission
@@ -89,8 +89,8 @@ class CssBldPsOps extends GhGui {
 				}
 			}
 		} else {
-			MsgBox % "Please select a repository for which the CSS build in use on its WSUWP websit"
-				. "e should be backed up."
+			MsgBox % "Please select a GitHub repository within which the CSS build in use on the "
+				. "repo's associated WSUWP website should be backed up."
 		}
 	}
 
@@ -109,14 +109,15 @@ class CssBldPsOps extends GhGui {
 			MsgBox, % (0x4 + 0x20)
 				, % A_ScriptName . ": Post CSS to website", % "After committing custom CSS build "
 				. "files and dependencies, would you like to apply the custom stylesheet built for "
-				. "production to the website via the WSUWP CSS Stylesheet Editor?"
+				. "production usage to the website associated with this GitHub project via the CSS "
+				. "Stylesheet Editor page in WSUWP?"
 			IfMsgBox Yes
 			{
 				this.HandlePostCssBtn()
 			}
 		} else {
-			MsgBox % "Please select a repository for which files related to the custom CSS build sh"
-				. "ould be committed to GitHub."
+			MsgBox % "Please select a GitHub repository within which files related to the process "
+				. "of building custom CSS code should be committed."
 		}
 	}
 
@@ -140,8 +141,8 @@ class CssBldPsOps extends GhGui {
 			this.delayer.Wait( "l" )
 			ExecuteCssPasteCmds()
 		} else {
-			MsgBox % "Please select a repository from which its built and minified custom CSS file "
-				. "will be posted to its WSUWP website."
+			MsgBox % "Please select a repository from which its file containing built and minified "
+				. "custom CSS will be posted to its associated website created via WSUWP."
 		}
 	}
 
@@ -165,8 +166,9 @@ class CssBldPsOps extends GhGui {
 			this.delayer.Wait( "l" )
 			ExecuteCssPasteCmds()
 		} else {
-			MsgBox % "Please select a repository from which its backup custom CSS file will be post"
-				. "ed to its WSUWP website."
+			MsgBox % "Please select a repository from which its file containing backed up custom "
+				. "CSS code verified for production usage will be posted to its associated website "
+				. "created via WSUWP."
 		}
 	}
 
@@ -183,9 +185,10 @@ class CssBldPsOps extends GhGui {
 				. "gulp buildMinCss`r"
 				. "[console]::beep(1500,300)`r" )
 			MsgBox, % (0x4 + 0x20)
-				, % A_ScriptName . ": Proceed with code commit?", % "After rebuilding the custom CS"
-				. "S file for use on the WSUWP website, would you like to proceed with committing C"
-				. "SS build-related files?"
+				, % A_ScriptName . ": Proceed with code commit?", % "After rebuilding files "
+				. "containing custom CSS code for use on the WSUWP-based website associated with "
+				. "the current GitHub project, would you like to proceed with committing files "
+				. "involved in or produced by the build process?"
 			IfMsgBox Yes
 			{
 				this.HandleCmtCssBtn()
@@ -193,15 +196,17 @@ class CssBldPsOps extends GhGui {
 			}
 			MsgBox, % (0x4 + 0x20)
 				, % A_ScriptName . ": Post custom CSS to website", % "After rebuilding the the "
-				. "custom stylesheet built for production, would you like to apply it to the "
-				. "website via the WSUWP CSS Stylesheet Editor?"
+				. "custom CSS code built for production usage, would you like to apply it to the "
+				. "website associated with the current GitHub project via the CSS Stylesheet "
+				. "Editor page in WSUWP?"
 			IfMsgBox Yes
 			{
 				this.HandlePostCssBtn()
 			}
 		} else {
-			MsgBox % "Please select a repository in which to rebuild the WSUWP website's custom CSS"
-				. " file."
+			MsgBox % "Please select a repository in which to rebuild the file containing custom "
+				. "CSS code meant for production usage on the repo's associated WSUWP-based "
+				. "website."
 		}
 	}
 
@@ -214,17 +219,18 @@ class CssBldPsOps extends GhGui {
 			selRow := LV_GetNext()
 			LV_GetText( repository, selRow, 2)
 			PasteTextIntoGitShell( A_ThisFunc, "cd '" . repository . "\WSU-UE---CSS'`rgit checkout "
- . "master`rgit pull`rcd ..`rgit submodule update --remote --merge WSU-UE---CSS`r")
+				. "master`rgit pull`rcd ..`rgit submodule update --remote --merge WSU-UE---CSS`r" )
 			MsgBox, % (0x4 + 0x20)
-				, % A_ScriptName . ": Proceed with rebuild?", % "After updating the CSS submodule, "
- . "would you like to proceed with a CSS rebuild?"
+				, % A_ScriptName . ": Proceed with CSS rebuild?", % "After updating the submodule "
+				. "containing universal dependencies for building custom CSS code to be used on "
+				. "DAESA's websites, would you like to proceed with a CSS rebuild?"
 			IfMsgBox Yes
 			{
 				this.HandleRbldCssBtn()
 			}
 		} else {
-			MsgBox % "Please select a repository in which the CSS dependency submodule should be up"
- . "dated."
+			MsgBox % "Please select a repository in which the CSS dependency submodule should be "
+				. "updated."
 		}
 	}
 
