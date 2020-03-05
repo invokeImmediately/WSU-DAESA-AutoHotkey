@@ -90,7 +90,7 @@ class CssBldPsOps extends GhGui {
 			}
 		} else {
 			MsgBox % "Please select a GitHub repository within which the CSS build in use on the "
-				. "repo's associated WSUWP website should be backed up."
+				. "repo's associated WSUWP-based website should be backed up."
 		}
 	}
 
@@ -107,10 +107,11 @@ class CssBldPsOps extends GhGui {
 			LV_GetText( minBld, selRow, 6)
 			CommitCssBuild( A_ThisFunc, repository, srcEntryPt, cssBld, minBld )
 			MsgBox, % (0x4 + 0x20)
-				, % A_ScriptName . ": Post CSS to website", % "After committing custom CSS build "
-				. "files and dependencies, would you like to apply the custom stylesheet built for "
-				. "production usage to the website associated with this GitHub project via the CSS "
-				. "Stylesheet Editor page in WSUWP?"
+				, % A_ScriptName . ": Post CSS code to website", % "After committing files "
+				. "involved in or produced by the build process that generates custom CSS code "
+				. "meant for production use on the WSUWP-based website associated withthis GitHub "
+				. "project, would you like to apply the code to the website via the CSS Stylesheet "
+				. "Editor page in WSUWP?"
 			IfMsgBox Yes
 			{
 				this.HandlePostCssBtn()
@@ -167,8 +168,8 @@ class CssBldPsOps extends GhGui {
 			ExecuteCssPasteCmds()
 		} else {
 			MsgBox % "Please select a repository from which its file containing backed up custom "
-				. "CSS code verified for production usage will be posted to its associated website "
-				. "created via WSUWP."
+				. "CSS code that has been verified for production usage will be posted to its "
+				. "associated website created via WSUWP."
 		}
 	}
 
@@ -195,18 +196,17 @@ class CssBldPsOps extends GhGui {
 				Return
 			}
 			MsgBox, % (0x4 + 0x20)
-				, % A_ScriptName . ": Post custom CSS to website", % "After rebuilding the the "
-				. "custom CSS code built for production usage, would you like to apply it to the "
-				. "website associated with the current GitHub project via the CSS Stylesheet "
-				. "Editor page in WSUWP?"
+				, % A_ScriptName . ": Post custom CSS to website?", % "After rebuilding files "
+				. "containing custom CSS code meant for production usage, would you like to apply "
+				. "the minified build to the website associated with the current GitHub project "
+				. "via the CSS Stylesheet Editor page in WSUWP?"
 			IfMsgBox Yes
 			{
 				this.HandlePostCssBtn()
 			}
 		} else {
-			MsgBox % "Please select a repository in which to rebuild the file containing custom "
-				. "CSS code meant for production usage on the repo's associated WSUWP-based "
-				. "website."
+			MsgBox % "Please select a repository in which to rebuild files containing custom CSS "
+				. "code meant for production usage on the repo's associated WSUWP-based website."
 		}
 	}
 
@@ -223,14 +223,14 @@ class CssBldPsOps extends GhGui {
 			MsgBox, % (0x4 + 0x20)
 				, % A_ScriptName . ": Proceed with CSS rebuild?", % "After updating the submodule "
 				. "containing universal dependencies for building custom CSS code to be used on "
-				. "DAESA's websites, would you like to proceed with a CSS rebuild?"
+				. "DAESA's websites, would you like to proceed with a production CSS rebuild?"
 			IfMsgBox Yes
 			{
 				this.HandleRbldCssBtn()
 			}
 		} else {
-			MsgBox % "Please select a repository in which the CSS dependency submodule should be "
-				. "updated."
+			MsgBox % "Please select a repository in which the submodule containing universal build "
+				. "dependencies for generating production CSS code should be updated."
 		}
 	}
 
@@ -256,8 +256,8 @@ class CssBldPsOps extends GhGui {
 			, % "Select a repository and a CSS-build related PowerShell operation:"
 		Gui, guiGh%guiType%%guiName%: Add, ListView
 			, vctrlGh%guiType%%guiName%LV BackgroundWhite NoSortHdr -Multi r15 W1440 xm+1 Y+3
-			, % "Repo Name|Local Path|Site URL|Build Entry Point|Built CSS|Minified|Backup|Editor T"
-			. "itle"
+			, % "Repo Name|Local Path|Site URL|Build Entry Point|Built CSS|Minified|Backup|Editor "
+			. "Title"
 		numRepos := this.repos.cfgSettings.Length()
 		Loop %numRepos% {
 			repoName := this.repos.cfgSettings[ A_Index ][ "name" ]
@@ -279,21 +279,21 @@ class CssBldPsOps extends GhGui {
 		LV_ModifyCol( 5, "AutoHdr" )
 		LV_ModifyCol( 6, "AutoHdr" )
 
-		; Set up button for updating CSS dependency submodules
+		; Set up button for updating submodule containing universal CSS build dependencies
 		Gui, guiGh%guiType%%guiName%: Add, Button
 			, vguiGh%guiType%%guiName%UpdateSM Default Y+16
 			, % "&Update Dependency Submodule"
 		guiCallback := this.updateSmBtnHdlr.handlerRef
 		GuiControl, +g, guiGh%guiType%%guiName%UpdateSM, %guiCallback%
 
-		; Set up button for rebuilding custom CSS files
+		; Set up button for rebuilding files containing production custom CSS code
 		Gui, guiGh%guiType%%guiName%: Add, Button
 			, vguiGh%guiType%%guiName%RbldCss X+5
 			, % "&Rebuild CSS"
 		guiCallback := this.rbldCssBtnHdlr.handlerRef
 		GuiControl, +g, guiGh%guiType%%guiName%RbldCss, %guiCallback%
 
-		; Set up button for committing CSS build-related files
+		; Set up button for committing files related to the production CSS build process
 		Gui, guiGh%guiType%%guiName%: Add, Button
 			, vguiGh%guiType%%guiName%CmtCss X+5
 			, % "Co&mmit Files"
