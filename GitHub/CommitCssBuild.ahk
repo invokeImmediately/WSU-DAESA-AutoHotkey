@@ -115,13 +115,13 @@ CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssbuild, fnMinCssBuild
 		, % "Length = " . msgLen1st . " characters"
 	Gui, guiCommitCssBuild: Add
 		, Checkbox, vctrlCommitCssAlsoCommitLessSrc gHandleCommitCssCheckLessFileCommit xm Y+12
-		, % "&Also commit local build dependencies, e.g., " . commitCssVars.fnLessSrcFile . "?"
+		, % "&Also commit local dev dependencies, e.g., " . commitCssVars.fnLessSrcFile . "?"
 	Gui, guiCommitCssBuild: Add, Checkbox
 		, vctrlCommitCssLessChangesOnly gHandleCommitCssCheckLessChangesOnly xm Disabled
-		, % "Rebuild &involves only changes to local dependencies"
+		, % "Custom CSS code rebuild &involves only changes to local dev dependencies"
 	Gui, guiCommitCssBuild: Font, italic
 	Gui, guiCommitCssBuild: Add
-		, Text, Y+12, % "Local dependencies to be added to commit: "
+		, Text, Y+12, % "Local dev dependencies to be added to commit: "
 	Gui, guiCommitCssBuild: Font
 	Gui, guiCommitCssBuild: Add
 		, ListView, vctrlCommitCssLV grid BackgroundEBF8FE NoSortHdr r5 W700 xm+1 Y+3
@@ -479,7 +479,7 @@ HandleCommitCssOk() {
 		; First, have the shell enter the project's directory.
 		commandLineInput := "cd '" . commitCssVars.fpGitFolder . "'`r"
 
-		; Add the submodule to the commit if it has changed.
+		; Add the universal dev dependencies submodule to the commit if it has changed.
 		if ( !ctrlCommitCssLessChangesOnly ) {
 			commandLineInput .= "git add WSU-UE---CSS`r"
 		}
@@ -493,8 +493,8 @@ HandleCommitCssOk() {
  		}
 
 		; Add the CSS builds to the commit.
-		commandLineInput .= "git add CSS\" . commitCssVars.fnCssBuild . "`r"
- . "git add CSS\" . commitCssVars.fnMinCssBuild . "`r"
+		commandLineInput .= "git add CSS\" . commitCssVars.fnCssBuild . "`rgit add CSS\"
+			. commitCssVars.fnMinCssBuild . "`r"
 
 		; Now build the commit command, starting with the first commit message.
 		escaped1stCssMsg := EscapeCommitMessage( ctrlCommitCss1stMsg )
