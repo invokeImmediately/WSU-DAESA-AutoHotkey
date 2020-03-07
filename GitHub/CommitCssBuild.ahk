@@ -23,25 +23,25 @@
 ; Table of Contents:
 ; -----------------
 ;   §1: GUI CREATION FUNCTION: CommitCssBuild...................................................48
-;   §2: GUI EVENT HANDLERS.....................................................................160
-;     >>> §2.1: HandleCommitCss1stMsgChange....................................................164
-;     >>> §2.2: HandleCommitCss2ndMsgChange....................................................181
-;     >>> §2.3: HandleCommitCssAddFiles........................................................198
-;     >>> §2.4: HandleCommitCssRemoveFiles.....................................................240
-;     >>> §2.5: HandleCommitCssGitDiff.........................................................252
-;     >>> §2.6: HandleCommitCssGitLog..........................................................289
-;     >>> §2.7: HandleCommitCssCheckLessFileCommit.............................................328
-;     >>> §2.8: HandleCommitCssCheckLessChangesOnly............................................388
-;     >>> §2.9: HandleCommitCss2ndLessMsgChange................................................431
-;     >>> §2.10: HandleCommitCssOk.............................................................448
-;       →→→ §2.10.1: ProcessHandleCommitCssOkError.............................................540
-;     >>> §2.11: HandleCommitCssCancel.........................................................568
-;   §3: GUI PERSISTENCE FUNCTIONS..............................................................576
-;     >>> §3.1: SaveCommitCssLessMsgHistory....................................................580
-;     >>> §3.2: LoadCommitCssLessMsgHistory....................................................617
-;     >>> §3.3: ReadKeyForLessMsgHistory.......................................................653
-;     >>> §3.4: ReadPrimaryMsgForLessFileKey...................................................671
-;     >>> §3.5: ReadSecondaryMsgForLessFileKey.................................................688
+;   §2: GUI EVENT HANDLERS.....................................................................163
+;     >>> §2.1: HandleCommitCss1stMsgChange....................................................167
+;     >>> §2.2: HandleCommitCss2ndMsgChange....................................................184
+;     >>> §2.3: HandleCommitCssAddFiles........................................................201
+;     >>> §2.4: HandleCommitCssRemoveFiles.....................................................243
+;     >>> §2.5: HandleCommitCssGitDiff.........................................................255
+;     >>> §2.6: HandleCommitCssGitLog..........................................................292
+;     >>> §2.7: HandleCommitCssCheckLessFileCommit.............................................331
+;     >>> §2.8: HandleCommitCssCheckLessChangesOnly............................................391
+;     >>> §2.9: HandleCommitCss2ndLessMsgChange................................................434
+;     >>> §2.10: HandleCommitCssOk.............................................................451
+;       →→→ §2.10.1: ProcessHandleCommitCssOkError.............................................543
+;     >>> §2.11: HandleCommitCssCancel.........................................................571
+;   §3: GUI PERSISTENCE FUNCTIONS..............................................................579
+;     >>> §3.1: SaveCommitCssLessMsgHistory....................................................583
+;     >>> §3.2: LoadCommitCssLessMsgHistory....................................................620
+;     >>> §3.3: ReadKeyForLessMsgHistory.......................................................656
+;     >>> §3.4: ReadPrimaryMsgForLessFileKey...................................................674
+;     >>> §3.5: ReadSecondaryMsgForLessFileKey.................................................691
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -72,18 +72,21 @@ CommitCssBuild(ahkCmdName, fpGitFolder, fnLessSrcFile, fnCssbuild, fnMinCssBuild
 	commitCssVars.fnLessSrcFile := fnLessSrcFile
 	commitCssVars.fnCssbuild := fnCssbuild
 	commitCssVars.fnMinCssBuild := fnMinCssBuild
-	commitCssVars.dflt1stCommitMsg := "Update CSS dependency submodule & incorporate into builds"
-	commitCssVars.dflt1stCommitMsgAlt := "Update CSS builds w/ repo & submodule dependency changes"
-	commitCssVars.dflt1stCommitMsgAlt2 := "Modify CSS build dependency & update CSS builds"
-	commitCssVars.dflt2ndCommitMsg := "Update the submodule containing CSS build dependencies from "
- . "the DAESA-wide CSS development project, then rebuild the website's custom CSS production files "
- . "to incorporate any dependency changes."
- 	commitCssVars.dflt2ndCommitMsgAlt := "Next, update the submodule for the DAESA-wide CSS develop"
- . "ment project to incorporate changes in the dependencies it contains into the superproject. Fina"
- . "lly, rebuild the website's custom CSS production files to integrate all of these dependency cha"
- . "nges into the final stylesheet that is applied to the site via WSUWP."
-	commitCssVars.dflt2ndCommitMsgAlt2 := "Next, rebuild the custom CSS production files to incorpo"
- . "rate these changes."
+	commitCssVars.dflt1stCommitMsg := "Update dev dependencies for and builds of custom CSS code"
+	commitCssVars.dflt1stCommitMsgAlt := "Update dev dependencies for and builds of custom CSS "
+		. "code"
+	commitCssVars.dflt1stCommitMsgAlt2 := "Update dev dependencies for and builds of custom CSS "
+		. "code"
+	commitCssVars.dflt2ndCommitMsg := "First, update the submodule containing universal dev "
+		. "dependencies used to build custom CSS code in every DAESA website development project. "
+		. "Then rebuild the files containing custom CSS code that is ready to be "
+		. "deployed on the website associated with this project."
+ 	commitCssVars.dflt2ndCommitMsgAlt := "Next, update the submodule containing universal dev "
+ 		. "dependencies used to build custom CSS code in every DAESA website development project. "
+ 		. "Finally, rebuild the files containing custom CSS code that is ready to be deployed on "
+ 		. "the website associated with this project."
+	commitCssVars.dflt2ndCommitMsgAlt2 := "Then rebuild the files containing custom CSS code that "
+		. "is ready to be deployed on the website associated with this project."
 	msgLen1st := StrLen(commitCssVars.dflt1stCommitMsg)
 	msgLen2nd := StrLen(commitCssVars.dflt2ndCommitMsg)
 	lastLessMsg1st := ""

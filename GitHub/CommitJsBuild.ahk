@@ -5,29 +5,29 @@
 ; ! = ALT     + = SHIFT     ^ = CONTROL     # = WIN
 ; (see https://autohotkey.com/docs/commands/Send.htm for more info)
 ; ==================================================================================================
-; Table of Contents
+; Table of Contents:
 ; -----------------
 ;   §1: GUI CREATION FUNCTION: CommitJsBuild....................................................34
-;   §2: GUI EVENT HANDLERS.....................................................................156
-;     >>> §2.1: HandleCommitJs1stMsgChange.....................................................160
-;     >>> §2.2: HandleCommitJs2ndMsgChange.....................................................177
-;     >>> §2.3: HandleCommitJsAddFiles.........................................................194
-;     >>> §2.4: HandleCommitJsRemoveFiles......................................................236
-;     >>> §2.5: HandleCommitJsGitDiff..........................................................248
-;     >>> §2.6: HandleCommitJsGitLog...........................................................284
-;     >>> §2.7: HandleCommitJsCheckJsFileCommit................................................322
-;     >>> §2.8: HandleCommitJsCheckJsChangesOnly...............................................385
-;     >>> §2.9: HandleCommitJs1stJsMsgChange...................................................428
-;     >>> §2.10: HandleCommitJs2ndJsMsgChange..................................................445
-;     >>> §2.11: HandleCommitJsOk..............................................................462
-;       →→→ §2.11.1: ProcessHandleCommitJsOkError..............................................542
-;     >>> §2.12: HandleCommitJsCancel..........................................................570
-;   §3: GUI PERSISTENCE FUNCTIONS..............................................................578
-;     >>> §3.1: SaveCommitJsCustomJsMsgHistory.................................................582
-;     >>> §3.2: LoadCommitJsCustomJsMsgHistory.................................................620
-;     >>> §3.3: ReadKeyForCustonJsMsgHistory...................................................657
-;     >>> §3.4: ReadPrimaryMsgForCustomJsFileKey...............................................675
-;     >>> §3.5: ReadSecondaryMsgForCustomJsFileKey.............................................692
+;   §2: GUI EVENT HANDLERS.....................................................................158
+;     >>> §2.1: HandleCommitJs1stMsgChange.....................................................162
+;     >>> §2.2: HandleCommitJs2ndMsgChange.....................................................179
+;     >>> §2.3: HandleCommitJsAddFiles.........................................................196
+;     >>> §2.4: HandleCommitJsRemoveFiles......................................................238
+;     >>> §2.5: HandleCommitJsGitDiff..........................................................250
+;     >>> §2.6: HandleCommitJsGitLog...........................................................287
+;     >>> §2.7: HandleCommitJsCheckJsFileCommit................................................326
+;     >>> §2.8: HandleCommitJsCheckJsChangesOnly...............................................389
+;     >>> §2.9: HandleCommitJs1stJsMsgChange...................................................432
+;     >>> §2.10: HandleCommitJs2ndJsMsgChange..................................................449
+;     >>> §2.11: HandleCommitJsOk..............................................................466
+;       →→→ §2.11.1: ProcessHandleCommitJsOkError..............................................546
+;     >>> §2.12: HandleCommitJsCancel..........................................................574
+;   §3: GUI PERSISTENCE FUNCTIONS..............................................................582
+;     >>> §3.1: SaveCommitJsCustomJsMsgHistory.................................................586
+;     >>> §3.2: LoadCommitJsCustomJsMsgHistory.................................................624
+;     >>> §3.3: ReadKeyForCustonJsMsgHistory...................................................661
+;     >>> §3.4: ReadPrimaryMsgForCustomJsFileKey...............................................679
+;     >>> §3.5: ReadSecondaryMsgForCustomJsFileKey.............................................696
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -49,9 +49,9 @@ CommitJsBuild(ahkCmdName, fpGitFolder, fnJsSrcFile, fnJsbuild, fnMinJsBuild) {
 	global ctrlCommitJs1stMsgCharCount
 	global ctrlCommitJs2ndMsg
 	global ctrlCommitJs2ndMsgCharCount
-	global ctrlCommitJs1stJsMsg
-	global ctrlCommitJs1stJsMsgCharCount
-	global commitJsDflt1stCommitMsg
+	global ctrlCommitJs1stJsMsg ; Remove?
+	global ctrlCommitJs1stJsMsgCharCount ; Remove?
+	global commitJsDflt1stCommitMsg ; Remove?
 	global ctrlCommitJs2ndJsMsg
 	global ctrlCommitJs2ndJsMsgCharCount
 
@@ -61,17 +61,19 @@ CommitJsBuild(ahkCmdName, fpGitFolder, fnJsSrcFile, fnJsbuild, fnMinJsBuild) {
 	commitJsVars.fnJsSrcFile := fnJsSrcFile
 	commitJsVars.fnJsbuild := fnJsbuild
 	commitJsVars.fnMinJsBuild := fnMinJsBuild
-	commitJsVars.dflt1stCommitMsg := "Updating custom JS build with recent submodule changes"
-	commitJsVars.dflt1stCommitMsgAlt := "Updating custom JS build w/ custom & submodule changes"
-	commitJsVars.dflt1stCommitMsgAlt2 := "Updating custom JS build w/ site-specific source changes"
-	commitJsVars.dflt2ndCommitMsg := "Rebuilding custom JS production files to incorporate recent c"
-. "hanges to submodules containing OUE-wide build dependencies."
-	commitJsVars.dflt2ndCommitMsgAlt := "Rebuilding custom CSS production files to incorporate rec"
-. "ent changes to site-specific and OUE-wide build dependencies. Please see the next commit for mor"
-. "e details."
-	commitJsVars.dflt2ndCommitMsgAlt2 := "Rebuilding custom CSS production files to incorporate re"
-. "cent changes to site-specific build dependency(ies); please see the next commit for more details"
-. "."
+	commitJsVars.dflt1stCommitMsg := "Update dev dependencies for and builds of custom JS code"
+	commitJsVars.dflt1stCommitMsgAlt := "Update dev dependencies for and builds of custom JS code"
+	commitJsVars.dflt1stCommitMsgAlt2 := "Update dev dependencies for and builds of custom JS code"
+	commitJsVars.dflt2ndCommitMsg := "First, update the submodule holding universal dev "
+		. "dependencies used to build custom JS code in every DAESA website development project. "
+		. "Next, rebuild the files containing custom JS code that is ready to be deployed on the "
+		. "website associated with this project."
+	commitJsVars.dflt2ndCommitMsgAlt := "Next, update the submodule holding universal dev "
+		. "dependencies used to build custom JS code in every DAESA website development project. "
+		. "Finally, rebuild the files containing custom JS code that is ready to be deployed on "
+ 		. "the website associated with this project."
+	commitJsVars.dflt2ndCommitMsgAlt2 := "Then rebuild the files containing custom JS code that is "
+		. "ready to be deployed on the website associated with this project."
 	msgLen1st := StrLen(commitJsVars.dflt1stCommitMsg)
 	msgLen2nd := StrLen(commitJsVars.dflt2ndCommitMsg)
 	lastJsMsg1st := ""
