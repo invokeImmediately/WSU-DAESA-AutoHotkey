@@ -500,6 +500,7 @@ HandleCommitCssOk() {
 		escaped1stCssMsg := EscapeCommitMessage( ctrlCommitCss1stMsg )
 		commandLineInput .= "git commit -m """ . escaped1stCssMsg . """"
 
+		; Next, add the second commit message according to the GUI's settings.
 		if ( ctrlCommitCss2ndMsg != "" ) {
 			commandLineInput .= " -m """
 			if ( ctrlCommitCssAlsoCommitLessSrc && ctrlCommitCss2ndLessMsg != "" ) {
@@ -518,8 +519,8 @@ HandleCommitCssOk() {
 		; Finally, add in the push command & an auditory cue.
 		commandLineInput .= "git push`r[console]::beep(2000,150)`r[console]::beep(2000,150)`r"
 
+		; If appropriate, store commit for later use as a guide
 		if ( ctrlCommitCssAlsoCommitLessSrc ) {
-			; Store commit for later use as a guide
 			if ( commitCssLastLessCommit == undefined ) {
 				commitCssLastLessCommit := Object()
 			}
