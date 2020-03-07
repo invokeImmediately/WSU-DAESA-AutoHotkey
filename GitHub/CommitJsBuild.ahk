@@ -101,19 +101,11 @@ CommitJsBuild(ahkCmdName, fpGitFolder, fnJsSrcFile, fnJsbuild, fnMinJsBuild) {
 		, Text, vctrlCommitJs1stMsgCharCount Y+1 W500
 		, % "Length = " . msgLen1st . " characters"
 	Gui, guiCommitJsBuild: Add
-		, Text, xm Y+12, % "&Secondary commit message:"
-	Gui, guiCommitJsBuild: Add, Edit
-		, vctrlCommitJs2ndMsg gHandleCommitJs2ndMsgChange X+5 W589
-		, % commitJsVars.dflt2ndCommitMsg
-	Gui, guiCommitJsbuild: Add
-		, Text, vctrlCommitJs2ndMsgCharCount Y+1 W500
-		, % "Length = " . msgLen2nd . " characters"
-	Gui, guiCommitJsBuild: Add
 		, Checkbox, vctrlCommitJsAlsoCommitJsSrc gHandleCommitJsCheckJsFileCommit xm Y+12
-		, % "&Also commit site-specific JS source(s), e.g., " . commitJsVars.fnJsSrcFile . "?"
+		, % "&Also commit local dev dependencies, e.g., " . commitJsVars.fnJsSrcFile . "?"
 	Gui, guiCommitJsBuild: Add, Checkbox
 		, vctrlCommitJsJsChangesOnly gHandleCommitJsCheckJsChangesOnly xm Disabled
-		, % "Site-specific JS source(s) &is/are only changed dependency(ies)"
+		, % "Custom JS code rebuild &involves only changes to local dev dependencyies"
 	Gui, guiCommitJsBuild: Font, italic
 	Gui, guiCommitJsBuild: Add
 		, Text, Y+12, % "Site-specific JS source(s): "
@@ -132,15 +124,16 @@ CommitJsBuild(ahkCmdName, fpGitFolder, fnJsSrcFile, fnJsbuild, fnMinJsBuild) {
 	Gui, guiCommitJsBuild: Add
 		, Button, gHandleCommitJsGitLog vctrlCommitJsGitLog X+3 Disabled, Gi&t log selection
 	Gui, guiCommitJsBuild: Add
-		, Text, xm Y+12, % "Message for custom &JS file changes:"
-	Gui, guiCommitJsBuild: Add
-		, Edit, vctrlCommitJs1stJsMsg gHandleCommitJs1stJsMsgChange X+5 W573 Disabled
-		, % lastJsMsg1st
+		, Text, xm Y+12, % "Secondary commit message, part &1 (RE: local dev dependency changes):"	
+	Gui, guiCommitJsBuild: Add, Edit
+		, vctrlCommitJs2ndMsg gHandleCommitJs2ndMsgChange X+5 W589
+		, % commitJsVars.dflt2ndCommitMsg
 	Gui, guiCommitJsbuild: Add
-		, Text, vctrlCommitJs1stJsMsgCharCount Y+1 W500
-		, % "Length = " . msgLenJs1st . " characters"
+		, Text, vctrlCommitJs2ndMsgCharCount Y+1 W500
+		, % "Length = " . msgLen2nd . " characters"
 	Gui, guiCommitJsBuild: Add
-		, Text, xm Y+12, % "Secondary custom J&S message (optional):"
+		, Text, xm Y+12, % "&Secondary commit message, part 2 (RE: dev dependencies submodule "
+		. "changes & rebuild):"
 	Gui, guiCommitJsBuild: Add
 		, Edit, vctrlCommitJs2ndJsMsg gHandleCommitJs2ndJsMsgChange X+5 W549 Disabled
 		, % lastJsMsg2nd
@@ -333,7 +326,6 @@ HandleCommitJsCheckJsFileCommit() {
 	global ctrlCommitJs1stMsgCharCount
 	global ctrlCommitJs2ndMsg
 	global ctrlCommitJs2ndMsgCharCount
-	global ctrlCommitJs1stJsMsg
 	global ctrlCommitJs2ndJsMsg
 	global ctrlCommitJsAlsoCommitJsSrc
 	global ctrlCommitJsJsChangesOnly
@@ -346,22 +338,21 @@ HandleCommitJsCheckJsFileCommit() {
 	Gui, guiCommitJsBuild: Submit, NoHide
 
 	; Respond to user input.
-	if (ctrlCommitJsAlsoCommitJsSrc) {
+	if ( ctrlCommitJsAlsoCommitJsSrc ) {
 		GuiControl, Enable, ctrlCommitJsAddFiles
 		GuiControl, Enable, ctrlCommitJsRemoveFiles
 		GuiControl, Enable, ctrlCommitJsGitDiff
 		GuiControl, Enable, ctrlCommitJsGitLog
-		GuiControl, Enable, ctrlCommitJs1stJsMsg
 		GuiControl, Enable, ctrlCommitJs2ndJsMsg
 		GuiControl, Enable, ctrlCommitJsJsChangesOnly
-		if (ctrlCommitJs1stMsg == commitJsVars.dflt1stCommitMsg) {
+		if ( ctrlCommitJs1stMsg == commitJsVars.dflt1stCommitMsg ) {
 			GuiControl, , ctrlCommitJs1stMsg, % commitJsVars.dflt1stCommitMsgAlt
 			msgLen := StrLen(commitJsVars.dflt1stCommitMsgAlt)
 			GuiControl, , ctrlCommitJs1stMsgCharCount, % "Length = " . msgLen . " characters"
 		}
-		if (ctrlCommitJs2ndMsg == commitJsVars.dflt2ndCommitMsg) {
+		if ( ctrlCommitJs2ndMsg == commitJsVars.dflt2ndCommitMsg ) {
 			GuiControl, , ctrlCommitJs2ndMsg, % commitJsVars.dflt2ndCommitMsgAlt
-			msgLen := StrLen(commitJsVars.dflt2ndCommitMsgAlt)
+			msgLen := StrLen( commitJsVars.dflt2ndCommitMsgAlt )
 			GuiControl, , ctrlCommitJs2ndMsgCharCount, % "Length = " . msgLen . " characters"
 		}
 	} else {
@@ -369,7 +360,6 @@ HandleCommitJsCheckJsFileCommit() {
 		GuiControl, Disable, ctrlCommitJsRemoveFiles
 		GuiControl, Disable, ctrlCommitJsGitDiff
 		GuiControl, Disable, ctrlCommitJsGitLog
-		GuiControl, Disable, ctrlCommitJs1stJsMsg
 		GuiControl, Disable, ctrlCommitJs2ndJsMsg
 		GuiControl, Disable, ctrlCommitJsJsChangesOnly
 		if (ctrlCommitJs1stMsg == commitJsVars.dflt1stCommitMsgAlt) {
@@ -429,23 +419,6 @@ HandleCommitJsCheckJsChangesOnly() {
 }
 
 ;   ································································································
-;     >>> §2.9: HandleCommitJs1stJsMsgChange
-
-; Triggered when the primary git commit message for the updated LESS source is changed.
-HandleCommitJs1stJsMsgChange() {
-	; Make global variable declarations.
-	global ctrlCommitJs1stJsMsg
-	global ctrlCommitJs1stJsMsgCharCount
-
-	; Submit GUI without hiding to update variables storing states of controls.
-	Gui, guiCommitJsBuild: Submit, NoHide
-
-	; Update character count field
-	msgLen := StrLen(ctrlCommitJs1stJsMsg)
-	GuiControl, , ctrlCommitJs1stJsMsgCharCount, % "Length = " . msgLen . " characters"
-}
-
-;   ································································································
 ;     >>> §2.10: HandleCommitJs2ndJsMsgChange
 
 ; Triggered when the secondary git commit message for the updated LESS source is changed.
@@ -472,7 +445,7 @@ HandleCommitJsOk() {
 	global ctrlCommitJs1stMsg
 	global ctrlCommitJs2ndMsg
 	global ctrlCommitJsAlsoCommitJsSrc
-	global ctrlCommitJs1stJsMsg
+	global ctrlCommitJsJsChangesOnly
 	global ctrlCommitJs2ndJsMsg
 
 	; Submit GUI to finalize variables storing user input.
@@ -488,49 +461,61 @@ HandleCommitJsOk() {
 	gVarCheck := (gVarCheck << 1) | (commitJsVars.fnJsbuild == undefined)
 	gVarCheck := (gVarCheck << 1) | (commitJsVars.fnMinJsBuild == undefined)
 	gVarCheck := (gVarCheck << 1) | (ctrlCommitJsAlsoCommitJsSrc && numFilesToCommit == 0)
-	gVarCheck := (gVarCheck << 1) | (ctrlCommitJs1stMsg == undefined)
-	gVarCheck := (gVarCheck << 1) | (ctrlCommitJsAlsoCommitJsSrc
-		&& ctrlCommitJs1stJsMsg == undefined)
 
 	if (!gVarCheck) {
 		; Build the command line inputs for commiting the code to the appropriate git repository.
-		escaped1stCssMsg := EscapeCommitMessage(ctrlCommitJs1stMsg)
-		commandLineInput := "cd '" . GetGitHubFolder() . "\" . commitJsVars.fpGitFolder . "\'`r"
-			. "git add JS\" . commitJsVars.fnJsBuild . "`r"
-			. "git add JS\" . commitJsVars.fnMinJsBuild . "`r"
-			. "git commit -m """ . escaped1stCssMsg . """"
-		if (ctrlCommitJs2ndMsg != "") {
-			escaped2ndCssMsg := EscapeCommitMessage(ctrlCommitJs2ndMsg)
-			commandLineInput .= " -m """ . escaped2ndCssMsg . """`r"
+		; First, have the shell enter the project's directory.
+		commandLineInput := "cd '" . commitJsVars.fpGitFolder . "'`r"
+
+		; Add the universal dev dependencies submodule to the commit if it has changed.
+		if ( !ctrlCommitJsJsChangesOnly ) {
+			commandLineInput .= "git add WSU-UE---JS`r"
+		}
+
+		; Add any changed local dependencies to the commit, if appropriate.
+		if ( ctrlCommitJsAlsoCommitJsSrc ) {
+			Loop % numFilesToCommit {
+				LV_GetText( nextFileToCommit, A_Index )
+				commandLineInput .= "git add " . nextFileToCommit . "`r"
+			}
+ 		}
+
+		; Add the JS builds to the commit.
+		commandLineInput .= "git add JS\" . commitJsVars.fnJsBuild . "`rgit add JS\"
+			. commitJsVars.fnMinJsBuild . "`r"
+
+		; Now build the commit command, starting with the first commit message.
+		escaped1stJsMsg := EscapeCommitMessage( ctrlCommitJs1stMsg )
+		commandLineInput .= "git commit -m """ . escaped1stJsMsg . """"
+
+		; Next, add the second commit message according to GUI's settings.
+		if ( ctrlCommitJs2ndMsg != "" ) {
+			commandLineInput .= " -m """
+			if ( ctrlCommitJsAlsoCommitJsSrc && ctrlCommitJs2ndJsMsg != "" ) {
+				escaped2ndJsMsg := EscapeCommitMessage( ctrlCommitJs2ndJsMsg )
+				commandLineInput .= escaped2ndJsMsg . " "
+			}
+			escaped2ndJsMsg := EscapeCommitMessage( ctrlCommitJs2ndMsg )
+			commandLineInput .= escaped2ndJsMsg . """`r"
+		} else if ( ctrlCommitJsAlsoCommitJsSrc && ctrlCommitJs2ndJsMsg != "" ) {
+			escaped2ndJsMsg := EscapeCommitMessage( ctrlCommitJs2ndJsMsg )
+			commandLineInput .= " -m """ . escaped2ndJsMsg . """`r"
 		} else {
 			commandLineInput .= "`r"
 		}
-		commandLineInput .= "git push`r"
-		if (ctrlCommitJsAlsoCommitJsSrc) {
-			escaped1stLessMsg := EscapeCommitMessage(ctrlCommitJs1stJsMsg)
-			Loop % numFilesToCommit {
-				LV_GetText(nextFileToCommit, A_Index)
-				commandLineInput .= "git add " . nextFileToCommit . "`r"
-			}
-			commandLineInput .= "git commit -m """ . escaped1stLessMsg . """"
-			if (ctrlCommitJs2ndJsMsg != "") {
-				escaped2ndLessMsg := EscapeCommitMessage(ctrlCommitJs2ndJsMsg)
-				commandLineInput .= " -m """ . escaped2ndLessMsg . """`r"
-			} else {
-				commandLineInput .= "`r"
-			}
-			commandLineInput .= "git push`r"
 
-			; Store commit for later use as a guide
-			if (commitJsLastCustomJsCommit == undefined) {
-				commitJsLastCustomJsCommit := Object()
+		; Finally, add in the push command & an auditory cue.
+		commandLineInput .= "git push`r[console]::beep(2000,150)`r[console]::beep(2000,150)`r"
+
+		; If appropriate, store commit for later use as a guide
+		if ( ctrlCommitJsAlsoCommitJsSrc ) {
+			if ( commitJsLastJsCommit == undefined ) {
+				commitJsLastJsCommit := Object()
 			}
-			commitJsLastCustomJsCommit[commitJsVars.fnJsSrcFile] := Object()
-			commitJsLastCustomJsCommit[commitJsVars.fnJsSrcFile].primary := ctrlCommitJs1stJsMsg
-			commitJsLastCustomJsCommit[commitJsVars.fnJsSrcFile].secondary := ctrlCommitJs2ndJsMsg
+			commitJsLastJsCommit[ commitJsVars.fnJsSrcFile ] := Object()
+			commitJsLastJsCommit[ commitJsVars.fnJsSrcFile ].primary := ctrlCommitJs1stMsg
+			commitJsLastJsCommit[ commitJsVars.fnJsSrcFile ].secondary := ctrlCommitJs2ndJsMsg
 		}
-		commandLineInput .= "[console]::beep(2000,150)`r"
-			. "[console]::beep(2000,150)`r"
 
 		Gui, guiCommitJsBuild: Destroy
 
@@ -551,22 +536,22 @@ ProcessHandleCommitJsOkError(gVarCheck) {
 	if (gVarCheck == 1) {
 		ErrorBox(functionName
 			, "Please enter a primary git commit message regarding changes in the custom JS source "
-. "file.")
+			. "file.")
 	} else if (gVarCheck == 2) {
 		ErrorBox(functionName
 			, "Please enter a primary git commit message regarding changes in the JS builds.")
 	} else if (gVarCheck == 3) {
 		ErrorBox(functionName
 			, "Please enter primary git commit messages regarding changes in the JS builds and the "
-. "LESS source file.")
+			. "project-specific dev dependency file(s).")
 	} else if (gVarCheck & 4) {
 		ErrorBox(functionName
 			, "Please select at least one site-specific Less file to be committed.")
 	} else {
 		Gui, guiCommitJsBuild: Destroy
 		ErrorBox(functionName
-			, "An undefined global variable was encountered; function terminating. Variable checkin"
-. "g bitmask was equal to " . gVarCheck . ".")
+			, "An undefined global variable was encountered; function terminating. Variable "
+			. "checking bitmask was equal to " . gVarCheck . ".")
 	}
 }
 
