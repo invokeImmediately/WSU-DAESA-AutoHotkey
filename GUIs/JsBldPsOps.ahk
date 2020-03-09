@@ -33,11 +33,11 @@ class JsBldPsOps extends GhGui {
 			, guiName := "Default"
 			, guiTitle := ""
 			, updateSmBtnHdlr := "JsBldPsOpsUpdateSmBtnHdlr"
-			, rbldCssBtnHdlr := "JsBldPsOpsRbldJsBtnHdlr"
-			, cmtCssBtnHdlr := "JsBldPsOpsCmtJsBtnHdlr"
-			, bakCssBtnHdlr := "JsBldPsOpsBakJsBtnHdlr"
-			, postCssBtnHdlr := "JsBldPsOpsPostJsBtnHdlr"
-			, postPrevCssBtnHdlr := "JsBldPsOpsPostPrevJsBtnHdlr"
+			, rbldJsBtnHdlr := "JsBldPsOpsRbldJsBtnHdlr"
+			, cmtJsBtnHdlr := "JsBldPsOpsCmtJsBtnHdlr"
+			, bakJsBtnHdlr := "JsBldPsOpsBakJsBtnHdlr"
+			, postJsBtnHdlr := "JsBldPsOpsPostJsBtnHdlr"
+			, postPrevJsBtnHdlr := "JsBldPsOpsPostPrevJsBtnHdlr"
 			, cancelBtnHdlr := "JsBldPsOpsCancelHdlr" ) {
 		base.__New( cfgSettings, typer, guiType, guiName, guiTitle, cancelBtnHdlr )
 		this.delayer := delayer
@@ -76,12 +76,12 @@ class JsBldPsOps extends GhGui {
 		if ( LV_GetCount( "Selected" ) ) {
 			Gui, guiGh%guiType%%guiName%: Submit, NoHide
 			selRow := LV_GetNext()
-			LV_GetText( repository, selRow, 2)
-			LV_GetText( website, selRow, 3)
-			LV_GetText( backup, selRow, 7)
-			copiedJs := CopyJsFromWebsite(website)
-			if ( VerifyCopiedCode( A_ThisFunc, copiedCss ) ) {
-				success := WriteCodeToFile( A_ThisFunc, copiedCss, repository . "JS\" . backup )
+			LV_GetText( repository, selRow, 2 )
+			LV_GetText( website, selRow, 3 )
+			LV_GetText( backup, selRow, 7 )
+			CopyJsFromWebsite( website, copiedJs )
+			if ( VerifyCopiedCode( A_ThisFunc, copiedJs ) ) {
+				success := WriteCodeToFile( A_ThisFunc, copiedJs, repository . "JS\" . backup )
 				if ( success ) {
 					PasteTextIntoGitShell(caller, "cd '" . repository . "'`rgit add JS\" . backup
 						. "`rgit commit -m 'Updating backup of latest verified custom JS build'`rg"
@@ -158,7 +158,7 @@ class JsBldPsOps extends GhGui {
 			LV_GetText( prevJsRelPath, selRow, 7 )
 			LV_GetText( websiteUrl, selRow, 3 )
 			LV_GetText( winTitle, selRow, 8 )
-			fullPath := repoPath . "CSS\" . prevJsRelPath
+			fullPath := repoPath . "JS\" . prevJsRelPath
 			LoadWordPressSiteInChrome( websiteUrl, winTitle )
 			CopySrcFileToClipboard( A_ThisFunc
 				, fullPath
@@ -192,17 +192,17 @@ class JsBldPsOps extends GhGui {
 				. "involved in or produced by the build process?"
 			IfMsgBox Yes
 			{
-				this.HandleCmtCssBtn()
+				this.HandleCmtJsBtn()
 				Return
 			}
 			MsgBox, % (0x4 + 0x20)
 				, % A_ScriptName . ": Post custom JS code to website?", % "After rebuilding files "
 				. "containing custom JS code meant for production usage, would you like to apply "
 				. "the minified build to the website associated with the current GitHub project "
-				. "via the Custom JavaScript Editor page in WSUWP?
+				. "via the Custom JavaScript Editor page in WSUWP?"
 			IfMsgBox Yes
 			{
-				this.HandlePostCssBtn()
+				this.HandlePostJsBtn()
 			}
 		} else {
 			MsgBox % "Please select a repository in which to rebuild files containing custom JS "
@@ -218,15 +218,15 @@ class JsBldPsOps extends GhGui {
 			Gui, guiGh%guiType%%guiName%: Submit, NoHide
 			selRow := LV_GetNext()
 			LV_GetText( repository, selRow, 2)
-			PasteTextIntoGitShell( A_ThisFunc, "cd '" . repository . "\WSU-UE---CSS'`rgit checkout "
-				. "master`rgit pull`rcd ..`rgit submodule update --remote --merge WSU-UE---CSS`r" )
+			PasteTextIntoGitShell( A_ThisFunc, "cd '" . repository . "\WSU-UE---JS'`rgit checkout "
+				. "master`rgit pull`rcd ..`rgit submodule update --remote --merge WSU-UE---JS`r" )
 			MsgBox, % (0x4 + 0x20)
 				, % A_ScriptName . ": Proceed with rebuild?", % "After updating the submodule "
 				. "containing universal dependencies for building custom JS code to be used on "
 				. "DAESA's websites, would you like to proceed with a production JS rebuild?"
 			IfMsgBox Yes
 			{
-				this.HandleRbldCssBtn()
+				this.HandleRbldJsBtn()
 			}
 		} else {
 			MsgBox % "Please select a repository in which the submodule containing universal build "
@@ -263,12 +263,12 @@ class JsBldPsOps extends GhGui {
 			repoName := this.repos.cfgSettings[ A_Index ][ "name" ]
 			repoPath := this.repos.cfgSettings[ A_Index ][ "repository" ]
 			siteUrl := this.repos.cfgSettings[ A_Index ][ "url" ]
-			lessSrcFile := this.repos.cfgSettings[ A_Index ][ "lessSrcFile" ]
-			cssBuildFile := this.repos.cfgSettings[ A_Index ][ "cssBuildFile" ]
+			jsSrcFile := this.repos.cfgSettings[ A_Index ][ "jsSrcFile" ]
+			jsBuildFile := this.repos.cfgSettings[ A_Index ][ "jsBuildFile" ]
 			minBuildFile := this.repos.cfgSettings[ A_Index ][ "minBuildFile" ]
 			prevBuildFile := this.repos.cfgSettings[ A_Index ][ "prevBuildFile" ]
-			winTitle := this.repos.cfgSettings[ A_Index ][ "cssIntfTitle" ]
-			LV_Add( , repoName, repoPath, siteUrl, lessSrcFile, cssBuildFile, minBuildFile
+			winTitle := this.repos.cfgSettings[ A_Index ][ "jsIntfTitle" ]
+			LV_Add( , repoName, repoPath, siteUrl, jsSrcFile, jsBuildFile, minBuildFile
 				, prevBuildfile, winTitle )
 		}
 		LV_Modify( 1, "Focus" )
@@ -307,14 +307,14 @@ class JsBldPsOps extends GhGui {
 		guiCallback := this.bakJsBtnHdlr.handlerRef
 		GuiControl, +g, guiGh%guiType%%guiName%BakJs, %guiCallback%
 
-		; Set up button for posting CSS to appropriate website
+		; Set up button for posting JS to appropriate website
 		Gui, guiGh%guiType%%guiName%: Add, Button
 			, vguiGh%guiType%%guiName%PostJs X+5
 			, % "&Post to website"
 		guiCallback := this.postJsBtnHdlr.handlerRef
 		GuiControl, +g, guiGh%guiType%%guiName%PostJs, %guiCallback%
 
-		; Set up button for posting backup CSS to appropriate website
+		; Set up button for posting backup JS to appropriate website
 		Gui, guiGh%guiType%%guiName%: Add, Button
 			, vguiGh%guiType%%guiName%PostPrevJs X+5
 			, % "Post &backup"
