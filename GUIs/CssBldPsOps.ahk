@@ -373,7 +373,7 @@ class CssBldPsOps extends GhGui {
 
 		; Set up button for copying minified CSS to the clipboard
 		Gui, guiGh%guiType%%guiName%: Add, Button
-			, vguiGh%guiType%%guiName%PostCss X+5
+			, vguiGh%guiType%%guiName%CopyCss X+5
 			, % "Cop&y CSS"
 		guiCallback := this.copyCssBtnHdlr.handlerRef
 		GuiControl, +g, guiGh%guiType%%guiName%CopyCss, %guiCallback%
@@ -387,7 +387,7 @@ class CssBldPsOps extends GhGui {
 
 		; Set up button for copying backed up CSS to the clipboard
 		Gui, guiGh%guiType%%guiName%: Add, Button
-			, vguiGh%guiType%%guiName%PostPrevCss X+5
+			, vguiGh%guiType%%guiName%CopyPrevCss X+5
 			, % "Copy bac&kup"
 		guiCallback := this.copyPrevCssBtnHdlr.handlerRef
 		GuiControl, +g, guiGh%guiType%%guiName%CopyPrevCss, %guiCallback%
