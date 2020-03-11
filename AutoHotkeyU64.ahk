@@ -56,11 +56,11 @@
 ;   §13: Text replacement & input..............................................................436
 ;     >>> §13.1: Text Replacement hotkeys......................................................440
 ;     >>> §13.2: Text Replacement hotstrings...................................................445
-;     >>> §13.3: Text Input hotstrings.........................................................542
-;   §14: Other shortcuts.......................................................................549
-;   §15: Work timer............................................................................562
-;   §16: Custom hotstrings & hotkeys...........................................................568
-;   §17: Execution entry point.................................................................640
+;     >>> §13.3: Text Input hotstrings.........................................................452
+;   §14: Other shortcuts.......................................................................459
+;   §15: Work timer............................................................................472
+;   §16: Custom hotstrings & hotkeys...........................................................478
+;   §17: Execution entry point.................................................................550
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -446,97 +446,7 @@ Return
 
 #Include %A_ScriptDir%\TextInput\regExStrings.ahk
 
-:*:@a5lh::
-	AppendAhkCmd(A_ThisLabel)
-	SendInput, {Enter 5}
-Return
-
-:*:@addClass::class=""{Space}{Left 2}
-
-:*:@addNrml::{Space}class="oue-normal"
-
-:*:@changeNumpadDiv::
-	AppendAhkCmd(A_ThisLabel)
-	Inputbox, inputEntered
-		, % "@changeNumpadDiv: Change Numpad / Overwrite"
-		, % "Enter a character/string that the Numpad- key will now represent once alternative "
-		. "input is toggled on."
-	if (!ErrorLevel) {
-		numpadDivOverwrite := inputEntered
-	} else {
-		MsgBox, % (0x0 + 0x40)
-			, % "@changeNumpadDiv: Numpad / Overwrite Canceled"
-			, % "Alternative input for Numpad / will remain as " . numpadDivOverwrite
-	}
-Return
-
-:*:@changeNumpadSub::
-	AppendAhkCmd(A_ThisLabel)
-	Inputbox, inputEntered
-		, % "@changeNumpadSub: Change Numpad- Overwrite"
-		, % "Enter a character/string that the Numpad- key will now represent once alternative "
-		. "input is toggled on."
-	if (!ErrorLevel) {
-		numpadSubOverwrite := inputEntered
-	} else {
-		MsgBox, % (0x0 + 0x40)
-			, % "@changeNumpadSub: Numpad- Overwrite Canceled"
-			, % "Alternative input for Numpad- will remain as " . numpadSubOverwrite
-	}
-Return
-
-:*:@datetime::
-	AppendAhkCmd(A_ThisLabel)
-	FormatTime, CurrentDateTime,, yyyy-MM-dd HH:mm:ss
-	SendInput, %CurrentDateTime%
-Return
-
-:*:@ddd::
-	AppendAhkCmd(A_ThisLabel)
-	FormatTime, CurrentDateTime, , yyyy-MM-dd
-	SendInput, %CurrentDateTime%
-Return
-
-:*:@doRGBa::
-	AppendAhkCmd(A_ThisLabel)
-	SendInput, rgba(@rval, @gval, @bval, );{Left 2}
-Return
-
-:R*:@findStrFnctns::^[^{\r\n]+{$\r\n(?:^(?<!\}).+$\r\n)+^\}$
-
-:*:@ppp::
-	AppendAhkCmd(A_ThisLabel)
-	SendInput, news-events_events_.html{Left 5}
-Return
-
-:*:@shrug::
-	AppendAhkCmd(A_ThisLabel)
-	SendInput, % "¯\_(·_·)_/¯"
-Return
-
-:*:@ttt::
-	AppendAhkCmd(A_ThisLabel)
-	FormatTime, CurrentDateTime, , HH-mm-ss
-	SendInput, %CurrentDateTime%
-Return
-
-:*:@ttc::
-	AppendAhkCmd(A_ThisLabel)
-	FormatTime, CurrentDateTime, , HH:mm:ss
-	SendInput, %CurrentDateTime%
-Return
-
-:*:@xccc::
-	AppendAhkCmd(A_ThisLabel)
-	FormatTime, CurrentDateTime,, yyyy-MM-dd
-	SendInput, / Completed %CurrentDateTime%
-Return
-
-:*:@xsss::
-	AppendAhkCmd(A_ThisLabel)
-	FormatTime, CurrentDateTime,, yyyy-MM-dd
-	SendInput, (Started %CurrentDateTime%)
-Return
+#Include %A_ScriptDir%\TextInput\textReplacement.ahk
 
 ;   ································································································
 ;     >>> §13.3: Text Input HOTSTRINGS
