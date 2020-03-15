@@ -8,7 +8,7 @@
 ;
 ; REPOSITORY: https://github.com/invokeImmediately/WSU-AutoHotkey
 ;
-; LICENSE: ISC - Copyright (c) 2019 Daniel C. Rieck.
+; LICENSE: ISC - Copyright (c) 2020 Daniel C. Rieck.
 ;
 ;   Permission to use, copy, modify, and/or distribute this software for any purpose with or
 ;   without fee is hereby granted, provided that the above copyright notice and this permission
@@ -23,148 +23,111 @@
 ; ==================================================================================================
 ; TABLE OF CONTENTS:
 ; -----------------
-;   §1: SETTINGS accessed via functions for this imported file.................................174
-;     >>> §1.1: GetCmdForMoveToCSSFolder.......................................................178
-;     >>> §1.2: GetCurrentDirFrom..............................................................193
-;     >>> §1.3: GetGitHubFolder................................................................205
-;     >>> §1.4: UserFolderIsSet................................................................213
-;   §2: FUNCTIONS for working with GitHub Desktop..............................................227
-;     >>> §2.1: ActivateGitShell...............................................................231
-;     >>> §2.2: CommitAfterBuild...............................................................267
-;     >>> §2.3: EscapeCommitMessage............................................................301
-;     >>> §2.4: Git commit GUI — Imports.......................................................311
-;       →→→ §2.4.1: For committing CSS builds..................................................314
-;       →→→ §2.4.2: For committing JS builds...................................................319
-;       →→→ §2.4.3: For committing any type of file............................................324
-;     >>> §2.5: CopySrcFileToClipboard.........................................................329
-;     >>> §2.6: IsGitShellActive...............................................................350
-;     >>> §2.7: PasteTextIntoGitShell..........................................................357
-;     >>> §2.8: ToEscapedPath..................................................................390
-;     >>> §2.9: VerifyCopiedCode...............................................................398
-;   §3: FUNCTIONS for interacting with online WEB DESIGN INTERFACES............................412
-;     >>> §3.1: LoadWordPressSiteInChrome......................................................416
-;   §4: GUI FUNCTIONS for handling user interactions with scripts..............................456
-;     >>> §4.1: @postMinCss....................................................................460
-;       →→→ §4.1.1: HandlePostCssCheckAllSites.................................................500
-;       →→→ §4.1.2: HandlePostCssUncheckAllSites...............................................521
-;       →→→ §4.1.3: HandlePostMinCssCancel.....................................................542
-;       →→→ §4.1.4: HandlePostMinCssOK.........................................................549
-;       →→→ §4.1.5: PasteMinCssToWebsite.......................................................621
-;     >>> §4.2: @postCssFromRepo...............................................................632
-;     >>> §4.3: @postPrevCssFromRepo...........................................................641
-;     >>> §4.4: @postBackupCss.................................................................650
-;       →→→ §4.4.1: HandlePostBackupCssCheckAllSites...........................................696
-;       →→→ §4.4.2: HandlePostBackupCssUncheckAllSites.........................................717
-;       →→→ §4.4.3: HandlePostBackupCssCancel..................................................738
-;       →→→ §4.4.4: HandlePostBackupCssOK......................................................745
-;     >>> §4.4: @postMinJs.....................................................................812
-;       →→→ §4.4.1: HandlePostJsCheckAllSites..................................................862
-;       →→→ §4.4.2: HandlePostJsUncheckAllSites................................................882
-;       →→→ §4.4.3: HandlePostMinJsCancel......................................................902
-;       →→→ §4.4.4: HandlePostMinJsOK..........................................................909
-;       →→→ §4.4.5: PasteMinJsToWebsite.......................................................976
-;   §5: UTILITY HOTSTRINGS for working with GitHub Desktop....................................991
-;     >>> §5.1: FILE COMMITTING...............................................................995
-;     >>> §5.2: STATUS CHECKING...............................................................1134
-;       →→→ §5.2.1: @doGitStataus & @dogs.....................................................1137
-;       →→→ §5.2.2: @doGitDiff & @dogd........................................................1157
-;       →→→ §5.2.3: @doGitLog & @dogl.........................................................1177
-;       →→→ §5.2.4: @doGitNoFollowLog & @donfgl...............................................1198
-;     >>> §5.3: Automated PASTING OF CSS/JS into online web interfaces........................1218
-;       →→→ §5.3.1: @initCssPaste.............................................................1221
-;       →→→ §5.3.2: @doCssPaste...............................................................1246
-;       →→→ §5.3.3: @pasteGitCommitMsg........................................................1295
-;       →→→ §5.3.4: ExecuteCssPasteCmds.......................................................1313
-;       →→→ §5.3.5: ExecuteJsPasteCmds........................................................1361
-;   §6: COMMAND LINE INPUT GENERATION SHORTCUTS...............................................1409
-;     >>> §6.1: GUIs for automating generation of command line input..........................1413
-;     >>> §6.2: Shortucts for backing up custom CSS builds....................................1422
-;       →→→ §6.2.1: @backupCssInRepo..........................................................1425
-;       →→→ §6.2.2: @backupCssAll.............................................................1434
-;       →→→ §6.2.3: CopyCssFromWebsite........................................................1458
-;       →→→ §6.2.4: ExecuteCssCopyCmds........................................................1468
-;     >>> §6.3: Shortcuts for rebuilding & committing custom CSS files........................1491
-;       →→→ §6.3.1: @rebuildCssInRepo.........................................................1494
-;       →→→ §6.3.2: @rebuildCssAll............................................................1503
-;     >>> §6.4: Shortcuts for committing CSS builds...........................................1530
-;       →→→ §6.4.1: @commitCssInRepo..........................................................1533
-;     >>> §6.5: Shortcuts for updating CSS submodules.........................................1542
-;       →→→ §6.5.1: @updateCssSubmoduleInRepo.................................................1545
-;       →→→ §6.5.2: @updateCssSubmoduleAll....................................................1554
-;     >>> §6.6: For copying minified, backup css files to clipboard...........................1582
-;       →→→ §6.6.1: @copyMinCssFromRepo.......................................................1585
-;       →→→ §6.6.2: @copyBackupCssFromRepo....................................................1594
-;     >>> §6.7: FOR BACKING UP CUSTOM JS BUILDS...............................................1604
-;       →→→ §6.7.1: BackupJs..................................................................1607
-;       →→→ §6.7.2: @backupJsRepo.............................................................1624
-;       →→→ §6.7.3: @backupJsAll..............................................................1633
-;       →→→ §6.7.4: CopyJsFromWebsite.........................................................1660
-;       →→→ §6.7.5: ExecuteJsCopyCmds.........................................................1671
-;     >>> §6.8: FOR REBUILDING JS SOURCE FILES................................................1692
-;       →→→ §6.8.1: RebuildJs.................................................................1695
-;       →→→ §6.8.2: @rebuildJsAscc............................................................1706
-;       →→→ §6.8.3: @rebuildJsCr..............................................................1713
-;       →→→ §6.8.4: @rebuildJsDsp.............................................................1720
-;       →→→ §6.8.5: @rebuildJsFye.............................................................1727
-;       →→→ §6.8.6: @rebuildJsFyf.............................................................1745
-;       →→→ §6.8.7: @rebuildJsNse.............................................................1763
-;       →→→ §6.8.8: @rebuildJsOue.............................................................1781
-;       →→→ §6.8.9: @rebuildJsPbk.............................................................1788
-;       →→→ §6.8.10: @rebuildJsSurca..........................................................1806
-;       →→→ §6.8.11: @rebuildJsSumRes.........................................................1813
-;       →→→ §6.8.12: @rebuildJsXfer...........................................................1825
-;       →→→ §6.8.13: @rebuildJsUgr............................................................1832
-;       →→→ §6.8.14: @rebuildJsUcore..........................................................1844
-;       →→→ §6.8.15: @rebuildJsUcrAss.........................................................1856
-;     >>> §6.9: FOR UPDATING JS SUBMODULES....................................................1874
-;       →→→ §6.9.1: @commitJsAscc.............................................................1877
-;       →→→ §6.9.2: @commitJsCr...............................................................1886
-;       →→→ §6.9.3: @commitJsDsp..............................................................1895
-;       →→→ §6.9.4: @commitJsOue..............................................................1904
-;       →→→ §6.9.5: @commitJsSurca............................................................1912
-;       →→→ §6.9.6: @commitJsSumRes...........................................................1921
-;       →→→ §6.9.7: @commitJsXfer.............................................................1930
-;       →→→ §6.9.8: @commitJsUgr..............................................................1939
-;       →→→ §6.9.9: @commitJsUcore............................................................1948
-;       →→→ §6.9.10: @commitJsXfer............................................................1957
-;     >>> §6.10: FOR UPDATING JS SUBMODULES...................................................1965
-;       →→→ §6.10.1: UpdateJsSubmodule........................................................1968
-;       →→→ §6.10.2: @updateJsSubmoduleAscc...................................................1987
-;       →→→ §6.10.3: @updateJsSubmoduleCr.....................................................1994
-;       →→→ §6.10.4: @updateJsSubmoduleDsp....................................................2002
-;       →→→ §6.10.5: @updateJsSubmoduleFye....................................................2010
-;       →→→ §6.10.6: @updateJsSubmoduleFyf....................................................2017
-;       →→→ §6.10.7: @updateJsSubmoduleNse....................................................2025
-;       →→→ §6.10.8: @updateJsSubmoduleOue....................................................2032
-;       →→→ §6.10.9: @updateJsSubmodulePbk....................................................2039
-;       →→→ §6.10.10: @updateJsSubmoduleSurca.................................................2046
-;       →→→ §6.10.11: @updateJsSubmoduleSumRes................................................2053
-;       →→→ §6.10.12: @updateJsSubmoduleXfer..................................................2061
-;       →→→ §6.10.13: @updateJsSubmoduleUgr...................................................2069
-;       →→→ §6.10.14: @updateJsSubmoduleUcore.................................................2076
-;       →→→ §6.10.15: @updateJsSubmoduleUcrAss................................................2083
-;       →→→ §6.10.16: @updateJsSubmoduleAll...................................................2091
-;     >>> §6.11: Shortcuts for copying minified JS to clipboard...............................2117
-;       →→→ §6.11.1: @copyMinJsAscc...........................................................2122
-;       →→→ §6.11.2: @copyMinJsCr.............................................................2132
-;       →→→ §6.11.3: @copyMinJsDsp............................................................2142
-;       →→→ §6.11.4: @copyMinJsFye............................................................2152
-;       →→→ §6.11.5: @copyMinJsFyf............................................................2162
-;       →→→ §6.11.6: @copyMinJsNse............................................................2172
-;       →→→ §6.11.7: @copyMinJsOue............................................................2182
-;       →→→ §6.11.8: @copyBackupJsOue.........................................................2192
-;       →→→ §6.11.9: @copyMinJsPbk............................................................2202
-;       →→→ §6.11.10: @copyMinJsSurca.........................................................2212
-;       →→→ §6.11.11: @copyMinJsSumRes........................................................2222
-;       →→→ §6.11.12: @copyMinJsXfer..........................................................2232
-;       →→→ §6.11.13: @copyMinJsUgr...........................................................2242
-;       →→→ §6.11.14: @copyMinJsUcore.........................................................2252
-;       →→→ §6.11.15: @copyBackupJsUcore......................................................2262
-;       →→→ §6.11.16: @copyMinJsUcrAss........................................................2272
-;     >>> §6.12: FOR CHECKING GIT STATUS ON ALL PROJECTS......................................2282
-;   §7: KEYBOARD SHORTCUTS FOR POWERSHELL.....................................................2318
-;     >>> §7.1: SHORTCUTS.....................................................................2322
-;     >>> §7.2: SUPPORTING FUNCTIONS..........................................................2349
+;   §1: SETTINGS accessed via functions for this imported file.................................137
+;     >>> §1.1: GetCmdForMoveToCSSFolder.......................................................141
+;     >>> §1.2: GetCurrentDirFrom..............................................................156
+;     >>> §1.3: GetGitHubFolder................................................................168
+;     >>> §1.4: UserFolderIsSet................................................................176
+;   §2: FUNCTIONS for working with GitHub Desktop..............................................190
+;     >>> §2.1: ActivateGitShell...............................................................194
+;     >>> §2.2: CommitAfterBuild...............................................................230
+;     >>> §2.3: EscapeCommitMessage............................................................264
+;     >>> §2.4: Git commit GUI — Imports.......................................................274
+;       →→→ §2.4.1: For committing CSS builds..................................................277
+;       →→→ §2.4.2: For committing JS builds...................................................282
+;       →→→ §2.4.3: For committing any type of file............................................287
+;     >>> §2.5: CopySrcFileToClipboard.........................................................292
+;     >>> §2.6: IsGitShellActive...............................................................313
+;     >>> §2.7: PasteTextIntoGitShell..........................................................320
+;     >>> §2.8: ToEscapedPath..................................................................353
+;     >>> §2.9: VerifyCopiedCode...............................................................361
+;   §3: FUNCTIONS for interacting with online WEB DESIGN INTERFACES............................375
+;     >>> §3.1: LoadWordPressSiteInChrome......................................................379
+;   §4: GUI FUNCTIONS for handling user interactions with scripts..............................419
+;     >>> §4.1: @postMinCss....................................................................423
+;       →→→ §4.1.1: HandlePostCssCheckAllSites.................................................463
+;       →→→ §4.1.2: HandlePostCssUncheckAllSites...............................................484
+;       →→→ §4.1.3: HandlePostMinCssCancel.....................................................505
+;       →→→ §4.1.4: HandlePostMinCssOK.........................................................512
+;       →→→ §4.1.5: PasteMinCssToWebsite.......................................................584
+;     >>> §4.2: @postCssFromRepo...............................................................595
+;     >>> §4.3: @postPrevCssFromRepo...........................................................604
+;     >>> §4.4: @postBackupCss.................................................................613
+;       →→→ §4.4.1: HandlePostBackupCssCheckAllSites...........................................659
+;       →→→ §4.4.2: HandlePostBackupCssUncheckAllSites.........................................680
+;       →→→ §4.4.3: HandlePostBackupCssCancel..................................................701
+;       →→→ §4.4.4: HandlePostBackupCssOK......................................................708
+;     >>> §4.4: @postMinJs.....................................................................775
+;       →→→ §4.4.1: HandlePostJsCheckAllSites..................................................825
+;       →→→ §4.4.2: HandlePostJsUncheckAllSites................................................845
+;       →→→ §4.4.3: HandlePostMinJsCancel......................................................865
+;       →→→ §4.4.4: HandlePostMinJsOK..........................................................872
+;       →→→ §4.4.5: PasteMinJsToWebsite........................................................939
+;   §5: UTILITY HOTSTRINGS for working with GitHub Desktop.....................................954
+;     >>> §5.1: FILE COMMITTING................................................................958
+;     >>> §5.2: STATUS CHECKING...............................................................1097
+;       →→→ §5.2.1: @doGitStataus & @dogs.....................................................1100
+;       →→→ §5.2.2: @doGitDiff & @dogd........................................................1120
+;       →→→ §5.2.3: @doGitLog & @dogl.........................................................1140
+;       →→→ §5.2.4: @doGitNoFollowLog & @donfgl...............................................1161
+;     >>> §5.3: Automated PASTING OF CSS/JS into online web interfaces........................1181
+;       →→→ §5.3.1: @initCssPaste.............................................................1184
+;       →→→ §5.3.2: @doCssPaste...............................................................1209
+;       →→→ §5.3.3: @pasteGitCommitMsg........................................................1258
+;       →→→ §5.3.4: ExecuteCssPasteCmds.......................................................1276
+;       →→→ §5.3.5: ExecuteJsPasteCmds........................................................1324
+;   §6: COMMAND LINE INPUT GENERATION SHORTCUTS...............................................1372
+;     >>> §6.1: GUIs for automating generation of command line input..........................1376
+;     >>> §6.2: BACKING UP builds of files containing custom CSS code.........................1385
+;       →→→ §6.2.1: @backupCssInRepo..........................................................1388
+;       →→→ §6.2.2: @backupCssAll.............................................................1397
+;       →→→ §6.2.3: CopyCssFromWebsite........................................................1421
+;       →→→ §6.2.4: ExecuteCssCopyCmds........................................................1431
+;     >>> §6.3: REBUILDING files containing custom CSS code...................................1454
+;       →→→ §6.3.1: @rebuildCssInRepo.........................................................1457
+;       →→→ §6.3.2: @rebuildCssAll............................................................1466
+;     >>> §6.4: COMMITTING files produced by or involved in CSS build processes...............1493
+;       →→→ §6.4.1: @commitCssInRepo..........................................................1496
+;     >>> §6.5: UPDATING SUBMODULES containing CSS dev dependencies...........................1505
+;       →→→ §6.5.1: @updateCssSubmoduleInRepo.................................................1508
+;       →→→ §6.5.2: @updateCssSubmoduleAll....................................................1517
+;     >>> §6.6: COPYING built CSS code for deployment.........................................1545
+;       →→→ §6.6.1: @copyMinCssFromRepo.......................................................1548
+;       →→→ §6.6.2: @copyBackupCssFromRepo....................................................1557
+;     >>> §6.7: BACKING UP builds of files containing custom JS code..........................1567
+;       →→→ §6.7.1: BackupJs..................................................................1570
+;       →→→ §6.7.2: @backupJsRepo.............................................................1587
+;       →→→ §6.7.3: @backupJsAll..............................................................1596
+;       →→→ §6.7.4: CopyJsFromWebsite.........................................................1623
+;       →→→ §6.7.5: ExecuteJsCopyCmds.........................................................1634
+;     >>> §6.8: REBUILDING files containing custom JS code....................................1655
+;       →→→ §6.8.1: @rebuildJsInRepo..........................................................1658
+;     >>> §6.9: FOR UPDATING JS SUBMODULES....................................................1667
+;       →→→ §6.9.1: @commitJsInRepo...........................................................1670
+;     >>> §6.10: FOR UPDATING JS SUBMODULES...................................................1679
+;       →→→ §6.10.1: @updateJsSubmoduleInRepo.................................................1682
+;       →→→ §6.10.2: @updateJsSubmoduleAll....................................................1691
+;     >>> §6.11: Shortcuts for copying minified JS to clipboard...............................1718
+;       →→→ §6.11.1: @copyMinJsAscc...........................................................1723
+;       →→→ §6.11.2: @copyMinJsCr.............................................................1733
+;       →→→ §6.11.3: @copyMinJsDsp............................................................1743
+;       →→→ §6.11.4: @copyMinJsFye............................................................1753
+;       →→→ §6.11.5: @copyMinJsFyf............................................................1763
+;       →→→ §6.11.6: @copyMinJsNse............................................................1773
+;       →→→ §6.11.7: @copyMinJsOue............................................................1783
+;       →→→ §6.11.8: @copyBackupJsOue.........................................................1793
+;       →→→ §6.11.9: @copyMinJsPbk............................................................1803
+;       →→→ §6.11.10: @copyMinJsSurca.........................................................1813
+;       →→→ §6.11.11: @copyMinJsSumRes........................................................1823
+;       →→→ §6.11.12: @copyMinJsXfer..........................................................1833
+;       →→→ §6.11.13: @copyMinJsUgr...........................................................1843
+;       →→→ §6.11.14: @copyMinJsUcore.........................................................1853
+;       →→→ §6.11.15: @copyBackupJsUcore......................................................1863
+;       →→→ §6.11.16: @copyMinJsUcrAss........................................................1873
+;     >>> §6.12: FOR CHECKING GIT STATUS ON ALL PROJECTS......................................1883
+;   §7: KEYBOARD SHORTCUTS FOR POWERSHELL.....................................................1919
+;     >>> §7.1: SHORTCUTS.....................................................................1923
+;     >>> §7.2: SUPPORTING FUNCTIONS..........................................................1950
 ; ==================================================================================================
 
 sgIsPostingMinCss := false
@@ -1488,7 +1451,7 @@ ExecuteCssCopyCmds() {
 }
 
 ;   ································································································
-;     >>> §6.3: Shortcuts for rebuilding & committing custom CSS files
+;     >>> §6.3: Shortcuts for rebuilding files containing custom CSS code
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.3.1: @rebuildCssInRepo
@@ -1527,7 +1490,7 @@ Return
 Return
 
 ;   ································································································
-;     >>> §6.4: Shortcuts for committing CSS builds
+;     >>> §6.4: Committing files produced by or involved in CSS build processes
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.4.1: @commitCssInRepo
@@ -1692,425 +1655,63 @@ ExecuteJsCopyCmds( ByRef copiedJs ) {
 ;     >>> §6.8: FOR REBUILDING JS SOURCE FILES
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.8.1: RebuildJs
+;       →→→ §6.8.1: @rebuildJsInRepo
 
-RebuildJs( caller, repository, commitCommand ) {
-	AppendAhkCmd( caller )
-	PasteTextIntoGitShell( caller
-		, "cd '" . GetGitHubFolder() . "\" . repository . "\'`rgulp buildMinJs`rStart-Sleep -s 1`r["
-		. "console]::beep(1500,300)`r" )
-	CommitAfterBuild( caller, commitCommand )
-}
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.8.2: @rebuildJsAscc
-
-:*:@rebuildJsAscc::
-	RebuildJs( A_ThisLabel, "ascc.wsu.edu", ":*:@commitJsAscc" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.8.3: @rebuildJsCr
-
-:*:@rebuildJsCr::
-	RebuildJs( A_ThisLabel, "commonreading.wsu.edu", ":*:@commitJsCr" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.8.4: @rebuildJsDsp
-
-:*:@rebuildJsDsp::
-	RebuildJs( A_ThisLabel, "distinguishedscholarships.wsu.edu", ":*:@commitJsDsp" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.8.5: @rebuildJsFye
-
-:*:@rebuildJsFye::
+:*:@rebuildJsInRepo::
 	AppendAhkCmd( A_ThisLabel )
-	PasteTextIntoGitShell( A_ThisLabel
-		, "cd '" . GetGitHubFolder() . "\firstyear.wsu.edu\JS'`r"
-		. "node build-production-file.js`r"
-		. "uglifyjs wp-custom-js-source.js --output wp-custom-js-source.min.js -mt`r"
-		. "[console]::beep(1500,300)`r"
-		. "cd '" . GetGitHubFolder() . "\firstyear.wsu.edu\'`r"
-		. "git add JS\wp-custom-js-source.js`r"
-		. "git add JS\wp-custom-js-source.min.js`r"
-		. "git commit -m 'Updating custom JS build' -m 'Rebuilt production files to incorporate "
-		. "recent changes to source code and/or dependencies' `r"
-		. "git push`r" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.8.6: @rebuildJsFyf
-
-:*:@rebuildJsFyf::
-	AppendAhkCmd( A_ThisLabel )
-	PasteTextIntoGitShell( A_ThisLabel
-		, "cd '" . GetGitHubFolder() . "\learningcommunities.wsu.edu\JS'`r"
-		. "node build-production-file.js`r"
-		. "uglifyjs wp-custom-js-source.js --output wp-custom-js-source.min.js -mt`r"
-		. "[console]::beep(1500,300)`r"
-		. "cd '" . GetGitHubFolder() . "\learningcommunities.wsu.edu\'`r"
-		. "git add JS\wp-custom-js-source.js`r"
-		. "git add JS\wp-custom-js-source.min.js`r"
-		. "git commit -m 'Updating custom JS build' -m 'Rebuilt production files to incorporate "
-		. "recent changes to source code and/or dependencies' `r"
-		. "git push`r" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.8.7: @rebuildJsNse
-
-:*:@rebuildJsNse::
-	AppendAhkCmd( A_ThisLabel )
-	PasteTextIntoGitShell( A_ThisLabel
-		, "cd '" . GetGitHubFolder() . "\nse.wsu.edu\JS'`r"
-		. "node build-production-file.js`r"
-		. "uglifyjs nse-custom.js --output nse-custom.min.js -mt`r"
-		. "[console]::beep(1500,300)`r"
-		. "cd '" . GetGitHubFolder() . "\nse.wsu.edu\'`r"
-		. "git add JS\nse-custom.js`r"
-		. "git add JS\nse-custom.min.js`r"
-		. "git commit -m 'Updating custom JS build' -m 'Rebuilt production files to incorporate "
-		. "recent changes to source code and/or dependencies' `r"
-		. "git push`r" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.8.8: @rebuildJsOue
-
-:*:@rebuildJsOue::
-	RebuildJs( A_ThisLabel, "oue.wsu.edu", ":*:@commitJsOue" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.8.9: @rebuildJsPbk
-
-:*:@rebuildJsPbk::
-	AppendAhkCmd( A_ThisLabel )
-	PasteTextIntoGitShell( A_ThisLabel
-		, "cd '" . GetGitHubFolder() . "\phibetakappa.wsu.edu\JS'`r"
-		. "node build-production-file.js`r"
-		. "uglifyjs pbk-custom.js --output pbk-custom.min.js -mt`r"
-		. "[console]::beep(1500,300)`r"
-		. "cd '" . GetGitHubFolder() . "\phibetakappa.wsu.edu\'`r"
-		. "git add JS\pbk-custom.js`r"
-		. "git add JS\pbk-custom.min.js`r"
-		. "git commit -m 'Updating custom JS build' -m 'Rebuilt production files to incorporate "
-		. "recent changes to source code and/or dependencies' `r"
-		. "git push`r" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.8.10: @rebuildJsSurca
-
-:*:@rebuildJsSurca::
-	RebuildJs( A_ThisLabel, "surca.wsu.edu", ":*:@commitJsSurca" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.8.11: @rebuildJsSumRes
-
-:*:@rebuildJsSumRes::
-	AppendAhkCmd( A_ThisLabel )
-	PasteTextIntoGitShell( A_ThisLabel
-		, "cd '" . GetGitHubFolder() . "\summerresearch.wsu.edu\'`r"
-		. "gulp buildMinJs`r"
-		. "[console]::beep(1500,300)`r" )
-	CommitAfterBuild( A_ThisLabel, ":*:@commitJsSumRes" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.8.12: @rebuildJsXfer
-
-:*:@rebuildJsXfer::
-	RebuildJs( A_ThisLabel, "transfercredit.wsu.edu", ":*:@commitJsXfer" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.8.13: @rebuildJsUgr
-
-:*:@rebuildJsUgr::
-	AppendAhkCmd( A_ThisLabel )
-	PasteTextIntoGitShell( A_ThisLabel
-		, "cd '" . GetGitHubFolder() . "\undergraduateresearch.wsu.edu\'`r"
-		. "gulp buildMinJs`r"
-		. "[console]::beep(1500,300)`r" )
-	CommitAfterBuild( A_ThisLabel, ":*:@commitJsUgr" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.8.14: @rebuildJsUcore
-
-:*:@rebuildJsUcore::
-	AppendAhkCmd( A_ThisLabel )
-	PasteTextIntoGitShell( A_ThisLabel
-		, "cd '" . GetGitHubFolder() . "\ucore.wsu.edu\'`r"
-		. "gulp buildMinJs`r"
-		. "[console]::beep(1500,300)`r" )
-	CommitAfterBuild( A_ThisLabel, ":*:@commitJsUcore" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.8.15: @rebuildJsUcrAss
-
-:*:@rebuildJsUcrAss::
-	AppendAhkCmd( A_ThisLabel )
-	PasteTextIntoGitShell( A_ThisLabel
-		, "cd '" . GetGitHubFolder() . "\ucore.wsu.edu-assessment\JS'`r"
-		. "node build-production-file.js`r"
-		. "uglifyjs wp-custom-js-source.js --output wp-custom-js-source.min.js -mt`r"
-		. "[console]::beep(1500,300)`r"
-		. "cd '" . GetGitHubFolder() . "\ucore.wsu.edu-assessment\'`r"
-		. "git add JS\wp-custom-js-source.js`r"
-		. "git add JS\wp-custom-js-source.min.js`r"
-		. "git commit -m 'Updating custom JS build' -m 'Rebuilt production files to incorporate "
-		. "recent changes to source code and/or dependencies' `r"
-		. "git push`r" )
+	jsBldGui := new JsBldPsOps( scriptCfg.jsBuilds, checkType, execDelayer )
+	jsBldGui.ShowGui( "rebuild" )
 Return
 
 ;   ································································································
 ;     >>> §6.9: FOR UPDATING JS SUBMODULES
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.9.1: @commitJsAscc
+;       →→→ §6.9.1: @commitJsInRepo
 
-:*:@commitJsAscc::
+:*:@commitJsInRepo::
 	AppendAhkCmd( A_ThisLabel )
-	CommitJsBuild( A_ThisLabel, "ascc.wsu.edu", "ascc-specific.js", "ascc-custom.js"
-		, "ascc-custom.min.js" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.9.2: @commitJsCr
-
-:*:@commitJsCr::
-	AppendAhkCmd( A_ThisLabel )
-	CommitJsBuild( A_ThisLabel, "commonreading.wsu.edu", "cr-custom.js", "cr-build.js"
-		, "cr-build.min.js" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.9.3: @commitJsDsp
-
-:*:@commitJsDsp::
-	AppendAhkCmd( A_ThisLabel )
-	CommitJsBuild( A_ThisLabel, "distinguishedscholarships.wsu.edu", "dsp-custom.js"
-		, "dsp-custom-build.js", "dsp-custom-build.min.js" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.9.4: @commitJsOue
-
-:*:@commitJsOue::
-	AppendAhkCmd( A_ThisLabel )
-	CommitJsBuild( A_ThisLabel, "oue.wsu.edu", "oue-custom.js", "oue-build.js", "oue-build.min.js" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.9.5: @commitJsSurca
-
-:*:@commitJsSurca::
-	AppendAhkCmd( A_ThisLabel )
-	CommitJsBuild( A_ThisLabel, "surca.wsu.edu", "surca-custom.js", "surca-build.js"
-		, "surca-build.min.js" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.9.6: @commitJsSumRes
-
-:*:@commitJsSumRes::
-	AppendAhkCmd( A_ThisLabel )
-	CommitJsBuild( A_ThisLabel, "summerresearch.wsu.edu", "sumres-custom.js", "sumres-build.js"
-		, "sumres-build.min.js" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.9.7: @commitJsXfer
-
-:*:@commitJsXfer::
-	AppendAhkCmd( A_ThisLabel )
-	CommitJsBuild( A_ThisLabel, "transfercredit.wsu.edu", "xfercredit-custom.js"
-		, "xfercredit-build.js", "xfercredit-build.min.js" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.9.8: @commitJsUgr
-
-:*:@commitJsUgr::
-	AppendAhkCmd( A_ThisLabel )
-	CommitJsBuild( A_ThisLabel, "undergraduateresearch.wsu.edu", "ugr-custom.js", "ugr-build.js"
-		, "ugr-build.min.js" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.9.9: @commitJsUcore
-
-:*:@commitJsUcore::
-	AppendAhkCmd( A_ThisLabel )
-	CommitJsBuild( A_ThisLabel, "ucore.wsu.edu", "ucore-custom.js", "ucore-build.js"
-		, "ucore-build.min.js" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.9.10: @commitJsXfer
-
-:*:@commitJsXfer::
-	CommitJsBuild( A_ThisLabel, "transfercredit.wsu.edu", "xfercredit-custom.js"
-		, "xfercredit-build.js", "xfercredit-build.min.js" )
+	jsBldGui := new JsBldPsOps( scriptCfg.jsBuilds, checkType, execDelayer )
+	jsBldGui.ShowGui( "commit" )
 Return
 
 ;   ································································································
 ;     >>> §6.10: FOR UPDATING JS SUBMODULES
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.10.1: UpdateJsSubmodule
+;       →→→ §6.10.1: @updateJsSubmoduleInRepo
 
-UpdateJsSubmodule( caller, repository, rebuildCommand ) {
-	AppendAhkCmd( caller )
-	PasteTextIntoGitShell( caller, "cd '" . GetGitHubFolder() . "\" . repository . "\WSU-UE---JS'`r"
- . "git fetch`rgit merge origin/master`rcd ..`rgit add WSU-UE---JS`rgit commit -m 'Updating custom "
- . "JS master submodule for OUE websites' -m 'Obtaining recent changes in OUE-wide JS source code u"
- . "sed in builds.'`rgit push`r" )
-	MsgBox, % ( 0x4 + 0x20 )
-		, % caller . ": Proceed with rebuild?"
-		, % "After updating the JS submodule, would you like to proceed with the rebuild command "
-			. rebuildCommand . "?"
-	IfMsgBox Yes
-	{
-		Gosub % rebuildCommand
-	}
-}
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.10.2: @updateJsSubmoduleAscc
-
-:*:@updateJsSubmoduleAscc::
-	UpdateJsSubmodule( A_ThisLabel, "ascc.wsu.edu", ":*:@rebuildJsAscc" )
+:*:@updateJsSubmoduleInRepo::
+	AppendAhkCmd( A_ThisLabel )
+	jsBldGui := new JsBldPsOps( scriptCfg.jsBuilds, checkType, execDelayer )
+	jsBldGui.ShowGui( "update" )
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.10.3: @updateJsSubmoduleCr
-
-:*:@updateJsSubmoduleCr::
-	UpdateJsSubmodule( A_ThisLabel, "commonreading.wsu.edu"
-		, ":*:@rebuildJsCr" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.10.4: @updateJsSubmoduleDsp
-
-:*:@updateJsSubmoduleDsp::
-	UpdateJsSubmodule( A_ThisLabel, "distinguishedscholarships.wsu.edu"
-		, ":*:@rebuildJsDsp" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.10.5: @updateJsSubmoduleFye
-
-:*:@updateJsSubmoduleFye::
-	UpdateJsSubmodule( A_ThisLabel, "firstyear.wsu.edu", ":*:@rebuildJsFye" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.10.6: @updateJsSubmoduleFyf
-
-:*:@updateJsSubmoduleFyf::
-	UpdateJsSubmodule( A_ThisLabel, "learningcommunities.wsu.edu"
-		, ":*:@rebuildJsFyf" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.10.7: @updateJsSubmoduleNse
-
-:*:@updateJsSubmoduleNse::
-	UpdateJsSubmodule( A_ThisLabel, "nse.wsu.edu", ":*:@rebuildJsNse" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.10.8: @updateJsSubmoduleOue
-
-:*:@updateJsSubmoduleOue::
-	UpdateJsSubmodule( A_ThisLabel, "oue.wsu.edu", ":*:@rebuildJsOue" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.10.9: @updateJsSubmodulePbk
-
-:*:@updateJsSubmodulePbk::
-	UpdateJsSubmodule( A_ThisLabel, "phibetakappa.wsu.edu", ":*:@rebuildJsPbk" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.10.10: @updateJsSubmoduleSurca
-
-:*:@updateJsSubmoduleSurca::
-	UpdateJsSubmodule( A_ThisLabel, "surca.wsu.edu", ":*:@rebuildJsSurca" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.10.11: @updateJsSubmoduleSumRes
-
-:*:@updateJsSubmoduleSumRes::
-	UpdateJsSubmodule( A_ThisLabel, "summerresearch.wsu.edu"
-		, ":*:@rebuildJsSumRes" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.10.12: @updateJsSubmoduleXfer
-
-:*:@updateJsSubmoduleXfer::
-	UpdateJsSubmodule( A_ThisLabel, "transfercredit.wsu.edu"
-		, ":*:@rebuildJsXfer" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.10.13: @updateJsSubmoduleUgr
-
-:*:@updateJsSubmoduleUgr::
-	UpdateJsSubmodule( A_ThisLabel, "undergraduateresearch.wsu.edu", ":*:@rebuildJsUgr" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.10.14: @updateJsSubmoduleUcore
-
-:*:@updateJsSubmoduleUcore::
-	UpdateJsSubmodule( A_ThisLabel, "ucore.wsu.edu", ":*:@rebuildJsUcore" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.10.15: @updateJsSubmoduleUcrAss
-
-:*:@updateJsSubmoduleUcrAss::
-	UpdateJsSubmodule( A_ThisLabel, "ucore.wsu.edu-assessment"
-		, ":*:@rebuildJsUcrAss" )
-Return
-
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §6.10.16: @updateJsSubmoduleAll
+;       →→→ §6.10.2: @updateJsSubmoduleAll
 
 :*:@updateJsSubmoduleAll::
 	AppendAhkCmd( A_ThisLabel )
-	Gosub, :*:@updateJsSubmoduleAscc
-	Gosub, :*:@updateJsSubmoduleCr
-	Gosub, :*:@updateJsSubmoduleDsp
-	Gosub, :*:@updateJsSubmoduleFye
-	Gosub, :*:@updateJsSubmoduleFyf
-	Gosub, :*:@updateJsSubmoduleNse
-	Gosub, :*:@updateJsSubmoduleOue
-	Gosub, :*:@updateJsSubmodulePbk
-	Gosub, :*:@updateJsSubmoduleSurca
-	Gosub, :*:@updateJsSubmoduleSumRes
-	Gosub, :*:@updateJsSubmoduleXfer
-	Gosub, :*:@updateJsSubmoduleUgr
-	Gosub, :*:@updateJsSubmoduleUcore
-	Gosub, :*:@updateJsSubmoduleUcrAss
-	PasteTextIntoGitShell( A_ThisLabel
-		, "[console]::beep(750,600)`r"
-		. "[console]::beep(375,150)`r"
-		. "[console]::beep(375,150)`r"
-		. "[console]::beep(375,150)`r" )
+	; TODO: Revise hotstring to rely on BackupJs function and configuration file settings.
+	; Gosub, :*:@updateJsSubmoduleAscc
+	; Gosub, :*:@updateJsSubmoduleCr
+	; Gosub, :*:@updateJsSubmoduleDsp
+	; Gosub, :*:@updateJsSubmoduleFye
+	; Gosub, :*:@updateJsSubmoduleFyf
+	; Gosub, :*:@updateJsSubmoduleNse
+	; Gosub, :*:@updateJsSubmoduleOue
+	; Gosub, :*:@updateJsSubmodulePbk
+	; Gosub, :*:@updateJsSubmoduleSurca
+	; Gosub, :*:@updateJsSubmoduleSumRes
+	; Gosub, :*:@updateJsSubmoduleXfer
+	; Gosub, :*:@updateJsSubmoduleUgr
+	; Gosub, :*:@updateJsSubmoduleUcore
+	; Gosub, :*:@updateJsSubmoduleUcrAss
+	; PasteTextIntoGitShell( A_ThisLabel
+	; 	, "[console]::beep(750,600)`r"
+	; 	. "[console]::beep(375,150)`r"
+	; 	. "[console]::beep(375,150)`r"
+	; 	. "[console]::beep(375,150)`r" )
 Return
 
 ;   ································································································
