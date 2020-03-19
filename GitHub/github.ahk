@@ -1097,7 +1097,7 @@ Return
 	AppendAhkCmd( A_ThisLabel )
 	oldText := Clipboard
 	execDelayer.Wait( "s" )
-	newText := RegExReplace( Clipboard, "\", "/" )
+	newText := RegExReplace( Clipboard, "\\", "/" )
 	execDelayer.Wait( "s" )
 	Clipboard := newText
 	execDelayer.Wait( "s" )
