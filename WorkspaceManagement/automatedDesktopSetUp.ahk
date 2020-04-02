@@ -145,7 +145,7 @@ Return
 	MapDesktopsFromRegistry()
 	AddSublimeText3ToVd( vdCurrentDesktop )
 	execDelayer.Wait( "s", 4 )
-	PosActWinOnMonsViaCtrlFN( "^F8", execDelayer.InterpretDelayString( "s" ) * 4 )
+	PosActWinOnMonsViaCtrlFN( "^F11", execDelayer.InterpretDelayString( "s" ) * 4 )
 
 	; Load chrome & navigate to WSUWP login page
 	Gosub :*:@startChrome
@@ -210,8 +210,8 @@ PositionChromeOnWebEditVd() {
 PosActWinOnMonsViaCtrlFN( posHotkey, delay ) {
 	global execDelayer
 
-	if ( !( posHotkey == "^F6" || posHotkey == "^F7" || posHotkey == "^F8" || posHotkey == "^F9"
-			|| posHotkey == "^F10" || posHotkey == "^F11" ) ) {
+	if ( !( posHotkey == "^F7" || posHotkey == "^F8" || posHotkey == "^F9" || posHotkey == "^F10"
+			|| posHotkey == "^F11" || posHotkey == "^F12" ) ) {
 		errorMsg := New GuiMsgBox( "Error in " . A_ThisFunc . ": I was passed a window positioning "
 			. "hotkey that I do not recognize: " . posHotkey )
 		Return
@@ -227,21 +227,21 @@ PosActWinOnMonsViaCtrlFN( posHotkey, delay ) {
 MaxActWinOnMonViaCtrlFN( posHotkey, delay ) {
 	global execDelayer
 
-	if ( !( posHotkey == "^F6" || posHotkey == "^F7" || posHotkey == "^F8" || posHotkey == "^F9"
-			|| posHotkey == "^F10" || posHotkey == "^F11" ) ) {
+	if ( !( posHotkey == "^F7" || posHotkey == "^F8" || posHotkey == "^F9" || posHotkey == "^F10"
+			|| posHotkey == "^F11" || posHotkey == "^F12" ) ) {
 		errorMsg := New GuiMsgBox( "Error in " . A_ThisFunc . ": I was passed a window positioning "
 			. "hotkey that I do not recognize: " . posHotkey )
 		Return
 	}
-	if ( ( posHotkey == "^F6" || posHotkey == "^F7" ) && FindNearestActiveMonitor() == 1 ) {
+	if ( ( posHotkey == "^F7" || posHotkey == "^F8" ) && FindNearestActiveMonitor() == 1 ) {
 		EnsureActWinMaxed()
 		Return
 	}
-	if ( ( posHotkey == "^F8" || posHotkey == "^F9" ) && FindNearestActiveMonitor() == 2 ) {
+	if ( ( posHotkey == "^F9" || posHotkey == "^F10" ) && FindNearestActiveMonitor() == 2 ) {
 		EnsureActWinMaxed()
 		Return
 	}
-	if ( ( posHotkey == "^F10" || posHotkey == "^F11" ) && FindNearestActiveMonitor() == 3 ) {
+	if ( ( posHotkey == "^F11" || posHotkey == "^F12" ) && FindNearestActiveMonitor() == 3 ) {
 		EnsureActWinMaxed()
 		Return
 	}
@@ -284,7 +284,7 @@ WebEditVd_OpenWorkNotesLog() {
 		; Ensure ST3 is active and restore default position of work notes
 		execDelayer.Wait( "m" )
 		SafeWinActivate(st3TitleToMatch, mmRegEx)
-		PosActWinOnMonsViaCtrlFN("^F10", execDelayer.InterpretDelayString( "m" ) )
+		PosActWinOnMonsViaCtrlFN("^F11", execDelayer.InterpretDelayString( "m" ) )
 		execDelayer.Wait( "m", 3 )
 		Loop 3 {
 			GoSub % "<^!#Left"
@@ -295,7 +295,7 @@ WebEditVd_OpenWorkNotesLog() {
 		SendInput, ^+n
 		execDelayer.Wait( "m", 3 )
 		WaitForApplicationPatiently(st3NewWinTitle)
-		PosActWinOnMonsViaCtrlFN("^F8", execDelayer.InterpretDelayString( "m" ) )
+		PosActWinOnMonsViaCtrlFN("^F9", execDelayer.InterpretDelayString( "m" ) )
 		Loop 3 {
 			GoSub % "<^!#Left"
 			execDelayer.Wait( "m" )
@@ -304,7 +304,7 @@ WebEditVd_OpenWorkNotesLog() {
 		; Activate existing ST3 process and restore its default position on virtual desktop
 		SafeWinActivate(st3GeneralTitle, mmRegEx)
 		execDelayer.Wait( "m" )
-		PosActWinOnMonsViaCtrlFN("^F8", execDelayer.InterpretDelayString( "m" ) )
+		PosActWinOnMonsViaCtrlFN("^F9", execDelayer.InterpretDelayString( "m" ) )
 		execDelayer.Wait( "m", 3 )
 		Loop 3 {
 			GoSub % "<^!#Left"
@@ -320,7 +320,7 @@ WebEditVd_OpenWorkNotesLog() {
 		execDelayer.Wait( "m", 9 )
 		SendInput % "C:\GitHub\log_work-notes.txt{Enter}"
 		execDelayer.Wait( "m", 12 )
-		PosActWinOnMonsViaCtrlFN("^F10", execDelayer.InterpretDelayString( "m" ) )
+		PosActWinOnMonsViaCtrlFN("^F11", execDelayer.InterpretDelayString( "m" ) )
 		execDelayer.Wait( "m", 3 )
 		Loop 3 {
 			GoSub % "<^!#Left"
@@ -406,7 +406,7 @@ AddSublimeText3ToVd( whichVd ) {
 	; Position chrome window containing tab loaded with GitHub profile
 	WinActivate, % "invokeImmediately ahk_exe chrome.exe"
 	execDelayer.Wait( "m" )
-	PosActWinOnMonsViaCtrlFN( "^F6", execDelayer.InterpretDelayString( "s", 2 ) )
+	PosActWinOnMonsViaCtrlFN( "^F7", execDelayer.InterpretDelayString( "s", 2 ) )
 	execDelayer.Wait( "s", 2 )
 
 	; Position File Explorer window
@@ -421,7 +421,7 @@ AddSublimeText3ToVd( whichVd ) {
 	; Position Sublime Text 3 window
 	WinActivate, ahk_exe sublime_text.exe
 	execDelayer.Wait( "s", 3 )
-	PosActWinOnMonsViaCtrlFN( "^F8", execDelayer.InterpretDelayString( "s", 2 ) )
+	PosActWinOnMonsViaCtrlFN( "^F9", execDelayer.InterpretDelayString( "s", 2 ) )
 
 	; Position Powershell console window
 	agh_MovePowerShell()
@@ -491,7 +491,7 @@ agh_MovePowerShell() {
 			execDelayer.Wait( "m" )
 			WinActivate % psTitle
 			execDelayer.Wait( "m", 2 )
-			Gosub % "<^!+Left"
+			PosActWinOnMonsViaCtrlFN( "^F11", execDelayer.InterpretDelayString( "m" ) )
 		}
 	} else {
 		; Report failure to activate Powershell console window
@@ -546,10 +546,10 @@ Return
 
 svd3_OpenGimp(delay) {
 	Sleep % delay
-	MaxActWinOnMonViaCtrlFN("^F10", 100)
+	MaxActWinOnMonViaCtrlFN("^F11", 100)
 	LaunchApplicationPatiently("C:\Program Files\GIMP 2\bin\gimp-2.10.exe", "GNU Image")
 	Sleep % delay * 3
-	MaxActWinOnMonViaCtrlFN("^F6", 100)
+	MaxActWinOnMonViaCtrlFN("^F7", 100)
 	Sleep % delay * 3
 }
 
@@ -593,13 +593,13 @@ Return
 	; Reposition Outlook
 	WinActivate % "Inbox - ahk_exe OUTLOOK.EXE"
 	execDelayer.Wait( delay, 2 )
-	MaxActWinOnMonViaCtrlFN("^F8", delay)
+	MaxActWinOnMonViaCtrlFN("^F9", delay)
 	execDelayer.Wait( delay, 1.25 )
 
 	; Reposition Chrome window for email and news browsing
 	WinActivate % "Inbox ahk_exe chrome.exe"
 	execDelayer.Wait( delay, 1.25 )
-	MaxActWinOnMonViaCtrlFN("^F6", delay)
+	MaxActWinOnMonViaCtrlFN("^F7", delay)
 	execDelayer.Wait( delay, 2.25 )
 
 	; Open tab for second Gmail account
@@ -654,7 +654,7 @@ svd4_LoadWebEmailClients( delay ) {
 	OpenNewWindowInChrome()
 	OpenWebsiteInChrome( "trello.com", False )
 	execDelayer.Wait( "m" )
-	MaxActWinOnMonViaCtrlFN( "^F10", delay )
+	MaxActWinOnMonViaCtrlFN( "^F11", delay )
 }
 
 ;   ································································································
@@ -680,7 +680,7 @@ svd4_LoadWebEmailClients( delay ) {
 	OpenWebsiteInChrome("dailyevergreen.com")
 	execDelayer.Wait( delay, 20 )
 	MoveToNextTabInChrome()
-	MaxActWinOnMonViaCtrlFN("^F6", delay)
+	MaxActWinOnMonViaCtrlFN("^F7", delay)
 
 	; Set up apps for Torah study.
 	execDelayer.Wait( delay, 6 )
@@ -695,14 +695,14 @@ svd4_LoadWebEmailClients( delay ) {
 	OpenWebsiteInChrome("www.blueletterbible.org")
 	execDelayer.Wait( delay, 10 )
 	MoveToNextTabInChrome()
-	MaxActWinOnMonViaCtrlFN("^F8", delay)
+	MaxActWinOnMonViaCtrlFN("^F9", delay)
 
 	; Load music app
 	LaunchStdApplicationPatiently("shell:appsFolder\AppleInc.iTunes_nzyj5cx40ttqa!iTunes", "iTunes")
 	execDelayer.Wait( delay )
 	WinActivate % "iTunes ahk_exe iTunes.exe"
 	execDelayer.Wait( delay )
-	MaxActWinOnMonViaCtrlFN("^F10", delay)
+	MaxActWinOnMonViaCtrlFN("^F11", delay)
 Return
 
 ;   ································································································

@@ -30,10 +30,10 @@
 ; -----------------
 ;   §1: AUTOMATED DESKTOP SET UP...............................................................110
 ;   §2: WINDOW POSITIONING HOTKEYS.............................................................116
-;     >>> §2.1: ^F12 — "Always on top" toggle..................................................120
+;     >>> §2.1: ^!+F3 — "Always on top" toggle.................................................120
 ;     >>> §2.2: ^!F1-F7 — Virtual desktop switching............................................125
 ;       →→→ §2.2.1: caf1thruN_switchToDesktop(…)...............................................168
-;     >>> §2.3: ^F6-F11 — Snapped positioning of windows on multiple monitor systems...........180
+;     >>> §2.3: ^F7-F12 — Snapped positioning of windows on multiple monitor systems...........180
 ;     >>> §2.4: ^!m: Mirrored window positioning for multiple monitors.........................305
 ;     >>> §2.5: >^!#Left — Snap window to or collapse at left edge.............................342
 ;       →→→ §2.5.1: DecrementWinDimension......................................................360
@@ -119,7 +119,7 @@
 ;   ································································································
 ;     >>> §2.1: ^F12 — "Always on top" toggle
 
-^F12::WinSet, AlwaysOnTop, Toggle, A
+^!+F3::WinSet, AlwaysOnTop, Toggle, A
 
 ;   ································································································
 ;     >>> §2.2: ^!F1-F7 — Virtual desktop switching
@@ -179,7 +179,7 @@ caf1thruN_switchToDesktop(whichDesktop) {
 ;   ································································································
 ;     >>> §2.3: ^F6-F11 — Snapped positioning of windows on multiple monitor systems
 
-^F11::
+^F12::
 	if ( sysNumMonitors >= 3 ) {
 		RemoveMinMaxStateForActiveWin()
 		borderWidths := GetActiveWindowBorderWidths()
@@ -201,7 +201,7 @@ caf1thruN_switchToDesktop(whichDesktop) {
 	}
 Return
 
-^F10::
+^F11::
 	if ( sysNumMonitors >= 3 ) {
 		RemoveMinMaxStateForActiveWin()
 		borderWidths := GetActiveWindowBorderWidths()
@@ -223,7 +223,7 @@ Return
 	}
 Return
 
-^F9::
+^F10::
 	if ( sysNumMonitors >= 2 ) {
 		RemoveMinMaxStateForActiveWin()
 		borderWidths := GetActiveWindowBorderWidths()
@@ -245,7 +245,7 @@ Return
 	}
 Return
 
-^F8::
+^F9::
 	if ( sysNumMonitors >= 2 ) {
 		RemoveMinMaxStateForActiveWin()
 		borderWidths := GetActiveWindowBorderWidths()
@@ -267,7 +267,7 @@ Return
 	}
 Return
 
-^F7::
+^F8::
 	RemoveMinMaxStateForActiveWin()
 	borderWidths := GetActiveWindowBorderWidths()
 	maxWidth := ( mon1WorkArea_Right + ( borderWidths.Horz - 1 ) ) - ( mon1WorkArea_Left
@@ -284,7 +284,7 @@ Return
 	SoundPlay %windowSizingSound%
 Return
 
-^F6::
+^F7::
 	RemoveMinMaxStateForActiveWin()
 	borderWidths := GetActiveWindowBorderWidths()
 	maxWidth := (mon1WorkArea_Right + (borderWidths.Horz - 1)) - (mon1WorkArea_Left
