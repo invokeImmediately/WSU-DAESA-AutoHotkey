@@ -125,18 +125,18 @@ CommitJsBuild(ahkCmdName, fpGitFolder, fnJsSrcFile, fnJsbuild, fnMinJsBuild) {
 		, Button, gHandleCommitJsGitLog vctrlCommitJsGitLog X+3 Disabled, Gi&t log selection
 	Gui, guiCommitJsBuild: Add
 		, Text, xm Y+12, % "Secondary commit message, part &1 (RE: local dev dependency changes):"	
-	Gui, guiCommitJsBuild: Add, Edit
-		, vctrlCommitJs2ndMsg gHandleCommitJs2ndMsgChange X+5 W589
-		, % commitJsVars.dflt2ndCommitMsg
+	Gui, guiCommitJsBuild: Add
+		, Edit, vctrlCommitJs2ndJsMsg gHandleCommitJs2ndJsMsgChange xm Y+3 W549 Disabled
+		, % lastJsMsg2nd
 	Gui, guiCommitJsbuild: Add
 		, Text, vctrlCommitJs2ndMsgCharCount Y+1 W500
 		, % "Length = " . msgLen2nd . " characters"
 	Gui, guiCommitJsBuild: Add
 		, Text, xm Y+12, % "&Secondary commit message, part 2 (RE: dev dependencies submodule "
 		. "changes & rebuild):"
-	Gui, guiCommitJsBuild: Add
-		, Edit, vctrlCommitJs2ndJsMsg gHandleCommitJs2ndJsMsgChange X+5 W549 Disabled
-		, % lastJsMsg2nd
+	Gui, guiCommitJsBuild: Add, Edit
+		, vctrlCommitJs2ndMsg gHandleCommitJs2ndMsgChange xm Y+3 W589
+		, % commitJsVars.dflt2ndCommitMsg
 	Gui, guiCommitJsbuild: Add
 		, Text, vctrlCommitJs2ndJsMsgCharCount Y+1 W500
 		, % "Length = " . msgLenJs2nd . " characters"
@@ -204,7 +204,7 @@ HandleCommitJsAddFiles() {
 		}
 
 		; Verify that we are in a sub folder of the original git folder
-		gitRepositoryPath := GetGitHubFolder() . "\" . commitJsVars.fpGitFolder . "\"
+		gitRepositoryPath := commitJsVars.fpGitFolder
 		posWhereFound := InStr(gitSubFolder, gitRepositoryPath)
 		if (posWhereFound) {
 
@@ -250,7 +250,7 @@ HandleCommitJsGitDiff() {
 	global execDelayer
 
 	numSelectedRows := LV_GetCount("Selected")
-	consoleStr := "cd " . GetGitHubFolder() . "\" . commitJsVars.fpGitFolder . "\`r"
+	consoleStr := "cd " . commitJsVars.fpGitFolder . "`r"
 	if (numSelectedRows > 0) {
 		rowNumber := 0
 		Loop
@@ -289,7 +289,7 @@ HandleCommitJsGitLog() {
 	cmdStr := "git --no-pager log --follow --pretty=""format:%h | %cn | %cd | %s%n  ╘═> %b"" --max-"
 	 . "count=20 "
 	numSelectedRows := LV_GetCount("Selected")
-	consoleStr := "cd " . GetGitHubFolder() . "\" . commitJsVars.fpGitFolder . "\`r"
+	consoleStr := "cd " . commitJsVars.fpGitFolder . "`r"
 	if (numSelectedRows > 0) {
 		rowNumber := 0
 		Loop
