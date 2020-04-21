@@ -76,58 +76,58 @@
 ;       →→→ §5.3.3: @pasteGitCommitMsg........................................................1270
 ;       →→→ §5.3.4: ExecuteCssPasteCmds.......................................................1288
 ;       →→→ §5.3.5: ExecuteJsPasteCmds........................................................1336
-;   §6: COMMAND LINE INPUT GENERATION SHORTCUTS...............................................1384
-;     >>> §6.1: GUIs for automating generation of command line input..........................1388
-;     >>> §6.2: BACKING UP builds of files containing custom CSS code.........................1397
-;       →→→ §6.2.1: @backupCssInRepo..........................................................1400
-;       →→→ §6.2.2: @backupCssAll.............................................................1409
-;       →→→ §6.2.3: CopyCssFromWebsite........................................................1433
-;       →→→ §6.2.4: ExecuteCssCopyCmds........................................................1443
-;     >>> §6.3: REBUILDING files containing custom CSS code...................................1466
-;       →→→ §6.3.1: @rebuildCssInRepo.........................................................1469
-;       →→→ §6.3.2: @rebuildCssAll............................................................1478
-;     >>> §6.4: COMMITTING files produced by or involved in CSS build processes...............1505
-;       →→→ §6.4.1: @commitCssInRepo..........................................................1508
-;     >>> §6.5: UPDATING SUBMODULES containing CSS dev dependencies...........................1517
-;       →→→ §6.5.1: @updateCssSubmoduleInRepo.................................................1520
-;       →→→ §6.5.2: @updateCssSubmoduleAll....................................................1529
-;     >>> §6.6: COPYING built CSS code for deployment.........................................1557
-;       →→→ §6.6.1: @copyMinCssFromRepo.......................................................1560
-;       →→→ §6.6.2: @copyBackupCssFromRepo....................................................1569
-;     >>> §6.7: BACKING UP builds of files containing custom JS code..........................1579
-;       →→→ §6.7.1: BackupJs..................................................................1582
-;       →→→ §6.7.2: @backupJsRepo.............................................................1599
-;       →→→ §6.7.3: @backupJsAll..............................................................1608
-;       →→→ §6.7.4: CopyJsFromWebsite.........................................................1635
-;       →→→ §6.7.5: ExecuteJsCopyCmds.........................................................1646
-;     >>> §6.8: REBUILDING files containing custom JS code....................................1667
-;       →→→ §6.8.1: @rebuildJsInRepo..........................................................1670
-;     >>> §6.9: FOR UPDATING JS SUBMODULES....................................................1679
-;       →→→ §6.9.1: @commitJsInRepo...........................................................1682
-;     >>> §6.10: FOR UPDATING JS SUBMODULES...................................................1691
-;       →→→ §6.10.1: @updateJsSubmoduleInRepo.................................................1694
-;       →→→ §6.10.2: @updateJsSubmoduleAll....................................................1703
-;     >>> §6.11: Shortcuts for copying minified JS to clipboard...............................1730
-;       →→→ §6.11.1: @copyMinJsAscc...........................................................1735
-;       →→→ §6.11.2: @copyMinJsCr.............................................................1745
-;       →→→ §6.11.3: @copyMinJsDsp............................................................1755
-;       →→→ §6.11.4: @copyMinJsFye............................................................1765
-;       →→→ §6.11.5: @copyMinJsFyf............................................................1775
-;       →→→ §6.11.6: @copyMinJsNse............................................................1785
-;       →→→ §6.11.7: @copyMinJsOue............................................................1795
-;       →→→ §6.11.8: @copyBackupJsOue.........................................................1805
-;       →→→ §6.11.9: @copyMinJsPbk............................................................1815
-;       →→→ §6.11.10: @copyMinJsSurca.........................................................1825
-;       →→→ §6.11.11: @copyMinJsSumRes........................................................1835
-;       →→→ §6.11.12: @copyMinJsXfer..........................................................1845
-;       →→→ §6.11.13: @copyMinJsUgr...........................................................1855
-;       →→→ §6.11.14: @copyMinJsUcore.........................................................1865
-;       →→→ §6.11.15: @copyBackupJsUcore......................................................1875
-;       →→→ §6.11.16: @copyMinJsUcrAss........................................................1885
-;     >>> §6.12: FOR CHECKING GIT STATUS ON ALL PROJECTS......................................1895
-;   §7: KEYBOARD SHORTCUTS FOR POWERSHELL.....................................................1931
-;     >>> §7.1: SHORTCUTS.....................................................................1935
-;     >>> §7.2: SUPPORTING FUNCTIONS..........................................................1962
+;   §6: COMMAND LINE INPUT GENERATION SHORTCUTS...............................................1385
+;     >>> §6.1: GUIs for automating generation of command line input..........................1389
+;     >>> §6.2: BACKING UP builds of files containing custom CSS code.........................1398
+;       →→→ §6.2.1: @backupCssInRepo..........................................................1401
+;       →→→ §6.2.2: @backupCssAll.............................................................1410
+;       →→→ §6.2.3: CopyCssFromWebsite........................................................1434
+;       →→→ §6.2.4: ExecuteCssCopyCmds........................................................1444
+;     >>> §6.3: REBUILDING files containing custom CSS code...................................1467
+;       →→→ §6.3.1: @rebuildCssInRepo.........................................................1470
+;       →→→ §6.3.2: @rebuildCssAll............................................................1479
+;     >>> §6.4: COMMITTING files produced by or involved in CSS build processes...............1506
+;       →→→ §6.4.1: @commitCssInRepo..........................................................1509
+;     >>> §6.5: UPDATING SUBMODULES containing CSS dev dependencies...........................1518
+;       →→→ §6.5.1: @updateCssSubmoduleInRepo.................................................1521
+;       →→→ §6.5.2: @updateCssSubmoduleAll....................................................1530
+;     >>> §6.6: COPYING built CSS code for deployment.........................................1558
+;       →→→ §6.6.1: @copyMinCssFromRepo.......................................................1561
+;       →→→ §6.6.2: @copyBackupCssFromRepo....................................................1570
+;     >>> §6.7: BACKING UP builds of files containing custom JS code..........................1580
+;       →→→ §6.7.1: BackupJs..................................................................1583
+;       →→→ §6.7.2: @backupJsRepo.............................................................1600
+;       →→→ §6.7.3: @backupJsAll..............................................................1609
+;       →→→ §6.7.4: CopyJsFromWebsite.........................................................1636
+;       →→→ §6.7.5: ExecuteJsCopyCmds.........................................................1647
+;     >>> §6.8: REBUILDING files containing custom JS code....................................1668
+;       →→→ §6.8.1: @rebuildJsInRepo..........................................................1671
+;     >>> §6.9: FOR UPDATING JS SUBMODULES....................................................1680
+;       →→→ §6.9.1: @commitJsInRepo...........................................................1683
+;     >>> §6.10: FOR UPDATING JS SUBMODULES...................................................1692
+;       →→→ §6.10.1: @updateJsSubmoduleInRepo.................................................1695
+;       →→→ §6.10.2: @updateJsSubmoduleAll....................................................1704
+;     >>> §6.11: Shortcuts for copying minified JS to clipboard...............................1731
+;       →→→ §6.11.1: @copyMinJsAscc...........................................................1736
+;       →→→ §6.11.2: @copyMinJsCr.............................................................1746
+;       →→→ §6.11.3: @copyMinJsDsp............................................................1756
+;       →→→ §6.11.4: @copyMinJsFye............................................................1766
+;       →→→ §6.11.5: @copyMinJsFyf............................................................1776
+;       →→→ §6.11.6: @copyMinJsNse............................................................1786
+;       →→→ §6.11.7: @copyMinJsOue............................................................1796
+;       →→→ §6.11.8: @copyBackupJsOue.........................................................1806
+;       →→→ §6.11.9: @copyMinJsPbk............................................................1816
+;       →→→ §6.11.10: @copyMinJsSurca.........................................................1826
+;       →→→ §6.11.11: @copyMinJsSumRes........................................................1836
+;       →→→ §6.11.12: @copyMinJsXfer..........................................................1846
+;       →→→ §6.11.13: @copyMinJsUgr...........................................................1856
+;       →→→ §6.11.14: @copyMinJsUcore.........................................................1866
+;       →→→ §6.11.15: @copyBackupJsUcore......................................................1876
+;       →→→ §6.11.16: @copyMinJsUcrAss........................................................1886
+;     >>> §6.12: FOR CHECKING GIT STATUS ON ALL PROJECTS......................................1896
+;   §7: KEYBOARD SHORTCUTS FOR POWERSHELL.....................................................1932
+;     >>> §7.1: SHORTCUTS.....................................................................1936
+;     >>> §7.2: SUPPORTING FUNCTIONS..........................................................1963
 ; ==================================================================================================
 
 sgIsPostingMinCss := false
@@ -1342,15 +1342,19 @@ ExecuteJsPasteCmds( manualProcession := false ) {
 	global execDelayer
 	global g_dpiScalar
 	; Add check for correct CSS in clipboard — the first line is a font import.
-	posFound := RegExMatch( clipboard, "^(?:// Built with Node.js)|(?:/\*!\*+`n \* jQuery.oue-custom"
- . ".js)" )
+	posFound := RegExMatch( clipboard, "^(?:// Built with Node.js)|(?:/\*!\*+`n \* jQuery.oue-custo"
+		. "m.js)|(?:/\*!\*+`n \* https://github.com/invokeImmediately/WSU-UE---JS/jQuery.oue-custom"
+		. ".js)" )
 	if ( posFound != 0 ) {
 		; TODO: Add function for dpi scaled clicks, e.g., something like dsfClick or dpiSafeClick
-		edtrX := 461 * g_dpiScalar
-		edtrX := 371 * g_dpiScalar
-		Click, %edtrX%, %edtrY%
-		execDelayer.Wait( 330 )
+		WinGet, hwnd, ID, A
+		winInfo := API_GetWindowInfo( hwnd )
+		editorX := 461 * g_dpiScalar
+		editorY := 371 * g_dpiScalar
+		Click, %editorX%, %editorY%
+		execDelayer.Wait( "s" )
 		SendInput, ^a
+		execDelayer.Wait( "m" )
 		if ( manualProcession ) {
 			MsgBox, 48, % A_ThisFunc, % "Press OK to proceed with paste command."
 			execDelayer.Wait( 330 )
@@ -1358,25 +1362,26 @@ ExecuteJsPasteCmds( manualProcession := false ) {
 			execDelayer.Wait( 2500 )
 		}
 		SendInput, ^v
+		execDelayer.Wait( "m" )
 		if ( manualProcession ) {
 			MsgBox, 48, % A_ThisFunc, % "Press OK to proceed with update button selection."
 			execDelayer.Wait( 330 )
 		} else {
 			execDelayer.Wait( 10000 )
 		}
-		edtrX := 214 * g_dpiScalar
-		edtrY := 565 * g_dpiScalar
-		Click, %edtrX%, %edtrY%
-		execDelayer.Wait( 60 )
-		edtrY := 615 * g_dpiScalar
-		Click, %edtrX%, %edtrY%
-		execDelayer.Wait( 1000 )
+		editorX := 214 * g_dpiScalar
+		editorY := 565 * g_dpiScalar
+		Click, %editorX%, %editorY%
+		execDelayer.Wait( "s" )
+		editorY := 615 * g_dpiScalar
+		Click, %editorX%, %editorY%
+		execDelayer.Wait( "l" )
 	}
 	else {
 		MsgBox, % ( 0x0 + 0x10 )
 			, % "ERROR (" . A_ThisFunc . "): Clipboard Has Unexpected Contents"
-			, % "The clipboard does not begin with the expected '// Built with Node.js ...,' and th"
- . "us may not contain minified JS."
+			, % "The clipboard does not begin with an expected substring that would indicate that "
+			. "it contains minified JS from a DAESA web development project."
 	}			
 }
 
