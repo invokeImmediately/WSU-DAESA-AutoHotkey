@@ -38,25 +38,25 @@
 ;       →→→ §1.2.7: Vd1_OpenWorkNotesLog().....................................................270
 ;     >>> §1.3: Programming VD — @setupVdForProgramming........................................334
 ;       →→→ §1.3.1: @addSublimeText3ToVd + AddSublimeText3ToVd()...............................355
-;       →→→ §1.3.2: @arrangeGitHub.............................................................395
-;       →→→ §1.3.3: @startGithubClients........................................................432
-;       →→→ §1.3.4: agh_MovePowerShell().......................................................450
-;     >>> §1.4: Graphic design VD — @setupVdForGraphicDesign...................................505
-;       →→→ §1.4.1: @arrangeGimp...............................................................522
-;       →→→ §1.4.2: svd3_OpenGimp(…)...........................................................545
-;       →→→ §1.4.3: svd3_OpenGraphicsReferences(…).............................................557
-;     >>> §1.5: Communications and media VD — @setupVdForCommunications........................569
-;       →→→ §1.5.1: @arrangeEmail..............................................................587
-;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)................................................635
-;     >>> §1.6: Research VD — @setupVdForResearch..............................................661
-;     >>> §1.7: PC monitoring VD — @setupVdForPcMonitoring.....................................709
-;   §2: STARTUP HOTKEYS........................................................................730
-;     >>> §2.1: #!r............................................................................734
-;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................741
-;     >>> §3.1: @quitAhk.......................................................................745
-;     >>> §3.2: ^#!r...........................................................................754
-;     >>> §3.3: PerformScriptShutdownTasks()...................................................763
-;     >>> §3.4: ScriptExitFunc(…)..............................................................773
+;       →→→ §1.3.2: @arrangeGitHub.............................................................398
+;       →→→ §1.3.3: @startGithubClients........................................................435
+;       →→→ §1.3.4: agh_MovePowerShell().......................................................453
+;     >>> §1.4: Graphic design VD — @setupVdForGraphicDesign...................................508
+;       →→→ §1.4.1: @arrangeGimp...............................................................525
+;       →→→ §1.4.2: svd3_OpenGimp(…)...........................................................548
+;       →→→ §1.4.3: svd3_OpenGraphicsReferences(…).............................................560
+;     >>> §1.5: Communications and media VD — @setupVdForCommunications........................572
+;       →→→ §1.5.1: @arrangeEmail..............................................................590
+;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)................................................638
+;     >>> §1.6: Research VD — @setupVdForResearch..............................................664
+;     >>> §1.7: PC monitoring VD — @setupVdForPcMonitoring.....................................712
+;   §2: STARTUP HOTKEYS........................................................................733
+;     >>> §2.1: #!r............................................................................737
+;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................744
+;     >>> §3.1: @quitAhk.......................................................................748
+;     >>> §3.2: ^#!r...........................................................................757
+;     >>> §3.3: PerformScriptShutdownTasks()...................................................766
+;     >>> §3.4: ScriptExitFunc(…)..............................................................776
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -373,17 +373,20 @@ AddSublimeText3ToVd( whichVd ) {
 	IfWinExist, %st3TitleToMatch%
 	{
 		; Switch to ST3 so that a new window can be generated and moved to the virtual desktop
-		execDelayer.InterpretDelayString( "m" )
+		execDelayer.Wait( "m" )
 		SafeWinActivate( st3TitleToMatch, mmRegEx )
-		execDelayer.InterpretDelayString( "m", 2 )
+		execDelayer.Wait( "l" )
 		st3Vd := GetCurrentVirtualDesktop()
+		execDelayer.Wait( "m" )
 		if ( st3Vd != whichVd ) {
 			SendInput, ^+n
-			execDelayer.InterpretDelayString( "m", 3 )
+			execDelayer.Wait( "l" )
 			WaitForApplicationPatiently( st3NewWinTitle )
+			execDelayer.Wait( "m" )
 			moveActiveWindowToVirtualDesktop( whichVd )
-			execDelayer.InterpretDelayString( "m", 3 )
+			execDelayer.Wait( "l", 2 )
 			switchDesktopByNumber( whichVd )
+			execDelayer.Wait( "l" )
 		}
 	} else {
 		GoSub, :*:@startSublimeText3
