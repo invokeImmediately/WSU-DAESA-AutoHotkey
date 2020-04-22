@@ -1,9 +1,9 @@
 ﻿ascc-custom_new.less
-Update CSS builds w/ repo & submodule dependency changes
-First, update inline documentation in ascc-custom.less by providing greater clarity and fixing a mistake in the file header comment.
+Update dev dependencies for and builds of custom CSS code
+First, add style rules to ascc-custom.less for a responsive two column layout for the list of ASCC resources for students during social distancing associated with the COVID-19 outbreak, and update rules for glass button styled hyperlinks.
 dsp-custom.less
-Modify CSS build dependencies & update CSS builds
-Improve how the program logo is positioned in the main header.
+Update dev dependencies for and builds of custom CSS code
+In CSS dev dependency gulpfile.js, update the font import command that is inserted at the beginning of the custom CSS build process. Then, update the file header comment in dsp-custom.less.
 learningcommunities-custom.less
 Update dependencies, add style for new residence hall
 Update how dependencies are imported to match latest build method, and add a style for Waller hall.
@@ -17,32 +17,32 @@ nsse-custom.less
 Modify style of main site header
 Set background to crimson and remove maximum width restriction.
 oue-custom.less
-Update CSS builds w/ repo & submodule dependency changes
-Refactor superproject build dependency oue-custom.less by removing commented-out code.
+Update dev dependencies for and builds of custom CSS code
+In superproject's build dependency oue-custom.less, first remove main heading styling, which has been shifted to a dependency in the WSU-UE---CSS project. Then add profile images for ESTEEMED MIRA training faculty profiles.
 pbk-custom.less
 Update importing of Less file dependencies
 Import variables.less separately from wp-master-style-sheet.less to enable variable settings to be overwritten.
 src_cr-new.less
-Update CSS builds w/ repo & submodule dependency changes
-First, in src_cr-new.less, tweak visual design of content syndicate lists appearing on home pages. Then, in gulpfile.js, update the font import settings to pull in more font weights and allow font swapping.
+Update dev dependencies for and builds of custom CSS code
+In CSS dev dependency src_cr-new.less, remove style rules that have been moved to the DAESA wide CSS development project WSU-UE---CSS.
 summerresearch-custom.less
-Fix syntax error from dependency import change
-Explicitly import variables.less, which used to be imported via wp-master-style-sheet.less; the new format allows for common variables to be redefined for a specific site.
+Update dev dependencies for and builds of custom CSS code
+First, in summerresearch-custom.less, update name of CSS dev dependency wp-master-style-sheet.less to css-build-entry-point.less, and update mixing calls for defining new notice classes.
 surca-custom.less
-Update inline documentation
-
+Update dev dependencies for and builds of custom CSS code
+First, in CSS dev dependency surca-custom.less, add in style rules for notice oriented paragraphs, and define an informational notice class.
 ta-custom.less
-Modify CSS build dependency & update CSS builds
-In superproject's CSS build dependency gulpfile.js, update the comment block that documents the media query section.
+Update dev dependencies for and builds of custom CSS code
+In superproject's CSS dev dependency ta-custom_daesa.less, add style specification for notices via inclusional mixins.
 ucore-assessment-custom.less
 Revise LESS variable name
 Revise name of Less variable @v-p-lnhght to @body-text--lHeight
 ucore-custom.less
-Update CSS builds w/ repo & submodule dependency changes
-Starting with superproject's CSS build depdendency gulpfile.js, refactor the file to utilize node module in WSU-UE---JS that centralizes code common to all gulp-mediated, DAESA-wide CSS and JS build processes.
+Update dev dependencies for and builds of custom CSS code
+First, move style rules for TablePress tables from ucore-custom.less to WSU-UE---CSS\tables.less.
 ugr-custom.less
-Update CSS builds w/ repo & submodule dependency changes
-First, update inline documentation in dependency ugr-custom.less.
+Update dev dependencies for and builds of custom CSS code
+First, in CSS dev dependency ugr-custom.less, update mixin call .add-new-notice-class with specification of a new argument that was recently added.
 undergraduate-research-custom.less
 Add new style for validators on the travel award form
 Add a style that will render validators and their component elements hidden except for validation messages.

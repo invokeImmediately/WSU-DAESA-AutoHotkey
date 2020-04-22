@@ -52,6 +52,9 @@ Markup added is for the news headline announcing the 2019-20 common reading.
 C:\GitHub\commonreading.wsu.edu\HTML\2019_09_19_lecture-on-on-communication-and-rohingya-refugee-crisis.html
 Update backup of markup used to build post in WSUWP
 Update with improved organization of sections and CSS-mediated formatting improvements.
+C:\GitHub\commonreading.wsu.edu\HTML\2020_04_07_born-a-crime-chosen-as-2020-21-common-reading.html
+Add backup of markup used to build news post in WSUWP
+Add markup used to build the news post announcing the 2021-20 Common Reading book.
 C:\GitHub\commonreading.wsu.edu\HTML\archives_2014-15.html
 Update markup with changes made online via WSUWP
 Update with addition of mw--none utility class to event calendar lists.
@@ -59,8 +62,8 @@ C:\GitHub\commonreading.wsu.edu\HTML\assessment-reports.html
 Add markup for building webpage
 Add markup for building the assessment reports page via the Spine builder template in WordPress
 C:\GitHub\commonreading.wsu.edu\HTML\home.html
-Update backup of markup used to build webpage in WSUWP
-Update list of recent news articles with latest news post.
+Update backup of markup used to build page in WSUWP
+Crop an image to improve quality of image composition and layout of page.
 C:\GitHub\commonreading.wsu.edu\HTML\nominations.html
 Add backup of markup for making page via builder template
 Add backup of the markup used to make the Common Reading Nominations page via the Spine builder template in WSUWP.
@@ -114,19 +117,19 @@ asdfdaf
 asdfdasf
 C:\GitHub\distinguishedscholarships.wsu.edu\HTML\annual-events.html
 Update markup used to build page in WSUWP
-Update markup with fixes and content changes made online.
+Update markup with fixes to header settings and adjustments of applied CSS classes to improve layout.
 C:\GitHub\distinguishedscholarships.wsu.edu\HTML\awards.html
 asdfdaf
 asdfdasf
 C:\GitHub\distinguishedscholarships.wsu.edu\HTML\awards_boren.html
-Update markup used to build page in WSUWP
-Replace VPUE jump bar with On This Page section, update visual design of page to match latest approach being used on Fulbright and Hollings award info pages.
+Update backups of markup used to build pages in WSUWP
+Update backup copies of markup after making visual design and layout refinements to the Boren, Fulbright, and Fulbright UK award info pages.
 C:\GitHub\distinguishedscholarships.wsu.edu\HTML\awards_fulbright-uk.html
-asdfdaf
-asdfdasf
+Update backups of markup used to build pages in WSUWP
+Update backup copies of markup after making visual design and layout refinements to the Boren, Fulbright, and Fulbright UK award info pages.
 C:\GitHub\distinguishedscholarships.wsu.edu\HTML\awards_fulbright.html
-Modify class names utilized within markup
-Change class names .subtle-link.no-highlight to .non-text-link
+Update backups of markup used to build pages in WSUWP
+Update backup copies of markup after making visual design and layout refinements to the Boren, Fulbright, and Fulbright UK award info pages.
 C:\GitHub\distinguishedscholarships.wsu.edu\HTML\awards_gates-cambridge.html
 asdfdaf
 asdfdasf
@@ -325,6 +328,9 @@ Update manifest and lockfile after npm install, audit
 C:\GitHub\phibetakappa.wsu.edu\package.json
 Update manifest and lockfile after npm install, audit
 
+C:\GitHub\provost.wsu.edu_daesa\HTML\home.html
+Update markup used to build page in WSUWP
+Update markup with fix to code that makes up the DAESA focus feature. 
 C:\GitHub\RendPhys\RendPhys.js
 Finish writing unit conversion functions
 Finish writing RendPhys.degToRad and RendPhys.radToDeg for converting units on angles.
@@ -332,8 +338,8 @@ C:\GitHub\summerresearch.wsu.edu\.gitignore
 Add node_modules to git ignore list
 
 C:\GitHub\summerresearch.wsu.edu\gulpfile.js
-Modify file header string
-Make header comment persistent, correct a typo
+Refactor automation tasks for building CSS and JS files
+Refactor the file to utilize node module in WSU-UE---JS that centralizes code common to all gulp-mediated, DAESA-wide CSS and JS build processes.
 C:\GitHub\summerresearch.wsu.edu\HTML\2019_07_31_upcoming-2019-symposium.html
 Add markup for building post in WSUWP
 Markup added is for constructing the news story announcing the 2019 summer research symposium.
@@ -387,7 +393,7 @@ Add markup chunk that advertises poster making class
 
 C:\GitHub\surca.wsu.edu\HTML\home.html
 Update markup used to build page in WSUWP
-Update home page with changes to formatting from modified CSS class usage.
+Update URL strings for downoading the SURCA abstract book with a version specifier to help with potential caching issues.
 C:\GitHub\surca.wsu.edu\HTML\judges.html
 Enhance markup used to build page in WSUWP
 Improve semantic structuring of judge's schedule and add a clarifying note to the SURCA 2018 abstract book download notice.
@@ -436,6 +442,9 @@ Remove instances of deprecated spacing and padding classes.
 C:\GitHub\surca.wsu.edu\HTML\past-surca_awards-2018.html
 Update markup used to build page in WSUWP
 Add markup used to build the 2018 award winners page on the SURCA website.
+C:\GitHub\surca.wsu.edu\HTML\past-surca_past-judges.html
+Add tables of SURCA judges for 2019 to website
+Add backups of TablePress tables containing lists of judges for SURCA 2019, and update the backup of markup used to build the past judges page in WSUWP after adding the 2019 judges lists to it.
 C:\GitHub\surca.wsu.edu\HTML\snippet_706-2017_2019-poster-making-workshops-from-bcu.html
 Add HTML snippet
 Snippet added is for inserting a poster design workshop notice relevant to SURCA 2019.
@@ -454,6 +463,12 @@ Modify build sequence
 C:\GitHub\surca.wsu.edu\JS\surca-build.min.prev.js
 Updating backup of latest verified custom JS build
 
+C:\GitHub\surca.wsu.edu\JS\tablepress-export_surca-2019-external-judges-list.json
+Add tables of SURCA judges for 2019 to website
+Add backups of TablePress tables containing lists of judges for SURCA 2019, and update the backup of markup used to build the past judges page in WSUWP after adding the 2019 judges lists to it.
+C:\GitHub\surca.wsu.edu\JS\tablepress-export_surca-2019-internal-judges-list.json
+Add tables of SURCA judges for 2019 to website
+Add backups of TablePress tables containing lists of judges for SURCA 2019, and update the backup of markup used to build the past judges page in WSUWP after adding the 2019 judges lists to it.
 C:\GitHub\surca.wsu.edu\package-lock.json
 Update lockfile after npm install
 
@@ -518,7 +533,7 @@ C:\GitHub\ucore.wsu.edu-assessment\package.json
 Add an initial package.json for gulp task automation
 
 C:\GitHub\ucore.wsu.edu\gulpfile.js
-Add gulp tasks, modules for building CSS and JS files
+Update file header in inline documentation
 
 C:\GitHub\ucore.wsu.edu\HTML\faculty.html
 Update backup of markup for making Spine builder page
@@ -617,10 +632,37 @@ C:\GitHub\WebsiteMapper\tree.js
 Update inline documentation
 Add a file header comment block, sectional comment blocks, and a table of contents to the file's inline documentation.
 C:\GitHub\WebsiteMapper\WsMapper.screenshots.js
-Add interface for creating screenshots
-Write a class that provides an interface to headless Chromium for generating screenshots of webpages.
+Fix bug in string meant to serve as for a RegEx needle
+
+C:\GitHub\WSU-DAESA-AutoHotkey\AutoHotkeyU64.ahk
+Add script import containing text replacement hotstrings
+Move text replacement hotstrings from AutoHotkeyU64.ahk to script import textReplacement.ahk and add new hotstrings for inserting times in filenames wherein colon characters have been replaced by vertical ellipses.
+C:\GitHub\WSU-DAESA-AutoHotkey\Coding\frontEndCoding.ahk
+Modify hotstring for inserting note blocks
+Modify hotstring @insWorkNotesBlock so that the titles of note blocks are easier to edit.
+C:\GitHub\WSU-DAESA-AutoHotkey\GitHub\CommitCssBuild.ahk
+Update inline documentation
+
+C:\GitHub\WSU-DAESA-AutoHotkey\GitHub\CommitJsBuild.ahk
+Modify how git commits are constructed by the GUI
+Improve the clarity of default commit messaging in terms of how changes to dev dependencies in the organization-wide development submodule vs. the local, site-specific project are involved in rebuilding custom JS code. Also integrate addition of changes to the organization-wide development submodule to the commit process.
+C:\GitHub\WSU-DAESA-AutoHotkey\GitHub\github.ahk
+Add hotstring for reversing back slashes
+Add hotstring for reversing back slashes present in text that has been copied to the clipboard.
+C:\GitHub\WSU-DAESA-AutoHotkey\GUIs\CssBldPsOps.ahk
+Fix bugs in GUI control variable names
+
+C:\GitHub\WSU-DAESA-AutoHotkey\GUIs\JsBldPsOps.ahk
+Fix copy/paste bugs
+Fix instances of copy/paste bugs where CSS needs to be updated to JS in variable names, function calls, and string settings.
+C:\GitHub\WSU-DAESA-AutoHotkey\TextInput\textReplacement.ahk
+Add date insertion hotstring & update inline documentation
+Add date insertion hotsring @mdys to insert the current date MM/dd/yyyy format, and add file organization sections and an accompanying table of contents to the inline documentation of the script.
 C:\GitHub\WSU-DAESA-AutoHotkey\WorkspaceManagement\automatedDesktopSetUp.ahk
-Update how windows associated with git are arranged
+Fix bug in timing of hotstring for adding ST3 to VDs
+
+C:\GitHub\WSU-DAESA-AutoHotkey\WorkspaceManagement\workspaceManagement.ahk
+Add numpad based hotkeys for scaling the active window
 
 C:\GitHub\WSU-OUE-AutoHotkey\API_GetWindowInfo.ahk
 Add new API
@@ -779,8 +821,8 @@ C:\GitHub\WSU-OUE-AutoHotkey\workTimer.ahk
 Fix bug involving outdated setting for work timer GUI
 Fix one bug in subroutine PostWorkBreakMessage by updating the location of the pomodoro timer image that is used in the work timer GUI.
 C:\GitHub\WSU-UE---CSS\animations.less
-Modify animation mixins for efficiency
-Remove prefixes, as web browser development has made these largely unnecessary.
+Fix fade in from top animation & add simple fade in
+
 C:\GitHub\WSU-UE---CSS\article.less
 Modify style rules for article notices
 Make sectionally based padding universal to all paragraph children of article notice columns
@@ -788,17 +830,17 @@ C:\GitHub\WSU-UE---CSS\aside.less
 Improve responsive behavior of news feed thumbnail images
 
 C:\GitHub\WSU-UE---CSS\color-palette.less
-Update values for gray coloring variables
-Update values for Less variables intended for specifying gray coloring to more closely match recent revisions to what is used in the Spine's design.
+Add additional shade of crimson
+Add additional shade of crimson that is taken from the new WSUWP templates recently built the WSU UCommMar Web Team.
 C:\GitHub\WSU-UE---CSS\columns.less
-Modify implementation and design of styles for columns
-Refactor implementation of styles for Spine Builder template columns by defining them as switchable declared rulesets; also remove outdated styling options, and modify default font weight to match the style of the Provost's office (but darken the font color for better readability).
+Fix default spacing of sections within columns
+Fix default spacing of section elements that are children of WSUWP builder template columns.
 C:\GitHub\WSU-UE---CSS\components.less
-Fix styling bug and tweak spacing
-Add missing specification of absolute positioning.
+Fix syntax error in selector string
+
 C:\GitHub\WSU-UE---CSS\css-build-entry-point.less
-Update default styling of strong elements
-Slightly reduce font weight to match what is present on the Provost's Office's website for improved brand consistency; also, 700 against background 300 weight appears to be overly bold.
+Update the license text
+
 C:\GitHub\WSU-UE---CSS\cycle-slideshow.less
 Fix layout problem with pagers and reorganize code
 Add margin-based componesation for responsive positioning of slideshow pager buttons, and reorganize code so that style rules are grouped better according to the ancestral element to which they relate.
@@ -815,8 +857,8 @@ C:\GitHub\WSU-UE---CSS\drop-down-toggles.less
 Make toggled panel implementation accessibility friendly
 Switching to a CSS3 based approach that relies on class toggling coupled with CSS3 transitions and height/overflow changes
 C:\GitHub\WSU-UE---CSS\events-calendar.less
-Update visual design of workshop notes.
-Darken the notes for improved contrast.
+Fix some layout issues on events by venue feeds in WSUWP
+
 C:\GitHub\WSU-UE---CSS\fonts.less
 Modify utility classes for specifying font families
 Reduce the number of font options for the site to lower impact on loading.
@@ -824,11 +866,11 @@ C:\GitHub\WSU-UE---CSS\footers.less
 Add rewritten style for footers and global top bars
 Rewrite footer styling according to the BEM paradigm and make it possible to include the resulting ruleset via a guarded mixin.
 C:\GitHub\WSU-UE---CSS\forms.less
-Modify styling of section titles in gravity forms
-Bump up font size to a level more consistent with what is utilized on a typical DAESA website.
+Fix bug in style specification
+
 C:\GitHub\WSU-UE---CSS\headers.less
-Modify sizing of sectional article headers
-Add a selector string to prevent the default height from interfering with applications of utility classes.
+Fix design issue in styling for Provostial main headers
+Add missing specification of automatic height.
 C:\GitHub\WSU-UE---CSS\headings.less
 Adjust padding on solid headings
 Increase top padding to compensate for visual change from switching to a new font.
@@ -863,11 +905,11 @@ C:\GitHub\WSU-UE---CSS\mixins.less
 Modify mixin for declaring detached rulesets
 Modify mixin .declare-ruleset(…) by adding an additional switching argument, which allows Less variables to be set that control what rulesets get declared by default, but also can be changed by the developer to override default behavior.
 C:\GitHub\WSU-UE---CSS\news-posts.less
-Change default visual design of article footers
-
+Fix bug in styling for article headers
+Increase precision of style rules to avoid misapplication to row-based article headers.
 C:\GitHub\WSU-UE---CSS\notices.less
-Fix syntax error in mixin .add-new-notice-class
-
+Fix mixin for defining download notice style rules
+Add missing parameter for specifying a custom border color.
 C:\GitHub\WSU-UE---CSS\on-this-page.less
 Fix layout-breaking style conflict
 Fix conflicting style from .column a that is breaking layout on hover interactions.
@@ -899,8 +941,8 @@ C:\GitHub\WSU-UE---CSS\span.less
 Modify visual design of tool tips
 Improve the visual design of tool tips by increasing color contrast.
 C:\GitHub\WSU-UE---CSS\tables.less
-Modify approach to declaring rules
-Replace call to mixin function .declare-table-rulesets with call to .declare-ruleset to enable use of an optional ruleset wrapper
+Further modify design TablePress style rules
+Slightly lighten the font weight used for text in table header cells.
 C:\GitHub\WSU-UE---CSS\targets.less
 Fix styling problems with gravity form anchors
 Remove the highlighting of gravity form anchors that is breaking layout.
@@ -911,8 +953,8 @@ C:\GitHub\WSU-UE---CSS\utility-mixins.less
 Modify mixin-mediated rule sets for styling cards
 Remove the hard-coded background, and make designers and authors rely on coloring classes from the spine.min.css stylesheet.
 C:\GitHub\WSU-UE---CSS\variables.less
-Add rewritten style for footers and global top bars
-Rewrite footer styling according to the BEM paradigm and make it possible to include the resulting ruleset via a guarded mixin.
+Refactor style rules for DAESA gravity forms
+Implement style rules as declared rulesets for improved clarity and organization of code.
 C:\GitHub\WSU-UE---CSS\wp-master-style-sheet.less
 Enhance responsive design of column gutters
 Provide a gated mixin-mediated mechanism to cut out style rules that match default WSUWP settings, and redesign selectors to be more efficient.
@@ -932,8 +974,8 @@ C:\GitHub\WSU-UE---JS\jQuery.forms.js
 Remove GfCheckboxValidators module
 Remove module that is causing accessibility problems under the following specific and unforseen condition. When save and continue links are being used on a graviy form and the user saves the form to continue it later from the page the validated checkboxes are on, the checkbox validator field does not properly keep its validated value after the user accesses the link again in the future. Moreover, the error messaging provided by the valdiation scheme proved not to be helpful enough in practice.
 C:\GitHub\WSU-UE---JS\jQuery.oue-custom.js
-Remove interactive support for in-focus link styling
-This code is no longer necessary, as custom in-focus link styling was removed because of its limited reliability due to inconsistent application and unpredictable layout breaking.
+Fix inserted markup for definition list buttons
+Change markup associated with expand- and collapse-all buttons for definition lists from div tags to more appropriate button tags.
 C:\GitHub\WSU-UE---JS\jQuery.qTip.js
 Fix bug in function QTipContent
 Resolve undeclared local variable regExPttrn & rename it to clearer regExReplPttrn
