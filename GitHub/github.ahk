@@ -1367,7 +1367,7 @@ ExecuteJsPasteCmds( manualProcession := false ) {
 			MsgBox, 48, % A_ThisFunc, % "Press OK to proceed with update button selection."
 			execDelayer.Wait( 330 )
 		} else {
-			execDelayer.Wait( 10000 )
+			execDelayer.Wait( 5000 )
 		}
 		editorX := 214 * g_dpiScalar
 		editorY := 565 * g_dpiScalar
