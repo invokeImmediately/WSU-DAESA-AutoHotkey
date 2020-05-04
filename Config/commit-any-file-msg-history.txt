@@ -322,6 +322,9 @@ Update installed dependencies to latest version, and add missing dependencies ne
 C:\GitHub\oue.wsu.edu\package.json
 Update dev dependencies
 Update installed dependencies to latest version, and add missing dependencies needed for building JS files.
+C:\GitHub\phibetakappa.wsu.edu\gulpfile.js
+Refactor file to rely on dependency from WSU-UE---JS
+Refactor file to utilize new node module in WSU-UE---JS that centralizes code common to all gulp-mediated custom JS build processes for DAESA websites.
 C:\GitHub\phibetakappa.wsu.edu\package-lock.json
 Update manifest and lockfile after npm install, audit
 
@@ -647,8 +650,8 @@ C:\GitHub\WSU-DAESA-AutoHotkey\GitHub\CommitJsBuild.ahk
 Modify how git commits are constructed by the GUI
 Improve the clarity of default commit messaging in terms of how changes to dev dependencies in the organization-wide development submodule vs. the local, site-specific project are involved in rebuilding custom JS code. Also integrate addition of changes to the organization-wide development submodule to the commit process.
 C:\GitHub\WSU-DAESA-AutoHotkey\GitHub\github.ahk
-Add hotstring for reversing back slashes
-Add hotstring for reversing back slashes present in text that has been copied to the clipboard.
+Modify timing in automation of JS pasting into WSUWP
+Reduce the time that the script waits for the JS pasting command to be processed on the destination website.
 C:\GitHub\WSU-DAESA-AutoHotkey\GUIs\CssBldPsOps.ahk
 Fix bugs in GUI control variable names
 
@@ -836,7 +839,7 @@ C:\GitHub\WSU-UE---CSS\columns.less
 Fix default spacing of sections within columns
 Fix default spacing of section elements that are children of WSUWP builder template columns.
 C:\GitHub\WSU-UE---CSS\components.less
-Fix syntax error in selector string
+Update table of contents in inline documentation
 
 C:\GitHub\WSU-UE---CSS\css-build-entry-point.less
 Update the license text
@@ -866,8 +869,8 @@ C:\GitHub\WSU-UE---CSS\footers.less
 Add rewritten style for footers and global top bars
 Rewrite footer styling according to the BEM paradigm and make it possible to include the resulting ruleset via a guarded mixin.
 C:\GitHub\WSU-UE---CSS\forms.less
-Fix bug in style specification
-
+Fix issues with gravity forms field styling
+Reduce boldness of header cells in list fields, and fix selectors used to hide buttons in text areas that use TinyMCE for rich-text editing.
 C:\GitHub\WSU-UE---CSS\headers.less
 Fix design issue in styling for Provostial main headers
 Add missing specification of automatic height.
@@ -953,8 +956,8 @@ C:\GitHub\WSU-UE---CSS\utility-mixins.less
 Modify mixin-mediated rule sets for styling cards
 Remove the hard-coded background, and make designers and authors rely on coloring classes from the spine.min.css stylesheet.
 C:\GitHub\WSU-UE---CSS\variables.less
-Refactor style rules for DAESA gravity forms
-Implement style rules as declared rulesets for improved clarity and organization of code.
+Add style rules for displaying form progress indicators
+Add optional style rules for displaying progress indicators on forms made via Gravity Forms that appear on DAESA websites.
 C:\GitHub\WSU-UE---CSS\wp-master-style-sheet.less
 Enhance responsive design of column gutters
 Provide a gated mixin-mediated mechanism to cut out style rules that match default WSUWP settings, and redesign selectors to be more efficient.
@@ -962,8 +965,8 @@ C:\GitHub\WSU-UE---JS\gulpBuilder.js
 Modify CSS build task with enhancement
 Enable the user to specify that a file with CSS added by a unit's staff members be appended to the built CSS file.
 C:\GitHub\WSU-UE---JS\jquery.are-you-sure.js
-Refactor so that custom code is separate from plugin
-From now on, AreYouSure plugin code will now be imported from git repostiroy via gulp
+Update file documentation and license
+
 C:\GitHub\WSU-UE---JS\jQuery.countdown-custom.js
 Fix variable naming bug in processCountdownTimerById(…)
 
@@ -971,11 +974,11 @@ C:\GitHub\WSU-UE---JS\jQuery.css-data.js
 Fix problem in inline documentation
 Fill in missing description.
 C:\GitHub\WSU-UE---JS\jQuery.forms.js
-Remove GfCheckboxValidators module
-Remove module that is causing accessibility problems under the following specific and unforseen condition. When save and continue links are being used on a graviy form and the user saves the form to continue it later from the page the validated checkboxes are on, the checkbox validator field does not properly keep its validated value after the user accesses the link again in the future. Moreover, the error messaging provided by the valdiation scheme proved not to be helpful enough in practice.
+Update highlighting of text inputs using a rich editor
+Update style specifications to avoid repeating the gradient.
 C:\GitHub\WSU-UE---JS\jQuery.oue-custom.js
-Fix inserted markup for definition list buttons
-Change markup associated with expand- and collapse-all buttons for definition lists from div tags to more appropriate button tags.
+Update logError function
+Fix some minor issues in coding syntax and how error objects are handled by the function
 C:\GitHub\WSU-UE---JS\jQuery.qTip.js
 Fix bug in function QTipContent
 Resolve undeclared local variable regExPttrn & rename it to clearer regExReplPttrn

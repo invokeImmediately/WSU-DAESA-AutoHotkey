@@ -18,10 +18,10 @@ Modify style of main site header
 Set background to crimson and remove maximum width restriction.
 oue-custom.less
 Update dev dependencies for and builds of custom CSS code
-In superproject's build dependency oue-custom.less, first remove main heading styling, which has been shifted to a dependency in the WSU-UE---CSS project. Then add profile images for ESTEEMED MIRA training faculty profiles.
+In superproject's build dependency oue-custom.less, refactor how style rules for displaying form progress indicators are included in the custom CSS build; a Less variable is now used to include the style rules automatically from the WSU-UE---CSS project.
 pbk-custom.less
-Update importing of Less file dependencies
-Import variables.less separately from wp-master-style-sheet.less to enable variable settings to be overwritten.
+Update dev dependencies for and builds of custom CSS code
+In CSS dev dependency pbk-custom.less, update name of build entry point file from wp-master-style-sheet.less to css-build-entry-point.less, and include style rules for displaying sectional article headers.
 src_cr-new.less
 Update dev dependencies for and builds of custom CSS code
 In CSS dev dependency src_cr-new.less, remove style rules that have been moved to the DAESA wide CSS development project WSU-UE---CSS.
@@ -42,7 +42,7 @@ Update dev dependencies for and builds of custom CSS code
 First, move style rules for TablePress tables from ucore-custom.less to WSU-UE---CSS\tables.less.
 ugr-custom.less
 Update dev dependencies for and builds of custom CSS code
-First, in CSS dev dependency ugr-custom.less, update mixin call .add-new-notice-class with specification of a new argument that was recently added.
+First, in CSS dev dependency ugr-custom.less, add optional style rules for displaying progress indicators on gravity forms. Then, in task automation file gupfile.js, remove the optional file header comment that can be prepended to the built custom CSS stylesheet.
 undergraduate-research-custom.less
 Add new style for validators on the travel award form
 Add a style that will render validators and their component elements hidden except for validation messages.
