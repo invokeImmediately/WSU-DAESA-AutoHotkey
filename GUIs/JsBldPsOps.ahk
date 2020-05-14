@@ -31,7 +31,7 @@ class JsBldPsOps extends GhGui {
 			, delayer
 			, guiType := "JsBldPsOps"
 			, guiName := "Default"
-			, guiTitle := ""
+			, guiTitle := "PowerShell Extender for Enhancing JS Development"
 			, updateSmBtnHdlr := "JsBldPsOpsUpdateSmBtnHdlr"
 			, rbldJsBtnHdlr := "JsBldPsOpsRbldJsBtnHdlr"
 			, cmtJsBtnHdlr := "JsBldPsOpsCmtJsBtnHdlr"

@@ -31,7 +31,7 @@ class CssBldPsOps extends GhGui {
 			, delayer
 			, guiType := "CssBldPsOps"
 			, guiName := "Default"
-			, guiTitle := ""
+			, guiTitle := "PowerShell Extender for Enhancing CSS Development"
 			, updateSmBtnHdlr := "CssBldPsOpsUpdateSmBtnHdlr"
 			, rbldCssBtnHdlr := "CssBldPsOpsRbldCssBtnHdlr"
 			, cmtCssBtnHdlr := "CssBldPsOpsCmtCssBtnHdlr"
