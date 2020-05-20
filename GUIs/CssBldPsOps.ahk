@@ -192,6 +192,7 @@ class CssBldPsOps extends GhGui {
 			LV_GetText( winTitle, selRow, 8 )
 			fullPath := repoPath . "CSS\" . minCssRelPath
 			LoadWordPressSiteInChrome( websiteUrl, winTitle )
+			this.delayer.Wait( "l" )
 			CopySrcFileToClipboard( A_ThisFunc
 				, fullPath
 				, ""
