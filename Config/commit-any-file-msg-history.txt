@@ -331,9 +331,12 @@ Update manifest and lockfile after npm install, audit
 C:\GitHub\phibetakappa.wsu.edu\package.json
 Update manifest and lockfile after npm install, audit
 
+C:\GitHub\provost.wsu.edu_daesa\CSS\oue-custom.less
+Refactor CSS dev dependency with site-specific styling
+Remove deprecated style rules and reorganize the layout of code in the file.
 C:\GitHub\provost.wsu.edu_daesa\HTML\home.html
 Update markup used to build page in WSUWP
-Update markup with fix to code that makes up the DAESA focus feature. 
+Add new markup that discusses the units, programs, and sub-programs within DAESA and their efforts.
 C:\GitHub\RendPhys\RendPhys.js
 Finish writing unit conversion functions
 Finish writing RendPhys.degToRad and RendPhys.radToDeg for converting units on angles.
@@ -481,6 +484,9 @@ Add gulpfile, dependencies for making CSS, JS builds
 C:\GitHub\surca.wsu.edu\WSU-UE---CSS\headings.less
 Tweak padding for solid headers
 Tweak produces produce a sharper and more consistent alignment of headings with left edge of column.
+C:\GitHub\teachingacademy.wsu.edu\CSS\ta-custom_daesa.less
+Refactor organization of file & update documentation
+Reorganize code into inline-documented, categorized sections, and add a table of contents.
 C:\GitHub\teachingacademy.wsu.edu\gulpfile.js
 Refactor gulp automation processes
 Add inline documentation to file and improve design by wrapping code in an IIFE and changing syntactical approach to declaring multiline strings; finally, update CSS build settings.
@@ -650,14 +656,14 @@ C:\GitHub\WSU-DAESA-AutoHotkey\GitHub\CommitJsBuild.ahk
 Modify how git commits are constructed by the GUI
 Improve the clarity of default commit messaging in terms of how changes to dev dependencies in the organization-wide development submodule vs. the local, site-specific project are involved in rebuilding custom JS code. Also integrate addition of changes to the organization-wide development submodule to the commit process.
 C:\GitHub\WSU-DAESA-AutoHotkey\GitHub\github.ahk
-Modify timing in automation of JS pasting into WSUWP
-Reduce the time that the script waits for the JS pasting command to be processed on the destination website.
+Fix process for loading WSU WordPress websites in Chrome
+Fix issue apparently caused by a recent update to Chrome that changed how Chrome window titles are assigned when a new tab is active.
 C:\GitHub\WSU-DAESA-AutoHotkey\GUIs\CssBldPsOps.ahk
-Fix bugs in GUI control variable names
-
+Modify posting of CSS/JS to websites
+Improve timing of the OS automation steps that post CSS or JS by adding an additional execulation delay after the destination website has loaded in Chrome.
 C:\GitHub\WSU-DAESA-AutoHotkey\GUIs\JsBldPsOps.ahk
-Fix copy/paste bugs
-Fix instances of copy/paste bugs where CSS needs to be updated to JS in variable names, function calls, and string settings.
+Modify posting of CSS/JS to websites
+Improve timing of the OS automation steps that post CSS or JS by adding an additional execulation delay after the destination website has loaded in Chrome.
 C:\GitHub\WSU-DAESA-AutoHotkey\TextInput\textReplacement.ahk
 Add date insertion hotstring & update inline documentation
 Add date insertion hotsring @mdys to insert the current date MM/dd/yyyy format, and add file organization sections and an accompanying table of contents to the inline documentation of the script.
@@ -866,14 +872,14 @@ C:\GitHub\WSU-UE---CSS\fonts.less
 Modify utility classes for specifying font families
 Reduce the number of font options for the site to lower impact on loading.
 C:\GitHub\WSU-UE---CSS\footers.less
-Add rewritten style for footers and global top bars
-Rewrite footer styling according to the BEM paradigm and make it possible to include the resulting ruleset via a guarded mixin.
+Fix addl. design issues with style rules for site footers
+Fix additional responsive. design issue with style rules for site footers by removing fixed positioning on mobile devices; also, improve adherence of selector strings to the BEM coding paradigm.
 C:\GitHub\WSU-UE---CSS\forms.less
 Fix issues with gravity forms field styling
 Reduce boldness of header cells in list fields, and fix selectors used to hide buttons in text areas that use TinyMCE for rich-text editing.
 C:\GitHub\WSU-UE---CSS\headers.less
-Fix design issue in styling for Provostial main headers
-Add missing specification of automatic height.
+Fix design issues in styling for sectional article headers
+Fix design issues stemming from originally assuming that they were being applied to sectional article headers. Accordingly, rewrite certain style rules now that section article headers are also being applied to single column rows.
 C:\GitHub\WSU-UE---CSS\headings.less
 Adjust padding on solid headings
 Increase top padding to compensate for visual change from switching to a new font.
@@ -899,8 +905,8 @@ C:\GitHub\WSU-UE---CSS\interactively-flipped-panels.less
 Fix error in style conflict resolution
 Add important specification to property to resolve conflict
 C:\GitHub\WSU-UE---CSS\lists.less
-Modify background coloring of terms in definition lists
-Improve background coloring of definition lists by lightening it to achieve greater textual contrast while keeping some color for contrasting the definition term boxes with their surroundings.
+Update selector syntax associated with default spacing
+Update selector syntax so that the Spine theme's margined-… series of classes override default spacing on paragraphs and lists.
 C:\GitHub\WSU-UE---CSS\main.less
 Modify approach to declaring rules
 Replace call to mixin function .declare-main-rulesets with call to .declare-ruleset to enable use of an optional ruleset wrapper
@@ -908,8 +914,8 @@ C:\GitHub\WSU-UE---CSS\mixins.less
 Modify mixin for declaring detached rulesets
 Modify mixin .declare-ruleset(…) by adding an additional switching argument, which allows Less variables to be set that control what rulesets get declared by default, but also can be changed by the developer to override default behavior.
 C:\GitHub\WSU-UE---CSS\news-posts.less
-Fix bug in styling for article headers
-Increase precision of style rules to avoid misapplication to row-based article headers.
+Add display options for Insider-styled article feeds
+Add a gray color scheme and two column layout.
 C:\GitHub\WSU-UE---CSS\notices.less
 Fix mixin for defining download notice style rules
 Add missing parameter for specifying a custom border color.
@@ -923,8 +929,8 @@ C:\GitHub\WSU-UE---CSS\page-covering-notice.less
 Modify approach to declaring rules
 Utilize mixin function .declare-ruleset to avoid missing selector errors when the optional ruleset wrapper is not utilized
 C:\GitHub\WSU-UE---CSS\paragraphs.less
-Modify visual design of article taglines
-Change the visual design of article taglines so that it matches what is in use for introductions on the Office of the Provost website.
+Update selector syntax associated with default spacing
+Update selector syntax so that the Spine theme's margined-… series of classes override default spacing on paragraphs and lists.
 C:\GitHub\WSU-UE---CSS\qtips.less
 Add empty line to beginning of file as workaround
 Current build processes may fail without space due to the qtips minified source terminating with a comment
@@ -956,8 +962,8 @@ C:\GitHub\WSU-UE---CSS\utility-mixins.less
 Modify mixin-mediated rule sets for styling cards
 Remove the hard-coded background, and make designers and authors rely on coloring classes from the spine.min.css stylesheet.
 C:\GitHub\WSU-UE---CSS\variables.less
-Add style rules for displaying form progress indicators
-Add optional style rules for displaying progress indicators on forms made via Gravity Forms that appear on DAESA websites.
+Fix setting for the background width threshold variable
+
 C:\GitHub\WSU-UE---CSS\wp-master-style-sheet.less
 Enhance responsive design of column gutters
 Provide a gated mixin-mediated mechanism to cut out style rules that match default WSUWP settings, and redesign selectors to be more efficient.
@@ -977,8 +983,8 @@ C:\GitHub\WSU-UE---JS\jQuery.forms.js
 Update highlighting of text inputs using a rich editor
 Update style specifications to avoid repeating the gradient.
 C:\GitHub\WSU-UE---JS\jQuery.oue-custom.js
-Update logError function
-Fix some minor issues in coding syntax and how error objects are handled by the function
+Modify OueDropDownToggles class
+Modify instances of the OueDropDownToggles class to cause toggled panels to check their child elements for any that have a cascaded layout and then use the Masrony JS plugin to redo their layouts.
 C:\GitHub\WSU-UE---JS\jQuery.qTip.js
 Fix bug in function QTipContent
 Resolve undeclared local variable regExPttrn & rename it to clearer regExReplPttrn

@@ -18,13 +18,13 @@ Modify style of main site header
 Set background to crimson and remove maximum width restriction.
 oue-custom.less
 Update dev dependencies for and builds of custom CSS code
-In superproject's build dependency oue-custom.less, refactor how style rules for displaying form progress indicators are included in the custom CSS build; a Less variable is now used to include the style rules automatically from the WSU-UE---CSS project.
+In superproject's CSS dev dependency oue-custom.less, add style rules for displaying DAESA staff lists.
 pbk-custom.less
 Update dev dependencies for and builds of custom CSS code
 In CSS dev dependency pbk-custom.less, update name of build entry point file from wp-master-style-sheet.less to css-build-entry-point.less, and include style rules for displaying sectional article headers.
 src_cr-new.less
 Update dev dependencies for and builds of custom CSS code
-In CSS dev dependency src_cr-new.less, remove style rules that have been moved to the DAESA wide CSS development project WSU-UE---CSS.
+In CSS dev dependency src_cr-new.less, remove style rules that are no longer being applied on the site.
 summerresearch-custom.less
 Update dev dependencies for and builds of custom CSS code
 First, in summerresearch-custom.less, update name of CSS dev dependency wp-master-style-sheet.less to css-build-entry-point.less, and update mixing calls for defining new notice classes.
@@ -33,13 +33,13 @@ Update dev dependencies for and builds of custom CSS code
 First, in CSS dev dependency surca-custom.less, add in style rules for notice oriented paragraphs, and define an informational notice class.
 ta-custom.less
 Update dev dependencies for and builds of custom CSS code
-In superproject's CSS dev dependency ta-custom_daesa.less, add style specification for notices via inclusional mixins.
+In superproject's CSS dev dependency ta-custom_daesa.less, add a fix for the WSUWP bug wherein the HTML snippet plugin sometimes accidentally pulls in an image attachment.
 ucore-assessment-custom.less
 Revise LESS variable name
 Revise name of Less variable @v-p-lnhght to @body-text--lHeight
 ucore-custom.less
 Update dev dependencies for and builds of custom CSS code
-First, move style rules for TablePress tables from ucore-custom.less to WSU-UE---CSS\tables.less.
+First, activate use of the design for insider news feeds in superproject's CSS dev dependency ucore-custom.less.
 ugr-custom.less
 Update dev dependencies for and builds of custom CSS code
 First, in CSS dev dependency ugr-custom.less, add optional style rules for displaying progress indicators on gravity forms. Then, in task automation file gupfile.js, remove the optional file header comment that can be prepended to the built custom CSS stylesheet.
