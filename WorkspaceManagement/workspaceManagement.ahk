@@ -65,50 +65,50 @@
 ;     >>> §2.24: ^!NumpadX — Keyboard based expansion and contraction of active windows........932
 ;       →→→ §2.24.1: NxScaleActiveWindow(…)....................................................971
 ;       →→→ §2.24.1: NxScaleAW_ChangeDelta()...................................................990
-;       →→→ §2.24.1: NxScaleAW_ChechkDefaultDelta()............................................1018
-;       →→→ §2.24.1: @changeNumpadScalingDelta.................................................1029
-;   §3: VIRTUAL DESKTOP HOTKEYS................................................................1037
-;     >>> §3.1: ^!1-7 — Movement of windows between virtual desktops...........................1041
-;       →→→ §3.1.1: ca1thruN_moveToDesktop(…)..................................................1084
-;   §4: MOUSE HOTKEYS..........................................................................1092
-;     >>> §4.1: ^!+RButton — Remember/forget mouse coordinates.................................1096
+;       →→→ §2.24.1: NxScaleAW_ChechkDefaultDelta()...........................................1018
+;       →→→ §2.24.1: @changeNumpadScalingDelta................................................1029
+;   §3: VIRTUAL DESKTOP HOTKEYS...............................................................1037
+;     >>> §3.1: ^!1-7 — Movement of windows between virtual desktops..........................1041
+;       →→→ §3.1.1: ca1thruN_moveToDesktop(…).................................................1084
+;   §4: MOUSE HOTKEYS.........................................................................1092
+;     >>> §4.1: ^!+RButton — Remember/forget mouse coordinates................................1096
 ;     >>> §4.2: ^!+LButton — Move to remembered mouse coordinates.............................1132
 ;       →→→ §4.2.1: casLButton_IsMouseAtCurrentCoord..........................................1143
-;       →→→ §4.2.2: casLButton_MoveMouseToCurrentCoord........................................1163
-;       →→→ §4.2.3: casLButton_MoveMouseToNextCoord...........................................1192
-;     >>> §4.3: ^!#L/RButton — Move mouse to taskbar..........................................1211
-;     >>> §4.4: #LButton — Move mouse to center of active window..............................1224
-;   §5: AUDITORY CUE BINDING..................................................................1242
-;   §6: WINDOW POSITIONING GUIS...............................................................1262
-;     >>> §6.1: Window Adjustment GUI.........................................................1266
-;       →→→ §6.1.1: TriggerWindowAdjustmentGui................................................1269
-;       →→→ §6.1.2: HandleGuiWinAdjWidthEditChange............................................1344
-;       →→→ §6.1.3: HandleGuiWinAdjWidthSliderChange..........................................1378
-;       →→→ §6.1.4: HandleGuiWinAdjOK.........................................................1416
-;       →→→ §6.1.5: guiWinAdjGuiEscape........................................................1423
-;       →→→ §6.1.6: GuiWinAdjUpdateEdgeSnapping...............................................1430
-;       →→→ §6.1.7: GuiWinAdjCheckNewPosition.................................................1450
-;   §7: APP SPECIFIC WORKSPACE MANAGEMENT SCRIPTS.............................................1471
-;     >>> §7.1: CHROME........................................................................1475
-;       →→→ §7.1.1: OpenWebsiteInChrome.......................................................1478
-;       →→→ §7.1.2: OpenNewTabInChrome........................................................1502
-;       →→→ §7.1.3: OpenNewWindowInChrome.....................................................1517
-;       →→→ §7.1.4: NavigateToWebsiteInChrome.................................................1530
-;       →→→ §7.1.5: MoveToNextTabInChrome.....................................................1553
-;     >>> §7.2: GNU IMAGE MANIPULATION PROGRAM................................................1565
-;       →→→ §7.2.1: @toggleGimp...............................................................1568
-;     >>> §7.3: NOTEPAD++: TEXT EDITING ENHANCEMENT HOTKEYS & SCRIPTS.........................1612
-;     >>> §7.4: STICKY NOTES FOR CHROME.......................................................1684
-;       →→→ §7.4.1: @initStickyNoteToggle.....................................................1687
-;       →→→ §7.4.2: @toggleStickyNote.........................................................1699
-;     >>> §7.5: SUBLIME TEXT 3................................................................1726
-;       →→→ §7.5.1: @sst3 (Start Sublime Text 3)..............................................1729
-;       →→→ §7.5.2: updateTableOfContents.ahk.................................................1736
-;     >>> §7.6: iTunes........................................................................1741
-;       →→→ §7.6.1: @restartItunes............................................................1744
-;   §8: Diagnostic hotstrings.................................................................1777
-;     >>> §8.1: @getActiveMonitorWorkArea.....................................................1781
-;     >>> §8.2: @getInfoOnSystemMonitors......................................................1791
+;       →→→ §4.2.2: casLButton_MoveMouseToCurrentCoord........................................1168
+;       →→→ §4.2.3: casLButton_MoveMouseToNextCoord...........................................1198
+;     >>> §4.3: ^!#L/RButton — Move mouse to taskbar..........................................1222
+;     >>> §4.4: #LButton — Move mouse to center of active window..............................1235
+;   §5: AUDITORY CUE BINDING..................................................................1253
+;   §6: WINDOW POSITIONING GUIS...............................................................1273
+;     >>> §6.1: Window Adjustment GUI.........................................................1277
+;       →→→ §6.1.1: TriggerWindowAdjustmentGui................................................1280
+;       →→→ §6.1.2: HandleGuiWinAdjWidthEditChange............................................1355
+;       →→→ §6.1.3: HandleGuiWinAdjWidthSliderChange..........................................1389
+;       →→→ §6.1.4: HandleGuiWinAdjOK.........................................................1427
+;       →→→ §6.1.5: guiWinAdjGuiEscape........................................................1434
+;       →→→ §6.1.6: GuiWinAdjUpdateEdgeSnapping...............................................1441
+;       →→→ §6.1.7: GuiWinAdjCheckNewPosition.................................................1461
+;   §7: APP SPECIFIC WORKSPACE MANAGEMENT SCRIPTS.............................................1482
+;     >>> §7.1: CHROME........................................................................1486
+;       →→→ §7.1.1: OpenWebsiteInChrome.......................................................1489
+;       →→→ §7.1.2: OpenNewTabInChrome........................................................1513
+;       →→→ §7.1.3: OpenNewWindowInChrome.....................................................1528
+;       →→→ §7.1.4: NavigateToWebsiteInChrome.................................................1541
+;       →→→ §7.1.5: MoveToNextTabInChrome.....................................................1564
+;     >>> §7.2: GNU IMAGE MANIPULATION PROGRAM................................................1576
+;       →→→ §7.2.1: @toggleGimp...............................................................1579
+;     >>> §7.3: NOTEPAD++: TEXT EDITING ENHANCEMENT HOTKEYS & SCRIPTS.........................1623
+;     >>> §7.4: STICKY NOTES FOR CHROME.......................................................1695
+;       →→→ §7.4.1: @initStickyNoteToggle.....................................................1698
+;       →→→ §7.4.2: @toggleStickyNote.........................................................1710
+;     >>> §7.5: SUBLIME TEXT 3................................................................1737
+;       →→→ §7.5.1: @sst3 (Start Sublime Text 3)..............................................1740
+;       →→→ §7.5.2: updateTableOfContents.ahk.................................................1747
+;     >>> §7.6: iTunes........................................................................1752
+;       →→→ §7.6.1: @restartItunes............................................................1755
+;   §8: Diagnostic hotstrings.................................................................1788
+;     >>> §8.1: @getActiveMonitorWorkArea.....................................................1792
+;     >>> §8.2: @getInfoOnSystemMonitors......................................................1802
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -1144,16 +1144,21 @@ Return
 
 casLButton_IsMouseAtCurrentCoord() {
 	global savedMouseCoords
+	global startingMouseCoords
 
 	atCurrentCoord := False
 	if (savedMouseCoords != undefined) {
-		coords := savedMouseCoords.array[savedMouseCoords.idx]
+		if (savedMouseCoords.idx = 0) {
+			coords := startingMouseCoords
+		} else {
+			coords := savedMouseCoords.array[savedMouseCoords.idx]
+		}
 		mouseX := coords.x
 		mouseY := coords.y
 		CoordMode, Mouse, Screen
 		MouseGetPos, actualMouseX, actualMouseY
-		atCurrentCoord := ( Abs( actualMouseX - mouseX ) <= 4 )
-			&& ( Abs( actualMouseY - mouseY ) <= 4 )
+		atCurrentCoord := ( Abs( actualMouseX - mouseX ) <= 8 )
+			&& ( Abs( actualMouseY - mouseY ) <= 8 )
 	}
 
 	return atCurrentCoord
@@ -1164,27 +1169,28 @@ casLButton_IsMouseAtCurrentCoord() {
 
 casLButton_MoveMouseToCurrentCoord() {
 	global savedMouseCoords
+	global startingMouseCoords
 
 	if (savedMouseCoords != undefined) {
 		; Automatically save the mouse's current position to the end of the remembered coordinate
-		; array so this initial position can be restored later.
-		; if (savedMouseCoords.curCoordSaved) {
-		; 	if (savedMouseCoords.idx == savedMouseCoords.)
-		; 	(savedMouseCoords.array).Pop()
-		; }
-		; CoordMode, Mouse, Screen
-		; MouseGetPos, mouseX, mouseY
-		; (savedMouseCoords.array).Push({x: mouseX, y: mouseY})
-		; if (!(savedMouseCoords.curCoordSaved)) {
-		; 	savedMouseCoords.curCoordSaved := true
-		; }
+		CoordMode, Mouse, Screen
+		MouseGetPos, mouseX, mouseY
+		if (startingMouseCoords = undefined) {
+			startingMouseCoords := {}
+		}
+		startingMouseCoords.x := mouseX
+		startingMouseCoords.y := mouseY
 
 		; Move the cursor to the active mouse coordinate in the remembered coordinate array.
-		coords := savedMouseCoords.array[savedMouseCoords.idx]
-		mouseX := coords.x
-		mouseY := coords.y
-		CoordMode, Mouse, Screen
-		MouseMove, %mouseX%, %mouseY%
+		if ( savedMouseCoords.idx = 0) {
+			casLButton_MoveMouseToNextCoord()
+		} else {
+			coords := savedMouseCoords.array[savedMouseCoords.idx]
+			mouseX := coords.x
+			mouseY := coords.y
+			CoordMode, Mouse, Screen
+			MouseMove, %mouseX%, %mouseY%
+		}
 	}
 }
 
@@ -1193,13 +1199,18 @@ casLButton_MoveMouseToCurrentCoord() {
 
 casLButton_MoveMouseToNextCoord() {
 	global savedMouseCoords
+	global startingMouseCoords
 
 	if (savedMouseCoords != undefined) {
 		savedMouseCoords.idx--
-		if (savedMouseCoords.idx < 1) {
+		if (savedMouseCoords.idx = 0) {
+			coords := startingMouseCoords
+		} else if (savedMouseCoords.idx < 0) {
 			savedMouseCoords.idx := savedMouseCoords.array.Length()
+			coords := savedMouseCoords.array[savedMouseCoords.idx]
+		} else {
+			coords := savedMouseCoords.array[savedMouseCoords.idx]
 		}
-		coords := savedMouseCoords.array[savedMouseCoords.idx]
 		mouseX := coords.x
 		mouseY := coords.y
 		CoordMode, Mouse, Screen
