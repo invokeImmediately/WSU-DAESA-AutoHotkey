@@ -40,23 +40,23 @@
 ;       →→→ §1.3.1: @addSublimeText3ToVd + AddSublimeText3ToVd()...............................355
 ;       →→→ §1.3.2: @arrangeGitHub.............................................................398
 ;       →→→ §1.3.3: @startGithubClients........................................................435
-;       →→→ §1.3.4: agh_MovePowerShell().......................................................453
-;     >>> §1.4: Graphic design VD — @setupVdForGraphicDesign...................................508
-;       →→→ §1.4.1: @arrangeGimp...............................................................525
-;       →→→ §1.4.2: svd3_OpenGimp(…)...........................................................548
-;       →→→ §1.4.3: svd3_OpenGraphicsReferences(…).............................................560
-;     >>> §1.5: Communications and media VD — @setupVdForCommunications........................572
-;       →→→ §1.5.1: @arrangeEmail..............................................................590
-;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)................................................638
-;     >>> §1.6: Research VD — @setupVdForResearch..............................................664
-;     >>> §1.7: PC monitoring VD — @setupVdForPcMonitoring.....................................712
-;   §2: STARTUP HOTKEYS........................................................................733
-;     >>> §2.1: #!r............................................................................737
-;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................744
-;     >>> §3.1: @quitAhk.......................................................................748
-;     >>> §3.2: ^#!r...........................................................................757
-;     >>> §3.3: PerformScriptShutdownTasks()...................................................766
-;     >>> §3.4: ScriptExitFunc(…)..............................................................776
+;       →→→ §1.3.4: agh_MovePowerShell().......................................................451
+;     >>> §1.4: Graphic design VD — @setupVdForGraphicDesign...................................506
+;       →→→ §1.4.1: @arrangeGimp...............................................................523
+;       →→→ §1.4.2: svd3_OpenGimp(…)...........................................................546
+;       →→→ §1.4.3: svd3_OpenGraphicsReferences(…).............................................558
+;     >>> §1.5: Communications and media VD — @setupVdForCommunications........................569
+;       →→→ §1.5.1: @arrangeEmail..............................................................587
+;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)................................................635
+;     >>> §1.6: Research VD — @setupVdForResearch..............................................660
+;     >>> §1.7: PC monitoring VD — @setupVdForPcMonitoring.....................................706
+;   §2: STARTUP HOTKEYS........................................................................727
+;     >>> §2.1: #!r............................................................................731
+;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................738
+;     >>> §3.1: @quitAhk.......................................................................742
+;     >>> §3.2: ^#!r...........................................................................751
+;     >>> §3.3: PerformScriptShutdownTasks()...................................................760
+;     >>> §3.4: ScriptExitFunc(…)..............................................................770
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -176,7 +176,7 @@ Return
 :*:@startChrome::
 	AppendAhkCmd( A_ThisLabel )
 	LaunchStdApplicationPatiently( "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
-		, "New Tab ahk_exe chrome.exe" )
+		, "chrome://newtab ahk_exe chrome.exe" )
 	execDelayer.Wait( "l" )
 Return
 
@@ -437,9 +437,7 @@ Return
 :*:@startGithubClients::
 	AppendAhkCmd( A_ThisLabel )
 	execDelayer.Wait( "s" )
-	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
-		, "New Tab")
-	execDelayer.Wait( "s" )
+	Gosub :*:@startChrome
 	OpenWebsiteInChrome("github.com/invokeImmediately", False)
 	; LaunchStdApplicationPatiently(userAccountFolderSSD . "\AppData\Local\GitHubDesktop\GitHubDesktop.exe"
 	; 	, "GitHub ahk_exe GitHubDesktop.exe")
@@ -561,8 +559,7 @@ svd3_OpenGimp(delay) {
 
 svd3_OpenGraphicsReferences(delay) {
 	Sleep % delay * 2
-	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
-		, "New Tab")
+	Gosub :*:@startChrome
 	OpenWebsiteInChrome("www.colorhexa.com", False)
 	Sleep % delay
 	OpenWebsiteInChrome("brand.wsu.edu/visual/colors")
@@ -639,10 +636,9 @@ Return
 
 svd4_LoadWebEmailClients( delay ) {
 	global execDelayer
+	global webBrowserNewTabTitle
 	execDelayer.Wait( delay, 1.5 )
-	LaunchStdApplicationPatiently( "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
-		, "New Tab" )
-	execDelayer.Wait( delay, 10 )
+	Gosub :*:@startChrome
 	OpenWebsiteInChrome( "mail.google.com", False )
 	execDelayer.Wait( delay )
 	OpenWebsiteInChrome( "mail.live.com" )
@@ -671,9 +667,7 @@ svd4_LoadWebEmailClients( delay ) {
 		, 3000)
 
 	; Set up apps for catching up on news.
-	LaunchStdApplicationPatiently("C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
-		, "New Tab")
-	execDelayer.Wait( delay, 50 )
+	Gosub :*:@startChrome
 	OpenWebsiteInChrome("https://www.sfchronicle.com/")
 	execDelayer.Wait( delay, 10 )
 	OpenWebsiteInChrome("https://www.nytimes.com/")
