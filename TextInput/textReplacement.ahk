@@ -221,8 +221,11 @@ Return
 	execDelayer.Wait( "s" )
 	newText := RegExReplace( newText, "\.", "·" )
 	execDelayer.Wait( "s" )
+	newText := RegExReplace( newText, ":", "⋮" )
+	execDelayer.Wait( "s" )
 	Clipboard := newText
 	execDelayer.Wait( "s" )
-	DisplaySplashText( "Text in the clipboard has been modified such that foward slashes have been "
-	 . "replaced with vertical bars, and periods have been replaced with middle dots.", 3000 )
+	DisplaySplashText( "Text in the clipboard has been modified such that colons have been "
+	 . "replaced with vertical ellipses, foward slashes have been replaced with vertical bars, "
+	 . "and periods have been replaced with middle dots.", 3000 )
 Return
