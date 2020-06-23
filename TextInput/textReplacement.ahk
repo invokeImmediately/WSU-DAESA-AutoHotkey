@@ -22,17 +22,18 @@
 ; ==================================================================================================
 ; TABLE OF CONTENTS:
 ; -----------------
-;   §1: GENERAL text editing hotstrings.........................................................39
-;   §2: FRONT-END web development...............................................................58
-;     >>> §2.1: HTML editing....................................................................62
-;     >>> §2.2: CSS editing.....................................................................69
-;     >>> §2.3: JS editing......................................................................77
-;   §3: NUMPAD mediated text insertion..........................................................82
-;     >>> §3.1: GetCmdForMoveToCSSFolder........................................................86
-;     >>> §3.2: GetCmdForMoveToCSSFolder.......................................................104
-;   §4: DATES and TIMES........................................................................122
-;     >>> §4.1: Dates..........................................................................126
-;     >>> §4.2: Times..........................................................................154
+;   §1: GENERAL text editing hotstrings.........................................................40
+;   §2: FRONT-END web development...............................................................59
+;     >>> §2.1: HTML editing....................................................................63
+;     >>> §2.2: CSS editing.....................................................................70
+;     >>> §2.3: JS editing......................................................................78
+;   §3: NUMPAD mediated text insertion..........................................................83
+;     >>> §3.1: GetCmdForMoveToCSSFolder........................................................87
+;     >>> §3.2: GetCmdForMoveToCSSFolder.......................................................105
+;   §4: DATES and TIMES........................................................................123
+;     >>> §4.1: Dates..........................................................................127
+;     >>> §4.2: Times..........................................................................155
+;   §5: CLIPBOARD modifying hotstrings.........................................................189
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -182,4 +183,46 @@ Return
 	AppendAhkCmd(A_ThisLabel)
 	FormatTime, CurrentDateTime,, yyyy-MM-dd
 	SendInput, (Started %CurrentDateTime%)
+Return
+
+; --------------------------------------------------------------------------------------------------
+;   §5: CLIPBOARD modifying hotstrings
+; --------------------------------------------------------------------------------------------------
+
+:*:@reverseBackSlashes::
+	AppendAhkCmd( A_ThisLabel )
+	oldText := Clipboard
+	execDelayer.Wait( "s" )
+	newText := RegExReplace( Clipboard, "\\", "/" )
+	execDelayer.Wait( "s" )
+	Clipboard := newText
+	execDelayer.Wait( "s" )
+	DisplaySplashText( "Text in the clipboard has been modified such that back slashes have been "
+	 . "reversed.", 3000 )
+Return
+
+:*:@reverseFwdSlashes::
+	AppendAhkCmd( A_ThisLabel )
+	oldText := Clipboard
+	execDelayer.Wait( "s" )
+	newText := RegExReplace( Clipboard, "/", "\" )
+	execDelayer.Wait( "s" )
+	Clipboard := newText
+	execDelayer.Wait( "s" )
+	DisplaySplashText( "Text in the clipboard has been modified such that foward slashes have been "
+	 . "reversed.", 3000 )
+Return
+
+:*:@convertUrlToFileName::
+	AppendAhkCmd( A_ThisLabel )
+	oldText := Clipboard
+	execDelayer.Wait( "s" )
+	newText := RegExReplace( Clipboard, "/", "❘" )
+	execDelayer.Wait( "s" )
+	newText := RegExReplace( newText, "\.", "·" )
+	execDelayer.Wait( "s" )
+	Clipboard := newText
+	execDelayer.Wait( "s" )
+	DisplaySplashText( "Text in the clipboard has been modified such that foward slashes have been "
+	 . "replaced with vertical bars, and periods have been replaced with middle dots.", 3000 )
 Return
