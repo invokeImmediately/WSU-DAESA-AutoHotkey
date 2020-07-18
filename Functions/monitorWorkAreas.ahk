@@ -9,11 +9,11 @@
 ; -----------------
 ;   §1: AddWinBordersToMonitorWorkArea(…).......................................................20
 ;   §2: ClipActiveWindowToMonitor().............................................................36
-;   §3: FindActiveMonitor().....................................................................69
-;   §4: FindNearestActiveMonitor()..............................................................94
-;   §5: GetActiveMonitorWorkArea(…)............................................................129
-;   §6: RemoveWinBorderFromRectCoordinate......................................................171
-;   §7: ResolveActiveMonitorWorkArea...........................................................211
+;   §3: FindActiveMonitor().....................................................................74
+;   §4: FindNearestActiveMonitor().............................................................110
+;   §5: GetActiveMonitorWorkArea(…)............................................................151
+;   §6: RemoveWinBorderFromRectCoordinate......................................................197
+;   §7: ResolveActiveMonitorWorkArea...........................................................237
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -163,7 +163,11 @@ GetActiveMonitorWorkArea(ByRef monitorFound, ByRef monitorALeft, ByRef monitorAT
 	local whichVertex
 
 	monitorFound := false
-	RemoveMinMaxStateForActiveWin()
+
+	; TODO: Determine if removing this causes problems; having it in there was proving to be annoying
+	;       for the ^![0-9] series of hotkeys.
+	; RemoveMinMaxStateForActiveWin()
+
 	whichMon := FindNearestActiveMonitor()
 	if (whichMon > 0) {
 		monitorFound := true
