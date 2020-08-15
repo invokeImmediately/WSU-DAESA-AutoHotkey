@@ -186,8 +186,8 @@ caf1thruN_switchToDesktop(whichDesktop) {
 			- ( borderWidths.Horz - 1 ) )
 		minWidth := Round( maxWidth / 20 * 3 )
 		widthDecrement := minWidth
-		newWidth := minWidth + ( maxWidth - minWidth ) * 0.8
-		newPosX := mon3WorkArea_Left + ( maxWidth - minWidth) * 0.2 - (borderWidths.Horz - 1)
+		newWidth := minWidth + ( maxWidth - minWidth ) * 0.9
+		newPosX := mon3WorkArea_Left + ( maxWidth - minWidth) * 0.1 - (borderWidths.Horz - 1)
 		maxHeight := mon3WorkArea_Bottom + ( borderWidths.Vert - 1)
 		minHeight := Round( maxHeight / 20 * 3 )
 		newHeight := maxHeight
@@ -208,7 +208,7 @@ Return
 			- ( borderWidths.Horz - 1 ) )
 		minWidth := Round( maxWidth / 20 * 3 )
 		widthDecrement := minWidth
-		newWidth := minWidth + ( maxWidth - minWidth ) * 0.8
+		newWidth := minWidth + ( maxWidth - minWidth ) * 0.9
 		newPosX := mon3WorkArea_Left - borderWidths.Horz + 1
 		maxHeight := mon3WorkArea_Bottom + ( borderWidths.Vert - 1 )
 		minHeight := Round( maxHeight / 20 * 3 )
@@ -230,8 +230,8 @@ Return
 			- ( borderWidths.Horz - 1 ) )
 		minWidth := Round( maxWidth / 20 * 3 )
 		widthDecrement := minWidth
-		newWidth := minWidth + ( maxWidth - minWidth ) * 0.8
-		newPosX := mon2WorkArea_Left + ( maxWidth - minWidth ) * 0.2 - ( borderWidths.Horz - 1 )
+		newWidth := minWidth + ( maxWidth - minWidth ) * 0.9
+		newPosX := mon2WorkArea_Left + ( maxWidth - minWidth ) * 0.1 - ( borderWidths.Horz - 1 )
 		maxHeight := mon2WorkArea_Bottom + ( borderWidths.Vert - 1 )
 		minHeight := Round( maxHeight / 20 * 3 )
 		newHeight := maxHeight
@@ -252,7 +252,7 @@ Return
 			- ( borderWidths.Horz - 1 ) )
 		minWidth := Round( maxWidth / 20 * 3 )
 		widthDecrement := minWidth
-		newWidth := minWidth + ( maxWidth - minWidth ) * 0.8
+		newWidth := minWidth + ( maxWidth - minWidth ) * 0.9
 		newPosX := mon2WorkArea_Left - borderWidths.Horz + 1
 		maxHeight := mon2WorkArea_Bottom + ( borderWidths.Vert - 1 )
 		minHeight := Round( maxHeight / 20 * 3 )
@@ -273,8 +273,8 @@ Return
 		- ( borderWidths.Horz - 1 ) )
 	minWidth := Round( maxWidth / 20 * 3 )
 	widthDecrement := minWidth
-	newWidth := minWidth + ( maxWidth - minWidth ) * 0.8
-	newPosX := mon1WorkArea_Left + ( maxWidth - minWidth ) * 0.2 - ( borderWidths.Horz - 1 )
+	newWidth := minWidth + ( maxWidth - minWidth ) * 0.9
+	newPosX := mon1WorkArea_Left + ( maxWidth - minWidth ) * 0.1 - ( borderWidths.Horz - 1 )
 	maxHeight := mon1WorkArea_Bottom + ( borderWidths.Vert - 1 )
 	minHeight := Round( maxHeight / 20 * 3 )
 	newHeight := maxHeight
@@ -290,7 +290,7 @@ Return
 		- (borderWidths.Horz - 1))
 	minWidth := Round(maxWidth / 20 * 3)
 	widthDecrement := minWidth
-	newWidth := minWidth + (maxWidth - minWidth) * 0.8
+	newWidth := minWidth + (maxWidth - minWidth) * 0.9
 	newPosX := mon1WorkArea_Left - (borderWidths.Horz - 1)
 	maxHeight := mon1WorkArea_Bottom + (borderWidths.Vert - 1)
 	minHeight := Round(maxHeight / 20 * 3)
@@ -1341,7 +1341,7 @@ TriggerWindowAdjustmentGui( edgeSnapping, minWidth, maxWidth, initialWidth, minH
 	; Setup GUI & display to user
 	Gui, guiWinAdj: New,
 		, % "Adjust Active Window Width"
-	Gui, guiWinAdj: Add, Text, , Window &width:
+	Gui, guiWinAdj: Add, Text, , % "Window &width (%):"
 	Gui, guiWinAdj: Add, Slider
 		, vguiWinAdjWidthSlider gHandleGuiWinAdjWidthSliderChange AltSubmit W300 x+5
 		, %sliderPos%
@@ -1767,7 +1767,6 @@ Return
 ;       →→→ §7.6.1: @restartItunes
 
 :*:@restartItunes::
-	delay := GetDelay("long")
 	winTitle := "iTunes ahk_exe iTunes.exe"
 	iTunesHwnd := WinExist(winTitle)
 	if (iTunesHwnd) {
@@ -1784,13 +1783,14 @@ Return
 			proceed := !ErrorLevel
 		}
 		if (proceed) {
-			Sleep % delay
+			execDelayer.Wait( "l" )
 			LaunchStdApplicationPatiently("shell:appsFolder\AppleInc.iTunes_nzyj5cx40ttqa!iTunes"
 				, "iTunes")
 			WinWaitActive %winTitle%, , 10
 			proceed := !ErrorLevel
 		}
 		if (proceed && aHwnd) {
+			execDelayer.Wait( "l" )
 			WinActivate % "ahk_id " . aHwnd
 		}
 	}
