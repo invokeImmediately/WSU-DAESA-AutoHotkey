@@ -145,29 +145,27 @@ Return
 	MapDesktopsFromRegistry()
 	AddSublimeText3ToVd( vdCurrentDesktop )
 	execDelayer.Wait( "s", 4 )
-	PosActWinOnMonsViaCtrlFN( "^F11", execDelayer.InterpretDelayString( "s" ) * 4 )
+	MaxActWinOnMonViaCtrlFN( "^F9", "m" )
 
 	; Load chrome & navigate to WSUWP login page
 	Gosub :*:@startChrome
 	execDelayer.Wait( "s", 4 )
 	OpenWebsiteInChrome("distinguishedscholarships.wsu.edu/wp-admin/", False)
 
-	; Load notepad.exe & position it on virtual desktop
-	LaunchStdApplicationPatiently( "C:\Windows\System32\notepad.exe", "ahk_exe notepad.exe" )
-	execDelayer.Wait( "l" )
-	if ( SafeWinActivate( "ahk_exe notepad.exe" ) ) {
-		execDelayer.Wait( "s", 2 )
-		WinMove A, , 3175, 3, 642, 1037
-	}
-
 	; Load an instance of Windows Explorer
 	SendInput #e
 	WaitForApplicationPatiently( "This PC ahk_exe explorer.exe" )
 	execDelayer.Wait( "l" )
-	WinMove A, , 1018, 1, 898, 1040
+	PosActWinOnMonsViaCtrlFN( "^F12", "m" )
 
 	PositionChromeOnWebEditVd()
-	WebEditVd_OpenWorkNotesLog()
+	execDelayer.Wait( "m" )
+	OpenNewWindowInChrome()
+	execDelayer.Wait( "m" )
+	OpenWebsiteInChrome( "trello.com", False )
+	execDelayer.Wait( "m" )
+	PosActWinOnMonsViaCtrlFN( "^F11", "m" )
+;	WebEditVd_OpenWorkNotesLog()
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
@@ -650,10 +648,10 @@ svd4_LoadWebEmailClients( delay ) {
 	MoveToNextTabInChrome()
 	execDelayer.Wait( delay, 3 )
 
-	OpenNewWindowInChrome()
-	OpenWebsiteInChrome( "trello.com", False )
-	execDelayer.Wait( "m" )
-	MaxActWinOnMonViaCtrlFN( "^F11", delay )
+	; OpenNewWindowInChrome()
+	; OpenWebsiteInChrome( "trello.com", False )
+	; execDelayer.Wait( "m" )
+	; MaxActWinOnMonViaCtrlFN( "^F11", delay )
 }
 
 ;   ································································································
@@ -668,7 +666,7 @@ svd4_LoadWebEmailClients( delay ) {
 
 	; Set up apps for catching up on news.
 	Gosub :*:@startChrome
-	OpenWebsiteInChrome("https://www.sfchronicle.com/")
+	OpenWebsiteInChrome("https://www.sfchronicle.com/", False)
 	execDelayer.Wait( delay, 10 )
 	OpenWebsiteInChrome("https://www.nytimes.com/")
 	execDelayer.Wait( delay, 10 )
