@@ -125,9 +125,9 @@
 ;       →→→ §6.11.15: @copyBackupJsUcore......................................................1857
 ;       →→→ §6.11.16: @copyMinJsUcrAss........................................................1867
 ;     >>> §6.12: FOR CHECKING GIT STATUS ON ALL PROJECTS......................................1877
-;   §7: KEYBOARD SHORTCUTS FOR POWERSHELL.....................................................1913
-;     >>> §7.1: SHORTCUTS.....................................................................1917
-;     >>> §7.2: SUPPORTING FUNCTIONS..........................................................1944
+;   §7: KEYBOARD SHORTCUTS FOR POWERSHELL.....................................................1914
+;     >>> §7.1: SHORTCUTS.....................................................................1918
+;     >>> §7.2: SUPPORTING FUNCTIONS..........................................................1945
 ; ==================================================================================================
 
 sgIsPostingMinCss := false
@@ -1883,12 +1883,13 @@ Return
 	repoRoot := scriptCfg.gitStatus.cfgSettings[ 1 ][ "repository" ]
 	foundPos := RegExMatch( repoRoot, "^(.*\\)(.*\\)$", Match )
 	repoRoot := Match1
-	DisplaySplashText( "Now checking the status of the " . numRepos . " Git Repositories that are b"
- . "eing tracked by this script.", 3000 )
+	DisplaySplashText( "Now checking the status of the " . numRepos . " Git Repositories that are "
+		. "eing tracked by this script.", 3000 )
+	escChar := "[char]0x1b"
 	Loop %numRepos% {
 		repoName := scriptCfg.gitStatus.cfgSettings[ A_Index ][ "name" ]
 		repoPath := scriptCfg.gitStatus.cfgSettings[ A_Index ][ "repository" ]
-		shellTxt .= "cd """ . repoRoot . """`r`nWrite-Host ""``n"
+		shellTxt .= "cd """ . repoRoot . """`r`nWrite-Output (" . escChar . " + ""[1;32m``n``n"
 		subStr := ""
 		subStrLen := Round( ( 110 - StrLen( repoName ) ) / 2 )
 		Loop, %subStrLen%
@@ -1901,7 +1902,7 @@ Return
 		{
 			subStr .= "-"
 		}
-		shellTxt .= subStr . """ -ForegroundColor ""green""`r`ncd """ . repoPath
+		shellTxt .= subStr . """ + " . escChar . " + ""[0m"")`r`ncd """ . repoPath
 			. """`r`ngit status`r`n"
 	}
 	shellTxt .= "cd """ . repoRoot . """`r`n"
