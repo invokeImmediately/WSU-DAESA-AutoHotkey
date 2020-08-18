@@ -125,9 +125,9 @@
 ;       →→→ §6.11.15: @copyBackupJsUcore......................................................1857
 ;       →→→ §6.11.16: @copyMinJsUcrAss........................................................1867
 ;     >>> §6.12: FOR CHECKING GIT STATUS ON ALL PROJECTS......................................1877
-;   §7: KEYBOARD SHORTCUTS FOR POWERSHELL.....................................................1914
-;     >>> §7.1: SHORTCUTS.....................................................................1918
-;     >>> §7.2: SUPPORTING FUNCTIONS..........................................................1945
+;   §7: KEYBOARD SHORTCUTS FOR POWERSHELL.....................................................1934
+;     >>> §7.1: SHORTCUTS.....................................................................1938
+;     >>> §7.2: SUPPORTING FUNCTIONS..........................................................1965
 ; ==================================================================================================
 
 sgIsPostingMinCss := false
@@ -1878,18 +1878,38 @@ Return
 
 :*:@checkGitStatus::
 	AppendAhkCmd( A_ThisLabel )
+
+	; Get the root GitHub folder where all repos are installed.
 	shellTxt := ""
 	numRepos := scriptCfg.gitStatus.cfgSettings.Length()
 	repoRoot := scriptCfg.gitStatus.cfgSettings[ 1 ][ "repository" ]
 	foundPos := RegExMatch( repoRoot, "^(.*\\)(.*\\)$", Match )
 	repoRoot := Match1
+
+	; Nofity user that hotstring is beginning its operation.
 	DisplaySplashText( "Now checking the status of the " . numRepos . " Git Repositories that are "
 		. "eing tracked by this script.", 3000 )
+
+	; Determine the width of the Git Shell.
+	PasteTextIntoGitShell( A_ThisLabel, "Set-Clipboard -Value $Host.UI.RawUI.WindowSize.Width`r`n" )
+	execDelayer.Wait( "l" )
+	consoleWidth := Clipboard
+	if ( consoleWidth <= 0 ) {
+		consoleWidth := 211
+	}
 	escChar := "[char]0x1b"
+	PasteTextIntoGitShell( A_ThisLabel, " Write-Output ( " . escChar . " + ""[1A"" + "
+			. escChar . " + ""[30;40m"" + "" "" * 66 + ""``n"" + "" "" * 124 + " . escChar
+			. " + ""[0m"")" )
+
+	; Construct the string that will be pasted into the GitHub shell to check the status of all
+	;  repos tracked through this script.
 	Loop %numRepos% {
 		repoName := scriptCfg.gitStatus.cfgSettings[ A_Index ][ "name" ]
 		repoPath := scriptCfg.gitStatus.cfgSettings[ A_Index ][ "repository" ]
-		shellTxt .= "cd """ . repoRoot . """`r`nWrite-Output (" . escChar . " + ""[1;32m``n``n"
+		shellTxt .= "cd """ . repoRoot . """`r`nWrite-Output ( " . escChar . " + ""["
+			. ( Floor( 253 / consoleWidth ) + 1 ) . "A"" + " . escChar
+			. " + ""[30;40m"" + "" "" * 253 + ""``r``n"" + " . escChar . " + ""[1;32m``n"
 		subStr := ""
 		subStrLen := Round( ( 110 - StrLen( repoName ) ) / 2 )
 		Loop, %subStrLen%
@@ -1905,7 +1925,7 @@ Return
 		shellTxt .= subStr . """ + " . escChar . " + ""[0m"")`r`ncd """ . repoPath
 			. """`r`ngit status`r`n"
 	}
-	shellTxt .= "cd """ . repoRoot . """`r`n"
+	shellTxt .= "cd """ . repoRoot . """`r`n`r`n`r`n"
 	PasteTextIntoGitShell( A_ThisLabel, shellTxt )
 	DisplaySplashText( "Git status commands have been pasted to PowerShell.", 3000 )
 Return
