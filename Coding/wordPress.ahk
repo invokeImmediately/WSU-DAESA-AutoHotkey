@@ -2,6 +2,13 @@
 ; wordPress.ahk
 ; AutoHotkey script for automatically checking for updates in the WordPress editor.
 ; ==================================================================================================
+; TABLE OF CONTENTS:
+; -----------------
+;   §1: GLOBALS & SCRIPT PERMANENCE.............................................................18
+;   §2: HOTSTRINGS & ASSOCIATED FUNCTIONS.......................................................46
+;     >>> §2.1: Check CSS edits on WordPress sites..............................................50
+;     >>> §2.2: JS-Mediated Console Based Enhancements of the WSUWP Editor.....................189
+; ==================================================================================================
 
 ; TODO: Write hotstring that searches through OUE websites for latest CSS and JS updates
 ; Regex to match latest update: <ul class="post-revisions">.*?\.php\?revision=[0-9]{1,}">([^<]+)
@@ -13,7 +20,7 @@
 
 GetWpEditorSettings() {
 	global wpEditorSettings
-	if (!IsObject(wpEditorSettings)) {
+	if ( !IsObject( wpEditorSettings ) ) {
 		wpEditorSettings := {}
 		wpEditorSettings.websites := ["https://ascc.wsu.edu"
 			, "https://commonreading.wsu.edu"
@@ -177,3 +184,34 @@ cce_CompleteTask(delay) {
 	Sleep % delay * 10
 	Progress, Off
 }
+
+;   ································································································
+;     >>> §2.2: JS-Mediated Console Based Enhancements of the WSUWP Editor
+
+:*:@collapseOpenBuilderSections::
+	AppendAhkCmd(A_ThisLabel)
+	Send % "// Collapse all open builder sections.+{Enter}( function($) {{}+{Enter}{Tab}'use"
+		. " strict';+{Enter}+{Enter}{Tab}$( '.ttfmake-section' ).each( function() {{}+{Enter}{Tab"
+		. " 2}let $this = $( this );+{Enter}{Tab 2}if ( $this.hasClass( 'ttfmake-section-open' ) )"
+		. " {{}+{Enter}{Tab 3}let $toggle = $this.find( '.ttfmake-section-toggle' );+{Enter}{Tab"
+		. " 3}$toggle.click();+{Enter}{Tab 2}{}}+{Enter}{Tab}{}} );+{Enter}{}} )( jQuery );"
+Return
+
+:*:@expandClosedBuilderSections::
+	AppendAhkCmd(A_ThisLabel)
+	Send % "// Expand all closed builder sections.+{Enter}( function($) {{}+{Enter}{Tab}'use"
+		. " strict';+{Enter}+{Enter}{Tab}$( '.ttfmake-section' ).each( function() {{}+{Enter}{Tab"
+		. " 2}let $this = $( this );+{Enter}{Tab 2}if ( {!}$this.hasClass( 'ttfmake-section-open' )"
+		. " ) {{}+{Enter}{Tab 3}let $toggle = $this.find( '.ttfmake-section-toggle' );+{Enter}{Tab"
+		. " 3}$toggle.click();+{Enter}{Tab 2}{}}+{Enter}{Tab}{}} );+{Enter}{}} )( jQuery );"
+Return
+
+:*:@resizeWsuwpBuilderColumns::
+	AppendAhkCmd(A_ThisLabel)
+	Send % "// Resize WSUWP page builder editor text areas so all text is visibile within the"
+		. " control.+{Enter}( ($) => {{}+{Enter}{Tab}'use strict';+{Enter}+{Enter}{Tab}let"
+		. " $makeSections = $( '.ttfmake-section-open' );+{Enter}{Tab}$makeSections.each("
+		. " function() {{}+{Enter}{Tab 2}let $this = $( this );+{Enter}{Tab 2}let $textarea ="
+		. " $this.find( 'textarea.wp-editor-area' );+{Enter}{Tab 2}$textarea.outerHeight("
+		. " $textarea[0].scrollHeight );+{Enter}{Tab}{}} );+{Enter}{}} )( jQuery );"
+Return
