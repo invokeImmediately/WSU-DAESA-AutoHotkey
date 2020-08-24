@@ -125,9 +125,9 @@
 ;       →→→ §6.11.15: @copyBackupJsUcore......................................................1857
 ;       →→→ §6.11.16: @copyMinJsUcrAss........................................................1867
 ;     >>> §6.12: FOR CHECKING GIT STATUS ON ALL PROJECTS......................................1877
-;   §7: KEYBOARD SHORTCUTS FOR POWERSHELL.....................................................1934
-;     >>> §7.1: SHORTCUTS.....................................................................1938
-;     >>> §7.2: SUPPORTING FUNCTIONS..........................................................1965
+;   §7: KEYBOARD SHORTCUTS FOR POWERSHELL.....................................................1935
+;     >>> §7.1: SHORTCUTS.....................................................................1939
+;     >>> §7.2: SUPPORTING FUNCTIONS..........................................................1966
 ; ==================================================================================================
 
 sgIsPostingMinCss := false
@@ -1898,9 +1898,10 @@ Return
 		consoleWidth := 211
 	}
 	escChar := "[char]0x1b"
-	PasteTextIntoGitShell( A_ThisLabel, " Write-Output ( " . escChar . " + ""[1A"" + "
+	PasteTextIntoGitShell( A_ThisLabel, " Write-Output ( " . escChar . " + ""[3F"" + "
 			. escChar . " + ""[30;40m"" + "" "" * 66 + ""``n"" + "" "" * 124 + " . escChar
 			. " + ""[0m"")" )
+	execDelayer.Wait( "l" )
 
 	; Construct the string that will be pasted into the GitHub shell to check the status of all
 	;  repos tracked through this script.
