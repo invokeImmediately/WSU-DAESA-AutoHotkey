@@ -388,7 +388,8 @@ SwitchDesktopByNumber(targetDesktop) {
 	global vdCurrentDesktop
 	global vdDesktopCount
 	global alreadySwitchingDesktop
-	delay := GetDelay("shortest", 4)
+	global execDelayer
+	delay := execDelayer.InterpretDelayString( "s" )
 	keyDelay := delay
 
 	if (!alreadySwitchingDesktop) {
@@ -411,9 +412,9 @@ SwitchDesktopByNumber(targetDesktop) {
 			iCounter := 0
 			while(vdCurrentDesktop < targetDesktop) {
 				SendInput ^#{Right}
-				Sleep % delay * 2
+				execDelayer.Wait( delay, 2 )
 				MapDesktopsFromRegistry()
-				Sleep % delay
+				execDelayer.Wait( delay )
 				iCounter++
 				if (iCounter > vdDesktopCount * 4) {
 					Break
@@ -424,9 +425,9 @@ SwitchDesktopByNumber(targetDesktop) {
 			iCounter := 0
 			while(vdCurrentDesktop > targetDesktop) {
 				SendInput ^#{Left}
-				Sleep % delay * 2
+				execDelayer.Wait( delay, 2 )
 				MapDesktopsFromRegistry()
-				Sleep % delay
+				execDelayer.Wait( delay )
 				iCounter++
 				if (iCounter > vdDesktopCount * 4) {
 					Break
