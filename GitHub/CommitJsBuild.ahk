@@ -504,8 +504,8 @@ HandleCommitJsOk() {
 			commandLineInput .= "`r"
 		}
 
-		; Finally, add in the push command & an auditory cue.
-		commandLineInput .= "git push`r[console]::beep(2000,150)`r[console]::beep(2000,150)`r"
+		; Finally, add an auditory cue to signal completion of the execution sequence.
+		commandLineInput .= "[console]::beep(2000,150)`r[console]::beep(2000,150)`r"
 
 		; If appropriate, store commit for later use as a guide
 		if ( ctrlCommitJsAlsoCommitJsSrc ) {

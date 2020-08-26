@@ -1573,7 +1573,7 @@ BackupJs( caller, website, repository, backupFile ) {
 	if ( VerifyCopiedCode( caller, copiedJs ) ) {
 		WriteCodeToFile( caller, copiedJs, repository . backupFile )
 		PasteTextIntoGitShell( caller, "cd '" . repository . "'`rgit add " . backupFile
-			. "`rgit commit -m 'Updating backup of latest verified custom JS build'`rgit push`r" )
+			. "`rgit commit -m 'Updating backup of latest verified custom JS build'`r" )
 	}
 }
 

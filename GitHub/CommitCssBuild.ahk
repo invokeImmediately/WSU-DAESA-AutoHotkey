@@ -34,14 +34,14 @@
 ;     >>> §2.8: HandleCommitCssCheckLessChangesOnly............................................391
 ;     >>> §2.9: HandleCommitCss2ndLessMsgChange................................................434
 ;     >>> §2.10: HandleCommitCssOk.............................................................451
-;       →→→ §2.10.1: ProcessHandleCommitCssOkError.............................................543
-;     >>> §2.11: HandleCommitCssCancel.........................................................571
-;   §3: GUI PERSISTENCE FUNCTIONS..............................................................579
-;     >>> §3.1: SaveCommitCssLessMsgHistory....................................................583
-;     >>> §3.2: LoadCommitCssLessMsgHistory....................................................620
-;     >>> §3.3: ReadKeyForLessMsgHistory.......................................................656
-;     >>> §3.4: ReadPrimaryMsgForLessFileKey...................................................674
-;     >>> §3.5: ReadSecondaryMsgForLessFileKey.................................................691
+;       →→→ §2.10.1: ProcessHandleCommitCssOkError.............................................544
+;     >>> §2.11: HandleCommitCssCancel.........................................................572
+;   §3: GUI PERSISTENCE FUNCTIONS..............................................................580
+;     >>> §3.1: SaveCommitCssLessMsgHistory....................................................584
+;     >>> §3.2: LoadCommitCssLessMsgHistory....................................................621
+;     >>> §3.3: ReadKeyForLessMsgHistory.......................................................657
+;     >>> §3.4: ReadPrimaryMsgForLessFileKey...................................................675
+;     >>> §3.5: ReadSecondaryMsgForLessFileKey.................................................692
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -516,8 +516,8 @@ HandleCommitCssOk() {
 			commandLineInput .= "`r"
 		}
 
-		; Finally, add in the push command & an auditory cue.
-		commandLineInput .= "git push`r[console]::beep(2000,150)`r[console]::beep(2000,150)`r"
+		; Finally, add an auditory cue to signal completion of the execution sequence.
+		commandLineInput .= "[console]::beep(2000,150)`r[console]::beep(2000,150)`r"
 
 		; If appropriate, store commit for later use as a guide
 		if ( ctrlCommitCssAlsoCommitLessSrc ) {

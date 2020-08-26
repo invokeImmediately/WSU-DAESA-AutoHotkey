@@ -35,21 +35,21 @@
 ;       →→→ §1.2.2: gcAnyFile_GetRepoPath_ST3..................................................141
 ;   §2: GUI supporting functions...............................................................160
 ;     >>> §2.1: CAF_CommitAnyFile..............................................................164
-;     >>> §2.2: HandleCafAddFiles..............................................................254
-;     >>> §2.3: HandleCafRemoveFiles...........................................................311
-;     >>> §2.4: HandleCafGitDiff...............................................................363
-;     >>> §2.5: HandleCafGitLog................................................................400
-;     >>> §2.6: HandleCaf1stMsgChange..........................................................441
-;     >>> §2.7: HandleCaf2ndMsgChange..........................................................459
-;     >>> §2.8: HandleCafOk....................................................................473
-;     >>> §2.9: CheckAnyFilePrimaryMsgChanged..................................................545
-;     >>> §2.10: ProcessHandleCafOkError.......................................................570
-;     >>> §2.11: HandleCafCancel...............................................................597
-;     >>> §2.12: SaveCafMsgHistory.............................................................606
-;     >>> §2.13: LoadCafMsgHistory.............................................................648
-;     >>> §2.14: ReadKeyForAnyFileCommitMsgHistory.............................................696
-;     >>> §2.15: ReadPrimaryCommitMsgForFileKey................................................723
-;     >>> §2.16: ReadPrimaryCommitMsgForFileKey................................................742
+;     >>> §2.2: HandleCafAddFiles..............................................................253
+;     >>> §2.3: HandleCafRemoveFiles...........................................................310
+;     >>> §2.4: HandleCafGitDiff...............................................................362
+;     >>> §2.5: HandleCafGitLog................................................................399
+;     >>> §2.6: HandleCaf1stMsgChange..........................................................440
+;     >>> §2.7: HandleCaf2ndMsgChange..........................................................458
+;     >>> §2.8: HandleCafOk....................................................................472
+;     >>> §2.9: CheckAnyFilePrimaryMsgChanged..................................................543
+;     >>> §2.10: ProcessHandleCafOkError.......................................................568
+;     >>> §2.11: HandleCafCancel...............................................................595
+;     >>> §2.12: SaveCafMsgHistory.............................................................604
+;     >>> §2.13: LoadCafMsgHistory.............................................................646
+;     >>> §2.14: ReadKeyForAnyFileCommitMsgHistory.............................................694
+;     >>> §2.15: ReadPrimaryCommitMsgForFileKey................................................721
+;     >>> §2.16: ReadPrimaryCommitMsgForFileKey................................................740
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -170,8 +170,7 @@ gcAnyFile_GetRepoPath_ST3() {
 ;   processed into one or more 'git add …' shell commands. Primary and secondary git commit messages
 ;   can also be set, and the GUI displays the length of each message. These messages are later
 ;   processed into a 'git commit -m "…" (-m "…")' command. Moreover, the previous git commit message
-;   for a file is remembered by the GUI on future commits. Finally, the GUI will also generate
-;   terminal 'git push' and console beeping commands to complete the commit process.
+;   for a file is remembered by the GUI on future commits.
 ;
 ;   @param {string}			ahkCmdName		The hotstring/label that called the function.
 ;   @param {string}			gitFolder		File system folder containing the local git repo.
@@ -496,7 +495,7 @@ HandleCafOk() {
 		}
 		MsgBox, 4, % "Ready to Proceed?",
 ( Join
-% "Are you sure you want to push the git commit message:`n`nPRIMARY MESSAGE:`n"
+% "Are you sure you want to commit with the message:`n`nPRIMARY MESSAGE:`n"
 ) . commitMsgTxt 
 		IfMsgBox, Yes
 		{
@@ -516,7 +515,6 @@ HandleCafOk() {
 			} else {
 				commandLineInput .= "`r"
 			}
-			commandLineInput .= "git push`r"
 
 			; Store commit for later use as a guide
 			if ( cafLastMsg == undefined ) {
