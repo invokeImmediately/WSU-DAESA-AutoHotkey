@@ -276,7 +276,7 @@ class CssBldPsOps extends GhGui {
 			Gui, guiGh%guiType%%guiName%: Submit, NoHide
 			selRow := LV_GetNext()
 			LV_GetText( repository, selRow, 2)
-			PasteTextIntoGitShell( A_ThisFunc, "cd '" . repository . "\WSU-UE---CSS'`rgit checkout "
+			PasteTextIntoGitShell( A_ThisFunc, "cd '" . repository . "WSU-UE---CSS'`rgit checkout "
 				. "master`rgit pull`rcd ..`rgit submodule update --remote --merge WSU-UE---CSS`r" )
 			MsgBox, % (0x4 + 0x20)
 				, % A_ScriptName . ": Proceed with CSS rebuild?", % "After updating the submodule "
