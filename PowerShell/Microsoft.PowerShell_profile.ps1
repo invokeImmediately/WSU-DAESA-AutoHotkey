@@ -1,7 +1,7 @@
 ﻿####################################################################################################
 # Microsoft.PowerShell_profile.ps1, v0.3.0
 # ----------------------------------------
-# PowerShell profile of Daniel C. Rieck
+# PowerShell profile of Daniel C. Rieck.
 #
 # MIT License — Copyright (c) 2020 Daniel C. Rieck
 #
@@ -23,6 +23,36 @@
 
 ###############
 # §1: Functions
+
+Function Compare-Directories {
+    Param (
+        [ Parameter( Mandatory=$true ) ]
+        [ string ]
+        $diffName,
+
+        [ Parameter( Mandatory=$true ) ]
+        [ string ]
+        $refName
+    )
+    Try
+    {
+        $diffItem = Get-Item -ErrorAction Stop -Path $diffName
+        $refItem = Get-Item -ErrorAction Stop -Path $refName
+        $fsoDiff = gci -ErrorAction Stop -Recurse -path $diffName | ? { $_.FullName -notmatch "node_modules" }
+        $fsoRef = gci -ErrorAction Stop -Recurse -path $refName | ? { $_.FullName -notmatch "node_modules" }
+        $separator = "-" * 100
+        Write-Host (-join ($separator, "`nResults of Compare-Object with basis as name, length.`nDifference Object (=>) ", $diffItem.FullName, "`nReference Object (<=) ", $refItem.FullName, "`n", $separator))
+        Compare-Object -ErrorAction Stop -ReferenceObject $fsoRef -DifferenceObject $fsoDiff -Property Name,Length, -PassThru | Format-Table SideIndicator, Name, @{Label="Length (kb)"; Expression={[math]::Round( ( $_.Length / 1kb ),1 ) } }, LastWriteTime
+    }
+    Catch
+    {
+        $itemName = $_.Exception.ItemName
+        if ([string]::IsNullOrEmpty($itemName)) {
+            $itemName = "Script error"
+        }
+        Write-Host (-join ($itemName, ": ", $_.Exception.Message))
+    }
+}
 
 Function Copy-Current-Path {
 	scb ("'" + (gl).Path + "'")
@@ -154,6 +184,8 @@ Function Open-GitHub-Folder {
 # §2: Aliases
 
 Set-Alias -Name ccp -Value Copy-Current-Path
+
+Set-Alias -Name compdirs -Value Compare-Directories
 
 Set-Alias -Name chrome -Value 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
 
