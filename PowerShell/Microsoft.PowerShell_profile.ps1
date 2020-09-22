@@ -59,7 +59,13 @@ Function Copy-Current-Path {
 }
 
 Function Copy-GitHub-Repos-CSV-List {
-    scb ( Get-Array-of-GitHub-Repos -Join ", " )
+    $repos = Get-Array-of-GitHub-Repos
+    scb ( ( -split $repos ) -Join ", " )
+}
+
+Function Copy-GitHub-Repos-List {
+    $repos = Get-Array-of-GitHub-Repos
+    scb ( $repos )
 }
 
 Function Copy-Profiles-Path {
@@ -106,25 +112,25 @@ Function Get-Filtered-Directories {
 
 Function Get-Array-of-GitHub-Repos {
     [ string[] ]$PathsToRepos = @(
-        'C:\GitHub\ace.daesa.wsu.edu',
-        'C:\GitHub\admissions.wsu.edu-research-scholars',
-        'C:\GitHub\ascc.wsu.edu',
-        'C:\GitHub\commonreading.wsu.edu',
-        'C:\GitHub\daesa.wsu.edu',
-        'C:\GitHub\distinguishedscholarships.wsu.edu',
-        'C:\GitHub\firstyear.wsu.edu',
-        'C:\GitHub\learningcommunities.wsu.edu',
-        'C:\GitHub\lsamp.wsu.edu',
-        'C:\GitHub\nse.wsu.edu',
-        'C:\GitHub\nsse.wsu.edu',
-        'C:\GitHub\phibetakappa.wsu.edu',
-        'C:\GitHub\provost.wsu.edu_daesa_esteemed',
-        'C:\GitHub\summerresearch.wsu.edu',
-        'C:\GitHub\surca.wsu.edu',
-        'C:\GitHub\teachingacademy.wsu.edu',
-        'C:\GitHub\transfercredit.wsu.edu',
-        'C:\GitHub\ucore.wsu.edu',
-        'C:\GitHub\ucore.wsu.edu-assessment',
+        'C:\GitHub\ace.daesa.wsu.edu'
+        'C:\GitHub\admissions.wsu.edu-research-scholars'
+        'C:\GitHub\ascc.wsu.edu'
+        'C:\GitHub\commonreading.wsu.edu'
+        'C:\GitHub\daesa.wsu.edu'
+        'C:\GitHub\distinguishedscholarships.wsu.edu'
+        'C:\GitHub\firstyear.wsu.edu'
+        'C:\GitHub\learningcommunities.wsu.edu'
+        'C:\GitHub\lsamp.wsu.edu'
+        'C:\GitHub\nse.wsu.edu'
+        'C:\GitHub\nsse.wsu.edu'
+        'C:\GitHub\phibetakappa.wsu.edu'
+        'C:\GitHub\provost.wsu.edu_daesa_esteemed'
+        'C:\GitHub\summerresearch.wsu.edu'
+        'C:\GitHub\surca.wsu.edu'
+        'C:\GitHub\teachingacademy.wsu.edu'
+        'C:\GitHub\transfercredit.wsu.edu'
+        'C:\GitHub\ucore.wsu.edu'
+        'C:\GitHub\ucore.wsu.edu-assessment'
         'C:\GitHub\undergraduateresearch.wsu.edu'
     )
     Return $PathsToRepos
