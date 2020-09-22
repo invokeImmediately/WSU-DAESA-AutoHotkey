@@ -59,7 +59,7 @@ Function Copy-Current-Path {
 }
 
 Function Copy-GitHub-Repos-CSV-List {
-    scb ( Get-Array-of-GitHub-Repos() -Join ", " )
+    scb ( Get-Array-of-GitHub-Repos -Join ", " )
 }
 
 Function Copy-Profiles-Path {
