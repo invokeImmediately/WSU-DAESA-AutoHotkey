@@ -55,11 +55,15 @@ Function Compare-Directories {
 }
 
 Function Copy-Current-Path {
-	scb ("'" + (gl).Path + "'")
+	scb ( "'" + (gl).Path + "'" )
 }
 
 Function Copy-GitHub-Repos-CSV-List {
     scb ( Get-Array-of-GitHub-Repos() -Join ", " )
+}
+
+Function Copy-Profiles-Path {
+    scb ( gci -Path $Profile | %{ $_.Directory.FullName } )
 }
 
 Function Get-Archives { gci -Attributes Archive }
