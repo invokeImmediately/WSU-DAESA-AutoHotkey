@@ -1320,8 +1320,8 @@ ExecuteJsPasteCmds( manualProcession := false ) {
 	global g_dpiScalar
 	; Add check for correct CSS in clipboard — the first line is a font import.
 	posFound := RegExMatch( clipboard, "^(?:// Built with Node.js)|(?:/\*!\*+`n \* jQuery.oue-custo"
-		. "m.js)|(?:/\*!\*+`n \* https://github.com/invokeImmediately/WSU-UE---JS/jQuery.oue-custom"
-		. ".js)" )
+		. "m.js)|(?:/\*!\*+`n \* (?:https://)?github.com/invokeImmediately/WSU-UE---JS/jQuery.oue-c"
+		. "ustom.js)" )
 	if ( posFound != 0 ) {
 		; TODO: Add function for dpi scaled clicks, e.g., something like dsfClick or dpiSafeClick
 		WinGet, hwnd, ID, A
