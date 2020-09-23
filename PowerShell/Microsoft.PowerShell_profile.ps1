@@ -72,7 +72,63 @@ Function Copy-Profiles-Path {
     scb ( gci -Path $Profile | %{ $_.Directory.FullName } )
 }
 
+Function Find-Files-in-GitHub-Repos {
+    Param (
+        [ Parameter( Mandatory = $false,
+            ValueFromPipelineByPropertyName = $true ) ]
+        [ string ]
+        $FileFilter = "*"
+    )
+    $Paths = Get-Array-of-GitHub-Repos
+    $Excludes = Get-Array-of-Github-Folder-Excludes
+    Write-Output @(
+        "Searching for '$FileFilter' in all repos for DAESA web development projects."
+        "+-The following exclusions will apply to full path names: "
+        ( "| +-" + $Excludes )
+        "+-Please wait, this will take some time…"
+    )
+    $Files = Get-ChildItem -Path $Paths -Filter $FileFilter -Recurse |
+        Where-Object { -not $_.FullName.contains( $Excludes ) } | %{
+            $_.FullName
+        }
+    Write-Output "`r`nDone! Below are the full path names of all files found:"
+    Write-Output $files
+}
+
 Function Get-Archives { gci -Attributes Archive }
+
+Function Get-Array-of-Github-Folder-Excludes {
+    $Excludes = [ string[] ]$Excludes = @(
+        'node_modules'
+    )
+    Return $Excludes
+}
+
+Function Get-Array-of-GitHub-Repos {
+    [ string[] ]$PathsToRepos = @(
+        'C:\GitHub\ace.daesa.wsu.edu'
+        'C:\GitHub\admissions.wsu.edu-research-scholars'
+        'C:\GitHub\ascc.wsu.edu'
+        'C:\GitHub\commonreading.wsu.edu'
+        'C:\GitHub\daesa.wsu.edu'
+        'C:\GitHub\distinguishedscholarships.wsu.edu'
+        'C:\GitHub\firstyear.wsu.edu'
+        'C:\GitHub\learningcommunities.wsu.edu'
+        'C:\GitHub\lsamp.wsu.edu'
+        'C:\GitHub\nse.wsu.edu'
+        'C:\GitHub\nsse.wsu.edu'
+        'C:\GitHub\phibetakappa.wsu.edu'
+        'C:\GitHub\provost.wsu.edu_daesa_esteemed'
+        'C:\GitHub\summerresearch.wsu.edu'
+        'C:\GitHub\surca.wsu.edu'
+        'C:\GitHub\teachingacademy.wsu.edu'
+        'C:\GitHub\transfercredit.wsu.edu'
+        'C:\GitHub\ucore.wsu.edu'
+        'C:\GitHub\ucore.wsu.edu-assessment'
+        'C:\GitHub\undergraduateresearch.wsu.edu'
+    )
+    Return $PathsToRepos
+}
 
 Function Get-Directories { gci -Attributes Directory }
 
@@ -108,32 +164,6 @@ Function Get-Filtered-Directories {
     } Else {
         gci -Attributes Directory -Filter $filter       
     }
-}
-
-Function Get-Array-of-GitHub-Repos {
-    [ string[] ]$PathsToRepos = @(
-        'C:\GitHub\ace.daesa.wsu.edu'
-        'C:\GitHub\admissions.wsu.edu-research-scholars'
-        'C:\GitHub\ascc.wsu.edu'
-        'C:\GitHub\commonreading.wsu.edu'
-        'C:\GitHub\daesa.wsu.edu'
-        'C:\GitHub\distinguishedscholarships.wsu.edu'
-        'C:\GitHub\firstyear.wsu.edu'
-        'C:\GitHub\learningcommunities.wsu.edu'
-        'C:\GitHub\lsamp.wsu.edu'
-        'C:\GitHub\nse.wsu.edu'
-        'C:\GitHub\nsse.wsu.edu'
-        'C:\GitHub\phibetakappa.wsu.edu'
-        'C:\GitHub\provost.wsu.edu_daesa_esteemed'
-        'C:\GitHub\summerresearch.wsu.edu'
-        'C:\GitHub\surca.wsu.edu'
-        'C:\GitHub\teachingacademy.wsu.edu'
-        'C:\GitHub\transfercredit.wsu.edu'
-        'C:\GitHub\ucore.wsu.edu'
-        'C:\GitHub\ucore.wsu.edu-assessment'
-        'C:\GitHub\undergraduateresearch.wsu.edu'
-    )
-    Return $PathsToRepos
 }
 
 Function Get-Image {
