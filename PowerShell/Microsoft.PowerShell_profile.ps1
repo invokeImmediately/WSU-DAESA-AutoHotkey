@@ -25,145 +25,177 @@
 # §1: Functions
 
 Function Compare-Directories {
-    Param (
-        [ Parameter( Mandatory=$true ) ]
-        [ string ]
-        $diffName,
+	Param (
+		[ Parameter( Mandatory=$true ) ]
+		[ string ]
+		$diffName,
 
-        [ Parameter( Mandatory=$true ) ]
-        [ string ]
-        $refName
-    )
-    Try
-    {
-        $diffItem = Get-Item -ErrorAction Stop -Path $diffName
-        $refItem = Get-Item -ErrorAction Stop -Path $refName
-        $fsoDiff = gci -ErrorAction Stop -Recurse -path $diffName | ? { $_.FullName -notmatch "node_modules" }
-        $fsoRef = gci -ErrorAction Stop -Recurse -path $refName | ? { $_.FullName -notmatch "node_modules" }
-        $separator = "-" * 100
-        Write-Host (-join ($separator, "`nResults of Compare-Object with basis as name, length.`nDifference Object (=>) ", $diffItem.FullName, "`nReference Object (<=) ", $refItem.FullName, "`n", $separator))
-        Compare-Object -ErrorAction Stop -ReferenceObject $fsoRef -DifferenceObject $fsoDiff -Property Name,Length, -PassThru | Format-Table SideIndicator, Name, @{Label="Length (kb)"; Expression={[math]::Round( ( $_.Length / 1kb ),1 ) } }, LastWriteTime
-    }
-    Catch
-    {
-        $itemName = $_.Exception.ItemName
-        if ([string]::IsNullOrEmpty($itemName)) {
-            $itemName = "Script error"
-        }
-        Write-Host (-join ($itemName, ": ", $_.Exception.Message))
-    }
+		[ Parameter( Mandatory=$true ) ]
+		[ string ]
+		$refName
+	)
+	Try
+	{
+		$diffItem = Get-Item -ErrorAction Stop -Path $diffName
+		$refItem = Get-Item -ErrorAction Stop -Path $refName
+		$fsoDiff = gci -ErrorAction Stop -Recurse -path $diffName | ? { $_.FullName -notmatch "node_modules" }
+		$fsoRef = gci -ErrorAction Stop -Recurse -path $refName | ? { $_.FullName -notmatch "node_modules" }
+		$separator = "-" * 100
+		Write-Host (-join ($separator, "`nResults of Compare-Object with basis as name, length.`nDifference Object (=>) ", $diffItem.FullName, "`nReference Object (<=) ", $refItem.FullName, "`n", $separator))
+		Compare-Object -ErrorAction Stop -ReferenceObject $fsoRef -DifferenceObject $fsoDiff -Property Name,Length, -PassThru | Format-Table SideIndicator, Name, @{Label="Length (kb)"; Expression={[math]::Round( ( $_.Length / 1kb ),1 ) } }, LastWriteTime
+	}
+	Catch
+	{
+		$itemName = $_.Exception.ItemName
+		if ([string]::IsNullOrEmpty($itemName)) {
+			$itemName = "Script error"
+		}
+		Write-Host (-join ($itemName, ": ", $_.Exception.Message))
+	}
 }
 
 Function Copy-Current-Path {
 	scb ( "'" + (gl).Path + "'" )
 }
 
+Function Copy-Daesa-Website-Urls-List {
+	$urls = Get-Array-of-Daesa-Website-Urls
+	scb ( $urls )
+}
+
 Function Copy-GitHub-Repos-CSV-List {
-    $repos = Get-Array-of-GitHub-Repos
-    scb ( ( -split $repos ) -Join ", " )
+	$repos = Get-Array-of-GitHub-Repos
+	scb ( ( -split $repos ) -Join ", " )
 }
 
 Function Copy-GitHub-Repos-List {
-    $repos = Get-Array-of-GitHub-Repos
-    scb ( $repos )
+	$repos = Get-Array-of-GitHub-Repos
+	scb ( $repos )
 }
 
 Function Copy-Profiles-Path {
-    scb ( gci -Path $Profile | %{ $_.Directory.FullName } )
+	scb ( gci -Path $Profile | %{ $_.Directory.FullName } )
 }
 
 Function Find-Files-in-GitHub-Repos {
-    Param (
-        [ Parameter( Mandatory = $false,
-            ValueFromPipelineByPropertyName = $true ) ]
-        [ string ]
-        $FileFilter = "*"
-    )
-    $Paths = Get-Array-of-GitHub-Repos
-    $Excludes = Get-Array-of-Github-Folder-Excludes
-    Write-Output @(
-        "Searching for '$FileFilter' in all repos for DAESA web development projects."
-        "+-The following exclusions will apply to full path names: "
-        ( "| +-" + $Excludes )
-        "+-Please wait, this will take some time…"
-    )
-    $Files = Get-ChildItem -Path $Paths -Filter $FileFilter -Recurse |
-        Where-Object { -not $_.FullName.contains( $Excludes ) } | %{
-            $_.FullName
-        }
-    Write-Output "`r`nDone! Below are the full path names of all files found:"
-    Write-Output $files
+	Param (
+		[ Parameter( Mandatory = $false,
+			ValueFromPipelineByPropertyName = $true ) ]
+		[ string ]
+		$FileFilter = "*"
+	)
+	$Paths = Get-Array-of-GitHub-Repos
+	$Excludes = Get-Array-of-Github-Folder-Excludes
+	Write-Output @(
+		"Searching for '$FileFilter' in all repos for DAESA web development projects."
+		"+-The following exclusions will apply to full path names: "
+		( "| +-" + $Excludes )
+		"+-Please wait, this will take some time…"
+	)
+	$Files = Get-ChildItem -Path $Paths -Filter $FileFilter -Recurse |
+		Where-Object { -not $_.FullName.contains( $Excludes ) } | %{
+			$_.FullName
+		}
+	Write-Output "`r`nDone! Below are the full path names of all files found:"
+	Write-Output $files
 }
 
 Function Get-Archives { gci -Attributes Archive }
 
 Function Get-Array-of-Github-Folder-Excludes {
-    $Excludes = [ string[] ]$Excludes = @(
-        'node_modules'
-    )
-    Return $Excludes
+	$Excludes = [ string[] ]$Excludes = @(
+		'node_modules'
+	)
+	Return $Excludes
+}
+
+Function Get-Array-of-Daesa-Website-Urls {
+	[ string[] ]$UrlsToDaesaSites = @(
+		'https://ace.wsu.edu/'
+		'https://ascc.wsu.edu/'
+		'https://admission.wsu.edu/research-scholars/'
+		'https://commonreading.wsu.edu/'
+		'https://daesa.wsu.edu/'
+		'https://distinguishedscholarships.wsu.edu/'
+		'https://firstyear.wsu.edu/'
+		'https://learningcommunities.wsu.edu/'
+		'https://lsamp.wsu.edu/'
+		'https://nse.wsu.edu/'
+		'https://nsse.wsu.edu/'
+		'https://phibetakappa.wsu.edu/'
+		'https://provost.wsu.edu/oae/'
+		'https://summerresearch.wsu.edu/'
+		'https://surca.wsu.edu/'
+		'https://teachingacademy.wsu.edu/'
+		'https://transfercredit.wsu.edu/'
+		'https://ucore.wsu.edu/'
+		'https://ucore.wsu.edu/assessment/'
+		'https://undergraduateresearch.wsu.edu/'
+		'https://writingprogram.wsu.edu/'
+	)
+	Return $UrlsToDaesaSites
 }
 
 Function Get-Array-of-GitHub-Repos {
-    [ string[] ]$PathsToRepos = @(
-        'C:\GitHub\ace.daesa.wsu.edu'
-        'C:\GitHub\admissions.wsu.edu-research-scholars'
-        'C:\GitHub\ascc.wsu.edu'
-        'C:\GitHub\commonreading.wsu.edu'
-        'C:\GitHub\daesa.wsu.edu'
-        'C:\GitHub\distinguishedscholarships.wsu.edu'
-        'C:\GitHub\firstyear.wsu.edu'
-        'C:\GitHub\learningcommunities.wsu.edu'
-        'C:\GitHub\lsamp.wsu.edu'
-        'C:\GitHub\nse.wsu.edu'
-        'C:\GitHub\nsse.wsu.edu'
-        'C:\GitHub\phibetakappa.wsu.edu'
-        'C:\GitHub\provost.wsu.edu_daesa_esteemed'
-        'C:\GitHub\summerresearch.wsu.edu'
-        'C:\GitHub\surca.wsu.edu'
-        'C:\GitHub\teachingacademy.wsu.edu'
-        'C:\GitHub\transfercredit.wsu.edu'
-        'C:\GitHub\ucore.wsu.edu'
-        'C:\GitHub\ucore.wsu.edu-assessment'
-        'C:\GitHub\undergraduateresearch.wsu.edu'
-    )
-    Return $PathsToRepos
+	[ string[] ]$PathsToRepos = @(
+		'C:\GitHub\ace.daesa.wsu.edu'
+		'C:\GitHub\admissions.wsu.edu-research-scholars'
+		'C:\GitHub\ascc.wsu.edu'
+		'C:\GitHub\commonreading.wsu.edu'
+		'C:\GitHub\daesa.wsu.edu'
+		'C:\GitHub\distinguishedscholarships.wsu.edu'
+		'C:\GitHub\firstyear.wsu.edu'
+		'C:\GitHub\learningcommunities.wsu.edu'
+		'C:\GitHub\lsamp.wsu.edu'
+		'C:\GitHub\nse.wsu.edu'
+		'C:\GitHub\nsse.wsu.edu'
+		'C:\GitHub\phibetakappa.wsu.edu'
+		'C:\GitHub\provost.wsu.edu_daesa_esteemed'
+		'C:\GitHub\summerresearch.wsu.edu'
+		'C:\GitHub\surca.wsu.edu'
+		'C:\GitHub\teachingacademy.wsu.edu'
+		'C:\GitHub\transfercredit.wsu.edu'
+		'C:\GitHub\ucore.wsu.edu'
+		'C:\GitHub\ucore.wsu.edu-assessment'
+		'C:\GitHub\undergraduateresearch.wsu.edu'
+	)
+	Return $PathsToRepos
 }
 
 Function Get-Directories { gci -Attributes Directory }
 
 Function Get-Filtered-Archives {
-    Param (
-        [ Parameter( Mandatory=$true ) ]
-        [ string ]
-        $filter,
+	Param (
+		[ Parameter( Mandatory=$true ) ]
+		[ string ]
+		$filter,
 
-        [ Parameter( Mandatory=$false ) ]
-        [ bool ]
-        $recurse = $false
-    )
-    If ( $recurse -eq $true ) {
-        gci -Attributes Archive -Filter $filter -Recurse
-    } Else {
-        gci -Attributes Archive -Filter $filter     
-    }
+		[ Parameter( Mandatory=$false ) ]
+		[ bool ]
+		$recurse = $false
+	)
+	If ( $recurse -eq $true ) {
+		gci -Attributes Archive -Filter $filter -Recurse
+	} Else {
+		gci -Attributes Archive -Filter $filter
+	}
 }
 
 Function Get-Filtered-Directories {
-    Param (
-        [ Parameter( Mandatory=$true ) ]
-        [ string ]
-        $filter,
+	Param (
+		[ Parameter( Mandatory=$true ) ]
+		[ string ]
+		$filter,
 
-        [ Parameter( Mandatory=$false ) ]
-        [ bool ]
-        $recurse = $false
-    )
-    If ( $recurse -eq $true ) {
-        gci -Attributes Directory -Filter $filter -Recurse
-    } Else {
-        gci -Attributes Directory -Filter $filter       
-    }
+		[ Parameter( Mandatory=$false ) ]
+		[ bool ]
+		$recurse = $false
+	)
+	If ( $recurse -eq $true ) {
+		gci -Attributes Directory -Filter $filter -Recurse
+	} Else {
+		gci -Attributes Directory -Filter $filter
+	}
 }
 
 Function Get-Image {
