@@ -211,7 +211,7 @@ Return
 	; Load chrome & navigate to WSUWP login page
 	Gosub :*:@startChrome
 	execDelayer.Wait( "s", 4 )
-	OpenWebsiteInChrome("distinguishedscholarships.wsu.edu/wp-admin/", False)
+	OpenWebsiteInChrome("daesa.wsu.edu/wp-admin/", False)
 
 	; Load an instance of Windows Explorer
 	SendInput #e
