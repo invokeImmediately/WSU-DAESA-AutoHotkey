@@ -145,16 +145,16 @@ Return
 Return
 
 :*:@gotoGhJS::
-	InsertFilePath(A_ThisLabel, GetGitHubFolder() . "\WSU-UE---JS", "WSU-UE---JS")
+	InsertFilePath(A_ThisLabel, GetGitHubFolder() . "\WSU-DAESA-JS", "WSU-DAESA-JS")
 Return
 
 :*:@gotoGhAhk::
 	InsertFilePath(A_ThisLabel, GetGitHubFolder() . "\WSU-DAESA-AutoHotkey", "WSU-DAESA-AutoHotkey")
 Return
 
-:*:cdcss::cd wsu-ue---css
+:*:cdcss::cd WSU-UE---CSS
 
-:*:cdjs::cd wsu-ue---js
+:*:cdjs::cd WSU-DAESA-JS
 
 ; --------------------------------------------------------------------------------------------------
 ;   §5: Web development folders
