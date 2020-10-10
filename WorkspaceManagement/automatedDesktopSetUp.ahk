@@ -27,37 +27,37 @@
 ;   §1: VIRTUAL DESKTOP SET UP HOTSTRINGS.......................................................64
 ;     >>> §1.1: Work environment set up — @setupWorkEnvironment.................................68
 ;       →→→ §1.1.1: CheckVdEnvironment.........................................................117
-;       →→→ §1.1.1: @moveTempMonitors..........................................................144
-;       →→→ §1.1.2: @setupVirtualDesktops......................................................164
-;     >>> §1.2: Website editing VD — @setupVdForWebEditing.....................................199
-;       →→→ §1.2.1: @startChrome...............................................................233
-;       →→→ §1.2.2: @startSublimeText3.........................................................243
-;       →→→ §1.2.3: PositionChromeVD1()........................................................254
-;       →→→ §1.2.4: PosActWinOnMonsViaCtrlFN(…)................................................267
-;       →→→ §1.2.5: MaxActWinOnMonViaCtrlFN(…).................................................284
-;       →→→ §1.2.6: EnsureActWinMaxed()........................................................315
-;       →→→ §1.2.7: Vd1_OpenWorkNotesLog().....................................................329
-;     >>> §1.3: Programming VD — @setupVdForProgramming........................................393
-;       →→→ §1.3.1: @addSublimeText3ToVd + AddSublimeText3ToVd()...............................414
-;       →→→ §1.3.2: @arrangeGitHub.............................................................457
-;       →→→ §1.3.3: @startGithubClients........................................................494
-;       →→→ §1.3.4: agh_MovePowerShell().......................................................510
-;     >>> §1.4: Graphic design VD — @setupVdForGraphicDesign...................................565
-;       →→→ §1.4.1: @arrangeGimp...............................................................582
-;       →→→ §1.4.2: svd3_OpenGimp(…)...........................................................605
-;       →→→ §1.4.3: svd3_OpenGraphicsReferences(…).............................................617
-;     >>> §1.5: Communications and media VD — @setupVdForCommunications........................628
-;       →→→ §1.5.1: @arrangeEmail..............................................................646
-;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)................................................694
-;     >>> §1.6: Research VD — @setupVdForResearch..............................................719
-;     >>> §1.7: PC monitoring VD — @setupVdForPcMonitoring.....................................765
-;   §2: STARTUP HOTKEYS........................................................................786
-;     >>> §2.1: #!r............................................................................790
-;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................797
-;     >>> §3.1: @quitAhk.......................................................................801
-;     >>> §3.2: ^#!r...........................................................................810
-;     >>> §3.3: PerformScriptShutdownTasks()...................................................819
-;     >>> §3.4: ScriptExitFunc(…)..............................................................829
+;       →→→ §1.1.1: @moveTempMonitors..........................................................146
+;       →→→ §1.1.2: @setupVirtualDesktops......................................................168
+;     >>> §1.2: Website editing VD — @setupVdForWebEditing.....................................203
+;       →→→ §1.2.1: @startChrome...............................................................237
+;       →→→ §1.2.2: @startSublimeText3.........................................................247
+;       →→→ §1.2.3: PositionChromeVD1()........................................................258
+;       →→→ §1.2.4: PosActWinOnMonsViaCtrlFN(…)................................................271
+;       →→→ §1.2.5: MaxActWinOnMonViaCtrlFN(…).................................................288
+;       →→→ §1.2.6: EnsureActWinMaxed()........................................................319
+;       →→→ §1.2.7: Vd1_OpenWorkNotesLog().....................................................333
+;     >>> §1.3: Programming VD — @setupVdForProgramming........................................397
+;       →→→ §1.3.1: @addSublimeText3ToVd + AddSublimeText3ToVd()...............................418
+;       →→→ §1.3.2: @arrangeGitHub.............................................................463
+;       →→→ §1.3.3: @startGithubClients........................................................500
+;       →→→ §1.3.4: agh_MovePowerShell().......................................................516
+;     >>> §1.4: Graphic design VD — @setupVdForGraphicDesign...................................571
+;       →→→ §1.4.1: @arrangeGimp...............................................................588
+;       →→→ §1.4.2: svd3_OpenGimp(…)...........................................................611
+;       →→→ §1.4.3: svd3_OpenGraphicsReferences(…).............................................623
+;     >>> §1.5: Communications and media VD — @setupVdForCommunications........................634
+;       →→→ §1.5.1: @arrangeEmail..............................................................652
+;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)................................................700
+;     >>> §1.6: Research VD — @setupVdForResearch..............................................725
+;     >>> §1.7: PC monitoring VD — @setupVdForPcMonitoring.....................................771
+;   §2: STARTUP HOTKEYS........................................................................792
+;     >>> §2.1: #!r............................................................................796
+;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................803
+;     >>> §3.1: @quitAhk.......................................................................807
+;     >>> §3.2: ^#!r...........................................................................816
+;     >>> §3.3: PerformScriptShutdownTasks()...................................................825
+;     >>> §3.4: ScriptExitFunc(…)..............................................................835
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -119,8 +119,10 @@ Return
 CheckWorkEnv() {
 	global vdDesktopCount
 	MapDesktopsFromRegistry()
+	DetectHiddenWindows On
 	gpuTempExists := WinExist( "GPU Temp ahk_exe GPUTemp.exe" )
 	realTempExists := WinExist( "RealTemp ahk_exe RealTemp.exe" )
+	DetectHiddenWindows Off
 	if ( gpuTempExists && realTempExists ) {
 		envStatus := "temp monitors ready"
 	} else if ( gpuTempExists && !realTempExists ) {
@@ -148,11 +150,13 @@ CheckWorkEnv() {
 	DisplaySplashText( "Moving temperature monitors.", 3000 )
 	execDelayer.SetUpNewProcess( 5.1, A_ThisLabel )
 	execDelayer.Wait( "m", 3 )
+	DetectHiddenWindows On
 	WinActivate % "RealTemp ahk_exe RealTemp.exe"
 	execDelayer.Wait( "m", 3 )
 	moveActiveWindowToVirtualDesktop( 6 )
 	execDelayer.Wait( "l", 2 )
 	WinActivate % "GPU Temp ahk_exe GPUTemp.exe"
+	DetectHiddenWindows Off
 	execDelayer.Wait( "m", 2 )
 	moveActiveWindowToVirtualDesktop( 6 )
 	execDelayer.Wait( "l", 2 )
@@ -429,6 +433,7 @@ AddSublimeText3ToVd( whichVd ) {
 
 	; Add ST3 window to virtual desktop
 	; TODO: Check to see if ST3 is already on the virtual desktop.
+	DetectHiddenWindows On
 	IfWinExist, %st3TitleToMatch%
 	{
 		; Switch to ST3 so that a new window can be generated and moved to the virtual desktop
@@ -450,6 +455,7 @@ AddSublimeText3ToVd( whichVd ) {
 	} else {
 		GoSub, :*:@startSublimeText3
 	}
+	DetectHiddenWindows Off
 	RestoreMatchMode(oldTitleMatchMode)
 }
 

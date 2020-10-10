@@ -195,7 +195,6 @@ If not A_IsAdmin
 }
 Process, Priority, , High
 SetTitleMatchMode, 2
-DetectHiddenWindows, On
 CoordMode, Mouse, Client
 FileEncoding, UTF-8
 StartScript()
