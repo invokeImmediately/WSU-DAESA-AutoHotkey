@@ -27,37 +27,37 @@
 ;   §1: VIRTUAL DESKTOP SET UP HOTSTRINGS.......................................................64
 ;     >>> §1.1: Work environment set up — @setupWorkEnvironment.................................68
 ;       →→→ §1.1.1: class ScriptEnvChecker......................................................88
-;       →→→ §1.1.1: @moveTempMonitors..........................................................163
-;       →→→ §1.1.2: @setupVirtualDesktops......................................................185
-;     >>> §1.2: Website editing VD — @setupVdForWebEditing.....................................220
-;       →→→ §1.2.1: @startChrome...............................................................254
-;       →→→ §1.2.2: @startSublimeText3.........................................................264
-;       →→→ §1.2.3: PositionChromeVD1()........................................................275
-;       →→→ §1.2.4: PosActWinOnMonsViaCtrlFN(…)................................................288
-;       →→→ §1.2.5: MaxActWinOnMonViaCtrlFN(…).................................................305
-;       →→→ §1.2.6: EnsureActWinMaxed()........................................................336
-;       →→→ §1.2.7: Vd1_OpenWorkNotesLog().....................................................350
-;     >>> §1.3: Programming VD — @setupVdForProgramming........................................414
-;       →→→ §1.3.1: @addSublimeText3ToVd + AddSublimeText3ToVd()...............................435
-;       →→→ §1.3.2: @arrangeGitHub.............................................................480
-;       →→→ §1.3.3: @startGithubClients........................................................517
-;       →→→ §1.3.4: agh_MovePowerShell().......................................................533
-;     >>> §1.4: Graphic design VD — @setupVdForGraphicDesign...................................588
-;       →→→ §1.4.1: @arrangeGimp...............................................................605
-;       →→→ §1.4.2: svd3_OpenGimp(…)...........................................................628
-;       →→→ §1.4.3: svd3_OpenGraphicsReferences(…).............................................640
-;     >>> §1.5: Communications and media VD — @setupVdForCommunications........................651
-;       →→→ §1.5.1: @arrangeEmail..............................................................669
-;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)................................................717
-;     >>> §1.6: Research VD — @setupVdForResearch..............................................742
-;     >>> §1.7: PC monitoring VD — @setupVdForPcMonitoring.....................................788
-;   §2: STARTUP HOTKEYS........................................................................809
-;     >>> §2.1: #!r............................................................................813
-;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................820
-;     >>> §3.1: @quitAhk.......................................................................824
-;     >>> §3.2: ^#!r...........................................................................833
-;     >>> §3.3: PerformScriptShutdownTasks()...................................................842
-;     >>> §3.4: ScriptExitFunc(…)..............................................................852
+;       →→→ §1.1.1: @moveTempMonitors..........................................................158
+;       →→→ §1.1.2: @setupVirtualDesktops......................................................180
+;     >>> §1.2: Website editing VD — @setupVdForWebEditing.....................................215
+;       →→→ §1.2.1: @startChrome...............................................................249
+;       →→→ §1.2.2: @startSublimeText3.........................................................259
+;       →→→ §1.2.3: PositionChromeVD1()........................................................270
+;       →→→ §1.2.4: PosActWinOnMonsViaCtrlFN(…)................................................283
+;       →→→ §1.2.5: MaxActWinOnMonViaCtrlFN(…).................................................300
+;       →→→ §1.2.6: EnsureActWinMaxed()........................................................331
+;       →→→ §1.2.7: Vd1_OpenWorkNotesLog().....................................................345
+;     >>> §1.3: Programming VD — @setupVdForProgramming........................................409
+;       →→→ §1.3.1: @addSublimeText3ToVd + AddSublimeText3ToVd()...............................430
+;       →→→ §1.3.2: @arrangeGitHub.............................................................475
+;       →→→ §1.3.3: @startGithubClients........................................................512
+;       →→→ §1.3.4: agh_MovePowerShell().......................................................528
+;     >>> §1.4: Graphic design VD — @setupVdForGraphicDesign...................................583
+;       →→→ §1.4.1: @arrangeGimp...............................................................600
+;       →→→ §1.4.2: svd3_OpenGimp(…)...........................................................623
+;       →→→ §1.4.3: svd3_OpenGraphicsReferences(…).............................................635
+;     >>> §1.5: Communications and media VD — @setupVdForCommunications........................646
+;       →→→ §1.5.1: @arrangeEmail..............................................................664
+;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)................................................712
+;     >>> §1.6: Research VD — @setupVdForResearch..............................................737
+;     >>> §1.7: PC monitoring VD — @setupVdForPcMonitoring.....................................783
+;   §2: STARTUP HOTKEYS........................................................................804
+;     >>> §2.1: #!r............................................................................808
+;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................815
+;     >>> §3.1: @quitAhk.......................................................................819
+;     >>> §3.2: ^#!r...........................................................................828
+;     >>> §3.3: PerformScriptShutdownTasks()...................................................837
+;     >>> §3.4: ScriptExitFunc(…)..............................................................847
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -127,34 +127,29 @@ class ScriptEnvChecker {
 	ReportOnEnvStatus( envStatus ) {
 		if ( envStatus == "too few vds" ) {
 			DisplaySplashText( "Sorry, the system is not yet ready for automated set up: Less than the"
-				. " required six virtual desktops are currently active.", 3000)
+				. " required six virtual desktops are currently active.", 3000 )
 		} else if ( envStatus == "temp monitors not ready" ) {
 			DisplaySplashText( "Sorry, the system is not yet ready for automated set up: Temperature"
-				. " monitoring processes for both the system's CPU and the GPU have not yet been"
-				. " started yet.", 3000)
+				. " monitoring processes for both the system's CPU and the GPU have not yet been started."
+				, 3000 )
 		} else if ( envStatus == "cpu temp not ready" ) {
 			DisplaySplashText( "Sorry, the system is not yet ready for automated set up: The"
-				. " temperature monitoring processes for the system's CPU has not yet been started yet."
-				, 3000)
+				. " temperature monitoring processes for the system's CPU has not yet been started.", 3000 )
 		} else if ( envStatus == "cpu temp not ready, too few vds" ) {
 			DisplaySplashText( "Sorry, the system is not yet ready for automated set up: The"
-				. " temperature monitoring processes for the system's CPU has not yet been started"
-				. " yet. Moreover, less than the required six virtual desktops are currently active."
-				, 3000)
+				. " temperature monitoring processes for the system's CPU has not yet been started."
+				. " Moreover, less than the required six virtual desktops are currently active.", 3000 )
 		} else if ( envStatus == "gpu temp not ready" ) {
 			DisplaySplashText( "Sorry, the system is not yet ready for automated set up: The"
-				. " temperature monitoring processes for the system's GPU has not yet been started yet."
-				, 3000)
+				. " temperature monitoring processes for the system's GPU has not yet been started.", 3000 )
 		} else if ( envStatus == "gpu temp not ready, too few vds" ) {
-			DisplaySplashText( "Sorry, the system is not yet ready for automated set up: The"
-				. " temperature monitoring processes for the system's GPU has not yet been started"
-				. " yet. Moreover, less than the required six virtual desktops are currently active."
-				, 3000)
+			DisplaySplashText( "Sorry, the system is not yet ready for automated set up: The temperature"
+				. " monitoring processes for the system's GPU has not yet been started. Moreover, less than"
+				. " the required six virtual desktops are currently active.", 3000 )
 		} else {
 			DisplaySplashText( "Sorry, the system is not yet ready for automated set up: Temperature"
-				. " monitoring processes for both the system's CPU and the GPU have not yet been"
-				. " started yet. Moreover, less than the required six virtual desktops are currently"
-				. " active.", 3000)
+				. " monitoring processes for both the system's CPU and the GPU have not yet been started."
+				. " Moreover, less than the required six virtual desktops are currently active.", 3000 )
 		}
 	}
 }
