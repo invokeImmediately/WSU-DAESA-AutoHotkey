@@ -7,41 +7,45 @@
 ; 
 ; REPOSITORY: https://github.com/invokeImmediately/WSU-AutoHotkey
 ;
-; LICENSE: ISC - Copyright (c) 2019 Daniel C. Rieck.
+; LICENSE: MIT - Copyright (c) 2020 Daniel C. Rieck.
 ;
-;   Permission to use, copy, modify, and/or distribute this software for any purpose with or
-;   without fee is hereby granted, provided that the above copyright notice and this permission
-;   notice appear in all copies.
+;   Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+;   and associated documentation files (the “Software”), to deal in the Software without
+;   restriction, including without limitation the rights to use, copy, modify, merge, publish,
+;   distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
+;   Software is furnished to do so, subject to the following conditions:
 ;
-;   THE SOFTWARE IS PROVIDED "AS IS" AND DANIEL RIECK DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS
-;   SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
-;   DANIEL RIECK BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY
-;   DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF
-;   CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-;   PERFORMANCE OF THIS SOFTWARE.
+;   The above copyright notice and this permission notice shall be included in all copies or
+;   substantial portions of the Software.
+;
+;   THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+;   BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;   NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+;   DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+;   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ; ==================================================================================================
 ; Table of Contents:
 ; -----------------
-;   §1: GUI CREATION FUNCTION: CommitCssBuild...................................................48
-;   §2: GUI EVENT HANDLERS.....................................................................163
-;     >>> §2.1: HandleCommitCss1stMsgChange....................................................167
-;     >>> §2.2: HandleCommitCss2ndMsgChange....................................................184
-;     >>> §2.3: HandleCommitCssAddFiles........................................................201
-;     >>> §2.4: HandleCommitCssRemoveFiles.....................................................243
-;     >>> §2.5: HandleCommitCssGitDiff.........................................................255
-;     >>> §2.6: HandleCommitCssGitLog..........................................................292
-;     >>> §2.7: HandleCommitCssCheckLessFileCommit.............................................331
-;     >>> §2.8: HandleCommitCssCheckLessChangesOnly............................................391
-;     >>> §2.9: HandleCommitCss2ndLessMsgChange................................................434
-;     >>> §2.10: HandleCommitCssOk.............................................................451
-;       →→→ §2.10.1: ProcessHandleCommitCssOkError.............................................544
-;     >>> §2.11: HandleCommitCssCancel.........................................................572
-;   §3: GUI PERSISTENCE FUNCTIONS..............................................................580
-;     >>> §3.1: SaveCommitCssLessMsgHistory....................................................584
-;     >>> §3.2: LoadCommitCssLessMsgHistory....................................................621
-;     >>> §3.3: ReadKeyForLessMsgHistory.......................................................657
-;     >>> §3.4: ReadPrimaryMsgForLessFileKey...................................................675
-;     >>> §3.5: ReadSecondaryMsgForLessFileKey.................................................692
+;   §1: GUI CREATION FUNCTION: CommitCssBuild...................................................52
+;   §2: GUI EVENT HANDLERS.....................................................................167
+;     >>> §2.1: HandleCommitCss1stMsgChange....................................................171
+;     >>> §2.2: HandleCommitCss2ndMsgChange....................................................188
+;     >>> §2.3: HandleCommitCssAddFiles........................................................205
+;     >>> §2.4: HandleCommitCssRemoveFiles.....................................................247
+;     >>> §2.5: HandleCommitCssGitDiff.........................................................259
+;     >>> §2.6: HandleCommitCssGitLog..........................................................296
+;     >>> §2.7: HandleCommitCssCheckLessFileCommit.............................................335
+;     >>> §2.8: HandleCommitCssCheckLessChangesOnly............................................395
+;     >>> §2.9: HandleCommitCss2ndLessMsgChange................................................438
+;     >>> §2.10: HandleCommitCssOk.............................................................455
+;       →→→ §2.10.1: ProcessHandleCommitCssOkError.............................................548
+;     >>> §2.11: HandleCommitCssCancel.........................................................576
+;   §3: GUI PERSISTENCE FUNCTIONS..............................................................584
+;     >>> §3.1: SaveCommitCssLessMsgHistory....................................................588
+;     >>> §3.2: LoadCommitCssLessMsgHistory....................................................625
+;     >>> §3.3: ReadKeyForLessMsgHistory.......................................................661
+;     >>> §3.4: ReadPrimaryMsgForLessFileKey...................................................679
+;     >>> §3.5: ReadSecondaryMsgForLessFileKey.................................................696
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------

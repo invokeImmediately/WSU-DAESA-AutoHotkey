@@ -7,33 +7,45 @@
 ; 
 ; REPOSITORY: https://github.com/invokeImmediately/WSU-AutoHotkey
 ;
-; LICENSE: ISC - Copyright (c) 2019 Daniel C. Rieck. (Please refer to AutoHotkeyU64.ahk for full
-; license text.)
-; ==================================================================================================
-
+; LICENSE: MIT - Copyright (c) 2020 Daniel C. Rieck.
+;
+;   Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+;   and associated documentation files (the “Software”), to deal in the Software without
+;   restriction, including without limitation the rights to use, copy, modify, merge, publish,
+;   distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
+;   Software is furnished to do so, subject to the following conditions:
+;
+;   The above copyright notice and this permission notice shall be included in all copies or
+;   substantial portions of the Software.
+;
+;   THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+;   BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;   NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+;   DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+;   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ; ==================================================================================================
 ; TABLE OF CONTENTS:
 ; -----------------
-;   §1: Entry point: StartScript()..............................................................41
-;   §2: Script initialization functions.........................................................62
-;     >>> §2.1: CheckMonitorWorkAreas().........................................................66
-;     >>> §2.2: ListAhkFiles()..................................................................87
-;     >>> §2.3: LoadScriptConfiguration()......................................................164
-;     >>> §2.4: PrintHsTrie()..................................................................179
-;       →→→ §2.4.1: For committing CSS builds..................................................188
-;     >>> §2.5: ReportMonitorDimensions()......................................................195
-;     >>> §2.6: SetAhkConstants()..............................................................217
-;     >>> §2.7: SetAppliedDPI()................................................................225
-;     >>> §2.8: SetCoordModeConstants()........................................................237
-;     >>> §2.9: SetGlobalVariables()...........................................................257
-;     >>> §2.10: SetMatchModeConstants().......................................................271
-;     >>> §2.11: SetMinMonitorWorkAreas()......................................................302
-;     >>> §2.12: SetModules()..................................................................329
-;     >>> §2.13: SetMonitorBounds()............................................................339
-;     >>> §2.14: SetMonitorBounds()............................................................363
-;     >>> §2.14: SetMonitorWorkAreas().........................................................392
-;     >>> §2.15: SetWinBorders()...............................................................400
-;     >>> §2.16: SetupLogAutoSaving()..........................................................409
+;   §1: Entry point: StartScript()..............................................................53
+;   §2: Script initialization functions.........................................................74
+;     >>> §2.1: CheckMonitorWorkAreas().........................................................78
+;     >>> §2.2: ListAhkFiles()..................................................................99
+;     >>> §2.3: LoadScriptConfiguration()......................................................176
+;     >>> §2.4: PrintHsTrie()..................................................................191
+;       →→→ §2.4.1: For committing CSS builds..................................................200
+;     >>> §2.5: ReportMonitorDimensions()......................................................207
+;     >>> §2.6: SetAhkConstants()..............................................................229
+;     >>> §2.7: SetAppliedDPI()................................................................237
+;     >>> §2.8: SetCoordModeConstants()........................................................249
+;     >>> §2.9: SetGlobalVariables()...........................................................269
+;     >>> §2.10: SetMatchModeConstants().......................................................283
+;     >>> §2.11: SetMinMonitorWorkAreas()......................................................314
+;     >>> §2.12: SetModules()..................................................................341
+;     >>> §2.13: SetMonitorBounds()............................................................351
+;     >>> §2.14: SetMonitorBounds()............................................................375
+;     >>> §2.14: SetMonitorWorkAreas().........................................................404
+;     >>> §2.15: SetWinBorders()...............................................................412
+;     >>> §2.16: SetupLogAutoSaving()..........................................................421
 ; ==================================================================================================
 
 

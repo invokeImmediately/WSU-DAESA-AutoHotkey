@@ -7,49 +7,47 @@
 ; 
 ; REPOSITORY: https://github.com/invokeImmediately/WSU-AutoHotkey
 ;
-; LICENSE: ISC - Copyright (c) 2019 Daniel C. Rieck.
+; LICENSE: MIT - Copyright (c) 2020 Daniel C. Rieck.
 ;
-;   Permission to use, copy, modify, and/or distribute this software for any purpose with or
-;   without fee is hereby granted, provided that the above copyright notice and this permission
-;   notice appear in all copies.
+;   Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+;   and associated documentation files (the “Software”), to deal in the Software without
+;   restriction, including without limitation the rights to use, copy, modify, merge, publish,
+;   distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
+;   Software is furnished to do so, subject to the following conditions:
 ;
-;   THE SOFTWARE IS PROVIDED "AS IS" AND DANIEL RIECK DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS
-;   SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
-;   DANIEL RIECK BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY
-;   DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF
-;   CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-;   PERFORMANCE OF THIS SOFTWARE.
-; --------------------------------------------------------------------------------------------------
-; AutoHotkey Send Legend:
-; ! = ALT     + = SHIFT     ^ = CONTROL     # = WIN
-; (see https://autohotkey.com/docs/commands/Send.htm for more info)
-; ==================================================================================================
-
+;   The above copyright notice and this permission notice shall be included in all copies or
+;   substantial portions of the Software.
+;
+;   THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+;   BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;   NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+;   DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+;   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ; ==================================================================================================
 ; Table of Contents:
 ; -----------------
-;   §1: GUI triggering hotstring................................................................56
-;     >>> §1.1: @gcAnyFile......................................................................60
-;     >>> §1.2: gcAnyFile_GetRepoPath..........................................................109
-;       →→→ §1.2.1: gcAnyFile_GetRepoPath_PowerShell...........................................124
-;       →→→ §1.2.2: gcAnyFile_GetRepoPath_ST3..................................................141
-;   §2: GUI supporting functions...............................................................160
-;     >>> §2.1: CAF_CommitAnyFile..............................................................164
-;     >>> §2.2: HandleCafAddFiles..............................................................253
-;     >>> §2.3: HandleCafRemoveFiles...........................................................310
-;     >>> §2.4: HandleCafGitDiff...............................................................362
-;     >>> §2.5: HandleCafGitLog................................................................399
-;     >>> §2.6: HandleCaf1stMsgChange..........................................................440
-;     >>> §2.7: HandleCaf2ndMsgChange..........................................................458
-;     >>> §2.8: HandleCafOk....................................................................472
-;     >>> §2.9: CheckAnyFilePrimaryMsgChanged..................................................543
-;     >>> §2.10: ProcessHandleCafOkError.......................................................568
-;     >>> §2.11: HandleCafCancel...............................................................595
-;     >>> §2.12: SaveCafMsgHistory.............................................................604
-;     >>> §2.13: LoadCafMsgHistory.............................................................646
-;     >>> §2.14: ReadKeyForAnyFileCommitMsgHistory.............................................694
-;     >>> §2.15: ReadPrimaryCommitMsgForFileKey................................................721
-;     >>> §2.16: ReadPrimaryCommitMsgForFileKey................................................740
+;   §1: GUI triggering hotstring................................................................54
+;     >>> §1.1: @gcAnyFile......................................................................58
+;     >>> §1.2: gcAnyFile_GetRepoPath..........................................................107
+;       →→→ §1.2.1: gcAnyFile_GetRepoPath_PowerShell...........................................122
+;       →→→ §1.2.2: gcAnyFile_GetRepoPath_ST3..................................................139
+;   §2: GUI supporting functions...............................................................158
+;     >>> §2.1: CAF_CommitAnyFile..............................................................162
+;     >>> §2.2: HandleCafAddFiles..............................................................251
+;     >>> §2.3: HandleCafRemoveFiles...........................................................308
+;     >>> §2.4: HandleCafGitDiff...............................................................360
+;     >>> §2.5: HandleCafGitLog................................................................397
+;     >>> §2.6: HandleCaf1stMsgChange..........................................................438
+;     >>> §2.7: HandleCaf2ndMsgChange..........................................................456
+;     >>> §2.8: HandleCafOk....................................................................470
+;     >>> §2.9: CheckAnyFilePrimaryMsgChanged..................................................541
+;     >>> §2.10: ProcessHandleCafOkError.......................................................566
+;     >>> §2.11: HandleCafCancel...............................................................593
+;     >>> §2.12: SaveCafMsgHistory.............................................................602
+;     >>> §2.13: LoadCafMsgHistory.............................................................644
+;     >>> §2.14: ReadKeyForAnyFileCommitMsgHistory.............................................692
+;     >>> §2.15: ReadPrimaryCommitMsgForFileKey................................................719
+;     >>> §2.16: ReadPrimaryCommitMsgForFileKey................................................738
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------

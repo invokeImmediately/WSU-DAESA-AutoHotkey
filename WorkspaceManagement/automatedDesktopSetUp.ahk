@@ -7,57 +7,61 @@
 ;
 ; REPOSITORY: https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey
 ;
-; LICENSE: ISC - Copyright (c) 2019 Daniel C. Rieck.
+; LICENSE: MIT - Copyright (c) 2020 Daniel C. Rieck.
 ;
-;   Permission to use, copy, modify, and/or distribute this software for any purpose with or
-;   without fee iOs hereby granted, provided that the above copyright notice and this permission
-;   notice appear in all copies.
+;   Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+;   and associated documentation files (the “Software”), to deal in the Software without
+;   restriction, including without limitation the rights to use, copy, modify, merge, publish,
+;   distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
+;   Software is furnished to do so, subject to the following conditions:
 ;
-;   THE SOFTWARE IS PROVIDED "AS IS" AND DANIEL RIECK DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS
-;   SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
-;   DANIEL RIECK BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY
-;   DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF
-;   CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-;   PERFORMANCE OF THIS SOFTWARE.
+;   The above copyright notice and this permission notice shall be included in all copies or
+;   substantial portions of the Software.
+;
+;   THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+;   BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;   NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+;   DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+;   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ; ==================================================================================================
 
 ; ==================================================================================================
 ; Table of Contents:
 ; -----------------
-;   §1: VIRTUAL DESKTOP SET UP HOTSTRINGS.......................................................64
-;     >>> §1.1: Work environment set up — @setupWorkEnvironment.................................68
-;       →→→ §1.1.1: class ScriptEnvChecker......................................................88
-;       →→→ §1.1.1: @moveTempMonitors..........................................................158
-;       →→→ §1.1.2: @setupVirtualDesktops......................................................180
-;     >>> §1.2: Website editing VD — @setupVdForWebEditing.....................................215
-;       →→→ §1.2.1: @startChrome...............................................................249
-;       →→→ §1.2.2: @startSublimeText3.........................................................259
-;       →→→ §1.2.3: PositionChromeVD1()........................................................270
-;       →→→ §1.2.4: PosActWinOnMonsViaCtrlFN(…)................................................283
-;       →→→ §1.2.5: MaxActWinOnMonViaCtrlFN(…).................................................300
-;       →→→ §1.2.6: EnsureActWinMaxed()........................................................331
-;       →→→ §1.2.7: Vd1_OpenWorkNotesLog().....................................................345
-;     >>> §1.3: Programming VD — @setupVdForProgramming........................................409
-;       →→→ §1.3.1: @addSublimeText3ToVd + AddSublimeText3ToVd()...............................430
-;       →→→ §1.3.2: @arrangeGitHub.............................................................475
-;       →→→ §1.3.3: @startGithubClients........................................................512
-;       →→→ §1.3.4: agh_MovePowerShell().......................................................528
-;     >>> §1.4: Graphic design VD — @setupVdForGraphicDesign...................................583
-;       →→→ §1.4.1: @arrangeGimp...............................................................600
-;       →→→ §1.4.2: svd3_OpenGimp(…)...........................................................623
-;       →→→ §1.4.3: svd3_OpenGraphicsReferences(…).............................................635
-;     >>> §1.5: Communications and media VD — @setupVdForCommunications........................646
-;       →→→ §1.5.1: @arrangeEmail..............................................................664
-;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)................................................712
-;     >>> §1.6: Research VD — @setupVdForResearch..............................................737
-;     >>> §1.7: PC monitoring VD — @setupVdForPcMonitoring.....................................783
-;   §2: STARTUP HOTKEYS........................................................................804
-;     >>> §2.1: #!r............................................................................808
-;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................815
-;     >>> §3.1: @quitAhk.......................................................................819
-;     >>> §3.2: ^#!r...........................................................................828
-;     >>> §3.3: PerformScriptShutdownTasks()...................................................837
-;     >>> §3.4: ScriptExitFunc(…)..............................................................847
+;   §1: VIRTUAL DESKTOP SET UP HOTSTRINGS.......................................................68
+;     >>> §1.1: Work environment set up — @setupWorkEnvironment.................................72
+;       →→→ §1.1.1: class ScriptEnvChecker......................................................92
+;       →→→ §1.1.1: @moveTempMonitors..........................................................162
+;       →→→ §1.1.2: @setupVirtualDesktops......................................................184
+;     >>> §1.2: Website editing VD — @setupVdForWebEditing.....................................219
+;       →→→ §1.2.1: @startChrome...............................................................253
+;       →→→ §1.2.2: @startSublimeText3.........................................................263
+;       →→→ §1.2.3: PositionChromeVD1()........................................................274
+;       →→→ §1.2.4: PosActWinOnMonsViaCtrlFN(…)................................................287
+;       →→→ §1.2.5: MaxActWinOnMonViaCtrlFN(…).................................................304
+;       →→→ §1.2.6: EnsureActWinMaxed()........................................................335
+;       →→→ §1.2.7: Vd1_OpenWorkNotesLog().....................................................349
+;     >>> §1.3: Programming VD — @setupVdForProgramming........................................413
+;       →→→ §1.3.1: @addSublimeText3ToVd + AddSublimeText3ToVd()...............................434
+;       →→→ §1.3.2: @arrangeGitHub.............................................................479
+;       →→→ §1.3.3: @startGithubClients........................................................516
+;       →→→ §1.3.4: agh_MovePowerShell().......................................................532
+;     >>> §1.4: Graphic design VD — @setupVdForGraphicDesign...................................587
+;       →→→ §1.4.1: @arrangeGimp...............................................................604
+;       →→→ §1.4.2: svd3_OpenGimp(…)...........................................................627
+;       →→→ §1.4.3: svd3_OpenGraphicsReferences(…).............................................639
+;     >>> §1.5: Communications and media VD — @setupVdForCommunications........................650
+;       →→→ §1.5.1: @arrangeEmail..............................................................668
+;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)................................................716
+;     >>> §1.6: Research VD — @setupVdForResearch..............................................741
+;     >>> §1.7: PC monitoring VD — @setupVdForPcMonitoring.....................................787
+;   §2: STARTUP HOTKEYS........................................................................808
+;     >>> §2.1: #!r............................................................................812
+;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................819
+;     >>> §3.1: @quitAhk.......................................................................823
+;     >>> §3.2: ^#!r...........................................................................832
+;     >>> §3.3: PerformScriptShutdownTasks()...................................................841
+;     >>> §3.4: ScriptExitFunc(…)..............................................................851
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
