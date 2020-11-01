@@ -64,11 +64,11 @@ CommitJsBuild(ahkCmdName, fpGitFolder, fnJsSrcFile, fnJsbuild, fnMinJsBuild) {
 	commitJsVars.dflt1stCommitMsg := "Update dev dependencies for and builds of custom JS code"
 	commitJsVars.dflt1stCommitMsgAlt := "Update dev dependencies for and builds of custom JS code"
 	commitJsVars.dflt1stCommitMsgAlt2 := "Update dev dependencies for and builds of custom JS code"
-	commitJsVars.dflt2ndCommitMsg := "First, update the WSU-UE---JS submodule, which holds "
+	commitJsVars.dflt2ndCommitMsg := "First, update the WSU-DAESA-JS submodule, which holds "
 		. "universal dev dependencies used to build custom JS code in every DAESA website "
 		. "development project. Next, rebuild the files containing custom JS code that is ready to "
 		. "be deployed on the website associated with this project."
-	commitJsVars.dflt2ndCommitMsgAlt := "Next, update the WSU-UE---JS submodule, which holds "
+	commitJsVars.dflt2ndCommitMsgAlt := "Next, update the WSU-DAESA-JS submodule, which holds "
 		. "universal dev dependencies used to build custom JS code in every DAESA website "
 		. "development project. Finally, rebuild the files containing custom JS code that is ready "
  		. "to be deployed on the website associated with this project."
@@ -469,7 +469,7 @@ HandleCommitJsOk() {
 
 		; Add the universal dev dependencies submodule to the commit if it has changed.
 		if ( !ctrlCommitJsJsChangesOnly ) {
-			commandLineInput .= "git add WSU-UE---JS`r"
+			commandLineInput .= "git add WSU-DAESA-JS`r"
 		}
 
 		; Add any changed local dependencies to the commit, if appropriate.

@@ -1505,6 +1505,7 @@ OpenWebsiteInChrome(website, inNewTab := True) {
 	delay := execDelayer.InterpretDelayString("short")
 	website .= "{Enter}"
 	attemptCount := 0
+;	DetectHiddenWindows, Off
 	WinGet procName, ProcessName, A
 	while (procName != "chrome.exe" && attemptCount <= 8) {
 		execDelayer.Wait( delay, 2.5 )
@@ -1513,6 +1514,7 @@ OpenWebsiteInChrome(website, inNewTab := True) {
 		WinGet procName, ProcessName, A
 		attemptCount++
 	}
+;	DetectHiddenWindows, On
 	if ( inNewTab ) {
 		OpenNewTabInChrome()
 	} else {

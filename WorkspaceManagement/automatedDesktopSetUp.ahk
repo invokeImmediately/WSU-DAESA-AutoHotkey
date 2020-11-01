@@ -7,57 +7,61 @@
 ;
 ; REPOSITORY: https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey
 ;
-; LICENSE: ISC - Copyright (c) 2019 Daniel C. Rieck.
+; LICENSE: MIT - Copyright (c) 2020 Daniel C. Rieck.
 ;
-;   Permission to use, copy, modify, and/or distribute this software for any purpose with or
-;   without fee iOs hereby granted, provided that the above copyright notice and this permission
-;   notice appear in all copies.
+;   Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+;   and associated documentation files (the “Software”), to deal in the Software without
+;   restriction, including without limitation the rights to use, copy, modify, merge, publish,
+;   distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
+;   Software is furnished to do so, subject to the following conditions:
 ;
-;   THE SOFTWARE IS PROVIDED "AS IS" AND DANIEL RIECK DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS
-;   SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
-;   DANIEL RIECK BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY
-;   DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF
-;   CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-;   PERFORMANCE OF THIS SOFTWARE.
+;   The above copyright notice and this permission notice shall be included in all copies or
+;   substantial portions of the Software.
+;
+;   THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+;   BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;   NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+;   DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+;   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ; ==================================================================================================
 
 ; ==================================================================================================
 ; Table of Contents:
 ; -----------------
-;   §1: VIRTUAL DESKTOP SET UP HOTSTRINGS.......................................................64
-;     >>> §1.1: Work environment set up — @setupWorkEnvironment.................................68
-;       →→→ §1.1.1: CheckVdEnvironment.........................................................117
-;       →→→ §1.1.1: @moveTempMonitors..........................................................144
-;       →→→ §1.1.2: @setupVirtualDesktops......................................................164
-;     >>> §1.2: Website editing VD — @setupVdForWebEditing.....................................199
-;       →→→ §1.2.1: @startChrome...............................................................233
-;       →→→ §1.2.2: @startSublimeText3.........................................................243
-;       →→→ §1.2.3: PositionChromeVD1()........................................................254
-;       →→→ §1.2.4: PosActWinOnMonsViaCtrlFN(…)................................................267
-;       →→→ §1.2.5: MaxActWinOnMonViaCtrlFN(…).................................................284
-;       →→→ §1.2.6: EnsureActWinMaxed()........................................................315
-;       →→→ §1.2.7: Vd1_OpenWorkNotesLog().....................................................329
-;     >>> §1.3: Programming VD — @setupVdForProgramming........................................393
-;       →→→ §1.3.1: @addSublimeText3ToVd + AddSublimeText3ToVd()...............................414
-;       →→→ §1.3.2: @arrangeGitHub.............................................................457
-;       →→→ §1.3.3: @startGithubClients........................................................494
-;       →→→ §1.3.4: agh_MovePowerShell().......................................................510
-;     >>> §1.4: Graphic design VD — @setupVdForGraphicDesign...................................565
-;       →→→ §1.4.1: @arrangeGimp...............................................................582
-;       →→→ §1.4.2: svd3_OpenGimp(…)...........................................................605
-;       →→→ §1.4.3: svd3_OpenGraphicsReferences(…).............................................617
-;     >>> §1.5: Communications and media VD — @setupVdForCommunications........................628
-;       →→→ §1.5.1: @arrangeEmail..............................................................646
-;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)................................................694
-;     >>> §1.6: Research VD — @setupVdForResearch..............................................719
-;     >>> §1.7: PC monitoring VD — @setupVdForPcMonitoring.....................................765
-;   §2: STARTUP HOTKEYS........................................................................786
-;     >>> §2.1: #!r............................................................................790
-;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................797
-;     >>> §3.1: @quitAhk.......................................................................801
-;     >>> §3.2: ^#!r...........................................................................810
-;     >>> §3.3: PerformScriptShutdownTasks()...................................................819
-;     >>> §3.4: ScriptExitFunc(…)..............................................................829
+;   §1: VIRTUAL DESKTOP SET UP HOTSTRINGS.......................................................68
+;     >>> §1.1: Work environment set up — @setupWorkEnvironment.................................72
+;       →→→ §1.1.1: class ScriptEnvChecker......................................................92
+;       →→→ §1.1.1: @moveTempMonitors..........................................................162
+;       →→→ §1.1.2: @setupVirtualDesktops......................................................184
+;     >>> §1.2: Website editing VD — @setupVdForWebEditing.....................................219
+;       →→→ §1.2.1: @startChrome...............................................................253
+;       →→→ §1.2.2: @startSublimeText3.........................................................263
+;       →→→ §1.2.3: PositionChromeVD1()........................................................274
+;       →→→ §1.2.4: PosActWinOnMonsViaCtrlFN(…)................................................287
+;       →→→ §1.2.5: MaxActWinOnMonViaCtrlFN(…).................................................304
+;       →→→ §1.2.6: EnsureActWinMaxed()........................................................335
+;       →→→ §1.2.7: Vd1_OpenWorkNotesLog().....................................................349
+;     >>> §1.3: Programming VD — @setupVdForProgramming........................................413
+;       →→→ §1.3.1: @addSublimeText3ToVd + AddSublimeText3ToVd()...............................434
+;       →→→ §1.3.2: @arrangeGitHub.............................................................479
+;       →→→ §1.3.3: @startGithubClients........................................................516
+;       →→→ §1.3.4: agh_MovePowerShell().......................................................532
+;     >>> §1.4: Graphic design VD — @setupVdForGraphicDesign...................................587
+;       →→→ §1.4.1: @arrangeGimp...............................................................604
+;       →→→ §1.4.2: svd3_OpenGimp(…)...........................................................627
+;       →→→ §1.4.3: svd3_OpenGraphicsReferences(…).............................................639
+;     >>> §1.5: Communications and media VD — @setupVdForCommunications........................650
+;       →→→ §1.5.1: @arrangeEmail..............................................................668
+;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)................................................716
+;     >>> §1.6: Research VD — @setupVdForResearch..............................................741
+;     >>> §1.7: PC monitoring VD — @setupVdForPcMonitoring.....................................787
+;   §2: STARTUP HOTKEYS........................................................................808
+;     >>> §2.1: #!r............................................................................812
+;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................819
+;     >>> §3.1: @quitAhk.......................................................................823
+;     >>> §3.2: ^#!r...........................................................................832
+;     >>> §3.3: PerformScriptShutdownTasks()...................................................841
+;     >>> §3.4: ScriptExitFunc(…)..............................................................851
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -70,7 +74,8 @@
 :*:@setupWorkEnvironment::
 	AppendAhkCmd( A_ThisLabel )
 	execDelayer.Wait( "l" )
-	envStatus := CheckWorkEnv()
+	envChecker := new ScriptEnvChecker( Func( MapDesktopsFromRegistry ) )
+	envStatus := envChecker.CheckWorkEnv()
 	if ( envStatus == "ready" ) {
 		Gosub :*:@moveTempMonitors
 		Gosub :*:@setupVirtualDesktops
@@ -80,64 +85,77 @@
 		Gosub % ":*:@setupWorkTimer"
 		switchDesktopByNumber( 5 )
 		DisplaySplashText( "Desktop set up is complete.", 3000 )
-	} else if ( envStatus == "too few vds" ) {
-		DisplaySplashText( "Sorry, the system is not yet ready for automated set up: Less than the"
-			. " required six virtual desktops are currently active.", 3000)
-	} else if ( envStatus == "temp monitors not ready" ) {
-		DisplaySplashText( "Sorry, the system is not yet ready for automated set up: Temperature"
-			. " monitoring processes for both the system's CPU and the GPU have not yet been"
-			. " started yet.", 3000)
-	} else if ( envStatus == "cpu temp not ready" ) {
-		DisplaySplashText( "Sorry, the system is not yet ready for automated set up: The"
-			. " temperature monitoring processes for the system's CPU has not yet been started yet."
-			, 3000)
-	} else if ( envStatus == "cpu temp not ready, too few vds" ) {
-		DisplaySplashText( "Sorry, the system is not yet ready for automated set up: The"
-			. " temperature monitoring processes for the system's CPU has not yet been started"
-			. " yet. Moreover, less than the required six virtual desktops are currently active."
-			, 3000)
-	} else if ( envStatus == "gpu temp not ready" ) {
-		DisplaySplashText( "Sorry, the system is not yet ready for automated set up: The"
-			. " temperature monitoring processes for the system's GPU has not yet been started yet."
-			, 3000)
-	} else if ( envStatus == "gpu temp not ready, too few vds" ) {
-		DisplaySplashText( "Sorry, the system is not yet ready for automated set up: The"
-			. " temperature monitoring processes for the system's GPU has not yet been started"
-			. " yet. Moreover, less than the required six virtual desktops are currently active."
-			, 3000)
-	} else {
-		DisplaySplashText( "Sorry, the system is not yet ready for automated set up: Temperature"
-			. " monitoring processes for both the system's CPU and the GPU have not yet been"
-			. " started yet. Moreover, less than the required six virtual desktops are currently"
-			. " active.", 3000)
 	}
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.1.1: CheckVdEnvironment
+;       →→→ §1.1.1: class ScriptEnvChecker
 
-CheckWorkEnv() {
-	global vdDesktopCount
-	MapDesktopsFromRegistry()
-	gpuTempExists := WinExist( "GPU Temp ahk_exe GPUTemp.exe" )
-	realTempExists := WinExist( "RealTemp ahk_exe RealTemp.exe" )
-	if ( gpuTempExists && realTempExists ) {
-		envStatus := "temp monitors ready"
-	} else if ( gpuTempExists && !realTempExists ) {
-		envStatus := "cpu temp not ready"
-	} else if ( !gpuTempExists && realTempExists ) {
-		envStatus := "gpu temp not ready"
-	} else {
-		envStatus := "temp monitors not ready"
+class ScriptEnvChecker {
+	__New( fVdMapper ) {
+		this.fMapDesktopsFromRegistry := fVdMapper
 	}
-	if ( vdDesktopCount >= 6 && envStatus == "temp monitors ready" ) {
-		envStatus := "ready"
-	} else if ( vdDesktopCount < 6 &&  envStatus == "temp monitors ready" ) {
-		envStatus := "too few vds"
-	} else if ( vdDesktopCount < 6 ) {
-		envStatus .= ", too few vds"
+
+	CheckWorkEnv() {
+		global vdDesktopCount
+		this.fMapDesktopsFromRegistry.Call()
+		DetectHiddenWindows On
+		this.gpuTempExists := WinExist( "GPU Temp ahk_exe GPUTemp.exe" )
+		this.realTempExists := WinExist( "RealTemp ahk_exe RealTemp.exe" )
+		DetectHiddenWindows Off
+		this.vdCount := vdDesktopCount
+		return this.ClassifyEnvStatus()
 	}
-	return envStatus
+
+	ClassifyEnvStatus() {
+		if ( this.gpuTempExists && this.realTempExists ) {
+			this.envStatus := "temp monitors ready"
+		} else if ( gpuTempExists && !realTempExists ) {
+			this.envStatus := "cpu temp not ready"
+		} else if ( !gpuTempExists && realTempExists ) {
+			this.envStatus := "gpu temp not ready"
+		} else {
+			this.envStatus := "temp monitors not ready"
+		}
+		if ( this.vdCount >= 6 && this.envStatus == "temp monitors ready" ) {
+			this.envStatus := "ready"
+		} else if ( vdDesktopCount < 6 &&  envStatus == "temp monitors ready" ) {
+			this.envStatus := "too few vds"
+		} else if ( vdDesktopCount < 6 ) {
+			this.envStatus .= ", too few vds"
+		}
+		this.ReportOnEnvStatus( this.envStatus )
+		return this.envStatus
+	}
+
+	ReportOnEnvStatus( envStatus ) {
+		if ( envStatus == "too few vds" ) {
+			DisplaySplashText( "Sorry, the system is not yet ready for automated set up: Less than the"
+				. " required six virtual desktops are currently active.", 3000 )
+		} else if ( envStatus == "temp monitors not ready" ) {
+			DisplaySplashText( "Sorry, the system is not yet ready for automated set up: Temperature"
+				. " monitoring processes for both the system's CPU and the GPU have not yet been started."
+				, 3000 )
+		} else if ( envStatus == "cpu temp not ready" ) {
+			DisplaySplashText( "Sorry, the system is not yet ready for automated set up: The"
+				. " temperature monitoring processes for the system's CPU has not yet been started.", 3000 )
+		} else if ( envStatus == "cpu temp not ready, too few vds" ) {
+			DisplaySplashText( "Sorry, the system is not yet ready for automated set up: The"
+				. " temperature monitoring processes for the system's CPU has not yet been started."
+				. " Moreover, less than the required six virtual desktops are currently active.", 3000 )
+		} else if ( envStatus == "gpu temp not ready" ) {
+			DisplaySplashText( "Sorry, the system is not yet ready for automated set up: The"
+				. " temperature monitoring processes for the system's GPU has not yet been started.", 3000 )
+		} else if ( envStatus == "gpu temp not ready, too few vds" ) {
+			DisplaySplashText( "Sorry, the system is not yet ready for automated set up: The temperature"
+				. " monitoring processes for the system's GPU has not yet been started. Moreover, less than"
+				. " the required six virtual desktops are currently active.", 3000 )
+		} else {
+			DisplaySplashText( "Sorry, the system is not yet ready for automated set up: Temperature"
+				. " monitoring processes for both the system's CPU and the GPU have not yet been started."
+				. " Moreover, less than the required six virtual desktops are currently active.", 3000 )
+		}
+	}
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
@@ -148,11 +166,13 @@ CheckWorkEnv() {
 	DisplaySplashText( "Moving temperature monitors.", 3000 )
 	execDelayer.SetUpNewProcess( 5.1, A_ThisLabel )
 	execDelayer.Wait( "m", 3 )
+	DetectHiddenWindows On
 	WinActivate % "RealTemp ahk_exe RealTemp.exe"
 	execDelayer.Wait( "m", 3 )
 	moveActiveWindowToVirtualDesktop( 6 )
 	execDelayer.Wait( "l", 2 )
 	WinActivate % "GPU Temp ahk_exe GPUTemp.exe"
+	DetectHiddenWindows Off
 	execDelayer.Wait( "m", 2 )
 	moveActiveWindowToVirtualDesktop( 6 )
 	execDelayer.Wait( "l", 2 )
@@ -429,6 +449,7 @@ AddSublimeText3ToVd( whichVd ) {
 
 	; Add ST3 window to virtual desktop
 	; TODO: Check to see if ST3 is already on the virtual desktop.
+	DetectHiddenWindows On
 	IfWinExist, %st3TitleToMatch%
 	{
 		; Switch to ST3 so that a new window can be generated and moved to the virtual desktop
@@ -450,6 +471,7 @@ AddSublimeText3ToVd( whichVd ) {
 	} else {
 		GoSub, :*:@startSublimeText3
 	}
+	DetectHiddenWindows Off
 	RestoreMatchMode(oldTitleMatchMode)
 }
 

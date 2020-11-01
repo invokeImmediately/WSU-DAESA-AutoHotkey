@@ -1,64 +1,88 @@
 ﻿; ==================================================================================================
 ; functions.ahk
+; --------------------------------------------------------------------------------------------------
+; SUMMARY: Functions used throughout the script for performing common tasks involving communication,
+;  state checking or changing, window interaction, and input automation.
+;
+; AUTHOR: Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
+;
+; REPOSITORY: https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey
+;
+; LICENSE: MIT - Copyright (c) 2020 Daniel C. Rieck.
+;
+;  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+;   associated documentation files (the “Software”), to deal in the Software without restriction,
+;   including without limitation the rights to use, copy, modify, merge, publish,
+;   distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
+;   Software is furnished to do so, subject to the following conditions:
+;
+;  The above copyright notice and this permission notice shall be included in all copies or
+;   portions of the Software.
+;
+;  THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+;   NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;   NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+;   DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+;   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ; ==================================================================================================
 ; Table of Contents:
 ; -----------------
-;   §1: Active window status checks.............................................................65
-;   §2: Variable type & state checks............................................................71
-;   §3: Error reporting.........................................................................79
-;     >>> §3.1: ErrorBox........................................................................83
-;   §4: Operating system manipulation...........................................................90
-;     >>> §4.1: Functions.......................................................................94
-;       →→→ §4.1.1: CloseSplashProgress().......................................................97
-;       →→→ §4.1.2: DismissSplashProgress()....................................................104
-;       →→→ §4.1.3: DismissSplashText()........................................................111
-;       →→→ §4.1.4: DisplaySplashProgress(…)...................................................118
-;       →→→ §4.1.5: DisplaySplashText(…).......................................................139
-;       →→→ §4.1.6: FallbackWinActivate(…).....................................................148
-;       →→→ §4.1.7: GetActiveWindowBorderWidths()..............................................166
-;       →→→ §4.1.8: GetCursorCoordsToCenterInActiveWindow()....................................184
-;       →→→ §4.1.9: GetWindowBorderWidths(…)...................................................194
-;       →→→ §4.1.10: InsertFilePath............................................................213
-;       →→→ §4.1.11: LaunchApplicationPatiently................................................242
-;       →→→ §4.1.12: LaunchStdApplicationPatiently.............................................274
-;       →→→ §4.1.13: MoveCursorIntoActiveWindow................................................306
-;       →→→ §4.1.14: PasteText.................................................................324
-;       →→→ §4.1.15: RemoveMinMaxStateForActiveWin.............................................335
-;       →→→ §4.1.16: SafeWinActivate...........................................................348
-;       →→→ §4.1.17: WaitForApplicationPatiently...............................................377
-;       →→→ §4.1.18: WriteCodeToFile...........................................................398
-;     >>> §4.2: Hotkeys........................................................................426
-;       →→→ §4.2.1: ^+F1, ^!Numpad1............................................................430
-;       →→→ §4.2.2: ^+F2, ^!Numpad2............................................................439
-;       →→→ §4.2.3: ^!q........................................................................450
-;     >>> §4.3: Hotstrings.....................................................................460
-;       →→→ §4.3.1: @getMousePos...............................................................463
-;       →→→ §4.3.2: @getWinBorders.............................................................473
-;       →→→ §4.3.3: @getWinExStyle.............................................................487
-;       →→→ §4.3.4: @get/copyWinHwnd...........................................................497
-;       →→→ §4.5.: @getWinInfo.................................................................512
-;       →→→ §4.3.6: @getWinPID.................................................................539
-;       →→→ §4.3.7: @getWinPos.................................................................548
-;       →→→ §4.3.8: @getWinStyle...............................................................558
-;       →→→ §4.3.9: @getWinProcess.............................................................568
-;       →→→ §4.3.10: @get/copyWinTitle.........................................................580
-;   §5: AutoHotkey state inquiry and manipulation..............................................595
-;     >>> §5.1: Functions......................................................................601
-;       →→→ §5.1.1: ChangeMatchMode............................................................604
-;       →→→ §5.1.2: ChangeMouseCoordMode.......................................................623
-;       →→→ §5.1.3: GetDelay...................................................................641
-;       →→→ §5.1.4: RestoreMatchMode...........................................................691
-;       →→→ §5.1.5: RestoreMouseCoordMode......................................................707
-;     >>> §5.2: Hotstrings.....................................................................722
-;       →→→ §5.2.1: @checkIsUnicode............................................................725
-;       →→→ §5.2.2: @getCurrentVersion.........................................................734
-;       →→→ §5.2.3: @getLastHotStrTime.........................................................742
-;   §6: Sorting functions......................................................................750
-;     >>> §6.1: InsertionSort..................................................................754
-;     >>> §6.2: Merge..........................................................................780
-;     >>> §6.3: MergeSort......................................................................806
-;     >>> §6.4: SwapValues.....................................................................822
-;   §7: Desktop management functions...........................................................831
+;   §1: Active window status checks.............................................................89
+;   §2: Variable type & state checks............................................................95
+;   §3: Error reporting........................................................................103
+;     >>> §3.1: ErrorBox.......................................................................107
+;   §4: Operating system manipulation..........................................................114
+;     >>> §4.1: Functions......................................................................118
+;       →→→ §4.1.1: CloseSplashProgress()......................................................121
+;       →→→ §4.1.2: DismissSplashProgress()....................................................128
+;       →→→ §4.1.3: DismissSplashText()........................................................135
+;       →→→ §4.1.4: DisplaySplashProgress(…)...................................................142
+;       →→→ §4.1.5: DisplaySplashText(…).......................................................163
+;       →→→ §4.1.6: FallbackWinActivate(…).....................................................248
+;       →→→ §4.1.7: GetActiveWindowBorderWidths()..............................................266
+;       →→→ §4.1.8: GetCursorCoordsToCenterInActiveWindow()....................................284
+;       →→→ §4.1.9: GetWindowBorderWidths(…)...................................................294
+;       →→→ §4.1.10: InsertFilePath............................................................313
+;       →→→ §4.1.11: LaunchApplicationPatiently................................................342
+;       →→→ §4.1.12: LaunchStdApplicationPatiently.............................................374
+;       →→→ §4.1.13: MoveCursorIntoActiveWindow................................................406
+;       →→→ §4.1.14: PasteText.................................................................424
+;       →→→ §4.1.15: RemoveMinMaxStateForActiveWin.............................................435
+;       →→→ §4.1.16: SafeWinActivate...........................................................448
+;       →→→ §4.1.17: WaitForApplicationPatiently...............................................477
+;       →→→ §4.1.18: WriteCodeToFile...........................................................498
+;     >>> §4.2: Hotkeys........................................................................526
+;       →→→ §4.2.1: ^+F1, ^!Numpad1............................................................530
+;       →→→ §4.2.2: ^+F2, ^!Numpad2............................................................539
+;       →→→ §4.2.3: ^!q........................................................................550
+;     >>> §4.3: Hotstrings.....................................................................560
+;       →→→ §4.3.1: @getMousePos...............................................................563
+;       →→→ §4.3.2: @getWinBorders.............................................................573
+;       →→→ §4.3.3: @getWinExStyle.............................................................587
+;       →→→ §4.3.4: @get/copyWinHwnd...........................................................597
+;       →→→ §4.5.: @getWinInfo.................................................................612
+;       →→→ §4.3.6: @getWinPID.................................................................639
+;       →→→ §4.3.7: @getWinPos.................................................................648
+;       →→→ §4.3.8: @getWinStyle...............................................................658
+;       →→→ §4.3.9: @getWinProcess.............................................................668
+;       →→→ §4.3.10: @get/copyWinTitle.........................................................680
+;   §5: AutoHotkey state inquiry and manipulation..............................................695
+;     >>> §5.1: Functions......................................................................701
+;       →→→ §5.1.1: ChangeMatchMode............................................................704
+;       →→→ §5.1.2: ChangeMouseCoordMode.......................................................723
+;       →→→ §5.1.3: GetDelay...................................................................741
+;       →→→ §5.1.4: RestoreMatchMode...........................................................791
+;       →→→ §5.1.5: RestoreMouseCoordMode......................................................807
+;     >>> §5.2: Hotstrings.....................................................................822
+;       →→→ §5.2.1: @checkIsUnicode............................................................825
+;       →→→ §5.2.2: @getCurrentVersion.........................................................834
+;       →→→ §5.2.3: @getLastHotStrTime.........................................................842
+;   §6: Sorting functions......................................................................850
+;     >>> §6.1: InsertionSort..................................................................854
+;     >>> §6.2: Merge..........................................................................880
+;     >>> §6.3: MergeSort......................................................................906
+;     >>> §6.4: SwapValues.....................................................................922
+;   §7: Desktop management functions...........................................................931
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -140,8 +164,84 @@ DisplaySplashProgress( normProg, mainText := "Progress for current operation" ) 
 
 DisplaySplashText(msg, displayTime := 1000) {
 	global g_dpiScalar
-	SplashTextOn % StrLen(msg) * 8 * g_dpiScalar, 24 * g_dpiScalar, % A_ScriptName, % msg
+	splashMsg := new SplashTextMsg( msg )
+	SplashTextOn % splashMsg.maxLineLen * 8 * g_dpiScalar
+		, ( splashMsg.numLines * 19 + 3 ) * g_dpiScalar
+		, % A_ScriptName
+		, % splashMsg.msg
 	SetTimer DismissSplashText, % -1 * displayTime
+}
+
+class SplashTextMsg {
+	__New( msg, maxLen := 70 ) {
+		this.maxLen := maxLen
+		this.maxLineLen := 0
+		this.numLines := 0
+		this.msg := this.SplitMsgIntoLines( msg )
+	}
+
+	SplitMsgIntoLines( msg ) {
+		; Recursively handle the case where the message string already has newlines. Split the message
+		;  into two parts around the first newline, dealing with the right-hand portion as a
+		;  recursively processed tail.
+		foundPos := InStr( msg, "`n")
+		if ( foundPos ) {
+			msgTail := SubStr(msg, foundPos + 1, StrLen( msg ) - foundPos )
+			msg := SubStr( msg, 1, foundPos - 1 )
+			msgTail := "`n" . this.SplitMsgIntoLines( msgTail )
+		} else {
+			msgTail := ""
+		}
+
+		; Proceed only if the string is shorter than the maximum length of the line; if so, don't
+		;  forget to reattach the recursively processed tail.
+		if ( StrLen( msg ) <= this.maxLen ) {
+			this.numLines++
+			lineLen := StrLen( msg )
+			if ( lineLen > this.maxLineLen ) {
+				this.maxLineLen := lineLen
+			}
+			return msg . msgTail
+		} else {
+			newMsg := ""
+		}
+
+		; Since the message string we are working with is longer than the maximum length of a line,
+		;  split it add newlines as needed to keep each line under the desired limit, working from
+		;  left to right.
+		regExNeedle := "Om)^(.*? )([^ ]*)$"
+		while ( StrLen( msg ) > this.maxLen ) {
+			msgChunkL := SubStr( msg, 1, this.maxLen )
+			msgChunkR := SubStr( msg, this.maxLen + 1, StrLen( msg ) - this.maxLen )
+			foundPos := RegExMatch( msgChunkL, regExNeedle, matches )
+			if ( foundPos ) {
+
+				; Be sure to keep track of which line happens to be the longest.
+				lineLen := StrLen( matches[1] )
+				if ( lineLen > this.maxLineLen ) {
+					this.maxLineLen := lineLen
+				}
+				this.numLines++
+				newMsg .= matches[1] . "`n"
+				msg := matches[2] . msgChunkR
+			} else {
+				lineLen := StrLen( msgChunkL )
+				if ( lineLen > this.maxLineLen ) {
+					this.maxLineLen := lineLen
+				}
+				this.numLines++
+				newMsg .= msg . "`n"
+				msg := msgChunkR
+			}
+		}
+		newMsg .= msg . msgTail
+		this.numLines++
+		lineLen := StrLen( msg )
+		if ( lineLen > this.maxLineLen ) {
+			this.maxLineLen := lineLen
+		}
+		return newMsg
+	}
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
@@ -166,15 +266,15 @@ FallbackWinActivate(titleToMatch, matchMode := 2) {
 ;       →→→ §4.1.7: GetActiveWindowBorderWidths()
 
 ; Determines the active window's border width from its left and bottom edges, and then assumes the 
-; window has the same width of borders on its right and top edges.
+;  window has the same width of borders on its right and top edges.
 ;
 ; Additional Notes on Approach:
-;     Current approach was adopted because for PowerShell, the width of the right-hand scroll bar 
-; is deducted from the client rectangle. Moreover, for Sublime Text 3, the height of the menu is 
-; deducted from the client rectangle. No cases have encountered so far where the width of a 
-; window's border is not equal among all of its edges. Since the windows documentation treats 
-; horizintal and vertical window borders separately, however, I decided that this function will 
-; stay consistent with that convention.
+;  Current approach was adopted because for PowerShell, the width of the right-hand scroll bar is
+;   deducted from the client rectangle. Moreover, for Sublime Text 3, the height of the menu is 
+;   deducted from the client rectangle. No cases have encountered so far where the width of a 
+;   window's border is not equal among all of its edges. Since the windows documentation treats 
+;   horizintal and vertical window borders separately, however, I decided that this function will 
+;   stay consistent with that convention.
 GetActiveWindowBorderWidths() {
 	WinGet, hwnd, ID, A
 	return GetWindowBorderWidths(hwnd)

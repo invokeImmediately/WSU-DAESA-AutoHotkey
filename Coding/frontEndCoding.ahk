@@ -22,11 +22,11 @@
 ;     >>> §2.3: Backup HTML of OUE pages.......................................................305
 ;       →→→ §2.3.1: @backupOuePage.............................................................308
 ;       →→→ §2.3.2: BackupOueHtml & sub-functions..............................................334
-;       →→→ §2.3.3: @backupOuePost.............................................................552
-;     >>> §2.4: Hyperlink collection hotstring.................................................580
-;     >>> §2.5: Checking for WordPress Updates.................................................649
-;   §3: GUI-related hotstrings & functions for automating HTML-related tasks...................654
-;     >>> §3.1: Insert Builder Sections GUI....................................................658
+;       →→→ §2.3.3: @backupOuePost.............................................................553
+;     >>> §2.4: Hyperlink collection hotstring.................................................581
+;     >>> §2.5: Checking for WordPress Updates.................................................650
+;   §3: GUI-related hotstrings & functions for automating HTML-related tasks...................655
+;     >>> §3.1: Insert Builder Sections GUI....................................................659
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -352,6 +352,7 @@ BackupOueHtml( source, workingFilePath, targetContentNeedle, cleaningNeedle
 	}
 
 	; Switch the active process to Sublime Text 3
+	DetectHiddenWindows, On
 	IfWinExist, % sublimeTextTitle
 	{
 		BackupOueHtml_CreateNewFile(source.code, keyDelay)
@@ -362,7 +363,6 @@ BackupOueHtml( source, workingFilePath, targetContentNeedle, cleaningNeedle
 		BackupOueHtml_CleanMarkup(cleaningNeedle, keyDelay)
 		BackupOueHtml_BeautifyHtml(keyDelay)
 		BackupOueHtml_InsertEllipses()
-		; BackupOueHtml_RemoveBlankLine3(keyDelay) ; No longer needed?
 		BackupOueHtml_RemoveBlankLines(keyDelay)
 		BackupOueHtml_InsertEofBlankLine(keyDelay)
 		BackupOueHtml_ConvertIndentationToTabs(keyDelay)
@@ -370,8 +370,9 @@ BackupOueHtml( source, workingFilePath, targetContentNeedle, cleaningNeedle
 	}
 	Else
 	{
-		ErrorBox(ahkThisCmd, "I could not find a Sublime Text 3 process to activate.")
+		ErrorBox( A_ThisLabel, "I could not find a Sublime Text 3 process to activate." )
 	}
+	DetectHiddenWindows, Off
 
 	if (oldKeyDelay) {
 		SetKeyDelay %oldKeyDelay%

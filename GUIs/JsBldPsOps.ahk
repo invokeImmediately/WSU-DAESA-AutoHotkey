@@ -219,8 +219,8 @@ class JsBldPsOps extends GhGui {
 			Gui, guiGh%guiType%%guiName%: Submit, NoHide
 			selRow := LV_GetNext()
 			LV_GetText( repository, selRow, 2)
-			PasteTextIntoGitShell( A_ThisFunc, "cd '" . repository . "\WSU-UE---JS'`rgit checkout "
-				. "master`rgit pull`rcd ..`rgit submodule update --remote --merge WSU-UE---JS`r" )
+			PasteTextIntoGitShell( A_ThisFunc, "cd '" . repository . "WSU-DAESA-JS'`rgit checkout "
+				. "master`rgit pull`rcd ..`rgit submodule update --remote --merge WSU-DAESA-JS`r" )
 			MsgBox, % (0x4 + 0x20)
 				, % A_ScriptName . ": Proceed with rebuild?", % "After updating the submodule "
 				. "containing universal dependencies for building custom JS code to be used on "
