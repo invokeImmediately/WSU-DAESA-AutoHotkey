@@ -142,19 +142,51 @@ Return
 ;     >>> §5.1: @finishNotesBlock
 
 :*:@finishNotesBlock::
+	nbf := New NoteBlockFinisher
+	nbf.Execute( execDelayer )
 Return
 
+; TODO: Decide whether to build a base class like "NoteBlockManipulator" that could be used to build other classes like this one.
 class NoteBlockFinisher {
+	; RegEx search strings
+	static reNbLine1 := "{^}20[0-9]{{}2{}}-[0-1][0-9]-[0-3][0-9]--[0-2][0-9]:[0-9]{{}2{}}:[0-9]{{}2{}}─+┐$"
+	static reNbLine2 := "{^}│.*?│$"
+	static reNbLine3 := "{^}└───┬─+┘$"
+
+	; Error conditions
 	static procNotFound := 1
 	static lineNotFound := 1 << 1
 
+	__New( delayerIntf ) {
+		this.delayerInt := delayerIntf
+	}
+
 	CheckProcess() {
-		return False
+		numApprProcs := this.approvedProcs.Length
+		procApproved := False
+
+		WinGet, curProc, ProcessName, A
+
+		Loop, %numApprProcs% {
+			procProps := this.approvedProcs[ A_Index ]
+			if ( curProc == procProps.exeName ) {
+				procApproved := True
+				Break
+			}
+		}
+
+		return procApproved
+	}
+
+	CopyCurLineToCb() {
+		; this.delayerIntf.Wait( "s" )
+		; TODO: Finish writing function
+		return Clipboard
 	}
 
 	ErrorMsg( whatHappened ) {
 		WinGet, curProc, ProcessName, A
-		if( whatHappened == NoteBlockFinisher.procNotFound ) {
+		if ( whatHappened == NoteBlockFinisher.procNotFound ) {
 			return "The active process, " . curProc . ", was not found to be among the list of approved processes including: " . this.GetApprovedProcList()
 		} else if ( whatHappened == NoteBlockFinisher.lineNotFound ) {
 			return "I determined that the line you are on in " . curProc . " wasn't inside the heading of a note block."
@@ -176,15 +208,30 @@ class NoteBlockFinisher {
 			Return this.ErrorMsg( NoteBlockFinisher.lineNotFound )
 		}
 
+		; TODO: Finish writing function
+
 		Return 0
 	}
 
 	FindTitleLine() {
-		return False
+		lineFound := False
+		; TODO: Get current line into clipboard
+		; TODO: Ensure current line is one of the three possible formats
+		; TODO: Get the rest of the lines in the note block
+		; TODO: Determine what the line length of the note block should be based on line 2
+		; TODO: Replace line 1 with correctly sized string
+		; TODO: Replace line 3 with correctly sized string
+		; TODO: Move down to root position where notes are entered
+		return lineFound
+	}
+
+	GetApprovedProcList() {
+		; TODO: Finish writing function
+		return "??!"
 	}
 
 	ResetApprovedProcs() {
 		this.approvedProcs := [ { desc: "Sublime Text 3"
-			, titleStr: "ahk_exe sublime_text.exe" } ]
+			, exeName: "sublime_text.exe" } ]
 	}
 }
