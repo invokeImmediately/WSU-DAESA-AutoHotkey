@@ -197,6 +197,7 @@ ActivateGitShell() {
 	global execDelayer
 	global mmRegEx
 
+	DetectHiddenWindows, On
 	oldMatchMode := ChangeMatchMode( mmRegEx )
 	WinGet, thisProcess, ProcessName, A
 	shellActivated := false
@@ -223,6 +224,7 @@ ActivateGitShell() {
 		shellActivated := true
 	}
 	RestoreMatchMode( oldMatchMode )
+	DetectHiddenWindows, Off
 	Return shellActivated
 }
 
@@ -334,7 +336,7 @@ PasteTextIntoGitShell( ahkCmdName, shellText ) {
 			execDelayer.Wait( "medium" )
 			clipboard = %shellText%
 			execDelayer.Wait( "medium" )
-			Click right, %newPosX%, %newPosY%
+			Click right, %newPosX%, 20
 			execDelayer.Wait( "xShort" )
 		} else {
 			errorMsg := "Was unable to activate GitHub Powershell; aborting hotstring."
@@ -1888,7 +1890,7 @@ Return
 
 	; Nofity user that hotstring is beginning its operation.
 	DisplaySplashText( "Now checking the status of the " . numRepos . " Git Repositories that are "
-		. "eing tracked by this script.", 3000 )
+		. "being tracked by this script.", 3000 )
 
 	; Determine the width of the Git Shell.
 	PasteTextIntoGitShell( A_ThisLabel, "Set-Clipboard -Value $Host.UI.RawUI.WindowSize.Width`r`n" )
