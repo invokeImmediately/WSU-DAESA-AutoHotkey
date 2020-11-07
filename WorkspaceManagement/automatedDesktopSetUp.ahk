@@ -134,9 +134,9 @@ class ScriptEnvChecker {
 		; Do we have the expected minimum number of virtual desktops open?
 		if ( this.vdCount >= 6 && this.envStatus == "temp monitors ready" ) {
 			this.envStatus := "ready"
-		} else if ( vdDesktopCount < 6 &&  envStatus == "temp monitors ready" ) {
+		} else if ( this.vdCount < 6 &&  envStatus == "temp monitors ready" ) {
 			this.envStatus := "too few vds"
-		} else if ( vdDesktopCount < 6 ) {
+		} else if ( this.vdCount < 6 ) {
 			this.envStatus .= ", too few vds"
 		}
 		this.ReportOnEnvStatus( this.envStatus )
