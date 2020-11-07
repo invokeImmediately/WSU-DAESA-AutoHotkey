@@ -7,23 +7,26 @@
 ; ==================================================================================================
 ; TABLE OF CONTENTS:
 ; -----------------
-;   §1: GLOBAL VARIABLES.......................................................................25
-;   §2: FUNCTIONS & SUBROUTINES................................................................31
-;     >>> §2.1: CloseOpenWindowsOnVD...........................................................35
-;     >>> §2.2: CreateVirtualDesktop..........................................................161
-;     >>> §2.3: DeleteVirtualDesktop..........................................................175
-;     >>> §2.4: GetCurrentVirtualDesktop......................................................189
-;     >>> §2.5: GetSessionId..................................................................202
-;       →→→ §2.5.1: @getSessionId.............................................................222
-;     >>> §2.6: MapDesktopsFromRegistry.......................................................233
-;     >>> §2.7: MoveActiveWindowToVirtualDesktop..............................................295
-;     >>> §2.8: PrimeVirtualDesktops..........................................................365
-;     >>> §2.9: SwitchDesktopByNumber.........................................................385
+;   §1: GLOBAL VARIABLES.......................................................................27
+;   §2: FUNCTIONS & SUBROUTINES................................................................34
+;     >>> §2.1: CreateVirtualDesktop...........................................................38
+;     >>> §2.2: DeleteVirtualDesktop...........................................................52
+;     >>> §2.3: GetCurrentVirtualDesktop.......................................................66
+;     >>> §2.4: GetSessionId...................................................................79
+;       →→→ §2.4.1: @getSessionId..............................................................99
+;     >>> §2.5: MapDesktopsFromRegistry.......................................................110
+;     >>> §2.6: MoveActiveWindowToVirtualDesktop..............................................172
+;     >>> §2.7: PrimeVirtualDesktops..........................................................242
+;     >>> §2.8: SwitchDesktopByNumber.........................................................262
+;   §3: HOTSTRINGS............................................................................320
+;     >>> §3.1: CloseOpenWindowsOnVD..........................................................324
+;     >>> §3.2: class VdWindowCloser..........................................................333
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
 ;   §1: GLOBAL VARIABLES
 ; --------------------------------------------------------------------------------------------------
+
 global vdDesktopCount = 2 ; Windows starts with 2 desktops at boot
 global vdCurrentDesktop = 1 ; Desktop count is 1-indexed (Microsoft numbers them this way)
 
@@ -32,133 +35,7 @@ global vdCurrentDesktop = 1 ; Desktop count is 1-indexed (Microsoft numbers them
 ; --------------------------------------------------------------------------------------------------
 
 ;   ································································································
-;     >>> §2.1: CloseOpenWindowsOnVD (Abbreviated prefix: cowvd_…)
-
-:*:@closeOpenWindowsOnActiveVd::
-	AppendAhkCmd(A_ThisLabel)
-	CloseOpenWindowsOnVD()
-Return
-
-; TODO: Replace with OOP approach.
-CloseOpenWindowsOnVD() { ; - Alias = cowvd
-	global g_osDesktopHwnd
-	global execDelayer
-	delay := execDelayer.InterpretDelayString("short") * 1.5
-
-	DisplaySplashText( "Now closing the open windows on the active virtual desktop." )
-	cowvd_CheckOsDesktopHwnd()
-	windowsAlreadyClosed := cowvd_GetStarted(delay)
-	if (!windowsAlreadyClosed) {
-		vdHWnds := cowvd_LogOpenWindows(delay)
-		cowvd_ClosedLoggedWindows(vdHWnds, delay)
-	}
-	DisplaySplashText( "The process for closing the open windows on the active virtual desktop has just finished." )
-}
-
-cowvd_CheckOsDesktopHwnd(overwrite := False) {
-	global g_osDesktopWinTitle
-	global g_osDesktopHwnd
-
-	if (!g_osDesktopHwnd || overwrite) {
-		WinGet g_osDesktopHwnd, ID, % g_osDesktopWinTitle
-	}
-}
-
-cowvd_ClosedLoggedWindows(vdHWnds, delay) {
-	global execDelayer
-	execDelayer.SetUpNewProcess( vdHWnds.Count(), A_ThisFunc )
-	For index, value in vdHWnds
-	{
-		; Alternative approach: WinClose % "ahk_id " . index,, 1
-		PostMessage, 0x112, 0xF060,,, % "ahk_id " . index
-		execDelayer.Wait( delay * 10 )
-	}
-	execDelayer.CompleteCurrentProcess()
-
-	; TODO: Remove; I have yet to see verification of window closing do anything.
-	; cowvd_VerifyClosingOfWindows(vdHWnds, delay)
-}
-
-cowvd_GetStarted(delay) {
-	windowsAlreadyClosed := false
-	SendInput !{Tab}
-	Sleep % delay * 2
-	if (cowvd_IsOsActive()) {
-		SendInput !{Tab}
-		Sleep % delay * 2
-		if (cowvd_IsOsActive()) {
-			windowsAlreadyClosed := true
-		}
-	}
-	return windowsAlreadyClosed
-}
-
-cowvd_IsOsActive() {
-	global g_osDesktopHwnd
-
-	WinGet aHwnd, ID, A
-	return aHwnd == g_osDesktopHwnd
-}
-
-cowvd_LogOpenWindows(delay) {
-	vdHWnds := {}
-	keepSearching := true
-
-	if (cowvd_IsOsActive()) {
-		cowvd_SwitchToNextWindow(delay)
-	}
-	wCount := 0
-	while keepSearching && !cowvd_IsOsActive() {
-		WinGet aHwnd, ID, A
-		if (!vdHWnds[aHwnd]) {
-			vdHWnds[aHwnd] := true
-			wCount++
-			cowvd_SwitchToNextWindow(delay, wCount)
-		} else {
-			keepSearching := false
-		}
-	}
-	return vdHWnds
-}
-
-cowvd_RetryClosingOfWindows(aVdHWnds, delay) {
-	global execDelayer
-	if ( aVdHWnds.Length() > 0 ) {
-		execDelayer.SetUpNewProcess( aVdHWnds.Length(), A_ThisFunc )
-		Loop % aVdHwnds.Length()
-		{
-			PostMessage, 0x112, 0xF060,,, % "ahk_id " . aVdHwnds[A_Index]
-			execDelayer.Wait( delay * 10 )
-		}
-		execDelayer.CompleteCurrentProcess()
-	}
-}
-
-cowvd_SwitchToNextWindow(delay, wCount := 1) {
-	oldKeyDelay := A_KeyDelay
-	SetKeyDelay % delay
-	Send % "{Alt Down}{Tab " . wCount . "}{Alt Up}"
-	Sleep % delay
-	SetKeyDelay % oldKeyDelay
-}
-
-cowvd_VerifyClosingOfWindows(vdHWnds, delay) {
-	global execDelayer
-	execDelayer.SetUpNewProcess( vdHWnds.Count(), A_ThisFunc )
-	aVdHwnds := Object()
-	For index, value in vdHWnds
-	{
-		if (WinExist("ahk_id " . index)) {
-			aVdHwnds.Push(index)
-		}
-		execDelayer.Wait( delay * 2 )
-	}
-	execDelayer.CompleteCurrentProcess()
-	cowvd_RetryClosingOfWindows(aVdHwnds, delay)
-}
-
-;   ································································································
-;     >>> §2.2: CreateVirtualDesktop
+;     >>> §2.1: CreateVirtualDesktop
 
 CreateVirtualDesktop() {
 	global vdCurrentDesktop, vdDesktopCount
@@ -172,7 +49,7 @@ CreateVirtualDesktop() {
 }
 
 ;   ································································································
-;     >>> §2.3: DeleteVirtualDesktop
+;     >>> §2.2: DeleteVirtualDesktop
 
 DeleteVirtualDesktop() {
 	global vdCurrentDesktop, vdDesktopCount
@@ -186,7 +63,7 @@ DeleteVirtualDesktop() {
 }
 
 ;   ································································································
-;     >>> §2.4: GetCurrentVirtualDesktop
+;     >>> §2.3: GetCurrentVirtualDesktop
 
 ; * Couples a call to MapDesktopsFromRegistry to the value of global variable vdCurrentDesktop.
 ; * Preferable to relying on the global variable vdCurrentDesktop, which requires a separate call to 
@@ -199,7 +76,7 @@ GetCurrentVirtualDesktop() {
 }
 
 ;   ································································································
-;     >>> §2.5: GetSessionId
+;     >>> §2.4: GetSessionId
 ;
 ;	Use the current process ID to find the Session ID, which is needed for mapping virtual desktops
 ;   via the registry.
@@ -219,7 +96,7 @@ GetSessionId() {
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §2.5.1: @getSessionId
+;       →→→ §2.4.1: @getSessionId
 ;
 ;	Use the DisplaySplashText function to show the current Session ID to the user.
 
@@ -230,7 +107,7 @@ GetSessionId() {
 Return
 
 ;   ································································································
-;     >>> §2.6: MapDesktopsFromRegistry
+;     >>> §2.5: MapDesktopsFromRegistry
 ;
 ;   Examine the registry to build an accurate list of the current virtual desktops and which one
 ;   we're currently on.
@@ -292,7 +169,7 @@ MapDesktopsFromRegistry() {
 }
 
 ;   ································································································
-;     >>> §2.7: MoveActiveWindowToVirtualDesktop
+;     >>> §2.6: MoveActiveWindowToVirtualDesktop
 
 MoveActiveWindowToVirtualDesktop(targetDesktop) {
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -362,7 +239,7 @@ MoveActiveWindowToVirtualDesktop(targetDesktop) {
 }
 
 ;   ································································································
-;     >>> §2.8: PrimeVirtualDesktops
+;     >>> §2.7: PrimeVirtualDesktops
 ;
 ;   Move between virtual desktops to make sure the registry is accurately populated.
 
@@ -382,7 +259,7 @@ PrimeVirtualDesktops() {
 }
 
 ;   ································································································
-;     >>> §2.9: SwitchDesktopByNumber
+;     >>> §2.8: SwitchDesktopByNumber
 
 SwitchDesktopByNumber(targetDesktop) {
 	global vdCurrentDesktop
@@ -436,5 +313,127 @@ SwitchDesktopByNumber(targetDesktop) {
 		}
 		SetKeyDelay % oldKeyDelay
 		alreadySwitchingDesktop := False
+	}
+}
+
+; --------------------------------------------------------------------------------------------------
+;   §3: HOTSTRINGS
+; --------------------------------------------------------------------------------------------------
+
+;   ································································································
+;     >>> §3.1: @closeOpenWindowsOnActiveVd
+
+:*:@closeOpenWindowsOnActiveVd::
+	AppendAhkCmd(A_ThisLabel)
+	windowCloser := new VdWindowCloser()
+	windowCloser.CloseOpenWindowsOnVd()
+Return
+
+;   ································································································
+;     >>> §3.2: class VdWindowCloser
+
+class VdWindowCloser {
+	__New() {
+	}
+
+	CheckOsDesktopHwnd( overwrite := False ) {
+		global g_osDesktopHwnd
+		global g_osDesktopWinTitle
+		if ( !g_osDesktopHwnd || overwrite ) {
+			WinGet g_osDesktopHwnd, ID, % g_osDesktopWinTitle
+		}
+	}
+
+	CloseLoggedWindows( vdHWnds, delay ) {
+		global execDelayer
+		execDelayer.SetUpNewProcess( vdHWnds.Count(), A_ThisFunc )
+		For index, value in vdHWnds
+		{
+			; Alternative approach: WinClose % "ahk_id " . index,, 1
+			PostMessage, 0x112, 0xF060,,, % "ahk_id " . index
+			execDelayer.Wait( delay * 10 )
+		}
+		execDelayer.CompleteCurrentProcess()
+	}
+
+	CloseOpenWindowsOnVd() {
+		global execDelayer
+		delay := execDelayer.InterpretDelayString( "short" ) * 1.5
+		DisplaySplashText( "Now closing the open windows on the active virtual desktop." )
+		this.CheckOsDesktopHwnd()
+		windowsAlreadyClosed := this.GetStarted( delay )
+		if ( !windowsAlreadyClosed ) {
+			vdHWnds := this.LogOpenWindowsByList( delay )
+			this.CloseLoggedWindows( vdHWnds, delay )
+			vdHWnds := this.LogOpenWindowsByAltTab( delay )
+			this.CloseLoggedWindows(vdHWnds, delay)
+		}
+		DisplaySplashText( "The process for closing the open windows on the active virtual desktop has"
+			. " just finished." )
+	}
+
+	GetStarted( delay ) {
+		global execDelayer
+		windowsAlreadyClosed := false
+		SendInput !{Tab}
+		execDelayer.Wait( delay * 2 )
+		if ( this.IsOsActive() ) {
+			SendInput !{Tab}
+			execDelayer.Wait( delay * 2 )
+			if ( this.IsOsActive() ) {
+				windowsAlreadyClosed := true
+			}
+		}
+		return windowsAlreadyClosed
+	}
+
+	IsOsActive() {
+		global g_osDesktopHwnd
+		WinGet aHwnd, ID, A
+		return aHwnd == g_osDesktopHwnd
+	}
+
+	LogOpenWindowsByAltTab( delay ) {
+		vdHWnds := {}
+		keepSearching := true
+		if ( this.IsOsActive() ) {
+			this.SwitchToNextWindow( delay )
+		}
+		wCount := 0
+		while( keepSearching && !this.IsOsActive() ) {
+			WinGet aHwnd, ID, A
+			if ( !vdHWnds[ aHwnd ] ) {
+				vdHWnds[ aHwnd ] := true
+				wCount++
+				this.SwitchToNextWindow( delay, wCount )
+			} else {
+				keepSearching := false
+			}
+		}
+		return vdHWnds
+	}
+
+	LogOpenWindowsByList( delay ) {
+		vdHWnds := {}
+		keepSearching := true
+		WinGet, hwndList, List
+		Loop %hwndList% {
+			curHwnd := hwndList%A_Index%
+			WinGet, procName, ProcessName, % "ahk_id " . curHwnd
+			if ( !vdHWnds[ curHWnd ] && procName != "" && procName != "explorer.exe"
+					&& procName != "AutoHotkey.exe" ) {
+				vdHWnds[ curHWnd ] := true
+			}
+		}
+		return vdHWnds
+	}
+
+	SwitchToNextWindow( delay, wCount := 1 ) {
+		global execDelayer
+		oldKeyDelay := A_KeyDelay
+		SetKeyDelay % delay
+		Send % "{Alt Down}{Tab " . wCount . "}{Alt Up}"
+		execDelayer.Wait( delay )
+		SetKeyDelay % oldKeyDelay
 	}
 }
