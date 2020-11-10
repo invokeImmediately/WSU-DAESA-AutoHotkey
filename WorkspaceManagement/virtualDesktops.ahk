@@ -346,6 +346,9 @@ class VdWindowCloser {
 
 	CloseLoggedWindows( vdHWnds, delay ) {
 		global execDelayer
+		if ( vdHWnds.Count() == 0 ) {
+			return
+		}
 		execDelayer.SetUpNewProcess( vdHWnds.Count(), A_ThisFunc )
 		For index, value in vdHWnds
 		{
@@ -417,14 +420,20 @@ class VdWindowCloser {
 		vdHWnds := {}
 		keepSearching := true
 		WinGet, hwndList, List
+		; finalList := ""
 		Loop %hwndList% {
-			curHwnd := hwndList%A_Index%
-			WinGet, procName, ProcessName, % "ahk_id " . curHwnd
+			curHWnd := hwndList%A_Index%
+			WinGet, procName, ProcessName, % "ahk_id " . curHWnd
 			if ( !vdHWnds[ curHWnd ] && procName != "" && procName != "explorer.exe"
-					&& procName != "AutoHotkey.exe" ) {
+					&& procName != "AutoHotkey.exe" && procName != "Teams.exe" && procName != "Zoom.exe" ) {
 				vdHWnds[ curHWnd ] := true
+				; finalList .= curHWnd . ", " . procName
+				; if ( A_Index > 1 && A_Index < hwndList ) {
+				; 	finalList .= " | "
+				; }
 			}
 		}
+		MsgBox % finalList
 		return vdHWnds
 	}
 
