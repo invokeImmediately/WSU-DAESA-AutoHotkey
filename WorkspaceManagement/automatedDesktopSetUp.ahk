@@ -47,21 +47,21 @@
 ;       →→→ §1.3.3: @startGithubClients........................................................543
 ;       →→→ §1.3.4: agh_MovePowerShell().......................................................559
 ;     >>> §1.4: Graphic design VD — @setupVdForGraphicDesign...................................623
-;       →→→ §1.4.1: @arrangeGimp...............................................................640
-;       →→→ §1.4.2: svd3_OpenGimp(…)...........................................................663
-;       →→→ §1.4.3: svd3_OpenGraphicsReferences(…).............................................675
-;     >>> §1.5: Communications and media VD — @setupVdForCommunications........................686
-;       →→→ §1.5.1: @arrangeEmail..............................................................704
-;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)................................................752
-;     >>> §1.6: Research VD — @setupVdForResearch..............................................777
-;     >>> §1.7: PC monitoring VD — @setupVdForPcMonitoring.....................................823
-;   §2: STARTUP HOTKEYS........................................................................844
-;     >>> §2.1: #!r............................................................................848
-;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................855
-;     >>> §3.1: @quitAhk.......................................................................859
-;     >>> §3.2: ^#!r...........................................................................868
-;     >>> §3.3: PerformScriptShutdownTasks()...................................................877
-;     >>> §3.4: ScriptExitFunc(…)..............................................................887
+;       →→→ §1.4.1: @arrangeGimp...............................................................634
+;       →→→ §1.4.2: svd3_OpenGraphicsEditors...................................................657
+;       →→→ §1.4.3: svd3_OpenGraphicsReferences(…).............................................672
+;     >>> §1.5: Communications and media VD — @setupVdForCommunications........................687
+;       →→→ §1.5.1: @arrangeEmail..............................................................708
+;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)................................................763
+;     >>> §1.6: Research VD — @setupVdForResearch..............................................788
+;     >>> §1.7: PC monitoring VD — @setupVdForPcMonitoring.....................................834
+;   §2: STARTUP HOTKEYS........................................................................855
+;     >>> §2.1: #!r............................................................................859
+;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................866
+;     >>> §3.1: @quitAhk.......................................................................870
+;     >>> §3.2: ^#!r...........................................................................879
+;     >>> §3.3: PerformScriptShutdownTasks()...................................................888
+;     >>> §3.4: ScriptExitFunc(…)..............................................................898
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -623,17 +623,11 @@ agh_MovePowerShell() {
 ;     >>> §1.4: Graphic design VD — @setupVdForGraphicDesign
 
 :*:@setupVdForGraphicDesign::
-	delay := GetDelay("medium")
-	AppendAhkCmd(A_ThisLabel)
-	CheckForCmdEntryGui()
-
-	; Switch to virtual desktop and notify user of subsequent automated activities.
-	Sleep % delay / 2
+	AppendAhkCmd( A_ThisLabel )
 	DisplaySplashText("Setting up current virtual desktop for graphic design.", 3000)
-
-	; Open and arrange graphic design apps & websites.
-	svd3_OpenGraphicsReferences(delay)
-	svd3_OpenGimp(delay)
+	delay := execDelayer.InterpretDelayString( "m" )
+	svd3_OpenGraphicsReferences( delay )
+	svd3_OpenGraphicsEditors( delay )
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
@@ -641,45 +635,52 @@ Return
 
 :*:@arrangeGimp::
 	AppendAhkCmd(A_ThisLabel)
-	delay := GetDelay("short")
+	delay := execDelayer.InterpretDelayString( "s" )
 	WinActivate Toolbox - Tool Options
-	Sleep %delay%
+	execDelayer.Wait( delay )
 	WinMove Toolbox - Tool Options, , 0, 0, 272, 1040
-	Sleep %delay%
+	execDelayer.Wait( delay )
 	WinActivate Layers
-	Sleep %delay%
+	execDelayer.Wait( delay )
 	WinMove Layers, , 261, 0, 356, 1040
-	Sleep %delay%
+	execDelayer.Wait( delay )
 	WinActivate FG/BG
-	Sleep %delay%
+	execDelayer.Wait( delay )
 	WinMove FG/BG, , 615, 0, 350, 522
-	Sleep %delay%
+	execDelayer.Wait( delay )
 	WinActivate, Navigation
-	Sleep %delay%
+	execDelayer.Wait( delay )
 	WinMove Navigation, , 615, 518, 350, 522
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.4.2: svd3_OpenGimp(…)
+;       →→→ §1.4.2: svd3_OpenGraphicsEditors(…)
 
-svd3_OpenGimp(delay) {
-	Sleep % delay
-	MaxActWinOnMonViaCtrlFN("^F11", 100)
-	LaunchApplicationPatiently("C:\Program Files\GIMP 2\bin\gimp-2.10.exe", "GNU Image")
-	Sleep % delay * 3
-	MaxActWinOnMonViaCtrlFN("^F7", 100)
-	Sleep % delay * 3
+svd3_OpenGraphicsEditors( delay ) {
+	global execDelayer
+	LaunchStdApplicationPatiently( "C:\Program Files\GIMP 2\bin\gimp-2.10.exe", "GNU Image" )
+	execDelayer.Wait( delay * 3 )
+	MaxActWinOnMonViaCtrlFN( "^F7", 100 )
+	execDelayer.Wait( delay * 3 )
+	LaunchStdApplicationPatiently( "C:\Program Files\Inkscape\bin\inkscape.exe", "Inkscape ahk_exe inkscape.exe" )
+	execDelayer.Wait( delay * 3 )
+	MaxActWinOnMonViaCtrlFN( "^F9", 100 )
+	execDelayer.Wait( delay * 3 )
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.4.3: svd3_OpenGraphicsReferences(…)
 
-svd3_OpenGraphicsReferences(delay) {
-	Sleep % delay * 2
+svd3_OpenGraphicsReferences( delay ) {
+	global execDelayer
+	execDelayer.Wait( delay * 2 )
 	Gosub :*:@startChrome
-	OpenWebsiteInChrome("www.colorhexa.com", False)
-	Sleep % delay
-	OpenWebsiteInChrome("brand.wsu.edu/visual/colors")
+	OpenWebsiteInChrome( "www.colorhexa.com", False )
+	execDelayer.Wait( delay * 2 )
+	OpenWebsiteInChrome( "brand.wsu.edu/visual/colors" )
+	execDelayer.Wait( delay * 2 )
+	MaxActWinOnMonViaCtrlFN( "^F11", 100 )
+	execDelayer.Wait( delay * 3 )
 }
 
 ;   ································································································
@@ -694,6 +695,9 @@ svd3_OpenGraphicsReferences(delay) {
 	svd4_LoadWebEmailClients( execDelayer.InterpretDelayString( "s" ) )
 	LaunchStdApplicationPatiently("C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE"
 		, "Inbox ahk_exe OUTLOOK.EXE")
+	execDelayer.Wait( "l" )
+	LaunchStdApplicationPatiently( "C:\Users\danie\AppData\Local\Microsoft\Teams\Update.exe"
+		. " --processStart ""Teams.exe""", "Microsoft Teams ahk_exe Teams.exe" )
 
 	; Restore default arrangement of windows
 	execDelayer.Wait( "s", 10 )
@@ -708,6 +712,7 @@ Return
 	AppendAhkCmd(A_ThisLabel)
 
 	; Reposition Outlook
+	execDelayer.Wait( delay, 10 )
 	WinActivate % "Inbox - ahk_exe OUTLOOK.EXE"
 	execDelayer.Wait( delay, 2 )
 	MaxActWinOnMonViaCtrlFN("^F9", delay)
@@ -746,6 +751,12 @@ Return
 	execDelayer.Wait( delay )
 	Send % "^{Tab}"
 	execDelayer.Wait( delay )
+
+	; Teams
+	WinActivate % "Microsoft Teams ahk_exe Teams.exe"
+	execDelayer.Wait( delay, 2 )
+	MaxActWinOnMonViaCtrlFN( "^F11" , delay)
+	execDelayer.Wait( delay, 1.25 )
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
