@@ -363,6 +363,7 @@ class VdWindowCloser {
 		global execDelayer
 		delay := execDelayer.InterpretDelayString( "short" ) * 1.5
 		DisplaySplashText( "Now closing the open windows on the active virtual desktop." )
+		execDelayer.Wait( "l" )
 		this.CheckOsDesktopHwnd()
 		windowsAlreadyClosed := this.GetStarted( delay )
 		if ( !windowsAlreadyClosed ) {
@@ -420,20 +421,22 @@ class VdWindowCloser {
 		vdHWnds := {}
 		keepSearching := true
 		WinGet, hwndList, List
-		; finalList := ""
+		windowsList := ""
 		Loop %hwndList% {
 			curHWnd := hwndList%A_Index%
 			WinGet, procName, ProcessName, % "ahk_id " . curHWnd
 			if ( !vdHWnds[ curHWnd ] && procName != "" && procName != "explorer.exe"
 					&& procName != "AutoHotkey.exe" && procName != "Teams.exe" && procName != "Zoom.exe" ) {
 				vdHWnds[ curHWnd ] := true
-				; finalList .= curHWnd . ", " . procName
-				; if ( A_Index > 1 && A_Index < hwndList ) {
-				; 	finalList .= " | "
-				; }
+				windowsList .= curHWnd . ", " . procName
+				if ( A_Index > 1 && A_Index < hwndList ) {
+					windowsList .= " | "
+				}
 			}
 		}
-		MsgBox % finalList
+		windowsList := SubStr( windowsList, 1, StrLen( windowsList ) - 3 )
+		winsToClose := new GuiMsgBox( windowsList, "vdWinsToClose", "Windows to Be Closed" )
+		winsToClose.ShowGui()
 		return vdHWnds
 	}
 
