@@ -42,26 +42,26 @@
 ;       →→→ §1.2.6: EnsureActWinMaxed()........................................................362
 ;       →→→ §1.2.7: Vd1_OpenWorkNotesLog().....................................................376
 ;     >>> §1.3: Programming VD — @setupVdForProgramming........................................440
-;       →→→ §1.3.1: @addSublimeText3ToVd + AddSublimeText3ToVd()...............................461
-;       →→→ §1.3.2: @arrangeGitHub.............................................................506
-;       →→→ §1.3.3: @startGithubClients........................................................543
-;       →→→ §1.3.4: agh_MovePowerShell().......................................................559
-;     >>> §1.4: Graphic design VD — @setupVdForGraphicDesign...................................623
-;       →→→ §1.4.1: @arrangeGimp...............................................................634
-;       →→→ §1.4.2: svd3_OpenGraphicsEditors...................................................657
-;       →→→ §1.4.3: svd3_OpenGraphicsReferences(…).............................................672
-;     >>> §1.5: Communications and media VD — @setupVdForCommunications........................687
-;       →→→ §1.5.1: @arrangeEmail..............................................................708
-;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)................................................763
-;     >>> §1.6: Research VD — @setupVdForResearch..............................................788
-;     >>> §1.7: PC monitoring VD — @setupVdForPcMonitoring.....................................834
-;   §2: STARTUP HOTKEYS........................................................................855
-;     >>> §2.1: #!r............................................................................859
-;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................866
-;     >>> §3.1: @quitAhk.......................................................................870
-;     >>> §3.2: ^#!r...........................................................................879
-;     >>> §3.3: PerformScriptShutdownTasks()...................................................888
-;     >>> §3.4: ScriptExitFunc(…)..............................................................898
+;       →→→ §1.3.1: @addSublimeText3ToVd + AddSublimeText3ToVd()...............................462
+;       →→→ §1.3.2: @arrangeGitHub.............................................................507
+;       →→→ §1.3.3: @startGithubClients........................................................544
+;       →→→ §1.3.4: agh_MovePowerShell().......................................................557
+;     >>> §1.4: Graphic design VD — @setupVdForGraphicDesign...................................625
+;       →→→ §1.4.1: @arrangeGimp...............................................................636
+;       →→→ §1.4.2: svd3_OpenGraphicsEditors...................................................659
+;       →→→ §1.4.3: svd3_OpenGraphicsReferences(…).............................................674
+;     >>> §1.5: Communications and media VD — @setupVdForCommunications........................689
+;       →→→ §1.5.1: @arrangeEmail..............................................................710
+;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)................................................765
+;     >>> §1.6: Research VD — @setupVdForResearch..............................................790
+;     >>> §1.7: PC monitoring VD — @setupVdForPcMonitoring.....................................836
+;   §2: STARTUP HOTKEYS........................................................................857
+;     >>> §2.1: #!r............................................................................861
+;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................868
+;     >>> §3.1: @quitAhk.......................................................................872
+;     >>> §3.2: ^#!r...........................................................................881
+;     >>> §3.3: PerformScriptShutdownTasks()...................................................890
+;     >>> §3.4: ScriptExitFunc(…)..............................................................900
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -441,19 +441,20 @@ WebEditVd_OpenWorkNotesLog() {
 
 :*:@setupVdForProgramming::
 	AppendAhkCmd( A_ThisLabel )
-	execDelayer.Wait( "s", 10 )
+	delay := execDelayer.InterpretDelayString( "s" ) * 10
 	DisplaySplashText("Setting up current virtual desktop for coding and source code management."
-		, 3000)
+		, Round( delay * 3, 0 ) )
+	execDelayer.Wait( delay * 3 )
 
 	; Load programming IDE, scripting and command-line interface, and coding repository.
-	execDelayer.Wait( "s", 10 )
+	execDelayer.Wait( delay )
 	curVd := GetCurrentVirtualDesktop()
 	AddSublimeText3ToVd( curVd )
-	execDelayer.Wait( "s", 5 )
+	execDelayer.Wait( delay * 0.5 )
 	SendInput #e
 	WaitForApplicationPatiently( "This PC" )
 	Gosub :*:@startGithubClients
-	execDelayer.Wait( "s", 5 )
+	execDelayer.Wait( delay * 0.5 )
 	Gosub :*:@arrangeGitHub
 Return
 
@@ -517,26 +518,26 @@ AddSublimeText3ToVd( whichVd ) {
 	; Position chrome window containing tab loaded with GitHub profile
 	WinActivate, % "invokeImmediately ahk_exe chrome.exe"
 	execDelayer.Wait( "m" )
-	PosActWinOnMonsViaCtrlFN( "^F7", execDelayer.InterpretDelayString( "s", 2 ) )
-	execDelayer.Wait( "s", 2 )
+	PosActWinOnMonsViaCtrlFN( "^F7", execDelayer.InterpretDelayString( "s", 3 ) )
+	execDelayer.Wait( "s", 5 )
 
 	; Position File Explorer window
 	WinRestore, % "This PC ahk_exe explorer.exe"
-	execDelayer.Wait( "m" )
+	execDelayer.Wait( "m", 2 )
 	WinActivate,  % "This PC ahk_exe explorer.exe"
-	execDelayer.Wait( "m" )
+	execDelayer.Wait( "m", 2 )
 	WinMove,  % "This PC ahk_exe explorer.exe", , Mon1WorkArea_Left + 200, 0, 1720, 1040
-	execDelayer.Wait( "s", 2 )
+	execDelayer.Wait( "s", 5 )
 	WinActivate, % "invokeImmediately ahk_exe chrome.exe"
 
 	; Position Sublime Text 3 window
 	WinActivate, ahk_exe sublime_text.exe
-	execDelayer.Wait( "s", 3 )
-	PosActWinOnMonsViaCtrlFN( "^F9", execDelayer.InterpretDelayString( "s", 2 ) )
+	execDelayer.Wait( "s", 5 )
+	PosActWinOnMonsViaCtrlFN( "^F9", execDelayer.InterpretDelayString( "s", 3 ) )
 
 	; Position Powershell console window
 	agh_MovePowerShell()
-	execDelayer.Wait( "s", 2 )
+	execDelayer.Wait( "s", 5 )
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
@@ -544,30 +545,30 @@ Return
 
 :*:@startGithubClients::
 	AppendAhkCmd( A_ThisLabel )
-	execDelayer.Wait( "s" )
+	execDelayer.Wait( "s", 2 )
 	Gosub :*:@startChrome
 	OpenWebsiteInChrome("github.com/invokeImmediately", False)
-	; LaunchStdApplicationPatiently(userAccountFolderSSD . "\AppData\Local\GitHubDesktop\GitHubDesktop.exe"
-	; 	, "GitHub ahk_exe GitHubDesktop.exe")
-	; Sleep % delay * 3
 	LaunchApplicationPatiently("C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe"
 		, "ahk_exe powershell.exe")
-	execDelayer.Wait( "s", 3 )
+	execDelayer.Wait( "s", 5 )
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.3.4: agh_MovePowerShell()
 
 agh_MovePowerShell() {
+	; Fetch references to globals used by this function.
 	global execDelayer
 	global mon3WorkArea_Left
-	delay := GetDelay( "medium" )
+
+	; Establish the settings that control this function's behavior.
+	delay := execDelayer.InterpretDelayString( "m" )
 	destX := mon3WorkArea_Left + 393 ; units = pixels, destination X coordinate
 	destY := 161 ; units = pixels, destination Y coordinate
 	attemptsLimit := 9 ; make repeated attempts over 3 seconds
 	attemptsCount := 0
 
-	; Activate Powershell console window
+	; Activate Powershell console window.
 	hWnd := WinExist( "Administrator: ahk_class ConsoleWindowClass" )
 	while ( !hWnd && attemptsCount <= attemptsLimit ) {
 		execDelayer.Wait( "m" )
@@ -575,44 +576,45 @@ agh_MovePowerShell() {
 		attemptsCount++
 	}
 
-	; Move Powershell console window
+	; Move Powershell console window.
 	if (hWnd) {
 		; Set up a loop for repeated move attemps
 		psTitle := "ahk_id " . hWnd ; i.e., PowerShell's identifying criteria
-		execDelayer.Wait( "m" )
+		execDelayer.Wait( "m", 1.5 )
 		WinGetPos x, y, w, h, % psTitle
 		attempts := 0
 
-		; Execute a loop for repeated move attempts
+		; Execute a loop for repeated move attempts.
 		while ( attempts <= attemptsLimit && ( x != destX && y != destY ) ) {
 			WinMove % psTitle, , % destX, % destY
 			attempts++
-			execDelayer.Wait( "m" )
+			execDelayer.Wait( "m", 1.5 )
 			WinGetPos x, y, w, h, % psTitle
 		}
 
-		; If necessary, report failure to move Powershell console window
+		; If necessary, report failure to move Powershell console window.
 		if ( attempts > attemptsLimit && ( x != destX && y != destY ) ) {
 			errorMsgBox := New GuiMsgBox( "Error in " . A_ThisFunc . ": Failed to move PowerShell "
 				. "after " . ( delay * attemptsLimit / 1000 ) . " seconds.", "PowerShellWontMove" )
 			errorMsgBox.ShowGui()
 		} else {
-			execDelayer.Wait( "m" )
+			; Position PowerShell on the desktop.
+			execDelayer.Wait( "m", 1.5 )
 			WinActivate % psTitle
-			execDelayer.Wait( "m", 2 )
+			execDelayer.Wait( "m", 3 )
 			PosActWinOnMonsViaCtrlFN( "^F11", execDelayer.InterpretDelayString( "m" ) )
 
 			; Start a second PowerShell process.
 			execDelayer.Wait( "l", 1.5 )
 			Send, % "Start-Process Powershell{Enter}"
-			execDelayer.Wait( "m", 3 )
+			execDelayer.Wait( "m", 4 )
 			PosActWinOnMonsViaCtrlFN( "^F12", execDelayer.InterpretDelayString( "m" ) )
-			execDelayer.Wait( "m" )
+			execDelayer.Wait( "m", 2 )
 			Send, % "!{Tab}"
-			execDelayer.Wait( "m" )
+			execDelayer.Wait( "m", 2 )
 		}
 	} else {
-		; Report failure to activate Powershell console window
+		; Report failure to activate Powershell console window.
 		errorMsgBox := New GuiMsgBox( "Error in " . A_ThisFunc . ": Could not find PowerShell."
 			, "NoPowerShell" )
 		errorMsgBox.ShowGui()
