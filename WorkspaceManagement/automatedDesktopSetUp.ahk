@@ -28,40 +28,41 @@
 ; ==================================================================================================
 ; Table of Contents:
 ; -----------------
-;   §1: VIRTUAL DESKTOP SET UP HOTSTRINGS.......................................................68
-;     >>> §1.1: Work environment set up — @setupWorkEnvironment.................................72
-;       →→→ §1.1.1: class ScriptEnvChecker......................................................92
-;       →→→ §1.1.1: @moveTempMonitors..........................................................189
-;       →→→ §1.1.2: @setupVirtualDesktops......................................................211
-;     >>> §1.2: Website editing VD — @setupVdForWebEditing.....................................246
-;       →→→ §1.2.1: @startChrome...............................................................280
-;       →→→ §1.2.2: @startSublimeText3.........................................................290
-;       →→→ §1.2.3: PositionChromeVD1()........................................................301
-;       →→→ §1.2.4: PosActWinOnMonsViaCtrlFN(…)................................................314
-;       →→→ §1.2.5: MaxActWinOnMonViaCtrlFN(…).................................................331
-;       →→→ §1.2.6: EnsureActWinMaxed()........................................................362
-;       →→→ §1.2.7: Vd1_OpenWorkNotesLog().....................................................376
-;     >>> §1.3: Programming VD — @setupVdForProgramming........................................440
-;       →→→ §1.3.1: @addSublimeText3ToVd + AddSublimeText3ToVd()...............................462
-;       →→→ §1.3.2: @arrangeGitHub.............................................................507
-;       →→→ §1.3.3: @startGithubClients........................................................544
-;       →→→ §1.3.4: agh_MovePowerShell().......................................................557
-;     >>> §1.4: Graphic design VD — @setupVdForGraphicDesign...................................625
-;       →→→ §1.4.1: @arrangeGimp...............................................................636
-;       →→→ §1.4.2: svd3_OpenGraphicsEditors...................................................659
-;       →→→ §1.4.3: svd3_OpenGraphicsReferences(…).............................................674
-;     >>> §1.5: Communications and media VD — @setupVdForCommunications........................689
-;       →→→ §1.5.1: @arrangeEmail..............................................................710
-;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)................................................765
-;     >>> §1.6: Research VD — @setupVdForResearch..............................................790
-;     >>> §1.7: PC monitoring VD — @setupVdForPcMonitoring.....................................836
-;   §2: STARTUP HOTKEYS........................................................................857
-;     >>> §2.1: #!r............................................................................861
-;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................868
-;     >>> §3.1: @quitAhk.......................................................................872
-;     >>> §3.2: ^#!r...........................................................................881
-;     >>> §3.3: PerformScriptShutdownTasks()...................................................890
-;     >>> §3.4: ScriptExitFunc(…)..............................................................900
+;   §1: VIRTUAL DESKTOP SET UP HOTSTRINGS.......................................................69
+;     >>> §1.1: Work environment set up — @setupWorkEnvironment.................................73
+;       →→→ §1.1.1: class ScriptEnvChecker......................................................93
+;       →→→ §1.1.1: @moveTempMonitors..........................................................193
+;       →→→ §1.1.2: @setupVirtualDesktops......................................................215
+;     >>> §1.2: Website editing VD — @setupVdForWebEditing.....................................250
+;       →→→ §1.2.1: @startChrome...............................................................284
+;       →→→ §1.2.2: @startSublimeText3.........................................................294
+;       →→→ §1.2.3: PositionChromeVD1()........................................................305
+;       →→→ §1.2.4: PosActWinOnMonsViaCtrlFN(…)................................................317
+;       →→→ §1.2.5: CenterWinOnMonsViaCtrlFN(…)................................................333
+;       →→→ §1.2.6: MaxActWinOnMonViaCtrlFN(…).................................................343
+;       →→→ §1.2.7: EnsureActWinMaxed()........................................................373
+;       →→→ §1.2.8: Vd1_OpenWorkNotesLog().....................................................387
+;     >>> §1.3: Programming VD — @setupVdForProgramming........................................451
+;       →→→ §1.3.1: @addSublimeText3ToVd + AddSublimeText3ToVd()...............................473
+;       →→→ §1.3.2: @arrangeGitHub.............................................................518
+;       →→→ §1.3.3: @startGithubClients........................................................555
+;       →→→ §1.3.4: agh_MovePowerShell().......................................................568
+;     >>> §1.4: Graphic design VD — @setupVdForGraphicDesign...................................636
+;       →→→ §1.4.1: @arrangeGimp...............................................................647
+;       →→→ §1.4.2: svd3_OpenGraphicsEditors...................................................670
+;       →→→ §1.4.3: svd3_OpenGraphicsReferences(…).............................................685
+;     >>> §1.5: Communications and media VD — @setupVdForCommunications........................700
+;       →→→ §1.5.1: @arrangeEmail..............................................................720
+;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)................................................775
+;     >>> §1.6: Research VD — @setupVdForResearch..............................................800
+;     >>> §1.7: PC monitoring VD — @setupVdForPcMonitoring.....................................846
+;   §2: STARTUP HOTKEYS........................................................................873
+;     >>> §2.1: #!r............................................................................877
+;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................884
+;     >>> §3.1: @quitAhk.......................................................................888
+;     >>> §3.2: ^#!r...........................................................................897
+;     >>> §3.3: PerformScriptShutdownTasks()...................................................906
+;     >>> §3.4: ScriptExitFunc(…)..............................................................916
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -91,6 +92,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.1.1: class ScriptEnvChecker
 
+; TODO: If Open Hardware Monitor works, change references to realTemp and refactor class.
 class ScriptEnvChecker {
 	__New( fVdMapper ) {
 		; Store a reference to the script's function for mapping virtual desktops from the registry.
@@ -105,9 +107,11 @@ class ScriptEnvChecker {
 		; Count up the number of open desktops.
 		DetectHiddenWindows On
 		execDelayer.Wait( "s" )
-		this.gpuTempExists := WinExist( "GPU Temp ahk_exe GPUTemp.exe" )
+		; this.gpuTempExists := WinExist( "GPU Temp ahk_exe GPUTemp.exe" )
+		; Override GPU Temp check, as GPU Temp may be causing VD instability.
+		this.gpuTempExists := true
 		execDelayer.Wait( "s" )
-		this.realTempExists := WinExist( "RealTemp ahk_exe RealTemp.exe" )
+		this.realTempExists := WinExist( "Open Hardware Monitor ahk_exe OpenHardwareMonitor.exe" )
 		execDelayer.Wait( "s" )
 		DetectHiddenWindows Off
 
@@ -192,16 +196,16 @@ class ScriptEnvChecker {
 	AppendAhkCmd( A_ThisLabel )
 	DisplaySplashText( "Moving temperature monitors.", 3000 )
 	DetectHiddenWindows On
-	execDelayer.SetUpNewProcess( 5.1, A_ThisLabel )
+	execDelayer.SetUpNewProcess( 3.1, A_ThisLabel )
 	execDelayer.Wait( "m", 3 )
-	WinActivate % "RealTemp ahk_exe RealTemp.exe"
+	WinActivate % "Open Hardware Monitor ahk_exe OpenHardwareMonitor.exe"
 	execDelayer.Wait( "m", 3 )
 	moveActiveWindowToVirtualDesktop( 6 )
 	execDelayer.Wait( "l", 2 )
-	WinActivate % "GPU Temp ahk_exe GPUTemp.exe"
-	execDelayer.Wait( "m", 2 )
-	moveActiveWindowToVirtualDesktop( 6 )
-	execDelayer.Wait( "l", 2 )
+	; WinActivate % "GPU Temp ahk_exe GPUTemp.exe"
+	; execDelayer.Wait( "m", 2 )
+	; moveActiveWindowToVirtualDesktop( 6 )
+	; execDelayer.Wait( "l", 2 )
 	execDelayer.CompleteCurrentProcess()
 	DetectHiddenWindows Off
 	DisplaySplashText( "Finished moving temperature monitors.", 3000 )
@@ -302,7 +306,6 @@ Return
 
 PositionChromeOnWebEditVd() {
 	global execDelayer
-
 	chromeTitle := "Log In ahk_exe chrome.exe"
 	chromeActive := SafeWinActivate( chromeTitle )
 	if ( chromeActive ) {
@@ -315,7 +318,6 @@ PositionChromeOnWebEditVd() {
 
 PosActWinOnMonsViaCtrlFN( posHotkey, delay ) {
 	global execDelayer
-
 	if ( !( posHotkey == "^F7" || posHotkey == "^F8" || posHotkey == "^F9" || posHotkey == "^F10"
 			|| posHotkey == "^F11" || posHotkey == "^F12" ) ) {
 		errorMsg := New GuiMsgBox( "Error in " . A_ThisFunc . ": I was passed a window positioning "
@@ -328,11 +330,20 @@ PosActWinOnMonsViaCtrlFN( posHotkey, delay ) {
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.2.5: MaxActWinOnMonViaCtrlFN(…)
+;       →→→ §1.2.5: CenterWinOnMonsViaCtrlFN(…)
+
+CenterActWinOnMonsViaCtrlFN( posHotkey, delay ) {
+	global execDelayer
+	PosActWinOnMonsViaCtrlFN( posHotkey, delay )
+	execDelayer.Wait( "m" )
+	Gosub, ^!#Numpad5
+}
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.2.6: MaxActWinOnMonViaCtrlFN(…)
 
 MaxActWinOnMonViaCtrlFN( posHotkey, delay ) {
 	global execDelayer
-
 	if ( !( posHotkey == "^F7" || posHotkey == "^F8" || posHotkey == "^F9" || posHotkey == "^F10"
 			|| posHotkey == "^F11" || posHotkey == "^F12" ) ) {
 		errorMsg := New GuiMsgBox( "Error in " . A_ThisFunc . ": I was passed a window positioning "
@@ -359,7 +370,7 @@ MaxActWinOnMonViaCtrlFN( posHotkey, delay ) {
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.2.6: EnsureActWinMaxed()
+;       →→→ §1.2.7: EnsureActWinMaxed()
 
 EnsureActWinMaxed() {
 	global execDelayer
@@ -373,7 +384,7 @@ EnsureActWinMaxed() {
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.2.7: Vd1_OpenWorkNotesLog()
+;       →→→ §1.2.8: Vd1_OpenWorkNotesLog()
 
 WebEditVd_OpenWorkNotesLog() {
 	global mmRegEx
@@ -698,8 +709,7 @@ svd3_OpenGraphicsReferences( delay ) {
 	LaunchStdApplicationPatiently("C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE"
 		, "Inbox ahk_exe OUTLOOK.EXE")
 	execDelayer.Wait( "l" )
-	LaunchStdApplicationPatiently( "C:\Users\danie\AppData\Local\Microsoft\Teams\Update.exe"
-		. " --processStart ""Teams.exe""", "Microsoft Teams ahk_exe Teams.exe" )
+	LaunchStdApplicationPatiently( "C:\Users\danie\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Microsoft Teams.lnk", "Microsoft Teams ahk_exe Teams.exe" )
 
 	; Restore default arrangement of windows
 	execDelayer.Wait( "s", 10 )
@@ -791,66 +801,72 @@ svd4_LoadWebEmailClients( delay ) {
 
 :*:@setupVdForResearch::
 	delay := execDelayer.InterpretDelayString( "s" )
-	AppendAhkCmd(A_ThisLabel)
+	AppendAhkCmd( A_ThisLabel )
 	execDelayer.Wait( delay, 2 )
-	DisplaySplashText("Setting up current virtual desktop for computer monitoring and Torah study."
-		, 3000)
+	DisplaySplashText( "Setting up current virtual desktop for computer monitoring and Torah study."
+		, 3000 )
 
 	; Set up apps for catching up on news.
 	Gosub :*:@startChrome
-	OpenWebsiteInChrome("https://www.sfchronicle.com/", False)
+	OpenWebsiteInChrome( "https://www.sfchronicle.com/", False )
 	execDelayer.Wait( delay, 10 )
-	OpenWebsiteInChrome("https://www.nytimes.com/")
+	OpenWebsiteInChrome( "https://www.nytimes.com/" )
 	execDelayer.Wait( delay, 10 )
-	OpenWebsiteInChrome("news.wsu.edu")
+	OpenWebsiteInChrome( "news.wsu.edu" )
 	execDelayer.Wait( delay, 10 )
-	OpenWebsiteInChrome("dailyevergreen.com")
+	OpenWebsiteInChrome( "dailyevergreen.com" )
 	execDelayer.Wait( delay, 20 )
 	MoveToNextTabInChrome()
-	MaxActWinOnMonViaCtrlFN("^F7", delay)
+	MaxActWinOnMonViaCtrlFN( "^F7", delay )
 
 	; Set up apps for Torah study.
 	execDelayer.Wait( delay, 6 )
 	SendInput % "^n"
 	execDelayer.Wait( delay, 20 )
-	OpenWebsiteInChrome("biblegateway.com", False)
+	OpenWebsiteInChrome( "biblegateway.com", False )
 	execDelayer.Wait( delay, 10 )
-	OpenWebsiteInChrome("hebrew4christians.com")
+	OpenWebsiteInChrome( "hebrew4christians.com" )
 	execDelayer.Wait( delay, 10 )
-	OpenWebsiteInChrome("scripturetyper.com")
+	OpenWebsiteInChrome( "scripturetyper.com" )
 	execDelayer.Wait( delay, 10 )
-	OpenWebsiteInChrome("www.blueletterbible.org")
+	OpenWebsiteInChrome( "www.blueletterbible.org" )
 	execDelayer.Wait( delay, 10 )
 	MoveToNextTabInChrome()
-	MaxActWinOnMonViaCtrlFN("^F9", delay)
+	MaxActWinOnMonViaCtrlFN( "^F9", delay )
 
 	; Load music app
-	LaunchStdApplicationPatiently("shell:appsFolder\AppleInc.iTunes_nzyj5cx40ttqa!iTunes", "iTunes")
+	LaunchStdApplicationPatiently( "shell:appsFolder\AppleInc.iTunes_nzyj5cx40ttqa!iTunes", "iTunes" )
 	execDelayer.Wait( delay )
 	WinActivate % "iTunes ahk_exe iTunes.exe"
 	execDelayer.Wait( delay )
-	MaxActWinOnMonViaCtrlFN("^F11", delay)
+	MaxActWinOnMonViaCtrlFN( "^F11", delay )
 Return
 
 ;   ································································································
 ;     >>> §1.7: PC monitoring VD — @setupVdForPcMonitoring
 
 :*:@setupVdForPcMonitoring::
-	AppendAhkCmd(A_ThisLabel)
+	AppendAhkCmd( A_ThisLabel )
 	execDelayer.Wait( "s", 2 )
-	DisplaySplashText("Setting up current virtual desktop for computer monitoring.", 3000)
+	DisplaySplashText( "Setting up current virtual desktop for computer monitoring.", 3000 )
 
 	; Set up computer monitoring apps.
 	execDelayer.Wait( "s", 2 )
-	LaunchStdApplicationPatiently("C:\Windows\System32\taskmgr.exe", "Task Manager")
+	LaunchStdApplicationPatiently( "C:\Windows\System32\taskmgr.exe", "Task Manager" )
 	execDelayer.Wait( "s", 10 )
-	WinMove % "GPU Temp", , % 1379 + Mon1WorkArea_Left, 59, 480, 400
-	execDelayer.Wait( "s", 2 )
-	WinMove % "RealTemp", , % 1383 + Mon1WorkArea_Left, 477, 318, 409
+	; WinMove % "GPU Temp", , % 1379 + Mon1WorkArea_Left, 59, 480, 400
+	; execDelayer.Wait( "s", 2 )
+	WinMove % "Open Hardware Monitor ahk_exe OpenHardwareMonitor.exe", , % 1383 + Mon1WorkArea_Left
+		, 477, 318, 409
 	execDelayer.Wait( "s", 2 )
 	WinMove % "Task Manager", , % 392 + Mon1WorkArea_Left, 477, 976, 533
-
-	LaunchApplicationPatiently("C:\xampp\xampp-control.exe", "XAMPP ahk_exe xampp-control.exe")
+	execDelayer.Wait( "m" )
+	LaunchApplicationPatiently( "C:\xampp\xampp-control.exe", "XAMPP ahk_exe xampp-control.exe" )
+	execDelayer.Wait( "m" )
+	LaunchApplicationPatiently( "C:\Program Files\FileZilla FTP Client\filezilla.exe"
+		, "FileZilla ahk_exe filezilla.exe" )
+	execDelayer.Wait( "m" )
+	CenterActWinOnMonsViaCtrlFN( "^F9", execDelayer.InterpretDelayString( "s" ) )
 Return
 
 ; --------------------------------------------------------------------------------------------------
