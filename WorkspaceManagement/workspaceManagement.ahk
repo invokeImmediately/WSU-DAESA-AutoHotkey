@@ -85,24 +85,24 @@
 ;   §7: APP SPECIFIC WORKSPACE MANAGEMENT SCRIPTS.............................................1494
 ;     >>> §7.1: CHROME........................................................................1498
 ;       →→→ §7.1.1: OpenWebsiteInChrome.......................................................1501
-;       →→→ §7.1.2: OpenNewTabInChrome........................................................1527
-;       →→→ §7.1.3: OpenNewWindowInChrome.....................................................1542
-;       →→→ §7.1.4: NavigateToWebsiteInChrome.................................................1555
-;       →→→ §7.1.5: MoveToNextTabInChrome.....................................................1578
-;     >>> §7.2: GNU IMAGE MANIPULATION PROGRAM................................................1590
-;       →→→ §7.2.1: @toggleGimp...............................................................1593
-;     >>> §7.3: NOTEPAD++: TEXT EDITING ENHANCEMENT HOTKEYS & SCRIPTS.........................1637
-;     >>> §7.4: STICKY NOTES FOR CHROME.......................................................1709
-;       →→→ §7.4.1: @initStickyNoteToggle.....................................................1712
-;       →→→ §7.4.2: @toggleStickyNote.........................................................1724
-;     >>> §7.5: SUBLIME TEXT 3................................................................1751
-;       →→→ §7.5.1: @sst3 (Start Sublime Text 3)..............................................1754
-;       →→→ §7.5.2: updateTableOfContents.ahk.................................................1761
-;     >>> §7.6: iTunes........................................................................1766
-;       →→→ §7.6.1: @restartItunes............................................................1769
-;   §8: Diagnostic hotstrings.................................................................1809
-;     >>> §8.1: @getActiveMonitorWorkArea.....................................................1813
-;     >>> §8.2: @getInfoOnSystemMonitors......................................................1823
+;       →→→ §7.1.2: OpenNewTabInChrome........................................................1525
+;       →→→ §7.1.3: OpenNewWindowInChrome.....................................................1540
+;       →→→ §7.1.4: NavigateToWebsiteInChrome.................................................1553
+;       →→→ §7.1.5: MoveToNextTabInChrome.....................................................1576
+;     >>> §7.2: GNU IMAGE MANIPULATION PROGRAM................................................1588
+;       →→→ §7.2.1: @toggleGimp...............................................................1591
+;     >>> §7.3: NOTEPAD++: TEXT EDITING ENHANCEMENT HOTKEYS & SCRIPTS.........................1635
+;     >>> §7.4: STICKY NOTES FOR CHROME.......................................................1707
+;       →→→ §7.4.1: @initStickyNoteToggle.....................................................1710
+;       →→→ §7.4.2: @toggleStickyNote.........................................................1722
+;     >>> §7.5: SUBLIME TEXT 3................................................................1749
+;       →→→ §7.5.1: @sst3 (Start Sublime Text 3)..............................................1752
+;       →→→ §7.5.2: updateTableOfContents.ahk.................................................1759
+;     >>> §7.6: iTunes........................................................................1764
+;       →→→ §7.6.1: @restartItunes............................................................1767
+;   §8: Diagnostic hotstrings.................................................................1822
+;     >>> §8.1: @getActiveMonitorWorkArea.....................................................1826
+;     >>> §8.2: @getInfoOnSystemMonitors......................................................1836
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -1505,7 +1505,6 @@ OpenWebsiteInChrome(website, inNewTab := True) {
 	delay := execDelayer.InterpretDelayString("short")
 	website .= "{Enter}"
 	attemptCount := 0
-;	DetectHiddenWindows, Off
 	WinGet procName, ProcessName, A
 	while (procName != "chrome.exe" && attemptCount <= 8) {
 		execDelayer.Wait( delay, 2.5 )
@@ -1514,7 +1513,6 @@ OpenWebsiteInChrome(website, inNewTab := True) {
 		WinGet procName, ProcessName, A
 		attemptCount++
 	}
-;	DetectHiddenWindows, On
 	if ( inNewTab ) {
 		OpenNewTabInChrome()
 	} else {
@@ -1774,32 +1772,47 @@ Return
 	execDelayer.Wait( "s" )
 	winTitle := "iTunes ahk_exe iTunes.exe"
 	iTunesHwnd := WinExist( winTitle )
-	if (iTunesHwnd) {
+	if ( iTunesHwnd ) {
+		; Keep a record of the currently active window for later.
 		aHwnd := WinExist( "A" )
 		if (aHwnd == iTunesHwnd) {
 			aHwnd := 0
 		}
+
+		; Find iTunes and close it.
 		WinActivate % winTitle
-		WinWaitActive %winTitle%, , 7
+		WinWaitActive %winTitle%, , 30
 		proceed := !ErrorLevel
-		if (proceed) {
+		if ( proceed ) {
 			WinClose %winTitle%
-			WinWaitClose %winTitle%, , 7
+			WinWaitClose %winTitle%, , 30
 			proceed := !ErrorLevel
+		} else {
+			failedFunc := "WainWaitActive for closing iTunes"
 		}
-		if (proceed) {
+		; Now reopen iTunes.
+		if ( proceed ) {
 			execDelayer.Wait( "l" )
-			LaunchStdApplicationPatiently("shell:appsFolder\AppleInc.iTunes_nzyj5cx40ttqa!iTunes"
+			LaunchStdApplicationPatiently( "shell:appsFolder\AppleInc.iTunes_nzyj5cx40ttqa!iTunes"
 				, "iTunes")
-			WinWaitActive %winTitle%, , 10
+			execDelayer.Wait( "l" )
+			WinWaitActive %winTitle%, , 30
 			proceed := !ErrorLevel
+		} else {
+			failedFunc := "WainWaitClose for closing iTunes"
 		}
-		if (proceed && aHwnd) {
+
+		; Restore focus to the window that was open before we restarted iTunes.
+		if ( proceed && aHwnd ) {
 			execDelayer.Wait( "l" )
 			WinActivate % "ahk_id " . aHwnd
+		} else {
+			failedFunc := "WainWaitActive for reopening iTunes"
 		}
+
+		; Report any errord that were encountered above.
 		if ( !proceed ) {
-			ErrorBox( A_ThisLabel, "ErrorLevel = " . ErrorLevel )
+			ErrorBox( A_ThisLabel, failedFunc . " reports ErrorLevel = " . ErrorLevel )
 		}
 	}
 	DetectHiddenWindows, Off
