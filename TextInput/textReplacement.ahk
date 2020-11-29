@@ -27,17 +27,17 @@
 ;     >>> §1.2: Hotkeys.........................................................................66
 ;       →→→ §1.2.1: Insertion of non-breaking spaces............................................69
 ;       →→→ §1.2.2: VIM-style cursor movement...................................................76
-;   §2: FRONT-END web development...............................................................97
-;     >>> §2.1: HTML editing...................................................................101
-;     >>> §2.2: CSS editing....................................................................108
-;     >>> §2.3: JS editing.....................................................................116
-;   §3: NUMPAD mediated text insertion.........................................................121
-;     >>> §3.1: GetCmdForMoveToCSSFolder.......................................................125
-;     >>> §3.2: GetCmdForMoveToCSSFolder.......................................................143
-;   §4: DATES and TIMES........................................................................161
-;     >>> §4.1: Dates..........................................................................165
-;     >>> §4.2: Times..........................................................................193
-;   §5: CLIPBOARD modifying hotstrings.........................................................227
+;   §2: FRONT-END web development..............................................................155
+;     >>> §2.1: HTML editing...................................................................159
+;     >>> §2.2: CSS editing....................................................................166
+;     >>> §2.3: JS editing.....................................................................174
+;   §3: NUMPAD mediated text insertion.........................................................179
+;     >>> §3.1: GetCmdForMoveToCSSFolder.......................................................183
+;     >>> §3.2: GetCmdForMoveToCSSFolder.......................................................201
+;   §4: DATES and TIMES........................................................................219
+;     >>> §4.1: Dates..........................................................................223
+;     >>> §4.2: Times..........................................................................251
+;   §5: CLIPBOARD modifying hotstrings.........................................................285
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -75,7 +75,65 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.2.2: VIM-style cursor movement
 
-; TODO: Add toggling functionality for triggering VIM-style cursor movement.
+; TODO: Add timer-based deactivation of VIM-style cursor movement state.
+
+>+CapsLock::
+	ToggleVimyMode()
+Return
+
+ToggleVimyMode() {
+	global execDelayer
+	global g_vimyModeActive
+	g_vimyModeActive := !g_vimyModeActive
+	vimyModeState := g_vimyModeActive ? "on" : "off"
+	DisplaySplashText( "VIM-style cursor movement mode toggled to " . vimyModeState, 500 )
+	execDelayer.Wait( 500 )
+}
+
+; Word based movement
+
+~m::
+	HandleVimyKey( "^{Left}", "m" )
+Return
+
+~,::
+	HandleVimyKey( "^{Right}{Right}^{Right}^{Left}", "," )
+Return
+
+~u::
+	HandleVimyKey( "^{Left}{Left}^{Left}^{Right}", "u" )
+Return
+
+~i::
+	HandleVimyKey( "^{Right}", "i" )
+Return
+
+; Character based movement
+
+~j::
+	HandleVimyKey( "{Left}", "j" )
+Return
+
+~k::
+	HandleVimyKey( "{Right}", "k" )
+Return
+
+~l::
+	HandleVimyKey( "{Up}", "l" )
+Return
+
+~;::
+	HandleVimyKey( "{Down}", ";" )
+Return
+
+HandleVimyKey( vimyModeOnKey, vimyModeOffKey ) {
+	global g_vimyModeActive
+	if ( g_vimyModeActive ) {
+		SendInput % "{Backspace}" . vimyModeOnKey 
+	}
+}
+
+; VIM : 
 
 ^#j::
 	SendInput {Left}
