@@ -857,7 +857,7 @@ Return
 	; WinMove % "GPU Temp", , % 1379 + Mon1WorkArea_Left, 59, 480, 400
 	; execDelayer.Wait( "s", 2 )
 	WinMove % "Open Hardware Monitor ahk_exe OpenHardwareMonitor.exe", , % 1383 + Mon1WorkArea_Left
-		, 477, 318, 409
+		, 13, 482, 957
 	execDelayer.Wait( "s", 2 )
 	WinMove % "Task Manager", , % 392 + Mon1WorkArea_Left, 477, 976, 533
 	execDelayer.Wait( "m" )
