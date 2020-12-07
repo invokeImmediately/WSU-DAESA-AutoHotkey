@@ -401,7 +401,7 @@ LoadWordPressSiteInChrome( websiteUrl, winTitle := "" ) {
 			execDelayer.Wait( "l" )
 			SendInput, !d
 			execDelayer.Wait( "s", 2 )
-			SendInput, % websiteUrl . "{Enter}"
+			SafeSendInput( websiteUrl . "{Enter}" )
 			execDelayer.Wait( "m", 1.5 )
 		}
 		proceed := false
@@ -992,9 +992,9 @@ Return
 Return
 
 FindGitChangesRegExNotepadPp() {
-	SendInput, % "^h"
+	SafeSendInput( "^h" )
 	Sleep, 200
-	SendInput, % "{^}(?:[{^} -].*| (?{!} {{}7{}}).*|-(?{!}-{{}7{}}).*)?$(?:\r\n)?"
+	SafeSendInput( "{^}(?:[{^} -].*| (?{!} {{}7{}}).*|-(?{!}-{{}7{}}).*)?$(?:\r\n)?" )
 	Sleep, 20
 	SendInput, % "{Tab}"
 	Sleep, 20
@@ -1005,7 +1005,7 @@ FindGitChangesRegExSublimeText() {
 	delay := 60
 	SendInput, % "{Esc}"
 	Sleep, % delay
-	SendInput, % "^h"
+	SafeSendInput( "^h" )
 	Sleep, % delay * 4
 	SendInput, % "{^}(?:[{^}\n \-].*| (?{!} {{}7{}}).*|-(?{!}-{{}7{}}).*)?$(?:\n?)"
 	Sleep, % delay
@@ -1096,7 +1096,7 @@ Return
 	AppendAhkCmd( A_ThisLabel )
 	proceedWithCmd := ActivateGitShell()
 	if( proceedWithCmd ) {
-		SendInput % "git status{enter}"
+		SafeSendInput( "git status{enter}" )
 	} else {
 		MsgBox % ( 0x0 + 0x10 ), % "ERROR (" . A_ThisLabel . "): Could Not Locate Git PowerShell"
 			, % "The Git PowerShell process could not be located and activated."
@@ -1116,7 +1116,7 @@ Return
 	AppendAhkCmd( A_ThisLabel )
 	proceedWithCmd := ActivateGitShell()
 	if( proceedWithCmd ) {
-		SendInput % "git --no-pager diff "
+		SafeSendInput( "git --no-pager diff " )
 	} else {
 		MsgBox % ( 0x0 + 0x10 ), % "ERROR (" . A_ThisLabel . "): Could Not Locate Git PowerShell"
 			, % "The Git PowerShell process could not be located and activated."
@@ -1136,8 +1136,8 @@ Return
 	AppendAhkCmd( A_ThisLabel )
 	proceedWithCmd := ActivateGitShell()
 	if( proceedWithCmd ) {
-		SendInput % "git --no-pager log --follow --pretty=""format:%h | %cn | %cd | %s%n  ╘═> %b"" "
- . "-20 "
+		SafeSendInput( "git --no-pager log --follow --pretty=""format:%h | %cn | %cd | %s%n  ╘═> %b"" "
+			. "-20 " )
 	} else {
 		MsgBox % ( 0x0 + 0x10 ), % "ERROR (" . A_ThisLabel . "): Could Not Locate Git PowerShell"
 			, % "The Git PowerShell process could not be located and activated."
@@ -1157,7 +1157,7 @@ Return
 	AppendAhkCmd( A_ThisLabel )
 	proceedWithCmd := ActivateGitShell()
 	if( proceedWithCmd ) {
-		SendInput % "git --no-pager log --pretty=""format:%h | %cn | %cd | %s%n  ╘═> %b"" -20"
+		SafeSendInput( "git --no-pager log --pretty=""format:%h | %cn | %cd | %s%n  ╘═> %b"" -20" )
 	} else {
 		MsgBox % ( 0x0 + 0x10 ), % "ERROR (" . A_ThisLabel . "): Could Not Locate Git PowerShell"
 			, % "The Git PowerShell process could not be located and activated."

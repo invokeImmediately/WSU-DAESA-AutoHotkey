@@ -1,28 +1,23 @@
 ﻿; ==================================================================================================
 ; regExStrings.ahk
 ; --------------------------------------------------------------------------------------------------
-; SUMMARY: Automate the insertion of RegEx strings used in find/replace editing via Sublime Text 3.
+; Automate the insertion of RegEx strings used in find/replace editing via Sublime Text 3.
 ;
-; AUTHOR: Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
-; 
-; REPOSITORY: https://github.com/invokeImmediately/WSU-AutoHotkey
-;
-; LICENSE: MIT - Copyright (c) 2020 Daniel C. Rieck.
-;
+; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
+; @link https://github.com/invokeImmediately/WSU-AutoHotkey
+; @license: MIT Copyright (c) 2020 Daniel C. Rieck.
 ;   Permission is hereby granted, free of charge, to any person obtaining a copy of this software
-;   and associated documentation files (the “Software”), to deal in the Software without
-;   restriction, including without limitation the rights to use, copy, modify, merge, publish,
-;   distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
-;   Software is furnished to do so, subject to the following conditions:
-;
+;     and associated documentation files (the “Software”), to deal in the Software without
+;     restriction, including without limitation the rights to use, copy, modify, merge, publish,
+;     distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
+;     Software is furnished to do so, subject to the following conditions:
 ;   The above copyright notice and this permission notice shall be included in all copies or
-;   substantial portions of the Software.
-;
+;     substantial portions of the Software.
 ;   THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
-;   BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-;   NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-;   DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-;   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+;     BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;     NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+;     DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+;     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ; ==================================================================================================
 
 ; ==================================================================================================
@@ -49,8 +44,8 @@
 
 :*:@findStrAhkTocSections1::
 	AppendAhkCmd(A_ThisLabel)
-	SendInput, % "(?:{^}; -{{}98{}}$\n; {{}3{}}.{+}$\n{^}; -{{}98{}}$)|(?:{^}; {{}3{}}·{{}96{}}$\n{"
-		. "^}; {{}5{}}>>> .*$)|(?:{^}; {{}5{}}(?: ·){{}47{}}$\n{^}; {{}7{}}→→→ .*$)"
+	SafeSendInput( "(?:{^}; -{{}98{}}$\n; {{}3{}}.{+}$\n{^}; -{{}98{}}$)|(?:{^}; {{}3{}}·{{}96{}}$\n{"
+		. "^}; {{}5{}}>>> .*$)|(?:{^}; {{}5{}}(?: ·){{}47{}}$\n{^}; {{}7{}}→→→ .*$)" )
 Return
 
 ;   ································································································
@@ -58,7 +53,7 @@ Return
 
 :*:@findStrAhkTocSections2::
 	AppendAhkCmd(A_ThisLabel)
-	SendInput, % "{^} {{}1,{}}([0-9]{{}1,{}}): (; {{}3{}}.*§.{+})$"
+	SafeSendInput( "{^} {{}1,{}}([0-9]{{}1,{}}): (; {{}3{}}.*§.{+})$" )
 Return
 
 ;   ································································································
@@ -66,8 +61,8 @@ Return
 
 :*:@replStrAhkTocSections2::
 	AppendAhkCmd(A_ThisLabel)
-	SendInput, % "\1\2............................................................................."
-		. ".........."
+	SafeSendInput( "\1\2............................................................................."
+		. ".........." )
 Return
 
 ;   ································································································
@@ -75,8 +70,8 @@ Return
 
 :*:@findStrAhkTocHeader::
 	AppendAhkCmd(A_ThisLabel)
-	SendInput % "(?<=; ={{}98{}}\n; Table of Contents:\n; -{{}17{}}\n)(({^}.*$\n)(?{!}; ={{}98{}}))"
-		. "*({^}.*$\n)"
+	SafeSendInput( "(?<=; ={{}98{}}\n; Table of Contents:\n; -{{}17{}}\n)(({^}.*$\n)(?{!}; ={{}98{}})"
+		. ")*({^}.*$\n)" )
 Return
 
 ; --------------------------------------------------------------------------------------------------
@@ -84,25 +79,25 @@ Return
 ; --------------------------------------------------------------------------------------------------
 
 :*:@findStrLessTocSections1::
-	AppendAhkCmd(A_ThisLabel)
-	SendInput % "(?{<}=[-·=]\n){^}(\*\*|//)(\*?/? *)(.*)(§[0-9]{+})(.*)$"
+	AppendAhkCmd( A_ThisLabel )
+	SafeSendInput( "(?{<}=[-·=]\n){^}(\*\*|//)(\*?/? *)(.*)(§[0-9]{+})(.*)$" )
 Return
 
 :*:@findStrLessTocSections2::
 	AppendAhkCmd(A_ThisLabel)
-	SendInput % "{^} *([0-9]{+}): (?:\**|/*)( {+})(.{+})$"
+	SafeSendInput( "{^} *([0-9]{+}): (?:\**|/*)( {+})(.{+})$" )
 Return
 
 :*:@replStrLessTocSections2::
 	AppendAhkCmd(A_ThisLabel)
-	SendInput % "\1**  \2\3......................................................................."
-		. "........."
+	SafeSendInput( "\1**  \2\3......................................................................."
+		. "........." )
 Return
 
 :*:@findStrLessTocHeader::
 	AppendAhkCmd(A_ThisLabel)
-	SendInput % "(?<=\*{{}3{}} {{}2{}}TABLE OF CONTENTS:\n\*{{}3{}} {{}2{}}─{{}92{}}\n)(({^}.*$\n)("
-		. "?{!}\*{{}3{}} {{}2{}}─{{}95{}}\n))*({^}.*$\n)"
+	SafeSendInput( "(?<=\*{{}3{}} {{}2{}}TABLE OF CONTENTS:\n\*{{}3{}} {{}2{}}─{{}92{}}\n)(({^}.*$\n)"
+		. "(?{!}\*{{}3{}} {{}2{}}─{{}95{}}\n))*({^}.*$\n)" )
 Return
 
 ; --------------------------------------------------------------------------------------------------
@@ -111,18 +106,18 @@ Return
 
 :*:@findStrJsTocSections1::
 	AppendAhkCmd(A_ThisLabel)
-	SendInput % "({^}(?<=/{{}7{}}\n)\t*// §.*$)"
+	SafeSendInput( "({^}(?<=/{{}7{}}\n)\t*// §.*$)" )
 Return
 
 :*:@findStrJsTocSections2::
 	AppendAhkCmd(A_ThisLabel)
-	SendInput % "{^} *([0-9]{+}): \t*(// §.*)$"
+	SafeSendInput( "{^} *([0-9]{+}): \t*(// §.*)$" )
 Return
 
 :*:@findStrJsTocHeader::
 	AppendAhkCmd(A_ThisLabel)
-	SendInput % "(?<=/{{}100{}}\n/{{}2{}} TABLE OF CONTENTS\n/{{}2{}} -{{}17{}}\n)(({^}.*$\n)(?{!}/"
-		. "{{}100{}}))*({^}.*$\n)"
+	SafeSendInput( "(?<=/{{}100{}}\n/{{}2{}} TABLE OF CONTENTS\n/{{}2{}} -{{}17{}}\n)(({^}.*$\n)(?{!}"
+		. "/{{}100{}}))*({^}.*$\n)" )
 Return
 
 ; --------------------------------------------------------------------------------------------------
@@ -131,7 +126,7 @@ Return
 
 :*:@findStrNoAltImgTags::
 	AppendAhkCmd(A_ThisLabel)
-	SendInput, % "<img([{^}>](?{!}alt=))*>"
+	SafeSendInput( "<img([{^}>](?{!}alt=))*>" )
 Return
 
 ; --------------------------------------------------------------------------------------------------
