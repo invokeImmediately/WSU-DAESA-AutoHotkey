@@ -73,17 +73,23 @@ Return
 ;     >>> §2.1: utoc_FindTocSectionsInFile(…)
 
 utoc_FindTocSectionsInFile(hsTocSectionFinder, timingDelay) {
+	Suspend, On
 	Sleep % timingDelay
-	SendInput % "^+f"
+	Send % "^+f"
 	Sleep % timingDelay
-	SendInput % "{Backspace}"
+	Send % "{Backspace}"
 	Sleep % timingDelay
+	Suspend, Off
+
 	GoSub % hsTocSectionFinder
+
+	Suspend, On
 	Sleep % timingDelay
-	SendInput % "{Tab}^a{Backspace}<current file>"
+	Send % "{Tab}^a{Backspace}<current file>"
 	Sleep % timingDelay
-	SendInput % "!{Enter}"
+	Send % "!{Enter}"
 	Sleep % timingDelay
+	Suspend, Off
 }
 
 ;   ································································································
@@ -93,15 +99,17 @@ utoc_GetFileExtension(timingDelay) {
 	fileExtNeedle := "O)^.*\.([^.]+)$"
 
 	; Copy the name of the file currently being edited to the clipboard.
+	Suspend, On
 	Sleep % timingDelay * 3
-	SendInput % "^+p"
+	Send % "^+p"
 	Sleep % timingDelay
-	SendInput % "{Backspace}"
+	Send % "{Backspace}"
 	Sleep % timingDelay
 	Send % "Copy File Name"
 	Sleep % timingDelay
-	SendInput % "{Enter}"
+	Send % "{Enter}"
 	Sleep % timingDelay * 5
+	Suspend, Off
 
 	; Use RegEx to isolate the extension of the file.
 	fileName := Clipboard
@@ -123,54 +131,66 @@ utoc_GetFileExtension(timingDelay) {
 ;     >>> §2.3: utoc_GetTocLineNumbersInFindResults(…)
 
 utoc_GetTocLineNumbersInFindResults(hsTocLineFinder, timingDelay) {
+	Suspend, On
 	Sleep % timingDelay
-	SendInput % "^f"
+	Send % "^f"
 	Sleep % timingDelay
-	SendInput % "{Backspace}"
+	Send % "{Backspace}"
 	Sleep % timingDelay
+	Suspend, Off
+
 	GoSub % hsTocLineFinder
+
+	Suspend, On
 	Sleep % timingDelay
-	SendInput % "!{Enter}"
+	Send % "!{Enter}"
 	Sleep % timingDelay
-	SendInput % "^c"
+	Send % "^c"
 	Sleep % timingDelay
-	SendInput % "^a"
+	Send % "^a"
 	Sleep % timingDelay
-	SendInput % "^v"
+	Send % "^v"
 	Sleep % timingDelay
-	SendInput % "^a"
+	Send % "^a"
 	Sleep % timingDelay
-	SendInput % "^+l"
+	Send % "^+l"
 	Sleep % timingDelay
-	SendInput % "{Home}"
+	Send % "{Home}"
 	Sleep % timingDelay
-	SendInput % "^+{Right}"
+	Send % "^+{Right}"
 	Sleep % timingDelay
-	SendInput % "^x"
+	Send % "^x"
 	Sleep % timingDelay
-	SendInput % "^w"
+	Send % "^w"
 	Sleep % timingDelay
+	Suspend, Off
 }
 
 ;   ································································································
 ;     >>> §2.4: utoc_PerformTocUpdateCmds(…)
 
 utoc_OverwriteTocLineNumbersInFile(hsTocHeaderFinder, timingDelay) {
+	Suspend, On
 	Sleep % timingDelay
-	SendInput % "^f"
+	Send % "^f"
 	Sleep % timingDelay
-	SendInput % "{Backspace}"
+	Send % "{Backspace}"
 	Sleep % timingDelay
+	Suspend, Off
+
 	GoSub % hsTocHeaderFinder
+
+	Suspend, On
 	Sleep % timingDelay
-	SendInput % "!{Enter}"
+	Send % "!{Enter}"
 	Sleep % timingDelay
-	SendInput % "^+l"
+	Send % "^+l"
 	Sleep % timingDelay
-	SendInput % "{Right}^+{Left}"
+	Send % "{Right}^+{Left}"
 	Sleep % timingDelay
-	SendInput % "^v"
+	Send % "^v"
 	Sleep % timingDelay
+	Suspend, Off
 }
 
 ;   ································································································
