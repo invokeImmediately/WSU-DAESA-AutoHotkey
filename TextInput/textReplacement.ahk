@@ -1,43 +1,50 @@
 ﻿; ==================================================================================================
-; textReplacement.ahk
+; ▀█▀ █▀▀ █ █ ▀█▀ █▀█ █▀▀ █▀█ ▀█  █▀█ █▀▀ █▀▀ █▀▄▀█ █▀▀ █▀▀▄ ▀█▀  █▀█ █ █ █ ▄▀ 
+;  █  █▀▀ ▄▀▄  █  █▄▀ █▀▀ █▄█  █  █▄█ █   █▀▀ █ ▀ █ █▀▀ █  █  █   █▄█ █▀█ █▀▄  
+;  ▀  ▀▀▀ ▀ ▀  ▀  ▀ ▀▄▀▀▀ █   ▀▀▀ ▀ ▀ ▀▀▀ ▀▀▀ ▀   ▀ ▀▀▀ ▀  ▀  ▀ ▀ ▀ ▀ ▀ ▀ ▀  ▀▄
 ; --------------------------------------------------------------------------------------------------
-; SUMMARY: An assortment of text replacement hotstrings.
+; An assortment of text replacement hotkeys and hotstrings.
 ;
-; AUTHOR: Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
-; 
-; REPOSITORY: https://github.com/invokeImmediately/WSU-AutoHotkey
-;
-; LICENSE: ISC - Copyright (c) 2020 Daniel C. Rieck.
-;
-;   Permission to use, copy, modify, and/or distribute this software for any purpose with or
-;   without fee is hereby granted, provided that the above copyright notice and this permission
-;   notice appear in all copies.
-;
-;   THE SOFTWARE IS PROVIDED "AS IS" AND DANIEL C. RIECK DISCLAIMS ALL WARRANTIES WITH REGARD TO
-;   THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
-;   DANIEL C. RIECK BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY
-;   DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF
-;   CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-;   PERFORMANCE OF THIS SOFTWARE.
+; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
+; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey
+; @license: MIT Copyright (c) 2020 Daniel C. Rieck.
+;   Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+;     and associated documentation files (the “Software”), to deal in the Software without
+;     restriction, including without limitation the rights to use, copy, modify, merge, publish,
+;     distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
+;     Software is furnished to do so, subject to the following conditions:
+;   The above copyright notice and this permission notice shall be included in all copies or
+;     substantial portions of the Software.
+;   THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+;     BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;     NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+;     DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+;     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ; ==================================================================================================
 ; TABLE OF CONTENTS:
 ; -----------------
-;   §1: GENERAL text editing....................................................................44
-;     >>> §1.1: Hotstrings......................................................................48
-;     >>> §1.2: Hotkeys.........................................................................66
-;       →→→ §1.2.1: Insertion of non-breaking spaces............................................69
-;       →→→ §1.2.2: VIM-style cursor movement...................................................76
-;   §2: FRONT-END web development..............................................................155
-;     >>> §2.1: HTML editing...................................................................159
-;     >>> §2.2: CSS editing....................................................................166
-;     >>> §2.3: JS editing.....................................................................174
-;   §3: NUMPAD mediated text insertion.........................................................179
-;     >>> §3.1: GetCmdForMoveToCSSFolder.......................................................183
-;     >>> §3.2: GetCmdForMoveToCSSFolder.......................................................201
-;   §4: DATES and TIMES........................................................................219
-;     >>> §4.1: Dates..........................................................................223
-;     >>> §4.2: Times..........................................................................251
-;   §5: CLIPBOARD modifying hotstrings.........................................................285
+;   §1: GENERAL text editing....................................................................51
+;     >>> §1.1: Hotstrings......................................................................55
+;     >>> §1.2: Hotkeys.........................................................................73
+;       →→→ §1.2.1: Insertion of non-breaking spaces............................................76
+;   §2: VIM-STYLE keyboard modifications........................................................83
+;     >>> §2.1: VIMy Mode: Persistent VIM-style cursor movement.................................87
+;     >>> §2.2: Hotkeys for VIM-styled directional cursor movement not requring VIMy mode.......92
+;       →→→ §2.1.1: VIMy mode toggle...........................................................108
+;       →→→ §2.1.2: VIMy mode hotkey handler...................................................123
+;       →→→ §2.1.3: Word based cursor movement hotkeys.........................................142
+;       →→→ §2.1.4: Directionally based cursor movement hotkeys................................161
+;   §3: FRONT-END web development..............................................................180
+;     >>> §3.1: HTML editing...................................................................184
+;     >>> §3.2: CSS editing....................................................................191
+;     >>> §3.3: JS editing.....................................................................199
+;   §4: NUMPAD mediated text insertion.........................................................204
+;     >>> §4.1: GetCmdForMoveToCSSFolder.......................................................208
+;     >>> §4.2: GetCmdForMoveToCSSFolder.......................................................226
+;   §5: DATES and TIMES........................................................................244
+;     >>> §5.1: Dates..........................................................................248
+;     >>> §5.2: Times..........................................................................276
+;   §6: CLIPBOARD modifying hotstrings.........................................................310
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -72,10 +79,17 @@ Return
 	SendInput, % " "
 Return
 
-;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.2.2: VIM-style cursor movement
+; --------------------------------------------------------------------------------------------------
+;   §2: VIM-STYLE keyboard modifications
+; --------------------------------------------------------------------------------------------------
 
-; TODO: Add timer-based deactivation of VIM-style cursor movement state.
+;   ································································································
+;     >>> §2.1: VIMy Mode: Persistent VIM-style cursor movement
+
+; @todo Add timer-based deactivation of VIM-style cursor movement state.
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §2.1.1: VIMy mode toggle
 
 >+CapsLock::
 	ToggleVimyMode()
@@ -90,80 +104,91 @@ ToggleVimyMode() {
 	execDelayer.Wait( 500 )
 }
 
-; Word based movement
-
-~m::
-	HandleVimyKey( "^{Left}", "m" )
-Return
-
-~,::
-	HandleVimyKey( "^{Right}{Right}^{Right}^{Left}", "," )
-Return
-
-~u::
-	HandleVimyKey( "^{Left}{Left}^{Left}^{Right}", "u" )
-Return
-
-~i::
-	HandleVimyKey( "^{Right}", "i" )
-Return
-
-; Character based movement
-
-~j::
-	HandleVimyKey( "{Left}", "j" )
-Return
-
-~k::
-	HandleVimyKey( "{Right}", "k" )
-Return
-
-~l::
-	HandleVimyKey( "{Up}", "l" )
-Return
-
-~;::
-	HandleVimyKey( "{Down}", ";" )
-Return
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §2.1.2: VIMy mode hotkey handler
 
 HandleVimyKey( vimyModeOnKey, vimyModeOffKey ) {
+	global execDelayer
 	global g_vimyModeActive
 	if ( g_vimyModeActive ) {
-		SendInput % "{Backspace}" . vimyModeOnKey 
+		SendInput % vimyModeOnKey
+	} else {
+		Suspend, On
+		SendInput % vimyModeOffKey
+		Suspend, Off
 	}
 }
 
-; VIM : 
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §2.1.3: Word based cursor movement hotkeys
+
+n::
+	HandleVimyKey( "^{Left}", "n" )
+Return
+
+m::
+	HandleVimyKey( "^{Right}{Right}^{Right}^{Left}", "m" )
+Return
+
+y::
+	HandleVimyKey( "^{Left}{Left}^{Left}^{Right}", "y" )
+Return
+
+u::
+	HandleVimyKey( "^{Right}", "u" )
+Return
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §2.1.4: Directionally based cursor movement hotkeys
+
+j::
+	HandleVimyKey( "{Left}", "j" )
+Return
+
+i::
+	HandleVimyKey( "{Up}", "i" )
+Return
+
+k::
+	HandleVimyKey( "{Down}", "k" )
+Return
+
+l::
+	HandleVimyKey( "{Right}", "l" )
+Return
+
+;   ································································································
+;     >>> §2.2: Hotkeys for VIM-styled directional cursor movement not requring VIMy mode
 
 ^#j::
 	SendInput {Left}
 Return
 
-^#k::
+^#i::
 	SendInput {Up}
 Return
 
-^#l::
+^#k::
 	SendInput {Down}
 Return
 
-^#;::
+^#l::
 	SendInput {Right}
 Return
 
 ; --------------------------------------------------------------------------------------------------
-;   §2: FRONT-END web development
+;   §3: FRONT-END web development
 ; --------------------------------------------------------------------------------------------------
 
 ;   ································································································
-;     >>> §2.1: HTML editing
+;     >>> §3.1: HTML editing
 
 :*:@addClass::class=""{Space}{Left 2}
 
 :*:@addNrml::{Space}class="oue-normal"
 
 ;   ································································································
-;     >>> §2.2: CSS editing
+;     >>> §3.2: CSS editing
 
 :*:@doRGBa::
 	AppendAhkCmd(A_ThisLabel)
@@ -171,16 +196,16 @@ Return
 Return
 
 ;   ································································································
-;     >>> §2.3: JS editing
+;     >>> §3.3: JS editing
 
 :R*:@findStrFnctns::^[^{\r\n]+{$\r\n(?:^(?<!\}).+$\r\n)+^\}$
 
 ; --------------------------------------------------------------------------------------------------
-;   §3: NUMPAD mediated text insertion
+;   §4: NUMPAD mediated text insertion
 ; --------------------------------------------------------------------------------------------------
 
 ;   ································································································
-;     >>> §3.1: @changeNumpadDiv
+;     >>> §4.1: @changeNumpadDiv
 
 :*:@changeNumpadDiv::
 	AppendAhkCmd(A_ThisLabel)
@@ -198,7 +223,7 @@ Return
 Return
 
 ;   ································································································
-;     >>> §3.2: @changeNumpadSub
+;     >>> §4.2: @changeNumpadSub
 
 :*:@changeNumpadSub::
 	AppendAhkCmd(A_ThisLabel)
@@ -216,11 +241,11 @@ Return
 Return
 
 ; --------------------------------------------------------------------------------------------------
-;   §4: DATES and TIMES
+;   §5: DATES and TIMES
 ; --------------------------------------------------------------------------------------------------
 
 ;   ································································································
-;     >>> §4.1: Dates
+;     >>> §5.1: Dates
 
 :*:@datetime::
 	AppendAhkCmd(A_ThisLabel)
@@ -248,7 +273,7 @@ Return
 Return
 
 ;   ································································································
-;     >>> §4.2: Times
+;     >>> §5.2: Times
 
 :*:@ttt::
 	AppendAhkCmd(A_ThisLabel)
@@ -282,7 +307,7 @@ Return
 Return
 
 ; --------------------------------------------------------------------------------------------------
-;   §5: CLIPBOARD modifying hotstrings
+;   §6: CLIPBOARD modifying hotstrings
 ; --------------------------------------------------------------------------------------------------
 
 :*:@reverseBackSlashes::
