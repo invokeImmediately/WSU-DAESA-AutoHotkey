@@ -30,7 +30,7 @@
 ;   §2: VIM-STYLE keyboard modifications........................................................80
 ;     >>> §2.1: Word based cursor movement hotkeys..............................................84
 ;     >>> §2.2: Directionally based cursor movement hotkeys.....................................99
-;     >>> §2.3: Character and word deletion hotkeys............................................140
+;     >>> §2.3: Character and word deletion and process termination hotkeys....................140
 ;   §3: FRONT-END web development..............................................................164
 ;     >>> §3.1: HTML editing...................................................................168
 ;     >>> §3.2: CSS editing....................................................................175
@@ -137,7 +137,7 @@ CapsLock & l::SendInput % "+{Right}"
 #If
 
 ;   ································································································
-;     >>> §2.3: Character and word deletion hotkeys
+;     >>> §2.3: Character and word deletion and process termination hotkeys
 
 ; Delete a word to the left of the cursor
 SC027 & a::SendInput % "^{Backspace}"
@@ -151,14 +151,14 @@ SC027 & d::SendInput % "{Delete}"
 ; Delete a word to the right of the cursor
 SC027 & f::SendInput % "^{Delete}"
 
+; Delete a word to the right of the cursor
+SC027 & q::SendInput % "{Escape}"
+
 ; Restore native function of the semicolon key
 SC027::Send % ";"
 
 ; Restore native function of the shift modified semicolon key
 +SC027::Send % ":"
-
-; Restore native function of the windows key modified semicolon key
-#SC027::Send % "#;"
 
 ; --------------------------------------------------------------------------------------------------
 ;   §3: FRONT-END web development
