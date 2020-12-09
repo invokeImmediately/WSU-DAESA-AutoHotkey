@@ -30,18 +30,18 @@
 ;   §2: VIM-STYLE keyboard modifications........................................................80
 ;     >>> §2.1: Word based cursor movement hotkeys..............................................84
 ;     >>> §2.2: Directionally based cursor movement hotkeys.....................................99
-;     >>> §2.3: Character and word deletion hotkeys............................................134
-;   §3: FRONT-END web development..............................................................158
-;     >>> §3.1: HTML editing...................................................................162
-;     >>> §3.2: CSS editing....................................................................169
-;     >>> §3.3: JS editing.....................................................................177
-;   §4: NUMPAD mediated text insertion.........................................................182
-;     >>> §4.1: GetCmdForMoveToCSSFolder.......................................................186
-;     >>> §4.2: GetCmdForMoveToCSSFolder.......................................................204
-;   §5: DATES and TIMES........................................................................222
-;     >>> §5.1: Dates..........................................................................226
-;     >>> §5.2: Times..........................................................................254
-;   §6: CLIPBOARD modifying hotstrings.........................................................288
+;     >>> §2.3: Character and word deletion hotkeys............................................140
+;   §3: FRONT-END web development..............................................................164
+;     >>> §3.1: HTML editing...................................................................168
+;     >>> §3.2: CSS editing....................................................................175
+;     >>> §3.3: JS editing.....................................................................183
+;   §4: NUMPAD mediated text insertion.........................................................188
+;     >>> §4.1: GetCmdForMoveToCSSFolder.......................................................192
+;     >>> §4.2: GetCmdForMoveToCSSFolder.......................................................210
+;   §5: DATES and TIMES........................................................................228
+;     >>> §5.1: Dates..........................................................................232
+;     >>> §5.2: Times..........................................................................260
+;   §6: CLIPBOARD modifying hotstrings.........................................................294
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -99,35 +99,41 @@ CapsLock & u::SendInput % "^{Right}"
 ;     >>> §2.2: Directionally based cursor movement hotkeys
 
 ; Move Left
-#If !(GetKeyState("RShift", "P") || GetKeyState("LShift", "P"))
 CapsLock & j::SendInput % "{Left}"
 
-#If (GetKeyState("RShift", "P") || GetKeyState("LShift", "P"))
+#If ( GetKeyState( "LShift", "P" ) || GetKeyState( "RShift", "P" ) )
 CapsLock & j::SendInput % "+{Left}"
 
+#If
+
 ; Move Up
-#If !(GetKeyState("RShift", "P") || GetKeyState("LShift", "P"))
 CapsLock & i::SendInput % "{Up}"
 
-#If (GetKeyState("RShift", "P") || GetKeyState("LShift", "P"))
+#If (GetKeyState("LShift", "P") || GetKeyState("RShift", "P"))
 CapsLock & i::SendInput % "+{Up}"
 
+#If ( GetKeyState( "LAlt", "P" ) || GetKeyState( "RAlt", "P" ) && ( GetKeyState( "LCtrl", "P") || GetKeyState("RCtrl", "P") ) )
+CapsLock & i::SendInput % "^!{Up}"
+
+#If
+
 ; Move Down
-#If !(GetKeyState("RShift", "P") || GetKeyState("LShift", "P"))
 CapsLock & k::SendInput % "{Down}"
-Return
 
 #If (GetKeyState("RShift", "P") || GetKeyState("LShift", "P"))
 CapsLock & k::SendInput % "+{Down}"
 
+#If ( GetKeyState( "LAlt", "P" ) || GetKeyState( "RAlt", "P" ) && ( GetKeyState( "LCtrl", "P") || GetKeyState("RCtrl", "P") ) )
+CapsLock & k::SendInput % "^!{Down}"
+
+#If
+
 ; Move Right
-#If !(GetKeyState("RShift", "P") || GetKeyState("LShift", "P"))
 CapsLock & l::SendInput % "{Right}"
 
 #If (GetKeyState("RShift", "P") || GetKeyState("LShift", "P"))
 CapsLock & l::SendInput % "+{Right}"
 
-; Turn off context sensitivity.
 #If
 
 ;   ································································································
