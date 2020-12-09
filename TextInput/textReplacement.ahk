@@ -30,18 +30,18 @@
 ;   §2: VIM-STYLE keyboard modifications........................................................80
 ;     >>> §2.1: Word based cursor movement hotkeys..............................................84
 ;     >>> §2.2: Directionally based cursor movement hotkeys.....................................99
-;     >>> §2.3: Character and word deletion and process termination hotkeys....................140
-;   §3: FRONT-END web development..............................................................164
-;     >>> §3.1: HTML editing...................................................................168
-;     >>> §3.2: CSS editing....................................................................175
-;     >>> §3.3: JS editing.....................................................................183
-;   §4: NUMPAD mediated text insertion.........................................................188
-;     >>> §4.1: GetCmdForMoveToCSSFolder.......................................................192
-;     >>> §4.2: GetCmdForMoveToCSSFolder.......................................................210
-;   §5: DATES and TIMES........................................................................228
-;     >>> §5.1: Dates..........................................................................232
-;     >>> §5.2: Times..........................................................................260
-;   §6: CLIPBOARD modifying hotstrings.........................................................294
+;     >>> §2.3: Character and word deletion and process termination hotkeys....................146
+;   §3: FRONT-END web development..............................................................175
+;     >>> §3.1: HTML editing...................................................................179
+;     >>> §3.2: CSS editing....................................................................186
+;     >>> §3.3: JS editing.....................................................................194
+;   §4: NUMPAD mediated text insertion.........................................................199
+;     >>> §4.1: GetCmdForMoveToCSSFolder.......................................................203
+;     >>> §4.2: GetCmdForMoveToCSSFolder.......................................................221
+;   §5: DATES and TIMES........................................................................239
+;     >>> §5.1: Dates..........................................................................243
+;     >>> §5.2: Times..........................................................................271
+;   §6: CLIPBOARD modifying hotstrings.........................................................305
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -136,22 +136,33 @@ CapsLock & l::SendInput % "+{Right}"
 
 #If
 
+; Page Up
+CapsLock & o::SendInput % "{PgUp}"
+
+; Page Down
+CapsLock & ,::SendInput % "{PgDn}"
+
 ;   ································································································
 ;     >>> §2.3: Character and word deletion and process termination hotkeys
 
 ; Delete a word to the left of the cursor
+CapsLock & a::
 SC027 & a::SendInput % "^{Backspace}"
 
 ; Delete a character to the left of the cursor
+CapsLock & s::
 SC027 & s::SendInput % "{Backspace}"
 
 ; Delete a character to the right of the cursor
+CapsLock & d::
 SC027 & d::SendInput % "{Delete}"
 
 ; Delete a word to the right of the cursor
+Capslock & f::
 SC027 & f::SendInput % "^{Delete}"
 
 ; Delete a word to the right of the cursor
+CapsLock & q::
 SC027 & q::SendInput % "{Escape}"
 
 ; Restore native function of the semicolon key
