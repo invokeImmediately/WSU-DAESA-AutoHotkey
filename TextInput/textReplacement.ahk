@@ -23,25 +23,27 @@
 ; ==================================================================================================
 ; TABLE OF CONTENTS:
 ; -----------------
-;   §1: GENERAL text editing....................................................................48
-;     >>> §1.1: Hotstrings......................................................................52
-;     >>> §1.2: Hotkeys.........................................................................70
-;       →→→ §1.2.1: Insertion of non-breaking spaces............................................73
-;   §2: VIM-STYLE keyboard modifications........................................................80
-;     >>> §2.1: Word based cursor movement hotkeys..............................................84
-;     >>> §2.2: Directionally based cursor movement hotkeys.....................................99
-;     >>> §2.3: Character and word deletion and process termination hotkeys....................146
-;   §3: FRONT-END web development..............................................................175
-;     >>> §3.1: HTML editing...................................................................179
-;     >>> §3.2: CSS editing....................................................................186
-;     >>> §3.3: JS editing.....................................................................194
-;   §4: NUMPAD mediated text insertion.........................................................199
-;     >>> §4.1: GetCmdForMoveToCSSFolder.......................................................203
-;     >>> §4.2: GetCmdForMoveToCSSFolder.......................................................221
-;   §5: DATES and TIMES........................................................................239
-;     >>> §5.1: Dates..........................................................................243
-;     >>> §5.2: Times..........................................................................271
-;   §6: CLIPBOARD modifying hotstrings.........................................................305
+;   §1: GENERAL text editing....................................................................50
+;     >>> §1.1: Hotstrings......................................................................54
+;     >>> §1.2: Hotkeys.........................................................................72
+;       →→→ §1.2.1: Insertion of non-breaking spaces............................................75
+;   §2: VIM-STYLE keyboard modifications........................................................82
+;     >>> §2.1: Word based cursor movement hotkeys..............................................86
+;     >>> §2.2: Directionally based cursor movement hotkeys....................................105
+;     >>> §2.3: Character and word deletion and process termination hotkeys....................200
+;   §3: FRONT-END web development..............................................................232
+;     >>> §3.1: HTML editing...................................................................236
+;     >>> §3.2: CSS editing....................................................................243
+;     >>> §3.3: JS editing.....................................................................251
+;   §4: NUMPAD mediated text insertion.........................................................256
+;     >>> §4.1: GetCmdForMoveToCSSFolder.......................................................260
+;     >>> §4.2: GetCmdForMoveToCSSFolder.......................................................278
+;   §5: DATES and TIMES........................................................................296
+;     >>> §5.1: Dates..........................................................................300
+;     >>> §5.2: Times..........................................................................328
+;   §6: CLIPBOARD modifying hotstrings.........................................................362
+;     >>> §6.1: Slash character reversal.......................................................366
+;     >>> §6.2: URL to Windows file name conversion............................................393
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -84,63 +86,115 @@ Return
 ;     >>> §2.1: Word based cursor movement hotkeys
 
 ; Move the cursor to beginning of the previous word at its left.
-Capslock & n::SendInput % "^{Left}"
+SC027 & n::
+CapsLock & n::SendInput % "^{Left}"
 
 ; Move the cursor to beginning of the next word at its right.
-Capslock & m::SendInput % "^{Right}{Right}^{Right}^{Left}"
+SC027 & m::
+CapsLock & m::SendInput % "^{Right}{Right}^{Right}^{Left}"
 
 ; Move the cursor to end of the previous word at its left.
-Capslock & y::SendInput % "^{Left}{Left}^{Left}^{Right}"
+SC027 & y::
+CapsLock & y::SendInput % "^{Left}{Left}^{Left}^{Right}"
 
 ; Move the cursor to end of the next word at its right.
+SC027 & u::
 CapsLock & u::SendInput % "^{Right}"
 
 ;   ································································································
 ;     >>> §2.2: Directionally based cursor movement hotkeys
 
 ; Move Left
+SC027 & j::
 CapsLock & j::SendInput % "{Left}"
 
-#If ( GetKeyState( "LShift", "P" ) || GetKeyState( "RShift", "P" ) )
+#If ( ( GetKeyState( "LShift", "P" ) || GetKeyState( "RShift", "P" ) ) && !( GetKeyState( "LAlt", "P" ) || GetKeyState( "RAlt", "P" ) ))
+SC027 & j::
 CapsLock & j::SendInput % "+{Left}"
+
+#If ( ( GetKeyState( "LShift", "P" ) || GetKeyState( "RShift", "P" ) ) && ( GetKeyState( "LAlt", "P" ) || GetKeyState( "RAlt", "P" ) ) )
+SC027 & j::
+CapsLock & j::SendInput % "+{Home}"
+
+#If ( ( GetKeyState( "LAlt", "P" ) || GetKeyState( "RAlt", "P" ) ) && !( GetKeyState( "LCtrl", "P" ) || GetKeyState( "RCtrl", "P" ) ) )
+SC027 & j::
+CapsLock & j::SendInput % "{Home}"
+
+#If ( ( GetKeyState( "LAlt", "P" ) || GetKeyState( "RAlt", "P" ) ) && ( GetKeyState( "LCtrl", "P" ) || GetKeyState( "RCtrl", "P" ) ) )
+SC027 & j::
+CapsLock & j::SendInput % "^{Home}"
 
 #If
 
 ; Move Up
+SC027 & i::
 CapsLock & i::SendInput % "{Up}"
 
 #If (GetKeyState("LShift", "P") || GetKeyState("RShift", "P"))
+SC027 & i::
 CapsLock & i::SendInput % "+{Up}"
 
 #If ( GetKeyState( "LAlt", "P" ) || GetKeyState( "RAlt", "P" ) && ( GetKeyState( "LCtrl", "P") || GetKeyState("RCtrl", "P") ) )
+SC027 & i::
 CapsLock & i::SendInput % "^!{Up}"
 
 #If
 
 ; Move Down
+SC027 & k::
 CapsLock & k::SendInput % "{Down}"
 
 #If (GetKeyState("RShift", "P") || GetKeyState("LShift", "P"))
+SC027 & k::
 CapsLock & k::SendInput % "+{Down}"
 
 #If ( GetKeyState( "LAlt", "P" ) || GetKeyState( "RAlt", "P" ) && ( GetKeyState( "LCtrl", "P") || GetKeyState("RCtrl", "P") ) )
+SC027 & k::
 CapsLock & k::SendInput % "^!{Down}"
 
 #If
 
 ; Move Right
+SC027 & l::
 CapsLock & l::SendInput % "{Right}"
 
-#If (GetKeyState("RShift", "P") || GetKeyState("LShift", "P"))
+#If ( ( GetKeyState( "LShift", "P" ) || GetKeyState( "RShift", "P" ) ) && !( GetKeyState( "LAlt", "P" ) || GetKeyState( "RAlt", "P" ) ))
+SC027 & l::
 CapsLock & l::SendInput % "+{Right}"
+
+#If ( ( GetKeyState( "LShift", "P" ) || GetKeyState( "RShift", "P" ) ) && ( GetKeyState( "LAlt", "P" ) || GetKeyState( "RAlt", "P" ) ))
+SC027 & l::
+CapsLock & l::SendInput % "+{End}"
+
+#If ( ( GetKeyState( "LAlt", "P" ) || GetKeyState( "RAlt", "P" ) ) && !( GetKeyState( "LCtrl", "P" ) || GetKeyState( "RCtrl", "P" ) ) )
+SC027 & l::
+CapsLock & l::SendInput % "{End}"
+
+#If ( ( GetKeyState( "LAlt", "P" ) || GetKeyState( "RAlt", "P" ) ) && ( GetKeyState( "LCtrl", "P" ) || GetKeyState( "RCtrl", "P" ) ) )
+SC027 & l::
+CapsLock & l::SendInput % "^{End}"
 
 #If
 
 ; Page Up
+SC027 & o::
 CapsLock & o::SendInput % "{PgUp}"
 
+#If ( GetKeyState( "LCtrl", "P" ) || GetKeyState( "RCtrl", "P" ) )
+SC027 & o::
+CapsLock & o::SendInput % "^{PgUp}"
+
+#If
+
 ; Page Down
+SC027 & ,::
 CapsLock & ,::SendInput % "{PgDn}"
+
+#If ( GetKeyState( "LCtrl", "P" ) || GetKeyState( "RCtrl", "P" ) )
+SC027 & ,::
+CapsLock & ,::SendInput % "^{PgDn}"
+
+#If
 
 ;   ································································································
 ;     >>> §2.3: Character and word deletion and process termination hotkeys
@@ -164,6 +218,9 @@ SC027 & f::SendInput % "^{Delete}"
 ; Delete a word to the right of the cursor
 CapsLock & q::
 SC027 & q::SendInput % "{Escape}"
+
+; Trigger undo
+SC027 & z::SendInput % "^z"
 
 ; Restore native function of the semicolon key
 SC027::Send % ";"
@@ -305,6 +362,9 @@ Return
 ;   §6: CLIPBOARD modifying hotstrings
 ; --------------------------------------------------------------------------------------------------
 
+;   ································································································
+;     >>> §6.1: Slash character reversal
+
 :*:@reverseBackSlashes::
 	AppendAhkCmd( A_ThisLabel )
 	oldText := Clipboard
@@ -328,6 +388,9 @@ Return
 	DisplaySplashText( "Text in the clipboard has been modified such that foward slashes have been "
 	 . "reversed.", 3000 )
 Return
+
+;   ································································································
+;     >>> §6.2: URL to Windows file name conversion
 
 :*:@convertUrlToFileName::
 	AppendAhkCmd( A_ThisLabel )
