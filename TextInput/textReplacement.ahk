@@ -23,27 +23,28 @@
 ; ==================================================================================================
 ; TABLE OF CONTENTS:
 ; -----------------
-;   §1: GENERAL text editing....................................................................50
-;     >>> §1.1: Hotstrings......................................................................54
-;     >>> §1.2: Hotkeys.........................................................................72
-;       →→→ §1.2.1: Insertion of non-breaking spaces............................................75
-;   §2: VIM-STYLE keyboard modifications........................................................82
-;     >>> §2.1: Word based cursor movement hotkeys..............................................86
-;     >>> §2.2: Directionally based cursor movement hotkeys....................................105
-;     >>> §2.3: Character and word deletion and process termination hotkeys....................200
-;   §3: FRONT-END web development..............................................................234
-;     >>> §3.1: HTML editing...................................................................238
-;     >>> §3.2: CSS editing....................................................................245
-;     >>> §3.3: JS editing.....................................................................253
-;   §4: NUMPAD mediated text insertion.........................................................258
-;     >>> §4.1: GetCmdForMoveToCSSFolder.......................................................262
-;     >>> §4.2: GetCmdForMoveToCSSFolder.......................................................280
-;   §5: DATES and TIMES........................................................................298
-;     >>> §5.1: Dates..........................................................................302
-;     >>> §5.2: Times..........................................................................330
-;   §6: CLIPBOARD modifying hotstrings.........................................................364
-;     >>> §6.1: Slash character reversal.......................................................368
-;     >>> §6.2: URL to Windows file name conversion............................................395
+;   §1: GENERAL text editing....................................................................51
+;     >>> §1.1: Hotstrings......................................................................55
+;     >>> §1.2: Hotkeys.........................................................................73
+;       →→→ §1.2.1: Insertion of non-breaking spaces............................................76
+;   §2: VIM-STYLE keyboard modifications........................................................83
+;     >>> §2.1: Toggle VIMy mode................................................................87
+;     >>> §2.2: Word based cursor movement hotkeys.............................................105
+;     >>> §2.3: Directionally based cursor movement hotkeys....................................122
+;     >>> §2.4: Character and word deletion and process termination hotkeys....................183
+;   §3: FRONT-END web development..............................................................206
+;     >>> §3.1: HTML editing...................................................................210
+;     >>> §3.2: CSS editing....................................................................217
+;     >>> §3.3: JS editing.....................................................................225
+;   §4: NUMPAD mediated text insertion.........................................................230
+;     >>> §4.1: GetCmdForMoveToCSSFolder.......................................................234
+;     >>> §4.2: GetCmdForMoveToCSSFolder.......................................................252
+;   §5: DATES and TIMES........................................................................270
+;     >>> §5.1: Dates..........................................................................274
+;     >>> §5.2: Times..........................................................................302
+;   §6: CLIPBOARD modifying hotstrings.........................................................336
+;     >>> §6.1: Slash character reversal.......................................................340
+;     >>> §6.2: URL to Windows file name conversion............................................367
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -83,152 +84,123 @@ Return
 ; --------------------------------------------------------------------------------------------------
 
 ;   ································································································
-;     >>> §2.1: Word based cursor movement hotkeys
+;     >>> §2.1: Toggle VIMy mode
 
-; Move the cursor to beginning of the previous word at its left.
-SC027 & n::
-CapsLock & n::SendInput % "^{Left}"
+CapsLock & SC027::
+:*:@toggleVimyMode::
+	ToggleVimyMode()
+Return
 
-; Move the cursor to beginning of the next word at its right.
-SC027 & m::
-CapsLock & m::SendInput % "^{Right}{Right}^{Right}^{Left}"
-
-; Move the cursor to end of the previous word at its left.
-SC027 & y::
-CapsLock & y::SendInput % "^{Left}{Left}^{Left}^{Right}"
-
-; Move the cursor to end of the next word at its right.
-SC027 & u::
-CapsLock & u::SendInput % "^{Right}"
+ToggleVimyMode() {
+	global execDelayer
+	global g_vimyModeActive
+	g_vimyModeActive := !g_vimyModeActive
+	vimyModeState := g_vimyModeActive ? "on" : "off"
+	msgTime := 500
+	DisplaySplashText( "VIM-style cursor movement mode toggled to " . vimyModeState, msgTime )
+	execDelayer.Wait( msgTime )
+}
 
 ;   ································································································
-;     >>> §2.2: Directionally based cursor movement hotkeys
+;     >>> §2.2: Word based cursor movement hotkeys
+
+#If g_vimyModeActive
+; Move the cursor to beginning of the previous word at its left.
+n::SendInput % "^{Left}"
+
+; Move the cursor to beginning of the next word at its right.
+m::SendInput % "^{Right}{Right}^{Right}^{Left}"
+
+; Move the cursor to end of the previous word at its left.
+y::SendInput % "^{Left}{Left}^{Left}^{Right}"
+
+; Move the cursor to end of the next word at its right.
+u::SendInput % "^{Right}"
+#If
+
+;   ································································································
+;     >>> §2.3: Directionally based cursor movement hotkeys
 
 ; Move Left
-SC027 & j::
-CapsLock & j::SendInput % "{Left}"
+#If g_vimyModeActive
+j::SendInput % "{Left}"
 
-#If ( ( GetKeyState( "LShift", "P" ) || GetKeyState( "RShift", "P" ) ) && !( GetKeyState( "LAlt", "P" ) || GetKeyState( "RAlt", "P" ) ))
-SC027 & j::
-CapsLock & j::SendInput % "+{Left}"
++j::SendInput % "+{Left}"
 
-#If ( ( GetKeyState( "LShift", "P" ) || GetKeyState( "RShift", "P" ) ) && ( GetKeyState( "LAlt", "P" ) || GetKeyState( "RAlt", "P" ) ) )
-SC027 & j::
-CapsLock & j::SendInput % "+{Home}"
+!+j::SendInput % "+{Home}"
 
-#If ( ( GetKeyState( "LAlt", "P" ) || GetKeyState( "RAlt", "P" ) ) && !( GetKeyState( "LCtrl", "P" ) || GetKeyState( "RCtrl", "P" ) ) )
-SC027 & j::
-CapsLock & j::SendInput % "{Home}"
+!j::SendInput % "{Home}"
 
-#If ( ( GetKeyState( "LAlt", "P" ) || GetKeyState( "RAlt", "P" ) ) && ( GetKeyState( "LCtrl", "P" ) || GetKeyState( "RCtrl", "P" ) ) )
-SC027 & j::
-CapsLock & j::SendInput % "^{Home}"
-
+^!j::SendInput % "^{Home}"
 #If
 
 ; Move Up
-SC027 & i::
-CapsLock & i::SendInput % "{Up}"
+#If g_vimyModeActive
+i::SendInput % "{Up}"
 
-#If (GetKeyState("LShift", "P") || GetKeyState("RShift", "P"))
-SC027 & i::
-CapsLock & i::SendInput % "+{Up}"
++i::SendInput % "+{Up}"
 
-#If ( GetKeyState( "LAlt", "P" ) || GetKeyState( "RAlt", "P" ) && ( GetKeyState( "LCtrl", "P") || GetKeyState("RCtrl", "P") ) )
-SC027 & i::
-CapsLock & i::SendInput % "^!{Up}"
-
+^!i::SendInput % "^!{Up}"
 #If
 
 ; Move Down
-SC027 & k::
-CapsLock & k::SendInput % "{Down}"
+#If g_vimyModeActive
+k::SendInput % "{Down}"
 
-#If (GetKeyState("RShift", "P") || GetKeyState("LShift", "P"))
-SC027 & k::
-CapsLock & k::SendInput % "+{Down}"
++k::SendInput % "+{Down}"
 
-#If ( GetKeyState( "LAlt", "P" ) || GetKeyState( "RAlt", "P" ) && ( GetKeyState( "LCtrl", "P") || GetKeyState("RCtrl", "P") ) )
-SC027 & k::
-CapsLock & k::SendInput % "^!{Down}"
-
+^!k::SendInput % "^!{Down}"
 #If
 
 ; Move Right
-SC027 & l::
-CapsLock & l::SendInput % "{Right}"
+#If g_vimyModeActive
+l::SendInput % "{Right}"
 
-#If ( ( GetKeyState( "LShift", "P" ) || GetKeyState( "RShift", "P" ) ) && !( GetKeyState( "LAlt", "P" ) || GetKeyState( "RAlt", "P" ) ))
-SC027 & l::
-CapsLock & l::SendInput % "+{Right}"
++l::SendInput % "+{Right}"
 
-#If ( ( GetKeyState( "LShift", "P" ) || GetKeyState( "RShift", "P" ) ) && ( GetKeyState( "LAlt", "P" ) || GetKeyState( "RAlt", "P" ) ))
-SC027 & l::
-CapsLock & l::SendInput % "+{End}"
+!+l::SendInput % "+{End}"
 
-#If ( ( GetKeyState( "LAlt", "P" ) || GetKeyState( "RAlt", "P" ) ) && !( GetKeyState( "LCtrl", "P" ) || GetKeyState( "RCtrl", "P" ) ) )
-SC027 & l::
-CapsLock & l::SendInput % "{End}"
+!l::SendInput % "{End}"
 
-#If ( ( GetKeyState( "LAlt", "P" ) || GetKeyState( "RAlt", "P" ) ) && ( GetKeyState( "LCtrl", "P" ) || GetKeyState( "RCtrl", "P" ) ) )
-SC027 & l::
-CapsLock & l::SendInput % "^{End}"
-
+^!l::SendInput % "^{End}"
 #If
 
 ; Page Up
-SC027 & o::
-CapsLock & o::SendInput % "{PgUp}"
+#If g_vimyModeActive
+o::SendInput % "{PgUp}"
 
-#If ( GetKeyState( "LCtrl", "P" ) || GetKeyState( "RCtrl", "P" ) )
-SC027 & o::
-CapsLock & o::SendInput % "^{PgUp}"
-
+^o::SendInput % "^{PgUp}"
 #If
 
 ; Page Down
-SC027 & ,::
-CapsLock & ,::SendInput % "{PgDn}"
+#If g_vimyModeActive
+,::SendInput % "{PgDn}"
 
-#If ( GetKeyState( "LCtrl", "P" ) || GetKeyState( "RCtrl", "P" ) )
-SC027 & ,::
-CapsLock & ,::SendInput % "^{PgDn}"
-
+^,::SendInput % "^{PgDn}"
 #If
 
 ;   ································································································
-;     >>> §2.3: Character and word deletion and process termination hotkeys
+;     >>> §2.4: Character and word deletion and process termination hotkeys
 
+#If g_vimyModeActive
 ; Delete a word to the left of the cursor
-CapsLock & a::
-SC027 & a::SendInput % "^{Backspace}"
+a::SendInput % "^{Backspace}"
 
 ; Delete a character to the left of the cursor
-CapsLock & s::
-SC027 & s::SendInput % "{Backspace}"
+s::SendInput % "{Backspace}"
 
 ; Delete a character to the right of the cursor
-CapsLock & d::
-SC027 & d::SendInput % "{Delete}"
+d::SendInput % "{Delete}"
 
 ; Delete a word to the right of the cursor
-Capslock & f::
-SC027 & f::SendInput % "^{Delete}"
+f::SendInput % "^{Delete}"
 
 ; Delete a word to the right of the cursor
-CapsLock & q::
-SC027 & q::SendInput % "{Escape}"
+q::SendInput % "{Escape}"
 
 ; Trigger undo
-SC027 & z::SendInput % "^z"
-
-; Restore native function of the semicolon key
-SC027::Send % ";"
-
-; Restore native functions of the modified semicolon key
-+SC027::Send % ":"
-
-#SC027::Send % "#;"
+z::SendInput % "^z"
+#If
 
 ; --------------------------------------------------------------------------------------------------
 ;   §3: FRONT-END web development
