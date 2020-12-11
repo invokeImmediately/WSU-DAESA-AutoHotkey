@@ -23,28 +23,29 @@
 ; ==================================================================================================
 ; TABLE OF CONTENTS:
 ; -----------------
-;   §1: GENERAL text editing....................................................................51
-;     >>> §1.1: Hotstrings......................................................................55
-;     >>> §1.2: Hotkeys.........................................................................73
-;       →→→ §1.2.1: Insertion of non-breaking spaces............................................76
-;   §2: VIM-STYLE keyboard modifications........................................................83
-;     >>> §2.1: Toggle VIMy mode................................................................87
-;     >>> §2.2: Word based cursor movement hotkeys.............................................105
-;     >>> §2.3: Directionally based cursor movement hotkeys....................................122
-;     >>> §2.4: Character and word deletion and process termination hotkeys....................183
-;   §3: FRONT-END web development..............................................................206
-;     >>> §3.1: HTML editing...................................................................210
-;     >>> §3.2: CSS editing....................................................................217
-;     >>> §3.3: JS editing.....................................................................225
-;   §4: NUMPAD mediated text insertion.........................................................230
-;     >>> §4.1: GetCmdForMoveToCSSFolder.......................................................234
-;     >>> §4.2: GetCmdForMoveToCSSFolder.......................................................252
-;   §5: DATES and TIMES........................................................................270
-;     >>> §5.1: Dates..........................................................................274
-;     >>> §5.2: Times..........................................................................302
-;   §6: CLIPBOARD modifying hotstrings.........................................................336
-;     >>> §6.1: Slash character reversal.......................................................340
-;     >>> §6.2: URL to Windows file name conversion............................................367
+;   §1: GENERAL text editing....................................................................52
+;     >>> §1.1: Hotstrings......................................................................56
+;     >>> §1.2: Hotkeys.........................................................................74
+;       →→→ §1.2.1: Insertion of non-breaking spaces............................................77
+;   §2: VIM-STYLE keyboard modifications........................................................84
+;     >>> §2.1: Toggle VIMy mode................................................................88
+;     >>> §2.2: Word based cursor movement hotkeys.............................................106
+;     >>> §2.3: Directionally based cursor movement hotkeys....................................123
+;     >>> §2.4: Character and word deletion and process termination hotkeys....................184
+;   §3: FRONT-END web development..............................................................207
+;     >>> §3.1: HTML editing...................................................................211
+;     >>> §3.2: CSS editing....................................................................218
+;     >>> §3.3: JS editing.....................................................................226
+;   §4: NUMPAD mediated text insertion.........................................................231
+;     >>> §4.1: GetCmdForMoveToCSSFolder.......................................................235
+;     >>> §4.2: GetCmdForMoveToCSSFolder.......................................................253
+;   §5: DATES and TIMES........................................................................271
+;     >>> §5.1: Dates..........................................................................275
+;     >>> §5.2: Times..........................................................................303
+;   §6: CLIPBOARD modifying hotstrings.........................................................337
+;     >>> §6.1: Slash character reversal.......................................................341
+;     >>> §6.2: URL to Windows file name conversion............................................368
+;     >>> §6.3: ASCII Text Art.................................................................388
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -382,3 +383,71 @@ Return
 	 . "replaced with vertical ellipses, foward slashes have been replaced with vertical bars, "
 	 . "and periods have been replaced with middle dots.", 3000 )
 Return
+
+;   ································································································
+;     >>> §6.3: ASCII Text Art
+
+class AsciiArtLetter {
+	__New( row1chars, row2chars, row3chars, spaceRight ) {
+		this.rows[1] := row1chars
+		this.rows[2] := row2chars
+		this.rows[3] := row3chars
+		this.spaceRight := spaceRight
+	}
+}
+
+class AsciiArtConverter {
+	__New() {
+		this.alphabet := {}
+		this.alphabet[ "a" ] := new AsciiArtLetter( "▄▀▀▄", "█▄▄█", "█  ▀", True )
+		this.alphabet[ "b" ] := new AsciiArtLetter( "█▀▀▄", "█▀▀▄", "▀▀▀ ", True )
+		this.alphabet[ "c" ] := new AsciiArtLetter( "▄▀▀▀", "█   ", " ▀▀▀", True )
+		this.alphabet[ "d" ] := new AsciiArtLetter( "█▀▀▄", "█  █", "▀▀▀ ", True )
+		this.alphabet[ "e" ] := new AsciiArtLetter( "█▀▀▀", "█▀▀ ", "▀▀▀▀", True )
+		this.alphabet[ "f" ] := new AsciiArtLetter( "█▀▀▀", "█▀▀▀", "▀   ", True )
+		this.alphabet[ "g" ] := new AsciiArtLetter( "█▀▀▀", "█ ▀▄", "▀▀▀▀", True )
+		this.alphabet[ "h" ] := new AsciiArtLetter( "█  █", "█▀▀█", "█  ▀", True )
+		this.alphabet[ "i" ] := new AsciiArtLetter( "▀█▀", " █ ", "▀▀▀", True )
+		this.alphabet[ "j" ] := new AsciiArtLetter( "   █", "▄  █", "▀▄▄█", True )
+		this.alphabet[ "k" ] := new AsciiArtLetter( "█ ▄▀ ", "█▀▄  ", "▀  ▀▄", False )
+		this.alphabet[ "l" ] := new AsciiArtLetter( "█   ", "█  ▄", "▀▀▀ ", True )
+		this.alphabet[ "m" ] := new AsciiArtLetter( "▐▀▄▀▌", "█ ▀ ▌", "█   ▀", False )
+		this.alphabet[ "n" ] := new AsciiArtLetter( "▐▀▀▄", "█  ▐", "▀  ▐", False )
+		this.alphabet[ "o" ] := new AsciiArtLetter( "▄▀▀▄", "█  █", " ▀▀ ", True )
+		this.alphabet[ "p" ] := new AsciiArtLetter( "█▀▀▄", "█▄▄▀", "█   ", True )
+		this.alphabet[ "q" ] := new AsciiArtLetter( "▄▀▀▄", "█  █", " ▀█▄", True )
+		this.alphabet[ "r" ] := new AsciiArtLetter( "█▀▀▄ ", "█▄▄▀ ", "▀  ▀▄", False )
+		this.alphabet[ "s" ] := new AsciiArtLetter( "▄▀▀▀", "▀▀▀█", "▀▀▀ ", True )
+		this.alphabet[ "t" ] := new AsciiArtLetter( "▐▀█▀▌", "  █  ", "  █  ", False )
+		this.alphabet[ "u" ] := new AsciiArtLetter( "█  █", "█  █", " ▀▀ ", True )
+		this.alphabet[ "v" ] := new AsciiArtLetter( "▐   ▌", " █ █ ", "  █  ", False )
+		this.alphabet[ "w" ] := new AsciiArtLetter( "▐   ▌", "▐ █ ▌", " ▀ ▀ ", False )
+		this.alphabet[ "x" ] := new AsciiArtLetter( "▐▄ ▄▌", "  █  ", "▐▀ ▀▌", False )
+		this.alphabet[ "y" ] := new AsciiArtLetter( "█  █", "▀▄▄█", "▄▄▄▀", True )
+		this.alphabet[ "z" ] := new AsciiArtLetter( "▀▀▀█", " ▄▀ ", "█▄▄▄", True )
+		this.alphabet[ " " ] := new AsciiArtLetter( " ", " ", " ", True )
+		this.alphabet[ "0" ] := new AsciiArtLetter( "█▀▀█", "█▄▀█", "█▄▄█", True )
+		this.alphabet[ "1" ] := new AsciiArtLetter( "▄█  ", " █  ", "▄█▄▌", True )
+		this.alphabet[ "2" ] := new AsciiArtLetter( "▄▀▀█", " ▄▄▀", "█▄▄▄", True )
+		this.alphabet[ "3" ] := new AsciiArtLetter( "█▀▀█", "  ▀▄", "█▄▄█", True )
+		this.alphabet[ "4" ] := new AsciiArtLetter( " ▄▀█ ", "▐▄▄█▌", "   █ ", False )
+		this.alphabet[ "5" ] := new AsciiArtLetter( "█▀▀▀", "▀▀▀▄", "▄▄▄▀", True )
+		this.alphabet[ "6" ] := new AsciiArtLetter( "▄▀▀▄", "█▄▄ ", "▀▄▄▀", True )
+		this.alphabet[ "7" ] := new AsciiArtLetter( "▐▀▀█", "  █ ", " ▐▌ ", True )
+		this.alphabet[ "8" ] := new AsciiArtLetter( "▄▀▀▄", "▄▀▀▄", "▀▄▄▀", True )
+		this.alphabet[ "9" ] := new AsciiArtLetter( "▄▀▀▄", "▀▄▄█", " ▄▄▀", True )
+		this.alphabet[ "." ] := new AsciiArtLetter( " ", " ", "▀", True )
+		this.alphabet[ "," ] := new AsciiArtLetter( " ", "▄", "▐", True )
+		this.alphabet[ "?" ] := new AsciiArtLetter( "▄▀▀█", "  █▀", "  ▄ ", True )
+		this.alphabet[ "!" ] := new AsciiArtLetter( "█", "█", "▄", True )
+		this.alphabet[ ":" ] := new AsciiArtLetter( "▄", "▄", " ", True )
+		this.alphabet[ ";" ] := new AsciiArtLetter( "▄", "▄", "▐", True )
+		this.alphabet[ "-" ] := new AsciiArtLetter( "  ", "▀▀", "  ", True )
+		this.alphabet[ "–" ] := new AsciiArtLetter( "   ", "▀▀▀", "   ", True )
+		this.alphabet[ "—" ] := new AsciiArtLetter( "    ", "▀▀▀▀", "    ", True )
+		this.alphabet[ "_" ] := new AsciiArtLetter( "   ", "   ", "▀▀▀", True )
+		this.alphabet[ "*" ] := new AsciiArtLetter( "▀▄█▄▀", " ▄█▄ ", "▀ ▀ ▀", True )
+		this.alphabet[ "/" ] := new AsciiArtLetter( "  █", " █ ", "█  ", True )
+		this.alphabet[ "\" ] := new AsciiArtLetter( "█  ", " █ ", "  █", True )
+	}
+}
