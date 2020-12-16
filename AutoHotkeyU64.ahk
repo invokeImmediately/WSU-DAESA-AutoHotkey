@@ -1,32 +1,30 @@
 ﻿; ==================================================================================================
-; AutoHotkeyU64.ahk
+; ▄▀▀▄ █  █▐▀█▀▌▄▀▀▄ █  █ ▄▀▀▄▐▀█▀▌█ ▄▀ █▀▀▀ █  █ █  █ ▄▀▀▄ ▄▀█   ▄▀▀▄ █  █ █ ▄▀ 
+; █▄▄█ █  █  █  █  █ █▀▀█ █  █  █  █▀▄  █▀▀  ▀▄▄█ █  █ █▄▄ ▐▄▄█▌  █▄▄█ █▀▀█ █▀▄  
+; █  ▀  ▀▀   █   ▀▀  █  ▀  ▀▀   █  ▀  ▀▄▀▀▀▀ ▄▄▄▀  ▀▀  ▀▄▄▀   █ ▀ █  ▀ █  ▀ ▀  ▀▄
 ; --------------------------------------------------------------------------------------------------
-; SUMMARY: Script for automating coding, operating system control, window management, and file
+; AutoHotkey script for automation of coding, operating system control, window management, and file
 ;   management tasks commonly peformed during front-end web development work for the Division of
 ;   Academic Engagement and Student Achievement (DAESA) at WSU.
 ;
-; DESCRIPTION: Formerly, this project was conducted by the Office of Undergraduate Education (OUE),
-;   which was combined with the Office of Academic Engagement to form DAESA. It is developed and
-;   maintained on GitHub at: https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey.
+; Formerly, this project was conducted by the Office of Undergraduate Education (OUE), which was
+;   combined with the Office of Academic Engagement to form DAESA.
 ;
-; AUTHOR: Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
-; 
-; LICENSE: MIT - Copyright (c) 2020 Daniel C. Rieck.
-;
+; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
+; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey
+; @license MIT Copyright (c) 2020 Daniel C. Rieck.
 ;   Permission is hereby granted, free of charge, to any person obtaining a copy of this software
-;   and associated documentation files (the “Software”), to deal in the Software without
-;   restriction, including without limitation the rights to use, copy, modify, merge, publish,
-;   distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
-;   Software is furnished to do so, subject to the following conditions:
-;
+;     and associated documentation files (the “Software”), to deal in the Software without
+;     restriction, including without limitation the rights to use, copy, modify, merge, publish,
+;     distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
+;     Software is furnished to do so, subject to the following conditions:
 ;   The above copyright notice and this permission notice shall be included in all copies or
-;   substantial portions of the Software.
-;
+;     substantial portions of the Software.
 ;   THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
-;   BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-;   NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-;   DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-;   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+;     BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;     NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+;     DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+;     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ; ==================================================================================================
 ; TABLE OF CONTENTS:
 ; -----------------
@@ -70,34 +68,34 @@
 ;   ································································································
 ;     >>> §1.1: SYSTEM PROPERTY GLOBALS
 
-global SM_CMONITORS 	:= 80		; Constant needed for retreiving the number of display monitors 
-									;  on the desktop via SysGet(...).
+; Constant needed for retreiving the number of display monitors on the desktop via SysGet(...).
+global SM_CMONITORS 	:= 80		
 
-global SM_CXSIZEFRAME	:= 32		; SysGet(...) constant needed for retreiving the default window 
-									;  border width.
+; SysGet(...) constants needed for retreiving the default window border width and height.
+global SM_CXSIZEFRAME	:= 32
+global SM_CYSIZEFRAME 	:= 33
 
-global SM_CYSIZEFRAME 	:= 33		; SysGet(...) constant needed for retreiving the default window 
-									;  border height.
+; Number of display monitors on this system.
+global sysNumMonitors
 
-global sysNumMonitors				; Number of display monitors on this system.
+; Default border width and height.
+global sysWinBorderW
+global sysWinBorderH
 
-global sysWinBorderW				; Default border width.
+; Number of attempts at an open-ended goal, such as making a target window active.
+global g_maxTries := 10
 
-global sysWinBorderH				; Default border height.
-
-global g_maxTries 		:= 10		; Number of attempts at an open-ended goal, such as making a
-									; target window active.
-
+; WinTitle parameter for identifying when the desktop process is the active window.
 global g_osDesktopWinTitle := "ahk_class WorkerW ahk_exe explorer.exe"
 
 ;   ································································································
 ;     >>> §1.2: OPERATION TIMING GLOBALS
 
-global g_delayQuantum		:= 15.6		; Min. amt. of time the Sleep command can wait; 0.0156s
-global g_extraShortDelay	:= 3		; An extra short delay of .0468s
-global g_shortDelay			:= 7		; A short delay of .1092s
-global g_mediumDelay		:= 21		; A medium delay of .3276s
-global g_longDelay			:= 63		; A long delay of around 0.9828s
+global g_delayQuantum			:= 15.6		; Min. amt. of time the Sleep command can wait; 0.0156s
+global g_extraShortDelay	:= 3			; An extra short delay of .0468s
+global g_shortDelay				:= 7			; A short delay of .1092s
+global g_mediumDelay			:= 21			; A medium delay of .3276s
+global g_longDelay				:= 63			; A long delay of around 0.9828s
 
 ;   ································································································
 ;     >>> §1.3: GLOBALS FOR LOCATIONS OF IMPORTANT FOLDERS & FILES
@@ -117,52 +115,53 @@ global ssdWorkFolder := userAccountFolderSSD . relWorkFolder
 global hhdWorkFolder := userAccountFolderHDD . relWorkFolder
 global webDevFolder := hhdWorkFolder . "\{^}WSU-Web-Dev"
 
+; File system locations of git message logs
+global commitCssLessMsgLog		:= A_ScriptDir . "\Config\commit-css-less-msg-history.txt"
+global commitAnyFileMsgLog		:= A_ScriptDir . "\Config\commit-any-file-msg-history.txt"
+global commitJsCustomJsMsgLog	:= A_ScriptDir . "\Config\commit-js-custom-js-msg-history.txt"
+
 ;   ································································································
 ;     >>> §1.4: POMODORO WORK TIMER GLOBALS
 
-global logFileName := A_ScriptDir . "\Config\workTimerLog.txt"
-global workTimerCountdownTime := -1500000
-global workTimeLeftOver := 0
-global workTimerMinuteCount := 0
-global workTimerNotificationSound := A_ScriptDir . "\Sounds\chinese-gong-daniel_simon.wav"
-global workTimerMinutesound := A_ScriptDir . "\Sounds\Bell-tone_C-4.wav"
-global workTimer5MinuteSound := A_ScriptDir . "\Sounds\Metal_Gong-Dianakc-109711828.wav"
+global logFileName								:= A_ScriptDir . "\Config\workTimerLog.txt"
+global workTimerCountdownTime			:= -1500000
+global workTimeLeftOver						:= 0
+global workTimerMinuteCount				:= 0
+global workTimerNotificationSound	:= A_ScriptDir . "\Sounds\chinese-gong-daniel_simon.wav"
+global workTimerMinutesound				:= A_ScriptDir . "\Sounds\Bell-tone_C-4.wav"
+global workTimer5MinuteSound			:= A_ScriptDir . "\Sounds\Metal_Gong-Dianakc-109711828.wav"
 
 ;   ································································································
 ;     >>> §1.5: DESKTOP ARRANGEMENT AUDITORY CUE GLOBALS
 
-global windowMovementSound := A_ScriptDir . "\Sounds\323413__sethroph__glass-slide-3_-12.5"
-. "db_faster.wav"
-global windowSizingSound := A_ScriptDir . "\Sounds\68222__xtyl33__paper3_-7.5db_faster.wav"
-global windowShiftingSound := A_ScriptDir . "\Sounds\185849__lloydevans09__warping.wav"
-global desktopSwitchingSound := A_ScriptDir . "\Sounds\352719__dalesome__woosh-stick-swung"
-. "-in-the-air_-15db.wav"
-global scriptLoadedSound := A_ScriptDir . "\Sounds\Storm_exclamation.wav"
-global desktopArrangedSound := A_ScriptDir . "\Sounds\zelda_lttp-mstr-swrd.wav"
+global windowMovementSound		:= A_ScriptDir . "\Sounds\323413__sethroph__glass-slide-3_-12.5"
+																. "db_faster.wav"
+global windowSizingSound			:= A_ScriptDir . "\Sounds\68222__xtyl33__paper3_-7.5db_faster.wav"
+global windowShiftingSound		:= A_ScriptDir . "\Sounds\185849__lloydevans09__warping.wav"
+global desktopSwitchingSound	:= A_ScriptDir . "\Sounds\352719__dalesome__woosh-stick-swung"
+																. "-in-the-air_-15db.wav"
+global scriptLoadedSound			:= A_ScriptDir . "\Sounds\Storm_exclamation.wav"
+global desktopArrangedSound		:= A_ScriptDir . "\Sounds\zelda_lttp-mstr-swrd.wav"
 
 ;   ································································································
 ;     >>> §1.6: SIMULATED MEMORY OF USER ACTIONS
 
-global cmdHistoryLog := A_ScriptDir . "\Config\ahk-cmd-history.txt"
-global ahkCmds := Array()
-global ahkCmdLimit := 140
+global cmdHistoryLog	:= A_ScriptDir . "\Config\ahk-cmd-history.txt"
+global ahkCmds				:= Array()
+global ahkCmdLimit		:= 140
 global CmdChosen
-global savedMouseX := 0
-global savedMouseY := 0
-global lineLength := 125
-
-global commitCssLessMsgLog := A_ScriptDir . "\Config\commit-css-less-msg-history.txt"
-global commitAnyFileMsgLog := A_ScriptDir . "\Config\commit-any-file-msg-history.txt"
-global commitJsCustomJsMsgLog := A_ScriptDir . "\Config\commit-js-custom-js-msg-history.txt"
+global savedMouseX		:= 0
+global savedMouseY		:= 0
+global lineLength			:= 125
 
 ;   ································································································
 ;     >>> §1.7: KEYBOARD OVERRIDING
 
-global bitNumpadSubToggle := false
-global numpadSubOverwrite := "{U+00b7}"
-global bitNumpadDivToggle := false
-global numpadDivOverwrite := "{U+00b7}"
-global npModeExpirationTime := 5 * 60 * 1000
+global bitNumpadSubToggle		:= false
+global numpadSubOverwrite		:= "{U+00b7}"
+global bitNumpadDivToggle		:= false
+global numpadDivOverwrite		:= "{U+00b7}"
+global npModeExpirationTime	:= 5 * 60 * 1000
 
 global hotstrStartTime := 0
 global hotstrEndTime := 0
@@ -204,15 +203,10 @@ StartScript()
 ; --------------------------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GUIs\guiControlHandler.ahk
-
 #Include %A_ScriptDir%\GUIs\guiMsgBox.ahk
-
 #Include %A_ScriptDir%\Functions\API_GetWindowInfo.ahk
-
 #Include %A_ScriptDir%\Functions\functions.ahk
-
 #Include %A_ScriptDir%\Functions\trie.ahk
-
 #Include %A_ScriptDir%\Functions\cfgFile.ahk
 
 ; --------------------------------------------------------------------------------------------------
