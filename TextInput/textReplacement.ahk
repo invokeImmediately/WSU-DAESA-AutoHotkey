@@ -30,22 +30,22 @@
 ;   §2: VIM-STYLE keyboard modifications........................................................84
 ;     >>> §2.1: Toggle VIMy mode................................................................88
 ;     >>> §2.2: Word based cursor movement hotkeys.............................................110
-;     >>> §2.3: Directionally based cursor movement hotkeys....................................127
-;     >>> §2.4: Character and word deletion and process termination hotkeys....................188
-;   §3: FRONT-END web development..............................................................211
-;     >>> §3.1: HTML editing...................................................................215
-;     >>> §3.2: CSS editing....................................................................222
-;     >>> §3.3: JS editing.....................................................................230
-;   §4: NUMPAD mediated text insertion.........................................................235
-;     >>> §4.1: GetCmdForMoveToCSSFolder.......................................................239
-;     >>> §4.2: GetCmdForMoveToCSSFolder.......................................................257
-;   §5: DATES and TIMES........................................................................275
-;     >>> §5.1: Dates..........................................................................279
-;     >>> §5.2: Times..........................................................................307
-;   §6: CLIPBOARD modifying hotstrings.........................................................341
-;     >>> §6.1: Slash character reversal.......................................................345
-;     >>> §6.2: URL to Windows file name conversion............................................372
-;     >>> §6.3: ASCII Text Art.................................................................392
+;     >>> §2.3: Directionally based cursor movement hotkeys....................................135
+;     >>> §2.4: Character and word deletion and process termination hotkeys....................196
+;   §3: FRONT-END web development..............................................................219
+;     >>> §3.1: HTML editing...................................................................223
+;     >>> §3.2: CSS editing....................................................................230
+;     >>> §3.3: JS editing.....................................................................238
+;   §4: NUMPAD mediated text insertion.........................................................243
+;     >>> §4.1: GetCmdForMoveToCSSFolder.......................................................247
+;     >>> §4.2: GetCmdForMoveToCSSFolder.......................................................265
+;   §5: DATES and TIMES........................................................................283
+;     >>> §5.1: Dates..........................................................................287
+;     >>> §5.2: Times..........................................................................315
+;   §6: CLIPBOARD modifying hotstrings.........................................................349
+;     >>> §6.1: Slash character reversal.......................................................353
+;     >>> §6.2: URL to Windows file name conversion............................................380
+;     >>> §6.3: ASCII Text Art.................................................................400
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -55,17 +55,17 @@
 ;   ································································································
 ;     >>> §1.1: Hotstrings
 
-:*:@a5lh::
+:*?:@a5lh::
 	AppendAhkCmd(A_ThisLabel)
 	SendInput, {Enter 5}
 Return
 
-:*:@ppp::
+:*?:@ppp::
 	AppendAhkCmd(A_ThisLabel)
 	SendInput, news-events_events_.html{Left 5}
 Return
 
-:*:@shrug::
+:*?:@shrug::
 	AppendAhkCmd(A_ThisLabel)
 	SendInput, % "¯\_(·_·)_/¯"
 Return
@@ -88,7 +88,7 @@ Return
 ;     >>> §2.1: Toggle VIMy mode
 
 !SC027::
-:*:@toggleVimyMode::
+:*?:@toggleVimyMode::
 	ToggleVimyMode()
 Return
 
@@ -113,14 +113,22 @@ ToggleVimyMode() {
 ; Move the cursor to beginning of the previous word at its left.
 n::SendInput % "^{Left}"
 
++n::SendInput % "^+{Left}"
+
 ; Move the cursor to beginning of the next word at its right.
 m::SendInput % "^{Right}{Right}^{Right}^{Left}"
+
++m::SendInput % "^+{Right}+{Right}^+{Right}^+{Left}"
 
 ; Move the cursor to end of the previous word at its left.
 y::SendInput % "^{Left}{Left}^{Left}^{Right}"
 
++y::SendInput % "^+{Left}+{Left}^+{Left}^+{Right}"
+
 ; Move the cursor to end of the next word at its right.
 u::SendInput % "^{Right}"
+
++u::SendInput % "^+{Right}"
 #If
 
 ;   ································································································
@@ -214,14 +222,14 @@ z::SendInput % "^z"
 ;   ································································································
 ;     >>> §3.1: HTML editing
 
-:*:@addClass::class=""{Space}{Left 2}
+:*?:@addClass::class=""{Space}{Left 2}
 
-:*:@addNrml::{Space}class="oue-normal"
+:*?:@addNrml::{Space}class="oue-normal"
 
 ;   ································································································
 ;     >>> §3.2: CSS editing
 
-:*:@doRGBa::
+:*?:@doRGBa::
 	AppendAhkCmd(A_ThisLabel)
 	SendInput, rgba(@rval, @gval, @bval, );{Left 2}
 Return
@@ -238,7 +246,7 @@ Return
 ;   ································································································
 ;     >>> §4.1: @changeNumpadDiv
 
-:*:@changeNumpadDiv::
+:*?:@changeNumpadDiv::
 	AppendAhkCmd(A_ThisLabel)
 	Inputbox, inputEntered
 		, % "@changeNumpadDiv: Change Numpad / Overwrite"
@@ -256,7 +264,7 @@ Return
 ;   ································································································
 ;     >>> §4.2: @changeNumpadSub
 
-:*:@changeNumpadSub::
+:*?:@changeNumpadSub::
 	AppendAhkCmd(A_ThisLabel)
 	Inputbox, inputEntered
 		, % "@changeNumpadSub: Change Numpad- Overwrite"
@@ -278,26 +286,26 @@ Return
 ;   ································································································
 ;     >>> §5.1: Dates
 
-:*:@datetime::
+:?*:@datetime::
 	AppendAhkCmd(A_ThisLabel)
 	FormatTime, currentDateTime, , yyyy-MM-dd HH:mm:ss
 	SendInput, %currentDateTime%
 Return
 
-:*:@ddd::
+:?*:@ddd::
 	AppendAhkCmd(A_ThisLabel)
 	FormatTime, currentDate, , yyyy-MM-dd
 	SendInput, %currentDate%
 Return
 
-:*:@dtfn::
+:?*:@dtfn::
 	AppendAhkCmd(A_ThisLabel)
 	FormatTime, currentDateTime, , yyyy-MM-dd_HH:mm:ss
 	updatedDateTime := StrReplace( currentDateTime, ":", "⋮" )
 	SendInput, %updatedDateTime%
 Return
 
-:*:@mdys::
+:?*:@mdys::
 	AppendAhkCmd(A_ThisLabel)
 	FormatTime, currentDate, , MM/dd/yyyy
 	SendInput, %currentDate%
@@ -306,32 +314,32 @@ Return
 ;   ································································································
 ;     >>> §5.2: Times
 
-:*:@ttt::
+:?*:@ttt::
 	AppendAhkCmd(A_ThisLabel)
 	FormatTime, currentTime, , HH-mm-ss
 	SendInput, %currentTime%
 Return
 
-:*:@ttc::
+:?*:@ttc::
 	AppendAhkCmd(A_ThisLabel)
 	FormatTime, currentTime, , HH:mm:ss
 	SendInput, %currentTime%
 Return
 
-:*:@ttfn::
+:?*:@ttfn::
 	AppendAhkCmd(A_ThisLabel)
 	FormatTime, currentTime, , HH:mm:ss
 	updatedTime := StrReplace( currentTime, ":", "⋮" )
 	SendInput, % updatedTime
 Return
 
-:*:@xccc::
+:?*:@xccc::
 	AppendAhkCmd(A_ThisLabel)
 	FormatTime, currentDate,, yyyy-MM-dd
 	SendInput, / Completed %currentDate%
 Return
 
-:*:@xsss::
+:?*:@xsss::
 	AppendAhkCmd(A_ThisLabel)
 	FormatTime, CurrentDateTime,, yyyy-MM-dd
 	SendInput, (Started %CurrentDateTime%)
@@ -344,7 +352,7 @@ Return
 ;   ································································································
 ;     >>> §6.1: Slash character reversal
 
-:*:@reverseBackSlashes::
+:*?:@reverseBackSlashes::
 	AppendAhkCmd( A_ThisLabel )
 	oldText := Clipboard
 	execDelayer.Wait( "s" )
@@ -356,7 +364,7 @@ Return
 	 . "reversed.", 3000 )
 Return
 
-:*:@reverseFwdSlashes::
+:*?:@reverseFwdSlashes::
 	AppendAhkCmd( A_ThisLabel )
 	oldText := Clipboard
 	execDelayer.Wait( "s" )
@@ -371,7 +379,7 @@ Return
 ;   ································································································
 ;     >>> §6.2: URL to Windows file name conversion
 
-:*:@convertUrlToFileName::
+:*?:@convertUrlToFileName::
 	AppendAhkCmd( A_ThisLabel )
 	oldText := Clipboard
 	execDelayer.Wait( "s" )
@@ -391,67 +399,147 @@ Return
 ;   ································································································
 ;     >>> §6.3: ASCII Text Art
 
-class AsciiArtLetter {
-	__New( row1chars, row2chars, row3chars, spaceRight ) {
+class AsciiArtLetter3h {
+	__New( row1chars, row2chars, row3chars, spaceRight, spaceLeft := True ) {
 		this.rows[1] := row1chars
 		this.rows[2] := row2chars
 		this.rows[3] := row3chars
 		this.spaceRight := spaceRight
+		this.spaceLeft := spaceLeft
 	}
 }
 
 class AsciiArtConverter {
 	__New() {
+
+		; Establish the important settings for our ASCII art alphabet.
 		this.alphabet := {}
-		this.alphabet[ "a" ] := new AsciiArtLetter( "▄▀▀▄", "█▄▄█", "█  ▀", True )
-		this.alphabet[ "b" ] := new AsciiArtLetter( "█▀▀▄", "█▀▀▄", "▀▀▀ ", True )
-		this.alphabet[ "c" ] := new AsciiArtLetter( "▄▀▀▀", "█   ", " ▀▀▀", True )
-		this.alphabet[ "d" ] := new AsciiArtLetter( "█▀▀▄", "█  █", "▀▀▀ ", True )
-		this.alphabet[ "e" ] := new AsciiArtLetter( "█▀▀▀", "█▀▀ ", "▀▀▀▀", True )
-		this.alphabet[ "f" ] := new AsciiArtLetter( "█▀▀▀", "█▀▀▀", "▀   ", True )
-		this.alphabet[ "g" ] := new AsciiArtLetter( "█▀▀▀", "█ ▀▄", "▀▀▀▀", True )
-		this.alphabet[ "h" ] := new AsciiArtLetter( "█  █", "█▀▀█", "█  ▀", True )
-		this.alphabet[ "i" ] := new AsciiArtLetter( "▀█▀", " █ ", "▀▀▀", True )
-		this.alphabet[ "j" ] := new AsciiArtLetter( "   █", "▄  █", "▀▄▄█", True )
-		this.alphabet[ "k" ] := new AsciiArtLetter( "█ ▄▀ ", "█▀▄  ", "▀  ▀▄", False )
-		this.alphabet[ "l" ] := new AsciiArtLetter( "█   ", "█  ▄", "▀▀▀ ", True )
-		this.alphabet[ "m" ] := new AsciiArtLetter( "▐▀▄▀▌", "█ ▀ ▌", "█   ▀", False )
-		this.alphabet[ "n" ] := new AsciiArtLetter( "▐▀▀▄", "█  ▐", "▀  ▐", False )
-		this.alphabet[ "o" ] := new AsciiArtLetter( "▄▀▀▄", "█  █", " ▀▀ ", True )
-		this.alphabet[ "p" ] := new AsciiArtLetter( "█▀▀▄", "█▄▄▀", "█   ", True )
-		this.alphabet[ "q" ] := new AsciiArtLetter( "▄▀▀▄", "█  █", " ▀█▄", True )
-		this.alphabet[ "r" ] := new AsciiArtLetter( "█▀▀▄ ", "█▄▄▀ ", "▀  ▀▄", False )
-		this.alphabet[ "s" ] := new AsciiArtLetter( "▄▀▀▀", "▀▀▀█", "▀▀▀ ", True )
-		this.alphabet[ "t" ] := new AsciiArtLetter( "▐▀█▀▌", "  █  ", "  █  ", False )
-		this.alphabet[ "u" ] := new AsciiArtLetter( "█  █", "█  █", " ▀▀ ", True )
-		this.alphabet[ "v" ] := new AsciiArtLetter( "▐   ▌", " █ █ ", "  █  ", False )
-		this.alphabet[ "w" ] := new AsciiArtLetter( "▐   ▌", "▐ █ ▌", " ▀ ▀ ", False )
-		this.alphabet[ "x" ] := new AsciiArtLetter( "▐▄ ▄▌", "  █  ", "▐▀ ▀▌", False )
-		this.alphabet[ "y" ] := new AsciiArtLetter( "█  █", "▀▄▄█", "▄▄▄▀", True )
-		this.alphabet[ "z" ] := new AsciiArtLetter( "▀▀▀█", " ▄▀ ", "█▄▄▄", True )
-		this.alphabet[ " " ] := new AsciiArtLetter( " ", " ", " ", True )
-		this.alphabet[ "0" ] := new AsciiArtLetter( "█▀▀█", "█▄▀█", "█▄▄█", True )
-		this.alphabet[ "1" ] := new AsciiArtLetter( "▄█  ", " █  ", "▄█▄▌", True )
-		this.alphabet[ "2" ] := new AsciiArtLetter( "▄▀▀█", " ▄▄▀", "█▄▄▄", True )
-		this.alphabet[ "3" ] := new AsciiArtLetter( "█▀▀█", "  ▀▄", "█▄▄█", True )
-		this.alphabet[ "4" ] := new AsciiArtLetter( " ▄▀█ ", "▐▄▄█▌", "   █ ", False )
-		this.alphabet[ "5" ] := new AsciiArtLetter( "█▀▀▀", "▀▀▀▄", "▄▄▄▀", True )
-		this.alphabet[ "6" ] := new AsciiArtLetter( "▄▀▀▄", "█▄▄ ", "▀▄▄▀", True )
-		this.alphabet[ "7" ] := new AsciiArtLetter( "▐▀▀█", "  █ ", " ▐▌ ", True )
-		this.alphabet[ "8" ] := new AsciiArtLetter( "▄▀▀▄", "▄▀▀▄", "▀▄▄▀", True )
-		this.alphabet[ "9" ] := new AsciiArtLetter( "▄▀▀▄", "▀▄▄█", " ▄▄▀", True )
-		this.alphabet[ "." ] := new AsciiArtLetter( " ", " ", "▀", True )
-		this.alphabet[ "," ] := new AsciiArtLetter( " ", "▄", "▐", True )
-		this.alphabet[ "?" ] := new AsciiArtLetter( "▄▀▀█", "  █▀", "  ▄ ", True )
-		this.alphabet[ "!" ] := new AsciiArtLetter( "█", "█", "▄", True )
-		this.alphabet[ ":" ] := new AsciiArtLetter( "▄", "▄", " ", True )
-		this.alphabet[ ";" ] := new AsciiArtLetter( "▄", "▄", "▐", True )
-		this.alphabet[ "-" ] := new AsciiArtLetter( "  ", "▀▀", "  ", True )
-		this.alphabet[ "–" ] := new AsciiArtLetter( "   ", "▀▀▀", "   ", True )
-		this.alphabet[ "—" ] := new AsciiArtLetter( "    ", "▀▀▀▀", "    ", True )
-		this.alphabet[ "_" ] := new AsciiArtLetter( "   ", "   ", "▀▀▀", True )
-		this.alphabet[ "*" ] := new AsciiArtLetter( "▀▄█▄▀", " ▄█▄ ", "▀ ▀ ▀", True )
-		this.alphabet[ "/" ] := new AsciiArtLetter( "  █", " █ ", "█  ", True )
-		this.alphabet[ "\" ] := new AsciiArtLetter( "█  ", " █ ", "  █", True )
+		this.numArtRows := 3
+
+		; Build our ASCII art alphabet by specifying: 1) the rows of ASCII characters that represent		;   each glyph and 2) specifying left and right spacing for each glyph.
+		this.alphabet[ "a" ] := new AsciiArtLetter3h( "▄▀▀▄", "█▄▄█", "█  ▀", True )
+		this.alphabet[ "b" ] := new AsciiArtLetter3h( "█▀▀▄", "█▀▀▄", "▀▀▀ ", True )
+		this.alphabet[ "c" ] := new AsciiArtLetter3h( "▄▀▀▀", "█   ", " ▀▀▀", True )
+		this.alphabet[ "d" ] := new AsciiArtLetter3h( "█▀▀▄", "█  █", "▀▀▀ ", True )
+		this.alphabet[ "e" ] := new AsciiArtLetter3h( "█▀▀▀", "█▀▀ ", "▀▀▀▀", True )
+		this.alphabet[ "f" ] := new AsciiArtLetter3h( "█▀▀▀", "█▀▀▀", "▀   ", True )
+		this.alphabet[ "g" ] := new AsciiArtLetter3h( "█▀▀▀", "█ ▀▄", "▀▀▀▀", True )
+		this.alphabet[ "h" ] := new AsciiArtLetter3h( "█  █", "█▀▀█", "█  ▀", True )
+		this.alphabet[ "i" ] := new AsciiArtLetter3h( "▀█▀", " █ ", "▀▀▀", True )
+		this.alphabet[ "j" ] := new AsciiArtLetter3h( "   █", "▄  █", "▀▄▄█", True )
+		this.alphabet[ "k" ] := new AsciiArtLetter3h( "█ ▄▀ ", "█▀▄  ", "▀  ▀▄", False )
+		this.alphabet[ "l" ] := new AsciiArtLetter3h( "█   ", "█  ▄", "▀▀▀ ", True )
+		this.alphabet[ "m" ] := new AsciiArtLetter3h( "▐▀▄▀▌", "█ ▀ ▌", "█   ▀", False )
+		this.alphabet[ "n" ] := new AsciiArtLetter3h( "▐▀▀▄", "█  ▐", "▀  ▐", False )
+		this.alphabet[ "o" ] := new AsciiArtLetter3h( "▄▀▀▄", "█  █", " ▀▀ ", True )
+		this.alphabet[ "p" ] := new AsciiArtLetter3h( "█▀▀▄", "█▄▄▀", "█   ", True )
+		this.alphabet[ "q" ] := new AsciiArtLetter3h( "▄▀▀▄", "█  █", " ▀█▄", True )
+		this.alphabet[ "r" ] := new AsciiArtLetter3h( "█▀▀▄ ", "█▄▄▀ ", "▀  ▀▄", False )
+		this.alphabet[ "s" ] := new AsciiArtLetter3h( "▄▀▀▀", "▀▀▀█", "▀▀▀ ", True )
+		this.alphabet[ "t" ] := new AsciiArtLetter3h( "▐▀█▀▌", "  █  ", "  █  ", False, False )
+		this.alphabet[ "u" ] := new AsciiArtLetter3h( "█  █", "█  █", " ▀▀ ", True )
+		this.alphabet[ "v" ] := new AsciiArtLetter3h( "▐   ▌", " █ █ ", "  █  ", False )
+		this.alphabet[ "w" ] := new AsciiArtLetter3h( "▐   ▌", "▐ █ ▌", " ▀ ▀ ", False )
+		this.alphabet[ "x" ] := new AsciiArtLetter3h( "▐▄ ▄▌", "  █  ", "▐▀ ▀▌", False )
+		this.alphabet[ "y" ] := new AsciiArtLetter3h( "█  █", "▀▄▄█", "▄▄▄▀", True )
+		this.alphabet[ "z" ] := new AsciiArtLetter3h( "▀▀▀█", " ▄▀ ", "█▄▄▄", True )
+		this.alphabet[ " " ] := new AsciiArtLetter3h( " ", " ", " ", True )
+		this.alphabet[ "0" ] := new AsciiArtLetter3h( "█▀▀█", "█▄▀█", "█▄▄█", True )
+		this.alphabet[ "1" ] := new AsciiArtLetter3h( "▄█  ", " █  ", "▄█▄▌", True )
+		this.alphabet[ "2" ] := new AsciiArtLetter3h( "▄▀▀█", " ▄▄▀", "█▄▄▄", True )
+		this.alphabet[ "3" ] := new AsciiArtLetter3h( "█▀▀█", "  ▀▄", "█▄▄█", True )
+		this.alphabet[ "4" ] := new AsciiArtLetter3h( " ▄▀█ ", "▐▄▄█▌", "   █ ", False )
+		this.alphabet[ "5" ] := new AsciiArtLetter3h( "█▀▀▀", "▀▀▀▄", "▄▄▄▀", True )
+		this.alphabet[ "6" ] := new AsciiArtLetter3h( "▄▀▀▄", "█▄▄ ", "▀▄▄▀", True )
+		this.alphabet[ "7" ] := new AsciiArtLetter3h( "▐▀▀█", "  █ ", " ▐▌ ", True )
+		this.alphabet[ "8" ] := new AsciiArtLetter3h( "▄▀▀▄", "▄▀▀▄", "▀▄▄▀", True )
+		this.alphabet[ "9" ] := new AsciiArtLetter3h( "▄▀▀▄", "▀▄▄█", " ▄▄▀", True )
+		this.alphabet[ "." ] := new AsciiArtLetter3h( " ", " ", "▀", True )
+		this.alphabet[ "," ] := new AsciiArtLetter3h( " ", "▄", "▐", True )
+		this.alphabet[ "?" ] := new AsciiArtLetter3h( "▄▀▀█", "  █▀", "  ▄ ", True )
+		this.alphabet[ "!" ] := new AsciiArtLetter3h( "█", "█", "▄", True )
+		this.alphabet[ ":" ] := new AsciiArtLetter3h( "▄", "▄", " ", True )
+		this.alphabet[ ";" ] := new AsciiArtLetter3h( "▄", "▄", "▐", True )
+		this.alphabet[ "-" ] := new AsciiArtLetter3h( "  ", "▀▀", "  ", True )
+		this.alphabet[ "–" ] := new AsciiArtLetter3h( "   ", "▀▀▀", "   ", True )
+		this.alphabet[ "—" ] := new AsciiArtLetter3h( "    ", "▀▀▀▀", "    ", True )
+		this.alphabet[ "_" ] := new AsciiArtLetter3h( "   ", "   ", "▀▀▀", True )
+		this.alphabet[ "*" ] := new AsciiArtLetter3h( "▀▄█▄▀", " ▄█▄ ", "▀ ▀ ▀", True )
+		this.alphabet[ "/" ] := new AsciiArtLetter3h( "  █", " █ ", "█  ", True )
+		this.alphabet[ "\" ] := new AsciiArtLetter3h( "█  ", " █ ", "  █", True )
+	}
+
+	ConvertString( str, newlines := "rn" ) {
+
+		; Determine how new lines should be encoded.
+		if ( newlines == "r") {
+			nlChars := "`r"
+		} else if( newslines == "n" ) {
+			nlChars := "`n"
+		} else {
+			nlChars := "`r`n"
+		}
+
+		; Loop through each row of the ASCII art that will represent the input string.
+		newStr := ""
+		len := StrLen( str )
+		idx_i := 1
+		while( idx_i <= this.numArtRows ) {
+
+			; For each row of ASCII art, loop through each character that needs to be converted.
+			idx_j := 1
+			while( idx_j <= len ) {
+
+				; Get the character to be converted at the current columnar position along the current row
+				;   of ASCII art.
+				if ( idx_j == 1 ) {
+					whichChar := SubStr( str, idx_j , 1 )
+				} else {
+					whichChar := nextChar
+				}
+
+				; Look ahead for the next character to be converted; this is important for determining
+				;   spacing between letters.
+				if ( idx_j < len ) {
+					nextChar := SubStr( str, idx_j + 1, 1)
+				}
+
+				; Now obtain the appropriate row of ASCII art characters that represent the current
+				;   character being converted.
+				artChars := this.alphabet[ whichChar ].rows[ idx_i ]
+				if ( artChars ) {
+					newStr .= artChars
+					if ( idx_j < len && this.alphabet[ whichChar ].spaceRight
+							&& this.alphabet[ nextChar ].spaceLeft ) {
+						newStr .= " "
+					}
+				}
+
+				; Proceed to the next character in the string to be converted for this row of ASCII art.
+				idx_j++
+			}
+
+			; Proceed to building the next row of ASCII art.
+			idx_i++
+			if ( idx_i <= this.numArtRows ) {
+				newStr .= nlChars
+			}
+		}
+
+		; Return the text block of ASCII art constructed from the string supplied to the function.
+		return newStr
 	}
 }
+
+:*?:@convertCbToAsciiArt::
+	global g_asciiArtConverter
+	AppendAhkCmd(A_ThisLabel)
+
+	; Get the global object referencing the script's ASCII art converter 
+	if ( !g_asciiArtConverter ) {
+		g_asciiArtConverter := New AsciiArtConverter()
+	}
+
+	; Convert the string in the clipboard to ASCII art
+	Clipboard := g_asciiArtConverter.ConvertString( Clipboard )
+Return
