@@ -34,8 +34,8 @@
 ;   ································································································
 ;     >>> §1.1: @checkWorkTimer
 
-:*:@checkWorkTimer::
-	AppendAhkCmd(":*:@checkWorkTimer")
+:*?:@checkWorkTimer::
+	AppendAhkCmd(":*?:@checkWorkTimer")
 	if (workTimerRunning) {
 		timerTimeLeft := A_Now
 		EnvSub, timerTimeLeft, %latestTimerStartTime%, seconds
@@ -52,8 +52,8 @@ Return
 ;   ································································································
 ;     >>> §1.2: @setupWorkTimer
 
-:*:@setupWorkTimer::
-	AppendAhkCmd(":*:@setupWorkTimer")
+:*?:@setupWorkTimer::
+	AppendAhkCmd(":*?:@setupWorkTimer")
 	
 	; TODO: Break up the task into mulitple functions
 	 := 
@@ -208,8 +208,8 @@ Return
 ;   ································································································
 ;     >>> §1.3: @stopWorkTimer
 
-:*:@stopWorkTimer::
-	AppendAhkCmd(":*:@stopWorkTimer")
+:*?:@stopWorkTimer::
+	AppendAhkCmd(":*?:@stopWorkTimer")
 	if (workTimerRunning) {
 		MsgBox % 3, % "Stop work timer?", % "Would you like to stop your "
 			. (-1 * workTimerCountdownTime / 1000 / 60) . " minute work timer prematurely?"

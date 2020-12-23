@@ -100,7 +100,7 @@ GetSessionId() {
 ;
 ;	Use the DisplaySplashText function to show the current Session ID to the user.
 
-:*:@getSessionId::
+:*?:@getSessionId::
 	SessionId := GetSessionId()
 	msg := "Current session id via GetSessionId() = " . SessionId
 	DisplaySplashText(msg)
@@ -323,7 +323,7 @@ SwitchDesktopByNumber(targetDesktop) {
 ;   ································································································
 ;     >>> §3.1: @closeOpenWindowsOnActiveVd
 
-:*:@closeOpenWindowsOnActiveVd::
+:*?:@closeOpenWindowsOnActiveVd::
 	AppendAhkCmd(A_ThisLabel)
 	windowCloser := new VdWindowCloser()
 	windowCloser.CloseOpenWindowsOnVd()

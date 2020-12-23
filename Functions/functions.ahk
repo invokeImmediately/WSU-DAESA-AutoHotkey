@@ -577,7 +577,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §4.3.1: @getMousePos
 
-:*:@getMousePos::
+:*?:@getMousePos::
 	AppendAhkCmd( A_ThisLabel )
 	MouseGetPos, windowMousePosX, windowMousePosY
 	MsgBox % "The mouse cursor is at {x = " . windowMousePosX . ", y = " . windowMousePosY 
@@ -587,7 +587,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §4.3.2: @getWinBorders
 
-:*:@getWinBorders::
+:*?:@getWinBorders::
 	AppendAhkCmd( A_ThisLabel )
 	WinGet, hwnd, ID, A
 	winInfo := API_GetWindowInfo(hwnd)
@@ -601,7 +601,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §4.3.3: @getWinExStyle
 
-:*:@getWinExStyle::
+:*?:@getWinExStyle::
 	AppendAhkCmd( A_ThisLabel )
 	WinGet, hexExStyle, ExStyle, A
 	;hasThickBorder := (hexStyle & 0x40000) != 0
@@ -611,13 +611,13 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §4.3.4: @get/copyWinHwnd
 
-:*:@getWinHwnd::
+:*?:@getWinHwnd::
 	AppendAhkCmd( A_ThisLabel )
 	WinGet, thisHwnd, ID, A
 	MsgBox, % "The active window ID (HWND) is " . thisHwnd
 Return
 
-:*:@copyWinHwnd::
+:*?:@copyWinHwnd::
 	AppendAhkCmd( A_ThisLabel )
 	WinGet, thisHwnd, ID, A
 	Clipboard := thisHwnd
@@ -626,7 +626,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §4.5.: @getWinInfo
 
-:*:@getWinInfo::
+:*?:@getWinInfo::
 	AppendAhkCmd( A_ThisLabel )
 	WinGet, hwnd, ID, A
 	WinGetTitle, thisTitle, A
@@ -647,13 +647,13 @@ Return
 Return
 
 ^!+F1::
-	Gosub :*:@getWinInfo
+	Gosub :*?:@getWinInfo
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §4.3.6: @getWinPID
 
-:*:@getWinPID::
+:*?:@getWinPID::
 	AppendAhkCmd( A_ThisLabel )
 	WinGet, thisPID, PID, A
 	MsgBox, % "The active window PID is " . thisPID
@@ -662,7 +662,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §4.3.7: @getWinPos
 
-:*:@getWinPos::
+:*?:@getWinPos::
 	AppendAhkCmd( A_ThisLabel )
 	WinGetPos, thisX, thisY, thisW, thisH, A
 	MsgBox, % "The active window is at coordinates " . thisX . ", " . thisY . "`rWindow's width = " 
@@ -672,7 +672,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §4.3.8: @getWinStyle
 
-:*:@getWinStyle::
+:*?:@getWinStyle::
 	AppendAhkCmd( A_ThisLabel )
 	WinGet, hexStyle, Style, A
 	hasThickBorder := (hexStyle & 0x40000) != 0
@@ -682,7 +682,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §4.3.9: @getWinProcess
 
-:*:@getWinProcess::
+:*?:@getWinProcess::
 	AppendAhkCmd( A_ThisLabel )
 	WinGet, thisProcess, ProcessName, A
 	WinGet, thisHwnd, ID, A
@@ -694,13 +694,13 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §4.3.10: @get/copyWinTitle
 
-:*:@getWinTitle::
+:*?:@getWinTitle::
 	AppendAhkCmd( A_ThisLabel )
 	WinGetTitle, thisTitle, A
 	MsgBox, The active window is "%thisTitle%"
 Return
 
-:*:@copyWinTitle::
+:*?:@copyWinTitle::
 	AppendAhkCmd( A_ThisLabel )
 	WinGetTitle, thisTitle, A
 	Clipboard := thisTitle
@@ -839,7 +839,7 @@ RestoreMouseCoordMode(oldCoordMode) {
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §5.2.1: @checkIsUnicode
 
-:*:@checkIsUnicode::
+:*?:@checkIsUnicode::
 	AppendAhkCmd( A_ThisLabel )
 	Msgbox % "v" . A_AhkVersion . " " . (A_PtrSize = 4 ? 32 : 64) . "-bit " 
 		. (A_IsUnicode ? "Unicode" : "ANSI") . " " . (A_IsAdmin ? "(Admin mode)" : "(Not Admin)")
@@ -848,7 +848,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §5.2.2: @getCurrentVersion
 
-:*:@getCurrentVersion::
+:*?:@getCurrentVersion::
 	AppendAhkCmd( A_ThisLabel )
 	MsgBox % "Current installed version of AHK: " . A_AhkVersion
 Return
@@ -856,7 +856,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §5.2.3: @getLastHotStrTime
 
-:*:@getLastHotStrTime::
+:*?:@getLastHotStrTime::
 	AppendAhkCmd( A_ThisLabel )
 	MsgBox % "The last hotstring took " . (hotStrEndTime - hotStrStartTime) . "ms to run."
 Return

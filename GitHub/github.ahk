@@ -427,7 +427,7 @@ LoadWordPressSiteInChrome( websiteUrl, winTitle := "" ) {
 ;   ································································································
 ;     >>> §4.1: @postMinCss
 
-:*:@postMinCss::
+:*?:@postMinCss::
 	AppendAhkCmd( A_ThisLabel )
 	if( !sgIsPostingMinCss ) {
 		Gui, guiPostMinCss: New,, % "Post Minified CSS to OUE Websites"
@@ -528,59 +528,59 @@ HandlePostMinCssOK() {
 	}
 	if ( PostMinCssToAscc ) {
 		PasteMinCssToWebsite( "https://ascc.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyMinCssAscc", postMinCssAutoMode )
+			, ":*?:@copyMinCssAscc", postMinCssAutoMode )
 	}
 	if ( PostMinCssToCr ) {
 		PasteMinCssToWebsite( "https://commonreading.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyMinCssCr", postMinCssAutoMode )
+			, ":*?:@copyMinCssCr", postMinCssAutoMode )
 	}
 	if ( PostMinCssToDsp ) {
 		PasteMinCssToWebsite( "https://distinguishedscholarships.wsu.edu/wp-admin/themes.php?page=e"
- . "ditcss", ":*:@copyMinCssDsp", postMinCssAutoMode )
+ . "ditcss", ":*?:@copyMinCssDsp", postMinCssAutoMode )
 	}
 	if ( PostMinCssToFye ) {
 		PasteMinCssToWebsite( "https://firstyear.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyMinCssFye", postMinCssAutoMode )
+			, ":*?:@copyMinCssFye", postMinCssAutoMode )
 	}
 	if ( PostMinCssToFyf ) {
 		PasteMinCssToWebsite( "https://learningcommunities.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyMinCssFyf", postMinCssAutoMode )
+			, ":*?:@copyMinCssFyf", postMinCssAutoMode )
 	}
 	if ( PostMinCssToNse ) {
 		PasteMinCssToWebsite( "https://nse.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyMinCssNse", postMinCssAutoMode )
+			, ":*?:@copyMinCssNse", postMinCssAutoMode )
 	}
 	if ( PostMinCssToNsse ) {
 		PasteMinCssToWebsite( "https://stage.web.wsu.edu/wsu-nsse/wp-admin/themes.php?page=editcss"
-			, ":*:@copyMinCssNsse", postMinCssAutoMode )
+			, ":*?:@copyMinCssNsse", postMinCssAutoMode )
 	}
 	if ( PostMinCssToPbk ) {
 		PasteMinCssToWebsite( "https://phibetakappa.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyMinCssPbk", postMinCssAutoMode )
+			, ":*?:@copyMinCssPbk", postMinCssAutoMode )
 	}
 	if ( PostMinCssToSurca ) {
 		PasteMinCssToWebsite( "https://surca.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyMinCssSurca", postMinCssAutoMode )
+			, ":*?:@copyMinCssSurca", postMinCssAutoMode )
 	}
 	if ( PostMinCssToSumRes ) {
 		PasteMinCssToWebsite( "https://summerresearch.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyMinCssSumRes", postMinCssAutoMode )
+			, ":*?:@copyMinCssSumRes", postMinCssAutoMode )
 	}
 	if ( PostMinCssToXfer ) {
 		PasteMinCssToWebsite( "https://transfercredit.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyMinCssXfer", postMinCssAutoMode )
+			, ":*?:@copyMinCssXfer", postMinCssAutoMode )
 	}
 	if ( PostMinCssToUgr ) {
 		PasteMinCssToWebsite( "https://undergraduateresearch.wsu.edu/wp-admin/themes.php?page=editcs"
-. "s", ":*:@copyMinCssUgr", postMinCssAutoMode )
+. "s", ":*?:@copyMinCssUgr", postMinCssAutoMode )
 	}
 	if ( PostMinCssToUcore ) {
 		PasteMinCssToWebsite( "https://ucore.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyMinCssUcore", postMinCssAutoMode )
+			, ":*?:@copyMinCssUcore", postMinCssAutoMode )
 	}
 	if ( PostMinCssToUcrAss ) {
 		PasteMinCssToWebsite( "https://ucore.wsu.edu/assessment/wp-admin/themes.php?page=editcss"
-			, ":*:@copyMinCssUcrAss", postMinCssAutoMode )
+			, ":*?:@copyMinCssUcrAss", postMinCssAutoMode )
 	}
 	sgIsPostingMinCss := false
 }
@@ -599,7 +599,7 @@ PasteMinCssToWebsite( websiteUrl, cssCopyCmd, manualProcession := false ) {
 ;   ································································································
 ;     >>> §4.2: @postCssFromRepo
 
-:*:@postCssFromRepo::
+:*?:@postCssFromRepo::
 	AppendAhkCmd( A_ThisLabel )
 	cssBldGui := new CssBldPsOps( scriptCfg.cssBuilds, checkType, execDelayer )
 	cssBldGui.ShowGui( "post" )
@@ -608,7 +608,7 @@ Return
 ;   ································································································
 ;     >>> §4.3: @postPrevCssFromRepo
 
-:*:@postPrevCssFromRepo::
+:*?:@postPrevCssFromRepo::
 	AppendAhkCmd( A_ThisLabel )
 	cssBldGui := new CssBldPsOps( scriptCfg.cssBuilds, checkType, execDelayer )
 	cssBldGui.ShowGui( "postBackup" )
@@ -617,7 +617,7 @@ Return
 ;   ································································································
 ;     >>> §4.4: @postBackupCss
 
-:*:@postBackupCss::
+:*?:@postBackupCss::
 	AppendAhkCmd( A_ThisLabel )
 	if( !sgIsPostingBackupCss ) {
 		Gui, guiPostBackupCss: New,
@@ -719,59 +719,59 @@ HandlePostBackupCssOK() {
 	sgIsPostingBackupCss := true
 	if ( PostMinCssToAscc ) {
 		PasteMinCssToWebsite( "https://ascc.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyBackupCssAscc" )
+			, ":*?:@copyBackupCssAscc" )
 	}
 	if ( PostMinCssToCr ) {
 		PasteMinCssToWebsite( "https://commonreading.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyBackupCssCr" )
+			, ":*?:@copyBackupCssCr" )
 	}
 	if ( PostBackupCssToDsp ) {
 		PasteMinCssToWebsite( "https://distinguishedscholarships.wsu.edu/wp-admin/themes.php?page=e"
- . "ditcss", ":*:@copyBackupCssDsp" )
+ . "ditcss", ":*?:@copyBackupCssDsp" )
 	}
 	if ( PostBackupCssToFye ) {
 		PasteMinCssToWebsite( "https://firstyear.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyBackupCssFye" )
+			, ":*?:@copyBackupCssFye" )
 	}
 	if ( PostBackupCssToFyf ) {
 		PasteMinCssToWebsite( "https://learningcommunities.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyBackupCssFyf" )
+			, ":*?:@copyBackupCssFyf" )
 	}
 	if ( PostBackupCssToNse ) {
 		PasteMinCssToWebsite( "https://nse.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyBackupCssNse" )
+			, ":*?:@copyBackupCssNse" )
 	}
 	if ( PostBackupCssToNsse ) {
 		PasteMinCssToWebsite( "https://nse.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyBackupCssNsse" )
+			, ":*?:@copyBackupCssNsse" )
 	}
 	if ( PostBackupCssToPbk ) {
 		PasteMinCssToWebsite( "https://phibetakappa.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyBackupCssPbk" )
+			, ":*?:@copyBackupCssPbk" )
 	}
 	if ( PostBackupCssToSurca ) {
 		PasteMinCssToWebsite( "https://surca.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyBackupCssSurca" )
+			, ":*?:@copyBackupCssSurca" )
 	}
 	if ( PostBackupCssToSumRes ) {
 		PasteMinCssToWebsite( "https://summerresearch.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyBackupCssSumRes" )
+			, ":*?:@copyBackupCssSumRes" )
 	}
 	if ( PostBackupCssToXfer, ) {
 		PasteMinCssToWebsite( "https://transfercredit.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyBackupCssXfer" )
+			, ":*?:@copyBackupCssXfer" )
 	}
 	if ( PostBackupCssToUgr ) {
 		PasteMinCssToWebsite( "https://undergraduateresearch.wsu.edu/wp-admin/themes.php?page=editc"
- . "ss", ":*:@copyBackupCssUgr" )
+ . "ss", ":*?:@copyBackupCssUgr" )
 	}
 	if ( PostBackupCssToUcore ) {
 		PasteMinCssToWebsite( "https://ucore.wsu.edu/wp-admin/themes.php?page=editcss"
-			, ":*:@copyBackupCssUcore" )
+			, ":*?:@copyBackupCssUcore" )
 	}
 	if ( PostBackupCssToUcrAss ) {
 		PasteMinCssToWebsite( "https://ucore.wsu.edu/assessment/wp-admin/themes.php?page=editcss"
-			, ":*:@copyBackupCssUcrAss" )
+			, ":*?:@copyBackupCssUcrAss" )
 	}
 	sgIsPostingBackupCss := false
 }
@@ -779,7 +779,7 @@ HandlePostBackupCssOK() {
 ;   ································································································
 ;     >>> §4.4: @postMinJs
 
-:*:@postMinJs::
+:*?:@postMinJs::
 	AppendAhkCmd( A_ThisLabel )
 	if( !sgIsPostingMinJs ) {
 		Gui, guiPostMinJs: New,
@@ -887,55 +887,55 @@ HandlePostMinJsOK() {
 	}
 	if ( PostMinJsToAscc ) {
 		PasteMinJsToWebsite( "https://ascc.wsu.edu/wp-admin/themes.php?page=custom-javascript"
-			, ":*:@copyMinJsAscc", postMinJsAutoMode )
+			, ":*?:@copyMinJsAscc", postMinJsAutoMode )
 	}
 	if ( PostMinJsToCr ) {
 		PasteMinJsToWebsite( "https://commonreading.wsu.edu/wp-admin/themes.php?page=custom-javascr"
- . "ipt", ":*:@copyMinJsCr", postMinJsAutoMode )
+ . "ipt", ":*?:@copyMinJsCr", postMinJsAutoMode )
 	}
 	if ( PostMinJsToDsp ) {
 		PasteMinJsToWebsite( "https://distinguishedscholarships.wsu.edu/wp-admin/themes.php?page=cu"
- . "stom-javascript", ":*:@copyMinJsDsp", postMinJsAutoMode )
+ . "stom-javascript", ":*?:@copyMinJsDsp", postMinJsAutoMode )
 	}
 	if ( PostMinJsToFye ) {
 		PasteMinJsToWebsite( "https://firstyear.wsu.edu/wp-admin/themes.php?page=custom-javascript"
-			, ":*:@copyMinJsFye", postMinJsAutoMode )
+			, ":*?:@copyMinJsFye", postMinJsAutoMode )
 	}
 	if ( PostMinJsToFyf ) {
 		PasteMinJsToWebsite( "https://learningcommunities.wsu.edu/wp-admin/themes.php?page=custom-j"
- . "avascript", ":*:@copyMinJsFyf", postMinJsAutoMode )
+ . "avascript", ":*?:@copyMinJsFyf", postMinJsAutoMode )
 	}
 	if ( PostMinJsToNse ) {
 		PasteMinJsToWebsite( "https://nse.wsu.edu/wp-admin/themes.php?page=custom-javascript"
-			, ":*:@copyMinJsNse", postMinJsAutoMode )
+			, ":*?:@copyMinJsNse", postMinJsAutoMode )
 	}
 	if ( PostMinJsToPbk ) {
 		PasteMinJsToWebsite( "https://phibetakappa.wsu.edu/wp-admin/themes.php?page=custom-javascri"
- . "pt", ":*:@copyMinJsPbk", postMinJsAutoMode )
+ . "pt", ":*?:@copyMinJsPbk", postMinJsAutoMode )
 	}
 	if ( PostMinJsToSurca ) {
 		PasteMinJsToWebsite( "https://surca.wsu.edu/wp-admin/themes.php?page=custom-javascript"
-			, ":*:@copyMinJsSurca", postMinJsAutoMode )
+			, ":*?:@copyMinJsSurca", postMinJsAutoMode )
 	}
 	if ( PostMinJsToSumRes ) {
 		PasteMinJsToWebsite( "https://summerresearch.wsu.edu/wp-admin/themes.php?page=custom-javasc"
- . "ript", ":*:@copyMinJsSumRes", postMinJsAutoMode )
+ . "ript", ":*?:@copyMinJsSumRes", postMinJsAutoMode )
 	}
 	if ( PostMinJsToXfer ) {
 		PasteMinJsToWebsite( "https://transfercredit.wsu.edu/wp-admin/themes.php?page=custom-javasc"
- . "ript", ":*:@copyMinJsXfer", postMinJsAutoMode )
+ . "ript", ":*?:@copyMinJsXfer", postMinJsAutoMode )
 	}
 	if ( PostMinJsToUgr ) {
 		PasteMinJsToWebsite( "https://undergraduateresearch.wsu.edu/wp-admin/themes.php?page=custom"
- . "-javascript", ":*:@copyMinJsUgr", postMinJsAutoMode )
+ . "-javascript", ":*?:@copyMinJsUgr", postMinJsAutoMode )
 	}
 	if ( PostMinJsToUcore ) {
 		PasteMinJsToWebsite( "https://ucore.wsu.edu/wp-admin/themes.php?page=custom-javascript"
-			, ":*:@copyMinJsUcore", postMinJsAutoMode )
+			, ":*?:@copyMinJsUcore", postMinJsAutoMode )
 	}
 	if ( PostMinJsToUcrAss ) {
 		PasteMinJsToWebsite( "https://ucore.wsu.edu/assessment/wp-admin/themes.php?page=custom-java"
- . "script", ":*:@copyMinJsUcrAss", postMinJsAutoMode )
+ . "script", ":*?:@copyMinJsUcrAss", postMinJsAutoMode )
 	}
 	sgIsPostingMinJs := false
 }
@@ -963,13 +963,13 @@ PasteMinJsToWebsite( websiteUrl, jsCopyCmd, manualProcession := false ) {
 ;     >>> §5.1: FILE COMMITTING
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
-:*:@getGitCommitLog::
+:*?:@getGitCommitLog::
 	AppendAhkCmd( A_ThisLabel )
 	PasteTextIntoGitShell( A_ThisLabel, "git log -p --since='last month' --pretty=format:'%h|%an|%a"
  . "r|%s|%b' > git-log.txt`r" )
 Return
 
-:*:@getNoDiffGitCommitLog::
+:*?:@getNoDiffGitCommitLog::
 	AppendAhkCmd( A_ThisLabel )
 	PasteTextIntoGitShell( A_ThisLabel, "git log --since='last month' --pretty=format:'%h|%an|%ar|%"
  . "s|%b' > git-log.txt`r" )
@@ -977,7 +977,7 @@ Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
-:*:@findGitChangesRegEx::
+:*?:@findGitChangesRegEx::
 	targetProcesses := ["notepad++.exe", "sublime_text.exe"]
 	notActiveErrMsg := "Please ensure Notepad++ or Sublime Text are active before activating this h"
  . "otstring."
@@ -1018,7 +1018,7 @@ FindGitChangesRegExSublimeText() {
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
-:*:@gitAddThis::
+:*?:@gitAddThis::
 	AppendAhkCmd( A_ThisLabel )
 	WinGet, thisProcess, ProcessName, A
 	if ( thisProcess = "notepad++.exe" ) {
@@ -1045,14 +1045,14 @@ Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
-:*:@doGitCommit::
+:*?:@doGitCommit::
 	AppendAhkCmd( A_ThisLabel )
 	proceedWithCmd := ActivateGitShell()
 	if( proceedWithCmd ) {
 		SendInput git commit -m "" -m ""{Left 7}
 	}
 	else {
-		MsgBox, % ( 0x0 + 0x10 ), % "ERROR (" . ":*:@doGitCommit" . "): Could Not Locate Git PowerS"
+		MsgBox, % ( 0x0 + 0x10 ), % "ERROR (" . ":*?:@doGitCommit" . "): Could Not Locate Git PowerS"
  . "hell"
 		, % "The Git PowerShell process could not be located and activated."
 	}
@@ -1060,19 +1060,19 @@ Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
-:*:@dogc::
-	Gosub, :*:@doGitCommit
+:*?:@dogc::
+	Gosub, :*?:@doGitCommit
 Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
-:*:@doSingleGitCommit::
+:*?:@doSingleGitCommit::
 	AppendAhkCmd( A_ThisLabel )
 	proceedWithCmd := ActivateGitShell()
 	if( proceedWithCmd ) {
 		SendInput git commit -m ""{Left 1}
 	} else {
-		MsgBox, % ( 0x0 + 0x10 ), % "ERROR (" . ":*:@doSnglGitCommit" . "): Could Not Locate Git Po"
+		MsgBox, % ( 0x0 + 0x10 ), % "ERROR (" . ":*?:@doSnglGitCommit" . "): Could Not Locate Git Po"
  . "werShell"
 		, % "The Git PowerShell process could not be located and activated."
 	}
@@ -1080,8 +1080,8 @@ Return
 
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
-:*:@dosgc::
-	Gosub, :*:@doSingleGitCommit
+:*?:@dosgc::
+	Gosub, :*?:@doSingleGitCommit
 Return
 
 ;   ································································································
@@ -1092,7 +1092,7 @@ Return
 ;
 ;	Shortcut for "git status" command in PowerShell.
 
-:*:@doGitStatus::
+:*?:@doGitStatus::
 	AppendAhkCmd( A_ThisLabel )
 	proceedWithCmd := ActivateGitShell()
 	if( proceedWithCmd ) {
@@ -1103,8 +1103,8 @@ Return
 	}
 Return
 
-:*:@dogs::
-	Gosub :*:@doGitStatus
+:*?:@dogs::
+	Gosub :*?:@doGitStatus
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
@@ -1112,7 +1112,7 @@ Return
 ;
 ;	Shortcut for "git diff" command in PowerShell.
 
-:*:@doGitDiff::
+:*?:@doGitDiff::
 	AppendAhkCmd( A_ThisLabel )
 	proceedWithCmd := ActivateGitShell()
 	if( proceedWithCmd ) {
@@ -1123,8 +1123,8 @@ Return
 	}
 Return
 
-:*:@dogd::
-	Gosub :*:@doGitDiff
+:*?:@dogd::
+	Gosub :*?:@doGitDiff
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
@@ -1132,7 +1132,7 @@ Return
 ;
 ;	Shortcut for "git log" command in PowerShell.
 
-:*:@doGitLog::
+:*?:@doGitLog::
 	AppendAhkCmd( A_ThisLabel )
 	proceedWithCmd := ActivateGitShell()
 	if( proceedWithCmd ) {
@@ -1144,8 +1144,8 @@ Return
 	}
 Return
 
-:*:@dogl::
-	Gosub :*:@doGitLog
+:*?:@dogl::
+	Gosub :*?:@doGitLog
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
@@ -1153,7 +1153,7 @@ Return
 ;
 ;	Shortcut for "git log" command in PowerShell, but without the follow directive.
 
-:*:@doNoFollowGitLog::
+:*?:@doNoFollowGitLog::
 	AppendAhkCmd( A_ThisLabel )
 	proceedWithCmd := ActivateGitShell()
 	if( proceedWithCmd ) {
@@ -1164,8 +1164,8 @@ Return
 	}
 Return
 
-:*:@donfgl::
-	Gosub :*:@doNoFollowGitLog
+:*?:@donfgl::
+	Gosub :*?:@doNoFollowGitLog
 Return
 
 ;   ································································································
@@ -1176,7 +1176,7 @@ Return
 ;
 ;	Initialize a tab in Chrome for automated repeated CSS pasting.
 
-:*:@initCssPaste::
+:*?:@initCssPaste::
 	global hwndCssPasteWindow
 	global titleCssPasteWindowTab
 	AppendAhkCmd( A_ThisLabel )
@@ -1189,7 +1189,7 @@ Return
 		MsgBox, % "HWND for window containing CSS stylsheet editor set to " . hwndCssPasteWindow
 	}
 	else {
-		MsgBox, % ( 0x0 + 0x10 ), % "ERROR (:*:@setCssPasteWindow): CSS Stylesheet Editor Not Activ"
+		MsgBox, % ( 0x0 + 0x10 ), % "ERROR (:*?:@setCssPasteWindow): CSS Stylesheet Editor Not Activ"
  . "e"
  			, % "Please select your CSS stylesheet editor tab in Chrome as the currently active win"
  . "dow."
@@ -1201,7 +1201,7 @@ Return
 ;
 ;	Paste CSS into a tab in Chrome previously initialized by the @initCssPaste command.
 
-:*:@doCssPaste::
+:*?:@doCssPaste::
 	global hwndCssPasteWindow
 	global titleCssPasteWindowTab
 	AppendAhkCmd( A_ThisLabel )
@@ -1210,7 +1210,7 @@ Return
 		WinActivate, % "ahk_id " . hwndCssPasteWindow
 		WinWaitActive, % "ahk_id " . hwndCssPasteWindow, , 1
 		if ( ErrorLevel ) {
-			MsgBox, % ( 0x0 + 0x10 ), % "ERROR (:*:@doCssPaste): Could Not Find Process"
+			MsgBox, % ( 0x0 + 0x10 ), % "ERROR (:*?:@doCssPaste): Could Not Find Process"
 				, % "The HWND set for the chrome window containing the tab in which the CSS stylesh"
  . "eet editor was loaded can no longer be found."
 		} else {
@@ -1226,7 +1226,7 @@ Return
 					WinGetTitle, currentTitle, A
 				}
 				if( currentTitle != titleCssPasteWindowTab ) {
-					MsgBox, % ( 0x0 + 0x10 ), % "ERROR (:*:@doCssPaste): Couldn't Find Tab"
+					MsgBox, % ( 0x0 + 0x10 ), % "ERROR (:*?:@doCssPaste): Couldn't Find Tab"
 						, % "Could not locate the tab containing the CSS stylesheet editor."
 				} else {
 					proceedWithPaste := true
@@ -1239,7 +1239,7 @@ Return
 			}
 		}
 	} else {
-		MsgBox, % ( 0x0 + 0x10 ), % "ERROR (:*:@doCssPaste): HWND Not Set Yet"
+		MsgBox, % ( 0x0 + 0x10 ), % "ERROR (:*?:@doCssPaste): HWND Not Set Yet"
 			, % "You haven't yet used the @setCssPasteWindow hotstring to set the HWND for the Chro"
 . "me window containing a tab with the CSS stylsheet editor."
 	}
@@ -1250,7 +1250,7 @@ Return
 ;
 ;	Paste commit messages copied from GitHub.com into PowerShell with proper formatting.
 
-:*:@pasteGitCommitMsg::
+:*?:@pasteGitCommitMsg::
 	thisAhkCmd := A_ThisLabel
 	AppendAhkCmd( thisAhkCmd )
 	WinGet, thisProcess, ProcessName, A
@@ -1383,7 +1383,7 @@ ExecuteJsPasteCmds( manualProcession := false ) {
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.2.1: @backupCssInRepo
 
-:*:@backupCssInRepo::
+:*?:@backupCssInRepo::
 	AppendAhkCmd( A_ThisLabel )
 	cssBldGui := new CssBldPsOps( scriptCfg.cssBuilds, checkType, execDelayer )
 	cssBldGui.ShowGui( "backup" )
@@ -1392,22 +1392,22 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.2.2: @backupCssAll
 
-:*:@backupCssAll::
+:*?:@backupCssAll::
 	AppendAhkCmd( A_ThisLabel )
 	; TODO: Refactor command to rely on configuration settings
-	; Gosub, :*:@backupCssAscc
-	; Gosub, :*:@backupCssCr
-	; Gosub, :*:@backupCssDsp
-	; Gosub, :*:@backupCssFye
-	; Gosub, :*:@backupCssFyf
-	; Gosub, :*:@backupCssNse
-	; Gosub, :*:@backupCssPbk
-	; Gosub, :*:@backupCssSurca
-	; Gosub, :*:@backupCssSumRes
-	; Gosub, :*:@backupCssXfer
-	; Gosub, :*:@backupCssUgr
-	; Gosub, :*:@backupCssUcore
-	; Gosub, :*:@backupCssUcrAss
+	; Gosub, :*?:@backupCssAscc
+	; Gosub, :*?:@backupCssCr
+	; Gosub, :*?:@backupCssDsp
+	; Gosub, :*?:@backupCssFye
+	; Gosub, :*?:@backupCssFyf
+	; Gosub, :*?:@backupCssNse
+	; Gosub, :*?:@backupCssPbk
+	; Gosub, :*?:@backupCssSurca
+	; Gosub, :*?:@backupCssSumRes
+	; Gosub, :*?:@backupCssXfer
+	; Gosub, :*?:@backupCssUgr
+	; Gosub, :*?:@backupCssUcore
+	; Gosub, :*?:@backupCssUcrAss
 	PasteTextIntoGitShell( A_ThisLabel
 		, "[console]::beep(750,600)`r"
 		. "[console]::beep(375,300)`r" )
@@ -1452,7 +1452,7 @@ ExecuteCssCopyCmds() {
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.3.1: @rebuildCssInRepo
 
-:*:@rebuildCssInRepo::
+:*?:@rebuildCssInRepo::
 	AppendAhkCmd( A_ThisLabel )
 	cssBldGui := new CssBldPsOps( scriptCfg.cssBuilds, checkType, execDelayer )
 	cssBldGui.ShowGui( "rebuild" )
@@ -1461,23 +1461,23 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.3.2: @rebuildCssAll
 
-:*:@rebuildCssAll::
+:*?:@rebuildCssAll::
 	AppendAhkCmd( A_ThisLabel )
 
 	; TODO: Refactor command to rely on configuration settings
-	; Gosub, :*:@rebuildCssCr
-	; Gosub, :*:@rebuildCssDsp
-	; Gosub, :*:@rebuildCssFye
-	; Gosub, :*:@rebuildCssFyf
-	; Gosub, :*:@rebuildCssNse
-	; Gosub, :*:@rebuildCssOue
-	; Gosub, :*:@rebuildCssPbk
-	; Gosub, :*:@rebuildCssSurca
-	; Gosub, :*:@rebuildCssSumRes
-	; Gosub, :*:@rebuildCssXfer
-	; Gosub, :*:@rebuildCssUgr
-	; Gosub, :*:@rebuildCssUcore
-	; Gosub, :*:@rebuildCssUcrAss
+	; Gosub, :*?:@rebuildCssCr
+	; Gosub, :*?:@rebuildCssDsp
+	; Gosub, :*?:@rebuildCssFye
+	; Gosub, :*?:@rebuildCssFyf
+	; Gosub, :*?:@rebuildCssNse
+	; Gosub, :*?:@rebuildCssOue
+	; Gosub, :*?:@rebuildCssPbk
+	; Gosub, :*?:@rebuildCssSurca
+	; Gosub, :*?:@rebuildCssSumRes
+	; Gosub, :*?:@rebuildCssXfer
+	; Gosub, :*?:@rebuildCssUgr
+	; Gosub, :*?:@rebuildCssUcore
+	; Gosub, :*?:@rebuildCssUcrAss
 	; PasteTextIntoGitShell(A_ThisLabel
 	; 	, "[console]::beep(750,600)`r"
 	; 	. "[console]::beep(375,150)`r"
@@ -1491,7 +1491,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.4.1: @commitCssInRepo
 
-:*:@commitCssInRepo::
+:*?:@commitCssInRepo::
 	AppendAhkCmd( A_ThisLabel )
 	cssBldGui := new CssBldPsOps( scriptCfg.cssBuilds, checkType, execDelayer )
 	cssBldGui.ShowGui( "commit" )
@@ -1503,7 +1503,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.5.1: @updateCssSubmoduleInRepo
 
-:*:@updateCssSubmoduleInRepo::
+:*?:@updateCssSubmoduleInRepo::
 	AppendAhkCmd( A_ThisLabel )
 	cssBldGui := new CssBldPsOps( scriptCfg.cssBuilds, checkType, execDelayer )
 	cssBldGui.ShowGui()
@@ -1513,23 +1513,23 @@ Return
 ;       →→→ §6.5.2: @updateCssSubmoduleAll
 
 ; TODO: Modify to rely on configuration settings
-:*:@updateCssSubmoduleAll::
+:*?:@updateCssSubmoduleAll::
 	AppendAhkCmd( A_ThisLabel )
 	MsgBox % "Currently, this hotstring is being modified and does not do anything yet."
-	; Gosub, :*:@updateCssSubmoduleAscc
-	; Gosub, :*:@updateCssSubmoduleCr
-	; Gosub, :*:@updateCssSubmoduleDsp
-	; Gosub, :*:@updateCssSubmoduleFye
-	; Gosub, :*:@updateCssSubmoduleFyf
-	; Gosub, :*:@updateCssSubmoduleNse
-	; Gosub, :*:@updateCssSubmoduleOue
-	; Gosub, :*:@updateCssSubmodulePbk
-	; Gosub, :*:@updateCssSubmoduleSurca
-	; Gosub, :*:@updateCssSubmoduleSumRes
-	; Gosub, :*:@updateCssSubmoduleXfer
-	; Gosub, :*:@updateCssSubmoduleUgr
-	; Gosub, :*:@updateCssSubmoduleUcore
-	; Gosub, :*:@updateCssSubmoduleUcrAss
+	; Gosub, :*?:@updateCssSubmoduleAscc
+	; Gosub, :*?:@updateCssSubmoduleCr
+	; Gosub, :*?:@updateCssSubmoduleDsp
+	; Gosub, :*?:@updateCssSubmoduleFye
+	; Gosub, :*?:@updateCssSubmoduleFyf
+	; Gosub, :*?:@updateCssSubmoduleNse
+	; Gosub, :*?:@updateCssSubmoduleOue
+	; Gosub, :*?:@updateCssSubmodulePbk
+	; Gosub, :*?:@updateCssSubmoduleSurca
+	; Gosub, :*?:@updateCssSubmoduleSumRes
+	; Gosub, :*?:@updateCssSubmoduleXfer
+	; Gosub, :*?:@updateCssSubmoduleUgr
+	; Gosub, :*?:@updateCssSubmoduleUcore
+	; Gosub, :*?:@updateCssSubmoduleUcrAss
 	PasteTextIntoGitShell( A_ThisLabel
 		, "[console]::beep(750,600)`r"
 		. "[console]::beep(375,150)`r"
@@ -1543,7 +1543,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.6.1: @copyMinCssFromRepo
 
-:*:@copyMinCssFromRepo::
+:*?:@copyMinCssFromRepo::
 	AppendAhkCmd( A_ThisLabel )
 	cssBldGui := new CssBldPsOps( scriptCfg.cssBuilds, checkType, execDelayer )
 	cssBldGui.ShowGui( "copyCss" )
@@ -1552,7 +1552,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.6.2: @copyBackupCssFromRepo
 
-:*:@copyBackupCssFromRepo::
+:*?:@copyBackupCssFromRepo::
 	AppendAhkCmd( A_ThisLabel )
 	cssBldGui := new CssBldPsOps( scriptCfg.cssBuilds, checkType, execDelayer )
 	cssBldGui.ShowGui( "copyBackup" )
@@ -1582,7 +1582,7 @@ BackupJs( caller, website, repository, backupFile ) {
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.7.2: @backupJsInRepo
 
-:*:@backupJsRepo::
+:*?:@backupJsRepo::
 	AppendAhkCmd( A_ThisLabel )
 	backupGui := new BackupJsGui( scriptCfg.backupJs, checkType )
 	backupGui.ShowGui()
@@ -1591,23 +1591,23 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.7.3: @backupJsAll
 
-:*:@backupJsAll::
+:*?:@backupJsAll::
 	AppendAhkCmd( A_ThisLabel )
 	; TODO: Revise hotstring to rely on BackupJs function and configuration file settings.
-	; Gosub, :*:@backupJsAscc
-	; Gosub, :*:@backupJsCr
-	; Gosub, :*:@backupJsDsp
-	; Gosub, :*:@backupJsFye
-	; Gosub, :*:@backupJsFyf
-	; Gosub, :*:@backupJsNse
-	; Gosub, :*:@backupJsOue
-	; Gosub, :*:@backupJsPbk
-	; Gosub, :*:@backupJsSurca
-	; Gosub, :*:@backupJsSumRes
-	; Gosub, :*:@backupJsXfer
-	; Gosub, :*:@backupJsUgr
-	; Gosub, :*:@backupJsUcore
-	; Gosub, :*:@backupJsUcrAss
+	; Gosub, :*?:@backupJsAscc
+	; Gosub, :*?:@backupJsCr
+	; Gosub, :*?:@backupJsDsp
+	; Gosub, :*?:@backupJsFye
+	; Gosub, :*?:@backupJsFyf
+	; Gosub, :*?:@backupJsNse
+	; Gosub, :*?:@backupJsOue
+	; Gosub, :*?:@backupJsPbk
+	; Gosub, :*?:@backupJsSurca
+	; Gosub, :*?:@backupJsSumRes
+	; Gosub, :*?:@backupJsXfer
+	; Gosub, :*?:@backupJsUgr
+	; Gosub, :*?:@backupJsUcore
+	; Gosub, :*?:@backupJsUcrAss
 	; PasteTextIntoGitShell(A_ThisLabel
 	; 	, "[console]::beep(750,600)`r"
 	; 	. "[console]::beep(375,150)`r"
@@ -1653,7 +1653,7 @@ ExecuteJsCopyCmds( ByRef copiedJs ) {
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.8.1: @rebuildJsInRepo
 
-:*:@rebuildJsInRepo::
+:*?:@rebuildJsInRepo::
 	AppendAhkCmd( A_ThisLabel )
 	jsBldGui := new JsBldPsOps( scriptCfg.jsBuilds, checkType, execDelayer )
 	jsBldGui.ShowGui( "rebuild" )
@@ -1665,7 +1665,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.9.1: @commitJsInRepo
 
-:*:@commitJsInRepo::
+:*?:@commitJsInRepo::
 	AppendAhkCmd( A_ThisLabel )
 	jsBldGui := new JsBldPsOps( scriptCfg.jsBuilds, checkType, execDelayer )
 	jsBldGui.ShowGui( "commit" )
@@ -1677,7 +1677,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.10.1: @updateJsSubmoduleInRepo
 
-:*:@updateJsSubmoduleInRepo::
+:*?:@updateJsSubmoduleInRepo::
 	AppendAhkCmd( A_ThisLabel )
 	jsBldGui := new JsBldPsOps( scriptCfg.jsBuilds, checkType, execDelayer )
 	jsBldGui.ShowGui( "update" )
@@ -1686,23 +1686,23 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.10.2: @updateJsSubmoduleAll
 
-:*:@updateJsSubmoduleAll::
+:*?:@updateJsSubmoduleAll::
 	AppendAhkCmd( A_ThisLabel )
 	; TODO: Revise hotstring to rely on BackupJs function and configuration file settings.
-	; Gosub, :*:@updateJsSubmoduleAscc
-	; Gosub, :*:@updateJsSubmoduleCr
-	; Gosub, :*:@updateJsSubmoduleDsp
-	; Gosub, :*:@updateJsSubmoduleFye
-	; Gosub, :*:@updateJsSubmoduleFyf
-	; Gosub, :*:@updateJsSubmoduleNse
-	; Gosub, :*:@updateJsSubmoduleOue
-	; Gosub, :*:@updateJsSubmodulePbk
-	; Gosub, :*:@updateJsSubmoduleSurca
-	; Gosub, :*:@updateJsSubmoduleSumRes
-	; Gosub, :*:@updateJsSubmoduleXfer
-	; Gosub, :*:@updateJsSubmoduleUgr
-	; Gosub, :*:@updateJsSubmoduleUcore
-	; Gosub, :*:@updateJsSubmoduleUcrAss
+	; Gosub, :*?:@updateJsSubmoduleAscc
+	; Gosub, :*?:@updateJsSubmoduleCr
+	; Gosub, :*?:@updateJsSubmoduleDsp
+	; Gosub, :*?:@updateJsSubmoduleFye
+	; Gosub, :*?:@updateJsSubmoduleFyf
+	; Gosub, :*?:@updateJsSubmoduleNse
+	; Gosub, :*?:@updateJsSubmoduleOue
+	; Gosub, :*?:@updateJsSubmodulePbk
+	; Gosub, :*?:@updateJsSubmoduleSurca
+	; Gosub, :*?:@updateJsSubmoduleSumRes
+	; Gosub, :*?:@updateJsSubmoduleXfer
+	; Gosub, :*?:@updateJsSubmoduleUgr
+	; Gosub, :*?:@updateJsSubmoduleUcore
+	; Gosub, :*?:@updateJsSubmoduleUcrAss
 	; PasteTextIntoGitShell( A_ThisLabel
 	; 	, "[console]::beep(750,600)`r"
 	; 	. "[console]::beep(375,150)`r"
@@ -1718,7 +1718,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.11.1: @copyMinJsAscc
 
-:*:@copyMinJsAscc::
+:*?:@copyMinJsAscc::
 	AppendAhkCmd( A_ThisLabel )
 	CopySrcFileToClipboard( A_ThisLabel
 		, GetGitHubFolder() . "\ascc.wsu.edu\JS\ascc-custom.min.js"
@@ -1728,7 +1728,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.11.2: @copyMinJsCr
 
-:*:@copyMinJsCr::
+:*?:@copyMinJsCr::
 	AppendAhkCmd( A_ThisLabel )
 	CopySrcFileToClipboard( A_ThisLabel
 		, GetGitHubFolder() . "\commonreading.wsu.edu\JS\cr-build.min.js"
@@ -1738,7 +1738,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.11.3: @copyMinJsDsp
 
-:*:@copyMinJsDsp::
+:*?:@copyMinJsDsp::
 	AppendAhkCmd( A_ThisLabel )
 	CopySrcFileToClipboard( A_ThisLabel
 		, GetGitHubFolder() . "\distinguishedscholarships.wsu.edu\JS\dsp-custom-build.min.js"
@@ -1748,7 +1748,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.11.4: @copyMinJsFye
 
-:*:@copyMinJsFye::
+:*?:@copyMinJsFye::
 	AppendAhkCmd( A_ThisLabel )
 	CopySrcFileToClipboard( A_ThisLabel
 		, GetGitHubFolder() . "\firstyear.wsu.edu\JS\wp-custom-js-source.min.js"
@@ -1758,7 +1758,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.11.5: @copyMinJsFyf
 
-:*:@copyMinJsFyf::
+:*?:@copyMinJsFyf::
 	AppendAhkCmd( A_ThisLabel )
 	CopySrcFileToClipboard( A_ThisLabel
 		, GetGitHubFolder() . "\learningcommunities.wsu.edu\JS\wp-custom-js-source.min.js"
@@ -1768,7 +1768,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.11.6: @copyMinJsNse
 
-:*:@copyMinJsNse::
+:*?:@copyMinJsNse::
 	AppendAhkCmd( A_ThisLabel )
 	CopySrcFileToClipboard( A_ThisLabel
 		, GetGitHubFolder() . "\nse.wsu.edu\JS\nse-custom.min.js"
@@ -1778,7 +1778,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.11.7: @copyMinJsOue
 
-:*:@copyMinJsOue::
+:*?:@copyMinJsOue::
 	AppendAhkCmd( A_ThisLabel )
 	CopySrcFileToClipboard( A_ThisLabel
 		, GetGitHubFolder() . "\oue.wsu.edu\JS\oue-build.min.js"
@@ -1788,7 +1788,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.11.8: @copyBackupJsOue
 
-:*:@copyBackupJsOue::
+:*?:@copyBackupJsOue::
 	AppendAhkCmd( A_ThisLabel )
 	CopySrcFileToClipboard( A_ThisLabel
 		, GetGitHubFolder() . "\oue.wsu.edu\JS\oue-custom.min.prev.js"
@@ -1798,7 +1798,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.11.9: @copyMinJsPbk
 
-:*:@copyMinJsPbk::
+:*?:@copyMinJsPbk::
 	AppendAhkCmd( A_ThisLabel )
 	CopySrcFileToClipboard( A_ThisLabel
 		, GetGitHubFolder() . "\phibetakappa.wsu.edu\JS\wp-custom-js-source.min.js"
@@ -1808,7 +1808,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.11.10: @copyMinJsSurca
 
-:*:@copyMinJsSurca::
+:*?:@copyMinJsSurca::
 	AppendAhkCmd( A_ThisLabel )
 	CopySrcFileToClipboard( A_ThisLabel
 		, GetGitHubFolder() . "\surca.wsu.edu\JS\surca-build.min.js"
@@ -1818,7 +1818,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.11.11: @copyMinJsSumRes
 
-:*:@copyMinJsSumRes::
+:*?:@copyMinJsSumRes::
 	AppendAhkCmd( A_ThisLabel )
 	CopySrcFileToClipboard( A_ThisLabel
 		, GetGitHubFolder() . "\summerresearch.wsu.edu\JS\sumres-build.min.js"
@@ -1828,7 +1828,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.11.12: @copyMinJsXfer
 
-:*:@copyMinJsXfer::
+:*?:@copyMinJsXfer::
 	AppendAhkCmd( A_ThisLabel )
 	CopySrcFileToClipboard( A_ThisLabel
 		, GetGitHubFolder() . "\transfercredit.wsu.edu\JS\xfercredit-build.min.js"
@@ -1838,7 +1838,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.11.13: @copyMinJsUgr
 
-:*:@copyMinJsUgr::
+:*?:@copyMinJsUgr::
 	AppendAhkCmd( A_ThisLabel )
 	CopySrcFileToClipboard( A_ThisLabel
 		, GetGitHubFolder() . "\undergraduateresearch.wsu.edu\JS\ugr-build.min.js"
@@ -1848,7 +1848,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.11.14: @copyMinJsUcore
 
-:*:@copyMinJsUcore::
+:*?:@copyMinJsUcore::
 	AppendAhkCmd( A_ThisLabel )
 	CopySrcFileToClipboard( A_ThisLabel
 		, GetGitHubFolder() . "\ucore.wsu.edu\JS\ucore-build.min.js"
@@ -1858,7 +1858,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.11.15: @copyBackupJsUcore
 
-:*:@copyBackupJsUcore::
+:*?:@copyBackupJsUcore::
 	AppendAhkCmd( A_ThisLabel )
 	CopySrcFileToClipboard( A_ThisLabel
 		, GetGitHubFolder() . "\ucore.wsu.edu\JS\wp-custom-js-source.min.prev.js"
@@ -1868,7 +1868,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §6.11.16: @copyMinJsUcrAss
 
-:*:@copyMinJsUcrAss::
+:*?:@copyMinJsUcrAss::
 	AppendAhkCmd( A_ThisLabel )
 	CopySrcFileToClipboard( A_ThisLabel
 		, GetGitHubFolder() . "\ucore.wsu.edu-assessment\JS\wp-custom-js-source.min.js"
@@ -1878,7 +1878,7 @@ Return
 ;   ································································································
 ;     >>> §6.12: FOR CHECKING GIT STATUS ON ALL PROJECTS
 
-:*:@checkGitStatus::
+:*?:@checkGitStatus::
 	AppendAhkCmd( A_ThisLabel )
 
 	; Get the root GitHub folder where all repos are installed.

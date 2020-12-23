@@ -185,7 +185,7 @@ ExportHyperlinkArray(hyperlinkArray, pageContent) {
 		exportStr .= "`n`nHyperlinks were found in the following markup:`n" . pageContent
 		clipboard := exportStr
 		; TODO: Replace the following MsgBox with a GUI containing a ListView.
-		MsgBox 0x0, % ":*:@findHrefsInHtml"
+		MsgBox 0x0, % ":*?:@findHrefsInHtml"
 			, % "I found " . hyperlinkArray.Length() . " hyperlinks in markup copied to clipboard. "
 			. "I then overwrote clipboard with the results of my analysis formatted for import into"
 			. " Excel."
@@ -215,79 +215,79 @@ PullHrefsIntoHyperlinkArray(ByRef hyperlinkArray) {
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §2.1.1: CSS shorthand insertion strings
 
-:*:@cssShorthandBg::
-	SendInput % "bg-color bg-image position/bg-size bg-repeat bg-origin bg-clip bg-attachment initi"
-		. "al|inherit;"
+:*?:@cssShorthandBg::
+	SafeSendInput( "bg-color bg-image position/bg-size bg-repeat bg-origin bg-clip bg-attachment init"
+		. "ial|inherit;" )
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §2.1.2: URL shortcuts for WSUWP websites
 
-:*:@setWsuWpDomain::
+:*?:@setWsuWpDomain::
 	; TODO: Write a GUI to set the value of global variable aWsuWpDomain.
 Return
 
 InsertWsuWpUrl(slug) {
 	global aWsuWpDomain
 	if (aWsuWpDomain) {
-		SendInput % aWsuWpDomain . slug
+		SafeSendInput( aWsuWpDomain . slug )
 	} else {
-		Gosub :*:@setWsuWpDomain
+		Gosub :*?:@setWsuWpDomain
 	}
 }
 
-:*:@gotoUrlAdmin::
+:*?:@gotoUrlAdmin::
 	InsertWsuWpUrl("wp-admin/")
 Return
 
-:*:@gotoUrlCss::
+:*?:@gotoUrlCss::
 	InsertWsuWpUrl("wp-admin/themes.php?page=editcss")
 Return
 
-:*:@gotoUrlDocs::
+:*?:@gotoUrlDocs::
 	InsertWsuWpUrl("wp-admin/edit.php?post_type=document")
 Return
 
-:*:@gotoUrlDomain::
+:*?:@gotoUrlDomain::
 	InsertWsuWpUrl("")
 Return
 
-:*:@gotoUrlEvents::
+:*?:@gotoUrlEvents::
 	InsertWsuWpUrl("wp-admin/edit.php?post_type=tribe_events")
 Return
 
-:*:@gotoUrlJs::
+:*?:@gotoUrlJs::
 	InsertWsuWpUrl("wp-admin/themes.php?page=custom-javascript")
 Return
 
-:*:@gotoUrlPages::
+:*?:@gotoUrlPages::
 	InsertWsuWpUrl("wp-admin/edit.php?post_type=page")
 Return
 
-:*:@gotoUrlPosts::
+:*?:@gotoUrlPosts::
 	InsertWsuWpUrl("wp-admin/edit.php")
 Return
 
-:*:@gotoUrlRedirects::
+:*?:@gotoUrlRedirects::
 	InsertWsuWpUrl("wp-admin/edit.php?post_type=redirect_rule")
 Return
 
-:*:@gotoUrlTables::
+:*?:@gotoUrlTables::
 	InsertWsuWpUrl("wp-admin/upload.php")
 Return
 
-:*:@gotoUrlUpload::
+:*?:@gotoUrlUpload::
 	InsertWsuWpUrl("wp-admin/admin.php?page=tablepress")
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §2.1.3: String insertion related to front-end web development
 
-:*:@insWorkNotesBlock::
+:*?:@insWorkNotesBlock::
 	AppendAhkCmd(A_ThisLabel)
-	Gosub :*:@ddd
+	Gosub :?*:@ddd
 	SendInput % "--"
-	Gosub :*:@ttc
+	Gosub :?*:@ttc
 	SendInput % "────────────────────────────────────────────────────────────┐{Enter}│ Lorem ipsum "
 		. "dolor sit amet.                                                   │{Enter}└───┬─────────"
 		. "──────────────────────────────────────────────────────────────────┘{Enter}+{Tab}{Tab}└─→"
@@ -297,8 +297,8 @@ Return
 ;   ································································································
 ;     >>> §2.2: RegEx
 
-:*:@findStrBldrSctns::
-	SendInput % "(?<={^}---->\r\n){^}.*$(?:\r\n{^}(?{!}<{!}--|\r\n<{!}--|\Z).*$)*"
+:*?:@findStrBldrSctns::
+	SafeSendInput( "(?<={^}---->\r\n){^}.*$(?:\r\n{^}(?{!}<{!}--|\r\n<{!}--|\Z).*$)*" )
 Return
 
 ;   ································································································
@@ -309,7 +309,7 @@ Return
 ;
 ;	Backup the markup used to construct a web page in WSUWP.
 
-:*:@backupOuePage::
+:*?:@backupOuePage::
 	keyDelay := 140
 	webBrowserProcess := "chrome.exe"
 	correctTitleNeedle := "\| Washington State University"
@@ -554,7 +554,7 @@ BackupOueHtml_SaveToWorkingFile(url, workingFilePath, keyDelay) {
 ;
 ;	Backup the markup used to construct a news post in WSUWP.
 
-:*:@backupOuePost::
+:*?:@backupOuePost::
 	ahkThisCmd := A_ThisLabel
 	keyDelay := 140
 	webBrowserProcess := "chrome.exe"
@@ -580,7 +580,7 @@ Return
 ;   ································································································
 ;     >>> §2.4: Hyperlink collection hotstring
 
-:*:@findHrefsInOueHtml::
+:*?:@findHrefsInOueHtml::
 	AppendAhkCmd(A_ThisLabel)
 	pageContent := TrimAwayBuilderTemplateContentPrev(clipboard)
 	if (pageContent == "" && CheckForValidOueHtml(clipboard)) {
@@ -658,8 +658,8 @@ TrimAwayBuilderTemplateContentNext(htmlMarkup) {
 ;   ································································································
 ;     >>> §3.1: Insert Builder Sections GUI
 
-:*:@insBldrSctn::
-	AppendAhkCmd(":*:@insBldrSctn")
+:*?:@insBldrSctn::
+	AppendAhkCmd(":*?:@insBldrSctn")
 
 	Gui guiInsBldrSctn: New,, % "Post Minified JS to OUE Websites"
 	Gui guiInsBldrSctn: Add, Text,, % "Which OUE Websites would you like to update?"

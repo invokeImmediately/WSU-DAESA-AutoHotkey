@@ -45,7 +45,7 @@
 ;   §1: @updateTocInFile
 ; --------------------------------------------------------------------------------------------------
 
-:*:@updateTocInFile::
+:*?:@updateTocInFile::
 	AppendAhkCmd(A_ThisLabel)
 	timingDelay := GetDelay("xShort")
 	editor := "sublime_text.exe"
@@ -206,22 +206,22 @@ utoc_PerformTocUpdateCmds(hsTocSectionFinder, hsTocLineFinder, hsTocHeaderFinder
 ;     >>> §2.6: utoc_UpdateTocInAhkFile(…)
 
 utoc_UpdateTocInAhkFile(timingDelay) {
-	utoc_PerformTocUpdateCmds(":*:@findStrAhkTocSections1", ":*:@findStrAhkTocSections2"
-		, ":*:@findStrAhkTocHeader", timingDelay)
+	utoc_PerformTocUpdateCmds(":*?:@findStrAhkTocSections1", ":*?:@findStrAhkTocSections2"
+		, ":*?:@findStrAhkTocHeader", timingDelay)
 }
 
 ;   ································································································
 ;     >>> §2.7: utoc_UpdateTocInJsFile(…)
 
 utoc_UpdateTocInJsFile(timingDelay) {
-	utoc_PerformTocUpdateCmds(":*:@findStrJsTocSections1", ":*:@findStrJsTocSections2"
-		, ":*:@findStrJsTocHeader", timingDelay)
+	utoc_PerformTocUpdateCmds(":*?:@findStrJsTocSections1", ":*?:@findStrJsTocSections2"
+		, ":*?:@findStrJsTocHeader", timingDelay)
 }
 
 ;   ································································································
 ;     >>> §2.8: utoc_UpdateTocInLessFile(…)
 
 utoc_UpdateTocInLessFile(timingDelay) {
-	utoc_PerformTocUpdateCmds(":*:@findStrLessTocSections1", ":*:@findStrLessTocSections2"
-		, ":*:@findStrLessTocHeader", timingDelay)
+	utoc_PerformTocUpdateCmds(":*?:@findStrLessTocSections1", ":*?:@findStrLessTocSections2"
+		, ":*?:@findStrLessTocHeader", timingDelay)
 }

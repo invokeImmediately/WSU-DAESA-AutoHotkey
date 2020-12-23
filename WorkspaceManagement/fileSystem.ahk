@@ -18,7 +18,7 @@
 ;   §1: Current temporary shortcut
 ; --------------------------------------------------------------------------------------------------
 
-:*:@gotoCurrent::
+:*?:@gotoCurrent::
 	AppendAhkCmd(A_ThisLabel)
 	InsertFilePath(A_ThisLabel, "C:\Documents\GitHub (Old)\")
 Return
@@ -27,7 +27,7 @@ Return
 ;   §2: Torah study
 ; --------------------------------------------------------------------------------------------------
 
-:*:@gotoTorah::
+:*?:@gotoTorah::
 	AppendAhkCmd(A_ThisLabel)
 	SendInput %hhdWorkFolder%\{^}Derek-Haqodesh\{Enter}
 Return
@@ -36,16 +36,16 @@ Return
 ;   §3: Documents folders
 ; --------------------------------------------------------------------------------------------------
 
-:*:@gotoDocs::
+:*?:@gotoDocs::
 	AppendAhkCmd(A_ThisLabel)
 	SendInput %userAccountFolderHDD%\Documents\{Enter}
 Return
 
-:*:@gotoDaniel::
+:*?:@gotoDaniel::
 	InsertFilePath(A_ThisLabel, userAccountFolderHDD . "\Documents\Daniel\")
 Return
 
-:*:@gotoSsdDocs::
+:*?:@gotoSsdDocs::
 	AppendAhkCmd(A_ThisLabel)
 	SendInput %userAccountFolderSSD%\Documents\{Enter}
 Return
@@ -54,101 +54,101 @@ Return
 ;   §4: GitHub repository folders
 ; --------------------------------------------------------------------------------------------------
 
-:*:@gotoGithub::
+:*?:@gotoGithub::
 	InsertFilePath(A_ThisLabel, GetGitHubFolder())
 Return
 
-:*:@gotoGhAscc::
+:*?:@gotoGhAscc::
 	InsertFilePath(A_ThisLabel, GetGitHubFolder() . "\ascc.wsu.edu", "ascc.wsu.edu") 
 Return
 
-:*:@gotoGhCr::
+:*?:@gotoGhCr::
 	InsertFilePath(A_ThisLabel, GetGitHubFolder() . "\commonreading.wsu.edu"
 		, "commonreading.wsu.edu") 
 Return
 
-:*:@gotoGhDsp::
+:*?:@gotoGhDsp::
 	InsertFilePath(A_ThisLabel, GetGitHubFolder() . "\distinguishedscholarships.wsu.edu"
 		, "distinguishedscholarships.wsu.edu") 
 Return
 
-:*:@gotoGhFye::
+:*?:@gotoGhFye::
 	InsertFilePath(A_ThisLabel, GetGitHubFolder() . "\firstyear.wsu.edu", "firstyear.wsu.edu")
 Return
 
-:*:@gotoGhFyf::
+:*?:@gotoGhFyf::
 	InsertFilePath(A_ThisLabel, GetGitHubFolder() . "\learningcommunities.wsu.edu"
 		, "learningcommunities.wsu.edu")
 Return
 
-:*:@gotoGhLsamp::
+:*?:@gotoGhLsamp::
 	InsertFilePath(A_ThisLabel, GetGitHubFolder() . "\lsamp.wsu.edu", "lsamp.wsu.edu")
 Return
 
-:*:@gotoGhNse::
+:*?:@gotoGhNse::
 	InsertFilePath(A_ThisLabel, GetGitHubFolder() . "\nse.wsu.edu", "nse.wsu.edu")
 Return
 
-:*:@gotoGhNsse::
+:*?:@gotoGhNsse::
 	InsertFilePath(A_ThisLabel, GetGitHubFolder() . "\nsse.wsu.edu", "nsse.wsu.edu")
 Return
 
-:*:@gotoGhOue::
+:*?:@gotoGhOue::
 	InsertFilePath(A_ThisLabel, GetGitHubFolder() . "\oue.wsu.edu", "oue.wsu.edu")
 Return
 
-:*:@gotoGhPbk::
+:*?:@gotoGhPbk::
 	InsertFilePath(A_ThisLabel, GetGitHubFolder() . "\phibetakappa.wsu.edu"
 		, "phibetakappa.wsu.edu")
 Return
 
-:*:@gotoGhRsp::
+:*?:@gotoGhRsp::
 	InsertFilePath(A_ThisLabel, GetGitHubFolder() . "\admissions.wsu.edu-research-scholars"
 		, "admissions.wsu.edu/research-scholars")
 Return
 
-:*:@gotoGhSurca::
+:*?:@gotoGhSurca::
 	InsertFilePath(A_ThisLabel, GetGitHubFolder() . "\surca.wsu.edu", "surca.wsu.edu")
 Return
 
-:*:@gotoGhSumRes::
+:*?:@gotoGhSumRes::
 	InsertFilePath(A_ThisLabel, GetGitHubFolder() . "\summerresearch.wsu.edu"
 		, "summerresearch.wsu.edu")
 Return
 
-:*:@gotoGhXfer::
+:*?:@gotoGhXfer::
 	InsertFilePath(A_ThisLabel, GetGitHubFolder() . "\transfercredit.wsu.edu"
 		, "transfercredit.wsu.edu")
 Return
 
-:*:@gotoGhTAcad::
+:*?:@gotoGhTAcad::
 	InsertFilePath(A_ThisLabel, GetGitHubFolder() . "\teachingacademy.wsu.edu"
 		, "teachingacademy.wsu.edu")
 Return
 
-:*:@gotoGhUgr::
+:*?:@gotoGhUgr::
 	InsertFilePath(A_ThisLabel, GetGitHubFolder() . "\undergraduateresearch.wsu.edu"
 		, "undergraduateresearch.wsu.edu")
 Return
 
-:*:@gotoGhUcore::
+:*?:@gotoGhUcore::
 	InsertFilePath(A_ThisLabel, GetGitHubFolder() . "\ucore.wsu.edu", "ucore.wsu.edu")
 Return
 
-:*:@gotoGhUcrAss::
+:*?:@gotoGhUcrAss::
 	InsertFilePath(A_ThisLabel, GetGitHubFolder() . "\ucore.wsu.edu-assessment"
 		, "ucore.wsu.edu-assessment")
 Return
 
-:*:@gotoGhCSS::
+:*?:@gotoGhCSS::
 	InsertFilePath(A_ThisLabel, GetGitHubFolder() . "\WSU-UE---CSS", "WSU-UE---CSS")
 Return
 
-:*:@gotoGhJS::
+:*?:@gotoGhJS::
 	InsertFilePath(A_ThisLabel, GetGitHubFolder() . "\WSU-DAESA-JS", "WSU-DAESA-JS")
 Return
 
-:*:@gotoGhAhk::
+:*?:@gotoGhAhk::
 	InsertFilePath(A_ThisLabel, GetGitHubFolder() . "\WSU-DAESA-AutoHotkey", "WSU-DAESA-AutoHotkey")
 Return
 
@@ -160,76 +160,76 @@ Return
 ;   §5: Web development folders
 ; --------------------------------------------------------------------------------------------------
 
-:*:@gotoWebDev::
+:*?:@gotoWebDev::
 	AppendAhkCmd(A_ThisLabel)
 	SendInput %webDevFolder%{Enter}
 Return
 
-:*:@gotoWdAscc::
+:*?:@gotoWdAscc::
     InsertFilePath(A_ThisLabel, webDevFolder . "\ASCC") 
 Return
 
-:*:@gotoWdCr::
+:*?:@gotoWdCr::
     InsertFilePath(A_ThisLabel, webDevFolder . "\CR") 
 Return
 
-:*:@gotoWdDsp::
+:*?:@gotoWdDsp::
     InsertFilePath(A_ThisLabel, webDevFolder . "\DSP") 
 Return
 
-:*:@gotoWdFye::
+:*?:@gotoWdFye::
     InsertFilePath(A_ThisLabel, webDevFolder . "\FYE & FYF")
 Return
 
-:*:@gotoWdFyf::
+:*?:@gotoWdFyf::
     InsertFilePath(A_ThisLabel, webDevFolder . "\FYE & FYF")
 Return
 
-:*:@gotoWdLsamp::
+:*?:@gotoWdLsamp::
     InsertFilePath(A_ThisLabel, webDevFolder . "\LSAMP")
 Return
 
-:*:@gotoWdMstr::
+:*?:@gotoWdMstr::
     InsertFilePath(A_ThisLabel, webDevFolder . "\{^}Master-VPUE")
 Return
 
-:*:@gotoWdNse::
+:*?:@gotoWdNse::
     InsertFilePath(A_ThisLabel, webDevFolder . "\NSE")
 Return
 
-:*:@gotoWdOue::
+:*?:@gotoWdOue::
     InsertFilePath(A_ThisLabel, webDevFolder . "\OUE") 
 Return
 
-:*:@gotoWdPf::
+:*?:@gotoWdPf::
     InsertFilePath(A_ThisLabel, webDevFolder . "\{^}Personnel-File")
 Return
 
-:*:@gotoWdSurca::
+:*?:@gotoWdSurca::
     InsertFilePath(A_ThisLabel, webDevFolder . "\SURCA")
 Return
 
-:*:@gotoWdSumRes::
+:*?:@gotoWdSumRes::
     InsertFilePath(A_ThisLabel, webDevFolder . "\Summer-Res")
 Return
 
-:*:@gotoWdUcrAss::
+:*?:@gotoWdUcrAss::
     InsertFilePath(A_ThisLabel, webDevFolder . "\UCORE-Assessment")
 Return
 
-:*:@gotoWdUcore::
+:*?:@gotoWdUcore::
     InsertFilePath(A_ThisLabel, webDevFolder . "\UCORE")
 Return
 
-:*:@gotoWdUgr::
+:*?:@gotoWdUgr::
     InsertFilePath(A_ThisLabel, webDevFolder . "\UGR")
 Return
 
-:*:@gotoWdVpue::
+:*?:@gotoWdVpue::
     InsertFilePath(A_ThisLabel, webDevFolder . "\VPUE")
 Return
 
-:*:@gotoWdXfer::
+:*?:@gotoWdXfer::
     InsertFilePath(A_ThisLabel, webDevFolder . "\xfer")
 Return
 
@@ -237,12 +237,12 @@ Return
 ;   §6: Coding resource folders
 ; --------------------------------------------------------------------------------------------------
 
-:*:@openNodeCodes::
+:*?:@openNodeCodes::
 	AppendAhkCmd(A_ThisLabel)
 	SendInput %webDevFolder%\{^}Master-VPUE\Node\node-commands.bat{Enter}
 Return
 
-:*:@openGitCodes::
+:*?:@openGitCodes::
 	AppendAhkCmd(A_ThisLabel)
 	SendInput %webDevFolder%\GitHub\git-codes.bat{Enter}
 Return
@@ -251,11 +251,11 @@ Return
 ;   §7: Photo folders
 ; --------------------------------------------------------------------------------------------------
 
-:*:@gotoPhotos::
+:*?:@gotoPhotos::
 	InsertFilePath(A_ThisLabel, userAccountFolderHDD . "\Pictures")
 Return
 
-:*:@gotoGraphics::
+:*?:@gotoGraphics::
 	InsertFilePath(A_ThisLabel, userAccountFolderHDD . "\Documents\Daniel\Graphics")
 Return
 
@@ -263,7 +263,7 @@ Return
 ;   §8: Project folders
 ; --------------------------------------------------------------------------------------------------
 
-:*:@gotoProjects::
+:*?:@gotoProjects::
 	InsertFilePath(A_ThisLabel, userAccountFolderHDD . "\Documents\Daniel\{^}Projects")
 Return
 
@@ -272,7 +272,7 @@ Return
 ;   §9: @gotoFL: Goto file location
 ; --------------------------------------------------------------------------------------------------
 
-:*:@gotoFL::
+:*?:@gotoFL::
 	MsgBox % A_ThisLabel . ": This hotstring is still being designed."
 	; TODO: Design log file structure.
 	; TODO: Write log file from the above locations.

@@ -95,19 +95,19 @@ SaveAhkCmdHistory() {
 	}
 }
 
-:*:@saveAhkCmdHistory::
+:*?:@saveAhkCmdHistory::
 	CheckForCmdEntryGui()
 	SaveAhkCmdHistory()
 Return
 
-:*:@clearCmdHistory::
+:*?:@clearCmdHistory::
 	CheckForCmdEntryGui()
 	while ahkCmds.Length() > 0 {
 		ahkCmds.Pop()
 	}
 Return
 
-:*:@showLastCmd::
+:*?:@showLastCmd::
 	CheckForCmdEntryGui()
 	if (ahkCmds.Length() > 0) {
 		MsgBox % "Last command entered into history: `r" . ahkCmds[ahkCmds.Length()]
@@ -121,7 +121,7 @@ Return
 ; FIND A SPECIFIC AHK COMMAND FROM THE LIST OF THOSE AVAILABLE
 ; ==================================================================================================
 
-:*:@getAhkCmdCount::
+:*?:@getAhkCmdCount::
 	thisAhkCmd := A_ThisLabel 
 	AppendAhkCmd(thisAhkCmd)
 	GetAhkCmdCount()
@@ -135,14 +135,14 @@ GetAhkCmdCount() {
 		. "Moreover, " . wordCount . " commands are logged in the AHK command Trie. "
 }
 
-:*:@findAhkCmd::
+:*?:@findAhkCmd::
 	thisAhkCmd := A_ThisLabel 
 	AppendAhkCmd(thisAhkCmd)
 	CreateFindCmdGUI()
 Return
 
 ^!f::
-	Gosub, :*:@findAhkCmd
+	Gosub, :*?:@findAhkCmd
 Return
 
 CreateFindCmdGUI() {
@@ -227,7 +227,7 @@ HandleFindCmdOk() {
 	if (FindCmdListBox != "") {
 		Gui, AhkGuiFindCmd:Destroy
 		OnMessage(WM_KEYUP, "")
-		cmdSelected := ":*:@" . FindCmdListBox
+		cmdSelected := ":*?:@" . FindCmdListBox
 		if (IsLabel(cmdSelected)) {
 			Gosub, %cmdSelected%
 		} else {
@@ -254,10 +254,10 @@ HandleFindCmdCancel() {
 ; ==================================================================================================
 
 >^>+r::
-	Gosub % ":*:@doLastCmd"
+	Gosub % ":*?:@doLastCmd"
 Return
 
-:*:@doLastCmd::
+:*?:@doLastCmd::
 	CheckForCmdEntryGui()
 	if (ahkCmds.Length() > 0) {
 		if IsLabel(ahkCmds[ahkCmds.Length()]) {
@@ -269,10 +269,10 @@ Return
 ; · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · 
 
 ^!r::
-	Gosub % ":*:@rptCmd"
+	Gosub % ":*?:@rptCmd"
 Return
 
-:*:@rptCmd::
+:*?:@rptCmd::
 	CheckForCmdEntryGui()
 	if (ahkCmds.Length() > 0) {
 		index := 1
@@ -316,7 +316,7 @@ HandleCmdRptOK() {
 	if (CmdChosen > 0 && CmdChosen <= ahkCmds.Length()) {
 		if IsLabel(ahkCmds[ahkCmds.Length()]) {
 
-			; Run hotstring on window that was active when ":*:@rptCmd" was triggered.
+			; Run hotstring on window that was active when ":*?:@rptCmd" was triggered.
 			GoSub % ahkCmds[ahkCmds.Length() - CmdChosen + 1]
 
 		}

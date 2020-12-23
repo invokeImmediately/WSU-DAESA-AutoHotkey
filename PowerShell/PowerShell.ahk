@@ -37,7 +37,7 @@ IsPowerShellActive() {
 ;   ································································································
 ;     >>> §2.1: @closePsScripting
 
-:*:@closePsScripting::
+:*?:@closePsScripting::
 	AppendAhkCmd(A_ThisLabel)
 	delay := GetDelay("medium")
 	if (IsPowerShellActive()) {
@@ -50,7 +50,7 @@ Return
 ;   ································································································
 ;     >>> §2.2: @openPsScripting
 
-:*:@openPsScripting::
+:*?:@openPsScripting::
 	AppendAhkCmd(A_ThisLabel)
 	delay := GetDelay("medium")
 	if (IsPowerShellActive()) {

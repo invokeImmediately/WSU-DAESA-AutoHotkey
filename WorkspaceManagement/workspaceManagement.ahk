@@ -861,7 +861,7 @@ Return
 Return
 
 ^Numpad5::
-	Gosub :*:@changeNumpadMovementDelta
+	Gosub :*?:@changeNumpadMovementDelta
 Return
 
 ^Numpad6::
@@ -934,7 +934,7 @@ TAW_CheckDefaultDelta() {
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §2.23.4: @changeNumpadMovementDelta
 
-:*:@changeNumpadMovementDelta::
+:*?:@changeNumpadMovementDelta::
 	AppendAhkCmd( A_ThisLabel )
 	TAW_ChangeDelta()
 Return
@@ -959,7 +959,7 @@ Return
 Return
 
 ^NumpadClear::
-	Gosub :*:@changeNumpadScalingDelta
+	Gosub :*?:@changeNumpadScalingDelta
 Return
 
 ^NumpadRight::
@@ -1040,7 +1040,7 @@ NxScaleAW_CheckDefaultDelta() {
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §2.24.4: @changeNumpadScalingDelta
 
-:*:@changeNumpadScalingDelta::
+:*?:@changeNumpadScalingDelta::
 	AppendAhkCmd( A_ThisLabel )
 	NxScaleAW_ChangeDelta()
 Return
@@ -1590,7 +1590,7 @@ MoveToNextTabInChrome() {
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §7.2.1: @toggleGimp
 
-:*:@toggleGimp::
+:*?:@toggleGimp::
 	CheckForCmdEntryGui()
 	WinGet, thisHwnd, ID, A
 	SetTitleMatchMode, 2
@@ -1709,22 +1709,22 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §7.4.1: @initStickyNoteToggle
 
-:*:@initStickyNoteToggle::
+:*?:@initStickyNoteToggle::
 	global hwndStickyNoteWindow
-	ahkCmdName := ":*:@initStickyNoteToggle"
+	ahkCmdName := ":*?:@initStickyNoteToggle"
 	AppendAhkCmd(ahkCmdName)
 	WinGet, hwndStickyNoteWindow, ID, A
-	MsgBox, 0, % ":*:@initStickyNoteSwitcher", % "Sticky note window with HWND "
+	MsgBox, 0, % ":*?:@initStickyNoteSwitcher", % "Sticky note window with HWND "
 		. hwndStickyNoteWindow . " can now be toggled via the hotstring @toggleStickyNote."
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §7.4.2: @toggleStickyNote
 
-:*:@toggleStickyNote::
+:*?:@toggleStickyNote::
 	global hwndStickyNoteWindow
 	global hwndActiveBeforeStickyNote
-	ahkCmdName := ":*:@toggleStickyNote"
+	ahkCmdName := ":*?:@toggleStickyNote"
 	AppendAhkCmd(ahkCmdName)
 	if (hwndStickyNoteWindow != undefined) {
 		WinGet, thisHwnd, ID, A
@@ -1751,7 +1751,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §7.5.1: @sst3
 
-:*:@sst3::
+:*?:@sst3::
 	SendInput, % "start sublime_text.exe "
 Return
 
@@ -1766,7 +1766,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §7.6.1: @restartItunes
 
-:*:@restartItunes::
+:*?:@restartItunes::
 	AppendAhkCmd( A_ThisLabel )
 	DetectHiddenWindows, On
 	execDelayer.Wait( "s" )
@@ -1825,7 +1825,7 @@ Return
 ;   ································································································
 ;     >>> §8.1: @getActiveMonitorWorkArea
 
-:*:@getActiveMonitorWorkArea::
+:*?:@getActiveMonitorWorkArea::
 	GetActiveMonitorWorkArea(aMon, aMon_Left, aMon_Top, aMon_Right, aMon_Bottom)
 	MsgBox, % "Work area of monitor #" . aMon . ":`r"
 		. "Upper left: " . aMon_Left . ", " . aMon_Top . "`r"
@@ -1835,7 +1835,7 @@ Return
 ;   ································································································
 ;     >>> §8.2: @getInfoOnSystemMonitors
 
-:*:@getInfoOnSystemMonitors::
+:*?:@getInfoOnSystemMonitors::
 	AppendAhkCmd(A_ThisLabel)
 	SysGet, numMonitors, MonitorCount
 	msg := "The system has " . numMonitors . " installed."

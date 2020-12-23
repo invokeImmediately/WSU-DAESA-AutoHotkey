@@ -30,13 +30,13 @@
 ; (see https://autohotkey.com/docs/commands/Send.htm for more info)
 ; ==================================================================================================
 
-:*:@rptInputs::
+:*?:@rptInputs::
 	AppendAhkCmd(A_ThisLabel)
 	CreateRptInputsGui()
 Return
 
 ^!i::
-	Gosub :*:@rptInputs
+	Gosub :*?:@rptInputs
 Return
 
 CreateRptInputsGui() {

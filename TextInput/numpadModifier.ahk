@@ -60,14 +60,14 @@ HandleNumpadDiv() {
 }
 
 ^NumpadDiv::
-	Gosub :*:@toggleNumpadDiv
+	Gosub :*?:@toggleNumpadDiv
 Return
 
 ^+NumpadDiv::
-	Gosub :*:@changeNumpadDiv
+	Gosub :*?:@changeNumpadDiv
 Return
 
-:*:@toggleNumpadDiv::
+:*?:@toggleNumpadDiv::
 	AppendAhkCmd(A_ThisLabel)
 	toggleMsg := "The NumPad / key has been toggled to "
 	bitNumpadDivToggle := !bitNumpadDivToggle
@@ -92,14 +92,14 @@ NumpadSub::
 Return
 
 ^NumpadSub::
-	Gosub :*:@toggleNumpadSub
+	Gosub :*?:@toggleNumpadSub
 Return
 
 ^+NumpadSub::
-	Gosub :*:@changeNumpadSub
+	Gosub :*?:@changeNumpadSub
 Return
 
-:*:@toggleNumpadSub::
+:*?:@toggleNumpadSub::
 	AppendAhkCmd(A_ThisLabel)
 	toggleMsg := "The NumPad- key has been toggled to "
 	bitNumpadSubToggle := !bitNumpadSubToggle
@@ -115,10 +115,10 @@ Return
 ;     >>> §1.3: NumpadDot/Del
 
 ^!NumpadDel::
-	Gosub, :*:@toggleNpBoxArt
+	Gosub, :*?:@toggleNpBoxArt
 Return
 
-:*:@toggleNpBoxArt::
+:*?:@toggleNpBoxArt::
 	HandleToggleNpBoxArt()
 Return
 
@@ -142,10 +142,10 @@ HandleToggleNpBoxArt() {
 }
 
 ^!#NumpadDot::
-	Gosub, :*:@toggleNpArrowArt
+	Gosub, :*?:@toggleNpArrowArt
 Return
 
-:*:@toggleNpArrowArt::
+:*?:@toggleNpArrowArt::
 	HandleToggleNpArrowArt()
 Return
 

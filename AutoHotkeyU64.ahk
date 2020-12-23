@@ -222,7 +222,7 @@ StartScript()
 ;   ································································································
 ;     >>> §5.1: Hotstrings for inserting code-documentation headers
 
-:*:@insAhkCommentSection::
+:*?:@insAhkCommentSection::
 	AppendAhkCmd(A_ThisLabel)
 	editor := "sublime_text.exe"
 	if (isTargetProcessActive(editor, A_ThisLabel, "An AutoHotkey comment section can only be inser"
@@ -242,7 +242,7 @@ StartScript()
 	}
 Return
 
-:*:@insAhkCommentSubSection::
+:*?:@insAhkCommentSubSection::
 	AppendAhkCmd(A_ThisLabel)
 	editor := "sublime_text.exe"
 	if (isTargetProcessActive(editor, A_ThisLabel, "An AutoHotkey comment section can only be inser"
@@ -261,8 +261,8 @@ Return
 	}
 Return
 
-:*:@insAhkCommentSeparator::
-	AppendAhkCmd(":*:@insAhkCommentSeparator")
+:*?:@insAhkCommentSeparator::
+	AppendAhkCmd(":*?:@insAhkCommentSeparator")
 	editor := "sublime_text.exe"
 	if (isTargetProcessActive(editor, A_ThisLabel, "An AutoHotkey comment separator can only be ins"
 			. "erted if [" . editor . "] is the active process. Unfortunately, the currently active"
@@ -285,8 +285,8 @@ Return
 
 #Include %A_ScriptDir%\WorkspaceManagement\workspaceManagement.ahk
 
-:*:@toggleOverlayMode::
-	AppendAhkCmd(":*:@toggleOverlayMode")
+:*?:@toggleOverlayMode::
+	AppendAhkCmd(":*?:@toggleOverlayMode")
 	WinGet, currentWindowID, ID, A
 	WinGet, ExStyle, ExStyle, ahk_id %currentWindowID%
 	if (ExStyle & 0x8)  ; 0x8 is WS_EX_TOPMOST.
@@ -307,8 +307,8 @@ Return
 	}
 Return
 
-:*:@toggleAOT::
-	AppendAhkCmd(":*:@toggleAOT")
+:*?:@toggleAOT::
+	AppendAhkCmd(":*?:@toggleAOT")
 	WinGet, currentWindowID, ID, A
 	WinGet, ExStyle, ExStyle, ahk_id %currentWindowID%
 	if (ExStyle & 0x8)  ; 0x8 is WS_EX_TOPMOST.
@@ -334,19 +334,19 @@ Return
 ;   ································································································
 ;     >>> §8.1: NOTEPAD/TEXT EDITOR PROGRAM
 
-:*:@runZoom::
+:*?:@runZoom::
 	Run C:\Users\danie\AppData\Roaming\Zoom\bin\Zoom.exe
 Return
 
 #z::
-	Gosub :*:@runZoom
+	Gosub :*?:@runZoom
 Return
 
 ;   ································································································
 ;     >>> §8.2: MISCELLANEOUS FILES
 
-:*:@checkHTMLSpec::
-	AppendAhkCmd(":*:@checkHTMLSpec")
+:*?:@checkHTMLSpec::
+	AppendAhkCmd(":*?:@checkHTMLSpec")
 	Run % userAccountFolderHHD . "\Documents\Daniel\^WSU-Web-Dev\^Master-VPUE\Anatomy of an HTML5 "
 		. "Document_2016-03-16.jpg"
 Return
@@ -474,7 +474,7 @@ Return
 
 #Include *i %A_ScriptDir%\localOnly.ahk
 
-:*:@copyFromExcel::
+:*?:@copyFromExcel::
 	AppendAhkCmd(A_ThisLabel)
 	CopyTitleFromExcel(1)
 Return
@@ -509,14 +509,14 @@ CopyTitleFromExcel(cumulativeCount) {
 	}
 }
 
-:*:@testTabRpt::
-	AppendAhkCmd(":*:@testTabRpt")
+:*?:@testTabRpt::
+	AppendAhkCmd(":*?:@testTabRpt")
 	numRpts := 3
 	Send !{TAB %numRpts%}
 Return
 
-:*:@deleteSectionBreak::
-	AppendAhkCmd(":*:@deleteSectionBreak")
+:*?:@deleteSectionBreak::
+	AppendAhkCmd(":*?:@deleteSectionBreak")
 	SendInput, {Enter}
 	Sleep, 200
 	SendInput, !{Tab}

@@ -135,7 +135,7 @@ ListAhkFiles() {
 			foundPos := 1
 			foundLen := 0
 			while (foundPos > 0) {
-				foundPos := RegExMatch(fileContents, "Pm)^:R?\*:(@[^:]+)::", match
+				foundPos := RegExMatch(fileContents, "Pm)^:R?\*\?:(@[^:]+)::", match
 					, foundPos + foundLen)
 				if (foundPos > 0) {
 					foundLen := match
@@ -199,7 +199,7 @@ PrintHsTrie() {
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §2.4.1: For committing CSS builds
 
-:*:@PrintHsTrie::
+:*?:@PrintHsTrie::
 	PrintHsTrie()
 Return
 
@@ -221,7 +221,7 @@ ReportMonitorDimensions() {
 	MsgBox, % msg
 }
 
-:*:@reportMonitorDimensions::
+:*?:@reportMonitorDimensions::
 	ReportMonitorDimensions()
 Return
 

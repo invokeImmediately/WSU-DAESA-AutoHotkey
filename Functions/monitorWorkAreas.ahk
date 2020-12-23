@@ -65,7 +65,7 @@ ClipActiveWindowToMonitor() {
 	WinMove, A, , x, y, w, h
 }
 
-:*:@clipActiveWindowToMonitor::
+:*?:@clipActiveWindowToMonitor::
 	AppendAhkCmd(A_ThisLabel)
 	ClipActiveWindowToMonitor()
 Return
@@ -95,7 +95,7 @@ FindActiveMonitor() {
 	return whichMon
 }
 
-:*:@findActiveMonitor::
+:*?:@findActiveMonitor::
 	AppendAhkCmd(A_ThisLabel)
 	whichMon := FindActiveMonitor()
 	if (whichMon == 0) {
@@ -141,7 +141,7 @@ FindNearestActiveMonitor() {
 	return correctMon
 }
 
-:*:@findNearestActiveMonitor::
+:*?:@findNearestActiveMonitor::
 	AppendAhkCmd(A_ThisLabel)
 	whichMon := FindNearestActiveMonitor()
 	MsgBox % "The active window is located on monitor " . whichMon

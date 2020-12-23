@@ -57,7 +57,7 @@
 ;   ································································································
 ;     >>> §1.1: @gcAnyFile
 
-:*:@gcAnyFile::
+:*?:@gcAnyFile::
 	AppendAhkCmd( A_ThisLabel )
 	subFolder := ""
 	gitFolderLen := StrLen( GetGitHubFolder() . "\" )

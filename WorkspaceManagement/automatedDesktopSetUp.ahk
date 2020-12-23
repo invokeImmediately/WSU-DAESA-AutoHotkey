@@ -72,18 +72,18 @@
 ;   ································································································
 ;     >>> §1.1: Work environment set up — @setupWorkEnvironment
 
-:*:@setupWorkEnvironment::
+:*?:@setupWorkEnvironment::
 	AppendAhkCmd( A_ThisLabel )
 	execDelayer.Wait( "l" )
 	envChecker := new ScriptEnvChecker( Func( MapDesktopsFromRegistry ) )
 	envStatus := envChecker.CheckWorkEnv()
 	if ( envStatus == "ready" ) {
-		Gosub :*:@moveTempMonitors
-		Gosub :*:@setupVirtualDesktops
+		Gosub :*?:@moveTempMonitors
+		Gosub :*?:@setupVirtualDesktops
 		switchDesktopByNumber( 1 )
 		execDelayer.Wait( "m" )
 		SoundPlay %desktopArrangedSound%
-		Gosub % ":*:@setupWorkTimer"
+		Gosub % ":*?:@setupWorkTimer"
 		switchDesktopByNumber( 5 )
 		DisplaySplashText( "Desktop set up is complete.", 3000 )
 	}
@@ -192,7 +192,7 @@ class ScriptEnvChecker {
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.1.2: @moveTempMonitors
 
-:*:@moveTempMonitors::
+:*?:@moveTempMonitors::
 	AppendAhkCmd( A_ThisLabel )
 	DisplaySplashText( "Moving temperature monitors.", 3000 )
 	DetectHiddenWindows On
@@ -214,7 +214,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.1.3: @setupVirtualDesktops
 
-:*:@setupVirtualDesktops::
+:*?:@setupVirtualDesktops::
 	AppendAhkCmd(A_ThisLabel)
 	DisplaySplashText("Setting up virtual desktops.", 3000)
 	execDelayer.Wait( "l", 4 )
@@ -223,33 +223,33 @@ Return
 
 	SwitchDesktopByNumber(1)
 	execDelayer.Wait( "m" )
-	Gosub :*:@setupVdForWebEditing
+	Gosub :*?:@setupVdForWebEditing
 	execDelayer.Wait( "m" )
 	SwitchDesktopByNumber(2)
 	execDelayer.Wait( "m" )
-	Gosub :*:@setupVdForProgramming
+	Gosub :*?:@setupVdForProgramming
 	execDelayer.Wait( "m" )
 	SwitchDesktopByNumber(3)
 	execDelayer.Wait( "m" )
-	Gosub :*:@setupVdForGraphicDesign
+	Gosub :*?:@setupVdForGraphicDesign
 	execDelayer.Wait( "m" )
 	SwitchDesktopByNumber(4)
 	execDelayer.Wait( "m" )
-	Gosub :*:@setupVdForCommunications
+	Gosub :*?:@setupVdForCommunications
 	execDelayer.Wait( "m" )
 	SwitchDesktopByNumber(5)
 	execDelayer.Wait( "m" )
-	Gosub :*:@setupVdForResearch
+	Gosub :*?:@setupVdForResearch
 	execDelayer.Wait( "m" )
 	SwitchDesktopByNumber(6)
 	execDelayer.Wait( "m" )
-	Gosub :*:@setupVdForPcMonitoring
+	Gosub :*?:@setupVdForPcMonitoring
 Return
 
 ;   ································································································
 ;     >>> §1.2: Website editing VD — @setupVdForWebEditing
 
-:*:@setupVdForWebEditing::
+:*?:@setupVdForWebEditing::
 	AppendAhkCmd(A_ThisLabel)
 	DisplaySplashText("Setting up current virtual desktop for website editing and coding.", 3000)
 
@@ -260,7 +260,7 @@ Return
 	MaxActWinOnMonViaCtrlFN( "^F9", "m" )
 
 	; Load chrome & navigate to WSUWP login page
-	Gosub :*:@startChrome
+	Gosub :*?:@startChrome
 	execDelayer.Wait( "s", 4 )
 	OpenWebsiteInChrome("daesa.wsu.edu/wp-admin/", False)
 
@@ -283,7 +283,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.2.1: @startChrome
 
-:*:@startChrome::
+:*?:@startChrome::
 	AppendAhkCmd( A_ThisLabel )
 	LaunchStdApplicationPatiently( "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
 		, "chrome://newtab ahk_exe chrome.exe" )
@@ -293,7 +293,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.2.2: @startSublimeText3
 
-:*:@startSublimeText3::
+:*?:@startSublimeText3::
 	AppendAhkCmd( A_ThisLabel )
 	titleToMatch := "Sublime Text ahk_exe sublime_text\.exe"
 	LaunchApplicationPatiently( "C:\Program Files\Sublime Text 3\sublime_text.exe"
@@ -450,7 +450,7 @@ WebEditVd_OpenWorkNotesLog() {
 ;   ································································································
 ;     >>> §1.3: Programming VD — @setupVdForProgramming
 
-:*:@setupVdForProgramming::
+:*?:@setupVdForProgramming::
 	AppendAhkCmd( A_ThisLabel )
 	delay := execDelayer.InterpretDelayString( "s" ) * 10
 	DisplaySplashText("Setting up current virtual desktop for coding and source code management."
@@ -464,15 +464,15 @@ WebEditVd_OpenWorkNotesLog() {
 	execDelayer.Wait( delay * 0.5 )
 	SendInput #e
 	WaitForApplicationPatiently( "This PC" )
-	Gosub :*:@startGithubClients
+	Gosub :*?:@startGithubClients
 	execDelayer.Wait( delay * 0.5 )
-	Gosub :*:@arrangeGitHub
+	Gosub :*?:@arrangeGitHub
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.3.1: @addSublimeText3ToVd + AddSublimeText3ToVd(…)
 
-:*:@addSublimeText3ToVd::
+:*?:@addSublimeText3ToVd::
 	AppendAhkCmd( A_ThisLabel )
 	curVd := GetCurrentVirtualDesktop()
 	AddSublimeText3ToVd( curVd )
@@ -508,7 +508,7 @@ AddSublimeText3ToVd( whichVd ) {
 			execDelayer.Wait( "l" )
 		}
 	} else {
-		GoSub, :*:@startSublimeText3
+		GoSub, :*?:@startSublimeText3
 	}
 	DetectHiddenWindows Off
 	RestoreMatchMode(oldTitleMatchMode)
@@ -517,7 +517,7 @@ AddSublimeText3ToVd( whichVd ) {
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.3.2: @arrangeGitHub
 
-:*:@arrangeGitHub::
+:*?:@arrangeGitHub::
 	AppendAhkCmd(A_ThisLabel)
 
 	; Position GitHub Desktop for Windows
@@ -554,10 +554,10 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.3.3: @startGithubClients
 
-:*:@startGithubClients::
+:*?:@startGithubClients::
 	AppendAhkCmd( A_ThisLabel )
 	execDelayer.Wait( "s", 2 )
-	Gosub :*:@startChrome
+	Gosub :*?:@startChrome
 	OpenWebsiteInChrome("github.com/invokeImmediately", False)
 	LaunchApplicationPatiently("C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe"
 		, "ahk_exe powershell.exe")
@@ -635,7 +635,7 @@ agh_MovePowerShell() {
 ;   ································································································
 ;     >>> §1.4: Graphic design VD — @setupVdForGraphicDesign
 
-:*:@setupVdForGraphicDesign::
+:*?:@setupVdForGraphicDesign::
 	AppendAhkCmd( A_ThisLabel )
 	DisplaySplashText("Setting up current virtual desktop for graphic design.", 3000)
 	delay := execDelayer.InterpretDelayString( "m" )
@@ -646,7 +646,7 @@ Return
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.4.1: @arrangeGimp
 
-:*:@arrangeGimp::
+:*?:@arrangeGimp::
 	AppendAhkCmd(A_ThisLabel)
 	delay := execDelayer.InterpretDelayString( "s" )
 	WinActivate Toolbox - Tool Options
@@ -687,7 +687,7 @@ svd3_OpenGraphicsEditors( delay ) {
 svd3_OpenGraphicsReferences( delay ) {
 	global execDelayer
 	execDelayer.Wait( delay * 2 )
-	Gosub :*:@startChrome
+	Gosub :*?:@startChrome
 	OpenWebsiteInChrome( "www.colorhexa.com", False )
 	execDelayer.Wait( delay * 2 )
 	OpenWebsiteInChrome( "brand.wsu.edu/visual/colors" )
@@ -699,7 +699,7 @@ svd3_OpenGraphicsReferences( delay ) {
 ;   ································································································
 ;     >>> §1.5: Communications and media VD — @setupVdForCommunications
 
-:*:@setupVdForCommunications::
+:*?:@setupVdForCommunications::
 	AppendAhkCmd(A_ThisLabel)
 	execDelayer.Wait( "s", 1.5 )
 	DisplaySplashText("Setting up current virtual desktop for online correspondence.", 3000)
@@ -713,13 +713,13 @@ svd3_OpenGraphicsReferences( delay ) {
 
 	; Restore default arrangement of windows
 	execDelayer.Wait( "s", 10 )
-	Gosub :*:@arrangeEmail
+	Gosub :*?:@arrangeEmail
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §1.5.1: @arrangeEmail
 
-:*:@arrangeEmail::
+:*?:@arrangeEmail::
 	delay := execDelayer.InterpretDelayString( "s" ) * 2
 	AppendAhkCmd(A_ThisLabel)
 
@@ -778,7 +778,7 @@ svd4_LoadWebEmailClients( delay ) {
 	global execDelayer
 	global webBrowserNewTabTitle
 	execDelayer.Wait( delay, 1.5 )
-	Gosub :*:@startChrome
+	Gosub :*?:@startChrome
 	OpenWebsiteInChrome( "mail.google.com", False )
 	execDelayer.Wait( delay )
 	OpenWebsiteInChrome( "mail.live.com" )
@@ -799,7 +799,7 @@ svd4_LoadWebEmailClients( delay ) {
 ;   ································································································
 ;     >>> §1.6: Research VD — @setupVdForResearch
 
-:*:@setupVdForResearch::
+:*?:@setupVdForResearch::
 	delay := execDelayer.InterpretDelayString( "s" )
 	AppendAhkCmd( A_ThisLabel )
 	execDelayer.Wait( delay, 2 )
@@ -807,7 +807,7 @@ svd4_LoadWebEmailClients( delay ) {
 		, 3000 )
 
 	; Set up apps for catching up on news.
-	Gosub :*:@startChrome
+	Gosub :*?:@startChrome
 	OpenWebsiteInChrome( "https://www.sfchronicle.com/", False )
 	execDelayer.Wait( delay, 10 )
 	OpenWebsiteInChrome( "https://www.nytimes.com/" )
@@ -845,7 +845,7 @@ Return
 ;   ································································································
 ;     >>> §1.7: PC monitoring VD — @setupVdForPcMonitoring
 
-:*:@setupVdForPcMonitoring::
+:*?:@setupVdForPcMonitoring::
 	AppendAhkCmd( A_ThisLabel )
 	execDelayer.Wait( "s", 2 )
 	DisplaySplashText( "Setting up current virtual desktop for computer monitoring.", 3000 )
@@ -877,7 +877,7 @@ Return
 ;     >>> §2.1: #!r
 
 #^r::
-	Gosub :*:@setupWorkEnvironment
+	Gosub :*?:@setupWorkEnvironment
 Return
 
 ; --------------------------------------------------------------------------------------------------
@@ -887,7 +887,7 @@ Return
 ;   ································································································
 ;     >>> §3.1: @quitAhk
 
-:*:@quitAhk::
+:*?:@quitAhk::
 	AppendAhkCmd(A_ThisLabel)
 	PerformScriptShutdownTasks()
 	ExitApp

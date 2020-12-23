@@ -42,7 +42,7 @@
 ;   ································································································
 ;     >>> §1.1: @findStrAhkTocSections1
 
-:*:@findStrAhkTocSections1::
+:*?:@findStrAhkTocSections1::
 	AppendAhkCmd(A_ThisLabel)
 	SafeSendInput( "(?:{^}; -{{}98{}}$\n; {{}3{}}.{+}$\n{^}; -{{}98{}}$)|(?:{^}; {{}3{}}·{{}96{}}$\n{"
 		. "^}; {{}5{}}>>> .*$)|(?:{^}; {{}5{}}(?: ·){{}47{}}$\n{^}; {{}7{}}→→→ .*$)" )
@@ -51,7 +51,7 @@ Return
 ;   ································································································
 ;     >>> §1.2: @findStrAhkTocSections2
 
-:*:@findStrAhkTocSections2::
+:*?:@findStrAhkTocSections2::
 	AppendAhkCmd(A_ThisLabel)
 	SafeSendInput( "{^} {{}1,{}}([0-9]{{}1,{}}): (; {{}3{}}.*§.{+})$" )
 Return
@@ -59,7 +59,7 @@ Return
 ;   ································································································
 ;     >>> §1.3: @replStrAhkTocSections2
 
-:*:@replStrAhkTocSections2::
+:*?:@replStrAhkTocSections2::
 	AppendAhkCmd(A_ThisLabel)
 	SafeSendInput( "\1\2............................................................................."
 		. ".........." )
@@ -68,7 +68,7 @@ Return
 ;   ································································································
 ;     >>> §1.4: findStrAhkTocHeader
 
-:*:@findStrAhkTocHeader::
+:*?:@findStrAhkTocHeader::
 	AppendAhkCmd(A_ThisLabel)
 	SafeSendInput( "(?<=; ={{}98{}}\n; Table of Contents:\n; -{{}17{}}\n)(({^}.*$\n)(?{!}; ={{}98{}})"
 		. ")*({^}.*$\n)" )
@@ -78,43 +78,43 @@ Return
 ;   §2: Regex strings for working with Less/CSS files
 ; --------------------------------------------------------------------------------------------------
 
-:*:@findStrLessTocSections1::
+:*?:@findStrLessTocSections1::
 	AppendAhkCmd( A_ThisLabel )
 	SafeSendInput( "(?{<}=[-·=]\n){^}(\*\*|//)(\*?/? *)(.*)(§[0-9]{+})(.*)$" )
 Return
 
-:*:@findStrLessTocSections2::
+:*?:@findStrLessTocSections2::
 	AppendAhkCmd(A_ThisLabel)
 	SafeSendInput( "{^} *([0-9]{+}): (?:\**|/*)( {+})(.{+})$" )
 Return
 
-:*:@replStrLessTocSections2::
+:*?:@replStrLessTocSections2::
 	AppendAhkCmd(A_ThisLabel)
 	SafeSendInput( "\1**  \2\3......................................................................."
 		. "........." )
 Return
 
-:*:@findStrLessTocHeader::
+:*?:@findStrLessTocHeader::
 	AppendAhkCmd(A_ThisLabel)
 	SafeSendInput( "(?<=\*{{}3{}} {{}2{}}TABLE OF CONTENTS:\n\*{{}3{}} {{}2{}}─{{}92{}}\n)(({^}.*$\n)"
-		. "(?{!}\*{{}3{}} {{}2{}}─{{}95{}}\n))*({^}.*$\n)" )
+		. "(?{!}\*{{}3{}} {{}2{}}─{{}95{}}\n|\*{{}3{}} └─{{}94{}}┘\n))*({^}.*$\n)" )
 Return
 
 ; --------------------------------------------------------------------------------------------------
 ;   §3: Regex strings for working with JS files
 ; --------------------------------------------------------------------------------------------------
 
-:*:@findStrJsTocSections1::
+:*?:@findStrJsTocSections1::
 	AppendAhkCmd(A_ThisLabel)
 	SafeSendInput( "({^}(?<=/{{}7{}}\n)\t*// §.*$)" )
 Return
 
-:*:@findStrJsTocSections2::
+:*?:@findStrJsTocSections2::
 	AppendAhkCmd(A_ThisLabel)
 	SafeSendInput( "{^} *([0-9]{+}): \t*(// §.*)$" )
 Return
 
-:*:@findStrJsTocHeader::
+:*?:@findStrJsTocHeader::
 	AppendAhkCmd(A_ThisLabel)
 	SafeSendInput( "(?<=/{{}100{}}\n/{{}2{}} TABLE OF CONTENTS\n/{{}2{}} -{{}17{}}\n)(({^}.*$\n)(?{!}"
 		. "/{{}100{}}))*({^}.*$\n)" )
@@ -124,7 +124,7 @@ Return
 ;   §4: Regex strings for working with HTML files
 ; --------------------------------------------------------------------------------------------------
 
-:*:@findStrNoAltImgTags::
+:*?:@findStrNoAltImgTags::
 	AppendAhkCmd(A_ThisLabel)
 	SafeSendInput( "<img([{^}>](?{!}alt=))*>" )
 Return
@@ -136,7 +136,7 @@ Return
 ;   ································································································
 ;     >>> §5.1: @finishNotesBlock
 
-:*:@finishNotesBlock::
+:*?:@finishNotesBlock::
 	nbf := New NoteBlockFinisher
 	nbf.Execute( execDelayer )
 Return
