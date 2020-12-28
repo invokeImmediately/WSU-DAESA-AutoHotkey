@@ -23,32 +23,37 @@
 ; ==================================================================================================
 ; TABLE OF CONTENTS:
 ; -----------------
-;   §1: GENERAL text editing....................................................................55
-;     >>> §1.1: Hotstrings......................................................................59
-;     >>> §1.2: Hotkeys.........................................................................77
-;       →→→ §1.2.1: Insertion of non-breaking spaces............................................80
-;   §2: VIM-STYLE keyboard modifications........................................................87
-;     >>> §2.1: Toggle VIMy mode................................................................91
-;     >>> §2.2: Word based cursor movement hotkeys.............................................122
-;     >>> §2.3: Directionally based cursor movement hotkeys....................................147
-;     >>> §2.4: Character and word deletion and process termination hotkeys....................208
-;   §3: FRONT-END web development..............................................................231
-;     >>> §3.1: HTML editing...................................................................235
-;     >>> §3.2: CSS editing....................................................................242
-;     >>> §3.3: JS editing.....................................................................250
-;   §4: NUMPAD mediated text insertion.........................................................255
-;     >>> §4.1: GetCmdForMoveToCSSFolder.......................................................259
-;     >>> §4.2: GetCmdForMoveToCSSFolder.......................................................277
-;   §5: DATES and TIMES........................................................................295
-;     >>> §5.1: Dates..........................................................................299
-;     >>> §5.2: Times..........................................................................327
-;   §6: CLIPBOARD modifying hotstrings.........................................................361
-;     >>> §6.1: Slash character reversal.......................................................365
-;     >>> §6.2: URL to Windows file name conversion............................................392
-;     >>> §6.3: ASCII Text Art.................................................................412
-;       →→→ §6.3.1: AsciiArtLetter3h class.....................................................415
-;       →→→ §6.3.2: AsciiArtConverter class....................................................428
-;       →→→ §6.3.3: @convertCbToAsciiArt hotstring.............................................559
+;   §1: GENERAL text editing....................................................................60
+;     >>> §1.1: Hotstrings......................................................................64
+;     >>> §1.2: Hotkeys.........................................................................82
+;       →→→ §1.2.1: Insertion of non-breaking spaces............................................85
+;   §2: VIM-STYLE keyboard modifications........................................................92
+;     >>> §2.1: VIMy mode toggling..............................................................96
+;       →→→ §2.1.1: ToggleVimyMode()............................................................99
+;       →→→ §2.1.2: NotifyUserOfVimyModeState( … ).............................................110
+;       →→→ §2.1.3: Hotkeys for toggling VIMy mode.............................................149
+;       →→→ §2.1.4: Semicolon key behavior with VIMy mode engaged..............................158
+;       →→→ §2.1.5: Semicolon key behavior with VIMy mode disabled.............................165
+;     >>> §2.2: Word based cursor movement hotkeys.............................................176
+;     >>> §2.3: Directionally based cursor movement hotkeys....................................201
+;     >>> §2.4: Character and word deletion and process termination hotkeys....................262
+;   §3: FRONT-END web development..............................................................285
+;     >>> §3.1: HTML editing...................................................................289
+;     >>> §3.2: CSS editing....................................................................296
+;     >>> §3.3: JS editing.....................................................................304
+;   §4: NUMPAD mediated text insertion.........................................................309
+;     >>> §4.1: GetCmdForMoveToCSSFolder.......................................................313
+;     >>> §4.2: GetCmdForMoveToCSSFolder.......................................................331
+;   §5: DATES and TIMES........................................................................349
+;     >>> §5.1: Dates..........................................................................353
+;     >>> §5.2: Times..........................................................................381
+;   §6: CLIPBOARD modifying hotstrings.........................................................415
+;     >>> §6.1: Slash character reversal.......................................................419
+;     >>> §6.2: URL to Windows file name conversion............................................446
+;     >>> §6.3: ASCII Text Art.................................................................466
+;       →→→ §6.3.1: AsciiArtLetter3h class.....................................................469
+;       →→→ §6.3.2: AsciiArtConverter class....................................................482
+;       →→→ §6.3.3: @convertCbToAsciiArt hotstring.............................................613
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -88,7 +93,60 @@ Return
 ; --------------------------------------------------------------------------------------------------
 
 ;   ································································································
-;     >>> §2.1: Toggle VIMy mode
+;     >>> §2.1: VIMy mode toggling
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §2.1.1: ToggleVimyMode()
+
+ToggleVimyMode() {
+	global execDelayer
+	global g_vimyModeActive
+	g_vimyModeActive := !g_vimyModeActive
+	vimyModeState := g_vimyModeActive ? "on" : "off"
+	NotifyUserOfVimyModeState( vimyModeState )
+}
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §2.1.2: NotifyUserOfVimyModeState( … )
+
+NotifyUserOfVimyModeState( vimyModeState) {
+
+	; We will need the script's global variable storing the path to a graphic used to visually signal
+	;   that VIMy mode has been engaged.
+	global g_VimyModeIconPath
+
+	; For maintainability, specify settings up front in that will be important for the timing of user
+	;   notifications and the layout of the GUI.
+	msgTime := 500
+	guiTransparency := 96
+
+	; Show or dismiss a visual indicator that VIMy mode is engaged.
+	if ( vimyModeState == "on" ) {
+
+		; Create a new GUI window that signals to the user VIMy mode is active.
+		Gui, GuiVimyModeOn:New, +AlwaysOnTop -SysMenu +HwndVimyModeOnGuiHwnd, % "VIMy Mode Engaged"
+
+		; Set up the content of the GUI.
+		Gui, GuiVimyModeOn:Add, Picture, x26 y0, % g_VimyModeIconPath
+
+		; Show the GUI to the user; to help prevent interference with other windows, position the GUI
+		;   at the top-center of the primary monitor.
+		Gui, GuiVimyModeOn:Show, xCenter y0 w116 NoActivate
+
+		; Make the partially transparent so users can see what lies underneath it on the desktop.
+		WinSet, Transparent, % guiTransparency, % "VIMy Mode Engaged ahk_id " . VimyModeOnGuiHwnd
+	} else {
+		; Ensure that the GUI window that signals to the user VIMy mode is active is dismissed.
+		Gui, GuiVimyModeOn:Destroy
+	}
+
+	; Display a splash message.
+	DisplaySplashText( "VIM-style cursor movement mode toggled to " . vimyModeState, msgTime )
+	execDelayer.Wait( msgTime )
+}
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §2.1.3: Hotkeys for toggling VIMy mode
 
 SC027 & a::
 !SC027::
@@ -96,9 +154,15 @@ SC027 & a::
 	ToggleVimyMode()
 Return
 
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §2.1.4: Semicolon key behavior with VIMy mode engaged
+
 #If g_vimyModeActive
 SC027::ToggleVimyMode()
 #If
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §2.1.5: Semicolon key behavior with VIMy mode disabled
 
 #If !g_vimyModeActive
 SC027::SendInput % ";"
@@ -107,16 +171,6 @@ SC027::SendInput % ";"
 
 +SC027::SendInput % "+;"
 #If
-
-ToggleVimyMode() {
-	global execDelayer
-	global g_vimyModeActive
-	g_vimyModeActive := !g_vimyModeActive
-	vimyModeState := g_vimyModeActive ? "on" : "off"
-	msgTime := 500
-	DisplaySplashText( "VIM-style cursor movement mode toggled to " . vimyModeState, msgTime )
-	execDelayer.Wait( msgTime )
-}
 
 ;   ································································································
 ;     >>> §2.2: Word based cursor movement hotkeys
