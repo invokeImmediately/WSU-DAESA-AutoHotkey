@@ -1,133 +1,134 @@
 ﻿; ==================================================================================================
-; github.ahk
+; █▀▀▀ ▀█▀▐▀█▀▌█  █ █  █ █▀▀▄   ▄▀▀▄ █  █ █ ▄▀ 
+; █ ▀▄  █   █  █▀▀█ █  █ █▀▀▄   █▄▄█ █▀▀█ █▀▄  
+; ▀▀▀▀ ▀▀▀  █  █  ▀  ▀▀  ▀▀▀  ▀ █  ▀ █  ▀ ▀  ▀▄
 ; --------------------------------------------------------------------------------------------------
-; SUMMARY: Automate tasks for working with git in Windows 10 via PowerShell and posting code from
-; git repositories to WordPress.
+; Automate tasks for working with git in Windows 10 via PowerShell and posting code from git
+;  repositories to WordPress.
 ;
-; AUTHOR: Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
-;
-; REPOSITORY: https://github.com/invokeImmediately/WSU-AutoHotkey
-;
-; LICENSE: ISC - Copyright (c) 2020 Daniel C. Rieck.
-;
-;   Permission to use, copy, modify, and/or distribute this software for any purpose with or
-;   without fee is hereby granted, provided that the above copyright notice and this permission
-;   notice appear in all copies.
-;
-;   THE SOFTWARE IS PROVIDED "AS IS" AND DANIEL RIECK DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS
-;   SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
-;   DANIEL RIECK BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY
-;   DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF
-;   CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-;   PERFORMANCE OF THIS SOFTWARE.
+; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
+; @link https://github.com/invokeImmediately/WSU-AutoHotkey
+; @license: MIT Copyright (c) 2020 Daniel C. Rieck.
+;   Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+;     and associated documentation files (the “Software”), to deal in the Software without
+;     restriction, including without limitation the rights to use, copy, modify, merge, publish,
+;     distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
+;     Software is furnished to do so, subject to the following conditions:
+;   The above copyright notice and this permission notice shall be included in all copies or
+;     substantial portions of the Software.
+;   THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+;     BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;     NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+;     DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+;     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ; ==================================================================================================
 ; TABLE OF CONTENTS:
 ; -----------------
-;   §1: SETTINGS accessed via functions for this imported file.................................137
-;     >>> §1.1: GetCmdForMoveToCSSFolder.......................................................141
-;     >>> §1.2: GetCurrentDirFrom..............................................................156
-;     >>> §1.3: GetGitHubFolder................................................................168
-;     >>> §1.4: UserFolderIsSet................................................................176
-;   §2: FUNCTIONS for working with GitHub Desktop..............................................190
-;     >>> §2.1: ActivateGitShell...............................................................194
-;     >>> §2.2: CommitAfterBuild...............................................................230
-;     >>> §2.3: EscapeCommitMessage............................................................264
-;     >>> §2.4: Git commit GUI — Imports.......................................................274
-;       →→→ §2.4.1: For committing CSS builds..................................................277
-;       →→→ §2.4.2: For committing JS builds...................................................282
-;       →→→ §2.4.3: For committing any type of file............................................287
-;     >>> §2.5: CopySrcFileToClipboard.........................................................292
-;     >>> §2.6: IsGitShellActive...............................................................313
-;     >>> §2.7: PasteTextIntoGitShell..........................................................320
-;     >>> §2.8: ToEscapedPath..................................................................353
-;     >>> §2.9: VerifyCopiedCode...............................................................361
-;   §3: FUNCTIONS for interacting with online WEB DESIGN INTERFACES............................375
-;     >>> §3.1: LoadWordPressSiteInChrome......................................................379
-;   §4: GUI FUNCTIONS for handling user interactions with scripts..............................422
-;     >>> §4.1: @postMinCss....................................................................426
-;       →→→ §4.1.1: HandlePostCssCheckAllSites.................................................466
-;       →→→ §4.1.2: HandlePostCssUncheckAllSites...............................................487
-;       →→→ §4.1.3: HandlePostMinCssCancel.....................................................508
-;       →→→ §4.1.4: HandlePostMinCssOK.........................................................515
-;       →→→ §4.1.5: PasteMinCssToWebsite.......................................................587
-;     >>> §4.2: @postCssFromRepo...............................................................598
-;     >>> §4.3: @postPrevCssFromRepo...........................................................607
-;     >>> §4.4: @postBackupCss.................................................................616
-;       →→→ §4.4.1: HandlePostBackupCssCheckAllSites...........................................662
-;       →→→ §4.4.2: HandlePostBackupCssUncheckAllSites.........................................683
-;       →→→ §4.4.3: HandlePostBackupCssCancel..................................................704
-;       →→→ §4.4.4: HandlePostBackupCssOK......................................................711
-;     >>> §4.4: @postMinJs.....................................................................778
-;       →→→ §4.4.1: HandlePostJsCheckAllSites..................................................828
-;       →→→ §4.4.2: HandlePostJsUncheckAllSites................................................848
-;       →→→ §4.4.3: HandlePostMinJsCancel......................................................868
-;       →→→ §4.4.4: HandlePostMinJsOK..........................................................875
-;       →→→ §4.4.5: PasteMinJsToWebsite........................................................942
-;   §5: UTILITY HOTSTRINGS for working with GitHub Desktop.....................................957
-;     >>> §5.1: FILE COMMITTING................................................................961
-;     >>> §5.2: STATUS CHECKING...............................................................1086
-;       →→→ §5.2.1: @doGitStataus & @dogs.....................................................1089
-;       →→→ §5.2.2: @doGitDiff & @dogd........................................................1109
-;       →→→ §5.2.3: @doGitLog & @dogl.........................................................1129
-;       →→→ §5.2.4: @doGitNoFollowLog & @donfgl...............................................1150
-;     >>> §5.3: Automated PASTING OF CSS/JS into online web interfaces........................1170
-;       →→→ §5.3.1: @initCssPaste.............................................................1173
-;       →→→ §5.3.2: @doCssPaste...............................................................1198
-;       →→→ §5.3.3: @pasteGitCommitMsg........................................................1247
-;       →→→ §5.3.4: ExecuteCssPasteCmds.......................................................1265
-;       →→→ §5.3.5: ExecuteJsPasteCmds........................................................1313
-;   §6: COMMAND LINE INPUT GENERATION SHORTCUTS...............................................1366
-;     >>> §6.1: GUIs for automating generation of command line input..........................1370
-;     >>> §6.2: BACKING UP builds of files containing custom CSS code.........................1379
-;       →→→ §6.2.1: @backupCssInRepo..........................................................1382
-;       →→→ §6.2.2: @backupCssAll.............................................................1391
-;       →→→ §6.2.3: CopyCssFromWebsite........................................................1415
-;       →→→ §6.2.4: ExecuteCssCopyCmds........................................................1425
-;     >>> §6.3: REBUILDING files containing custom CSS code...................................1448
-;       →→→ §6.3.1: @rebuildCssInRepo.........................................................1451
-;       →→→ §6.3.2: @rebuildCssAll............................................................1460
-;     >>> §6.4: COMMITTING files produced by or involved in CSS build processes...............1487
-;       →→→ §6.4.1: @commitCssInRepo..........................................................1490
-;     >>> §6.5: UPDATING SUBMODULES containing CSS dev dependencies...........................1499
-;       →→→ §6.5.1: @updateCssSubmoduleInRepo.................................................1502
-;       →→→ §6.5.2: @updateCssSubmoduleAll....................................................1511
-;     >>> §6.6: COPYING built CSS code for deployment.........................................1539
-;       →→→ §6.6.1: @copyMinCssFromRepo.......................................................1542
-;       →→→ §6.6.2: @copyBackupCssFromRepo....................................................1551
-;     >>> §6.7: BACKING UP builds of files containing custom JS code..........................1561
-;       →→→ §6.7.1: BackupJs..................................................................1564
-;       →→→ §6.7.2: @backupJsRepo.............................................................1581
-;       →→→ §6.7.3: @backupJsAll..............................................................1590
-;       →→→ §6.7.4: CopyJsFromWebsite.........................................................1617
-;       →→→ §6.7.5: ExecuteJsCopyCmds.........................................................1628
-;     >>> §6.8: REBUILDING files containing custom JS code....................................1649
-;       →→→ §6.8.1: @rebuildJsInRepo..........................................................1652
-;     >>> §6.9: FOR UPDATING JS SUBMODULES....................................................1661
-;       →→→ §6.9.1: @commitJsInRepo...........................................................1664
-;     >>> §6.10: FOR UPDATING JS SUBMODULES...................................................1673
-;       →→→ §6.10.1: @updateJsSubmoduleInRepo.................................................1676
-;       →→→ §6.10.2: @updateJsSubmoduleAll....................................................1685
-;     >>> §6.11: Shortcuts for copying minified JS to clipboard...............................1712
-;       →→→ §6.11.1: @copyMinJsAscc...........................................................1717
-;       →→→ §6.11.2: @copyMinJsCr.............................................................1727
-;       →→→ §6.11.3: @copyMinJsDsp............................................................1737
-;       →→→ §6.11.4: @copyMinJsFye............................................................1747
-;       →→→ §6.11.5: @copyMinJsFyf............................................................1757
-;       →→→ §6.11.6: @copyMinJsNse............................................................1767
-;       →→→ §6.11.7: @copyMinJsOue............................................................1777
-;       →→→ §6.11.8: @copyBackupJsOue.........................................................1787
-;       →→→ §6.11.9: @copyMinJsPbk............................................................1797
-;       →→→ §6.11.10: @copyMinJsSurca.........................................................1807
-;       →→→ §6.11.11: @copyMinJsSumRes........................................................1817
-;       →→→ §6.11.12: @copyMinJsXfer..........................................................1827
-;       →→→ §6.11.13: @copyMinJsUgr...........................................................1837
-;       →→→ §6.11.14: @copyMinJsUcore.........................................................1847
-;       →→→ §6.11.15: @copyBackupJsUcore......................................................1857
-;       →→→ §6.11.16: @copyMinJsUcrAss........................................................1867
-;     >>> §6.12: FOR CHECKING GIT STATUS ON ALL PROJECTS......................................1877
-;   §7: KEYBOARD SHORTCUTS FOR POWERSHELL.....................................................1935
-;     >>> §7.1: SHORTCUTS.....................................................................1939
-;     >>> §7.2: SUPPORTING FUNCTIONS..........................................................1966
+;   §1: SETTINGS accessed via functions for this imported file.................................138
+;     >>> §1.1: GetCmdForMoveToCSSFolder.......................................................142
+;     >>> §1.2: GetCurrentDirFrom..............................................................157
+;     >>> §1.3: GetGitHubFolder................................................................169
+;     >>> §1.4: UserFolderIsSet................................................................177
+;   §2: FUNCTIONS for working with GitHub Desktop..............................................191
+;     >>> §2.1: ActivateGitShell...............................................................195
+;     >>> §2.2: CommitAfterBuild...............................................................233
+;     >>> §2.3: EscapeCommitMessage............................................................267
+;     >>> §2.4: Git commit GUI — Imports.......................................................277
+;       →→→ §2.4.1: For committing CSS builds..................................................280
+;       →→→ §2.4.2: For committing JS builds...................................................285
+;       →→→ §2.4.3: For committing any type of file............................................290
+;     >>> §2.5: CopySrcFileToClipboard.........................................................295
+;     >>> §2.6: IsGitShellActive...............................................................316
+;     >>> §2.7: PasteTextIntoGitShell..........................................................323
+;     >>> §2.8: ToEscapedPath..................................................................356
+;     >>> §2.9: VerifyCopiedCode...............................................................364
+;   §3: FUNCTIONS for interacting with online WEB DESIGN INTERFACES............................378
+;     >>> §3.1: LoadWordPressSiteInChrome......................................................382
+;   §4: GUI FUNCTIONS for handling user interactions with scripts..............................425
+;     >>> §4.1: @postMinCss....................................................................429
+;       →→→ §4.1.1: HandlePostCssCheckAllSites.................................................469
+;       →→→ §4.1.2: HandlePostCssUncheckAllSites...............................................490
+;       →→→ §4.1.3: HandlePostMinCssCancel.....................................................511
+;       →→→ §4.1.4: HandlePostMinCssOK.........................................................518
+;       →→→ §4.1.5: PasteMinCssToWebsite.......................................................590
+;     >>> §4.2: @postCssFromRepo...............................................................601
+;     >>> §4.3: @postPrevCssFromRepo...........................................................610
+;     >>> §4.4: @postBackupCss.................................................................619
+;       →→→ §4.4.1: HandlePostBackupCssCheckAllSites...........................................665
+;       →→→ §4.4.2: HandlePostBackupCssUncheckAllSites.........................................686
+;       →→→ §4.4.3: HandlePostBackupCssCancel..................................................707
+;       →→→ §4.4.4: HandlePostBackupCssOK......................................................714
+;     >>> §4.4: @postMinJs.....................................................................781
+;       →→→ §4.4.1: HandlePostJsCheckAllSites..................................................831
+;       →→→ §4.4.2: HandlePostJsUncheckAllSites................................................851
+;       →→→ §4.4.3: HandlePostMinJsCancel......................................................871
+;       →→→ §4.4.4: HandlePostMinJsOK..........................................................878
+;       →→→ §4.4.5: PasteMinJsToWebsite........................................................945
+;   §5: UTILITY HOTSTRINGS for working with GitHub Desktop.....................................960
+;     >>> §5.1: FILE COMMITTING................................................................964
+;     >>> §5.2: STATUS CHECKING...............................................................1089
+;       →→→ §5.2.1: @doGitStataus & @dogs.....................................................1092
+;       →→→ §5.2.2: @doGitDiff & @dogd........................................................1112
+;       →→→ §5.2.3: @doGitLog & @dogl.........................................................1132
+;       →→→ §5.2.4: @doGitNoFollowLog & @donfgl...............................................1153
+;     >>> §5.3: Automated PASTING OF CSS/JS into online web interfaces........................1173
+;       →→→ §5.3.1: @initCssPaste.............................................................1176
+;       →→→ §5.3.2: @doCssPaste...............................................................1201
+;       →→→ §5.3.3: @pasteGitCommitMsg........................................................1250
+;       →→→ §5.3.4: ExecuteCssPasteCmds.......................................................1268
+;       →→→ §5.3.5: ExecuteJsPasteCmds........................................................1316
+;   §6: COMMAND LINE INPUT GENERATION SHORTCUTS...............................................1369
+;     >>> §6.1: GUIs for automating generation of command line input..........................1373
+;     >>> §6.2: BACKING UP builds of files containing custom CSS code.........................1382
+;       →→→ §6.2.1: @backupCssInRepo..........................................................1385
+;       →→→ §6.2.2: @backupCssAll.............................................................1394
+;       →→→ §6.2.3: CopyCssFromWebsite........................................................1418
+;       →→→ §6.2.4: ExecuteCssCopyCmds........................................................1428
+;     >>> §6.3: REBUILDING files containing custom CSS code...................................1451
+;       →→→ §6.3.1: @rebuildCssInRepo.........................................................1454
+;       →→→ §6.3.2: @rebuildCssAll............................................................1463
+;     >>> §6.4: COMMITTING files produced by or involved in CSS build processes...............1490
+;       →→→ §6.4.1: @commitCssInRepo..........................................................1493
+;     >>> §6.5: UPDATING SUBMODULES containing CSS dev dependencies...........................1502
+;       →→→ §6.5.1: @updateCssSubmoduleInRepo.................................................1505
+;       →→→ §6.5.2: @updateCssSubmoduleAll....................................................1514
+;     >>> §6.6: COPYING built CSS code for deployment.........................................1542
+;       →→→ §6.6.1: @copyMinCssFromRepo.......................................................1545
+;       →→→ §6.6.2: @copyBackupCssFromRepo....................................................1554
+;     >>> §6.7: BACKING UP builds of files containing custom JS code..........................1564
+;       →→→ §6.7.1: BackupJs..................................................................1567
+;       →→→ §6.7.2: @backupJsRepo.............................................................1584
+;       →→→ §6.7.3: @backupJsAll..............................................................1593
+;       →→→ §6.7.4: CopyJsFromWebsite.........................................................1620
+;       →→→ §6.7.5: ExecuteJsCopyCmds.........................................................1631
+;     >>> §6.8: REBUILDING files containing custom JS code....................................1652
+;       →→→ §6.8.1: @rebuildJsInRepo..........................................................1655
+;     >>> §6.9: FOR UPDATING JS SUBMODULES....................................................1664
+;       →→→ §6.9.1: @commitJsInRepo...........................................................1667
+;     >>> §6.10: FOR UPDATING JS SUBMODULES...................................................1676
+;       →→→ §6.10.1: @updateJsSubmoduleInRepo.................................................1679
+;       →→→ §6.10.2: @updateJsSubmoduleAll....................................................1688
+;     >>> §6.11: Shortcuts for copying minified JS to clipboard...............................1715
+;       →→→ §6.11.1: @copyMinJsAscc...........................................................1720
+;       →→→ §6.11.2: @copyMinJsCr.............................................................1730
+;       →→→ §6.11.3: @copyMinJsDsp............................................................1740
+;       →→→ §6.11.4: @copyMinJsFye............................................................1750
+;       →→→ §6.11.5: @copyMinJsFyf............................................................1760
+;       →→→ §6.11.6: @copyMinJsNse............................................................1770
+;       →→→ §6.11.7: @copyMinJsOue............................................................1780
+;       →→→ §6.11.8: @copyBackupJsOue.........................................................1790
+;       →→→ §6.11.9: @copyMinJsPbk............................................................1800
+;       →→→ §6.11.10: @copyMinJsSurca.........................................................1810
+;       →→→ §6.11.11: @copyMinJsSumRes........................................................1820
+;       →→→ §6.11.12: @copyMinJsXfer..........................................................1830
+;       →→→ §6.11.13: @copyMinJsUgr...........................................................1840
+;       →→→ §6.11.14: @copyMinJsUcore.........................................................1850
+;       →→→ §6.11.15: @copyBackupJsUcore......................................................1860
+;       →→→ §6.11.16: @copyMinJsUcrAss........................................................1870
+;     >>> §6.12: FOR CHECKING GIT STATUS ON ALL PROJECTS......................................1880
+;   §7: KEYBOARD SHORTCUTS FOR POWERSHELL.....................................................1938
+;     >>> §7.1: SHORTCUTS.....................................................................1942
+;     >>> §7.2: SUPPORTING FUNCTIONS..........................................................1969
 ; ==================================================================================================
 
 sgIsPostingMinCss := false
