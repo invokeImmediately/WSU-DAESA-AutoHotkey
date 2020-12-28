@@ -49,7 +49,7 @@ GetWpEditorSettings() {
 ;   ································································································
 ;     >>> §2.1: Check CSS edits on WordPress sites
 
-:*:@checkCssEdits::
+:*?:@checkCssEdits::
 	AppendAhkCmd(A_ThisLabel)
 	CheckCssEdits()
 Return
@@ -188,7 +188,7 @@ cce_CompleteTask(delay) {
 ;   ································································································
 ;     >>> §2.2: JS-Mediated Console Based Enhancements of the WSUWP Editor
 
-:*:@collapseOpenBuilderSections::
+:*?:@collapseOpenBuilderSections::
 	AppendAhkCmd(A_ThisLabel)
 	Send % "// Collapse all open builder sections.+{Enter}( function($) {{}+{Enter}{Tab}'use"
 		. " strict';+{Enter}+{Enter}{Tab}$( '.ttfmake-section' ).each( function() {{}+{Enter}{Tab"
@@ -197,7 +197,7 @@ cce_CompleteTask(delay) {
 		. " 3}$toggle.click();+{Enter}{Tab 2}{}}+{Enter}{Tab}{}} );+{Enter}{}} )( jQuery );"
 Return
 
-:*:@expandClosedBuilderSections::
+:*?:@expandClosedBuilderSections::
 	AppendAhkCmd(A_ThisLabel)
 	Send % "// Expand all closed builder sections.+{Enter}( function($) {{}+{Enter}{Tab}'use"
 		. " strict';+{Enter}+{Enter}{Tab}$( '.ttfmake-section' ).each( function() {{}+{Enter}{Tab"
@@ -206,7 +206,7 @@ Return
 		. " 3}$toggle.click();+{Enter}{Tab 2}{}}+{Enter}{Tab}{}} );+{Enter}{}} )( jQuery );"
 Return
 
-:*:@resizeWsuwpBuilderColumns::
+:*?:@resizeWsuwpBuilderColumns::
 	AppendAhkCmd(A_ThisLabel)
 	Send % "// Resize WSUWP page builder editor text areas so all text is visibile within the"
 		. " control.+{Enter}( ($) => {{}+{Enter}{Tab}'use strict';+{Enter}+{Enter}{Tab}let"
