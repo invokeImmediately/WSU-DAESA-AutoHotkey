@@ -1,28 +1,25 @@
 ﻿; ==================================================================================================
-; execEntryPoint.ahk
+; █▀▀▀▐▄ ▄▌█▀▀▀ ▄▀▀▀ █▀▀▀ ▐▀▀▄▐▀█▀▌█▀▀▄ █  █ █▀▀▄ ▄▀▀▄ ▀█▀ ▐▀▀▄▐▀█▀▌  ▄▀▀▄ █  █ █ ▄▀ 
+; █▀▀   █  █▀▀  █    █▀▀  █  ▐  █  █▄▄▀ ▀▄▄█ █▄▄▀ █  █  █  █  ▐  █    █▄▄█ █▀▀█ █▀▄  
+; ▀▀▀▀▐▀ ▀▌▀▀▀▀  ▀▀▀ ▀▀▀▀ ▀  ▐  █  ▀  ▀▄▄▄▄▀ █     ▀▀  ▀▀▀ ▀  ▐  █  ▀ █  ▀ █  ▀ ▀  ▀▄
 ; --------------------------------------------------------------------------------------------------
-; SUMMARY: Entry point at which execution of the script begins.
+; Entry point at which execution of the script begins.
 ;
-; AUTHOR: Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
-; 
-; REPOSITORY: https://github.com/invokeImmediately/WSU-AutoHotkey
-;
-; LICENSE: MIT - Copyright (c) 2020 Daniel C. Rieck.
-;
+; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
+; @link https://github.com/invokeImmediately/WSU-AutoHotkey
+; @license MIT Copyright (c) 2020 Daniel C. Rieck.
 ;   Permission is hereby granted, free of charge, to any person obtaining a copy of this software
-;   and associated documentation files (the “Software”), to deal in the Software without
-;   restriction, including without limitation the rights to use, copy, modify, merge, publish,
-;   distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
-;   Software is furnished to do so, subject to the following conditions:
-;
+;     and associated documentation files (the “Software”), to deal in the Software without
+;     restriction, including without limitation the rights to use, copy, modify, merge, publish,
+;     distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
+;     Software is furnished to do so, subject to the following conditions:
 ;   The above copyright notice and this permission notice shall be included in all copies or
-;   substantial portions of the Software.
-;
+;     substantial portions of the Software.
 ;   THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
-;   BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-;   NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-;   DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-;   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+;     BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;     NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+;     DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+;     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ; ==================================================================================================
 ; TABLE OF CONTENTS:
 ; -----------------
@@ -42,10 +39,10 @@
 ;     >>> §2.11: SetMinMonitorWorkAreas()......................................................314
 ;     >>> §2.12: SetModules()..................................................................341
 ;     >>> §2.13: SetMonitorBounds()............................................................351
-;     >>> §2.14: SetMonitorBounds()............................................................375
-;     >>> §2.14: SetMonitorWorkAreas().........................................................404
-;     >>> §2.15: SetWinBorders()...............................................................412
-;     >>> §2.16: SetupLogAutoSaving()..........................................................421
+;     >>> §2.14: SetMonitorBounds()............................................................392
+;     >>> §2.15: SetMonitorWorkAreas().........................................................445
+;     >>> §2.16: SetWinBorders()...............................................................453
+;     >>> §2.17: SetupLogAutoSaving()..........................................................462
 ; ==================================================================================================
 
 
@@ -356,12 +353,29 @@ SetMonitorBounds() {
 		SysGet, mon%A_Index%Bounds_, Monitor, %A_Index%
 	}
 
-	; Sort bounds so that monitor identifier order reflects spatial order.
+	; Begin sorting bounds so that monitor identifier order reflects spatial order; first, sort based
+	;   on vertical position with top-most monitors arranged first in the order.
 	Loop, % sysNumMonitors {
 		outerIdx := A_Index
 		Loop, % sysNumMonitors - outerIdx {
 			innerIdx := outerIdx + A_Index
-			if (mon%innerIdx%Bounds_Left < mon%outerIdx%Bounds_Left) {
+			if ( mon%innerIdx%Bounds_Top < mon%outerIdx%Bounds_Top ) {
+				SwapValues(mon%innerIdx%Bounds_Left, mon%outerIdx%Bounds_Left)
+				SwapValues(mon%innerIdx%Bounds_Top, mon%outerIdx%Bounds_Top)
+				SwapValues(mon%innerIdx%Bounds_Right, mon%outerIdx%Bounds_Right)
+				SwapValues(mon%innerIdx%Bounds_Bottom, mon%outerIdx%Bounds_Bottom)
+			}
+		}
+	}
+
+	; Continue sorting bounds so that monitor identifier order reflects spatial order; next, sort
+	;   based on horizontal position with left-most monitors arranged first in the order.
+	Loop, % sysNumMonitors {
+		outerIdx := A_Index
+		Loop, % sysNumMonitors - outerIdx {
+			innerIdx := outerIdx + A_Index
+			if ( mon%innerIdx%Bounds_Left < mon%outerIdx%Bounds_Left
+					&& mon%innerIdx%Bounds_Top == mon%outerIdx%Bounds_Top ) {
 				SwapValues(mon%innerIdx%Bounds_Left, mon%outerIdx%Bounds_Left)
 				SwapValues(mon%innerIdx%Bounds_Top, mon%outerIdx%Bounds_Top)
 				SwapValues(mon%innerIdx%Bounds_Right, mon%outerIdx%Bounds_Right)
@@ -376,18 +390,24 @@ SetMonitorBounds() {
 
 ; Assumes window has a resizable border.
 SetMonitorWorkAreas() {
+
+	; All the variables that will be declared over the course of this function's represent
+	;   monitor work areas to be used throughout the script; therefore, they should be global.
 	global
 
+	; Start by getting the monitor work areas following whatever order the operating system happened
+	;   to assign to the system's monitors.
 	Loop, % sysNumMonitors {
 		SysGet, mon%A_Index%WorkArea_, MonitorWorkArea, %A_Index%
 	}
 
-	; Sort bounds so that monitor identifier order reflects spatial order.
+	; Begin sorting work areas so that monitor identifier order reflects spatial order; first, sort
+	;   based on vertical position with top-most monitors arranged first in the order.
 	Loop, % sysNumMonitors {
 		outerIdx := A_Index
 		Loop, % sysNumMonitors - outerIdx {
 			innerIdx := outerIdx + A_Index
-			if (mon%innerIdx%WorkArea_Left < mon%outerIdx%WorkArea_Left) {
+			if ( mon%innerIdx%WorkArea_Top < mon%outerIdx%WorkArea_Top ) {
 				SwapValues(mon%innerIdx%WorkArea_Left, mon%outerIdx%WorkArea_Left)
 				SwapValues(mon%innerIdx%WorkArea_Top, mon%outerIdx%WorkArea_Top)
 				SwapValues(mon%innerIdx%WorkArea_Right, mon%outerIdx%WorkArea_Right)
@@ -396,12 +416,30 @@ SetMonitorWorkAreas() {
 		}
 	}
 
+	; Continue sorting work areas so that monitor identifier order reflects spatial order; next, sort
+	;   based on horizontal position with left-most monitors arranged first in the order.
+	Loop, % sysNumMonitors {
+		outerIdx := A_Index
+		Loop, % sysNumMonitors - outerIdx {
+			innerIdx := outerIdx + A_Index
+			if ( mon%innerIdx%WorkArea_Left < mon%outerIdx%WorkArea_Left
+					&& mon%innerIdx%WorkArea_Top == mon%outerIdx%WorkArea_Top ) {
+				SwapValues(mon%innerIdx%WorkArea_Left, mon%outerIdx%WorkArea_Left)
+				SwapValues(mon%innerIdx%WorkArea_Top, mon%outerIdx%WorkArea_Top)
+				SwapValues(mon%innerIdx%WorkArea_Right, mon%outerIdx%WorkArea_Right)
+				SwapValues(mon%innerIdx%WorkArea_Bottom, mon%outerIdx%WorkArea_Bottom)
+			}
+		}
+	}
+
+	; Now that global variables representing monitor work areas are properly arranged, establish some
+	;   additional settings that concern monitor work areas.
 	SetMinMonitorWorkAreas()
 	CheckMonitorWorkAreas()
 }
 
 ;   ································································································
-;     >>> §2.14: SetNumMonitors()
+;     >>> §2.15: SetNumMonitors()
 
 SetNumMonitors() {
 	global
@@ -409,7 +447,7 @@ SetNumMonitors() {
 }
 
 ;   ································································································
-;     >>> §2.15: SetWinBorders()
+;     >>> §2.16: SetWinBorders()
 
 SetWinBorders() {
 	global
@@ -418,7 +456,7 @@ SetWinBorders() {
 }
 
 ;   ································································································
-;     >>> §2.16: SetupLogAutoSaving()
+;     >>> §2.17: SetupLogAutoSaving()
 
 SetupLogAutoSaving() {
 	SetTimer, PerformScriptShutdownTasks, 900000 ; 1000 * 60 * 15 = 15 minutes
