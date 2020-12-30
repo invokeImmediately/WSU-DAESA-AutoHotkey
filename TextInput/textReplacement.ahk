@@ -31,29 +31,29 @@
 ;     >>> §2.1: VIMy mode toggling..............................................................96
 ;       →→→ §2.1.1: ToggleVimyMode()............................................................99
 ;       →→→ §2.1.2: NotifyUserOfVimyModeState( … ).............................................110
-;       →→→ §2.1.3: Hotkeys for toggling VIMy mode.............................................149
-;       →→→ §2.1.4: Semicolon key behavior with VIMy mode engaged..............................158
-;       →→→ §2.1.5: Semicolon key behavior with VIMy mode disabled.............................165
-;     >>> §2.2: Word based cursor movement hotkeys.............................................176
-;     >>> §2.3: Directionally based cursor movement hotkeys....................................201
-;     >>> §2.4: Character and word deletion and process termination hotkeys....................262
-;   §3: FRONT-END web development..............................................................285
-;     >>> §3.1: HTML editing...................................................................289
-;     >>> §3.2: CSS editing....................................................................296
-;     >>> §3.3: JS editing.....................................................................304
-;   §4: NUMPAD mediated text insertion.........................................................309
-;     >>> §4.1: GetCmdForMoveToCSSFolder.......................................................313
-;     >>> §4.2: GetCmdForMoveToCSSFolder.......................................................331
-;   §5: DATES and TIMES........................................................................349
-;     >>> §5.1: Dates..........................................................................353
-;     >>> §5.2: Times..........................................................................381
-;   §6: CLIPBOARD modifying hotstrings.........................................................415
-;     >>> §6.1: Slash character reversal.......................................................419
-;     >>> §6.2: URL to Windows file name conversion............................................446
-;     >>> §6.3: ASCII Text Art.................................................................466
-;       →→→ §6.3.1: AsciiArtLetter3h class.....................................................469
-;       →→→ §6.3.2: AsciiArtConverter class....................................................482
-;       →→→ §6.3.3: @convertCbToAsciiArt hotstring.............................................613
+;       →→→ §2.1.3: Hotkeys for toggling VIMy mode.............................................151
+;       →→→ §2.1.4: Semicolon key behavior with VIMy mode engaged..............................160
+;       →→→ §2.1.5: Semicolon key behavior with VIMy mode disabled.............................167
+;     >>> §2.2: Word based cursor movement hotkeys.............................................190
+;     >>> §2.3: Directionally based cursor movement hotkeys....................................215
+;     >>> §2.4: Character and word deletion and process termination hotkeys....................276
+;   §3: FRONT-END web development..............................................................302
+;     >>> §3.1: HTML editing...................................................................306
+;     >>> §3.2: CSS editing....................................................................313
+;     >>> §3.3: JS editing.....................................................................321
+;   §4: NUMPAD mediated text insertion.........................................................326
+;     >>> §4.1: GetCmdForMoveToCSSFolder.......................................................330
+;     >>> §4.2: GetCmdForMoveToCSSFolder.......................................................348
+;   §5: DATES and TIMES........................................................................366
+;     >>> §5.1: Dates..........................................................................370
+;     >>> §5.2: Times..........................................................................398
+;   §6: CLIPBOARD modifying hotstrings.........................................................432
+;     >>> §6.1: Slash character reversal.......................................................436
+;     >>> §6.2: URL to Windows file name conversion............................................463
+;     >>> §6.3: ASCII Text Art.................................................................483
+;       →→→ §6.3.1: AsciiArtLetter3h class.....................................................486
+;       →→→ §6.3.2: AsciiArtConverter class....................................................499
+;       →→→ §6.3.3: @convertCbToAsciiArt hotstring.............................................630
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -124,7 +124,12 @@ NotifyUserOfVimyModeState( vimyModeState) {
 	if ( vimyModeState == "on" ) {
 
 		; Create a new GUI window that signals to the user VIMy mode is active.
-		Gui, GuiVimyModeOn:New, +AlwaysOnTop -SysMenu +HwndVimyModeOnGuiHwnd, % "VIMy Mode Engaged"
+		Gui, GuiVimyModeOn:New, +AlwaysOnTop -SysMenu +HwndVimyModeOnGuiHwnd +LastFound
+			, % "VIMy Mode Engaged"
+
+		; Make the GUI partially transparent so users can see what lies underneath it on the desktop.
+		Gui, GuiVimyModeOn:Color, EEAA99
+		WinSet, TransColor, EEAA99
 
 		; Set up the content of the GUI.
 		Gui, GuiVimyModeOn:Add, Picture, x26 y0, % g_VimyModeIconPath
@@ -132,9 +137,6 @@ NotifyUserOfVimyModeState( vimyModeState) {
 		; Show the GUI to the user; to help prevent interference with other windows, position the GUI
 		;   at the top-center of the primary monitor.
 		Gui, GuiVimyModeOn:Show, xCenter y0 w116 NoActivate
-
-		; Make the partially transparent so users can see what lies underneath it on the desktop.
-		WinSet, Transparent, % guiTransparency, % "VIMy Mode Engaged ahk_id " . VimyModeOnGuiHwnd
 	} else {
 		; Ensure that the GUI window that signals to the user VIMy mode is active is dismissed.
 		Gui, GuiVimyModeOn:Destroy
@@ -148,7 +150,7 @@ NotifyUserOfVimyModeState( vimyModeState) {
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §2.1.3: Hotkeys for toggling VIMy mode
 
-SC027 & a::
+SC027 & Space::
 !SC027::
 :*?:@toggleVimyMode::
 	ToggleVimyMode()
@@ -170,6 +172,18 @@ SC027::SendInput % ";"
 #SC027::SendInput % "#;"
 
 +SC027::SendInput % "+;"
+
+; Delete a word to the left of the cursor
+SC027 & a::SendInput % "^{Backspace}"
+
+; Delete a character to the left of the cursor
+SC027 & s::SendInput % "{Backspace}"
+
+; Delete a character to the right of the cursor
+SC027 & d::SendInput % "{Delete}"
+
+; Delete a word to the right of the cursor
+SC027 & f::SendInput % "^{Delete}"
 #If
 
 ;   ································································································
@@ -279,6 +293,9 @@ q::SendInput % "{Escape}"
 
 ; Trigger undo
 z::SendInput % "^z"
+
+; Trigger redo
++z::SendInput % "^y"
 #If
 
 ; --------------------------------------------------------------------------------------------------
