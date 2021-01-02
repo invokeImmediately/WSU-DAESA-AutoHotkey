@@ -7,13 +7,14 @@
 ; ==================================================================================================
 ; Table of Contents:
 ; -----------------
-;   §1: AddWinBordersToMonitorWorkArea(…).......................................................20
-;   §2: ClipActiveWindowToMonitor().............................................................36
-;   §3: FindActiveMonitor().....................................................................74
-;   §4: FindNearestActiveMonitor().............................................................110
-;   §5: GetActiveMonitorWorkArea(…)............................................................151
-;   §6: RemoveWinBorderFromRectCoordinate......................................................197
-;   §7: ResolveActiveMonitorWorkArea...........................................................237
+;   §1: AddWinBordersToMonitorWorkArea(…).......................................................21
+;   §2: ClipActiveWindowToMonitor().............................................................37
+;   §3: FindActiveMonitor().....................................................................75
+;   §4: FindMonitorMouseIsOn().................................................................111
+;   §5: FindNearestActiveMonitor().............................................................140
+;   §6: GetActiveMonitorWorkArea(…)............................................................182
+;   §7: RemoveWinBorderFromRectCoordinate......................................................225
+;   §8: ResolveActiveMonitorWorkArea...........................................................265
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -107,9 +108,39 @@ FindActiveMonitor() {
 Return
 
 ; --------------------------------------------------------------------------------------------------
-;   §4: FindNearestActiveMonitor()
+;   §4: FindMonitorMouseIsOn()
 ; --------------------------------------------------------------------------------------------------
 
+FindMonitorMouseIsOn() {
+	global
+	local minDistance := -1
+	local monMidpt := {}
+	local mouseX
+	local mouseY
+	local distance
+	local correctMon
+	CoordMode, Mouse, Screen
+	MouseGetPos, mouseX, mouseY
+	RemoveWinBorderFromRectCoordinate(0, x, y)
+	Loop, %sysNumMonitors% {
+		monMidpt.x := mon%A_Index%Bounds_Left + (mon%A_Index%Bounds_Right 
+			- mon%A_Index%Bounds_Left) / 2		
+		monMidpt.y := mon%A_Index%Bounds_Top + (mon%A_Index%Bounds_Bottom
+			- mon%A_Index%Bounds_Top)	/ 2
+		distance := Sqrt( ( monMidpt.x - mouseX ) ** 2 + ( monMidpt.y - mouseY ) ** 2 )
+		if ( minDistance = -1 || distance < minDistance ) {
+			minDistance := distance
+			correctMon := A_Index
+		}
+	}
+	return correctMon
+}
+
+; --------------------------------------------------------------------------------------------------
+;   §5: FindNearestActiveMonitor()
+; --------------------------------------------------------------------------------------------------
+
+; Find the currently "active" monitor based on where the active window is positioned.
 FindNearestActiveMonitor() {
 	global
 	local minDistance := -1
@@ -148,7 +179,7 @@ FindNearestActiveMonitor() {
 Return
 
 ; --------------------------------------------------------------------------------------------------
-;   §5: GetActiveMonitorWorkArea(…)
+;   §6: GetActiveMonitorWorkArea(…)
 ; --------------------------------------------------------------------------------------------------
 
 GetActiveMonitorWorkArea(ByRef monitorFound, ByRef monitorALeft, ByRef monitorATop
@@ -164,13 +195,10 @@ GetActiveMonitorWorkArea(ByRef monitorFound, ByRef monitorALeft, ByRef monitorAT
 
 	monitorFound := false
 
-	; TODO: Determine if removing this causes problems; having it in there was proving to be annoying
-	;       for the ^![0-9] series of hotkeys.
-	; RemoveMinMaxStateForActiveWin()
-
+	; First, see if we can find the nearest active monitor.
 	whichMon := FindNearestActiveMonitor()
-	if (whichMon > 0) {
-		monitorFound := true
+	if ( whichMon > 0 ) {
+		monitorFound := whichMon
 		monitorALeft := mon%whichMon%WorkArea_Left
 		monitorATop := mon%whichMon%WorkArea_Top
 		monitorARight := mon%whichMon%WorkArea_Right
@@ -194,7 +222,7 @@ GetActiveMonitorWorkArea(ByRef monitorFound, ByRef monitorALeft, ByRef monitorAT
 }
 
 ; --------------------------------------------------------------------------------------------------
-;   §6: RemoveWinBorderFromRectCoordinate(…)
+;   §7: RemoveWinBorderFromRectCoordinate(…)
 ; --------------------------------------------------------------------------------------------------
 
 ; Remove the width of a window's border from one of its outer rectangle coordinates. This has the 
@@ -234,7 +262,7 @@ RemoveWinBorderFromRectCoordinate(whichVertex, ByRef coordX, ByRef coordY) {
 }
 
 ; --------------------------------------------------------------------------------------------------
-;   §7: ResolveActiveMonitorWorkArea(…)
+;   §8: ResolveActiveMonitorWorkArea(…)
 ; --------------------------------------------------------------------------------------------------
 
 ; Notes on arguments:
@@ -261,11 +289,10 @@ ResolveActiveMonitorWorkArea(ByRef monitorFound, ByRef monitorALeft, ByRef monit
 			correctMon := A_Index
 		}
 	}
-	monitorFound := true
+	monitorFound := correctMon
 	monitorALeft := mon%correctMon%WorkArea_Left
 	monitorATop := mon%correctMon%WorkArea_Top
 	monitorARight := mon%correctMon%WorkArea_Right
 	monitorABottom := mon%correctMon%WorkArea_Bottom
 	AddWinBordersToMonitorWorkArea(monitorALeft, monitorATop, monitorARight, monitorABottom)
 }
-
