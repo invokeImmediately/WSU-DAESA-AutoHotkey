@@ -23,37 +23,39 @@
 ; ==================================================================================================
 ; TABLE OF CONTENTS:
 ; -----------------
-;   §1: GENERAL text editing....................................................................60
-;     >>> §1.1: Hotstrings......................................................................64
-;     >>> §1.2: Hotkeys.........................................................................82
-;       →→→ §1.2.1: Insertion of non-breaking spaces............................................85
-;   §2: VIM-STYLE keyboard modifications........................................................92
-;     >>> §2.1: VIMy mode toggling..............................................................96
-;       →→→ §2.1.1: ToggleVimyMode()............................................................99
-;       →→→ §2.1.2: NotifyUserOfVimyModeState( … ).............................................110
-;       →→→ §2.1.3: Hotkeys for toggling VIMy mode.............................................151
-;       →→→ §2.1.4: Semicolon key behavior with VIMy mode engaged..............................160
-;       →→→ §2.1.5: Semicolon key behavior with VIMy mode disabled.............................170
-;     >>> §2.2: Word based cursor movement hotkeys.............................................181
-;     >>> §2.3: Directionally based cursor movement hotkeys....................................206
-;     >>> §2.4: Character and word deletion and process termination hotkeys....................291
-;   §3: FRONT-END web development..............................................................331
-;     >>> §3.1: HTML editing...................................................................335
-;     >>> §3.2: CSS editing....................................................................342
-;     >>> §3.3: JS editing.....................................................................350
-;   §4: NUMPAD mediated text insertion.........................................................355
-;     >>> §4.1: GetCmdForMoveToCSSFolder.......................................................359
-;     >>> §4.2: GetCmdForMoveToCSSFolder.......................................................377
-;   §5: DATES and TIMES........................................................................395
-;     >>> §5.1: Dates..........................................................................399
-;     >>> §5.2: Times..........................................................................427
-;   §6: CLIPBOARD modifying hotstrings.........................................................461
-;     >>> §6.1: Slash character reversal.......................................................465
-;     >>> §6.2: URL to Windows file name conversion............................................492
-;     >>> §6.3: ASCII Text Art.................................................................512
-;       →→→ §6.3.1: AsciiArtLetter3h class.....................................................515
-;       →→→ §6.3.2: AsciiArtConverter class....................................................528
-;       →→→ §6.3.3: @convertCbToAsciiArt hotstring.............................................659
+;   §1: GENERAL text editing....................................................................62
+;     >>> §1.1: Hotstrings......................................................................66
+;     >>> §1.2: Hotkeys.........................................................................84
+;       →→→ §1.2.1: Insertion of non-breaking spaces............................................87
+;   §2: VIM-STYLE keyboard modifications........................................................94
+;     >>> §2.1: VIMy mode toggling..............................................................98
+;       →→→ §2.1.1: ToggleVimyMode()...........................................................101
+;       →→→ §2.1.2: NotifyUserOfVimyModeState( … ).............................................112
+;       →→→ §2.1.3: DestroyVimyModeGui( whichMon ).............................................141
+;       →→→ §2.1.4: ShowVimyModeGui( whichMon )................................................150
+;       →→→ §2.1.5: Hotkeys for toggling VIMy mode.............................................182
+;       →→→ §2.1.6: Semicolon key behavior with VIMy mode engaged..............................191
+;       →→→ §2.1.7: Semicolon key behavior with VIMy mode disabled.............................201
+;     >>> §2.2: Word based cursor movement hotkeys.............................................212
+;     >>> §2.3: Directionally based cursor movement hotkeys....................................237
+;     >>> §2.4: Character and word deletion and process termination hotkeys....................322
+;   §3: FRONT-END web development..............................................................362
+;     >>> §3.1: HTML editing...................................................................366
+;     >>> §3.2: CSS editing....................................................................373
+;     >>> §3.3: JS editing.....................................................................381
+;   §4: NUMPAD mediated text insertion.........................................................386
+;     >>> §4.1: GetCmdForMoveToCSSFolder.......................................................390
+;     >>> §4.2: GetCmdForMoveToCSSFolder.......................................................408
+;   §5: DATES and TIMES........................................................................426
+;     >>> §5.1: Dates..........................................................................430
+;     >>> §5.2: Times..........................................................................458
+;   §6: CLIPBOARD modifying hotstrings.........................................................492
+;     >>> §6.1: Slash character reversal.......................................................496
+;     >>> §6.2: URL to Windows file name conversion............................................523
+;     >>> §6.3: ASCII Text Art.................................................................543
+;       →→→ §6.3.1: AsciiArtLetter3h class.....................................................546
+;       →→→ §6.3.2: AsciiArtConverter class....................................................559
+;       →→→ §6.3.3: @convertCbToAsciiArt hotstring.............................................690
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -109,11 +111,10 @@ ToggleVimyMode() {
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §2.1.2: NotifyUserOfVimyModeState( … )
 
-NotifyUserOfVimyModeState( vimyModeState) {
+NotifyUserOfVimyModeState( vimyModeState)  {
 
-	; We will need the script's global variable storing the path to a graphic used to visually signal
-	;   that VIMy mode has been engaged.
-	global g_VimyModeIconPath
+	; We will need the script's global variable storing the number of system monitors.
+	global sysNumMonitors
 
 	; For maintainability, specify settings up front in that will be important for the timing of user
 	;   notifications and the layout of the GUI.
@@ -122,24 +123,13 @@ NotifyUserOfVimyModeState( vimyModeState) {
 
 	; Show or dismiss a visual indicator that VIMy mode is engaged.
 	if ( vimyModeState == "on" ) {
-
-		; Create a new GUI window that signals to the user VIMy mode is active.
-		Gui, GuiVimyModeOn:New, +AlwaysOnTop -SysMenu +HwndVimyModeOnGuiHwnd +LastFound
-			, % "VIMy Mode Engaged"
-
-		; Make the GUI partially transparent so users can see what lies underneath it on the desktop.
-		Gui, GuiVimyModeOn:Color, EEAA99
-		WinSet, TransColor, EEAA99
-
-		; Set up the content of the GUI.
-		Gui, GuiVimyModeOn:Add, Picture, x26 y0, % g_VimyModeIconPath
-
-		; Show the GUI to the user; to help prevent interference with other windows, position the GUI
-		;   at the top-center of the primary monitor.
-		Gui, GuiVimyModeOn:Show, xCenter y0 w116 NoActivate
+		Loop %sysNumMonitors% {
+			ShowVimyModeGui( A_Index )
+		}
 	} else {
-		; Ensure that the GUI window that signals to the user VIMy mode is active is dismissed.
-		Gui, GuiVimyModeOn:Destroy
+		Loop %sysNumMonitors% {
+			DestroyVimyModeGui( A_Index )
+		}
 	}
 
 	; Display a splash message.
@@ -148,7 +138,48 @@ NotifyUserOfVimyModeState( vimyModeState) {
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §2.1.3: Hotkeys for toggling VIMy mode
+;       →→→ §2.1.†3: DestroyVimyModeGui( whichMon )
+DestroyVimyModeGui( whichMon ) {
+
+		; Ensure that the GUI window for the indicated monitor that helps signal to the user VIMy mode
+		;   is active is dismissed.
+		Gui, GuiVimyModeOn%whichMon%:Destroy
+}
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §2.1.†4: ShowVimyModeGui( whichMon )
+
+ShowVimyModeGui( whichMon ) {
+
+	; We will need the script's global variable storing the path to a graphic used to visually signal
+	;   that VIMy mode has been engaged.
+	global g_VimyModeIconPath
+
+	; Determine the coordinates where the GUI should appear on the indicated monitor.
+	guiWidth := 116
+	guiXPos := ( mon%whichMon%WorkArea_Right - mon%whichMon%WorkArea_Left ) / 2 - guiWidth / 2
+		+ mon%whichMon%WorkArea_Left
+	guiYPos := mon%whichMon%WorkArea_Top
+
+	; Create a new GUI window that signals to the user VIMy mode is active.
+	Gui, GuiVimyModeOn%whichMon%:New, +AlwaysOnTop -SysMenu +LastFound
+		, % "VIMy Mode Engaged"
+
+	; Make the GUI partially transparent so users can see what lies underneath it on the desktop.
+	Gui, GuiVimyModeOn%whichMon%:Color, EEAA99
+	WinSet, TransColor, EEAA99
+
+	; Set up the content of the GUI.
+	Gui, GuiVimyModeOn%whichMon%:Add, Picture, x26 y0, % g_VimyModeIconPath
+
+	; Show the GUI to the user; to help prevent interference with other windows, position the GUI
+	;   at the top-center of the primary monitor.
+	Gui, GuiVimyModeOn%whichMon%:Show, x%guiXPos% y%guiYPos% w%guiWidth% NoActivate	
+}
+
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §2.1.5: Hotkeys for toggling VIMy mode
 
 SC027 & Space::
 !SC027::
@@ -157,7 +188,7 @@ SC027 & Space::
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §2.1.4: Semicolon key behavior with VIMy mode engaged
+;       →→→ §2.1.6: Semicolon key behavior with VIMy mode engaged
 
 #If g_vimyModeActive
 SC027::
@@ -167,7 +198,7 @@ Return
 #If
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §2.1.5: Semicolon key behavior with VIMy mode disabled
+;       →→→ §2.1.7: Semicolon key behavior with VIMy mode disabled
 
 #If !g_vimyModeActive
 SC027::SendInput % ";"
