@@ -33,27 +33,27 @@
 ;       →→→ §2.1.2: NotifyUserOfVimyModeState( … ).............................................110
 ;       →→→ §2.1.3: Hotkeys for toggling VIMy mode.............................................151
 ;       →→→ §2.1.4: Semicolon key behavior with VIMy mode engaged..............................160
-;       →→→ §2.1.5: Semicolon key behavior with VIMy mode disabled.............................167
-;     >>> §2.2: Word based cursor movement hotkeys.............................................190
-;     >>> §2.3: Directionally based cursor movement hotkeys....................................215
-;     >>> §2.4: Character and word deletion and process termination hotkeys....................276
-;   §3: FRONT-END web development..............................................................302
-;     >>> §3.1: HTML editing...................................................................306
-;     >>> §3.2: CSS editing....................................................................313
-;     >>> §3.3: JS editing.....................................................................321
-;   §4: NUMPAD mediated text insertion.........................................................326
-;     >>> §4.1: GetCmdForMoveToCSSFolder.......................................................330
-;     >>> §4.2: GetCmdForMoveToCSSFolder.......................................................348
-;   §5: DATES and TIMES........................................................................366
-;     >>> §5.1: Dates..........................................................................370
-;     >>> §5.2: Times..........................................................................398
-;   §6: CLIPBOARD modifying hotstrings.........................................................432
-;     >>> §6.1: Slash character reversal.......................................................436
-;     >>> §6.2: URL to Windows file name conversion............................................463
-;     >>> §6.3: ASCII Text Art.................................................................483
-;       →→→ §6.3.1: AsciiArtLetter3h class.....................................................486
-;       →→→ §6.3.2: AsciiArtConverter class....................................................499
-;       →→→ §6.3.3: @convertCbToAsciiArt hotstring.............................................630
+;       →→→ §2.1.5: Semicolon key behavior with VIMy mode disabled.............................170
+;     >>> §2.2: Word based cursor movement hotkeys.............................................181
+;     >>> §2.3: Directionally based cursor movement hotkeys....................................206
+;     >>> §2.4: Character and word deletion and process termination hotkeys....................267
+;   §3: FRONT-END web development..............................................................307
+;     >>> §3.1: HTML editing...................................................................311
+;     >>> §3.2: CSS editing....................................................................318
+;     >>> §3.3: JS editing.....................................................................326
+;   §4: NUMPAD mediated text insertion.........................................................331
+;     >>> §4.1: GetCmdForMoveToCSSFolder.......................................................335
+;     >>> §4.2: GetCmdForMoveToCSSFolder.......................................................353
+;   §5: DATES and TIMES........................................................................371
+;     >>> §5.1: Dates..........................................................................375
+;     >>> §5.2: Times..........................................................................403
+;   §6: CLIPBOARD modifying hotstrings.........................................................437
+;     >>> §6.1: Slash character reversal.......................................................441
+;     >>> §6.2: URL to Windows file name conversion............................................468
+;     >>> §6.3: ASCII Text Art.................................................................488
+;       →→→ §6.3.1: AsciiArtLetter3h class.....................................................491
+;       →→→ §6.3.2: AsciiArtConverter class....................................................504
+;       →→→ §6.3.3: @convertCbToAsciiArt hotstring.............................................635
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -160,7 +160,10 @@ Return
 ;       →→→ §2.1.4: Semicolon key behavior with VIMy mode engaged
 
 #If g_vimyModeActive
-SC027::ToggleVimyMode()
+SC027::
+Space::
+	ToggleVimyMode()
+Return
 #If
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
@@ -172,18 +175,6 @@ SC027::SendInput % ";"
 #SC027::SendInput % "#;"
 
 +SC027::SendInput % "+;"
-
-; Delete a word to the left of the cursor
-SC027 & a::SendInput % "^{Backspace}"
-
-; Delete a character to the left of the cursor
-SC027 & s::SendInput % "{Backspace}"
-
-; Delete a character to the right of the cursor
-SC027 & d::SendInput % "{Delete}"
-
-; Delete a word to the right of the cursor
-SC027 & f::SendInput % "^{Delete}"
 #If
 
 ;   ································································································
@@ -296,6 +287,20 @@ z::SendInput % "^z"
 
 ; Trigger redo
 +z::SendInput % "^y"
+#If
+
+#If !g_vimyModeActive
+; Delete a word to the left of the cursor
+SC027 & a::SendInput % "^{Backspace}"
+
+; Delete a character to the left of the cursor
+SC027 & s::SendInput % "{Backspace}"
+
+; Delete a character to the right of the cursor
+SC027 & d::SendInput % "{Delete}"
+
+; Delete a word to the right of the cursor
+SC027 & f::SendInput % "^{Delete}"
 #If
 
 ; --------------------------------------------------------------------------------------------------
