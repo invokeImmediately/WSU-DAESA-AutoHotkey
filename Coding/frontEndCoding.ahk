@@ -1,32 +1,51 @@
 ﻿; ==================================================================================================
-; frontEndCoding.ahk
+; █▀▀▀ █▀▀▄ ▄▀▀▄ ▐▀▀▄▐▀█▀▌█▀▀▀ ▐▀▀▄ █▀▀▄ ▄▀▀▀ ▄▀▀▄ █▀▀▄ ▀█▀ ▐▀▀▄ █▀▀▀   ▄▀▀▄ █  █ █ ▄▀ 
+; █▀▀▀ █▄▄▀ █  █ █  ▐  █  █▀▀  █  ▐ █  █ █    █  █ █  █  █  █  ▐ █ ▀▄   █▄▄█ █▀▀█ █▀▄  
+; ▀    ▀  ▀▄ ▀▀  ▀  ▐  █  ▀▀▀▀ ▀  ▐ ▀▀▀   ▀▀▀  ▀▀  ▀▀▀  ▀▀▀ ▀  ▐ ▀▀▀▀ ▀ █  ▀ █  ▀ ▀  ▀▄
 ;
-; Autohotkey script import for supporting Front-end Web Development.
+; Autohotkey script import for supporting front-end web development in the WSUWP environment.
 ;
-; Written and maintained by Daniel Rieck, Ph.D. (daniel.rieck@wsu.edu)
+; @version 1.0.0
+;
+; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
+; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master/…
+;   …Coding/frontEndCoding.ahk
+; @license MIT Copyright (c) 2021 Daniel C. Rieck.
+;   Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+;     and associated documentation files (the “Software”), to deal in the Software without
+;     restriction, including without limitation the rights to use, copy, modify, merge, publish,
+;     distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
+;     Software is furnished to do so, subject to the following conditions:
+;   The above copyright notice and this permission notice shall be included in all copies or
+;     substantial portions of the Software.
+;   THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+;     BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;     NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+;     DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+;     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ; ==================================================================================================
 ; TABLE OF CONTENTS:
 ; -----------------
-;   §1: FUNCTIONS utilized in automating HTML-related processes.................................33
-;     >>> §1.1: BuildHyperlinkArray.............................................................37
-;     >>> §1.2: CopyWebpageSourceToClipboard....................................................75
-;     >>> §1.3: CountNewlinesInString..........................................................158
-;     >>> §1.4: ExportHyperlinkArray...........................................................171
-;     >>> §1.5: PullHrefsIntoHyperlinkArray....................................................196
-;   §2: HOTSTRINGS.............................................................................209
-;     >>> §2.1: Text Replacement...............................................................213
-;       →→→ §2.1.1: CSS shorthand insertion strings............................................216
-;       →→→ §2.1.2: URL shortcuts for WSUWP websites...........................................224
-;       →→→ §2.1.3: String insertion related to fsront-end web development.....................284
-;     >>> §2.2: RegEx..........................................................................298
-;     >>> §2.3: Backup HTML of OUE pages.......................................................305
-;       →→→ §2.3.1: @backupOuePage.............................................................308
-;       →→→ §2.3.2: BackupOueHtml & sub-functions..............................................334
-;       →→→ §2.3.3: @backupOuePost.............................................................553
-;     >>> §2.4: Hyperlink collection hotstring.................................................581
-;     >>> §2.5: Checking for WordPress Updates.................................................650
-;   §3: GUI-related hotstrings & functions for automating HTML-related tasks...................655
-;     >>> §3.1: Insert Builder Sections GUI....................................................659
+;   §1: FUNCTIONS utilized in automating HTML-related processes.................................52
+;     >>> §1.1: BuildHyperlinkArray.............................................................56
+;     >>> §1.2: CopyWebpageSourceToClipboard....................................................94
+;     >>> §1.3: CountNewlinesInString..........................................................177
+;     >>> §1.4: ExportHyperlinkArray...........................................................190
+;     >>> §1.5: PullHrefsIntoHyperlinkArray....................................................215
+;   §2: HOTSTRINGS.............................................................................228
+;     >>> §2.1: Text Replacement...............................................................232
+;       →→→ §2.1.1: CSS shorthand insertion strings............................................235
+;       →→→ §2.1.2: URL shortcuts for WSUWP websites...........................................243
+;       →→→ §2.1.3: String insertion related to fsront-end web development.....................303
+;     >>> §2.2: RegEx..........................................................................317
+;     >>> §2.3: Backup HTML of OUE pages.......................................................324
+;       →→→ §2.3.1: @backupOuePage.............................................................327
+;       →→→ §2.3.2: BackupOueHtml & sub-functions..............................................353
+;       →→→ §2.3.3: @backupOuePost.............................................................572
+;     >>> §2.4: Hyperlink collection hotstring.................................................600
+;     >>> §2.5: Checking for WordPress Updates.................................................669
+;   §3: GUI-related hotstrings & functions for automating HTML-related tasks...................674
+;     >>> §3.1: Insert Builder Sections GUI....................................................678
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------

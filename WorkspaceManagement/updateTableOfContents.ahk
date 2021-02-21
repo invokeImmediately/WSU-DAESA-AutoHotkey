@@ -1,44 +1,46 @@
 ; ==================================================================================================
-; updateTableOfContents.ahk
+; █  █ █▀▀▄ █▀▀▄ ▄▀▀▄▐▀█▀▌█▀▀▀▐▀█▀▌▄▀▀▄ █▀▀▄ █    █▀▀▀ ▄▀▀▄ █▀▀▀ ▄▀▀▀ ▄▀▀▄ ▐▀▀▄      
+; █  █ █▄▄▀ █  █ █▄▄█  █  █▀▀   █  █▄▄█ █▀▀▄ █  ▄ █▀▀  █  █ █▀▀▀ █    █  █ █  ▐      
+;  ▀▀  █    ▀▀▀  █  ▀  █  ▀▀▀▀  █  █  ▀ ▀▀▀  ▀▀▀  ▀▀▀▀  ▀▀  ▀     ▀▀▀  ▀▀  ▀  ▐ ▀ ▀ ▀
+;
+;         ▐▀█▀▌█▀▀▀ ▐▀▀▄▐▀█▀▌▄▀▀▀   ▄▀▀▄ █  █ █ ▄▀ 
+;           █  █▀▀  █  ▐  █  ▀▀▀█   █▄▄█ █▀▀█ █▀▄  
+;    ▀ ▀ ▀  █  ▀▀▀▀ ▀  ▐  █  ▀▀▀  ▀ █  ▀ █  ▀ ▀  ▀▄
 ; --------------------------------------------------------------------------------------------------
-; SUMMARY: Automate the updating of line numbers in medias res in table of contents sections of the
-; inline documentation of Less, JS, and AHK files while coding in Sublime Text 3.
+; Automate the updating of line numbers in medias res in table of contents sections of the inline
+;   documentation of Less, JS, and AHK files while coding in Sublime Text 3.
 ;
-; AUTHOR: Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
-; 
-; REPOSITORY: https://github.com/invokeImmediately/WSU-AutoHotkey
+; @version 1.0.0
 ;
-; LICENSE: MIT - Copyright (c) 2020 Daniel C. Rieck.
-;
+; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
+; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…→
+;   ←…/WorkspaceManagement/updateTableOfContents.ahk
+; @license MIT Copyright (c) 2021 Daniel C. Rieck.
 ;   Permission is hereby granted, free of charge, to any person obtaining a copy of this software
-;   and associated documentation files (the “Software”), to deal in the Software without
-;   restriction, including without limitation the rights to use, copy, modify, merge, publish,
-;   distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
-;   Software is furnished to do so, subject to the following conditions:
-;
+;     and associated documentation files (the “Software”), to deal in the Software without
+;     restriction, including without limitation the rights to use, copy, modify, merge, publish,
+;     distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
+;     Software is furnished to do so, subject to the following conditions:
 ;   The above copyright notice and this permission notice shall be included in all copies or
-;   substantial portions of the Software.
-;
+;     substantial portions of the Software.
 ;   THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
-;   BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-;   NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-;   DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-;   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-; ==================================================================================================
-
+;     BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;     NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+;     DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+;     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ; ==================================================================================================
 ; TABLE OF CONTENTS:
 ; -----------------
-;   §1: @updateTocInFile........................................................................45
-;   §2: Functions for supporting @updateTocInFile...............................................69
-;     >>> §2.1: utoc_FindTocSectionsInFile(…)...................................................73
-;     >>> §2.2: utoc_GetFileExtension(…)........................................................90
-;     >>> §2.3: utoc_GetTocLineNumbersInFindResults(…).........................................123
-;     >>> §2.4: utoc_PerformTocUpdateCmds(…)...................................................156
-;     >>> §2.5: utoc_PerformTocUpdateCmds(…)...................................................177
-;     >>> §2.6: utoc_UpdateTocInAhkFile(…).....................................................186
-;     >>> §2.7: utoc_UpdateTocInJsFile(…)......................................................194
-;     >>> §2.8: utoc_UpdateTocInLessFile(…)....................................................202
+;   §1: @updateTocInFile........................................................................47
+;   §2: Functions for supporting @updateTocInFile...............................................71
+;     >>> §2.1: utoc_FindTocSectionsInFile(…)...................................................75
+;     >>> §2.2: utoc_GetFileExtension(…)........................................................98
+;     >>> §2.3: utoc_GetTocLineNumbersInFindResults(…).........................................133
+;     >>> §2.4: utoc_PerformTocUpdateCmds(…)...................................................172
+;     >>> §2.5: utoc_PerformTocUpdateCmds(…)...................................................199
+;     >>> §2.6: utoc_UpdateTocInAhkFile(…).....................................................208
+;     >>> §2.7: utoc_UpdateTocInJsFile(…)......................................................216
+;     >>> §2.8: utoc_UpdateTocInLessFile(…)....................................................224
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------

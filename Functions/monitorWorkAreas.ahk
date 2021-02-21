@@ -1,20 +1,39 @@
 ; ==================================================================================================
-; monitorWorkAreas.ahk
-; ==================================================================================================
-; AUTOHOTKEY SEND LEGEND
-; ! = ALT     + = SHIFT     ^ = CONTROL     # = WIN
-; (see https://autohotkey.com/docs/commands/Send.htm for more info)
+; ▐▀▄▀▌▄▀▀▄ ▐▀▀▄ ▀█▀▐▀█▀▌▄▀▀▄ █▀▀▄ ▐   ▌▄▀▀▄ █▀▀▄ █ ▄▀ ▄▀▀▄ █▀▀▄ █▀▀▀ ▄▀▀▄ ▄▀▀▀   ▄▀▀▄ █  █ █ ▄▀ 
+; █ ▀ ▌█  █ █  ▐  █   █  █  █ █▄▄▀ ▐ █ ▌█  █ █▄▄▀ █▀▄  █▄▄█ █▄▄▀ █▀▀  █▄▄█ ▀▀▀█   █▄▄█ █▀▀█ █▀▄  
+; █   ▀ ▀▀  ▀  ▐ ▀▀▀  █   ▀▀  ▀  ▀▄ ▀ ▀  ▀▀  ▀  ▀▄▀  ▀▄█  ▀ ▀  ▀▄▀▀▀▀ █  ▀ ▀▀▀  ▀ █  ▀ █  ▀ ▀  ▀▄
+;
+; Functions for obtaining a system monitor's work area under a variety of contexts.
+;
+; @version 1.0.0
+;
+; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
+; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…→
+;   ←…/Functions/monitorWorkAreas.ahk
+; @license MIT Copyright (c) 2021 Daniel C. Rieck.
+;   Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+;     and associated documentation files (the “Software”), to deal in the Software without
+;     restriction, including without limitation the rights to use, copy, modify, merge, publish,
+;     distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
+;     Software is furnished to do so, subject to the following conditions:
+;   The above copyright notice and this permission notice shall be included in all copies or
+;     substantial portions of the Software.
+;   THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+;     BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;     NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+;     DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+;     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ; ==================================================================================================
 ; Table of Contents:
 ; -----------------
-;   §1: AddWinBordersToMonitorWorkArea(…).......................................................21
-;   §2: ClipActiveWindowToMonitor().............................................................37
-;   §3: FindActiveMonitor().....................................................................75
-;   §4: FindMonitorMouseIsOn().................................................................111
-;   §5: FindNearestActiveMonitor().............................................................140
-;   §6: GetActiveMonitorWorkArea(…)............................................................182
-;   §7: RemoveWinBorderFromRectCoordinate......................................................225
-;   §8: ResolveActiveMonitorWorkArea...........................................................265
+;   §1: AddWinBordersToMonitorWorkArea(…).......................................................40
+;   §2: ClipActiveWindowToMonitor().............................................................56
+;   §3: FindActiveMonitor().....................................................................94
+;   §4: FindMonitorMouseIsOn().................................................................130
+;   §5: FindNearestActiveMonitor().............................................................159
+;   §6: GetActiveMonitorWorkArea(…)............................................................201
+;   §7: RemoveWinBorderFromRectCoordinate......................................................244
+;   §8: ResolveActiveMonitorWorkArea...........................................................284
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -156,7 +175,7 @@ FindNearestActiveMonitor() {
 	WinGetPos, x, y, w, h, A
 	RemoveWinBorderFromRectCoordinate(0, x, y)
 	winMidpt.x := x + w / 2
-	winMidpt.y := x + h / 2
+	winMidpt.y := y + h / 2
 	Loop, %sysNumMonitors% {
 		monMidpt.x := mon%A_Index%Bounds_Left + (mon%A_Index%Bounds_Right 
 			- mon%A_Index%Bounds_Left) / 2		
