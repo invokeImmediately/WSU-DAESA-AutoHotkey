@@ -1,68 +1,72 @@
 ; ==================================================================================================
-; automatedDesktopSetUp.ahk
-; --------------------------------------------------------------------------------------------------
-; SUMMARY: Script for setting up the desktop upon session startup.
+; ▄▀▀▄ █  █▐▀█▀▌▄▀▀▄ ▐▀▄▀▌▄▀▀▄▐▀█▀▌█▀▀▀ █▀▀▄ █▀▀▄ █▀▀▀ ▄▀▀▀ █ ▄▀ ▐▀█▀▌▄▀▀▄ █▀▀▄      
+; █▄▄█ █  █  █  █  █ █ ▀ ▌█▄▄█  █  █▀▀  █  █ █  █ █▀▀  ▀▀▀█ █▀▄    █  █  █ █▄▄▀      
+; █  ▀  ▀▀   █   ▀▀  █   ▀█  ▀  █  ▀▀▀▀ ▀▀▀  ▀▀▀  ▀▀▀▀ ▀▀▀  ▀  ▀▄  █   ▀▀  █    ▀ ▀ ▀
 ;
-; AUTHOR: Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
+;          ▄▀▀▀ █▀▀▀▐▀█▀▌█  █ █▀▀▄   ▄▀▀▄ █  █ █ ▄▀ 
+;          ▀▀▀█ █▀▀   █  █  █ █▄▄▀   █▄▄█ █▀▀█ █▀▄  
+;    ▀ ▀ ▀ ▀▀▀  ▀▀▀▀  █   ▀▀  █    ▀ █  ▀ █  ▀ ▀  ▀▄
 ;
-; REPOSITORY: https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey
+; Script for automating the set up of virtual desktops for different, typical workflows.
 ;
-; LICENSE: MIT - Copyright (c) 2020 Daniel C. Rieck.
+; @version 1.0.0
 ;
+; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
+; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…→
+;   ←…/WorkspaceManagement/auotmatedDesktopStartup.ahk
+; @license MIT Copyright (c) 2021 Daniel C. Rieck.
 ;   Permission is hereby granted, free of charge, to any person obtaining a copy of this software
-;   and associated documentation files (the “Software”), to deal in the Software without
-;   restriction, including without limitation the rights to use, copy, modify, merge, publish,
-;   distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
-;   Software is furnished to do so, subject to the following conditions:
-;
+;     and associated documentation files (the “Software”), to deal in the Software without
+;     restriction, including without limitation the rights to use, copy, modify, merge, publish,
+;     distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
+;     Software is furnished to do so, subject to the following conditions:
 ;   The above copyright notice and this permission notice shall be included in all copies or
-;   substantial portions of the Software.
-;
+;     substantial portions of the Software.
 ;   THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
-;   BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-;   NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-;   DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-;   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+;     BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;     NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+;     DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+;     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ; ==================================================================================================
 
 ; ==================================================================================================
 ; Table of Contents:
 ; -----------------
-;   §1: VIRTUAL DESKTOP SET UP HOTSTRINGS.......................................................69
-;     >>> §1.1: Work environment set up — @setupWorkEnvironment.................................73
-;       →→→ §1.1.1: class ScriptEnvChecker......................................................93
-;       →→→ §1.1.1: @moveTempMonitors..........................................................193
-;       →→→ §1.1.2: @setupVirtualDesktops......................................................215
-;     >>> §1.2: Website editing VD — @setupVdForWebEditing.....................................250
-;       →→→ §1.2.1: @startChrome...............................................................284
-;       →→→ §1.2.2: @startSublimeText3.........................................................294
-;       →→→ §1.2.3: PositionChromeVD1()........................................................305
-;       →→→ §1.2.4: PosActWinOnMonsViaCtrlFN(…)................................................317
-;       →→→ §1.2.5: CenterWinOnMonsViaCtrlFN(…)................................................333
-;       →→→ §1.2.6: MaxActWinOnMonViaCtrlFN(…).................................................343
-;       →→→ §1.2.7: EnsureActWinMaxed()........................................................373
-;       →→→ §1.2.8: Vd1_OpenWorkNotesLog().....................................................387
-;     >>> §1.3: Programming VD — @setupVdForProgramming........................................451
-;       →→→ §1.3.1: @addSublimeText3ToVd + AddSublimeText3ToVd()...............................473
-;       →→→ §1.3.2: @arrangeGitHub.............................................................518
-;       →→→ §1.3.3: @startGithubClients........................................................555
-;       →→→ §1.3.4: agh_MovePowerShell().......................................................568
-;     >>> §1.4: Graphic design VD — @setupVdForGraphicDesign...................................636
-;       →→→ §1.4.1: @arrangeGimp...............................................................647
-;       →→→ §1.4.2: svd3_OpenGraphicsEditors...................................................670
-;       →→→ §1.4.3: svd3_OpenGraphicsReferences(…).............................................685
-;     >>> §1.5: Communications and media VD — @setupVdForCommunications........................700
-;       →→→ §1.5.1: @arrangeEmail..............................................................720
-;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)................................................775
-;     >>> §1.6: Research VD — @setupVdForResearch..............................................800
-;     >>> §1.7: PC monitoring VD — @setupVdForPcMonitoring.....................................846
-;   §2: STARTUP HOTKEYS........................................................................873
-;     >>> §2.1: #!r............................................................................877
-;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................884
-;     >>> §3.1: @quitAhk.......................................................................888
-;     >>> §3.2: ^#!r...........................................................................897
-;     >>> §3.3: PerformScriptShutdownTasks()...................................................906
-;     >>> §3.4: ScriptExitFunc(…)..............................................................916
+;   §1: VIRTUAL DESKTOP SET UP HOTSTRINGS.......................................................73
+;     >>> §1.1: Work environment set up — @setupWorkEnvironment.................................77
+;       →→→ §1.1.1: class ScriptEnvChecker......................................................97
+;       →→→ §1.1.1: @moveTempMonitors..........................................................197
+;       →→→ §1.1.2: @setupVirtualDesktops......................................................219
+;     >>> §1.2: Website editing VD — @setupVdForWebEditing.....................................254
+;       →→→ §1.2.1: @startChrome...............................................................288
+;       →→→ §1.2.2: @startSublimeText3.........................................................298
+;       →→→ §1.2.3: PositionChromeVD1()........................................................309
+;       →→→ §1.2.4: PosActWinOnMonsViaCtrlFN(…)................................................321
+;       →→→ §1.2.5: CenterWinOnMonsViaCtrlFN(…)................................................338
+;       →→→ §1.2.6: MaxActWinOnMonViaCtrlFN(…).................................................348
+;       →→→ §1.2.7: EnsureActWinMaxed()........................................................382
+;       →→→ §1.2.8: Vd1_OpenWorkNotesLog().....................................................396
+;     >>> §1.3: Programming VD — @setupVdForProgramming........................................460
+;       →→→ §1.3.1: @addSublimeText3ToVd + AddSublimeText3ToVd()...............................482
+;       →→→ §1.3.2: @arrangeGitHub.............................................................527
+;       →→→ §1.3.3: @startGithubClients........................................................564
+;       →→→ §1.3.4: agh_MovePowerShell().......................................................577
+;     >>> §1.4: Graphic design VD — @setupVdForGraphicDesign...................................645
+;       →→→ §1.4.1: @arrangeGimp...............................................................656
+;       →→→ §1.4.2: svd3_OpenGraphicsEditors...................................................679
+;       →→→ §1.4.3: svd3_OpenGraphicsReferences(…).............................................694
+;     >>> §1.5: Communications and media VD — @setupVdForCommunications........................709
+;       →→→ §1.5.1: @arrangeEmail..............................................................729
+;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)................................................784
+;     >>> §1.6: Research VD — @setupVdForResearch..............................................809
+;     >>> §1.7: PC monitoring VD — @setupVdForPcMonitoring.....................................855
+;   §2: STARTUP HOTKEYS........................................................................882
+;     >>> §2.1: #!r............................................................................886
+;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................893
+;     >>> §3.1: @quitAhk.......................................................................897
+;     >>> §3.2: ^#!r...........................................................................906
+;     >>> §3.3: PerformScriptShutdownTasks()...................................................915
+;     >>> §3.4: ScriptExitFunc(…)..............................................................925
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -257,7 +261,7 @@ Return
 	MapDesktopsFromRegistry()
 	AddSublimeText3ToVd( vdCurrentDesktop )
 	execDelayer.Wait( "s", 4 )
-	MaxActWinOnMonViaCtrlFN( "^F9", "m" )
+	MaxActWinOnMonViaCtrlFN( "^F7", "m" )
 
 	; Load chrome & navigate to WSUWP login page
 	Gosub :*?:@startChrome
@@ -268,7 +272,7 @@ Return
 	SendInput #e
 	WaitForApplicationPatiently( "This PC ahk_exe explorer.exe" )
 	execDelayer.Wait( "l" )
-	PosActWinOnMonsViaCtrlFN( "^F12", "m" )
+	PosActWinOnMonsViaCtrlFN( "^F10", "m" )
 
 	PositionChromeOnWebEditVd()
 	execDelayer.Wait( "m" )
@@ -276,7 +280,7 @@ Return
 	execDelayer.Wait( "m" )
 	OpenWebsiteInChrome( "trello.com", False )
 	execDelayer.Wait( "m" )
-	PosActWinOnMonsViaCtrlFN( "^F11", "m" )
+	PosActWinOnMonsViaCtrlFN( "^F9", "m" )
 ;	WebEditVd_OpenWorkNotesLog()
 Return
 
@@ -309,7 +313,7 @@ PositionChromeOnWebEditVd() {
 	chromeTitle := "Log In ahk_exe chrome.exe"
 	chromeActive := SafeWinActivate( chromeTitle )
 	if ( chromeActive ) {
-		MaxActWinOnMonViaCtrlFN( "^F7", execDelayer.InterpretDelayString( "s" ) * 5 )
+		MaxActWinOnMonViaCtrlFN( "^F5", execDelayer.InterpretDelayString( "s" ) * 5 )
 	}
 }
 
@@ -318,8 +322,9 @@ PositionChromeOnWebEditVd() {
 
 PosActWinOnMonsViaCtrlFN( posHotkey, delay ) {
 	global execDelayer
-	if ( !( posHotkey == "^F7" || posHotkey == "^F8" || posHotkey == "^F9" || posHotkey == "^F10"
-			|| posHotkey == "^F11" || posHotkey == "^F12" ) ) {
+	if ( !( posHotkey == "^F5" || posHotkey == "^F6" || posHotkey == "^F7" || posHotkey == "^F8"
+			|| posHotkey == "^F9" || posHotkey == "^F10" || posHotkey == "^F11"
+			|| posHotkey == "^F12" ) ) {
 		errorMsg := New GuiMsgBox( "Error in " . A_ThisFunc . ": I was passed a window positioning "
 			. "hotkey that I do not recognize: " . posHotkey )
 		Return
@@ -344,21 +349,25 @@ CenterActWinOnMonsViaCtrlFN( posHotkey, delay ) {
 
 MaxActWinOnMonViaCtrlFN( posHotkey, delay ) {
 	global execDelayer
-	if ( !( posHotkey == "^F7" || posHotkey == "^F8" || posHotkey == "^F9" || posHotkey == "^F10"
-			|| posHotkey == "^F11" || posHotkey == "^F12" ) ) {
+	if ( !( posHotkey == "^F5" || posHotkey == "^F6" || posHotkey == "^F7" || posHotkey == "^F8"
+			|| posHotkey == "^F9" || posHotkey == "^F10" ) ) {
 		errorMsg := New GuiMsgBox( "Error in " . A_ThisFunc . ": I was passed a window positioning "
 			. "hotkey that I do not recognize: " . posHotkey )
 		Return
 	}
-	if ( ( posHotkey == "^F7" || posHotkey == "^F8" ) && FindNearestActiveMonitor() == 1 ) {
+	if ( ( posHotkey == "^F5" || posHotkey == "^F6" ) && FindNearestActiveMonitor() == 1 ) {
 		EnsureActWinMaxed()
 		Return
 	}
-	if ( ( posHotkey == "^F9" || posHotkey == "^F10" ) && FindNearestActiveMonitor() == 2 ) {
+	if ( ( posHotkey == "^F7" || posHotkey == "^F8" ) && FindNearestActiveMonitor() == 2 ) {
 		EnsureActWinMaxed()
 		Return
 	}
-	if ( ( posHotkey == "^F11" || posHotkey == "^F12" ) && FindNearestActiveMonitor() == 3 ) {
+	if ( ( posHotkey == "^F9" || posHotkey == "^F10" ) && FindNearestActiveMonitor() == 3 ) {
+		EnsureActWinMaxed()
+		Return
+	}
+	if ( ( posHotkey == "^F11" || posHotkey == "^F12" ) && FindNearestActiveMonitor() == 4 ) {
 		EnsureActWinMaxed()
 		Return
 	}
@@ -401,7 +410,7 @@ WebEditVd_OpenWorkNotesLog() {
 		; Ensure ST3 is active and restore default position of work notes
 		execDelayer.Wait( "m" )
 		SafeWinActivate(st3TitleToMatch, mmRegEx)
-		PosActWinOnMonsViaCtrlFN("^F11", execDelayer.InterpretDelayString( "m" ) )
+		PosActWinOnMonsViaCtrlFN("^F9", execDelayer.InterpretDelayString( "m" ) )
 		execDelayer.Wait( "m", 3 )
 		Loop 3 {
 			GoSub % "<^!#Left"
@@ -412,7 +421,7 @@ WebEditVd_OpenWorkNotesLog() {
 		SendInput, ^+n
 		execDelayer.Wait( "m", 3 )
 		WaitForApplicationPatiently(st3NewWinTitle)
-		PosActWinOnMonsViaCtrlFN("^F9", execDelayer.InterpretDelayString( "m" ) )
+		PosActWinOnMonsViaCtrlFN("^F7", execDelayer.InterpretDelayString( "m" ) )
 		Loop 3 {
 			GoSub % "<^!#Left"
 			execDelayer.Wait( "m" )
@@ -421,7 +430,7 @@ WebEditVd_OpenWorkNotesLog() {
 		; Activate existing ST3 process and restore its default position on virtual desktop
 		SafeWinActivate(st3GeneralTitle, mmRegEx)
 		execDelayer.Wait( "m" )
-		PosActWinOnMonsViaCtrlFN("^F9", execDelayer.InterpretDelayString( "m" ) )
+		PosActWinOnMonsViaCtrlFN("^F7", execDelayer.InterpretDelayString( "m" ) )
 		execDelayer.Wait( "m", 3 )
 		Loop 3 {
 			GoSub % "<^!#Left"
@@ -437,7 +446,7 @@ WebEditVd_OpenWorkNotesLog() {
 		execDelayer.Wait( "m", 9 )
 		SendInput % "C:\GitHub\log_work-notes.txt{Enter}"
 		execDelayer.Wait( "m", 12 )
-		PosActWinOnMonsViaCtrlFN("^F11", execDelayer.InterpretDelayString( "m" ) )
+		PosActWinOnMonsViaCtrlFN("^F9", execDelayer.InterpretDelayString( "m" ) )
 		execDelayer.Wait( "m", 3 )
 		Loop 3 {
 			GoSub % "<^!#Left"
@@ -529,7 +538,7 @@ AddSublimeText3ToVd( whichVd ) {
 	; Position chrome window containing tab loaded with GitHub profile
 	WinActivate, % "invokeImmediately ahk_exe chrome.exe"
 	execDelayer.Wait( "m" )
-	PosActWinOnMonsViaCtrlFN( "^F7", execDelayer.InterpretDelayString( "s", 3 ) )
+	PosActWinOnMonsViaCtrlFN( "^F5", execDelayer.InterpretDelayString( "s", 3 ) )
 	execDelayer.Wait( "s", 5 )
 
 	; Position File Explorer window
@@ -544,7 +553,7 @@ AddSublimeText3ToVd( whichVd ) {
 	; Position Sublime Text 3 window
 	WinActivate, ahk_exe sublime_text.exe
 	execDelayer.Wait( "s", 5 )
-	PosActWinOnMonsViaCtrlFN( "^F9", execDelayer.InterpretDelayString( "s", 3 ) )
+	PosActWinOnMonsViaCtrlFN( "^F7", execDelayer.InterpretDelayString( "s", 3 ) )
 
 	; Position Powershell console window
 	agh_MovePowerShell()
@@ -613,13 +622,13 @@ agh_MovePowerShell() {
 			execDelayer.Wait( "m", 1.5 )
 			WinActivate % psTitle
 			execDelayer.Wait( "m", 3 )
-			PosActWinOnMonsViaCtrlFN( "^F11", execDelayer.InterpretDelayString( "m" ) )
+			PosActWinOnMonsViaCtrlFN( "^F9", execDelayer.InterpretDelayString( "m" ) )
 
 			; Start a second PowerShell process.
 			execDelayer.Wait( "l", 1.5 )
 			Send, % "Start-Process Powershell{Enter}"
 			execDelayer.Wait( "m", 4 )
-			PosActWinOnMonsViaCtrlFN( "^F12", execDelayer.InterpretDelayString( "m" ) )
+			PosActWinOnMonsViaCtrlFN( "^F10", execDelayer.InterpretDelayString( "m" ) )
 			execDelayer.Wait( "m", 2 )
 			Send, % "!{Tab}"
 			execDelayer.Wait( "m", 2 )
@@ -673,11 +682,11 @@ svd3_OpenGraphicsEditors( delay ) {
 	global execDelayer
 	LaunchStdApplicationPatiently( "C:\Program Files\GIMP 2\bin\gimp-2.10.exe", "GNU Image" )
 	execDelayer.Wait( delay * 3 )
-	MaxActWinOnMonViaCtrlFN( "^F7", 100 )
+	MaxActWinOnMonViaCtrlFN( "^F5", 100 )
 	execDelayer.Wait( delay * 3 )
 	LaunchStdApplicationPatiently( "C:\Program Files\Inkscape\bin\inkscape.exe", "Inkscape ahk_exe inkscape.exe" )
 	execDelayer.Wait( delay * 3 )
-	MaxActWinOnMonViaCtrlFN( "^F9", 100 )
+	MaxActWinOnMonViaCtrlFN( "^F7", 100 )
 	execDelayer.Wait( delay * 3 )
 }
 
@@ -692,7 +701,7 @@ svd3_OpenGraphicsReferences( delay ) {
 	execDelayer.Wait( delay * 2 )
 	OpenWebsiteInChrome( "brand.wsu.edu/visual/colors" )
 	execDelayer.Wait( delay * 2 )
-	MaxActWinOnMonViaCtrlFN( "^F11", 100 )
+	MaxActWinOnMonViaCtrlFN( "^F9", 100 )
 	execDelayer.Wait( delay * 3 )
 }
 
@@ -727,13 +736,13 @@ Return
 	execDelayer.Wait( delay, 10 )
 	WinActivate % "Inbox - ahk_exe OUTLOOK.EXE"
 	execDelayer.Wait( delay, 2 )
-	MaxActWinOnMonViaCtrlFN("^F9", delay)
+	MaxActWinOnMonViaCtrlFN("^F7", delay)
 	execDelayer.Wait( delay, 1.25 )
 
 	; Reposition Chrome window for email and news browsing
 	WinActivate % "Inbox ahk_exe chrome.exe"
 	execDelayer.Wait( delay, 1.25 )
-	MaxActWinOnMonViaCtrlFN("^F7", delay)
+	MaxActWinOnMonViaCtrlFN("^F5", delay)
 	execDelayer.Wait( delay, 2.25 )
 
 	; Open tab for second Gmail account
@@ -767,7 +776,7 @@ Return
 	; Teams
 	WinActivate % "Microsoft Teams ahk_exe Teams.exe"
 	execDelayer.Wait( delay, 2 )
-	MaxActWinOnMonViaCtrlFN( "^F11" , delay)
+	MaxActWinOnMonViaCtrlFN( "^F9" , delay)
 	execDelayer.Wait( delay, 1.25 )
 Return
 
@@ -793,7 +802,7 @@ svd4_LoadWebEmailClients( delay ) {
 	; OpenNewWindowInChrome()
 	; OpenWebsiteInChrome( "trello.com", False )
 	; execDelayer.Wait( "m" )
-	; MaxActWinOnMonViaCtrlFN( "^F11", delay )
+	; MaxActWinOnMonViaCtrlFN( "^F9", delay )
 }
 
 ;   ································································································
@@ -817,7 +826,7 @@ svd4_LoadWebEmailClients( delay ) {
 	OpenWebsiteInChrome( "dailyevergreen.com" )
 	execDelayer.Wait( delay, 20 )
 	MoveToNextTabInChrome()
-	MaxActWinOnMonViaCtrlFN( "^F7", delay )
+	MaxActWinOnMonViaCtrlFN( "^F5", delay )
 
 	; Set up apps for Torah study.
 	execDelayer.Wait( delay, 6 )
@@ -832,14 +841,14 @@ svd4_LoadWebEmailClients( delay ) {
 	OpenWebsiteInChrome( "www.blueletterbible.org" )
 	execDelayer.Wait( delay, 10 )
 	MoveToNextTabInChrome()
-	MaxActWinOnMonViaCtrlFN( "^F9", delay )
+	MaxActWinOnMonViaCtrlFN( "^F7", delay )
 
 	; Load music app
 	LaunchStdApplicationPatiently( "shell:appsFolder\AppleInc.iTunes_nzyj5cx40ttqa!iTunes", "iTunes" )
 	execDelayer.Wait( delay )
 	WinActivate % "iTunes ahk_exe iTunes.exe"
 	execDelayer.Wait( delay )
-	MaxActWinOnMonViaCtrlFN( "^F11", delay )
+	MaxActWinOnMonViaCtrlFN( "^F9", delay )
 Return
 
 ;   ································································································
@@ -866,7 +875,7 @@ Return
 	LaunchApplicationPatiently( "C:\Program Files\FileZilla FTP Client\filezilla.exe"
 		, "FileZilla ahk_exe filezilla.exe" )
 	execDelayer.Wait( "m" )
-	CenterActWinOnMonsViaCtrlFN( "^F9", execDelayer.InterpretDelayString( "s" ) )
+	CenterActWinOnMonsViaCtrlFN( "^F7", execDelayer.InterpretDelayString( "s" ) )
 Return
 
 ; --------------------------------------------------------------------------------------------------

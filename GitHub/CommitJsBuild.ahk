@@ -1,33 +1,49 @@
 ﻿; ==================================================================================================
-; GUI FOR COMMITTING CSS BUILDS & ASSOCIATED SITE-SPECIFIC CUSTOM LESS FILES
-; ==================================================================================================
-; AutoHotkey Send Legend:
-; ! = ALT     + = SHIFT     ^ = CONTROL     # = WIN
-; (see https://autohotkey.com/docs/commands/Send.htm for more info)
+; ▄▀▀▀ ▄▀▀▄ ▐▀▄▀▌▐▀▄▀▌▀█▀▐▀█▀▌   █ ▄▀▀▀ █▀▀▄ █  █ ▀█▀ █    █▀▀▄   ▄▀▀▄ █  █ █ ▄▀ 
+; █    █  █ █ ▀ ▌█ ▀ ▌ █   █  ▄  █ ▀▀▀█ █▀▀▄ █  █  █  █  ▄ █  █   █▄▄█ █▀▀█ █▀▄  
+;  ▀▀▀  ▀▀  █   ▀█   ▀▀▀▀  █  ▀▄▄█ ▀▀▀  ▀▀▀   ▀▀  ▀▀▀ ▀▀▀  ▀▀▀  ▀ █  ▀ █  ▀ ▀  ▀▄
+;
+; @version 1.0.0
+;
+; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
+; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…→
+;   ←…/GitHub/CommitJsBuild.ahk
+; @license MIT Copyright (c) 2021 Daniel C. Rieck.
+;   Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+;     and associated documentation files (the “Software”), to deal in the Software without
+;     restriction, including without limitation the rights to use, copy, modify, merge, publish,
+;     distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
+;     Software is furnished to do so, subject to the following conditions:
+;   The above copyright notice and this permission notice shall be included in all copies or
+;     substantial portions of the Software.
+;   THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+;     BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;     NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+;     DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+;     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ; ==================================================================================================
 ; Table of Contents:
 ; -----------------
-;   §1: GUI CREATION FUNCTION: CommitJsBuild....................................................34
-;   §2: GUI EVENT HANDLERS.....................................................................158
-;     >>> §2.1: HandleCommitJs1stMsgChange.....................................................162
-;     >>> §2.2: HandleCommitJs2ndMsgChange.....................................................179
-;     >>> §2.3: HandleCommitJsAddFiles.........................................................196
-;     >>> §2.4: HandleCommitJsRemoveFiles......................................................238
-;     >>> §2.5: HandleCommitJsGitDiff..........................................................250
-;     >>> §2.6: HandleCommitJsGitLog...........................................................287
-;     >>> §2.7: HandleCommitJsCheckJsFileCommit................................................326
-;     >>> §2.8: HandleCommitJsCheckJsChangesOnly...............................................389
-;     >>> §2.9: HandleCommitJs1stJsMsgChange...................................................432
-;     >>> §2.10: HandleCommitJs2ndJsMsgChange..................................................449
-;     >>> §2.11: HandleCommitJsOk..............................................................466
-;       →→→ §2.11.1: ProcessHandleCommitJsOkError..............................................546
-;     >>> §2.12: HandleCommitJsCancel..........................................................574
-;   §3: GUI PERSISTENCE FUNCTIONS..............................................................582
-;     >>> §3.1: SaveCommitJsCustomJsMsgHistory.................................................586
-;     >>> §3.2: LoadCommitJsCustomJsMsgHistory.................................................624
-;     >>> §3.3: ReadKeyForCustonJsMsgHistory...................................................661
-;     >>> §3.4: ReadPrimaryMsgForCustomJsFileKey...............................................679
-;     >>> §3.5: ReadSecondaryMsgForCustomJsFileKey.............................................696
+;   §1: GUI CREATION FUNCTION: CommitJsBuild....................................................50
+;   §2: GUI EVENT HANDLERS.....................................................................167
+;     >>> §2.1: HandleCommitJs1stMsgChange.....................................................171
+;     >>> §2.2: HandleCommitJs2ndMsgChange.....................................................188
+;     >>> §2.3: HandleCommitJsAddFiles.........................................................205
+;     >>> §2.4: HandleCommitJsRemoveFiles......................................................247
+;     >>> §2.5: HandleCommitJsGitDiff..........................................................259
+;     >>> §2.6: HandleCommitJsGitLog...........................................................296
+;     >>> §2.7: HandleCommitJsCheckJsFileCommit................................................335
+;     >>> §2.8: HandleCommitJsCheckJsChangesOnly...............................................395
+;     >>> §2.9: HandleCommitJs2ndJsMsgChange...................................................438
+;     >>> §2.10: HandleCommitJsOk..............................................................455
+;       →→→ §2.10.1: ProcessHandleCommitJsOkError..............................................547
+;     >>> §2.11: HandleCommitJsCancel..........................................................575
+;   §3: GUI PERSISTENCE FUNCTIONS..............................................................583
+;     >>> §3.1: SaveCommitJsCustomJsMsgHistory.................................................587
+;     >>> §3.2: LoadCommitJsCustomJsMsgHistory.................................................625
+;     >>> §3.3: ReadKeyForCustonJsMsgHistory...................................................662
+;     >>> §3.4: ReadPrimaryMsgForCustomJsFileKey...............................................680
+;     >>> §3.5: ReadSecondaryMsgForCustomJsFileKey.............................................697
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -419,7 +435,7 @@ HandleCommitJsCheckJsChangesOnly() {
 }
 
 ;   ································································································
-;     >>> §2.10: HandleCommitJs2ndJsMsgChange
+;     >>> §2.9: HandleCommitJs2ndJsMsgChange
 
 ; Triggered when the secondary git commit message for the updated LESS source is changed.
 HandleCommitJs2ndJsMsgChange() {
@@ -436,7 +452,7 @@ HandleCommitJs2ndJsMsgChange() {
 }
 
 ;   ································································································
-;     >>> §2.11: HandleCommitJsOk
+;     >>> §2.10: HandleCommitJsOk
 
 ; Triggered by OK button in guiCommitJsBuild GUI.
 HandleCommitJsOk() {
@@ -528,7 +544,7 @@ HandleCommitJsOk() {
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §2.11.1: ProcessHandleCommitJsOkError
+;       →→→ §2.10.1: ProcessHandleCommitJsOkError
 
 ; Called by HandleCommitJsOk() to handle error processing.
 ProcessHandleCommitJsOkError(gVarCheck) {
@@ -556,7 +572,7 @@ ProcessHandleCommitJsOkError(gVarCheck) {
 }
 
 ;   ································································································
-;     >>> §2.12: HandleCommitJsCancel
+;     >>> §2.11: HandleCommitJsCancel
 
 ; Triggered by Cancel button in guiCommitJsBuild GUI.
 HandleCommitJsCancel() {

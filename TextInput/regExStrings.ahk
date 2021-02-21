@@ -1,11 +1,15 @@
 ﻿; ==================================================================================================
-; regExStrings.ahk
-; --------------------------------------------------------------------------------------------------
-; Automate the insertion of RegEx strings used in find/replace editing via Sublime Text 3.
+; █▀▀▄ █▀▀▀ █▀▀▀ █▀▀▀▐▄ ▄▌▄▀▀▀▐▀█▀▌█▀▀▄ ▀█▀ ▐▀▀▄ █▀▀▀ ▄▀▀▀   ▄▀▀▄ █  █ █ ▄▀ 
+; █▄▄▀ █▀▀  █ ▀▄ █▀▀   █  ▀▀▀█  █  █▄▄▀  █  █  ▐ █ ▀▄ ▀▀▀█   █▄▄█ █▀▀█ █▀▄  
+; ▀  ▀▄▀▀▀▀ ▀▀▀▀ ▀▀▀▀▐▀ ▀▌▀▀▀   █  ▀  ▀▄▀▀▀ ▀  ▐ ▀▀▀▀ ▀▀▀  ▀ █  ▀ █  ▀ ▀  ▀▄
+;
+; Automate the insertion of RegEx strings used in find/replace editing. Designed with Sublime Text ;   version 3 in mind.
+;
+; @version 1.0.0
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-AutoHotkey
-; @license: MIT Copyright (c) 2020 Daniel C. Rieck.
+; @license: MIT Copyright (c) 2021 Daniel C. Rieck.
 ;   Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 ;     and associated documentation files (the “Software”), to deal in the Software without
 ;     restriction, including without limitation the rights to use, copy, modify, merge, publish,
@@ -19,20 +23,18 @@
 ;     DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 ;     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ; ==================================================================================================
-
-; ==================================================================================================
 ; TABLE OF CONTENTS:
 ; -----------------
-;   §1: Regex strings for working with AHK files................................................44
-;     >>> §1.1: @findStrAhkTocSections1.........................................................48
-;     >>> §1.2: @findStrAhkTocSections2.........................................................57
-;     >>> §1.3: @replStrAhkTocSections2.........................................................65
-;     >>> §1.4: findStrAhkTocHeader.............................................................74
-;   §2: Less/CSS files..........................................................................83
-;   §3: JS files...............................................................................109
-;   §4: HTML files.............................................................................129
-;   §5: General note taking....................................................................138
-;     >>> §5.1: @finishNotesBlock..............................................................142
+;   §1: Regex strings for working with AHK files................................................41
+;     >>> §1.1: @findStrAhkTocSections1.........................................................45
+;     >>> §1.2: @findStrAhkTocSections2.........................................................54
+;     >>> §1.3: @replStrAhkTocSections2.........................................................62
+;     >>> §1.4: findStrAhkTocHeader.............................................................71
+;   §2: Less/CSS files..........................................................................80
+;   §3: JS files...............................................................................106
+;   §4: HTML files.............................................................................126
+;   §5: General note taking....................................................................135
+;     >>> §5.1: @finishNotesBlock..............................................................139
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -97,7 +99,7 @@ Return
 :*?:@findStrLessTocHeader::
 	AppendAhkCmd(A_ThisLabel)
 	SafeSendInput( "(?<=\*{{}3{}} {{}2{}}TABLE OF CONTENTS:\n\*{{}3{}} {{}2{}}─{{}92{}}\n)(({^}.*$\n)"
-		. "(?{!}\*{{}3{}} {{}2{}}─{{}95{}}\n|\*{{}3{}} └─{{}94{}}┘\n))*({^}.*$\n)" )
+		. "(?{!}\*{{}3{}} {{}2{}}─{{}95{}}\n|\*{{}3{}} [└─]─{{}94{}}[─┘]\n))*({^}.*$\n)" )
 Return
 
 ; --------------------------------------------------------------------------------------------------
@@ -106,12 +108,12 @@ Return
 
 :*?:@findStrJsTocSections1::
 	AppendAhkCmd(A_ThisLabel)
-	SafeSendInput( "({^}(?<=/{{}7{}}\n)\t*// §.*$)" )
+	SafeSendInput( "(?<=/{{}7{}}\n)({^}[\t /]*// §.*$)" )
 Return
 
 :*?:@findStrJsTocSections2::
 	AppendAhkCmd(A_ThisLabel)
-	SafeSendInput( "{^} *([0-9]{+}): \t*(// §.*)$" )
+	SafeSendInput( "{^} *([0-9]{+}):[ \t/]*(// §.*)$" )
 Return
 
 :*?:@findStrJsTocHeader::

@@ -2,12 +2,15 @@
 ; ▐▀█▀▌█▀▀▀▐▄ ▄▌▐▀█▀▌█▀▀▄ █▀▀▀ █▀▀▄ █    ▄▀▀▄ █▀▀ █▀▀▀ ▐▀▄▀▌█▀▀▀ ▐▀▀▄▐▀█▀▌  ▄▀▀▄ █  █ █ ▄▀ 
 ;   █  █▀▀   █    █  █▄▄▀ █▀▀  █▄▄▀ █  ▄ █▄▄█ █   █▀▀  █ ▀ ▌█▀▀  █  ▐  █    █▄▄█ █▀▀█ █▀▄  
 ;   █  ▀▀▀▀▐▀ ▀▌  █  ▀  ▀▄▀▀▀▀ █    ▀▀▀  █  ▀ ▀▀▀ ▀▀▀▀ █   ▀▀▀▀▀ █  ▐  █  ▀ █  ▀ █  ▀ ▀  ▀▄
-; --------------------------------------------------------------------------------------------------
+;
 ; An assortment of text replacement hotkeys and hotstrings.
 ;
+; @version 1.0.0
+;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
-; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey
-; @license: MIT Copyright (c) 2020 Daniel C. Rieck.
+; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…→
+;   ←…/TextInput/textReplacement.ahk
+; @license: MIT Copyright (c) 2021 Daniel C. Rieck.
 ;   Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 ;     and associated documentation files (the “Software”), to deal in the Software without
 ;     restriction, including without limitation the rights to use, copy, modify, merge, publish,
@@ -23,39 +26,39 @@
 ; ==================================================================================================
 ; TABLE OF CONTENTS:
 ; -----------------
-;   §1: GENERAL text editing....................................................................62
-;     >>> §1.1: Hotstrings......................................................................66
-;     >>> §1.2: Hotkeys.........................................................................84
-;       →→→ §1.2.1: Insertion of non-breaking spaces............................................87
-;   §2: VIM-STYLE keyboard modifications........................................................94
-;     >>> §2.1: VIMy mode toggling..............................................................98
-;       →→→ §2.1.1: ToggleVimyMode()...........................................................101
-;       →→→ §2.1.2: NotifyUserOfVimyModeState( … ).............................................112
-;       →→→ §2.1.3: DestroyVimyModeGui( whichMon ).............................................141
-;       →→→ §2.1.4: ShowVimyModeGui( whichMon )................................................150
-;       →→→ §2.1.5: Hotkeys for toggling VIMy mode.............................................182
-;       →→→ §2.1.6: Semicolon key behavior with VIMy mode engaged..............................191
-;       →→→ §2.1.7: Semicolon key behavior with VIMy mode disabled.............................201
-;     >>> §2.2: Word based cursor movement hotkeys.............................................212
-;     >>> §2.3: Directionally based cursor movement hotkeys....................................237
-;     >>> §2.4: Character and word deletion and process termination hotkeys....................322
-;   §3: FRONT-END web development..............................................................362
-;     >>> §3.1: HTML editing...................................................................366
-;     >>> §3.2: CSS editing....................................................................373
-;     >>> §3.3: JS editing.....................................................................381
-;   §4: NUMPAD mediated text insertion.........................................................386
-;     >>> §4.1: GetCmdForMoveToCSSFolder.......................................................390
-;     >>> §4.2: GetCmdForMoveToCSSFolder.......................................................408
-;   §5: DATES and TIMES........................................................................426
-;     >>> §5.1: Dates..........................................................................430
-;     >>> §5.2: Times..........................................................................458
-;   §6: CLIPBOARD modifying hotstrings.........................................................492
-;     >>> §6.1: Slash character reversal.......................................................496
-;     >>> §6.2: URL to Windows file name conversion............................................523
-;     >>> §6.3: ASCII Text Art.................................................................543
-;       →→→ §6.3.1: AsciiArtLetter3h class.....................................................546
-;       →→→ §6.3.2: AsciiArtConverter class....................................................559
-;       →→→ §6.3.3: @convertCbToAsciiArt hotstring.............................................690
+;   §1: GENERAL text editing....................................................................65
+;     >>> §1.1: Hotstrings......................................................................69
+;     >>> §1.2: Hotkeys.........................................................................87
+;       →→→ §1.2.1: Insertion of non-breaking spaces............................................90
+;   §2: VIM-STYLE keyboard modifications........................................................97
+;     >>> §2.1: VIMy mode toggling.............................................................101
+;       →→→ §2.1.1: ToggleVimyMode()...........................................................104
+;       →→→ §2.1.2: NotifyUserOfVimyModeState( … ).............................................115
+;       →→→ §2.1.3: DestroyVimyModeGui( whichMon ).............................................144
+;       →→→ §2.1.4: ShowVimyModeGui( whichMon )................................................153
+;       →→→ §2.1.5: Hotkeys for toggling VIMy mode.............................................185
+;       →→→ §2.1.6: Semicolon key behavior with VIMy mode engaged..............................194
+;       →→→ §2.1.7: Semicolon key behavior with VIMy mode disabled.............................204
+;     >>> §2.2: Word based cursor movement hotkeys.............................................215
+;     >>> §2.3: Directionally based cursor movement hotkeys....................................240
+;     >>> §2.4: Character and word deletion and process termination hotkeys....................325
+;   §3: FRONT-END web development..............................................................365
+;     >>> §3.1: HTML editing...................................................................369
+;     >>> §3.2: CSS editing....................................................................376
+;     >>> §3.3: JS editing.....................................................................384
+;   §4: NUMPAD mediated text insertion.........................................................389
+;     >>> §4.1: GetCmdForMoveToCSSFolder.......................................................393
+;     >>> §4.2: GetCmdForMoveToCSSFolder.......................................................411
+;   §5: DATES and TIMES........................................................................429
+;     >>> §5.1: Dates..........................................................................433
+;     >>> §5.2: Times..........................................................................461
+;   §6: CLIPBOARD modifying hotstrings.........................................................495
+;     >>> §6.1: Slash character reversal.......................................................499
+;     >>> §6.2: URL to Windows file name conversion............................................526
+;     >>> §6.3: ASCII Text Art.................................................................546
+;       →→→ §6.3.1: AsciiArtLetter3h class.....................................................549
+;       →→→ §6.3.2: AsciiArtConverter class....................................................562
+;       →→→ §6.3.3: @convertCbToAsciiArt hotstring.............................................693
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -592,7 +595,6 @@ class AsciiArtConverter {
 		this.alphabet[ "x" ] := new AsciiArtLetter3h( "▐▄ ▄▌", "  █  ", "▐▀ ▀▌", False, False )
 		this.alphabet[ "y" ] := new AsciiArtLetter3h( "█  █", "▀▄▄█", "▄▄▄▀", True )
 		this.alphabet[ "z" ] := new AsciiArtLetter3h( "▀▀▀█", " ▄▀ ", "█▄▄▄", True )
-		this.alphabet[ " " ] := new AsciiArtLetter3h( " ", " ", " ", True )
 		this.alphabet[ "0" ] := new AsciiArtLetter3h( "█▀▀█", "█▄▀█", "█▄▄█", True )
 		this.alphabet[ "1" ] := new AsciiArtLetter3h( "▄█  ", " █  ", "▄█▄▌", True )
 		this.alphabet[ "2" ] := new AsciiArtLetter3h( "▄▀▀█", " ▄▄▀", "█▄▄▄", True )
@@ -603,6 +605,7 @@ class AsciiArtConverter {
 		this.alphabet[ "7" ] := new AsciiArtLetter3h( "▐▀▀█", "  █ ", " ▐▌ ", True )
 		this.alphabet[ "8" ] := new AsciiArtLetter3h( "▄▀▀▄", "▄▀▀▄", "▀▄▄▀", True )
 		this.alphabet[ "9" ] := new AsciiArtLetter3h( "▄▀▀▄", "▀▄▄█", " ▄▄▀", True )
+		this.alphabet[ " " ] := new AsciiArtLetter3h( " ", " ", " ", True )
 		this.alphabet[ "." ] := new AsciiArtLetter3h( " ", " ", "▀", True )
 		this.alphabet[ "," ] := new AsciiArtLetter3h( " ", "▄", "▐", True )
 		this.alphabet[ "?" ] := new AsciiArtLetter3h( "▄▀▀█", "  █▀", "  ▄ ", True )
@@ -661,11 +664,11 @@ class AsciiArtConverter {
 
 				; Now obtain the appropriate row of ASCII art characters that represent the current
 				;   character being converted.
-				artChars := this.alphabet[ whichChar ].rows[ idx_i ]
+				artChars := this.alphabet[ "" . whichChar ].rows[ idx_i ]
 				if ( artChars ) {
 					newStr .= artChars
-					if ( idx_j < len && this.alphabet[ whichChar ].spaceRight
-							&& this.alphabet[ nextChar ].spaceLeft ) {
+					if ( idx_j < len && this.alphabet[ "" . whichChar ].spaceRight
+							&& this.alphabet[ "" . nextChar ].spaceLeft ) {
 						newStr .= " "
 					}
 				}

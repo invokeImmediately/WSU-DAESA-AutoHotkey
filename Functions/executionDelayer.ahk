@@ -1,25 +1,43 @@
 ; ==================================================================================================
-; executionDelayer.ahk
-; --------------------
+; █▀▀▀▐▄ ▄▌█▀▀▀ ▄▀▀▀ █  █▐▀█▀▌▀█▀ ▄▀▀▄ ▐▀▀▄ █▀▀▄ █▀▀▀ █    ▄▀▀▄ █  █ █▀▀▀ █▀▀▄    ▄▀▀▄ █  █ █ ▄▀ 
+; █▀▀   █  █▀▀  █    █  █  █   █  █  █ █  ▐ █  █ █▀▀  █  ▄ █▄▄█ ▀▄▄█ █▀▀  █▄▄▀    █▄▄█ █▀▀█ █▀▄  
+; ▀▀▀▀▐▀ ▀▌▀▀▀▀  ▀▀▀  ▀▀   █  ▀▀▀  ▀▀  ▀  ▐ ▀▀▀  ▀▀▀▀ ▀▀▀  █  ▀ ▄▄▄▀ ▀▀▀▀ ▀  ▀▄ ▀ █  ▀ █  ▀ ▀  ▀▄
+;
 ; Module for adjusting the timing of operations through systematic, enhanced usage of AutoHotkey's
-; Sleep command.
-; --------------
-; Written by Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
-; ISC License - Copyright (c) 2019 Daniel C. Rieck, see WSU-DAESA-AutoHotkey repo for more details.
+;   Sleep command.
+;
+; @version 1.0.0
+;
+; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
+; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master/…→
+;   ←…Functions/executionDelayer.ahk
+; @license MIT Copyright (c) 2021 Daniel C. Rieck.
+;   Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+;     and associated documentation files (the “Software”), to deal in the Software without
+;     restriction, including without limitation the rights to use, copy, modify, merge, publish,
+;     distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
+;     Software is furnished to do so, subject to the following conditions:
+;   The above copyright notice and this permission notice shall be included in all copies or
+;     substantial portions of the Software.
+;   THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+;     BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;     NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+;     DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+;     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ; ==================================================================================================
 ; Table of Contents:
 ; -----------------
-;   §1: ExecutionDelayer........................................................................26
-;     >>> §1.1: Properties......................................................................32
-;     >>> §1.2: Constructor __New(…)............................................................46
-;     >>> §1.3: Member functions................................................................60
-;       →→→ §1.3.1: AreMembersValid()...........................................................63
-;       →→→ §1.3.2: CompleteCurrentProcess()....................................................79
-;       →→→ §1.3.3: InterpretDelayString(…).....................................................89
-;       →→→ §1.3.4: ScaleDelay(…)..............................................................113
-;       →→→ §1.3.5: SetDefaultDelay(…).........................................................134
-;       →→→ §1.3.6: SetUpNewProcess(…).........................................................152
-;       →→→ §1.3.7: Wait([…])..................................................................162
+;   §1: ExecutionDelayer........................................................................44
+;     >>> §1.1: Properties......................................................................50
+;     >>> §1.2: Constructor __New(…)............................................................64
+;     >>> §1.3: Member functions................................................................78
+;       →→→ §1.3.1: AreMembersValid()...........................................................81
+;       →→→ §1.3.2: CompleteCurrentProcess()....................................................97
+;       →→→ §1.3.3: InterpretDelayString(…)....................................................107
+;       →→→ §1.3.4: ScaleDelay(…)..............................................................131
+;       →→→ §1.3.5: SetDefaultDelay(…).........................................................152
+;       →→→ §1.3.6: SetUpNewProcess(…).........................................................170
+;       →→→ §1.3.7: Wait([…])..................................................................180
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------

@@ -1,26 +1,50 @@
 ﻿; ==================================================================================================
-; virtualDesktops.ahk
-; ==================================================================================================
-; * Script code adapted from https://www.computerhope.com/tips/tip224.htm, "Using AutoHotkey to 
-;   switch Virtual Desktops in Windows 10." The article there indicates that the code is ultimately 
+; ▐   ▌▀█▀ █▀▀▄ ▐▀█▀▌█  █ ▄▀▀▄ █    █▀▀▄ █▀▀▀ ▄▀▀▀ █ ▄▀ ▐▀█▀▌▄▀▀▄ █▀▀▄ ▄▀▀▀   ▄▀▀▄ █  █ █ ▄▀ 
+;  █ █  █  █▄▄▀   █  █  █ █▄▄█ █  ▄ █  █ █▀▀  ▀▀▀█ █▀▄    █  █  █ █▄▄▀ ▀▀▀█   █▄▄█ █▀▀█ █▀▄  
+;   █  ▀▀▀ ▀  ▀▄  █   ▀▀  █  ▀ ▀▀▀  ▀▀▀  ▀▀▀▀ ▀▀▀  ▀  ▀▄  █   ▀▀  █    ▀▀▀  ▀ █  ▀ █  ▀ ▀  ▀▄
+;
+; Functions for automating the management of virtual desktops in Windows 10.
+;
+; A key component of the code present in this file, namely the MapDesktopsFromRegistry function,
+;   was adapted from https://www.computerhope.com/tips/tip224.htm, "Using AutoHotkey to switch
+;   Virtual Desktops in Windows 10." The article there indicates that the code is ultimately
 ;   adapted from https://github.com/pmb6tz/windows-desktop-switcher.
+;
+; @version 1.0.0
+;
+; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
+; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…→
+;   ←…/WorkspaceManagement/virtualDesktops.ahk
+; @license MIT Copyright (c) 2021 Daniel C. Rieck.
+;   Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+;     and associated documentation files (the “Software”), to deal in the Software without
+;     restriction, including without limitation the rights to use, copy, modify, merge, publish,
+;     distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
+;     Software is furnished to do so, subject to the following conditions:
+;   The above copyright notice and this permission notice shall be included in all copies or
+;     substantial portions of the Software.
+;   THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+;     BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+;     NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+;     DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+;     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ; ==================================================================================================
 ; TABLE OF CONTENTS:
 ; -----------------
-;   §1: GLOBAL VARIABLES.......................................................................27
-;   §2: FUNCTIONS & SUBROUTINES................................................................34
-;     >>> §2.1: CreateVirtualDesktop...........................................................38
-;     >>> §2.2: DeleteVirtualDesktop...........................................................52
-;     >>> §2.3: GetCurrentVirtualDesktop.......................................................66
-;     >>> §2.4: GetSessionId...................................................................79
-;       →→→ §2.4.1: @getSessionId..............................................................99
-;     >>> §2.5: MapDesktopsFromRegistry.......................................................110
-;     >>> §2.6: MoveActiveWindowToVirtualDesktop..............................................172
-;     >>> §2.7: PrimeVirtualDesktops..........................................................242
-;     >>> §2.8: SwitchDesktopByNumber.........................................................262
-;   §3: HOTSTRINGS............................................................................320
-;     >>> §3.1: CloseOpenWindowsOnVD..........................................................324
-;     >>> §3.2: class VdWindowCloser..........................................................333
+;   §1: GLOBAL VARIABLES.......................................................................51
+;   §2: FUNCTIONS & SUBROUTINES................................................................58
+;     >>> §2.1: CreateVirtualDesktop...........................................................62
+;     >>> §2.2: DeleteVirtualDesktop...........................................................76
+;     >>> §2.3: GetCurrentVirtualDesktop.......................................................90
+;     >>> §2.4: GetSessionId..................................................................103
+;       →→→ §2.4.1: @getSessionId.............................................................123
+;     >>> §2.5: MapDesktopsFromRegistry.......................................................134
+;     >>> §2.6: MoveActiveWindowToVirtualDesktop..............................................196
+;     >>> §2.7: PrimeVirtualDesktops..........................................................266
+;     >>> §2.8: SwitchDesktopByNumber.........................................................286
+;   §3: HOTSTRINGS............................................................................344
+;     >>> §3.1: CloseOpenWindowsOnVD..........................................................348
+;     >>> §3.2: class VdWindowCloser..........................................................357
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
