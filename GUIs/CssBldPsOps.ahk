@@ -9,7 +9,7 @@
 ; This script depends on other functions from the AutoHotkey scripting project that supports
 ;   development and coordination of WSU DAESA's websites while working on a Windows platform.
 ;
-; @version 1.0.0
+; @version 1.0.1
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…→
