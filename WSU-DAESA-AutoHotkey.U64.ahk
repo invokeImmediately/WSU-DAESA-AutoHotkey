@@ -209,6 +209,7 @@ StartScript()
 ;   §3: COMMON FUNCTIONS & CLASSES
 ; --------------------------------------------------------------------------------------------------
 
+#Include %A_ScriptDir%\GUIs\ahkGui.ahk
 #Include %A_ScriptDir%\GUIs\guiControlHandler.ahk
 #Include %A_ScriptDir%\GUIs\guiMsgBox.ahk
 #Include %A_ScriptDir%\Functions\API_GetWindowInfo.ahk

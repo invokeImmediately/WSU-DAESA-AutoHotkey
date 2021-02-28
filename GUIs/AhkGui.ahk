@@ -1,15 +1,14 @@
 ; ==================================================================================================
-; █▀▀▀ █  █ █▀▀▀ █  █ ▀█▀   ▄▀▀▄ █  █ █ ▄▀ 
-; █ ▀▄ █▀▀█ █ ▀▄ █  █  █    █▄▄█ █▀▀█ █▀▄  
-; ▀▀▀▀ █  ▀ ▀▀▀▀  ▀▀  ▀▀▀ ▀ █  ▀ █  ▀ ▀  ▀▄
+; ▄▀▀▄ █  █ █ ▄▀ █▀▀▀ █  █ ▀█▀   ▄▀▀▄ █  █ █ ▄▀ 
+; █▄▄█ █▀▀█ █▀▄  █ ▀▄ █  █  █    █▄▄█ █▀▀█ █▀▄  
+; █  ▀ █  ▀ ▀  ▀▄▀▀▀▀  ▀▀  ▀▀▀ ▀ █  ▀ █  ▀ ▀  ▀▄
 ;
-; Prototype for GUIs that support automation of operations and processes involving GitHub
-;   repositories.
+; Prototype for all GUIs created by the WSU-DAESA-Autohotkey script.
 ;
-; @version 1.0.0
+; @version 0.0.0
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
-; @link https://github.com/invokeImmediately/WSU-AutoHotkey/blob/master/GUIs/GhGui.ahk
+; @link https://github.com/invokeImmediately/WSU-AutoHotkey/blob/master/GUIs/AhkGui.ahk
 ; @license MIT Copyright (c) 2021 Daniel C. Rieck.
 ;   Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 ;     and associated documentation files (the “Software”), to deal in the Software without
@@ -25,27 +24,39 @@
 ;     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ; ==================================================================================================
 
-class GhGui extends AhkGui
+class AhkGui
 {
-	__New( cfgSettings
-			, typer
-			, guiType
-			, guiName
-			, guiTitle
-			, cancelBtnHandler ) {
+	__New( typer, delayer, guiType, guiName, guiTitle ) {
 
-		; Call base's constructor.
-		base.__New( typer, guiType, guiName, guiTitle )
-
-		; Safely set configuration settings
-		if ( cfgSettings.__Class == "CfgFile" ) {
-			this.repos := cfgSettings
+		; Safely set type checker
+		if ( typer.__Class == "TypeChecker" ) {
+			this.typer := typer
 		} else {
-			throw Exception( A_ThisFunc . ": Configuration settings parameter was not correctly typ"
-				. "ed; member '__Class' was set to: '" . cfgSettings.__Class . "'." )
+			throw Exception( A_ThisFunc . ": Type checker parameter was not correctly typed; member"
+				. " '__Class' was set to: '" . typer.__Class . "'." )
 		}
 
-		; Set cancel button handler
-		this.cancelBtnHandler := new GuiControlHandler( cancelBtnHandler, this )
+		; Safely set GUI Type identifier
+		if ( typer.IsAlnum( guiType ) && guiType != "" ) {
+			this.type := guiType
+		} else {
+			this.type := "Misc"
+		}
+		if ( typer.IsAlnum( guiName ) && guiName != "" ) {
+			this.name := guiName
+		} else {
+			this.name := "Default"
+		}
+		if ( typer.IsAlnum( guiTitle ) && guiTitle != "" ) {
+			this.title := guiTitle
+		} else {
+			this.title := A_ScriptName
+		}
+	}
+
+	CloseGui() {
+		guiType := this.type
+		guiName := this.name
+		Gui, guiGh%guiType%%guiName%: Destroy
 	}
 }
