@@ -6,7 +6,7 @@
 ; Prototype for GUIs that support automation of operations and processes involving GitHub
 ;   repositories.
 ;
-; @version 1.0.0
+; @version 1.0.1
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-AutoHotkey/blob/master/GUIs/GhGui.ahk
