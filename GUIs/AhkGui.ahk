@@ -28,9 +28,20 @@ class AhkGui
 {
 
 	__New( typer, delayer, guiType, guiName, guiTitle ) {
+		SetDelayer( delayer )
 		SetTyper( typer )
 		SetIdentifier( guiType, guiName )
 		SetTitle( guiTitle )
+	}
+
+	SetDelayer( delayer ) {
+		; Safely set delayer module
+		if ( delayer.__Class == "ExecutionDelayer" ) {
+			this.delayer := delayer
+		} else {
+			throw Exception( A_ThisFunc . ": Delayer parameter was not correctly typed; member"
+				. " '__Class' was set to: '" . delayer.__Class . "'." )
+		}
 	}
 
 	SetIdentifier( guiType, guiName ) {
