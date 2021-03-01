@@ -26,17 +26,15 @@
 
 class AhkGui
 {
+
 	__New( typer, delayer, guiType, guiName, guiTitle ) {
+		SetTyper( typer )
+		SetIdentifier( guiType, guiName )
+		SetTitle( guiTitle )
+	}
 
-		; Safely set type checker
-		if ( typer.__Class == "TypeChecker" ) {
-			this.typer := typer
-		} else {
-			throw Exception( A_ThisFunc . ": Type checker parameter was not correctly typed; member"
-				. " '__Class' was set to: '" . typer.__Class . "'." )
-		}
-
-		; Safely set GUI Type identifier
+	SetIdentifier( guiType, guiName ) {
+		; Safely set the GUI's identifier, which is dynamically built from its type name.
 		if ( typer.IsAlnum( guiType ) && guiType != "" ) {
 			this.type := guiType
 		} else {
@@ -47,6 +45,10 @@ class AhkGui
 		} else {
 			this.name := "Default"
 		}
+	}
+
+	SetTitle( guiTitle ) {
+		; Safely set the GUI's title, using the Script's name if all else fails.
 		if ( typer.IsAlnum( guiTitle ) && guiTitle != "" ) {
 			this.title := guiTitle
 		} else {
@@ -54,7 +56,18 @@ class AhkGui
 		}
 	}
 
+	SetTyper( typer ) {
+		; Safely set type checker
+		if ( typer.__Class == "TypeChecker" ) {
+			this.typer := typer
+		} else {
+			throw Exception( A_ThisFunc . ": Type checker parameter was not correctly typed; member"
+				. " '__Class' was set to: '" . typer.__Class . "'." )
+		}
+	}
+
 	CloseGui() {
+		; Close the GUI by destroying it based on its identifier.
 		guiType := this.type
 		guiName := this.name
 		Gui, guiGh%guiType%%guiName%: Destroy
