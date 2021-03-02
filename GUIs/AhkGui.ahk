@@ -5,7 +5,7 @@
 ;
 ; Prototype for all GUIs created by the WSU-DAESA-Autohotkey script.
 ;
-; @version 0.0.1
+; @version 0.0.2
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-AutoHotkey/blob/master/GUIs/AhkGui.ahk
