@@ -28,10 +28,10 @@ class AhkGui
 {
 
 	__New( typer, delayer, guiType, guiName, guiTitle ) {
-		SetDelayer( delayer )
-		SetTyper( typer )
-		SetIdentifier( guiType, guiName )
-		SetTitle( guiTitle )
+		this.SetDelayer( delayer )
+		this.SetTyper( typer )
+		this.SetIdentifier( guiType, guiName )
+		this.SetTitle( guiTitle )
 	}
 
 	SetDelayer( delayer ) {
