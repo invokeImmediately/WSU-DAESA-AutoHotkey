@@ -24,37 +24,33 @@
 ;     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ; ==================================================================================================
 
-class GuiMsgBox
+class GuiMsgBox extends AhkGui
 {
 	__New( guiMsg, guiName := "Default", guiTitle := "", okBtnHandler := "HandleGuiMsgBoxOk" ) {
-		if ( guiName != "" ) {
-			this.name := guiName
-		} else {
-			this.name := "Default"
-		}
+		global checkType
+		global execDelayer
+		base.__New( checkType, execDelayer, "MsgBox", guiName, guiTitle )
 		this.msg := guiMsg
-		if ( guiTitle != "" ) {
-			this.title := guiTitle
-		} else {
-			this.title := A_ScriptName
-		}
 		this.okBtnHandler := new GuiControlHandler( okBtnHandler, this )
 	}
 
 	ShowGui() {
 		global
+		local guiType := this.type
 		local guiName := this.name
 		local guiCallback := this.okBtnHandler.handlerRef
-		Gui, guiMsgBox%guiName%: New, , % this.title
-		Gui, guiMsgBox%guiName%: Add, Text, w320 y16, % this.msg
-		Gui, guiMsgBox%guiName%: Add, Button, vguiMsgBoxOk%guiName% Default w80 x140 Y+16, % "&Ok"
-		GuiControl, +g, guiMsgBoxOk%guiName%, %guiCallback%
-		Gui, guiMsgBox%guiName%: Show
+		Gui, gui%guiType%%guiName%: New, , % this.title
+		this.ApplyTheme()
+		Gui, gui%guiType%%guiName%: Add, Text, w320 y16, % this.msg
+		Gui, gui%guiType%%guiName%: Add, Button, vgui%guiType%Ok%guiName% Default w80 x140 Y+16, % "&Ok"
+		GuiControl, +g, gui%guiType%Ok%guiName%, %guiCallback%
+		Gui, gui%guiType%%guiName%: Show
 	}
 
 	CloseGui() {
+		guiType := this.type
 		guiName := this.name
-		Gui, guiMsgBox%guiName%: Destroy
+		Gui, gui%guiType%%guiName%: Destroy
 	}
 }
 
