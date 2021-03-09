@@ -62,7 +62,6 @@ StartScript() {
 	LoadCafMsgHistory()
 	SetupLogAutoSaving()
 	MapDesktopsFromRegistry()
-	OutputDebug, [loading] desktops: %DesktopCount% current: %CurrentDesktop%
 	OnExit("ScriptExitFunc")
 	SoundPlay, %scriptLoadedSound%
 	newMsgBox := New GuiMsgBox("Script has been loaded.", "ScriptLoaded")
@@ -179,11 +178,11 @@ LoadScriptConfiguration() {
 
 	; TODO: Check to see if this can be removed thanks to addition of JsBldPsOps.ahk.
 	scriptCfg.backupJs := new CfgFile( A_ScriptDir . "\Config\backupJs.ahk.cfg" )
-
 	scriptCfg.cssBuilds := new CfgFile( A_ScriptDir . "\Config\cssBuilds.ahk.cfg" )
 	scriptCfg.jsBuilds := new CfgFile( A_ScriptDir . "\Config\jsBuilds.ahk.cfg" )
 	scriptCfg.daesaRepos := new CfgFile( A_ScriptDir . "\Config\daesaRepos.ahk.cfg" )
 	scriptCfg.gitStatus := new CfgFile( A_ScriptDir . "\Config\gitStatus.ahk.cfg" )
+	scriptCfg.guiThemes := new CfgFile( A_ScriptDir . "\Config\guiThemes.ahk.cfg" )
 }
 
 ;   ································································································

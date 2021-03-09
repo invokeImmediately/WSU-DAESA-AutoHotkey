@@ -28,10 +28,28 @@ class AhkGui
 {
 
 	__New( typer, delayer, guiType, guiName, guiTitle ) {
+		global scriptCfg
+		this.theme := scriptCfg.guiThemes.cfgSettings[ 1 ]
 		this.SetDelayer( delayer )
 		this.SetTyper( typer )
 		this.SetIdentifier( guiType, guiName )
 		this.SetTitle( guiTitle )
+	}
+
+	ApplyTheme() {
+		; Establish settings for applying the theme to the GUI and its controls.
+		iTheme := this.theme       ; Instance's GUI theme
+		iType := this.type
+		iName := this.name
+		tWBgc := iTheme[ "wBgc" ]  ; Theme's background color for windows
+		tCBgc := iTheme[ "cBgc" ]  ; Background color for controls
+		tFgc := iTheme[ "fgc" ]    ; Foreground color
+		tFf := iTheme[ "fFace" ]   ; Font face
+		tFs := iTheme[ "fSz" ]     ; Font size
+
+		; Change the coloring and typography to match the theme's specifications.
+		Gui, gui%iType%%iName%: Color, %tWBgc%, %tCBgc%
+		Gui, gui%iType%%iName%: Font, C%tFgc% s%tFs%, % tFf
 	}
 
 	SetDelayer( delayer ) {
