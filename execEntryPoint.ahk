@@ -5,7 +5,7 @@
 ;
 ; Entry point at which execution of the script begins.
 ;
-; @version 1.0.0
+; @version 1.1.0
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-AutoHotkey/blob/master/execEntryPoint.ahk

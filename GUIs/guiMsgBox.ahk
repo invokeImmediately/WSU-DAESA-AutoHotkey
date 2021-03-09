@@ -5,7 +5,7 @@
 ;
 ; Generate a GUI-based message box that does not interrupt script operation.
 ;
-; @version 1.0.0
+; @version 1.1.0
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master/GUIs/guiMsgBox.ahk
