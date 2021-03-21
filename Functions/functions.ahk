@@ -6,7 +6,7 @@
 ; Functions used throughout the script for performing common tasks involving communication,
 ;   state checking or changing, window interaction, and input automation.
 ;
-; @version 1.0.0-rc1
+; @version 1.0.1
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master/…→
