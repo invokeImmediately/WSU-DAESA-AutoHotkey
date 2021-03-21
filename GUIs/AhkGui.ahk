@@ -5,7 +5,7 @@
 ;
 ; Prototype for all GUIs created by the WSU-DAESA-Autohotkey script.
 ;
-; @version 0.1.0
+; @version 0.1.0-rc1
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-AutoHotkey/blob/master/GUIs/AhkGui.ahk
@@ -64,12 +64,12 @@ class AhkGui
 
 	SetIdentifier( guiType, guiName ) {
 		; Safely set the GUI's identifier, which is dynamically built from its type name.
-		if ( typer.IsAlnum( guiType ) && guiType != "" ) {
+		if ( this.typer.IsAlnum( guiType ) && guiType != "" ) {
 			this.type := guiType
 		} else {
 			this.type := "Misc"
 		}
-		if ( typer.IsAlnum( guiName ) && guiName != "" ) {
+		if ( this.typer.IsAlnum( guiName ) && guiName != "" ) {
 			this.name := guiName
 		} else {
 			this.name := "Default"
@@ -78,7 +78,7 @@ class AhkGui
 
 	SetTitle( guiTitle ) {
 		; Safely set the GUI's title, using the Script's name if all else fails.
-		if ( typer.IsAlnum( guiTitle ) && guiTitle != "" ) {
+		if ( this.typer.IsAlnum( guiTitle ) && guiTitle != "" ) {
 			this.title := guiTitle
 		} else {
 			this.title := A_ScriptName
