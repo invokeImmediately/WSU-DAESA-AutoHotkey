@@ -14,7 +14,7 @@
 ; Formerly, this project was conducted by the Office of Undergraduate Education (OUE), which was
 ;   combined with the Office of Academic Engagement to form DAESA.
 ;
-; @version 1.0.1
+; @version 1.0.1-rc1
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master/AutoHotkeyU64.ahk
@@ -45,26 +45,26 @@
 ;     >>> §1.8: Missing AutoHotkey constants...................................................177
 ;   §2: Set up script & call main subroutine...................................................187
 ;   §3: Common functions & classes.............................................................209
-;   §4: Command history........................................................................220
-;   §5: AutoHotkey script writing shortcuts....................................................226
-;     >>> §5.1: Hotstrings for inserting code-documentation headers............................230
-;   §6: Workspace management...................................................................288
-;   §7: File system navigation.................................................................332
-;   §8: Program/file launching shortcuts.......................................................338
-;     >>> §8.1: Notepad/text editor program....................................................342
-;     >>> §8.2: Miscellaneous files............................................................353
-;   §9: Powershell scripting...................................................................362
-;   §10: Github scripting......................................................................368
-;   §11: Google chrome scripting...............................................................374
-;   §12: Front-end coding......................................................................431
-;   §13: Text replacement & input..............................................................437
-;     >>> §13.1: Text Replacement hotkeys......................................................441
-;     >>> §13.2: Text Replacement hotstrings...................................................446
-;     >>> §13.3: Text Input hotstrings.........................................................453
-;   §14: Other shortcuts.......................................................................460
-;   §15: Work timer............................................................................473
-;   §16: Custom hotstrings & hotkeys...........................................................479
-;   §17: Execution entry point.................................................................551
+;   §4: Command history........................................................................222
+;   §5: AutoHotkey script writing shortcuts....................................................228
+;     >>> §5.1: Hotstrings for inserting code-documentation headers............................232
+;   §6: Workspace management...................................................................290
+;   §7: File system navigation.................................................................334
+;   §8: Program/file launching shortcuts.......................................................340
+;     >>> §8.1: Notepad/text editor program....................................................344
+;     >>> §8.2: Miscellaneous files............................................................355
+;   §9: Powershell scripting...................................................................364
+;   §10: Github scripting......................................................................370
+;   §11: Google chrome scripting...............................................................376
+;   §12: Front-end coding......................................................................433
+;   §13: Text replacement & input..............................................................439
+;     >>> §13.1: Text Replacement hotkeys......................................................443
+;     >>> §13.2: Text Replacement hotstrings...................................................448
+;     >>> §13.3: Text Input hotstrings.........................................................455
+;   §14: Other shortcuts.......................................................................462
+;   §15: Work timer............................................................................475
+;   §16: Custom hotstrings & hotkeys...........................................................481
+;   §17: Execution entry point.................................................................553
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -212,6 +212,7 @@ StartScript()
 #Include %A_ScriptDir%\GUIs\ahkGui.ahk
 #Include %A_ScriptDir%\GUIs\guiControlHandler.ahk
 #Include %A_ScriptDir%\GUIs\guiMsgBox.ahk
+#Include %A_ScriptDir%\GUIs\GuiSplashText.ahk
 #Include %A_ScriptDir%\Functions\API_GetWindowInfo.ahk
 #Include %A_ScriptDir%\Functions\functions.ahk
 #Include %A_ScriptDir%\Functions\trie.ahk
