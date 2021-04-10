@@ -1,11 +1,11 @@
-; ==================================================================================================
+﻿; ==================================================================================================
 ; ▐   ▌▄▀▀▄ █▀▀▄ █ ▄▀ ▄▀▀▀ █▀▀▄ ▄▀▀▄ ▄▀▀▀ █▀▀▀ ▐▀▄▀▌▐▀▀▄ █▀▀▀ ▐▀▄▀▌▐▀▀▄▐▀█▀▌  ▄▀▀▄ █  █ █ ▄▀ 
 ; ▐ █ ▌█  █ █▄▄▀ █▀▄  ▀▀▀█ █▄▄▀ █▄▄█ █    █▀▀  █ ▀ ▌█  ▐ █ ▀▄ █ ▀ ▌█  ▐  █    █▄▄█ █▀▀█ █▀▄  
 ;  ▀ ▀  ▀▀  ▀  ▀▄▀  ▀▄▀▀▀  █    █  ▀  ▀▀▀ ▀▀▀▀ █   ▀▀  ▐ ▀▀▀▀ █   ▀▀  ▐  █  ▀ █  ▀ █  ▀ ▀  ▀▄
 ;
 ; Script for managing the desktop's workspace.
 ;
-; @version 1.0.1
+; @version 1.0.1-rc2
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…→
@@ -56,57 +56,57 @@
 ;     >>> §2.21: ^!#Numpad5 — Snap to/collapse at midpoint.....................................819
 ;     >>> §2.22: ^!#NumpadClear — Snap to/expand at midpoint...................................875
 ;     >>> §2.23: ^NumpadX — Keyboard based movement of active windows..........................920
-;       →→→ §2.23.1: TranslateActiveWindow(…)..................................................959
-;       →→→ §2.23.1: TAW_ChangeDelta().........................................................972
-;       →→→ §2.23.1: TAW_ChechkDefaultDelta()..................................................999
-;       →→→ §2.23.1: @changeNumpadMovementDelta...............................................1010
-;     >>> §2.24: ^!NumpadX — Keyboard based expansion and contraction of active windows.......1018
-;       →→→ §2.24.1: NxScaleActiveWindow(…)...................................................1057
-;       →→→ §2.24.1: NxScaleAW_ChangeDelta()..................................................1076
-;       →→→ §2.24.1: NxScaleAW_ChechkDefaultDelta()...........................................1105
-;       →→→ §2.24.1: @changeNumpadScalingDelta................................................1116
-;   §3: VIRTUAL DESKTOP HOTKEYS...............................................................1124
-;     >>> §3.1: ^!1-7 — Movement of windows between virtual desktops..........................1128
-;       →→→ §3.1.1: ca1thruN_moveToDesktop(…).................................................1171
-;   §4: MOUSE HOTKEYS.........................................................................1179
-;     >>> §4.1: ^!+RButton — Remember/forget mouse coordinates................................1183
-;     >>> §4.2: ^!+LButton — Move to remembered mouse coordinates.............................1219
-;       →→→ §4.2.1: casLButton_IsMouseAtCurrentCoord..........................................1230
-;       →→→ §4.2.2: casLButton_MoveMouseToCurrentCoord........................................1252
-;       →→→ §4.2.3: casLButton_MoveMouseToNextCoord...........................................1282
-;     >>> §4.3: ^!#L/RButton — Move mouse to taskbar..........................................1306
-;     >>> §4.4: #LButton — Move mouse to center of active window..............................1319
-;   §5: AUDITORY CUE BINDING..................................................................1364
-;   §6: WINDOW POSITIONING GUIS...............................................................1384
-;     >>> §6.1: Window Adjustment GUI.........................................................1388
-;       →→→ §6.1.1: TriggerWindowAdjustmentGui................................................1391
-;       →→→ §6.1.2: HandleGuiWinAdjWidthEditChange............................................1466
-;       →→→ §6.1.3: HandleGuiWinAdjWidthSliderChange..........................................1500
-;       →→→ §6.1.4: HandleGuiWinAdjOK.........................................................1538
-;       →→→ §6.1.5: guiWinAdjGuiEscape........................................................1545
-;       →→→ §6.1.6: GuiWinAdjUpdateEdgeSnapping...............................................1552
-;       →→→ §6.1.7: GuiWinAdjCheckNewPosition.................................................1572
-;   §7: APP SPECIFIC WORKSPACE MANAGEMENT SCRIPTS.............................................1593
-;     >>> §7.1: CHROME........................................................................1597
-;       →→→ §7.1.1: OpenWebsiteInChrome.......................................................1600
-;       →→→ §7.1.2: OpenNewTabInChrome........................................................1624
-;       →→→ §7.1.3: OpenNewWindowInChrome.....................................................1639
-;       →→→ §7.1.4: NavigateToWebsiteInChrome.................................................1652
-;       →→→ §7.1.5: MoveToNextTabInChrome.....................................................1675
-;     >>> §7.2: GNU IMAGE MANIPULATION PROGRAM................................................1687
-;       →→→ §7.2.1: @toggleGimp...............................................................1690
-;     >>> §7.3: NOTEPAD++: TEXT EDITING ENHANCEMENT HOTKEYS & SCRIPTS.........................1734
-;     >>> §7.4: STICKY NOTES FOR CHROME.......................................................1806
-;       →→→ §7.4.1: @initStickyNoteToggle.....................................................1809
-;       →→→ §7.4.2: @toggleStickyNote.........................................................1821
-;     >>> §7.5: SUBLIME TEXT 3................................................................1848
-;       →→→ §7.5.1: @sst3 (Start Sublime Text 3)..............................................1851
-;       →→→ §7.5.2: updateTableOfContents.ahk.................................................1858
-;     >>> §7.6: iTunes........................................................................1863
-;       →→→ §7.6.1: @restartItunes............................................................1866
-;   §8: Diagnostic hotstrings.................................................................1921
-;     >>> §8.1: @getActiveMonitorWorkArea.....................................................1925
-;     >>> §8.2: @getInfoOnSystemMonitors......................................................1936
+;       →→→ §2.23.1: TranslateActiveWindow(…)..................................................991
+;       →→→ §2.23.1: TAW_ChangeDelta().........................................................1004
+;       →→→ §2.23.1: TAW_ChechkDefaultDelta()..................................................1031
+;       →→→ §2.23.1: @changeNumpadMovementDelta...............................................1042
+;     >>> §2.24: ^!NumpadX — Keyboard based expansion and contraction of active windows.......1050
+;       →→→ §2.24.1: NxScaleActiveWindow(…)...................................................1121
+;       →→→ §2.24.1: NxScaleAW_ChangeDelta()..................................................1140
+;       →→→ §2.24.1: NxScaleAW_ChechkDefaultDelta()...........................................1169
+;       →→→ §2.24.1: @changeNumpadScalingDelta................................................1180
+;   §3: VIRTUAL DESKTOP HOTKEYS...............................................................1188
+;     >>> §3.1: ^!1-7 — Movement of windows between virtual desktops..........................1192
+;       →→→ §3.1.1: ca1thruN_moveToDesktop(…).................................................1235
+;   §4: MOUSE HOTKEYS.........................................................................1243
+;     >>> §4.1: ^!+RButton — Remember/forget mouse coordinates................................1247
+;     >>> §4.2: ^!+LButton — Move to remembered mouse coordinates.............................1283
+;       →→→ §4.2.1: casLButton_IsMouseAtCurrentCoord..........................................1294
+;       →→→ §4.2.2: casLButton_MoveMouseToCurrentCoord........................................1316
+;       →→→ §4.2.3: casLButton_MoveMouseToNextCoord...........................................1346
+;     >>> §4.3: ^!#L/RButton — Move mouse to taskbar..........................................1370
+;     >>> §4.4: #LButton — Move mouse to center of active window..............................1383
+;   §5: AUDITORY CUE BINDING..................................................................1428
+;   §6: WINDOW POSITIONING GUIS...............................................................1448
+;     >>> §6.1: Window Adjustment GUI.........................................................1452
+;       →→→ §6.1.1: TriggerWindowAdjustmentGui................................................1455
+;       →→→ §6.1.2: HandleGuiWinAdjWidthEditChange............................................1530
+;       →→→ §6.1.3: HandleGuiWinAdjWidthSliderChange..........................................1564
+;       →→→ §6.1.4: HandleGuiWinAdjOK.........................................................1602
+;       →→→ §6.1.5: guiWinAdjGuiEscape........................................................1609
+;       →→→ §6.1.6: GuiWinAdjUpdateEdgeSnapping...............................................1616
+;       →→→ §6.1.7: GuiWinAdjCheckNewPosition.................................................1636
+;   §7: APP SPECIFIC WORKSPACE MANAGEMENT SCRIPTS.............................................1657
+;     >>> §7.1: CHROME........................................................................1661
+;       →→→ §7.1.1: OpenWebsiteInChrome.......................................................1664
+;       →→→ §7.1.2: OpenNewTabInChrome........................................................1688
+;       →→→ §7.1.3: OpenNewWindowInChrome.....................................................1703
+;       →→→ §7.1.4: NavigateToWebsiteInChrome.................................................1716
+;       →→→ §7.1.5: MoveToNextTabInChrome.....................................................1739
+;     >>> §7.2: GNU IMAGE MANIPULATION PROGRAM................................................1751
+;       →→→ §7.2.1: @toggleGimp...............................................................1754
+;     >>> §7.3: NOTEPAD++: TEXT EDITING ENHANCEMENT HOTKEYS & SCRIPTS.........................1798
+;     >>> §7.4: STICKY NOTES FOR CHROME.......................................................1870
+;       →→→ §7.4.1: @initStickyNoteToggle.....................................................1873
+;       →→→ §7.4.2: @toggleStickyNote.........................................................1885
+;     >>> §7.5: SUBLIME TEXT 3................................................................1912
+;       →→→ §7.5.1: @sst3 (Start Sublime Text 3)..............................................1915
+;       →→→ §7.5.2: updateTableOfContents.ahk.................................................1922
+;     >>> §7.6: iTunes........................................................................1927
+;       →→→ §7.6.1: @restartItunes............................................................1930
+;   §8: Diagnostic hotstrings.................................................................1985
+;     >>> §8.1: @getActiveMonitorWorkArea.....................................................1989
+;     >>> §8.2: @getInfoOnSystemMonitors......................................................2000
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -923,16 +923,32 @@ return
 	TranslateActiveWindow(-1, 1)
 Return
 
+^#Numpad1::
+	TranslateActiveWindow(-5, 5)
+Return
+
 ^Numpad2::
 	TranslateActiveWindow(0, 1)
+Return
+
+^#Numpad2::
+	TranslateActiveWindow(0, 5)
 Return
 
 ^Numpad3::
 	TranslateActiveWindow(1, 1)
 Return
 
+^#Numpad3::
+	TranslateActiveWindow(5, 5)
+Return
+
 ^Numpad4::
 	TranslateActiveWindow(-1, 0)
+Return
+
+^#Numpad4::
+	TranslateActiveWindow(-5, 0)
 Return
 
 ^Numpad5::
@@ -943,16 +959,32 @@ Return
 	TranslateActiveWindow(1, 0)
 Return
 
+^#Numpad6::
+	TranslateActiveWindow(5, 0)
+Return
+
 ^Numpad7::
 	TranslateActiveWindow(-1, -1)
+Return
+
+^#Numpad7::
+	TranslateActiveWindow(-5, -5)
 Return
 
 ^Numpad8::
 	TranslateActiveWindow(0, -1)
 Return
 
+^#Numpad8::
+	TranslateActiveWindow(0, -5)
+Return
+
 ^Numpad9::
 	TranslateActiveWindow(1, -1)
+Return
+
+^#Numpad9::
+	TranslateActiveWindow(5, -5)
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
@@ -1002,7 +1034,7 @@ TAW_CheckDefaultDelta() {
 	global twMvDelta
 
 	if ( !doesVarExist( twMvDelta ) || isVarEmpty( twMvDelta ) ) {
-		twMvDelta := 50
+		twMvDelta := 10
 	}
 }
 
@@ -1021,16 +1053,32 @@ Return
 	NxScaleActiveWindow( -1, -1 )
 Return
 
+^#NumpadEnd::
+	NxScaleActiveWindow( -5, -5 )
+Return
+
 ^NumpadDown::
 	NxScaleActiveWindow( 0, -1 )
+Return
+
+^#NumpadDown::
+	NxScaleActiveWindow( 0, -5 )
 Return
 
 ^NumpadPgDn::
 	NxScaleActiveWindow( 1, -1 )
 Return
 
+^#NumpadPgDn::
+	NxScaleActiveWindow( 5, -5 )
+Return
+
 ^NumpadLeft::
 	NxScaleActiveWindow( -1, 0 )
+Return
+
+^#NumpadLeft::
+	NxScaleActiveWindow( -5, 0 )
 Return
 
 ^NumpadClear::
@@ -1041,16 +1089,32 @@ Return
 	NxScaleActiveWindow( 1, 0 )
 Return
 
+^#NumpadRight::
+	NxScaleActiveWindow( 5, 0 )
+Return
+
 ^NumpadHome::
 	NxScaleActiveWindow( -1, 1 )
+Return
+
+^#NumpadHome::
+	NxScaleActiveWindow( -5, 5 )
 Return
 
 ^NumpadUp::
 	NxScaleActiveWindow( 0, 1 )
 Return
 
+^#NumpadUp::
+	NxScaleActiveWindow( 0, 5 )
+Return
+
 ^NumpadPgUp::
 	NxScaleActiveWindow( 1, 1 )
+Return
+
+^#NumpadPgUp::
+	NxScaleActiveWindow( 5, 5 )
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
@@ -1108,7 +1172,7 @@ NxScaleAW_CheckDefaultDelta() {
 	global nxawScaleDelta
 
 	if ( !doesVarExist( nxawScaleDelta ) || isVarEmpty( nxawScaleDelta ) ) {
-		nxawScaleDelta := 50
+		nxawScaleDelta := 20
 	}
 }
 
