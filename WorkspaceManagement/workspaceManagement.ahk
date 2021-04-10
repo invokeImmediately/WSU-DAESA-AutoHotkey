@@ -5,7 +5,7 @@
 ;
 ; Script for managing the desktop's workspace.
 ;
-; @version 1.0.0
+; @version 1.0.0-rc1
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…→
@@ -464,7 +464,8 @@ SafeWinMove(WinTitle, WinText, X, Y, Width, Height, ExcludeTitle := "", ExcludeT
 		minWinWidth := Round( ( monitorARight - monitorALeft ) / 20 * 3 )
 		maxWinX := monitorARight - monitorALeft - 1
 		maxWidth := maxWinX - widthDecrement
-		heightChanged := UpdateVariableAsNeeded( winH, monitorABottom ) - 1
+		heightChanged := UpdateVariableAsNeeded( winH, monitorABottom - monitorATop - borderWs.Vert
+			+ 1 )
 		if ( !heightChanged ) {
 			DecrementWinDimension( winW, winX, monitorALeft, widthDecrement, minWidth, maxWidth
 				, false, maxWinX )
@@ -540,8 +541,8 @@ IncrementWinDimension(ByRef winDim, winPos, ByRef targetPos, increment, minWinDi
 		maxWinX := monitorARight - monitorALeft
 		maxWinWidth := maxWinX - widthIncrement
 		oldWinH := winH
-		heightChanged := UpdateVariableAsNeeded( winH, monitorABottom - monitorATop - borderWs.Vert * 2
-			+ 2 )
+		heightChanged := UpdateVariableAsNeeded( winH, monitorABottom - monitorATop - borderWs.Vert
+			+ 1 )
 		if ( !heightChanged ) {
 			MsgBox % winW . " / " . winX . " / " . monitorALeft . " / " . widthIncrement . " / " . minWinWidth . " / " . maxWinWidth . " / " . maxWinX
 			IncrementWinDimension( winW, winX, monitorALeft, widthIncrement, minWinWidth
@@ -581,18 +582,20 @@ return
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		RemoveMinMaxStateForActiveWin()
+		borderWs := GetWindowBorderWidths(hwnd)
 		WinGetPos, winX, winY, winW, winH, A
 		monWidth := monitorARight - monitorALeft
 		widthDecrement := Round(monWidth / 20)
 		minWidth := Round(monWidth / 20 * 3)
 		maxWidth := monWidth - widthDecrement
 		newWinX := monitorARight - winW
-		heightChanged := UpdateVariableAsNeeded(winH, monitorABottom - monitorATop)
+		heightChanged := UpdateVariableAsNeeded( winH, monitorABottom - monitorATop - borderWs.Vert
+			+ 1 )
 		if (!heightChanged) {
 			DecrementWinDimension(winW, winX, newWinX, widthDecrement, minWidth, maxWidth, true
 				, monitorARight)
 		}
-		SafeWinMove("A", "", newWinX, monitorATop, winW, winH)
+		SafeWinMove("A", "", newWinX, monitorATop + borderWs.Vert - 1, winW, winH)
 	}
 return
 
@@ -624,18 +627,20 @@ return
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		RemoveMinMaxStateForActiveWin()
+		borderWs := GetWindowBorderWidths(hwnd)
 		WinGetPos, winX, winY, winW, winH, A
 		monWidth := monitorARight - monitorALeft
 		widthIncrement := Round(monWidth / 20)
 		minWidth := Round(monWidth / 20 * 3)
 		maxWidth := monWidth - widthIncrement
 		newWinX := monitorARight - winW
-		heightChanged := UpdateVariableAsNeeded(winH, monitorABottom - monitorATop)
+		heightChanged := UpdateVariableAsNeeded( winH, monitorABottom - monitorATop - borderWs.Vert
+			+ 1 )
 		if (!heightChanged) {
 			IncrementWinDimension(winW, winX, newWinX, widthIncrement, minWidth, maxWidth, true
 				, monitorARight)
 		}
-		SafeWinMove("A", "", newWinX, monitorATop, winW, winH)
+		SafeWinMove("A", "", newWinX, monitorATop + borderWs.Vert - 1, winW, winH)
 	}
 return
 
@@ -646,12 +651,13 @@ return
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		RemoveMinMaxStateForActiveWin()
+		borderWs := GetWindowBorderWidths(hwnd)
 		WinGetPos, winX, winY, winW, winH, A
 		heightDecrement := Round( ( monitorABottom - monitorATop ) / 20 )
 		minHeight := Round( ( monitorABottom - monitorATop ) / 20 * 3)
-		maxHeight := monitorABottom - monitorATop - heightDecrement
-		newWinY := 0
-		maxWinY := monitorABottom
+		maxHeight := monitorABottom - monitorATop - borderWs.Vert + 1 - heightDecrement
+		newWinY := monitorATop + borderWs.Vert - 1
+		maxWinY := monitorABottom - borderWs.Vert + 1
 		DecrementWinDimension(winH, winY, newWinY, heightDecrement, minHeight, maxHeight, false
 			, maxWinY)
 		SafeWinMove("A", "", winX, newWinY, winW, winH)
@@ -666,10 +672,11 @@ return
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		RemoveMinMaxStateForActiveWin()
+		borderWs := GetWindowBorderWidths(hwnd)
 		WinGetPos, winX, winY, winW, winH, A
 		heightDecrement := Round( ( monitorABottom - monitorATop ) / 20 )
 		minHeight := Round( ( monitorABottom - monitorATop ) / 20 * 3)
-		maxHeight := monitorABottom - monitorATop - heightDecrement
+		maxHeight := monitorABottom - monitorATop - borderWs.Vert + 1 - heightDecrement
 		newWinY := 0
 		maxWinY := monitorABottom
 		widthChanged := UpdateVariableAsNeeded(winW, monitorARight - monitorALeft)
@@ -688,11 +695,12 @@ return
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		RemoveMinMaxStateForActiveWin()
+		borderWs := GetWindowBorderWidths(hwnd)
 		WinGetPos, winX, winY, winW, winH, A
 		heightDecrement := Round( ( monitorABottom - monitorATop ) / 20 )
 		minHeight := Round( ( monitorABottom - monitorATop ) / 20 * 3)
-		maxHeight := monitorABottom - monitorATop - heightDecrement
-		newWinY := 0
+		maxHeight := monitorABottom - monitorATop - borderWs.Vert + 1 - heightDecrement
+		newWinY := monitorATop + borderWs.Vert - 1
 		maxWinY := monitorABottom
 		IncrementWinDimension(winH, winY, newWinY, heightDecrement, minHeight, maxHeight, false
 			, maxWinY)
@@ -707,12 +715,13 @@ return
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		RemoveMinMaxStateForActiveWin()
+		borderWs := GetWindowBorderWidths(hwnd)
 		WinGetPos, winX, winY, winW, winH, A
 		heightDecrement := Round( ( monitorABottom - monitorATop ) / 20 )
 		minHeight := Round( ( monitorABottom - monitorATop ) / 20 * 3)
-		maxHeight := monitorABottom - monitorATop - heightDecrement
-		newWinY := 0
-		maxWinY := monitorABottom
+		maxHeight := monitorABottom - monitorATop - borderWs.Vert + 1 - heightDecrement
+		newWinY := monitorATop + borderWs.Vert - 1
+		maxWinY := monitorABottom - borderWs.Vert + 1
 		widthChanged := UpdateVariableAsNeeded(winW, monitorARight - monitorALeft)
 		if (!widthChanged) {
 			IncrementWinDimension(winH, winY, newWinY, heightDecrement, minHeight, maxHeight, false
@@ -729,11 +738,12 @@ return
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		RemoveMinMaxStateForActiveWin()
+		borderWs := GetWindowBorderWidths(hwnd)
 		WinGetPos, winX, winY, winW, winH, A
 		newWinY := monitorABottom - winH
 		heightDecrement := Round(monitorABottom / 20)
 		minHeight := Round(monitorABottom / 20 * 3)
-		maxHeight := monitorABottom - heightDecrement
+		maxHeight := monitorABottom - monitorATop - borderWs.Vert + 1 - heightDecrement
 		maxWinY := monitorABottom
 		DecrementWinDimension(winH, winY, newWinY, heightDecrement, minHeight, maxHeight, true
 			, maxwinY)
@@ -748,11 +758,12 @@ return
 	GetActiveMonitorWorkArea(monitorFound, monitorALeft, monitorATop, monitorARight, monitorABottom)
 	if (monitorFound) {
 		RemoveMinMaxStateForActiveWin()
+		borderWs := GetWindowBorderWidths(hwnd)
 		WinGetPos, winX, winY, winW, winH, A
 		newWinY := monitorABottom - winH
 		heightDecrement := Round(monitorABottom / 20)
 		minHeight := Round(monitorABottom / 20 * 3)
-		maxHeight := monitorABottom - heightDecrement
+		maxHeight := monitorABottom - monitorATop - borderWs.Vert + 1 - heightDecrement
 		maxWinY := monitorABottom
 		widthChanged := UpdateVariableAsNeeded(winW, monitorARight - monitorALeft)
 		if (!widthChanged) {
@@ -774,7 +785,7 @@ return
 		newWinY := monitorABottom - winH
 		heightIncrement := Round(monitorABottom / 20)
 		minHeight := Round(monitorABottom / 20 * 3)
-		maxHeight := monitorABottom - heightIncrement
+		maxHeight := monitorABottom - monitorATop - borderWs.Vert + 1 - heightDecrement
 		maxWinY := monitorABottom
 		IncrementWinDimension(winH, winY, newWinY, heightIncrement, minHeight, maxHeight, true
 			, maxWinY)
@@ -793,7 +804,7 @@ return
 		newWinY := monitorABottom - winH
 		heightIncrement := Round(monitorABottom / 20)
 		minHeight := Round(monitorABottom / 20 * 3)
-		maxHeight := monitorABottom - heightIncrement
+		maxHeight := monitorABottom - monitorATop - borderWs.Vert + 1 - heightDecrement
 		widthChanged := UpdateVariableAsNeeded(winW, monitorARight - monitorALeft)
 		maxWinY := monitorABottom
 		if (!widthChanged) {
