@@ -5,7 +5,7 @@
 ;
 ; Generate a GUI-based message box that does not interrupt script operation.
 ;
-; @version 1.1.0
+; @version 1.1.0-rc1
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master/GUIs/guiMsgBox.ahk
@@ -41,7 +41,7 @@ class GuiMsgBox extends AhkGui
 		local guiCallback := this.okBtnHandler.handlerRef
 		Gui, gui%guiType%%guiName%: New, , % this.title
 		this.ApplyTheme()
-		Gui, gui%guiType%%guiName%: Add, Text, w320 y16, % this.msg
+		Gui, gui%guiType%%guiName%: Add, Text, w480 y16, % this.msg
 		Gui, gui%guiType%%guiName%: Add, Button, vgui%guiType%Ok%guiName% Default w80 x140 Y+16, % "&Ok"
 		GuiControl, +g, gui%guiType%Ok%guiName%, %guiCallback%
 		Gui, gui%guiType%%guiName%: Show
