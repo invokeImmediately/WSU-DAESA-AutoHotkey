@@ -165,10 +165,10 @@ DisplaySplashProgress( normProg, mainText := "Progress for current operation" ) 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §4.1.5: DisplaySplashText(…)
 
-DisplaySplashText(msg, displayTime := 1000) {
+DisplaySplashText(msg, displayTime := 1000, waitForMsg := False) {
 	global g_dpiScalar
 	splashMsg := new SplashTextMsg( msg )
-	splashGui := new GuiSplashText( splashMsg.msg, displayTime )
+	splashGui := new GuiSplashText( splashMsg.msg, displayTime, waitForMsg )
 	splashGui.ShowGui()
 	; SplashTextOn % splashMsg.maxLineLen * 8 * g_dpiScalar
 	; 	, ( splashMsg.numLines * 19 + 3 ) * g_dpiScalar

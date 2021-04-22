@@ -5,7 +5,7 @@
 ;
 ; Generate a GUI-based splash text box.
 ;
-; @version 1.0.0-alpha.1
+; @version 1.0.0-alpha.2
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master/GUIs/guiMsgBox.ahk
@@ -26,12 +26,13 @@
 
 class GuiSplashText extends AhkGui
 {
-	__New( guiMsg, dispTime ) {
+	__New( guiMsg, dispTime, waitForMsg ) {
 		global checkType
 		global execDelayer
 		base.__New( checkType, execDelayer, "SplashText", "Default", A_ScriptName )
 		this.msg := guiMsg
 		this.dispTime := dispTime
+		this.waitForMsg := waitForMsg
 	}
 
 	ShowGui() {
@@ -39,10 +40,14 @@ class GuiSplashText extends AhkGui
 		local guiType := this.type
 		local guiName := this.name
 		Gui, gui%guiType%%guiName%: New, , % this.title
+		Gui, gui%guiType%%guiName%: +AlwaysOnTop
 		this.ApplyTheme()
-		Gui, gui%guiType%%guiName%: Add, Text, w320, % this.msg
+		Gui, gui%guiType%%guiName%: Add, Text, w480, % this.msg
 		Gui, gui%guiType%%guiName%: Show, NoActivate
 		SetTimer, DismissGuiSplashText, % -1 * this.dispTime
+		if ( this.waitForMsg ) {
+			this.delayer.Wait( this.dispTime )
+		}
 	}
 
 	CloseGui() {
