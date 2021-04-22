@@ -483,8 +483,10 @@ Return
 
 :*?:@addSublimeText3ToVd::
 	AppendAhkCmd( A_ThisLabel )
+	DisplaySplashText( "Adding Sublime Text 3 to active virtual desktop.", 2000, True )
 	curVd := GetCurrentVirtualDesktop()
 	AddSublimeText3ToVd( curVd )
+	DisplaySplashText( "Finished adding Sublime Text 3 to virtual desktop.", 2000 )
 Return
 
 AddSublimeText3ToVd( whichVd ) {
