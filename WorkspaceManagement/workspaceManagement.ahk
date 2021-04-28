@@ -5,7 +5,7 @@
 ;
 ; Script for managing the desktop's workspace.
 ;
-; @version 1.1.0-rc1
+; @version 1.1.0-rc2
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…→
@@ -225,7 +225,7 @@ SnapWindowViaFN( monN, snapOpts, dfltScaler, fbFN ) {
 		}
 
 		; Also calculate the height and vertical position the snapped window should occupy on screen.
-		local maxHeight := mon4WorkArea_Bottom - mon%monN%WorkArea_Top + ( borderWidths.Vert - 1)
+		local maxHeight := mon%monN%WorkArea_Bottom - mon%monN%WorkArea_Top + ( borderWidths.Vert - 1)
 		local minHeight := Round( maxHeight / 20 * 3 )
 		local newHeight := maxHeight
 		local newPosY := mon%monN%WorkArea_Top
