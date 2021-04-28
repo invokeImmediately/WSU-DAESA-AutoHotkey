@@ -5,7 +5,7 @@
 ;
 ; Script for managing the desktop's workspace.
 ;
-; @version 1.1.0-rc3
+; @version 1.2.0
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…→
