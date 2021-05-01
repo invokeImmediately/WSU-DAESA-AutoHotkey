@@ -210,8 +210,8 @@ StartScript()
 ; --------------------------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GUIs\ahkGui.ahk
-#Include %A_ScriptDir%\GUIs\guiControlHandler.ahk
-#Include %A_ScriptDir%\GUIs\guiMsgBox.ahk
+#Include %A_ScriptDir%\GUIs\GuiControlHandler.ahk
+#Include %A_ScriptDir%\GUIs\GuiMsgBox.ahk
 #Include %A_ScriptDir%\GUIs\GuiSplashText.ahk
 #Include %A_ScriptDir%\Functions\API_GetWindowInfo.ahk
 #Include %A_ScriptDir%\Functions\functions.ahk
