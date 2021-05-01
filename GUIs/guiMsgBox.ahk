@@ -5,7 +5,7 @@
 ;
 ; Generate a GUI-based message box that does not interrupt script operation.
 ;
-; @version 1.1.0-rc1
+; @version 1.1.0-rc2
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master/GUIs/guiMsgBox.ahk
@@ -35,15 +35,38 @@ class GuiMsgBox extends AhkGui
 	}
 
 	ShowGui() {
+		; Set the default variable declaration mode to global so that GUI control variables receive
+		;   global scope.
 		global
+
+		; Since we are working in global variable declaration mode, create the local variables that
+		;   will be needed to set up and lay out the controls of the GUI.
 		local guiType := this.type
 		local guiName := this.name
 		local guiCallback := this.okBtnHandler.handlerRef
+		local guiW := 480
+		local okBtnW := 80
+		local okBtnX
+		local okBtnSp := 16
+		local scrlW
+
+		; Center the OK button at the bottom of the GUI control.
+		SysGet, scrlW, 2 ; The numeric value of SM_CXVSCROLL is 2.
+		okBtnX := guiW / 2 - okBtnW / 2 + scrlW / 2
+
+		; Create the GUI implementing a message box and apply the default styling theme.
 		Gui, gui%guiType%%guiName%: New, , % this.title
 		this.ApplyTheme()
-		Gui, gui%guiType%%guiName%: Add, Text, w480 y16, % this.msg
-		Gui, gui%guiType%%guiName%: Add, Button, vgui%guiType%Ok%guiName% Default w80 x140 Y+16, % "&Ok"
+
+		; Add controls to the GUI consisting of the message and OK button.
+		Gui, gui%guiType%%guiName%: Add, Text, w%guiW% y16, % this.msg
+		Gui, gui%guiType%%guiName%: Add, Button
+			, vgui%guiType%Ok%guiName% Default w%okBtnW% x%okBtnX% Y+%okBtnSp%, % "&Ok"
+		
+		; Assign a callback function to the OK button that will handle user interaction.
 		GuiControl, +g, gui%guiType%Ok%guiName%, %guiCallback%
+		
+		; Display the GUI to the user.
 		Gui, gui%guiType%%guiName%: Show
 	}
 
