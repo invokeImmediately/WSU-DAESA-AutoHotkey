@@ -1,29 +1,44 @@
 ﻿####################################################################################################
-# Microsoft.PowerShell_profile.ps1, v0.3.0
-# ----------------------------------------
-# PowerShell profile of Daniel C. Rieck.
+# ▐▀▄▀▌▀█▀ ▄▀▀▀ █▀▀▄ ▄▀▀▄ ▄▀▀▀ ▄▀▀▄ █▀▀▀▐▀█▀▌  █▀▀▄ ▄▀▀▄▐   ▌█▀▀▀ █▀▀▄ ▄▀▀▀ █  █ █▀▀▀ █    █   
+# █ ▀ ▌ █  █    █▄▄▀ █  █ ▀▀▀█ █  █ █▀▀▀  █    █▄▄▀ █  █▐ █ ▌█▀▀  █▄▄▀ ▀▀▀█ █▀▀█ █▀▀  █  ▄ █  ▄
+# █   ▀▀▀▀  ▀▀▀ ▀  ▀▄ ▀▀  ▀▀▀   ▀▀  ▀     █  ▀ █     ▀▀  ▀ ▀ ▀▀▀▀ ▀  ▀▄▀▀▀  █  ▀ ▀▀▀▀ ▀▀▀  ▀▀▀ 
 #
-# MIT License — Copyright (c) 2021 Daniel C. Rieck
+#            █▀▀▄ █▀▀▄ ▄▀▀▄ █▀▀▀ ▀█▀ █    █▀▀▀   █▀▀▄ ▄▀▀▀ ▄█  
+#            █▄▄▀ █▄▄▀ █  █ █▀▀▀  █  █  ▄ █▀▀    █▄▄▀ ▀▀▀█  █  
+#        ▀▀▀ █    ▀  ▀▄ ▀▀  ▀    ▀▀▀ ▀▀▀  ▀▀▀▀ ▀ █    ▀▀▀  ▄█▄▌
+# --------------------------------
+# PowerShell profile of Daniel C. Rieck used when working on web coordination and development of
+#   websites for the Division of Academic Engagement and Student Achievement at Washington State
+#   University.
 #
-# Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
-#   associated documentation files (the "Software"), to deal in the Software without restriction,
-#   including without limitation the rights to use, copy, modify, merge, publish, distribute,
-#   sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
-#   furnished to do so, subject to the following conditions:
+# @version 1.0.0
 #
-# The above copyright notice and this permission notice shall be included in all copies or
-#   substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
-#   NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-#   NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-#   DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-#   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+# @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
+# @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…
+#   …/PowerShell/Microsoft.PowerShell_profile.ps1
+# @link [Root:]\Users\[user]\[Windows Documents]\WindowsPowerShell\Microsoft.PowerShell_profile.ps1
+# @link [Server Root]/[Folder(s)]/Backups/PowerShell Scripts/Microsoft.PowerShell_profile.ps1
+# @license MIT License — Copyright (c) 2021 Daniel C. Rieck
+#   Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+#     and associated documentation files (the "Software"), to deal in the Software without
+#     restriction, including without limitation the rights to use, copy, modify, merge, publish,
+#     distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
+#     Software is furnished to do so, subject to the following conditions:
+#   The above copyright notice and this permission notice shall be included in all copies or
+#     substantial portions of the Software.
+#   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+#     BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+#     NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+#     DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+#     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ####################################################################################################
 
 ###############
 # §1: Functions
 
+########
+### §1.1: Compare-Directories
+###   Find differences in the file structure between two directories.
 Function Compare-Directories {
 	Param (
 		[ Parameter( Mandatory=$true ) ]
@@ -54,29 +69,49 @@ Function Compare-Directories {
 	}
 }
 
+########
+### §1.2: Copy-Current-Path
+###   Copy the current path to the clipboard.
 Function Copy-Current-Path {
 	scb ( "'" + (gl).Path + "'" )
 }
 
+########
+### §1.3: Copy-Daesa-Website-Urls-List
+###   Copy the list of DAESA websites I regularly work with to the clipboard.
 Function Copy-Daesa-Website-Urls-List {
 	$urls = Get-Array-of-Daesa-Website-Urls
 	scb ( $urls )
 }
 
+########
+### §1.4: Copy-GitHub-Repos-CSV-List
+###   Copy the CSV-formatted list of DAESA websites I regularly work with to the clipboard.
 Function Copy-GitHub-Repos-CSV-List {
 	$repos = Get-Array-of-GitHub-Repos
 	scb ( ( -split $repos ) -Join ", " )
 }
 
+########
+### §1.5: Copy-GitHub-Repos-List
+###   Copy the list of repository folders associated with the GitHub projects for developing the
+###     DAESA websites I regularly work with to the clipboard.
 Function Copy-GitHub-Repos-List {
 	$repos = Get-Array-of-GitHub-Repos
 	scb ( $repos )
 }
 
+########
+### §1.6: Copy-Profiles-Path
+###   Copy the path where PowerShell profiles are stored on the local machine.
 Function Copy-Profiles-Path {
 	scb ( gci -Path $Profile | %{ $_.Directory.FullName } )
 }
 
+########
+### §1.7: Find-Files-in-GitHub-Repos
+###   Use a filter to search for files within GitHub project repos associated with front-end web
+###     development work for WSU DAESA.
 Function Find-Files-in-GitHub-Repos {
 	Param (
 		[ Parameter( Mandatory = $false,
@@ -100,8 +135,16 @@ Function Find-Files-in-GitHub-Repos {
 	Write-Output $files
 }
 
+########
+### §1.8: Get-Archives
+###   Use the Get-Child-Item cmdlet to get files in the current directory that have the archive 
+###     attribute. 
 Function Get-Archives { gci -Attributes Archive }
 
+########
+### §1.9: Get-Array-of-Github-Folder-Excludes
+###   Get an array of filters used to exclude files or sub-folders when searching through GitHub
+###     folders.
 Function Get-Array-of-Github-Folder-Excludes {
 	$Excludes = [ string[] ]$Excludes = @(
 		'node_modules'
@@ -109,6 +152,9 @@ Function Get-Array-of-Github-Folder-Excludes {
 	Return $Excludes
 }
 
+########
+### §1.10: Get-Array-of-Daesa-Website-Urls
+###   Get an array of URLs to DAESA's websites.
 Function Get-Array-of-Daesa-Website-Urls {
 	[ string[] ]$UrlsToDaesaSites = @(
 		'https://ace.wsu.edu/'
@@ -136,6 +182,10 @@ Function Get-Array-of-Daesa-Website-Urls {
 	Return $UrlsToDaesaSites
 }
 
+########
+### §1.11: Get-Array-of-GitHub-Repos
+###   Get an array of local paths to GitHub project repos associated with front-end web development
+###     work for WSU DAESA.
 Function Get-Array-of-GitHub-Repos {
 	[ string[] ]$PathsToRepos = @(
 		'C:\GitHub\ace.daesa.wsu.edu'
@@ -162,8 +212,16 @@ Function Get-Array-of-GitHub-Repos {
 	Return $PathsToRepos
 }
 
+########
+### §1.12: Get-Directories
+###   Use the Get-Child-Item cmdlet to get files in the current directory that have the directory 
+###     attribute. 
 Function Get-Directories { gci -Attributes Directory }
 
+########
+### §1.13: Get-Filtered-Archives
+###   Use the Get-Child-Item cmdlet to get files in the current directory that have the archive 
+###     attribute, but employ a specified filter and possibly recursion. 
 Function Get-Filtered-Archives {
 	Param (
 		[ Parameter( Mandatory=$true ) ]
@@ -181,6 +239,10 @@ Function Get-Filtered-Archives {
 	}
 }
 
+########
+### §1.14: Get-Filtered-Directories
+###   Use the Get-Child-Item cmdlet to get files in the current directory that have the directory 
+###     attribute, but employ a specified filter and possibly recursion. 
 Function Get-Filtered-Directories {
 	Param (
 		[ Parameter( Mandatory=$true ) ]
@@ -198,6 +260,9 @@ Function Get-Filtered-Directories {
 	}
 }
 
+########
+### §1.15: Get-Image
+###   Get the properties of an image file.
 Function Get-Image {
 	Param(
 		[Parameter(ValueFromPipeline=$true)]
@@ -255,10 +320,16 @@ Function Get-Image {
 	}
 }
 
+########
+### §1.16: Get-Image-List
+###   Get a list of properties for JPG and PNG images present in the current folder.
 Function Get-Image-List {
 	gci ("*.jpg", "*.png") | Get-Image | Select Filename, Width, Height, HdWScalar, HdVScalar, HdXOrigin, HdYOrigin | ft -auto | Out-File .\list_image-dimensions.txt -Confirm	
 }
 
+########
+### §1.17: Invoke-Git-Log
+###   Execute a preferred form of the git log command in the terminal.
 Function Invoke-Git-Log {
 	Param(
 		[Parameter(ValueFromPipeline=$true)]
@@ -268,6 +339,9 @@ Function Invoke-Git-Log {
 	git --no-pager log --pretty="format:%h | %cn | %cd | %s%n ╘═> %b%n" -$num
 }
 
+########
+### §1.18: Invoke-Git-Diff
+###   Execute a preferred form of the git diff command in the terminal.
 Function Invoke-Git-Diff {
 	Param(
 		[Parameter(Mandatory=$true,
@@ -278,6 +352,9 @@ Function Invoke-Git-Diff {
 	git --no-pager diff $file
 }
 
+########
+### §1.19: Open-GitHub-Folder
+###   Move the terminal's location to the primary GitHub folder on the local machine.
 Function Open-GitHub-Folder {
 	cd C:\GitHub
 }
