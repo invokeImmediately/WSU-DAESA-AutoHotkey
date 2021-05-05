@@ -11,7 +11,7 @@
 #   websites for the Division of Academic Engagement and Student Achievement at Washington State
 #   University.
 #
-# @version 1.0.0-rc0.2.1
+# @version 1.0.0-rc0.3.0
 #
 # @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 # @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…
@@ -400,6 +400,54 @@ Function Open-GitHub-Folder {
 ###   Use PowerShell to open a new instance of PowerShell.
 Function Open-PowerShell-Instance {
 	Start-Process PowerShell.exe
+}
+
+#########
+### §1.21: Write-Commands-to-Host
+###   Write a list of the commands and aliases in this PowerShell profile to the console.
+Function Write-Commands-to-Host {
+	# Write introductory output to the console explaining what this function will do to the user.
+	$profLen = $Profile.ToString().Length
+	Write-Host "`n$("-"*(20 + $profLen))`nCommands defined in $Profile`n$("-"*(20 + $profLen))" -foregroundcolor DarkCyan
+
+	# Find all the functions present in this profile and output them to the console.
+	Select-String -Path $Profile -Pattern "^Function" | % {
+		$_.Line.Replace("Function ", "").Replace(" {", "")
+	}
+	Write-Host "`n$("-"*25)`nAliases to These Commands`n$("-"*25)" -foregroundcolor DarkCyan
+
+	# Now find all the aliases present in this profile and output them to the console.
+	Select-String -Path $Profile -Pattern "^Set-Alias -Name (.+?) -Value (.+?)$" | % {
+		Write-Host "$($_.Matches.Groups[1].Value) -> $($_.Matches.Groups[2].Value)"
+	}
+
+	# To wrap up, output an extra empty line to the console as a whitespace separator.
+	Write-Host "`n" -NoNewline
+}
+
+########
+### §1.22: Write-Welcome-Msg-to-Host
+###   
+Function Write-Welcome-Msg-to-Host {
+	# Build the components of a message to indicate this profile was loaded; bracket the message in
+	#   automatically generated separators whose length is limited to the console's window width.
+	$preMsg = "PowerShell profile"
+	$postMsg = "has been loaded."
+	$msgLen = $preMsg.Length + $Profile.ToString().Length + $postMsg.Length + 2
+	$consoleLen = $Host.UI.RawUI.WindowSize.Width - 1
+	$sepLen = [Math]::Min( $msgLen, $consoleLen )
+
+	# Output the welcome message along with a suggestion to run the help function 
+	#   Write-Commands-to-Host to learn what new commands are made available in this profile. 
+	Write-Host "`n$("="*($sepLen))" -foregroundcolor DarkCyan
+	Write-Host "$preMsg " -NoNewline -foregroundcolor DarkCyan
+	Write-Host "$Profile" -NoNewline -foregroundcolor Cyan
+	Write-Host " $postMsg`n$("="*($sepLen))`n" -foregroundcolor DarkCyan
+	Write-Host "Welcome back, " -NoNewline -foregroundcolor Green
+	Write-Host "$env:UserName" -NoNewline -foregroundcolor Cyan
+	Write-Host ". As a reminder, you can use the " -NoNewline -foregroundcolor Green
+	Write-Host "Write-Commands-to-Host" -NoNewline -foregroundcolor Cyan
+	Write-Host " to obtain a list of the additional commands defined in this profile.`n" -foregroundcolor Green
 }
 
 #############
