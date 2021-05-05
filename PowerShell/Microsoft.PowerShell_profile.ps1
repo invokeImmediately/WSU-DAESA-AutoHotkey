@@ -11,7 +11,7 @@
 #   websites for the Division of Academic Engagement and Student Achievement at Washington State
 #   University.
 #
-# @version 1.0.0-rc1
+# @version 1.0.0-rc2
 #
 # @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 # @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…
@@ -391,6 +391,12 @@ Function Open-GitHub-Folder {
 	if ( -not ( $results.length -eq 0 ) ) {
 		cd $results[0].Name
 	}
+}
+
+#########
+### §1.20: Open-PowerShell-Instance
+Function Open-PowerShell-Instance {
+	Start-Process PowerShell.exe
 }
 
 #############
