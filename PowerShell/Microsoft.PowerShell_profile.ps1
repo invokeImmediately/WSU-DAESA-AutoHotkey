@@ -11,7 +11,7 @@
 #   websites for the Division of Academic Engagement and Student Achievement at Washington State
 #   University.
 #
-# @version 1.0.0-rc2
+# @version 1.0.0-rc0.2.1
 #
 # @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 # @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…
@@ -358,7 +358,9 @@ Function Invoke-Git-Diff {
 
 ########
 ### §1.19: Open-GitHub-Folder
-###   Move the terminal's location to the primary GitHub folder on the local machine.
+###   Move the terminal's location to the primary GitHub folder on the local machine; if the user
+###     specifies a string representing a folder to a repo, attempt to use the string with wildcard
+###     filtering to find the repo and enter it as well.
 Function Open-GitHub-Folder {
 	Param(
 		[Parameter(Mandatory=$false)]
@@ -395,6 +397,7 @@ Function Open-GitHub-Folder {
 
 #########
 ### §1.20: Open-PowerShell-Instance
+###   Use PowerShell to open a new instance of PowerShell.
 Function Open-PowerShell-Instance {
 	Start-Process PowerShell.exe
 }
