@@ -11,7 +11,7 @@
 #   websites for the Division of Academic Engagement and Student Achievement at Washington State
 #   University.
 #
-# @version 1.0.0
+# @version 1.0.0-rc1
 #
 # @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 # @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…
@@ -139,7 +139,9 @@ Function Find-Files-in-GitHub-Repos {
 ### §1.8: Get-Archives
 ###   Use the Get-Child-Item cmdlet to get files in the current directory that have the archive 
 ###     attribute. 
-Function Get-Archives { gci -Attributes Archive }
+Function Get-Archives {
+	gci -Attributes Archive
+}
 
 ########
 ### §1.9: Get-Array-of-Github-Folder-Excludes
@@ -216,7 +218,9 @@ Function Get-Array-of-GitHub-Repos {
 ### §1.12: Get-Directories
 ###   Use the Get-Child-Item cmdlet to get files in the current directory that have the directory 
 ###     attribute. 
-Function Get-Directories { gci -Attributes Directory }
+Function Get-Directories {
+	gci -Attributes Directory
+}
 
 ########
 ### §1.13: Get-Filtered-Archives
@@ -356,7 +360,37 @@ Function Invoke-Git-Diff {
 ### §1.19: Open-GitHub-Folder
 ###   Move the terminal's location to the primary GitHub folder on the local machine.
 Function Open-GitHub-Folder {
+	Param(
+		[Parameter(Mandatory=$false)]
+		[string]
+		$folder
+	)
+
+	# First, move to the default installation location of GitHub repos.
 	cd C:\GitHub
+
+	# If no repo folder was provided, we are done and can return.
+	if ( $folder -eq $null -or $folder -eq "") {
+		return
+	}
+
+	# Since a repo folder string was provided, make sure that a wildcard is appended to the end of it.
+	if ( -not $folder[$folder.length] -eq "*" ) {
+		$folder = $folder + "*"
+	}
+
+	# See if the specified folder string returns a directory; if not, we will try prepending a
+	#   wildcard to the front of the string.
+	$results = gci $folder -Attributes Directory
+	if ( $results.length -eq 0 -and -not( $folder[0] -eq "*" ) ) {
+		$folder = "*" + $folder
+		$results = gci $folder -Attributes Directory
+	}
+
+	# If the Get-ChildItem cmdlet found results, simply move into the first folder found.
+	if ( -not ( $results.length -eq 0 ) ) {
+		cd $results[0].Name
+	}
 }
 
 #############
