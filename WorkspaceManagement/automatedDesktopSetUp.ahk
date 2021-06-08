@@ -9,7 +9,7 @@
 ;
 ; Script for automating the set up of virtual desktops for different, typical workflows.
 ;
-; @version 1.0.0
+; @version 1.0.0-rc0.0.1
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…→
@@ -908,8 +908,13 @@ Return
 ;     >>> §3.2: ^#!r
 
 ^#!r::
+	; TODO: Ask user if they are sure they want to restart the script.
 	PerformScriptShutdownTasks()
-	Run *RunAs "%A_ScriptFullPath%"
+	if ( !A_IsAdmin) {
+		Run "%A_ScriptFullPath%"
+	} else {
+		Run *RunAs "%A_ScriptFullPath%"
+	}
 	ExitApp
 Return
 

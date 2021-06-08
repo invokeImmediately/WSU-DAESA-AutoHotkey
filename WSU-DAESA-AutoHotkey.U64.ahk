@@ -14,7 +14,7 @@
 ; Formerly, this project was conducted by the Office of Undergraduate Education (OUE), which was
 ;   combined with the Office of Academic Engagement to form DAESA.
 ;
-; @version 1.0.2
+; @version 1.0.2-rc0.0.1
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master/AutoHotkeyU64.ahk
@@ -44,27 +44,27 @@
 ;     >>> §1.7: Keyboard overriding............................................................165
 ;     >>> §1.8: Missing AutoHotkey constants...................................................177
 ;   §2: Set up script & call main subroutine...................................................187
-;   §3: Common functions & classes.............................................................209
-;   §4: Command history........................................................................222
-;   §5: AutoHotkey script writing shortcuts....................................................228
-;     >>> §5.1: Hotstrings for inserting code-documentation headers............................232
-;   §6: Workspace management...................................................................290
-;   §7: File system navigation.................................................................334
-;   §8: Program/file launching shortcuts.......................................................340
-;     >>> §8.1: Notepad/text editor program....................................................344
-;     >>> §8.2: Miscellaneous files............................................................355
-;   §9: Powershell scripting...................................................................364
-;   §10: Github scripting......................................................................370
-;   §11: Google chrome scripting...............................................................376
-;   §12: Front-end coding......................................................................433
-;   §13: Text replacement & input..............................................................439
-;     >>> §13.1: Text Replacement hotkeys......................................................443
-;     >>> §13.2: Text Replacement hotstrings...................................................448
-;     >>> §13.3: Text Input hotstrings.........................................................455
-;   §14: Other shortcuts.......................................................................462
-;   §15: Work timer............................................................................475
-;   §16: Custom hotstrings & hotkeys...........................................................481
-;   §17: Execution entry point.................................................................553
+;   §3: Common functions & classes.............................................................211
+;   §4: Command history........................................................................224
+;   §5: AutoHotkey script writing shortcuts....................................................230
+;     >>> §5.1: Hotstrings for inserting code-documentation headers............................234
+;   §6: Workspace management...................................................................292
+;   §7: File system navigation.................................................................336
+;   §8: Program/file launching shortcuts.......................................................342
+;     >>> §8.1: Notepad/text editor program....................................................346
+;     >>> §8.2: Miscellaneous files............................................................357
+;   §9: Powershell scripting...................................................................366
+;   §10: Github scripting......................................................................372
+;   §11: Google chrome scripting...............................................................378
+;   §12: Front-end coding......................................................................435
+;   §13: Text replacement & input..............................................................441
+;     >>> §13.1: Text Replacement hotkeys......................................................445
+;     >>> §13.2: Text Replacement hotstrings...................................................450
+;     >>> §13.3: Text Input hotstrings.........................................................457
+;   §14: Other shortcuts.......................................................................464
+;   §15: Work timer............................................................................477
+;   §16: Custom hotstrings & hotkeys...........................................................483
+;   §17: Execution entry point.................................................................555
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -189,16 +189,18 @@ global mmSlow
 
 #NoEnv
 #SingleInstance
-If not A_IsAdmin
-{
-	;" https://autohotkey.com/docs/commands/Run.htm#RunAs: For an executable file, the *RunAs verb 
-	; is equivalent to selecting Run as administrator from the right-click menu of the file."
-	MsgBox, % 0x30
-		, % "Error: Admin Privileges Not Detected"
-		, % "AutoHotkeyU64.ahk was started without Admin privileges; now reloading."
-	Run *RunAs "%A_ScriptFullPath%" 
-	ExitApp
-}
+#KeyHistory 0
+; If not A_IsAdmin
+; {
+; 	;" https://autohotkey.com/docs/commands/Run.htm#RunAs: For an executable file, the *RunAs verb 
+; 	; is equivalent to selecting Run as administrator from the right-click menu of the file."
+; 	MsgBox, % 0x30
+; 		, % "Error: Admin Privileges Not Detected"
+; 		, % "AutoHotkeyU64.ahk was started without Admin privileges. The script should still work, but"
+; 			. % "Some features may not work."
+; 	Run *RunAs "%A_ScriptFullPath%" 
+; 	ExitApp
+; }
 Process, Priority, , High
 SetTitleMatchMode, 2
 CoordMode, Mouse, Client
