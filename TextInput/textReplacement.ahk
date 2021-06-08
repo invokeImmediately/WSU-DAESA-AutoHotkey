@@ -5,7 +5,7 @@
 ;
 ; An assortment of text replacement hotkeys and hotstrings.
 ;
-; @version 1.0.0
+; @version 1.0.0-rc0.0.1
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…→
@@ -34,31 +34,31 @@
 ;     >>> §2.1: VIMy mode toggling.............................................................101
 ;       →→→ §2.1.1: ToggleVimyMode()...........................................................104
 ;       →→→ §2.1.2: NotifyUserOfVimyModeState( … ).............................................115
-;       →→→ §2.1.3: DestroyVimyModeGui( whichMon ).............................................144
-;       →→→ §2.1.4: ShowVimyModeGui( whichMon )................................................153
-;       →→→ §2.1.5: Hotkeys for toggling VIMy mode.............................................185
-;       →→→ §2.1.6: Semicolon key behavior with VIMy mode engaged..............................194
-;       →→→ §2.1.7: Semicolon key behavior with VIMy mode disabled.............................204
-;     >>> §2.2: Word based cursor movement hotkeys.............................................215
-;     >>> §2.3: Directionally based cursor movement hotkeys....................................240
-;     >>> §2.4: Character and word deletion and process termination hotkeys....................325
-;   §3: FRONT-END web development..............................................................365
-;     >>> §3.1: HTML editing...................................................................369
-;     >>> §3.2: CSS editing....................................................................376
-;     >>> §3.3: JS editing.....................................................................384
-;   §4: NUMPAD mediated text insertion.........................................................389
-;     >>> §4.1: GetCmdForMoveToCSSFolder.......................................................393
-;     >>> §4.2: GetCmdForMoveToCSSFolder.......................................................411
-;   §5: DATES and TIMES........................................................................429
-;     >>> §5.1: Dates..........................................................................433
-;     >>> §5.2: Times..........................................................................461
-;   §6: CLIPBOARD modifying hotstrings.........................................................495
-;     >>> §6.1: Slash character reversal.......................................................499
-;     >>> §6.2: URL to Windows file name conversion............................................526
-;     >>> §6.3: ASCII Text Art.................................................................546
-;       →→→ §6.3.1: AsciiArtLetter3h class.....................................................549
-;       →→→ §6.3.2: AsciiArtConverter class....................................................562
-;       →→→ §6.3.3: @convertCbToAsciiArt hotstring.............................................693
+;       →→→ §2.1.3: DestroyVimyModeGui( whichMon ).............................................149
+;       →→→ §2.1.4: ShowVimyModeGui( whichMon )................................................158
+;       →→→ §2.1.5: Hotkeys for toggling VIMy mode.............................................190
+;       →→→ §2.1.6: Semicolon key behavior with VIMy mode engaged..............................199
+;       →→→ §2.1.7: Semicolon key behavior with VIMy mode disabled.............................208
+;     >>> §2.2: Word based cursor movement hotkeys.............................................219
+;     >>> §2.3: Directionally based cursor movement hotkeys....................................244
+;     >>> §2.4: Character and word deletion and process termination hotkeys....................329
+;   §3: FRONT-END web development..............................................................369
+;     >>> §3.1: HTML editing...................................................................373
+;     >>> §3.2: CSS editing....................................................................380
+;     >>> §3.3: JS editing.....................................................................388
+;   §4: NUMPAD mediated text insertion.........................................................393
+;     >>> §4.1: GetCmdForMoveToCSSFolder.......................................................397
+;     >>> §4.2: GetCmdForMoveToCSSFolder.......................................................415
+;   §5: DATES and TIMES........................................................................433
+;     >>> §5.1: Dates..........................................................................437
+;     >>> §5.2: Times..........................................................................465
+;   §6: CLIPBOARD modifying hotstrings.........................................................499
+;     >>> §6.1: Slash character reversal.......................................................503
+;     >>> §6.2: URL to Windows file name conversion............................................530
+;     >>> §6.3: ASCII Text Art.................................................................550
+;       →→→ §6.3.1: AsciiArtLetter3h class.....................................................553
+;       →→→ §6.3.2: AsciiArtConverter class....................................................566
+;       →→→ §6.3.3: @convertCbToAsciiArt hotstring.............................................697
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -114,10 +114,11 @@ ToggleVimyMode() {
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
 ;       →→→ §2.1.2: NotifyUserOfVimyModeState( … )
 
-NotifyUserOfVimyModeState( vimyModeState)  {
+NotifyUserOfVimyModeState( vimyModeState ) {
 
 	; We will need the script's global variable storing the number of system monitors.
 	global sysNumMonitors
+	global vimyModeMsgShown
 
 	; For maintainability, specify settings up front in that will be important for the timing of user
 	;   notifications and the layout of the GUI.
@@ -135,9 +136,13 @@ NotifyUserOfVimyModeState( vimyModeState)  {
 		}
 	}
 
-	; Display a splash message.
-	DisplaySplashText( "VIM-style cursor movement mode toggled to " . vimyModeState, msgTime )
-	execDelayer.Wait( msgTime )
+	; If this is the first time VIMy mode has been engaged by the user, also display a splash message.
+	if( isVarEmpty( vimyModeMsgShown ) ) {
+		DisplaySplashText( "VIM-style cursor movement mode toggled to " . vimyModeState, msgTime, True )
+		if ( vimyModeState != "on" ) {
+			vimyModeMsgShown := True
+		}
+	}
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
@@ -195,7 +200,6 @@ Return
 
 #If g_vimyModeActive
 SC027::
-Space::
 	ToggleVimyMode()
 Return
 #If
