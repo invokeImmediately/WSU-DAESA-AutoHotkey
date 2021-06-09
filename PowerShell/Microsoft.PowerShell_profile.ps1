@@ -11,7 +11,7 @@
 #   websites for the Division of Academic Engagement and Student Achievement at Washington State
 #   University.
 #
-# @version 1.0.0-rc0.3.0
+# @version 1.0.0-rc0.4.0
 #
 # @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 # @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…
@@ -214,8 +214,142 @@ Function Get-Array-of-GitHub-Repos {
 	Return $PathsToRepos
 }
 
+#########
+### §1.12: Get-Directory-Stats
+### @link https://gist.github.com/Bill-Stewart/cca4032f8d04b7388b5fc9a0d5b8806d
+### @author Bill Stewart [bstewart@iname.com] (https://gist.github.com/Bill-Stewart)
+function Get-Directory-Stats {
+	[CmdletBinding(DefaultParameterSetName = "None")]
+	Param (
+		[Parameter(Position = 0,ValueFromPipeline = $true)]
+		[String[]] $Path,
+
+		[Switch] $FormatNumbers,
+
+		[Switch] $CountHardlinks,
+
+		[Parameter(ParameterSetName = "Levels")]
+		[UInt32] $Levels = 1,
+
+		[Parameter(ParameterSetName = "NoRecurse")]
+		[Switch] $NoRecurse,
+
+		[Parameter(ParameterSetName = "OutputSubdirs")]
+		[Switch] $ShowSubdirs
+	)
+	begin {
+		function Find-Disk-Usage-Reporter {
+			# Try to find the disk usage executable that matches the system's memory architecture.
+			if ( [Environment]::Is64BitProcess ) {
+				$commandPath = (Get-Command 'du64.exe' -ErrorAction SilentlyContinue).Path
+				if ( -not $commandPath ) {
+					$commandPath = (Get-Command 'du.exe' -ErrorAction SilentlyContinue).Path
+				}
+				if ( -not $commandPath ) {
+					throw "Could not find the Sysinternals 'du64.exe' or 'du.exe' command in the Path. Download it, copy it to a directory in your Path, and try again."
+				}
+			} else {
+				$commandPath = (Get-Command 'du.exe' -ErrorAction SilentlyContinue).Path
+				if ( -not $commandPath ) {
+					throw "Could not find the Sysinternals 'du.exe' command in the Path. Download it, copy it to a directory in your Path, and try again."
+				}
+			}
+
+			# Test the legitimacy of the disk usage executable found by the script.
+			if ( (Get-Item $commandPath).VersionInfo.CompanyName -notmatch 'SysInternals' ) {
+				throw "The file '$commandPath' is not the SysInternals version. Download it, copy it to a directory in your Path, and try again."
+			}
+
+			# Check whether the disk usage executable found by the script matches the system's memory
+			#   architecture.
+			if ( [Environment]::Is64BitProcess -and ((Split-Path $commandPath -Leaf) -eq 'du.exe') ) {
+				Write-Warning "Found the SysInternals 'du.exe' command in the Path, but it may not be the 64-bit version. Recommend using the 64-bit version ('du64.exe') on 64-bit operating systems."
+			}
+
+			# Return the path to the disk usage executable.
+			$commandPath
+		}
+
+		# Get the path to the disk usage executable.
+		$CommandPath = Find-Disk-Usage-Reporter
+
+		# Assume current file system location as our execution context if -Path was not specified.
+		if ( -not $Path ) {
+			$Path = $ExecutionContext.SessionState.Path.CurrentFileSystemLocation.Path
+		}
+
+		function Format-Output {
+			process {
+				$_ | Select-Object Path,
+					@{Name = "CurrentFileCount";    Expression = {'{0:N0}' -f $_.CurrentFileCount}},
+					@{Name = "CurrentFileSize";     Expression = {'{0:N0}' -f $_.CurrentFileSize}},
+					@{Name = "FileCount";           Expression = {'{0:N0}' -f $_.FileCount}},
+					@{Name = "DirectoryCount";      Expression = {'{0:N0}' -f $_.DirectoryCount}},
+					@{Name = "DirectorySize";       Expression = {'{0:N0}' -f $_.DirectorySize}},
+					@{Name = "DirectorySizeOnDisk"; Expression = {'{0:N0}' -f $_.DirectorySizeOnDisk}}
+			}
+		}
+
+		function Get-DirStats {
+			param(
+				[String] $path
+			)
+			$commandArgs = '-accepteula','-nobanner','-c'
+			switch ( $PSCmdlet.ParameterSetName ) {
+				"Levels" {
+					$commandArgs += '-l'
+					$commandArgs += '{0}' -f $Levels
+				}
+				"NoRecurse" {
+					$commandArgs += '-n'
+				}
+				"OutputSubdirs" {
+					$commandArgs += '-v'
+				}
+			}
+			if ( $CountHardlinks ) {
+				$commandArgs += '-u'
+			}
+			if ( [Environment]::Is64BitProcess -and ((Split-Path $commandPath -Leaf) -eq 'du64.exe') ) {
+				$uses64BitArch = $true;
+			} else {
+				$uses64BitArch = $false;
+			}
+			$commandArgs += $path
+			if ( $uses64BitArch ) {
+				& $CommandPath $commandArgs | ConvertFrom-Csv | Select-Object Path,
+					@{Name = "CurrentFileCount";    Expression = {$_.CurrentFileCount -as [UInt64]}},
+					@{Name = "CurrentFileSize";     Expression = {$_.CurrentFileSize -as [UInt64]}},
+					@{Name = "FileCount";           Expression = {$_.FileCount -as [UInt64]}},
+					@{Name = "DirectoryCount";      Expression = {$_.DirectoryCount -as [UInt64]}},
+					@{Name = "DirectorySize";       Expression = {$_.DirectorySize -as [UInt64]}},
+					@{Name = "DirectorySizeOnDisk"; Expression = {$_.DirectorySizeOnDisk -as [UInt64]}}
+			} else {
+				& $CommandPath $commandArgs | ConvertFrom-Csv | Select-Object Path,
+					@{Name = "CurrentFileCount";    Expression = {$_.CurrentFileCount -as [UInt32]}},
+					@{Name = "CurrentFileSize";     Expression = {$_.CurrentFileSize -as [UInt32]}},
+					@{Name = "FileCount";           Expression = {$_.FileCount -as [UInt32]}},
+					@{Name = "DirectoryCount";      Expression = {$_.DirectoryCount -as [UInt32]}},
+					@{Name = "DirectorySize";       Expression = {$_.DirectorySize -as [UInt32]}},
+					@{Name = "DirectorySizeOnDisk"; Expression = {$_.DirectorySizeOnDisk -as [UInt32]}}
+			}
+		}
+	}
+
+	process {
+		foreach ( $PathItem in $Path ) {
+			if ( -not $FormatNumbers ) {
+				Get-DirStats $PathItem
+			}
+			else {
+				Get-DirStats $PathItem | Format-Output
+			}
+		}
+	}
+}
+
 ########
-### §1.12: Get-Directories
+### §1.13: Get-Directories
 ###   Use the Get-Child-Item cmdlet to get files in the current directory that have the directory 
 ###     attribute. 
 Function Get-Directories {
@@ -223,7 +357,7 @@ Function Get-Directories {
 }
 
 ########
-### §1.13: Get-Filtered-Archives
+### §1.14: Get-Filtered-Archives
 ###   Use the Get-Child-Item cmdlet to get files in the current directory that have the archive 
 ###     attribute, but employ a specified filter and possibly recursion. 
 Function Get-Filtered-Archives {
@@ -244,7 +378,7 @@ Function Get-Filtered-Archives {
 }
 
 ########
-### §1.14: Get-Filtered-Directories
+### §1.15: Get-Filtered-Directories
 ###   Use the Get-Child-Item cmdlet to get files in the current directory that have the directory 
 ###     attribute, but employ a specified filter and possibly recursion. 
 Function Get-Filtered-Directories {
@@ -265,7 +399,7 @@ Function Get-Filtered-Directories {
 }
 
 ########
-### §1.15: Get-Image
+### §1.16: Get-Image
 ###   Get the properties of an image file.
 Function Get-Image {
 	Param(
@@ -325,14 +459,14 @@ Function Get-Image {
 }
 
 ########
-### §1.16: Get-Image-List
+### §1.17: Get-Image-List
 ###   Get a list of properties for JPG and PNG images present in the current folder.
 Function Get-Image-List {
 	gci ("*.jpg", "*.png") | Get-Image | Select Filename, Width, Height, HdWScalar, HdVScalar, HdXOrigin, HdYOrigin | ft -auto | Out-File .\list_image-dimensions.txt -Confirm	
 }
 
 ########
-### §1.17: Invoke-Git-Log
+### §1.18: Invoke-Git-Log
 ###   Execute a preferred form of the git log command in the terminal.
 Function Invoke-Git-Log {
 	Param(
@@ -344,7 +478,7 @@ Function Invoke-Git-Log {
 }
 
 ########
-### §1.18: Invoke-Git-Diff
+### §1.19: Invoke-Git-Diff
 ###   Execute a preferred form of the git diff command in the terminal.
 Function Invoke-Git-Diff {
 	Param(
@@ -357,7 +491,7 @@ Function Invoke-Git-Diff {
 }
 
 ########
-### §1.19: Open-GitHub-Folder
+### §1.20: Open-GitHub-Folder
 ###   Move the terminal's location to the primary GitHub folder on the local machine; if the user
 ###     specifies a string representing a folder to a repo, attempt to use the string with wildcard
 ###     filtering to find the repo and enter it as well.
@@ -396,14 +530,14 @@ Function Open-GitHub-Folder {
 }
 
 #########
-### §1.20: Open-PowerShell-Instance
+### §1.21: Open-PowerShell-Instance
 ###   Use PowerShell to open a new instance of PowerShell.
 Function Open-PowerShell-Instance {
 	Start-Process PowerShell.exe
 }
 
 #########
-### §1.21: Write-Commands-to-Host
+### §1.22: Write-Commands-to-Host
 ###   Write a list of the commands and aliases in this PowerShell profile to the console.
 Function Write-Commands-to-Host {
 	# Write introductory output to the console explaining what this function will do to the user.
@@ -426,7 +560,7 @@ Function Write-Commands-to-Host {
 }
 
 ########
-### §1.22: Write-Welcome-Msg-to-Host
+### §1.23: Write-Welcome-Msg-to-Host
 ###   
 Function Write-Welcome-Msg-to-Host {
 	# Build the components of a message to indicate this profile was loaded; bracket the message in
@@ -472,3 +606,12 @@ Set-Alias -Name ghgl -Value Invoke-Git-Log
 Set-Alias -Name gtgh -Value Open-GitHub-Folder
 
 Set-Alias -Name ghgd -Value Invoke-Git-Diff
+
+Set-Alias -Name opi -Value Open-PowerShell-Instance
+
+Set-Alias -Name wcth -Value Write-Commands-to-Host
+
+###########################
+# §3: Execution Entry Point
+
+Write-Welcome-Msg-to-Host
