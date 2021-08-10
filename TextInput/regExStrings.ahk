@@ -5,7 +5,7 @@
 ;
 ; Automate the insertion of RegEx strings used in find/replace editing. Designed with Sublime Text ;   version 3 in mind.
 ;
-; @version 1.0.0
+; @version 1.0.1
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-AutoHotkey
@@ -63,8 +63,8 @@ Return
 
 :*?:@replStrAhkTocSections2::
 	AppendAhkCmd(A_ThisLabel)
-	SafeSendInput( "\1\2............................................................................."
-		. ".........." )
+	SafeSendInput( "\1\2..........................................................................."
+		. "............" )
 Return
 
 ;   ································································································
@@ -82,24 +82,24 @@ Return
 
 :*?:@findStrLessTocSections1::
 	AppendAhkCmd( A_ThisLabel )
-	SafeSendInput( "(?{<}=[-·=]\n){^}(\*\*|//)(\*?/? *)(.*)(§[0-9]{+})(.*)$" )
+	SafeSendInput( "(?{<}=[-·=]\n){^}(\*\*|//| \*)(\*?/? *)(.*)(§[0-9]{+})(.*)$" )
 Return
 
 :*?:@findStrLessTocSections2::
 	AppendAhkCmd(A_ThisLabel)
-	SafeSendInput( "{^} *([0-9]{+}): (?:\**|/*)( {+})(.{+})$" )
+	SafeSendInput( "{^} *([0-9]{+}): (?: *\**|/*)( {+})(.{+})$" )
 Return
 
 :*?:@replStrLessTocSections2::
 	AppendAhkCmd(A_ThisLabel)
-	SafeSendInput( "\1**  \2\3......................................................................."
+	SafeSendInput( "\1*   \2\3......................................................................."
 		. "........." )
 Return
 
 :*?:@findStrLessTocHeader::
 	AppendAhkCmd(A_ThisLabel)
-	SafeSendInput( "(?<=\*{{}3{}} {{}2{}}TABLE OF CONTENTS:\n\*{{}3{}} {{}2{}}─{{}92{}}\n)(({^}.*$\n)"
-		. "(?{!}\*{{}3{}} {{}2{}}─{{}95{}}\n|\*{{}3{}} [└─]─{{}94{}}[─┘]\n))*({^}.*$\n)" )
+	SafeSendInput( "(?<=TABLE OF CONTENTS:\n[ *]{{}5{}}─{{}92{}}\n)(({^}.*$\n)(?{!} *\** *─{{}95{}}\n"
+		. "|\*{{}3{}} [└─]─{{}94{}}[─┘]\n))*({^}.*$\n)" )
 Return
 
 ; --------------------------------------------------------------------------------------------------
@@ -143,7 +143,8 @@ Return
 	nbf.Execute( execDelayer )
 Return
 
-; TODO: Decide whether to build a base class like "NoteBlockManipulator" that could be used to build other classes like this one.
+; TODO: Decide whether to build a base class like "NoteBlockManipulator" that could be used to build
+;   other classes like this one.
 class NoteBlockFinisher {
 	; RegEx search strings
 	static reNbLine1 := "{^}20[0-9]{{}2{}}-[0-1][0-9]-[0-3][0-9]--[0-2][0-9]:[0-9]{{}2{}}:[0-9]{{}2{}}─+┐$"
