@@ -14,7 +14,7 @@
 ; Formerly, this project was conducted by the Office of Undergraduate Education (OUE), which was
 ;   combined with the Office of Academic Engagement to form DAESA.
 ;
-; @version 1.0.2-rc0.0.2
+; @version 1.0.2-rc0.0.4
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master/AutoHotkeyU64.ahk
@@ -190,17 +190,21 @@ global mmSlow
 #NoEnv
 #SingleInstance
 #KeyHistory 0
-; If not A_IsAdmin
-; {
-; 	;" https://autohotkey.com/docs/commands/Run.htm#RunAs: For an executable file, the *RunAs verb 
-; 	; is equivalent to selecting Run as administrator from the right-click menu of the file."
-; 	MsgBox, % 0x30
-; 		, % "Error: Admin Privileges Not Detected"
-; 		, % "AutoHotkeyU64.ahk was started without Admin privileges. The script should still work, but"
-; 			. % "Some features may not work."
-; 	Run *RunAs "%A_ScriptFullPath%" 
-; 	ExitApp
-; }
+If not A_IsAdmin
+{
+	;" https://autohotkey.com/docs/commands/Run.htm#RunAs: For an executable file, the *RunAs verb 
+	; is equivalent to selecting Run as administrator from the right-click menu of the file."
+	MsgBox, % 0x34
+		, % "Error: Admin Privileges Not Detected"
+		, % "AutoHotkeyU64.ahk was started without Admin privileges. Most of the script's features "
+			. "should still work, but the script performs optimally in Admin mode.`n`n"
+			. "Do you want to restart the script in Admin mode?"
+	IfMsgBox Yes
+	{
+		Run *RunAs "%A_ScriptFullPath%" 
+		ExitApp
+	}
+}
 Process, Priority, , High
 SetTitleMatchMode, 2
 CoordMode, Mouse, Client

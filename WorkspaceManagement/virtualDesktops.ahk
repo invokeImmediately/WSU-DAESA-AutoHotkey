@@ -10,7 +10,7 @@
 ;   Virtual Desktops in Windows 10." The article there indicates that the code is ultimately
 ;   adapted from https://github.com/pmb6tz/windows-desktop-switcher.
 ;
-; @version 1.0.0
+; @version 1.0.1
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…→
@@ -403,10 +403,10 @@ class VdWindowCloser {
 	GetStarted( delay ) {
 		global execDelayer
 		windowsAlreadyClosed := false
-		SendInput !{Tab}
+		Send % "{Alt Down}{Tab}{Alt Up}"
 		execDelayer.Wait( delay * 2 )
 		if ( this.IsOsActive() ) {
-			SendInput !{Tab}
+			Send % "{Alt Down}{Tab}{Alt Up}"
 			execDelayer.Wait( delay * 2 )
 			if ( this.IsOsActive() ) {
 				windowsAlreadyClosed := true
