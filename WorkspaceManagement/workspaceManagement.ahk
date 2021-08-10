@@ -5,7 +5,7 @@
 ;
 ; Script for managing the desktop's workspace.
 ;
-; @version 1.2.0-rc0.0.1
+; @version 1.2.1
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…→
@@ -77,37 +77,37 @@
 ;       →→→ §4.2.3: casLButton_MoveMouseToNextCoord...........................................1278
 ;     >>> §4.3: ^!#L/RButton — Move mouse to taskbar..........................................1302
 ;     >>> §4.4: #LButton — Move mouse to center of active window..............................1315
-;   §5: AUDITORY CUE BINDING..................................................................1360
-;   §6: WINDOW POSITIONING GUIS...............................................................1380
-;     >>> §6.1: Window Adjustment GUI.........................................................1384
-;       →→→ §6.1.1: TriggerWindowAdjustmentGui................................................1387
-;       →→→ §6.1.2: HandleGuiWinAdjWidthEditChange............................................1470
-;       →→→ §6.1.3: HandleGuiWinAdjWidthSliderChange..........................................1514
-;       →→→ §6.1.4: HandleGuiWinAdjOK.........................................................1553
-;       →→→ §6.1.5: guiWinAdjGuiEscape........................................................1560
-;       →→→ §6.1.6: GuiWinAdjUpdateEdgeSnapping...............................................1567
-;       →→→ §6.1.7: GuiWinAdjCheckNewPosition.................................................1587
-;   §7: APP SPECIFIC WORKSPACE MANAGEMENT SCRIPTS.............................................1608
-;     >>> §7.1: CHROME........................................................................1612
-;       →→→ §7.1.1: OpenWebsiteInChrome.......................................................1615
-;       →→→ §7.1.2: OpenNewTabInChrome........................................................1639
-;       →→→ §7.1.3: OpenNewWindowInChrome.....................................................1654
-;       →→→ §7.1.4: NavigateToWebsiteInChrome.................................................1667
-;       →→→ §7.1.5: MoveToNextTabInChrome.....................................................1690
-;     >>> §7.2: GNU IMAGE MANIPULATION PROGRAM................................................1702
-;       →→→ §7.2.1: @toggleGimp...............................................................1705
-;     >>> §7.3: NOTEPAD++: TEXT EDITING ENHANCEMENT HOTKEYS & SCRIPTS.........................1749
-;     >>> §7.4: STICKY NOTES FOR CHROME.......................................................1821
-;       →→→ §7.4.1: @initStickyNoteToggle.....................................................1824
-;       →→→ §7.4.2: @toggleStickyNote.........................................................1836
-;     >>> §7.5: SUBLIME TEXT 3................................................................1863
-;       →→→ §7.5.1: @sst3 (Start Sublime Text 3)..............................................1866
-;       →→→ §7.5.2: updateTableOfContents.ahk.................................................1873
-;     >>> §7.6: iTunes........................................................................1878
-;       →→→ §7.6.1: @restartItunes............................................................1881
-;   §8: Diagnostic hotstrings.................................................................1936
-;     >>> §8.1: @getActiveMonitorWorkArea.....................................................1940
-;     >>> §8.2: @getInfoOnSystemMonitors......................................................1951
+;   §5: AUDITORY CUE BINDING..................................................................1367
+;   §6: WINDOW POSITIONING GUIS...............................................................1387
+;     >>> §6.1: Window Adjustment GUI.........................................................1391
+;       →→→ §6.1.1: TriggerWindowAdjustmentGui................................................1394
+;       →→→ §6.1.2: HandleGuiWinAdjWidthEditChange............................................1477
+;       →→→ §6.1.3: HandleGuiWinAdjWidthSliderChange..........................................1521
+;       →→→ §6.1.4: HandleGuiWinAdjOK.........................................................1560
+;       →→→ §6.1.5: guiWinAdjGuiEscape........................................................1567
+;       →→→ §6.1.6: GuiWinAdjUpdateEdgeSnapping...............................................1574
+;       →→→ §6.1.7: GuiWinAdjCheckNewPosition.................................................1594
+;   §7: APP SPECIFIC WORKSPACE MANAGEMENT SCRIPTS.............................................1615
+;     >>> §7.1: CHROME........................................................................1619
+;       →→→ §7.1.1: OpenWebsiteInChrome.......................................................1622
+;       →→→ §7.1.2: OpenNewTabInChrome........................................................1646
+;       →→→ §7.1.3: OpenNewWindowInChrome.....................................................1661
+;       →→→ §7.1.4: NavigateToWebsiteInChrome.................................................1674
+;       →→→ §7.1.5: MoveToNextTabInChrome.....................................................1697
+;     >>> §7.2: GNU IMAGE MANIPULATION PROGRAM................................................1709
+;       →→→ §7.2.1: @toggleGimp...............................................................1712
+;     >>> §7.3: NOTEPAD++: TEXT EDITING ENHANCEMENT HOTKEYS & SCRIPTS.........................1756
+;     >>> §7.4: STICKY NOTES FOR CHROME.......................................................1828
+;       →→→ §7.4.1: @initStickyNoteToggle.....................................................1831
+;       →→→ §7.4.2: @toggleStickyNote.........................................................1843
+;     >>> §7.5: SUBLIME TEXT 3................................................................1870
+;       →→→ §7.5.1: @sst3 (Start Sublime Text 3)..............................................1873
+;       →→→ §7.5.2: updateTableOfContents.ahk.................................................1880
+;     >>> §7.6: iTunes........................................................................1885
+;       →→→ §7.6.1: @restartItunes............................................................1888
+;   §8: Diagnostic hotstrings.................................................................1943
+;     >>> §8.1: @getActiveMonitorWorkArea.....................................................1947
+;     >>> §8.2: @getInfoOnSystemMonitors......................................................1958
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -1315,15 +1315,22 @@ Return
 ;     >>> §4.4: #LButton — Move mouse to center of active window
 
 #LButton::
-	CoordMode, Mouse, Window
+	CoordMode, Mouse, Screen
 	WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
-	Sleep 20
-	MouseMove, % (thisWinW / 2), % (thisWinH / 2)
+	execDelayer.Wait( "s" )
+	if ( IsMouseAtCoord( thisWinX + thisWinW / 2, thisWinY + thisWinH / 2 ) ) {
+		Send % "{Alt Down}{Shift Down}{Tab}{Shift Up}{Alt Up}"
+		execDelayer.Wait( "m" )
+		WinGetPos, thisWinX, thisWinY, thisWinW, thisWinH, A
+		execDelayer.Wait( "s" )
+		MouseMove, % (thisWinX + thisWinW / 2), % (thisWinY + thisWinH / 2)
+	} else {
+		MouseMove, % (thisWinX + thisWinW / 2), % (thisWinY + thisWinH / 2)
+	}
 Return
 
 ^#LButton::
 !SC029::
-
 	; First, get the midpoint of the work area for the monitor the mouse cursor is situated on.
 	curMon := FindMonitorMouseIsOn()
 	aMonMidPtX := ( mon%curMon%WorkArea_Right - mon%curMon%WorkArea_Left ) / 2
