@@ -1,7 +1,7 @@
 {
   "name": "wsu-oue-autohotkey",
-  "version": "1.0.0",
-  "description": "AutoHotkey scripts for supporting Windows-based development of websites for the WSU Office of Undergraduate Education.",
+  "version": "1.0.2",
+  "description": "AutoHotkey scripts for supporting Windows-based development of websites for the WSU Division of Academic Engagement and Student Achievement in the Office of the Provost and Executive Vice President.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
