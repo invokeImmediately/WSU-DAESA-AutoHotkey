@@ -11,7 +11,7 @@
 #   websites for the Division of Academic Engagement and Student Achievement at Washington State
 #   University.
 #
-# @version 1.0.0-rc0.5.1
+# @version 1.2.0
 #
 # @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 # @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…
@@ -580,8 +580,33 @@ Function Open-GitHub-Folder {
   }
 }
 
+########
+### §1.21: Open-GitHub-on-Chrome
+###   Move the terminal's location to the primary GitHub folder on the local machine; if the user
+###     specifies a string representing a folder to a repo, attempt to use the string with wildcard
+###     filtering to find the repo and enter it as well.
+Function Open-GitHub-on-Chrome {
+  Param(
+    [Parameter(Mandatory=$false)]
+    [string]
+    $qStr = "",
+
+    [ Parameter( Mandatory=$false ) ]
+    [ bool ]
+    $srchCmts = $false
+  )
+  if ( $qStr -eq "" ) {
+    $cmd = "https://github.com/invokeImmediately"
+  } elseif ( $srchCmts ) {
+    $cmd = "https://github.com/search?q=user%3AinvokeImmediately+" + $qstr + "&s=committer-date&type=commits"
+  } else {
+    $cmd = "https://github.com/search?q=user%3AinvokeImmediately+" + $qstr
+  }
+  chrome $cmd
+}
+
 #########
-### §1.21: Open-PowerShell-Instance
+### §1.22: Open-PowerShell-Instance
 ###   Use PowerShell to open a new instance of PowerShell.
 Function Open-PowerShell-Instance {
     $procName = (Get-Process -Id $PID).ProcessName
@@ -593,7 +618,7 @@ Function Open-PowerShell-Instance {
 }
 
 #########
-### §1.22: Write-Commands-to-Host
+### §1.23: Write-Commands-to-Host
 ###   Write a list of the commands and aliases in this PowerShell profile to the console.
 Function Write-Commands-to-Host {
   # Write introductory output to the console explaining what this function will do to the user.
@@ -616,7 +641,7 @@ Function Write-Commands-to-Host {
 }
 
 ########
-### §1.23: Write-Welcome-Msg-to-Host
+### §1.24: Write-Welcome-Msg-to-Host
 ###
 Function Write-Welcome-Msg-to-Host {
   # Build the components of a message to indicate this profile was loaded; bracket the message in
@@ -634,7 +659,7 @@ Function Write-Welcome-Msg-to-Host {
   Write-Host "$Profile" -NoNewline -foregroundcolor Cyan
   Write-Host " $postMsg`n$("="*($sepLen))`n" -foregroundcolor DarkCyan
   Write-Host "Welcome back, " -NoNewline -foregroundcolor Green
-  Write-Host "$env:UserName" -NoNewline -foregroundcolor Cyan
+  Write-Host ( [Environment]::UserName ) -NoNewline -foregroundcolor Cyan
   Write-Host ". As a reminder, you can use the command " -NoNewline -foregroundcolor Green
   Write-Host "Write-Commands-to-Host" -NoNewline -foregroundcolor Cyan
   Write-Host " to obtain a list of the additional commands and their aliases defined in this profile.`n" -foregroundcolor Green
@@ -668,6 +693,8 @@ Set-Alias -Name igd -Value Invoke-Git-Diff
 Set-Alias -Name igdwo -Value Invoke-Git-Diff-with-Output
 
 Set-Alias -Name igdol -Value Invoke-Git-Diff-on-List
+
+Set-Alias -Name oghoc -Value Open-GitHub-on-Chrome
 
 Set-Alias -Name opi -Value Open-PowerShell-Instance
 
