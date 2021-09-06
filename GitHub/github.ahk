@@ -6,7 +6,7 @@
 ; Automate tasks for working with git in Windows 10 via PowerShell and posting code from git
 ;   repositories to WSU WordPress.
 ;
-; @version 1.0.0
+; @version 1.0.1
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master/GitHub/github.ahk
@@ -204,8 +204,8 @@ ActivateGitShell() {
 	oldMatchMode := ChangeMatchMode( mmRegEx )
 	WinGet, thisProcess, ProcessName, A
 	shellActivated := false
-	if ( !( thisProcess == "PowerShell.exe" || thisProcess == "powershell.exe" ) ) {
-		IfWinExist, % "ahk_exe [Pp]ower[Ss]hell.exe"
+	if ( !( thisProcess == "PowerShell.exe" || thisProcess == "powershell.exe"  || thisProcess == "pwsh.exe" ) ) {
+		IfWinExist, % "ahk_exe (?:[Pp]ower[Ss]hell.exe|pwsh.exe)"
 		{
 			execDelayer.SetUpNewProcess( 24, A_ThisFunc )
 			WinActivate, % "ahk_exe [Pp]ower[Ss]hell.exe"

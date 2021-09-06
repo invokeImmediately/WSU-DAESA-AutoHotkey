@@ -14,7 +14,7 @@
 ; Formerly, this project was conducted by the Office of Undergraduate Education (OUE), which was
 ;   combined with the Office of Academic Engagement to form DAESA.
 ;
-; @version 1.0.2-rc0.3.8
+; @version 1.0.2-rc0.3.9
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master/AutoHotkeyU64.ahk
