@@ -1,11 +1,10 @@
-﻿; ==================================================================================================
-; █▀▀▄ █▀▀▀ █▀▀▀ █▀▀▀▐▄ ▄▌▄▀▀▀▐▀█▀▌█▀▀▄ ▀█▀ ▐▀▀▄ █▀▀▀ ▄▀▀▀   ▄▀▀▄ █  █ █ ▄▀ 
+﻿; █▀▀▄ █▀▀▀ █▀▀▀ █▀▀▀▐▄ ▄▌▄▀▀▀▐▀█▀▌█▀▀▄ ▀█▀ ▐▀▀▄ █▀▀▀ ▄▀▀▀   ▄▀▀▄ █  █ █ ▄▀ 
 ; █▄▄▀ █▀▀  █ ▀▄ █▀▀   █  ▀▀▀█  █  █▄▄▀  █  █  ▐ █ ▀▄ ▀▀▀█   █▄▄█ █▀▀█ █▀▄  
 ; ▀  ▀▄▀▀▀▀ ▀▀▀▀ ▀▀▀▀▐▀ ▀▌▀▀▀   █  ▀  ▀▄▀▀▀ ▀  ▐ ▀▀▀▀ ▀▀▀  ▀ █  ▀ █  ▀ ▀  ▀▄
 ;
 ; Automate the insertion of RegEx strings used in find/replace editing. Designed with Sublime Text ;   version 3 in mind.
 ;
-; @version 1.0.1
+; @version 1.0.2
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-AutoHotkey
@@ -99,7 +98,7 @@ Return
 :*?:@findStrLessTocHeader::
 	AppendAhkCmd(A_ThisLabel)
 	SafeSendInput( "(?<=TABLE OF CONTENTS:\n[ *]{{}5{}}─{{}92{}}\n)(({^}.*$\n)(?{!} *\** *─{{}95{}}\n"
-		. "|\*{{}3{}} [└─]─{{}94{}}[─┘]\n))*({^}.*$\n)" )
+		. "|[ *]{{}3{}} [└─]─{{}94{}}[─┘]\n))*({^}.*$\n)" )
 Return
 
 ; --------------------------------------------------------------------------------------------------
