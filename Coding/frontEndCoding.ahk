@@ -5,7 +5,7 @@
 ;
 ; Autohotkey script import for supporting front-end web development in the WSUWP environment.
 ;
-; @version 1.0.0
+; @version 1.1.0
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master/…
@@ -41,11 +41,11 @@
 ;     >>> §2.3: Backup HTML of OUE pages.......................................................324
 ;       →→→ §2.3.1: @backupOuePage.............................................................327
 ;       →→→ §2.3.2: BackupOueHtml & sub-functions..............................................353
-;       →→→ §2.3.3: @backupOuePost.............................................................572
-;     >>> §2.4: Hyperlink collection hotstring.................................................600
-;     >>> §2.5: Checking for WordPress Updates.................................................669
-;   §3: GUI-related hotstrings & functions for automating HTML-related tasks...................674
-;     >>> §3.1: Insert Builder Sections GUI....................................................678
+;       →→→ §2.3.3: @backupOuePost.............................................................629
+;     >>> §2.4: Hyperlink collection hotstring.................................................657
+;     >>> §2.5: Checking for WordPress Updates.................................................726
+;   §3: GUI-related hotstrings & functions for automating HTML-related tasks...................731
+;     >>> §3.1: Insert Builder Sections GUI....................................................735
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -375,7 +375,7 @@ BackupOueHtml( source, workingFilePath, targetContentNeedle, cleaningNeedle
 	IfWinExist, % sublimeTextTitle
 	{
 		BackupOueHtml_CreateNewFile(source.code, keyDelay)
-		BackupOueHtml_SaveToWorkingFile(source.url, workingFilePath, keyDelay)
+		fileHdrCmt := BackupOueHtml_SaveToWorkingFile(source.url, workingFilePath, keyDelay)
 		BackupOueHtml_FixBadMarkup(keyDelay)
 		BackupOueHtml_BeautifyHtml(keyDelay)
 		BackupOueHtml_CopyMarkupSections(targetContentNeedle, keyDelay)
@@ -385,6 +385,7 @@ BackupOueHtml( source, workingFilePath, targetContentNeedle, cleaningNeedle
 		BackupOueHtml_RemoveBlankLines(keyDelay)
 		BackupOueHtml_InsertEofBlankLine(keyDelay)
 		BackupOueHtml_ConvertIndentationToTabs(keyDelay)
+		BackupOueHtml_InsertFileHeaderComment(fileHdrCmt, keyDelay)
 		BackupOueHtml_PerformFinalSave(keyDelay)
 	}
 	Else
@@ -400,65 +401,6 @@ BackupOueHtml( source, workingFilePath, targetContentNeedle, cleaningNeedle
 	if (oldMatchMode) {
 		SetTitleMatchMode %oldMatchMode%
 	}
-}
-
-BackupOueHtml_BeautifyHtml(keyDelay) {
-	; Trigger the HTMLPrettify package in Sublime Text to clean up markup and prepare it for RegEx
-	Send ^k^h
-	Sleep % keyDelay * 5
-}
-
-BackupOueHtml_CleanMarkup(cleaningNeedle, keyDelay) {
-	if (cleaningNeedle != "") {
-		Send ^h
-		Sleep % keyDelay * 2
-		SendInput % cleaningNeedle
-		Send {Tab}^a{Del}
-		Send ^!{Enter}
-		Sleep % keyDelay * 2
-		Send {Esc}{Right}
-		Sleep % keyDelay
-	}
-}
-
-BackupOueHtml_ConvertIndentationToTabs(keyDelay) {
-	Sleep % keyDelay
-	SendInput ^+p
-	Sleep % keyDelay
-	SendInput {Backspace}
-	Sleep % keyDelay * 4
-	SendInput % "Indentation: Convert to Ta"
-	Sleep % keyDelay * 8
-	SendInput % "{Enter}"
-}
-
-BackupOueHtml_ConvertUrlToFp( url, subdomain, repoFp ) {
-	sdLen := StrLen( subdomain ) + 9
-	urlLen := StrLen( url )
-	if ( urlLen <= sdLen ) {
-		urlSubStr := "home"
-	} else {
-		urlSubStr := SubStr( url, sdLen + 1, urlLen - sdLen - 1 )
-		if ( SubStr( urlSubStr, StrLen( urlSubStr ), 1) == "/" ) {
-			urlSubStr := SubStr( urlSubStr, 1, StrLen( urlSubStr ) - 1 )
-		}
-	}
-	fpFromUrl := StrReplace( urlSubStr, "/", "_" )
-	fpFromUrl := repoFp . "HTML\" . fpFromUrl . ".html"
-
-	return fpFromUrl
-}
-
-BackupOueHtml_CopyMarkupSections(targetContentNeedle, keyDelay) {
-	; Find the portions of the markup that we want to back up, select them all, copy, and
-	;  then overwrite the full markup
-	Send ^f
-	SendInput % targetContentNeedle
-	Send !{Enter}
-	Sleep % keyDelay * 15
-	Send ^c
-	Send ^a
-	Send ^v
 }
 
 BackupOueHtml_CreateNewFile( srcCode, keyDelay ) {
@@ -477,16 +419,31 @@ BackupOueHtml_CreateNewFile( srcCode, keyDelay ) {
 	execDelayer.Wait( keyDelay, 3 )
 }
 
-BackupOueHtml_FixBadMarkup(keyDelay) {
-	Send ^h
-	Sleep % keyDelay * 3
-	SendInput, % "(<br ?/?> ?)\n[\t ]{{}0,{}}"
-	Send {Tab}^a{Del}
-	SendInput, % "\1"
-	Send ^!{Enter}
-	Sleep % keyDelay * 3
-	Send {Esc}{Right}
-	Sleep % keyDelay
+BackupOueHtml_SaveToWorkingFile(url, workingFilePath, keyDelay) {
+	global execDelayer
+
+	pathToUse := BackupOueHtml_GetPathFromUrl( url )
+	fileHdrCmt := ""
+
+	if ( !pathToUse ) {
+		pathToUse := workingFilePath
+	} else {
+		if ( !FileExist( pathToUse ) ) {
+			FileAppend, % "", %pathToUse%
+		} else {
+			fileHdrCmt := BackupOueHtml_GetFileHeaderComment( pathToUse, keyDelay )
+			if ( SubStr( fileHdrCmt, 1, 4 ) != "<!--" ) {
+				fileHdrCmt := ""
+			}
+		}
+	}
+	SendInput % "^+s"
+	execDelayer.Wait( keyDelay * 20 )
+	SendInput % "{BackSpace}" . pathToUse
+	execDelayer.Wait( keyDelay * 5 )
+	SendInput % "{Enter}{Left}{Enter}"
+	execDelayer.Wait( keyDelay * 5 )
+	return fileHdrCmt
 }
 
 BackupOueHtml_GetPathFromUrl( url ) {
@@ -511,18 +468,149 @@ BackupOueHtml_GetPathFromUrl( url ) {
 	Return repoFp
 }
 
-BackupOueHtml_InsertEofBlankLine(keyDelay) {
-	; Insert final blank line for the sake of git
-	Send ^{End}{Enter}^{Home}
-	Sleep % keyDelay
+BackupOueHtml_ConvertUrlToFp( url, subdomain, repoFp ) {
+	sdLen := StrLen( subdomain ) + 9
+	urlLen := StrLen( url )
+	if ( urlLen <= sdLen ) {
+		urlSubStr := "home"
+	} else {
+		urlSubStr := SubStr( url, sdLen + 1, urlLen - sdLen - 1 )
+		if ( SubStr( urlSubStr, StrLen( urlSubStr ), 1) == "/" ) {
+			urlSubStr := SubStr( urlSubStr, 1, StrLen( urlSubStr ) - 1 )
+		}
+	}
+	fpFromUrl := StrReplace( urlSubStr, "/", "_" )
+	fpFromUrl := repoFp . "HTML\" . fpFromUrl . ".html"
+
+	return fpFromUrl
+}
+
+BackupOueHtml_GetFileHeaderComment( pathToUse, keyDelay ) {
+	global execDelayer
+	SendInput % "^o"
+	execDelayer.Wait( keyDelay * 20 )
+	SendInput % "{BackSpace}" . pathToUse
+	execDelayer.Wait( keyDelay * 5 )
+	SendInput % "{Enter}"
+	execDelayer.Wait( keyDelay * 3 )
+	SendInput % "^f"
+	execDelayer.Wait( keyDelay * 5 )
+	SendInput % "{^}<{!}-{{}98{}}$\n({^}--.*$\n){+}{^}-{{}99{}}>$\n"
+	execDelayer.Wait( keyDelay * 5 )
+	SendInput % "!{Enter}"
+	execDelayer.Wait( keyDelay * 3 )
+	SendInput % "^c"
+	execDelayer.Wait( keyDelay * 3 )
+	fileHdrCmt := Clipboard
+	execDelayer.Wait( keyDelay * 3 )
+	SendInput % "^w"
+	execDelayer.Wait( keyDelay * 3 )
+	return fileHdrCmt
+}
+
+BackupOueHtml_FixBadMarkup( keyDelay ) {
+	global execDelayer
+	SendInput, % "^h"
+	execDelayer.Wait( keyDelay * 3 )
+	SendInput, % "(<br ?/?> ?)\n[\t ]{{}0,{}}"
+	execDelayer.Wait( keyDelay * 3 )
+	SendInput, % "{Tab}^a{Del}\1"
+	execDelayer.Wait( keyDelay * 3 )
+	SendInput, % "^!{Enter}"
+	execDelayer.Wait( keyDelay * 3 )
+	SendInput, % "{Esc}{Right}"
+	execDelayer.Wait( keyDelay * 3 )
+}
+
+BackupOueHtml_BeautifyHtml(keyDelay) {
+	; Trigger the HTMLPrettify package in Sublime Text to clean up markup and prepare it for RegEx
+	Send ^k^h
+	Sleep % keyDelay * 5
+}
+
+BackupOueHtml_CopyMarkupSections(targetContentNeedle, keyDelay) {
+	; Find the portions of the markup that we want to back up, select them all, copy, and
+	;  then overwrite the full markup
+	Send ^f
+	SendInput % targetContentNeedle
+	Send !{Enter}
+	Sleep % keyDelay * 15
+	Send ^c
+	Send ^a
+	Send ^v
+}
+
+BackupOueHtml_CleanMarkup(cleaningNeedle, keyDelay) {
+	if (cleaningNeedle != "") {
+		Send ^h
+		Sleep % keyDelay * 2
+		SendInput % cleaningNeedle
+		Send {Tab}^a{Del}
+		Send ^!{Enter}
+		Sleep % keyDelay * 2
+		Send {Esc}{Right}
+		Sleep % keyDelay
+	}
 }
 
 BackupOueHtml_InsertEllipses() {
 	; Insert ellipses after breaks in the original markup
-	Send ^f
+	global execDelayer
+	SendInput % "^f"
+	execDelayer.Wait( "m" )
 	SendInput % "</title>$|<body.*$|</section>(?=\n</body)|</div>(?=\n\t*</body)"
-	Send !{Enter}
-	Send % "{Right}{Enter}<{!}--...-->{Esc}"
+	execDelayer.Wait( "m" )
+	SendInput % "!{Enter}"
+	execDelayer.Wait( "m" )
+	SendInput % "{Right}{Enter}<{!}--...-->{Esc}"
+	execDelayer.Wait( "m" )
+}
+
+BackupOueHtml_RemoveBlankLines(keyDelay) {
+	; Remove extra blank lines that appear throughout the source code file.
+	global execDelayer
+	SendInput % "{Up}{Down}"
+	execDelayer.Wait( keyDelay * 2 )
+	SendInput % "^h"
+	execDelayer.Wait( keyDelay * 2 )
+	SendInput % "{^}[ \t]*$\n"
+	execDelayer.Wait( keyDelay * 2 )
+	SendInput % "{Tab}^a{Del}"
+	execDelayer.Wait( keyDelay * 3 )
+	SendInput % "^!{Enter}"
+	execDelayer.Wait( keyDelay * 3 )
+	SendInput % "{Esc}{Right}"
+	execDelayer.Wait( keyDelay * 2 )
+}
+
+BackupOueHtml_InsertEofBlankLine(keyDelay) {
+	; Insert final blank line for the sake of git
+	global execDelayer
+	SendInput, % "^{End}"
+	execDelayer.Wait( keyDelay )
+	SendInput, % "{Enter}"
+	execDelayer.Wait( keyDelay )
+	SendInput, % "^{Home}"
+	execDelayer.Wait( keyDelay )
+}
+
+BackupOueHtml_ConvertIndentationToTabs(keyDelay) {
+	Sleep % keyDelay
+	SendInput ^+p
+	Sleep % keyDelay
+	SendInput {Backspace}
+	Sleep % keyDelay * 4
+	SendInput % "Indentation: Convert to Ta"
+	Sleep % keyDelay * 8
+	SendInput % "{Enter}"
+}
+
+BackupOueHtml_InsertFileHeaderComment(fileHdrCmt, keyDelay) {
+	global execDelayer
+	Clipboard := fileHdrCmt
+	execDelayer.Wait( keyDelay * 5 )
+	SendInput, % "^v"
+	execDelayer.Wait( keyDelay * 3 )
 }
 
 BackupOueHtml_PerformFinalSave(keyDelay) {
@@ -531,41 +619,10 @@ BackupOueHtml_PerformFinalSave(keyDelay) {
 	SendInput % "^s"
 }
 
-BackupOueHtml_RemoveBlankLines(keyDelay) {
-	; Remove extra blank lines that appear throughout the source code file.
-	Send ^h
-	Sleep % keyDelay * 2
-	SendInput % "(?<=\n)\t*\n"
-	Send {Tab}^a{Del}
-	Send ^!{Enter}
-	Sleep % keyDelay * 2
-	Send {Esc}{Right}
-	Sleep % keyDelay
-}
-
 BackupOueHtml_RemoveBlankLine3(keyDelay) {
 	; Remove extra line that ends up on line 3.
 	Send ^g3{Enter}{Backspace}
 	Sleep % keyDelay
-}
-
-BackupOueHtml_SaveToWorkingFile(url, workingFilePath, keyDelay) {
-	global execDelayer
-
-	pathToUse := BackupOueHtml_GetPathFromUrl( url )
-	if ( !pathToUse ) {
-		pathToUse := workingFilePath
-	} else {
-		if ( !FileExist( pathToUse ) ) {
-			FileAppend, % "", %pathToUse%
-		}
-	}
-	Send ^+s
-	Sleep % keyDelay * 20
-	SendInput % "{BackSpace}" . pathToUse
-	Sleep % keyDelay * 5
-	Send {Enter}{Left}{Enter}
-	Sleep % keyDelay * 5
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
