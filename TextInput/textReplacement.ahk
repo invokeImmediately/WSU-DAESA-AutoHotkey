@@ -5,7 +5,7 @@
 ;
 ; An assortment of text replacement hotkeys and hotstrings.
 ;
-; @version 1.0.0-rc0.0.1
+; @version 1.0.1
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…→
@@ -533,7 +533,7 @@ Return
 	AppendAhkCmd( A_ThisLabel )
 	oldText := Clipboard
 	execDelayer.Wait( "s" )
-	newText := RegExReplace( Clipboard, "/", "❘" )
+	newText := RegExReplace( Clipboard, "/", "»" )
 	execDelayer.Wait( "s" )
 	newText := RegExReplace( newText, "\.", "·" )
 	execDelayer.Wait( "s" )
@@ -541,9 +541,9 @@ Return
 	execDelayer.Wait( "s" )
 	Clipboard := newText
 	execDelayer.Wait( "s" )
-	DisplaySplashText( "Text in the clipboard has been modified such that colons have been "
-	 . "replaced with vertical ellipses, foward slashes have been replaced with vertical bars, "
-	 . "and periods have been replaced with middle dots.", 3000 )
+	DisplaySplashText( "Text in the clipboard has been modified such that colons have been replaced "
+	 . "with vertical ellipses, foward slashes have been replaced with guillemets, and periods have "
+	 . "been replaced with middle dots.", 3000 )
 Return
 
 ;   ································································································
