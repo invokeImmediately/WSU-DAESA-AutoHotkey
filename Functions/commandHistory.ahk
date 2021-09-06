@@ -7,7 +7,7 @@
 ;   user of the script for the purpose of enabling the user to rapidly search through and repeat
 ;   previous commands.
 ;
-; @version 1.0.0
+; @version 1.1.0
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master/Functions/trie.ahk
@@ -30,9 +30,9 @@
 ;   §1: GUI for entering script commands without affecting the active window....................39
 ;   §2: Functions for creating and maintaining a history of script commands.....................65
 ;   §3: Lookup and triggering of commands stored in the script command history.................158
-;   §4: Repetition of script commands..........................................................290
-;     >>> §4.1: Repeat the latest script command...............................................294
-;     >>> §4.2: Repeat specified script command multiple times.................................311
+;   §4: Repetition of script commands..........................................................299
+;     >>> §4.1: Repeat the latest script command...............................................303
+;     >>> §4.2: Repeat specified script command multiple times.................................320
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -173,7 +173,7 @@ GetAhkCmdCount() {
 }
 
 :*?:@findAhkCmd::
-	thisAhkCmd := A_ThisLabel 
+	thisAhkCmd := A_ThisLabel
 	AppendAhkCmd(thisAhkCmd)
 	CreateFindCmdGUI()
 Return
@@ -192,6 +192,16 @@ CreateFindCmdGUI() {
 	WM_KEYUP := 0x101
 	
 	if (hsListPiped != undefined && hsCount > 0) {
+		; First, determine which monitor the command entry window should spawn on.
+		gH := 680
+		gW := 426
+		aMon := FindNearestActiveMonitor()
+		gX := ( mon%aMon%WorkArea_Right - mon%aMon%WorkArea_Left ) / 2 - gW / 2
+			+ mon%aMon%WorkArea_Left
+		gY := ( mon%aMon%WorkArea_Bottom - mon%aMon%WorkArea_Top ) / 2 - gH / 2
+			+ mon%aMon%WorkArea_Top
+
+		; Now, set up the GUI.
 		Gui, AhkGuiFindCmd:New,, % "AutoHotkey Hotstring Lookup Utility"
 		Gui, AhkGuiFindCmd:Add, Text, w400, % "Select a command from the list of " . hsCount 
 			. " currently available hotstrings below. The edit box can be used to quickly search "
@@ -199,10 +209,9 @@ CreateFindCmdGUI() {
 		Gui, AhkGuiFindCmd:Add, Edit
 			, w400 vFindCmdEditBox HwndFindCmdEditBoxHwnd gFindCmdEditBoxChanged
 		Gui, AhkGuiFindCmd:Add, ListBox, w400 h550 vFindCmdListBox gFindCmdListBoxClick, %hsListPiped%
-		;Gui, AhkGuiFindCmd:Add, ComboBox, w400 h550 vFindCmdComboBox Simple, %hsListPiped%
 		Gui, AhkGuiFindCmd:Add, Button, Default gHandleFindCmdOk, &Ok
 		Gui, AhkGuiFindCmd:Add, Button, gHandleFindCmdCancel X+5, &Cancel
-		Gui, AhkGuiFindCmd:Show
+		Gui, AhkGuiFindCmd:Show, X%gX% Y%gY%
 		OnMessage(WM_KEYUP, "FindCmdEditBoxKeyup")
 	} else {
 		ErrorBox(A_ThisFunc, "Could not create the find command GUI because the list of available A"
