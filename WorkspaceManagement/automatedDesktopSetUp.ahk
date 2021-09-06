@@ -9,7 +9,7 @@
 ;
 ; Script for automating the set up of virtual desktops for different, typical workflows.
 ;
-; @version 1.0.0-rc0.0.1
+; @version 1.0.1
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…→
@@ -495,7 +495,7 @@ AddSublimeText3ToVd( whichVd ) {
 
 	oldTitleMatchMode := ChangeMatchMode(mmRegEx)
 	st3TitleToMatch := "Sublime Text ahk_exe sublime_text\.exe"
-	st3NewWinTitle := "untitled - Sublime ahk_exe sublime_text\.exe"
+	st3NewWinTitle := "untitled.*?Sublime ahk_exe sublime_text\.exe"
 
 	; Add ST3 window to virtual desktop
 	; TODO: Check to see if ST3 is already on the virtual desktop.
