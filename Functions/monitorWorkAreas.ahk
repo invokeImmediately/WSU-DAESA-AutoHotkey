@@ -32,8 +32,9 @@
 ;   §4: FindMonitorMouseIsOn().................................................................130
 ;   §5: FindNearestActiveMonitor().............................................................159
 ;   §6: GetActiveMonitorWorkArea(…)............................................................201
-;   §7: RemoveWinBorderFromRectCoordinate......................................................244
-;   §8: ResolveActiveMonitorWorkArea...........................................................284
+;   §7: GetActiveMonitorResolution()...........................................................094
+;   §8: RemoveWinBorderFromRectCoordinate......................................................244
+;   §9: ResolveActiveMonitorWorkArea...........................................................284
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -241,7 +242,70 @@ GetActiveMonitorWorkArea(ByRef monitorFound, ByRef monitorALeft, ByRef monitorAT
 }
 
 ; --------------------------------------------------------------------------------------------------
-;   §7: RemoveWinBorderFromRectCoordinate(…)
+;   §7: GetActiveMonitorResolution
+; --------------------------------------------------------------------------------------------------
+
+GetActiveMonitorResolution() {
+	resolution := {}
+	VarSetCapacity(devMod, 156, 0)
+	NumPut(156, devMod, 36)
+	DllCall( "EnumDisplaySettingsA", UInt, 0, UInt, -1, UInt, &devMod )
+	resolution.W := NumGet(devMod, 108, "UInt")
+	resolution.H := NumGet(devMod, 112, "UInt")
+	Return resolution
+}
+
+:*?:@getActiveMonitorResolution::
+	AppendAhkCmd( A_ThisLabel )
+	resolution := GetActiveMonitorResolution()
+	MsgBox % "Resolution of active monitor '" . resolution.MonName . "'' = "
+		. resolution.W "px by " . resolution.H . "px"
+Return
+
+GetMonitorResolution( whichMon ) {
+	global sysNumMonitors
+	resolution := {}
+
+	; Handle potential edge case where a nonsensical monitor number was provided.
+	if ( whichMon < 0 || whichMon > sysNumMonitors - 1 ) {
+		resolution.MonName := "Error: Monitor not found"
+		resolution.W := 0
+		resolution.H := 0
+		return resolution
+	}
+
+	; First, obtain the device name of the requested monitor.
+	VarSetCapacity( dispDev, 424, 0 )
+	NumPut( 424, dispDev, 0 )
+	DllCall( "EnumDisplayDevicesA", Ptr, 0, UInt, whichMon, UInt, &dispDev, UInt, 1 )
+	monDevName := ""
+	VarSetCapacity( dispName, 32, 0 )
+	Loop 32 {
+		NumPut(NumGet( dispDev, 4 + A_Index - 1, "Char"), dispName, A_Index - 1 )
+		monDevName .= Chr( NumGet( dispDev, 4 + A_Index - 1, "Char" ) )
+		resolution.MonName := monDevName
+	}
+
+	; Use the device name of the requested monitor to obtain its resolution.
+	VarSetCapacity(devMod, 156, 0)
+	NumPut(156, devMod, 36)
+	DllCall( "EnumDisplaySettingsA", Ptr, dispName, UInt, -1, UInt, &devMod )
+	resolution.W := NumGet(devMod, 108, "UInt")
+	resolution.H := NumGet(devMod, 112, "UInt")
+
+	Return resolution
+}
+
+:*?:@getMonitorResolutions::
+	AppendAhkCmd( A_ThisLabel )
+	whichMon := 0
+	resolution := GetMonitorResolution(0)
+	MsgBox % "Resolution of monitor '" . resolution.MonName . "' = " . resolution.W . "px by "
+		. resolution.H . "px"
+Return
+
+; --------------------------------------------------------------------------------------------------
+;   §8: RemoveWinBorderFromRectCoordinate(…)
 ; --------------------------------------------------------------------------------------------------
 
 ; Remove the width of a window's border from one of its outer rectangle coordinates. This has the 
@@ -281,7 +345,7 @@ RemoveWinBorderFromRectCoordinate(whichVertex, ByRef coordX, ByRef coordY) {
 }
 
 ; --------------------------------------------------------------------------------------------------
-;   §8: ResolveActiveMonitorWorkArea(…)
+;   §9: ResolveActiveMonitorWorkArea(…)
 ; --------------------------------------------------------------------------------------------------
 
 ; Notes on arguments:
