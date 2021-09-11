@@ -5,7 +5,7 @@
 ;
 ; An assortment of text replacement hotkeys and hotstrings.
 ;
-; @version 1.0.1
+; @version 1.0.2
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…→
@@ -58,7 +58,7 @@
 ;     >>> §6.3: ASCII Text Art.................................................................550
 ;       →→→ §6.3.1: AsciiArtLetter3h class.....................................................553
 ;       →→→ §6.3.2: AsciiArtConverter class....................................................566
-;       →→→ §6.3.3: @convertCbToAsciiArt hotstring.............................................697
+;       →→→ §6.3.3: @convertCbToAsciiArt hotstring.............................................705
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -669,6 +669,14 @@ class AsciiArtConverter {
 				; Now obtain the appropriate row of ASCII art characters that represent the current
 				;   character being converted.
 				artChars := this.alphabet[ "" . whichChar ].rows[ idx_i ]
+
+				; If this is the last character in the row, strip off terminl spaces.
+				if ( idx_j == len ) {
+					; How to remove spaces? RegExReplace
+					artChars := RegExReplace( artChars, " +$", "")
+				}
+
+				; Add the art characters to the converted string we are building.
 				if ( artChars ) {
 					newStr .= artChars
 					if ( idx_j < len && this.alphabet[ "" . whichChar ].spaceRight
