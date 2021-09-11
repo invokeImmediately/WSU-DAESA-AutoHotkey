@@ -11,7 +11,7 @@
 #   websites for the Division of Academic Engagement and Student Achievement at Washington State
 #   University.
 #
-# @version 1.2.1
+# @version 1.2.2
 #
 # @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 # @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…
@@ -651,11 +651,16 @@ Function Write-Welcome-Msg-to-Host {
 
   # Get the version number of the profile from the file header comment.
   $semVer = ""
-  Select-String "^# @version ([0-9]+\.[0-9]+\.[0-9]+.*)$" $Profile.ToString() | % {
-    $matched = $_.Line -match "^# @version ([0-9]+\.[0-9]+\.[0-9]+.*)$"
+  $strs = Select-String "^# @version ([0-9]+\.[0-9]+\.[0-9]+.*)$" $Profile.ToString()
+  foreach( $str in $strs ) {
+    $matched = $str.Line -match "^# @version ([0-9]+\.[0-9]+\.[0-9]+.*)$"
     if ( $matched ) {
       $semVer = " v" + $Matches.1
     }
+
+    # The first selected string, being in the file header comment, should be the version number of
+    #   the profile, so we only need one loop iteration.
+    Break
   }
 
   # Determine the length of the separators we should use in the welcome message.
