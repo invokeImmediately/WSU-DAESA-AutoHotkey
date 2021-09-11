@@ -11,7 +11,7 @@
 #   websites for the Division of Academic Engagement and Student Achievement at Washington State
 #   University.
 #
-# @version 1.2.0
+# @version 1.2.1
 #
 # @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 # @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…
@@ -648,7 +648,18 @@ Function Write-Welcome-Msg-to-Host {
   #   automatically generated separators whose length is limited to the console's window width.
   $preMsg = "PowerShell profile"
   $postMsg = "has been loaded."
-  $msgLen = $preMsg.Length + $Profile.ToString().Length + $postMsg.Length + 2
+
+  # Get the version number of the profile from the file header comment.
+  $semVer = ""
+  Select-String "^# @version ([0-9]+\.[0-9]+\.[0-9]+.*)$" $Profile.ToString() | % {
+    $matched = $_.Line -match "^# @version ([0-9]+\.[0-9]+\.[0-9]+.*)$"
+    if ( $matched ) {
+      $semVer = " v" + $Matches.1
+    }
+  }
+
+  # Determine the length of the separators we should use in the welcome message.
+  $msgLen = $preMsg.Length + $Profile.ToString().Length + $semVer.Length + $postMsg.Length + 2
   $consoleLen = $Host.UI.RawUI.WindowSize.Width - 1
   $sepLen = [Math]::Min( $msgLen, $consoleLen )
 
@@ -657,6 +668,7 @@ Function Write-Welcome-Msg-to-Host {
   Write-Host "`n$("="*($sepLen))" -foregroundcolor DarkCyan
   Write-Host "$preMsg " -NoNewline -foregroundcolor DarkCyan
   Write-Host "$Profile" -NoNewline -foregroundcolor Cyan
+  Write-Host "$semVer" -NoNewline -foregroundcolor Green
   Write-Host " $postMsg`n$("="*($sepLen))`n" -foregroundcolor DarkCyan
   Write-Host "Welcome back, " -NoNewline -foregroundcolor Green
   Write-Host ( [Environment]::UserName ) -NoNewline -foregroundcolor Cyan
