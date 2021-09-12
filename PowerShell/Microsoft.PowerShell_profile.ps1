@@ -11,7 +11,7 @@
 #   websites for the Division of Academic Engagement and Student Achievement at Washington State
 #   University.
 #
-# @version 1.2.2
+# @version 1.2.3
 #
 # @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 # @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…
@@ -499,10 +499,21 @@ Function Invoke-Git-Diff-on-List {
     [Parameter(Mandatory=$true,
     ValueFromPipeline=$true)]
     [string]
-    $filesStr
+    $filesStr,
+
+    [Parameter(Mandatory=$false,
+    ValueFromPipeline=$true)]
+    [string]
+    $dlmtr = ",",
+
+    [Parameter(Mandatory=$false,
+    ValueFromPipeline=$true)]
+    [string]
+    $logFN = "diff.log.txt"
   )
-  $logFN = "diff.log.txt"
-  $files = $filesStr.Split( "," )
+
+  $filesStr = $filesStr -replace ( $dlmtr + " ", $dlmtr)
+  $files = $filesStr.Split( $dlmtr )
   $pastFirstFile = $false
   Write-Host "`nPerforming command Invoke-Git-Diff-on-List on " -NoNewLine
   Write-Host ($files -join ", ") -foregroundcolor Cyan
