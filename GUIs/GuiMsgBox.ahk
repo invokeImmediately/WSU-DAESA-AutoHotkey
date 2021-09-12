@@ -5,7 +5,7 @@
 ;
 ; Generate a GUI-based message box that does not interrupt script operation.
 ;
-; @version 1.1.0-rc3
+; @version 1.1.1
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master/GUIs/GuiMsgBox.ahk
@@ -29,7 +29,8 @@ class GuiMsgBox extends AhkGui
 	__New( guiMsg, guiName := "Default", guiTitle := "", okBtnHandler := "HandleGuiMsgBoxOk" ) {
 		global checkType
 		global execDelayer
-		base.__New( checkType, execDelayer, "MsgBox", guiName, guiTitle )
+		global scriptCfg
+		base.__New( scriptCfg.guiThemes.cfgSettings[ 1 ], checkType, execDelayer, "MsgBox", guiName, guiTitle )
 		this.msg := guiMsg
 		this.okBtnHandler := new GuiControlHandler( okBtnHandler, this )
 	}
@@ -55,25 +56,19 @@ class GuiMsgBox extends AhkGui
 		okBtnX := guiW / 2 - okBtnW / 2 + scrlW / 2
 
 		; Create the GUI implementing a message box and apply the default styling theme.
-		Gui, gui%guiType%%guiName%: New, , % this.title
+		Gui, ahkGui%guiType%%guiName%: New, , % this.title
 		this.ApplyTheme()
 
 		; Add controls to the GUI consisting of the message and OK button.
-		Gui, gui%guiType%%guiName%: Add, Text, w%guiW% y16, % this.msg
-		Gui, gui%guiType%%guiName%: Add, Button
-			, vgui%guiType%Ok%guiName% Default w%okBtnW% x%okBtnX% Y+%okBtnSp%, % "&Ok"
+		Gui, ahkGui%guiType%%guiName%: Add, Text, w%guiW% y16, % this.msg
+		Gui, ahkGui%guiType%%guiName%: Add, Button
+			, vahkGui%guiType%Ok%guiName% Default w%okBtnW% x%okBtnX% Y+%okBtnSp%, % "&Ok"
 		
 		; Assign a callback function to the OK button that will handle user interaction.
-		GuiControl, +g, gui%guiType%Ok%guiName%, %guiCallback%
+		GuiControl, +g, ahkGui%guiType%Ok%guiName%, %guiCallback%
 		
 		; Display the GUI to the user.
-		Gui, gui%guiType%%guiName%: Show
-	}
-
-	CloseGui() {
-		guiType := this.type
-		guiName := this.name
-		Gui, gui%guiType%%guiName%: Destroy
+		Gui, ahkGui%guiType%%guiName%: Show
 	}
 }
 

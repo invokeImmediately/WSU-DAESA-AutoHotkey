@@ -5,7 +5,7 @@
 ;
 ; Generate a GUI-based splash text box.
 ;
-; @version 1.0.0-alpha.4
+; @version 1.0.0
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master/GUIs/GuiSplashText.ahk
@@ -29,7 +29,8 @@ class GuiSplashText extends AhkGui
 	__New( guiMsg, dispTime, waitForMsg ) {
 		global checkType
 		global execDelayer
-		base.__New( checkType, execDelayer, "SplashText", "Default", A_ScriptName )
+		global scriptCfg
+		base.__New( scriptCfg.guiThemes.cfgSettings[ 1 ], checkType, execDelayer, "SplashText", "Default", A_ScriptName )
 		this.msg := guiMsg
 		this.dispTime := dispTime
 		this.waitForMsg := waitForMsg
@@ -39,11 +40,11 @@ class GuiSplashText extends AhkGui
 		global
 		local guiType := this.type
 		local guiName := this.name
-		Gui, gui%guiType%%guiName%: New, , % this.title
-		Gui, gui%guiType%%guiName%: +AlwaysOnTop
+		Gui, ahkGui%guiType%%guiName%: New, , % this.title
+		Gui, ahkGui%guiType%%guiName%: +AlwaysOnTop
 		this.ApplyTheme()
-		Gui, gui%guiType%%guiName%: Add, Text, w480, % this.msg
-		Gui, gui%guiType%%guiName%: Show, NoActivate
+		Gui, ahkGui%guiType%%guiName%: Add, Text, w512, % this.msg
+		Gui, ahkGui%guiType%%guiName%: Show, NoActivate
 		SetTimer, DismissGuiSplashText, % -1 * this.dispTime
 		if ( this.waitForMsg ) {
 			this.delayer.Wait( this.dispTime )
@@ -52,5 +53,5 @@ class GuiSplashText extends AhkGui
 }
 
 DismissGuiSplashText() {
-	Gui, guiSplashTextDefault: Destroy
+	Gui, ahkGuiSplashTextDefault: Destroy
 }

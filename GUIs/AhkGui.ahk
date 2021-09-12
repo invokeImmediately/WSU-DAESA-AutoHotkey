@@ -5,7 +5,7 @@
 ;
 ; Prototype for all GUIs created by the WSU-DAESA-AutoHotkey script.
 ;
-; @version 0.1.2
+; @version 1.0.0
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-AutoHotkey/blob/master/GUIs/AhkGui.ahk
@@ -27,9 +27,17 @@
 class AhkGui
 {
 
-	__New( typer, delayer, guiType, guiName, guiTitle ) {
-		global scriptCfg
-		this.theme := scriptCfg.guiThemes.cfgSettings[ 1 ]
+	__New( guiTheme, typer, delayer, guiType, guiName, guiTitle ) {
+		; this.__ConstructAhkGuiInst( guiTheme, typer, delayer, guiType, guiName, guiTitle )
+		this.theme := guiTheme
+		this.SetDelayer( delayer )
+		this.SetTyper( typer )
+		this.SetIdentifier( guiType, guiName )
+		this.SetTitle( guiTitle )
+	}
+
+	__ConstructAhkGuiInst( guiTheme, typer, delayer, guiType, guiName, guiTitle ) {
+		this.theme := guiTheme
 		this.SetDelayer( delayer )
 		this.SetTyper( typer )
 		this.SetIdentifier( guiType, guiName )
@@ -42,14 +50,19 @@ class AhkGui
 		iType := this.type
 		iName := this.name
 		tWBgc := iTheme[ "wBgc" ]  ; Theme's background color for windows
+		this.tWBgc := tWBgc
 		tCBgc := iTheme[ "cBgc" ]  ; Background color for controls
+		this.tCBgc := tCBgc
 		tFgc := iTheme[ "fgc" ]    ; Foreground color
+		this.tFgc := tFgc
 		tFf := iTheme[ "fFace" ]   ; Font face
+		this.tFf := tFf
 		tFs := iTheme[ "fSz" ]     ; Font size
+		this.tFs := tFs
 
 		; Change the coloring and typography to match the theme's specifications.
-		Gui, gui%iType%%iName%: Color, %tWBgc%, %tCBgc%
-		Gui, gui%iType%%iName%: Font, C%tFgc% s%tFs%, % tFf
+		Gui, ahkGui%iType%%iName%: Color, %tWBgc%, %tCBgc%
+		Gui, ahkGui%iType%%iName%: Font, C%tFgc% s%tFs%, % tFf
 	}
 
 	SetDelayer( delayer ) {
@@ -99,6 +112,6 @@ class AhkGui
 		; Close the GUI by destroying it based on its identifier.
 		guiType := this.type
 		guiName := this.name
-		Gui, guiGh%guiType%%guiName%: Destroy
+		Gui, ahkGui%guiType%%guiName%: Destroy
 	}
 }

@@ -6,7 +6,7 @@
 ; Automate tasks for working with git in Windows 10 via PowerShell and posting code from git
 ;   repositories to WSU WordPress.
 ;
-; @version 1.0.1
+; @version 1.0.2
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master/GitHub/github.ahk
@@ -604,7 +604,7 @@ PasteMinCssToWebsite( websiteUrl, cssCopyCmd, manualProcession := false ) {
 
 :*?:@postCssFromRepo::
 	AppendAhkCmd( A_ThisLabel )
-	cssBldGui := new CssBldPsOps( scriptCfg.cssBuilds, checkType, execDelayer )
+	cssBldGui := new CssBldPsOps( scriptCfg.cssBuilds, scriptCfg.guiThemes.cfgSettings[ 1 ], checkType, execDelayer )
 	cssBldGui.ShowGui( "post" )
 Return
 
@@ -613,7 +613,7 @@ Return
 
 :*?:@postPrevCssFromRepo::
 	AppendAhkCmd( A_ThisLabel )
-	cssBldGui := new CssBldPsOps( scriptCfg.cssBuilds, checkType, execDelayer )
+	cssBldGui := new CssBldPsOps( scriptCfg.cssBuilds, scriptCfg.guiThemes.cfgSettings[ 1 ], checkType, execDelayer )
 	cssBldGui.ShowGui( "postBackup" )
 Return
 
@@ -1388,7 +1388,7 @@ ExecuteJsPasteCmds( manualProcession := false ) {
 
 :*?:@backupCssInRepo::
 	AppendAhkCmd( A_ThisLabel )
-	cssBldGui := new CssBldPsOps( scriptCfg.cssBuilds, checkType, execDelayer )
+	cssBldGui := new CssBldPsOps( scriptCfg.cssBuilds, scriptCfg.guiThemes.cfgSettings[ 1 ], checkType, execDelayer )
 	cssBldGui.ShowGui( "backup" )
 Return
 
@@ -1457,7 +1457,7 @@ ExecuteCssCopyCmds() {
 
 :*?:@rebuildCssInRepo::
 	AppendAhkCmd( A_ThisLabel )
-	cssBldGui := new CssBldPsOps( scriptCfg.cssBuilds, checkType, execDelayer )
+	cssBldGui := new CssBldPsOps( scriptCfg.cssBuilds, scriptCfg.guiThemes.cfgSettings[ 1 ], checkType, execDelayer )
 	cssBldGui.ShowGui( "rebuild" )
 Return
 
@@ -1496,7 +1496,7 @@ Return
 
 :*?:@commitCssInRepo::
 	AppendAhkCmd( A_ThisLabel )
-	cssBldGui := new CssBldPsOps( scriptCfg.cssBuilds, checkType, execDelayer )
+	cssBldGui := new CssBldPsOps( scriptCfg.cssBuilds, scriptCfg.guiThemes.cfgSettings[ 1 ], checkType, execDelayer )
 	cssBldGui.ShowGui( "commit" )
 Return
 
@@ -1508,7 +1508,7 @@ Return
 
 :*?:@updateCssSubmoduleInRepo::
 	AppendAhkCmd( A_ThisLabel )
-	cssBldGui := new CssBldPsOps( scriptCfg.cssBuilds, checkType, execDelayer )
+	cssBldGui := new CssBldPsOps( scriptCfg.cssBuilds, scriptCfg.guiThemes.cfgSettings[ 1 ], checkType, execDelayer )
 	cssBldGui.ShowGui()
 Return
 
@@ -1548,7 +1548,7 @@ Return
 
 :*?:@copyMinCssFromRepo::
 	AppendAhkCmd( A_ThisLabel )
-	cssBldGui := new CssBldPsOps( scriptCfg.cssBuilds, checkType, execDelayer )
+	cssBldGui := new CssBldPsOps( scriptCfg.cssBuilds, scriptCfg.guiThemes.cfgSettings[ 1 ], checkType, execDelayer )
 	cssBldGui.ShowGui( "copyCss" )
 Return
 
@@ -1557,7 +1557,7 @@ Return
 
 :*?:@copyBackupCssFromRepo::
 	AppendAhkCmd( A_ThisLabel )
-	cssBldGui := new CssBldPsOps( scriptCfg.cssBuilds, checkType, execDelayer )
+	cssBldGui := new CssBldPsOps( scriptCfg.cssBuilds, scriptCfg.guiThemes.cfgSettings[ 1 ], checkType, execDelayer )
 	cssBldGui.ShowGui( "copyBackup" )
 Return
 

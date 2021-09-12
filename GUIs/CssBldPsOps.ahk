@@ -9,7 +9,7 @@
 ; This script depends on other functions from the AutoHotkey scripting project that supports
 ;   development and coordination of WSU DAESA's websites while working on a Windows platform.
 ;
-; @version 1.0.1
+; @version 1.1.0
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…→
@@ -31,6 +31,7 @@
 
 class CssBldPsOps extends GhGui {
 	__New( cfgSettings
+			, guiTheme
 			, typer
 			, delayer
 			, guiType := "CssBldPsOps"
@@ -45,8 +46,7 @@ class CssBldPsOps extends GhGui {
 			, postPrevCssBtnHdlr := "CssBldPsOpsPostPrevCssBtnHdlr"
 			, copyPrevCssBtnHdlr := "CssBldPsOpsCopyPrevCssBtnHdlr"
 			, cancelBtnHdlr := "CssBldPsOpsCancelHdlr" ) {
-		base.__New( cfgSettings, typer, guiType, guiName, guiTitle, cancelBtnHdlr )
-		this.delayer := delayer
+		base.__New( cfgSettings, guiTheme, typer, delayer, guiType, guiName, guiTitle, cancelBtnHdlr )
 		this.updateSmBtnHdlr := new GuiControlHandler( updateSmBtnHdlr, this )
 		this.rbldCssBtnHdlr := new GuiControlHandler( rbldCssBtnHdlr, this )
 		this.cmtCssBtnHdlr := new GuiControlHandler( cmtCssBtnHdlr, this )
@@ -63,30 +63,30 @@ class CssBldPsOps extends GhGui {
 		local guiType := this.type
 
 		if ( dfltMode == "update" || dfltMode == "u" ) {
-			GuiControl, +Default, guiGh%guiType%%guiName%UpdateSM
+			GuiControl, +Default, ahkGui%guiType%%guiName%UpdateSM
 		} else if ( dfltMode == "rebuild" || dfltMode == "r" ) {
-			GuiControl, +Default, guiGh%guiType%%guiName%RbldCss
+			GuiControl, +Default, ahkGui%guiType%%guiName%RbldCss
 		} else if ( dfltMode == "commit" || dfltMode == "m" ) {
-			GuiControl, +Default, guiGh%guiType%%guiName%CmtCss
+			GuiControl, +Default, ahkGui%guiType%%guiName%CmtCss
 		} else if ( dfltMode == "backup" || dfltMode == "b" ) {
-			GuiControl, +Default, guiGh%guiType%%guiName%BakCss
+			GuiControl, +Default, ahkGui%guiType%%guiName%BakCss
 		} else if ( dfltMode == "post" || dfltMode == "p" ) {
-			GuiControl, +Default, guiGh%guiType%%guiName%PostCss
+			GuiControl, +Default, ahkGui%guiType%%guiName%PostCss
 		} else if ( dfltMode == "copyCss" || dfltMode == "c" ) {
-			GuiControl, +Default, guiGh%guiType%%guiName%CopyCss
+			GuiControl, +Default, ahkGui%guiType%%guiName%CopyCss
 		} else if ( dfltMode == "postBackup" || dfltMode == "pb" ) {
-			GuiControl, +Default, guiGh%guiType%%guiName%PostPrevCss
+			GuiControl, +Default, ahkGui%guiType%%guiName%PostPrevCss
 		} else if ( dfltMode == "copyBackup" || dfltMode == "cb" ) {
-			GuiControl, +Default, guiGh%guiType%%guiName%CopyPrevCss
+			GuiControl, +Default, ahkGui%guiType%%guiName%CopyPrevCss
 		}
 	}
 
 	HandleBakCssBtn() {
 		guiType := this.type
 		guiName := this.name
-		Gui, guiGh%guiType%%guiName%: Default
+		Gui, ahkGui%guiType%%guiName%: Default
 		if ( LV_GetCount( "Selected" ) ) {
-			Gui, guiGh%guiType%%guiName%: Submit, NoHide
+			Gui, ahkGui%guiType%%guiName%: Submit, NoHide
 			selRow := LV_GetNext()
 			LV_GetText( repository, selRow, 2)
 			LV_GetText( website, selRow, 3)
@@ -109,9 +109,9 @@ class CssBldPsOps extends GhGui {
 	HandleCmtCssBtn() {
 		guiType := this.type
 		guiName := this.name
-		Gui, guiGh%guiType%%guiName%: Default
+		Gui, ahkGui%guiType%%guiName%: Default
 		if ( LV_GetCount( "Selected" ) ) {
-			Gui, guiGh%guiType%%guiName%: Submit, NoHide
+			Gui, ahkGui%guiType%%guiName%: Submit, NoHide
 			selRow := LV_GetNext()
 			LV_GetText( repository, selRow, 2)
 			LV_GetText( srcEntryPt, selRow, 4)
@@ -137,9 +137,9 @@ class CssBldPsOps extends GhGui {
 	HandleCopyCssBtn() {
 		guiType := this.type
 		guiName := this.name
-		Gui, guiGh%guiType%%guiName%: Default
+		Gui, ahkGui%guiType%%guiName%: Default
 		if ( LV_GetCount( "Selected" ) ) {
-			Gui, guiGh%guiType%%guiName%: Submit, NoHide
+			Gui, ahkGui%guiType%%guiName%: Submit, NoHide
 			selRow := LV_GetNext()
 			LV_GetText( repoPath, selRow, 2 )
 			LV_GetText( minCssRelPath, selRow, 6 )
@@ -161,9 +161,9 @@ class CssBldPsOps extends GhGui {
 	HandleCopyPrevCssBtn() {
 		guiType := this.type
 		guiName := this.name
-		Gui, guiGh%guiType%%guiName%: Default
+		Gui, ahkGui%guiType%%guiName%: Default
 		if ( LV_GetCount( "Selected" ) ) {
-			Gui, guiGh%guiType%%guiName%: Submit, NoHide
+			Gui, ahkGui%guiType%%guiName%: Submit, NoHide
 			selRow := LV_GetNext()
 			LV_GetText( repoPath, selRow, 2 )
 			LV_GetText( prevCssRelPath, selRow, 7 )
@@ -186,9 +186,9 @@ class CssBldPsOps extends GhGui {
 	HandlePostCssBtn() {
 		guiType := this.type
 		guiName := this.name
-		Gui, guiGh%guiType%%guiName%: Default
+		Gui, ahkGui%guiType%%guiName%: Default
 		if ( LV_GetCount( "Selected" ) ) {
-			Gui, guiGh%guiType%%guiName%: Submit, NoHide
+			Gui, ahkGui%guiType%%guiName%: Submit, NoHide
 			selRow := LV_GetNext()
 			LV_GetText( repoPath, selRow, 2 )
 			LV_GetText( minCssRelPath, selRow, 6 )
@@ -212,9 +212,9 @@ class CssBldPsOps extends GhGui {
 	HandlePostPrevCssBtn() {
 		guiType := this.type
 		guiName := this.name
-		Gui, guiGh%guiType%%guiName%: Default
+		Gui, ahkGui%guiType%%guiName%: Default
 		if ( LV_GetCount( "Selected" ) ) {
-			Gui, guiGh%guiType%%guiName%: Submit, NoHide
+			Gui, ahkGui%guiType%%guiName%: Submit, NoHide
 			selRow := LV_GetNext()
 			LV_GetText( repoPath, selRow, 2 )
 			LV_GetText( prevCssRelPath, selRow, 7 )
@@ -238,9 +238,9 @@ class CssBldPsOps extends GhGui {
 	HandleRbldCssBtn() {
 		guiType := this.type
 		guiName := this.name
-		Gui, guiGh%guiType%%guiName%: Default
+		Gui, ahkGui%guiType%%guiName%: Default
 		if ( LV_GetCount( "Selected" ) ) {
-			Gui, guiGh%guiType%%guiName%: Submit, NoHide
+			Gui, ahkGui%guiType%%guiName%: Submit, NoHide
 			selRow := LV_GetNext()
 			LV_GetText( repository, selRow, 2)
 			PasteTextIntoGitShell( A_ThisFunc
@@ -275,9 +275,9 @@ class CssBldPsOps extends GhGui {
 	HandleUpdateSmBtn() {
 		guiType := this.type
 		guiName := this.name
-		Gui, guiGh%guiType%%guiName%: Default
+		Gui, ahkGui%guiType%%guiName%: Default
 		if ( LV_GetCount( "Selected" ) ) {
-			Gui, guiGh%guiType%%guiName%: Submit, NoHide
+			Gui, ahkGui%guiType%%guiName%: Submit, NoHide
 			selRow := LV_GetNext()
 			LV_GetText( repository, selRow, 2)
 			PasteTextIntoGitShell( A_ThisFunc, "cd '" . repository . "WSU-UE---CSS'`rgit checkout "
@@ -309,15 +309,18 @@ class CssBldPsOps extends GhGui {
 		local cssBuildFile
 		local minBuildFile
 		local prevBuildFile
+		local tCBgc
 
 		; Start by creating an empty template for the GUI
-		Gui, guiGh%guiType%%guiName%: New, , % this.title
+		Gui, ahkGui%guiType%%guiName%: New, , % this.title
+		this.ApplyTheme()
+		tCBgc := this.tCBgc
 
 		; Set up ListView control for viewing repositories for OUE websites.
-		Gui, guiGh%guiType%%guiName%: Add, Text, w320 y16
+		Gui, ahkGui%guiType%%guiName%: Add, Text, w480 y16
 			, % "Select a repository and a CSS-build related PowerShell operation:"
-		Gui, guiGh%guiType%%guiName%: Add, ListView
-			, vctrlGh%guiType%%guiName%LV BackgroundWhite NoSortHdr -Multi r15 W1440 xm+1 Y+3
+		Gui, ahkGui%guiType%%guiName%: Add, ListView
+			, vctrlGh%guiType%%guiName%LV Background%tCBgc% NoSortHdr -Multi r15 W1440 xm+1 Y+3
 			, % "Repo Name|Local Path|Site URL|Build Entry Point|Built CSS|Minified|Backup|Editor "
 			. "Title"
 		numRepos := this.repos.cfgSettings.Length()
@@ -342,72 +345,72 @@ class CssBldPsOps extends GhGui {
 		LV_ModifyCol( 6, "AutoHdr" )
 
 		; Set up button for updating submodule containing universal CSS build dependencies
-		Gui, guiGh%guiType%%guiName%: Add, Button
-			, vguiGh%guiType%%guiName%UpdateSM Default Y+16
+		Gui, ahkGui%guiType%%guiName%: Add, Button
+			, vahkGui%guiType%%guiName%UpdateSM Default Y+16
 			, % "&Update Dependency Submodule"
 		guiCallback := this.updateSmBtnHdlr.handlerRef
-		GuiControl, +g, guiGh%guiType%%guiName%UpdateSM, %guiCallback%
+		GuiControl, +g, ahkGui%guiType%%guiName%UpdateSM, %guiCallback%
 
 		; Set up button for rebuilding files containing production custom CSS code
-		Gui, guiGh%guiType%%guiName%: Add, Button
-			, vguiGh%guiType%%guiName%RbldCss X+5
+		Gui, ahkGui%guiType%%guiName%: Add, Button
+			, vahkGui%guiType%%guiName%RbldCss X+5
 			, % "&Rebuild CSS"
 		guiCallback := this.rbldCssBtnHdlr.handlerRef
-		GuiControl, +g, guiGh%guiType%%guiName%RbldCss, %guiCallback%
+		GuiControl, +g, ahkGui%guiType%%guiName%RbldCss, %guiCallback%
 
 		; Set up button for committing files related to the production CSS build process
-		Gui, guiGh%guiType%%guiName%: Add, Button
-			, vguiGh%guiType%%guiName%CmtCss X+5
+		Gui, ahkGui%guiType%%guiName%: Add, Button
+			, vahkGui%guiType%%guiName%CmtCss X+5
 			, % "Co&mmit Files"
 		guiCallback := this.cmtCssBtnHdlr.handlerRef
-		GuiControl, +g, guiGh%guiType%%guiName%CmtCss, %guiCallback%
+		GuiControl, +g, ahkGui%guiType%%guiName%CmtCss, %guiCallback%
 
 		; Set up button for backing up live custom CSS file in use on the website
-		Gui, guiGh%guiType%%guiName%: Add, Button
-			, vguiGh%guiType%%guiName%BakCss X+5
+		Gui, ahkGui%guiType%%guiName%: Add, Button
+			, vahkGui%guiType%%guiName%BakCss X+5
 			, % "&Backup from website"
 		guiCallback := this.bakCssBtnHdlr.handlerRef
-		GuiControl, +g, guiGh%guiType%%guiName%BakCss, %guiCallback%
+		GuiControl, +g, ahkGui%guiType%%guiName%BakCss, %guiCallback%
 
 		; Set up button for posting CSS to appropriate website
-		Gui, guiGh%guiType%%guiName%: Add, Button
-			, vguiGh%guiType%%guiName%PostCss X+5
+		Gui, ahkGui%guiType%%guiName%: Add, Button
+			, vahkGui%guiType%%guiName%PostCss X+5
 			, % "&Post to website"
 		guiCallback := this.postCssBtnHdlr.handlerRef
-		GuiControl, +g, guiGh%guiType%%guiName%PostCss, %guiCallback%
+		GuiControl, +g, ahkGui%guiType%%guiName%PostCss, %guiCallback%
 
 		; Set up button for copying minified CSS to the clipboard
-		Gui, guiGh%guiType%%guiName%: Add, Button
-			, vguiGh%guiType%%guiName%CopyCss X+5
+		Gui, ahkGui%guiType%%guiName%: Add, Button
+			, vahkGui%guiType%%guiName%CopyCss X+5
 			, % "Cop&y CSS"
 		guiCallback := this.copyCssBtnHdlr.handlerRef
-		GuiControl, +g, guiGh%guiType%%guiName%CopyCss, %guiCallback%
+		GuiControl, +g, ahkGui%guiType%%guiName%CopyCss, %guiCallback%
 
 		; Set up button for posting backed up CSS to appropriate website
-		Gui, guiGh%guiType%%guiName%: Add, Button
-			, vguiGh%guiType%%guiName%PostPrevCss X+5
+		Gui, ahkGui%guiType%%guiName%: Add, Button
+			, vahkGui%guiType%%guiName%PostPrevCss X+5
 			, % "Post &backup"
 		guiCallback := this.postPrevCssBtnHdlr.handlerRef
-		GuiControl, +g, guiGh%guiType%%guiName%PostPrevCss, %guiCallback%
+		GuiControl, +g, ahkGui%guiType%%guiName%PostPrevCss, %guiCallback%
 
 		; Set up button for copying backed up CSS to the clipboard
-		Gui, guiGh%guiType%%guiName%: Add, Button
-			, vguiGh%guiType%%guiName%CopyPrevCss X+5
+		Gui, ahkGui%guiType%%guiName%: Add, Button
+			, vahkGui%guiType%%guiName%CopyPrevCss X+5
 			, % "Copy bac&kup"
 		guiCallback := this.copyPrevCssBtnHdlr.handlerRef
-		GuiControl, +g, guiGh%guiType%%guiName%CopyPrevCss, %guiCallback%
+		GuiControl, +g, ahkGui%guiType%%guiName%CopyPrevCss, %guiCallback%
 
 		; Set up cancel button
-		Gui, guiGh%guiType%%guiName%: Add, Button
-			, vguiGh%guiType%%guiName%Cancel X+5
+		Gui, ahkGui%guiType%%guiName%: Add, Button
+			, vahkGui%guiType%%guiName%Cancel X+5
 			, % "&Close"
 		guiCallback := this.cancelBtnHandler.handlerRef
-		GuiControl, +g, guiGh%guiType%%guiName%Cancel, %guiCallback%
+		GuiControl, +g, ahkGui%guiType%%guiName%Cancel, %guiCallback%
 
 		this.ChangeDefaultButton( dfltMode )
 
 		; Display the completed GUI to the user
-		Gui, guiGh%guiType%%guiName%: Show
+		Gui, ahkGui%guiType%%guiName%: Show
 	}
 }
 

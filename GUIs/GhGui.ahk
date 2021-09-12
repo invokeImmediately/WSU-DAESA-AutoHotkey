@@ -6,7 +6,7 @@
 ; Prototype for GUIs that support automation of operations and processes involving GitHub
 ;   repositories.
 ;
-; @version 1.0.1
+; @version 1.0.2
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-AutoHotkey/blob/master/GUIs/GhGui.ahk
@@ -28,14 +28,16 @@
 class GhGui extends AhkGui
 {
 	__New( cfgSettings
+			, guiTheme
 			, typer
+			, delayer
 			, guiType
 			, guiName
 			, guiTitle
 			, cancelBtnHandler ) {
 
 		; Call base's constructor.
-		base.__New( typer, guiType, guiName, guiTitle )
+		base.__New( guiTheme, typer, delayer, guiType, guiName, guiTitle )
 
 		; Safely set configuration settings
 		if ( cfgSettings.__Class == "CfgFile" ) {
