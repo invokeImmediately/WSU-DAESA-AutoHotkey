@@ -10,7 +10,7 @@
 ; Automate the updating of line numbers in medias res in table of contents sections of the inline
 ;   documentation of Less, JS, and AHK files while coding in Sublime Text 3.
 ;
-; @version 1.0.0
+; @version 1.1.0
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…→
@@ -31,16 +31,17 @@
 ; ==================================================================================================
 ; TABLE OF CONTENTS:
 ; -----------------
-;   §1: @updateTocInFile........................................................................47
-;   §2: Functions for supporting @updateTocInFile...............................................71
-;     >>> §2.1: utoc_FindTocSectionsInFile(…)...................................................75
-;     >>> §2.2: utoc_GetFileExtension(…)........................................................98
-;     >>> §2.3: utoc_GetTocLineNumbersInFindResults(…).........................................133
-;     >>> §2.4: utoc_PerformTocUpdateCmds(…)...................................................172
-;     >>> §2.5: utoc_PerformTocUpdateCmds(…)...................................................199
-;     >>> §2.6: utoc_UpdateTocInAhkFile(…).....................................................208
-;     >>> §2.7: utoc_UpdateTocInJsFile(…)......................................................216
-;     >>> §2.8: utoc_UpdateTocInLessFile(…)....................................................224
+;   §1: @updateTocInFile........................................................................48
+;   §2: Functions for supporting @updateTocInFile...............................................74
+;     >>> §2.1: utoc_FindTocSectionsInFile(…)...................................................78
+;     >>> §2.2: utoc_GetFileExtension(…).......................................................101
+;     >>> §2.3: utoc_GetTocLineNumbersInFindResults(…).........................................136
+;     >>> §2.4: utoc_PerformTocUpdateCmds(…)...................................................175
+;     >>> §2.5: utoc_PerformTocUpdateCmds(…)...................................................202
+;     >>> §2.6: utoc_UpdateTocInAhkFile(…).....................................................211
+;     >>> §2.7: utoc_UpdateTocInJsFile(…)......................................................219
+;     >>> §2.8: utoc_UpdateTocInLessFile(…)....................................................227
+;     >>> §2.9: utoc_UpdateTocInPsFile(…)......................................................235
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -60,8 +61,10 @@
 			utoc_UpdateTocInAhkFile(timingDelay)
 		} else if (fileExt = "less") {
 			utoc_UpdateTocInLessFile(timingDelay)
+		} else if (fileExt = "ps1") {
+			utoc_UpdateTocInPsFile(timingDelay)
 		} else {
-			MsgBox % "Editing a file that is not saved as JS, AHK, or Less; file extension is "
+			MsgBox % "Editing a file that is not saved as JS, AHK, Less, or PS1; file extension is "
 				. fileExt
 		}
 	}
@@ -226,4 +229,12 @@ utoc_UpdateTocInJsFile(timingDelay) {
 utoc_UpdateTocInLessFile(timingDelay) {
 	utoc_PerformTocUpdateCmds(":*?:@findStrLessTocSections1", ":*?:@findStrLessTocSections2"
 		, ":*?:@findStrLessTocHeader", timingDelay)
+}
+
+;   ································································································
+;     >>> §2.9: utoc_UpdateTocInLessFile(…)
+
+utoc_UpdateTocInPsFile(timingDelay) {
+	utoc_PerformTocUpdateCmds(":*?:@findStrPsTocSections1", ":*?:@findStrPsTocSections2"
+		, ":*?:@findStrPsTocHeader", timingDelay)
 }
