@@ -11,7 +11,7 @@
 #   websites for the Division of Academic Engagement and Student Achievement at Washington State
 #   University.
 #
-# @version 1.2.3
+# @version 1.2.4
 #
 # @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 # @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…
@@ -470,11 +470,25 @@ Function Get-Image-List {
 ###   Execute a preferred form of the git log command in the terminal.
 Function Invoke-Git-Log {
   Param(
-    [Parameter(ValueFromPipeline=$true)]
-    [string]
-    $num = "20"
+    [ Parameter( Mandatory=$false,
+      ValueFromPipeline=$true ) ]
+    [ int32 ]$number = 5,
+
+    [ Parameter( Mandatory=$false,
+      ValueFromPipeline=$true ) ]
+    [ string ]$fileToFollow = ""
   )
-  git --no-pager log --pretty="format:%h | %cn | %cd | %s%n ╘═> %b%n" -$num
+  if ( $number -le 0 -and $fileToFollow -eq "" ) {
+    $expr = "git --no-pager log --pretty=""format:%h | %cn | %cd | %s%n ╘═> %b%n"""
+  } elseif ( $number -gt 0 -and $fileToFollow -eq "" ) {
+    $expr = "git --no-pager log --pretty=""format:%h | %cn | %cd | %s%n ╘═> %b%n"" -$number"
+  } elseif ( $number -le 0 -and $fileToFollow -ne "" ) {
+    $expr = "git --no-pager log --follow --pretty=""format:%h | %cn | %cd | %s%n ╘═> %b%n"" $fileToFollow"
+  } else {
+    $expr = "git --no-pager log --follow --pretty=""format:%h | %cn | %cd | %s%n ╘═> %b%n"" -$number $fileToFollow"
+  }
+  Write-Host "`n$expr`n"
+  $expr | Invoke-Expression
 }
 
 ########
