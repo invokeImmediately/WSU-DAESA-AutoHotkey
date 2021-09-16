@@ -11,7 +11,7 @@
 #   websites for the Division of Academic Engagement and Student Achievement at Washington State
 #   University.
 #
-# @version 1.3.2
+# @version 1.3.3
 #
 # @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 # @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…
@@ -62,7 +62,7 @@
 #     §1.25: Write-Commands-to-Host...........................................................789
 #     §1.26: Write-Welcome-Msg-to-Host........................................................812
 #   §2: Aliases...............................................................................854
-#   §3: Execution Entry Point.................................................................891
+#   §3: Execution Entry Point.................................................................893
 ####################################################################################################
 
 ###############
@@ -874,6 +874,8 @@ Set-Alias -Name gtgh -Value Open-GitHub-Folder
 Set-Alias -Name ghgd -Value Invoke-Git-Diff
 
 Set-Alias -Name igd -Value Invoke-Git-Diff
+
+Set-Alias -Name igl -Value Invoke-Git-Log
 
 Set-Alias -Name igdwo -Value Invoke-Git-Diff-with-Output
 
