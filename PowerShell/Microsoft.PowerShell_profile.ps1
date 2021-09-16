@@ -11,7 +11,7 @@
 #   websites for the Division of Academic Engagement and Student Achievement at Washington State
 #   University.
 #
-# @version 1.2.5
+# @version 1.3.0
 #
 # @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 # @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…
@@ -34,33 +34,35 @@
 ####################################################################################################
 # TABLE OF CONTENTS:
 ####################
-#   §1: Functions..............................................................................67
-#     §1.1: Compare-Directories................................................................70
-#     §1.2: Copy-Current-Path.................................................................103
-#     §1.3: Copy-Daesa-Website-Urls-List......................................................110
-#     §1.4: Copy-GitHub-Repos-CSV-List........................................................118
-#     §1.5: Copy-GitHub-Repos-List............................................................126
-#     §1.6: Copy-Profiles-Path................................................................135
-#     §1.7: Find-Files-in-GitHub-Repos........................................................142
-#     §1.8: Get-Archives......................................................................169
-#     §1.9: Get-Array-of-Github-Folder-Excludes...............................................177
-#     §1.10: Get-Array-of-Daesa-Website-Urls..................................................188
-#     §1.11: Get-Array-of-GitHub-Repos........................................................218
-#     §1.12: Get-Directory-Stats..............................................................248
-#     §1.13: Get-Directories..................................................................382
-#     §1.14: Get-Filtered-Archives............................................................390
-#     §1.15: Get-Filtered-Directories.........................................................411
-#     §1.16: Get-Image........................................................................432
-#     §1.17: Get-Image-List...................................................................492
-#     §1.18: Invoke-Git-Log...................................................................499
-#     §1.19: Invoke-Git-Diff… Commands........................................................525
-#     §1.20: Open-GitHub-Folder...............................................................600
-#     §1.21: Open-GitHub-on-Chrome............................................................639
-#     §1.22: Open-PowerShell-Instance.........................................................664
-#     §1.23: Write-Commands-to-Host...........................................................676
-#     §1.24: Write-Welcome-Msg-to-Host........................................................699
-#   §2: Aliases...............................................................................741
-#   §3: Execution Entry Point.................................................................776
+#   §1: Functions..............................................................................69
+#     §1.1:  Compare-Directories...............................................................72
+#     §1.2:  Copy-Current-Path................................................................105
+#     §1.3:  Copy-Daesa-Website-Urls-List.....................................................112
+#     §1.4:  Copy-GitHub-Repos-CSV-List.......................................................120
+#     §1.5:  Copy-GitHub-Repos-List...........................................................128
+#     §1.6:  Copy-Profiles-Path...............................................................137
+#     §1.7:  Find-Files-in-GitHub-Repos.......................................................144
+#     §1.8:  Get-Archives.....................................................................171
+#     §1.9:  Get-Array-of-Github-Folder-Excludes..............................................179
+#     §1.10: Get-Array-of-Daesa-Website-Urls..................................................190
+#     §1.11: Get-Array-of-GitHub-Repos........................................................227
+#     §1.12: Get-Array-of-Wsuwp-Operations....................................................257
+#     §1.13: Get-Directory-Stats..............................................................277
+#     §1.14: Get-Directories..................................................................411
+#     §1.15: Get-Filtered-Archives............................................................419
+#     §1.16: Get-Filtered-Directories.........................................................440
+#     §1.17: Get-Image........................................................................461
+#     §1.18: Get-Image-List...................................................................521
+#     §1.19: Invoke-Git-Log...................................................................528
+#     §1.20: Invoke-Git-Diff… Commands........................................................554
+#     §1.21: Open-Daesa-Website...............................................................629
+#     §1.22: Open-GitHub-Folder...............................................................682
+#     §1.23: Open-GitHub-on-Chrome............................................................721
+#     §1.24: Open-PowerShell-Instance.........................................................746
+#     §1.25: Write-Commands-to-Host...........................................................758
+#     §1.26: Write-Welcome-Msg-to-Host........................................................781
+#   §2: Aliases...............................................................................823
+#   §3: Execution Entry Point.................................................................860
 ####################################################################################################
 
 ###############
@@ -187,29 +189,36 @@ Function Get-Array-of-Github-Folder-Excludes {
 ########
 ### §1.10: Get-Array-of-Daesa-Website-Urls
 ###   Get an array of URLs to DAESA's websites.
+###   @todo Add filtering capabilities
 Function Get-Array-of-Daesa-Website-Urls {
   [ string[] ]$UrlsToDaesaSites = @(
     'https://ace.wsu.edu/'
+    'https://advising.wsu.edu/'
     'https://ascc.wsu.edu/'
     'https://admission.wsu.edu/research-scholars/'
     'https://commonreading.wsu.edu/'
+    'https://cougarsuccess.wsu.edu/'
     'https://daesa.wsu.edu/'
     'https://distinguishedscholarships.wsu.edu/'
+    'https://emeritussociety.wsu.edu/'
     'https://firstyear.wsu.edu/'
     'https://learningcommunities.wsu.edu/'
     'https://lsamp.wsu.edu/'
+    'https://marc.wsu.edu/'
+    'https://mira.wsu.edu/'
     'https://nse.wsu.edu/'
     'https://nsse.wsu.edu/'
     'https://phibetakappa.wsu.edu/'
     'https://provost.wsu.edu/oae/'
+    'https://provost.wsu.edu/teaching-academy/'
     'https://summerresearch.wsu.edu/'
     'https://surca.wsu.edu/'
-    'https://teachingacademy.wsu.edu/'
     'https://transfercredit.wsu.edu/'
     'https://ucore.wsu.edu/'
     'https://ucore.wsu.edu/assessment/'
     'https://undergraduateresearch.wsu.edu/'
     'https://writingprogram.wsu.edu/'
+    'https://wsuacada.wsu.edu/'
   )
   Return $UrlsToDaesaSites
 }
@@ -245,7 +254,27 @@ Function Get-Array-of-GitHub-Repos {
 }
 
 #########
-### §1.12: Get-Directory-Stats
+### §1.12: Get-Array-of-Wsuwp-Operatons
+function Get-Array-of-Wsuwp-Operations {
+  [ string[] ]$Operations = @(
+    'admin|login|wp-admin/'
+    'gf|gravity-forms|wp-admin/admin.php?page=gf_edit_forms'
+    'pg|pages|wp-admin/edit.php?post_type=page'
+    'pgbd|pages-by-date|wp-admin/edit.php?post_type=page&orderby=wsu_last_updated&order=desc'
+    'css|css-editor|wp-admin/themes.php?page=editcss'
+    'js|custom-js|wp-admin/themes.php?page=custom-javascript'
+    'po|posts|wp-admin/edit.php'
+    'pobd|posts-by-date|wp-admin/edit.php?orderby=wsu_last_updated&order=desc'
+    'ev|events|wp-admin/edit.php?post_type=tribe_events'
+    'evbd|events-by-date|wp-admin/edit.php?post_type=tribe_events&orderby=wsu_last_updated&order=desc'
+    'tp|table-press|wp-admin/admin.php?page=tablepress&orderby=last_modified&order=desc'
+    'forms|wp-admin/admin.php?page=gf_edit_forms'
+  )
+  Return $Operations
+}
+
+#########
+### §1.13: Get-Directory-Stats
 ### @link https://gist.github.com/Bill-Stewart/cca4032f8d04b7388b5fc9a0d5b8806d
 ### @author Bill Stewart [bstewart@iname.com] (https://gist.github.com/Bill-Stewart)
 function Get-Directory-Stats {
@@ -379,7 +408,7 @@ function Get-Directory-Stats {
 }
 
 ########
-### §1.13: Get-Directories
+### §1.14: Get-Directories
 ###   Use the Get-Child-Item cmdlet to get files in the current directory that have the directory
 ###     attribute.
 Function Get-Directories {
@@ -387,7 +416,7 @@ Function Get-Directories {
 }
 
 ########
-### §1.14: Get-Filtered-Archives
+### §1.15: Get-Filtered-Archives
 ###   Use the Get-Child-Item cmdlet to get files in the current directory that have the archive
 ###     attribute, but employ a specified filter and possibly recursion.
 Function Get-Filtered-Archives {
@@ -408,7 +437,7 @@ Function Get-Filtered-Archives {
 }
 
 ########
-### §1.15: Get-Filtered-Directories
+### §1.16: Get-Filtered-Directories
 ###   Use the Get-Child-Item cmdlet to get files in the current directory that have the directory
 ###     attribute, but employ a specified filter and possibly recursion.
 Function Get-Filtered-Directories {
@@ -429,7 +458,7 @@ Function Get-Filtered-Directories {
 }
 
 ########
-### §1.16: Get-Image
+### §1.17: Get-Image
 ###   Get the properties of an image file.
 Function Get-Image {
   Param(
@@ -489,14 +518,14 @@ Function Get-Image {
 }
 
 ########
-### §1.17: Get-Image-List
+### §1.18: Get-Image-List
 ###   Get a list of properties for JPG and PNG images present in the current folder.
 Function Get-Image-List {
   gci ("*.jpg", "*.png") | Get-Image | Select Filename, Width, Height, HdWScalar, HdVScalar, HdXOrigin, HdYOrigin | ft -auto | Out-File .\list_image-dimensions.txt -Confirm
 }
 
 ########
-### §1.18: Invoke-Git-Log
+### §1.19: Invoke-Git-Log
 ###   Execute a preferred form of the git log command in the terminal.
 Function Invoke-Git-Log {
   Param(
@@ -522,7 +551,7 @@ Function Invoke-Git-Log {
 }
 
 ########
-### §1.19: Invoke-Git-Diff… Commands
+### §1.20: Invoke-Git-Diff… Commands
 ###   Execute a preferred form of the git diff command in the terminal.
 Function Invoke-Git-Diff {
   Param(
@@ -597,7 +626,60 @@ Function Invoke-Git-Diff-on-List {
 }
 
 ########
-### §1.20: Open-GitHub-Folder
+### §1.21: Open-Daesa-Website
+###   Open a DAESA website on Chrome.
+Function Open-Daesa-Website {
+  Param(
+    [Parameter(Mandatory=$false)]
+    [Alias("site")]
+    [string]
+    $siteStub = "",
+
+    [Parameter(Mandatory=$false)]
+    [Alias("op","operation")]
+    [string]
+    $wsuwpOp = "",
+
+    [Parameter(Mandatory=$false)]
+    [Alias("nmm","notmatch")]
+    [bool]
+    $notMatchMode = $false,
+
+    [Parameter(Mandatory=$false)]
+    [int32]
+    $timing = 500
+  )
+
+  # Populate an array of URL stubs to open in Chrome
+  $wsto = Get-Array-of-Daesa-Website-Urls
+  if ( $siteStub -ne "" ) {
+    if ( $notMatchMode ) {
+      $wsto = $wsto -notmatch $siteStub
+    } else {
+      $wsto = $wsto -match $siteStub
+    }
+  }
+
+  # Determine what additional action to perform, if any.
+  if ( $wsuwpOp -ne "" ) {
+    $op = Get-Array-of-Wsuwp-Operations
+    $op = ($op -match ($wsuwpOp + '\|'))[0] -replace '.+\|(.+?)$', '$1'
+    $wsto = $wsto -replace "(.+)", ('$1' + $op)
+  }
+
+  # Open the websites on chrome as specified.
+  Write-Host "`nOpening the requested DAESA websites on Chrome:`n-----------------------------------------------" -foregroundcolor Green
+  foreach( $ws in $wsto ) {
+    $cli = "chrome ""$ws"""
+    Write-Host "$cli" -foregroundcolor Cyan
+    $cli | Invoke-Expression
+    Start-Sleep -m $timing
+  }
+  Write-Host "-----------------------------------------------`n" -foregroundcolor Green
+}
+
+########
+### §1.22: Open-GitHub-Folder
 ###   Move the terminal's location to the primary GitHub folder on the local machine; if the user
 ###     specifies a string representing a folder to a repo, attempt to use the string with wildcard
 ###     filtering to find the repo and enter it as well.
@@ -636,7 +718,7 @@ Function Open-GitHub-Folder {
 }
 
 ########
-### §1.21: Open-GitHub-on-Chrome
+### §1.23: Open-GitHub-on-Chrome
 ###   Move the terminal's location to the primary GitHub folder on the local machine; if the user
 ###     specifies a string representing a folder to a repo, attempt to use the string with wildcard
 ###     filtering to find the repo and enter it as well.
@@ -661,7 +743,7 @@ Function Open-GitHub-on-Chrome {
 }
 
 #########
-### §1.22: Open-PowerShell-Instance
+### §1.24: Open-PowerShell-Instance
 ###   Use PowerShell to open a new instance of PowerShell.
 Function Open-PowerShell-Instance {
     $procName = (Get-Process -Id $PID).ProcessName
@@ -673,7 +755,7 @@ Function Open-PowerShell-Instance {
 }
 
 #########
-### §1.23: Write-Commands-to-Host
+### §1.25: Write-Commands-to-Host
 ###   Write a list of the commands and aliases in this PowerShell profile to the console.
 Function Write-Commands-to-Host {
   # Write introductory output to the console explaining what this function will do to the user.
@@ -696,7 +778,7 @@ Function Write-Commands-to-Host {
 }
 
 ########
-### §1.24: Write-Welcome-Msg-to-Host
+### §1.26: Write-Welcome-Msg-to-Host
 ###
 Function Write-Welcome-Msg-to-Host {
   # Build the components of a message to indicate this profile was loaded; bracket the message in
@@ -765,6 +847,8 @@ Set-Alias -Name igd -Value Invoke-Git-Diff
 Set-Alias -Name igdwo -Value Invoke-Git-Diff-with-Output
 
 Set-Alias -Name igdol -Value Invoke-Git-Diff-on-List
+
+Set-Alias -Name odws -Value Open-Daesa-Website
 
 Set-Alias -Name oghoc -Value Open-GitHub-on-Chrome
 
