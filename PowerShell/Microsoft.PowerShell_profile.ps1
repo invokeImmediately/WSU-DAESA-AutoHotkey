@@ -11,7 +11,7 @@
 #   websites for the Division of Academic Engagement and Student Achievement at Washington State
 #   University.
 #
-# @version 1.3.5
+# @version 1.3.6
 #
 # @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 # @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…
@@ -56,13 +56,13 @@
 #     §1.19: Invoke-Git-Log...................................................................556
 #     §1.20: Invoke-Git-Diff… Commands........................................................584
 #     §1.21: Open-Daesa-Website...............................................................657
-#     §1.22: Open-GitHub-Folder...............................................................717
-#     §1.23: Open-GitHub-on-Chrome............................................................756
-#     §1.24: Open-PowerShell-Instance.........................................................780
-#     §1.25: Write-Commands-to-Host...........................................................792
-#     §1.26: Write-Welcome-Msg-to-Host........................................................815
-#   §2: Aliases...............................................................................857
-#   §3: Execution Entry Point.................................................................896
+#     §1.22: Open-GitHub-Folder...............................................................722
+#     §1.23: Open-GitHub-on-Chrome............................................................761
+#     §1.24: Open-PowerShell-Instance.........................................................785
+#     §1.25: Write-Commands-to-Host...........................................................797
+#     §1.26: Write-Welcome-Msg-to-Host........................................................820
+#   §2: Aliases...............................................................................862
+#   §3: Execution Entry Point.................................................................901
 ####################################################################################################
 
 ###############
@@ -704,8 +704,13 @@ Function Open-Daesa-Website {
 
   # Open the websites on chrome as specified.
   Write-Host "`nOpening the requested DAESA websites on Chrome:`n-----------------------------------------------" -foregroundcolor Green
+  $1stWsToLd = $true
   foreach( $ws in $wsto ) {
     $cli = "chrome ""$ws"""
+    if ( $1stWsToLd ) {
+      $cli = $cli + " --new-window"
+      $1stWsToLd = $false
+    }
     Write-Host "$cli" -foregroundcolor Cyan
     $cli | Invoke-Expression
     Start-Sleep -m $timing
