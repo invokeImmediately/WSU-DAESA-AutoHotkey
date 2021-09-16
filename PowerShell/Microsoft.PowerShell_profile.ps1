@@ -11,7 +11,7 @@
 #   websites for the Division of Academic Engagement and Student Achievement at Washington State
 #   University.
 #
-# @version 1.3.4
+# @version 1.3.5
 #
 # @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 # @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…
@@ -56,13 +56,13 @@
 #     §1.19: Invoke-Git-Log...................................................................556
 #     §1.20: Invoke-Git-Diff… Commands........................................................584
 #     §1.21: Open-Daesa-Website...............................................................657
-#     §1.22: Open-GitHub-Folder...............................................................715
-#     §1.23: Open-GitHub-on-Chrome............................................................754
-#     §1.24: Open-PowerShell-Instance.........................................................779
-#     §1.25: Write-Commands-to-Host...........................................................791
-#     §1.26: Write-Welcome-Msg-to-Host........................................................814
-#   §2: Aliases...............................................................................856
-#   §3: Execution Entry Point.................................................................895
+#     §1.22: Open-GitHub-Folder...............................................................717
+#     §1.23: Open-GitHub-on-Chrome............................................................756
+#     §1.24: Open-PowerShell-Instance.........................................................780
+#     §1.25: Write-Commands-to-Host...........................................................792
+#     §1.26: Write-Welcome-Msg-to-Host........................................................815
+#   §2: Aliases...............................................................................857
+#   §3: Execution Entry Point.................................................................896
 ####################################################################################################
 
 ###############
@@ -655,7 +655,9 @@ Function Invoke-Git-Diff-on-List {
 
 ########
 ### §1.21: Open-Daesa-Website
-###   Open a DAESA website on Chrome.
+###   Open an optionally filtered list of DAESA websites in the Chrome web browser. The invoker can
+###     specific pages within the WSUWP administration area to be opened; otherwise, the websites
+###     will be opened on their homepages.
 Function Open-Daesa-Website {
   Param(
     [Parameter(Mandatory=$false)]
@@ -752,14 +754,13 @@ Function Open-GitHub-Folder {
 
 ########
 ### §1.23: Open-GitHub-on-Chrome
-###   Move the terminal's location to the primary GitHub folder on the local machine; if the user
-###     specifies a string representing a folder to a repo, attempt to use the string with wildcard
-###     filtering to find the repo and enter it as well.
+###   Open the author's GitHub profile in the Chrome web browser. The invoker can optionally specify
+###     that the command open a search query, which can be made in general or specifically against
+###     the author's commit history.
 Function Open-GitHub-on-Chrome {
   Param(
     [Parameter(Mandatory=$false)]
-    [string]
-    $qStr = "",
+    [string] $qStr = "",
 
     [ Parameter( Mandatory=$false ) ]
     [ bool ]

@@ -1,11 +1,11 @@
 ﻿; ==================================================================================================
-; ▐   ▌▄▀▀▀ █  █    █▀▀▄ ▄▀▀▄ █▀▀▀ ▄▀▀▀ ▄▀▀▄    ▄▀▀▄ █  █▐▀█▀▌▄▀▀▄ █  █ ▄▀▀▄▐▀█▀▌     
-; ▐ █ ▌▀▀▀█ █  █ ▀▀ █  █ █▄▄█ █▀▀  ▀▀▀█ █▄▄█ ▀▀ █▄▄█ █  █  █  █  █ █▀▀█ █  █  █       
-;  ▀ ▀ ▀▀▀   ▀▀     ▀▀▀  █  ▀ ▀▀▀▀ ▀▀▀  █  ▀    █  ▀  ▀▀   █   ▀▀  █  ▀  ▀▀   █  ▀ ▀ ▀
+; ▐   ▌▄▀▀▀ █  █    █▀▀▄ ▄▀▀▄ █▀▀▀ ▄▀▀▀ ▄▀▀▄    ▄▀▀▄ █  █▐▀█▀▌▄▀▀▄ █  █ ▄▀▀▄▐▀█▀▌ 
+; ▐ █ ▌▀▀▀█ █  █ ▀▀ █  █ █▄▄█ █▀▀  ▀▀▀█ █▄▄█ ▀▀ █▄▄█ █  █  █  █  █ █▀▀█ █  █  █   ▀
+;  ▀ ▀ ▀▀▀   ▀▀     ▀▀▀  █  ▀ ▀▀▀▀ ▀▀▀  █  ▀    █  ▀  ▀▀   █   ▀▀  █  ▀  ▀▀   █   
 ;
-;          █ ▄▀ █▀▀▀ █  █   █  █ ▄▀▀▄  ▄▀█   ▄▀▀▄ █  █ █ ▄▀ 
-;          █▀▄  █▀▀  ▀▄▄█   █  █ █▄▄  ▐▄▄█▌  █▄▄█ █▀▀█ █▀▄  
-;    ▀ ▀ ▀ ▀  ▀▄▀▀▀▀ ▄▄▄▀ ▀  ▀▀  ▀▄▄▀    █ ▀ █  ▀ █  ▀ ▀  ▀▄
+;    █ ▄▀ █▀▀▀ █  █   █  █ ▄▀▀▄  ▄▀█   ▄▀▀▄ █  █ █ ▄▀
+;    █▀▄  █▀▀  ▀▄▄█   █  █ █▄▄  ▐▄▄█▌  █▄▄█ █▀▀█ █▀▄ 
+;    ▀  ▀▄▀▀▀▀ ▄▄▄▀ ▀  ▀▀  ▀▄▄▀    █ ▀ █  ▀ █  ▀ ▀  ▀▄
 ;
 ; AutoHotkey script for automation of coding, operating system control, window management, and file
 ;   management tasks commonly performed during front-end web development work for the Division of
@@ -14,7 +14,7 @@
 ; Formerly, this project was conducted by the Office of Undergraduate Education (OUE), which was
 ;   combined with the Office of Academic Engagement to form DAESA.
 ;
-; @version 1.0.2-rc0.8.23
+; @version 1.0.2-rc0.8.24
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master/AutoHotkeyU64.ahk
@@ -75,7 +75,7 @@
 ;     >>> §1.1: SYSTEM PROPERTY GLOBALS
 
 ; Constant needed for retreiving the number of display monitors on the desktop via SysGet(...).
-global SM_CMONITORS 	:= 80		
+global SM_CMONITORS 	:= 80	
 
 ; SysGet(...) constants needed for retreiving the default window border width and height.
 global SM_CXSIZEFRAME	:= 32
@@ -192,7 +192,7 @@ global mmSlow
 #KeyHistory 0
 If not A_IsAdmin
 {
-	;" https://autohotkey.com/docs/commands/Run.htm#RunAs: For an executable file, the *RunAs verb 
+	;" https://autohotkey.com/docs/commands/Run.htm#RunAs: For an executable file, the *RunAs verb
 	; is equivalent to selecting Run as administrator from the right-click menu of the file."
 	MsgBox, % 0x34
 		, % "Error: Admin Privileges Not Detected"
@@ -201,7 +201,7 @@ If not A_IsAdmin
 			. "Do you want to restart the script in Admin mode?"
 	IfMsgBox Yes
 	{
-		Run *RunAs "%A_ScriptFullPath%" 
+		Run *RunAs "%A_ScriptFullPath%"
 		ExitApp
 	}
 }
