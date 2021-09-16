@@ -191,35 +191,61 @@ Function Get-Array-of-Github-Folder-Excludes {
 ###   Get an array of URLs to DAESA's websites.
 ###   @todo Add filtering capabilities
 Function Get-Array-of-Daesa-Website-Urls {
-  [ string[] ]$UrlsToDaesaSites = @(
-    'https://ace.wsu.edu/'
-    'https://advising.wsu.edu/'
-    'https://ascc.wsu.edu/'
-    'https://admission.wsu.edu/research-scholars/'
-    'https://commonreading.wsu.edu/'
-    'https://cougarsuccess.wsu.edu/'
-    'https://daesa.wsu.edu/'
-    'https://distinguishedscholarships.wsu.edu/'
-    'https://emeritussociety.wsu.edu/'
-    'https://firstyear.wsu.edu/'
-    'https://learningcommunities.wsu.edu/'
-    'https://lsamp.wsu.edu/'
-    'https://marc.wsu.edu/'
-    'https://mira.wsu.edu/'
-    'https://nse.wsu.edu/'
-    'https://nsse.wsu.edu/'
-    'https://phibetakappa.wsu.edu/'
-    'https://provost.wsu.edu/oae/'
-    'https://provost.wsu.edu/teaching-academy/'
-    'https://summerresearch.wsu.edu/'
-    'https://surca.wsu.edu/'
-    'https://transfercredit.wsu.edu/'
-    'https://ucore.wsu.edu/'
-    'https://ucore.wsu.edu/assessment/'
-    'https://undergraduateresearch.wsu.edu/'
-    'https://writingprogram.wsu.edu/'
-    'https://wsuacada.wsu.edu/'
+  Param (
+    [Parameter(Mandatory=$false)]
+    [Alias("category", "cat")]
+    [string]
+    $ctgr = "",
+
+    [Parameter(Mandatory=$false)]
+    [Alias("nmm", "nm", "notmatch")]
+    [bool]
+    $notMatchMode = $false
   )
+
+  # Specify the string of URLs to all DAESA websites we could potentially work with prepended by
+  #   category designators.
+  [ string[] ]$UrlsToDaesaSites = @(
+    'daesa|https://ace.wsu.edu/'
+    'other|https://advising.wsu.edu/'
+    'daesa|https://ascc.wsu.edu/'
+    'daesa|https://admission.wsu.edu/research-scholars/'
+    'daesa|https://commonreading.wsu.edu/'
+    'daesa|https://cougarsuccess.wsu.edu/'
+    'daesa|https://daesa.wsu.edu/'
+    'daesa|https://distinguishedscholarships.wsu.edu/'
+    'other|https://emeritussociety.wsu.edu/'
+    'daesa|https://firstyear.wsu.edu/'
+    'daesa|https://learningcommunities.wsu.edu/'
+    'daesa|https://lsamp.wsu.edu/'
+    'ugr|daesa|https://marc.wsu.edu/'
+    'ugr|daesa|https://mira.wsu.edu/'
+    'oae|https://nse.wsu.edu/'
+    'other|https://nsse.wsu.edu/'
+    'other|https://phibetakappa.wsu.edu/'
+    'oae|https://provost.wsu.edu/oae/'
+    'other|https://provost.wsu.edu/teaching-academy/'
+    'ugr|daesa|https://summerresearch.wsu.edu/'
+    'ugr|daesa|https://surca.wsu.edu/'
+    'daesa|https://transfercredit.wsu.edu/'
+    'daesa|https://ucore.wsu.edu/'
+    'daesa|https://ucore.wsu.edu/assessment/'
+    'ugr|daesa|https://undergraduateresearch.wsu.edu/'
+    'daesa|https://writingprogram.wsu.edu/'
+    'other|https://wsuacada.wsu.edu/'
+  )
+
+  # Filter the URL list by category, if any.
+  if ( $ctgr -eq "" ) {
+    $ctgr = ".*?"
+  }
+  if ( $notMatchMode ) {
+    $UrlsToDaesaSites = ( $UrlsToDaesaSites -notmatch ( $ctgr + '\|' ) ) -replace  '.+\|(.+?)$', '$1'
+  } else {
+    $UrlsToDaesaSites = ( $UrlsToDaesaSites -match ( $ctgr + '\|' ) ) -replace  '.+\|(.+?)$', '$1'
+  }
+
+  # Return a filtered list of URLs.
   Return $UrlsToDaesaSites
 }
 
@@ -587,7 +613,7 @@ Function Invoke-Git-Diff-on-List {
     $logFN = "diff.log.txt"
   )
 
-  $filesStr = $filesStr -replace ( $dlmtr + " ", $dlmtr)
+  $filesStr = $filesStr -replace $dlmtr + ' ', $dlmtr
   $files = $filesStr.Split( $dlmtr )
   $pastFirstFile = $false
   Write-Host "`nPerforming command Invoke-Git-Diff-on-List on " -NoNewLine
@@ -643,6 +669,11 @@ Function Open-Daesa-Website {
     $wsuwpOp = "",
 
     [Parameter(Mandatory=$false)]
+    [Alias("cat","category")]
+    [string]
+    $ctgr = "",
+
+    [Parameter(Mandatory=$false)]
     [Alias("nmm","notmatch")]
     [bool]
     $notMatchMode = $false,
@@ -653,7 +684,7 @@ Function Open-Daesa-Website {
   )
 
   # Populate an array of URL stubs to open in Chrome
-  $wsto = Get-Array-of-Daesa-Website-Urls
+  $wsto = Get-Array-of-Daesa-Website-Urls -cat $ctgr
   if ( $siteStub -ne "" ) {
     if ( $notMatchMode ) {
       $wsto = $wsto -notmatch $siteStub
