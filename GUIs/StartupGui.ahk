@@ -5,7 +5,7 @@
 ;
 ; GUI to be displayed at script startup.
 ;
-; @version 1.0.0
+; @version 1.0.1
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-AutoHotkey/blob/master/GUIs/GhGui.ahk
@@ -74,7 +74,7 @@ class StartupGui extends AhkGui
 			, w%guiBgW% h%guiBgH% AltSubmit, %guiBgPicFp%
 
 		Gui, ahkGui%guiType%%guiName%: Add, Picture
-			, x%guiFgX% y%guiFgY% w%guiFgW% h%guiFgH% AltSubmit, %guiFgPicFp%
+			, x%guiFgX% y%guiFgY% w%guiFgW% h%guiFgH% AltSubmit +BackgroundTrans, %guiFgPicFp%
 
 		Gui, ahkGui%guiType%%guiName%: Add, Button
 			, vahkGui%guiType%Ok%guiName% Default w%okBtnW% x%okBtnX% y%okBtnY%, % "&Ok"
