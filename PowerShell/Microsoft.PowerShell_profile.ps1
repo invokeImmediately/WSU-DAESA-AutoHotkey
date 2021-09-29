@@ -11,7 +11,7 @@
 #   websites for the Division of Academic Engagement and Student Achievement at Washington State
 #   University.
 #
-# @version 1.3.6
+# @version 1.3.7
 #
 # @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 # @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…
@@ -45,24 +45,24 @@
 #     §1.8:  Get-Archives.....................................................................171
 #     §1.9:  Get-Array-of-Github-Folder-Excludes..............................................179
 #     §1.10: Get-Array-of-Daesa-Website-Urls..................................................190
-#     §1.11: Get-Array-of-GitHub-Repos........................................................253
-#     §1.12: Get-Array-of-Wsuwp-Operations....................................................283
-#     §1.13: Get-Directory-Stats..............................................................305
-#     §1.14: Get-Directories..................................................................439
-#     §1.15: Get-Filtered-Archives............................................................447
-#     §1.16: Get-Filtered-Directories.........................................................468
-#     §1.17: Get-Image........................................................................489
-#     §1.18: Get-Image-List...................................................................549
-#     §1.19: Invoke-Git-Log...................................................................556
-#     §1.20: Invoke-Git-Diff… Commands........................................................584
-#     §1.21: Open-Daesa-Website...............................................................657
-#     §1.22: Open-GitHub-Folder...............................................................722
-#     §1.23: Open-GitHub-on-Chrome............................................................761
-#     §1.24: Open-PowerShell-Instance.........................................................785
-#     §1.25: Write-Commands-to-Host...........................................................797
-#     §1.26: Write-Welcome-Msg-to-Host........................................................820
-#   §2: Aliases...............................................................................862
-#   §3: Execution Entry Point.................................................................901
+#     §1.11: Get-Array-of-GitHub-Repos........................................................252
+#     §1.12: Get-Array-of-Wsuwp-Operations....................................................319
+#     §1.13: Get-Directory-Stats..............................................................341
+#     §1.14: Get-Directories..................................................................475
+#     §1.15: Get-Filtered-Archives............................................................483
+#     §1.16: Get-Filtered-Directories.........................................................504
+#     §1.17: Get-Image........................................................................525
+#     §1.18: Get-Image-List...................................................................585
+#     §1.19: Invoke-Git-Log...................................................................592
+#     §1.20: Invoke-Git-Diff… Commands........................................................620
+#     §1.21: Open-Daesa-Website...............................................................693
+#     §1.22: Open-GitHub-Folder...............................................................763
+#     §1.23: Open-GitHub-on-Chrome............................................................802
+#     §1.24: Open-PowerShell-Instance.........................................................826
+#     §1.25: Write-Commands-to-Host...........................................................838
+#     §1.26: Write-Welcome-Msg-to-Host........................................................861
+#   §2: Aliases...............................................................................903
+#   §3: Execution Entry Point.................................................................942
 ####################################################################################################
 
 ###############
@@ -189,7 +189,6 @@ Function Get-Array-of-Github-Folder-Excludes {
 ########
 ### §1.10: Get-Array-of-Daesa-Website-Urls
 ###   Get an array of URLs to DAESA's websites.
-###   @todo Add filtering capabilities
 Function Get-Array-of-Daesa-Website-Urls {
   Param (
     [Parameter(Mandatory=$false)]
@@ -207,7 +206,7 @@ Function Get-Array-of-Daesa-Website-Urls {
   #   category designators.
   [ string[] ]$UrlsToDaesaSites = @(
     'daesa|https://ace.wsu.edu/'
-    'other|https://advising.wsu.edu/'
+    'daesa|https://advising.wsu.edu/'
     'daesa|https://ascc.wsu.edu/'
     'daesa|https://admission.wsu.edu/research-scholars/'
     'daesa|https://commonreading.wsu.edu/'
@@ -254,28 +253,65 @@ Function Get-Array-of-Daesa-Website-Urls {
 ###   Get an array of local paths to GitHub project repos associated with front-end web development
 ###     work for WSU DAESA.
 Function Get-Array-of-GitHub-Repos {
-  [ string[] ]$PathsToRepos = @(
-    'C:\GitHub\ace.daesa.wsu.edu'
-    'C:\GitHub\admissions.wsu.edu-research-scholars'
-    'C:\GitHub\ascc.wsu.edu'
-    'C:\GitHub\commonreading.wsu.edu'
-    'C:\GitHub\daesa.wsu.edu'
-    'C:\GitHub\distinguishedscholarships.wsu.edu'
-    'C:\GitHub\firstyear.wsu.edu'
-    'C:\GitHub\learningcommunities.wsu.edu'
-    'C:\GitHub\lsamp.wsu.edu'
-    'C:\GitHub\nse.wsu.edu'
-    'C:\GitHub\nsse.wsu.edu'
-    'C:\GitHub\phibetakappa.wsu.edu'
-    'C:\GitHub\provost.wsu.edu_daesa_esteemed'
-    'C:\GitHub\summerresearch.wsu.edu'
-    'C:\GitHub\surca.wsu.edu'
-    'C:\GitHub\teachingacademy.wsu.edu'
-    'C:\GitHub\transfercredit.wsu.edu'
-    'C:\GitHub\ucore.wsu.edu'
-    'C:\GitHub\ucore.wsu.edu-assessment'
-    'C:\GitHub\undergraduateresearch.wsu.edu'
+  Param (
+    [Parameter(Mandatory=$false)]
+    [Alias("url", "gu")]
+    [bool]
+    $getUrl = $false,
+
+    [Parameter(Mandatory=$false)]
+    [Alias("category", "cat")]
+    [string]
+    $ctgr = "",
+
+    [Parameter(Mandatory=$false)]
+    [Alias("nmm", "nm", "notmatch")]
+    [bool]
+    $notMatchMode = $false
   )
+
+  # Specify the string of categorizes URLs + folders to git projects for front-end development for
+  #   all DAESA websites we could potentially work with.
+  [ string[] ]$PathsToRepos = @(
+    'daesa|https://github.com/invokeImmediately/ace.daesa.wsu.edu|C:\GitHub\ace.daesa.wsu.edu'
+    'daesa|https://github.com/invokeImmediately/admissions.wsu.edu-research-scholars|C:\GitHub\admissions.wsu.edu-research-scholars'
+    'daesa|https://github.com/invokeImmediately/ascc.wsu.edu|C:\GitHub\ascc.wsu.edu'
+    'daesa|https://github.com/invokeImmediately/commonreading.wsu.edu|C:\GitHub\commonreading.wsu.edu'
+    'daesa|https://github.com/invokeImmediately/daesa.wsu.edu|C:\GitHub\daesa.wsu.edu'
+    'daesa|C:\GitHub\distinguishedscholarships.wsu.edu'
+    'daesa|https://github.com/invokeImmediately/firstyear.wsu.edu|C:\GitHub\firstyear.wsu.edu'
+    'daesa|C:\GitHub\learningcommunities.wsu.edu'
+    'daesa|C:\GitHub\lsamp.wsu.edu'
+    'ugr|daesa|C:\GitHub\marc.wsu.edu'
+    'ugr|daesa|C:\GitHub\mira.wsu.edu'
+    'oae|C:\GitHub\nse.wsu.edu'
+    'other|C:\GitHub\nsse.wsu.edu'
+    'other|C:\GitHub\phibetakappa.wsu.edu'
+    'C:\GitHub\provost.wsu.edu_daesa_esteemed'
+    'ugr|daesa|C:\GitHub\summerresearch.wsu.edu'
+    'ugr|daesa|C:\GitHub\surca.wsu.edu'
+    'other|C:\GitHub\teachingacademy.wsu.edu'
+    'daesa|C:\GitHub\transfercredit.wsu.edu'
+    'daesa|C:\GitHub\ucore.wsu.edu'
+    'daesa|C:\GitHub\ucore.wsu.edu-assessment'
+    'ugr|daesa|C:\GitHub\undergraduateresearch.wsu.edu'
+  )
+
+  # Filter the URL/folder list by category, if any.
+  if ( $ctgr -eq "" ) {
+    $ctgr = ".*?"
+  }
+  if ( $notMatchMode ) {
+    $UrlsToDaesaSites = ( $UrlsToDaesaSites -notmatch ( $ctgr + '\|' ) ) -replace  '.+\|(.+?)\|(.+?)$', '$1'
+  } else {
+    $UrlsToDaesaSites = ( $UrlsToDaesaSites -match ( $ctgr + '\|' ) ) -replace  '.+\|(.+?)\|(.+?)$', '$1'
+  }
+
+  # Now filter out either URLs or folder paths.
+  # @todo … Finish writing…
+
+  # As specified by caller, return a filtered list of either local repo folders or remote GitHub
+  #   URLs.
   Return $PathsToRepos
 }
 
@@ -682,7 +718,12 @@ Function Open-Daesa-Website {
 
     [Parameter(Mandatory=$false)]
     [int32]
-    $timing = 500
+    $timing = 500,
+
+    [Parameter(Mandatory=$false)]
+    [bool]
+    [Alias("nw", "newWin")]
+    $opInNewWin = $true
   )
 
   # Populate an array of URL stubs to open in Chrome
@@ -707,7 +748,7 @@ Function Open-Daesa-Website {
   $1stWsToLd = $true
   foreach( $ws in $wsto ) {
     $cli = "chrome ""$ws"""
-    if ( $1stWsToLd ) {
+    if ( $1stWsToLd -and $opInNewWin) {
       $cli = $cli + " --new-window"
       $1stWsToLd = $false
     }
