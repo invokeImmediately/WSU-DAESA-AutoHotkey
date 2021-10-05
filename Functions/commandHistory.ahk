@@ -7,7 +7,7 @@
 ;   user of the script for the purpose of enabling the user to rapidly search through and repeat
 ;   previous commands.
 ;
-; @version 1.1.0
+; @version 1.1.1
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master/Functions/trie.ahk
@@ -351,7 +351,10 @@ Return
 		Gui, AhkGuiRptCmd:Add, ListBox, AltSubmit vCmdChosen H500 W250, % cmdList
 		Gui, AhkGuiRptCmd:Add, Button, Default gHandleCmdRptOK, &OK
 		Gui, AhkGuiRptCmd:Add, Button, gHandleCmdRptCancel X+5, &Cancel
-		Gui, AhkGuiRptCmd:Show
+		aMon := FindNearestActiveMonitor()
+		guiX := ( mon%aMon%WorkArea_Right - mon%aMon%WorkArea_Left ) / 2 - 250 / 2
+			+ mon%aMon%WorkArea_Left
+		Gui, AhkGuiRptCmd:Show, X%guiX%
 	} else {
 		MsgBox % "The command history is currently empty; there are no commands to repeat."
 	}
