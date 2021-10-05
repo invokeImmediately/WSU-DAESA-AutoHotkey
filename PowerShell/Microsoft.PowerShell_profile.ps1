@@ -11,7 +11,7 @@
 #   websites for the Division of Academic Engagement and Student Achievement at Washington State
 #   University.
 #
-# @version 1.3.8
+# @version 1.3.9
 #
 # @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 # @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…
@@ -55,14 +55,14 @@
 #     §1.18: Get-Image-List...................................................................586
 #     §1.19: Invoke-Git-Log...................................................................593
 #     §1.20: Invoke-Git-Diff… Commands........................................................621
-#     §1.21: Open-Daesa-Website...............................................................694
-#     §1.22: Open-GitHub-Folder...............................................................764
-#     §1.23: Open-GitHub-on-Chrome............................................................803
-#     §1.24: Open-PowerShell-Instance.........................................................827
-#     §1.25: Write-Commands-to-Host...........................................................839
-#     §1.26: Write-Welcome-Msg-to-Host........................................................862
-#   §2: Aliases...............................................................................904
-#   §3: Execution Entry Point.................................................................943
+#     §1.21: Open-Daesa-Website...............................................................702
+#     §1.22: Open-GitHub-Folder...............................................................772
+#     §1.23: Open-GitHub-on-Chrome............................................................811
+#     §1.24: Open-PowerShell-Instance.........................................................835
+#     §1.25: Write-Commands-to-Host...........................................................847
+#     §1.26: Write-Welcome-Msg-to-Host........................................................870
+#   §2: Aliases...............................................................................912
+#   §3: Execution Entry Point.................................................................951
 ####################################################################################################
 
 ###############
@@ -631,7 +631,15 @@ Function Invoke-Git-Diff {
 }
 
 Function Invoke-Git-Diff-with-Output {
-  git diff --color > diff.log.txt
+  Param(
+    [Parameter(Mandatory=$false,
+    ValueFromPipeline=$true)]
+    [string]
+    $logFN = "diff.log.txt"
+  )
+  git diff --color > $logFN
+  Write-Host "`nPerformed command Invoke-Git-Diff-with-Output with diff output stored in " -NoNewLine
+  Write-Host "diff.log.txt.`n" -foregroundcolor DarkCyan
 }
 
 Function Invoke-Git-Diff-on-List {
