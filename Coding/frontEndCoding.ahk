@@ -3,13 +3,13 @@
 ; █▀▀▀ █▄▄▀ █  █ █  ▐  █  █▀▀  █  ▐ █  █ █    █  █ █  █  █  █  ▐ █ ▀▄   █▄▄█ █▀▀█ █▀▄  
 ; ▀    ▀  ▀▄ ▀▀  ▀  ▐  █  ▀▀▀▀ ▀  ▐ ▀▀▀   ▀▀▀  ▀▀  ▀▀▀  ▀▀▀ ▀  ▐ ▀▀▀▀ ▀ █  ▀ █  ▀ ▀  ▀▄
 ;
-; Autohotkey script import for supporting front-end web development in the WSUWP environment.
+; AutoHotkey script import for supporting front-end web development in the WSUWP environment.
 ;
-; @version 1.1.0
+; @version 1.1.1
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
-; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master/…
-;   …Coding/frontEndCoding.ahk
+; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master/Coding/frontEndCoding.
+;   ahk
 ; @license MIT Copyright (c) 2021 Daniel C. Rieck.
 ;   Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 ;     and associated documentation files (the “Software”), to deal in the Software without
@@ -40,7 +40,7 @@
 ;     >>> §2.2: RegEx..........................................................................317
 ;     >>> §2.3: Backup HTML of OUE pages.......................................................324
 ;       →→→ §2.3.1: @backupOuePage.............................................................327
-;       →→→ §2.3.2: BackupOueHtml & sub-functions..............................................353
+;       →→→ §2.3.2: BackupOueHtml & sub-functions..............................................352
 ;       →→→ §2.3.3: @backupOuePost.............................................................629
 ;     >>> §2.4: Hyperlink collection hotstring.................................................657
 ;     >>> §2.5: Checking for WordPress Updates.................................................726
@@ -334,9 +334,7 @@ Return
 	correctTitleNeedle := "\| Washington State University"
 	viewSourceTitle := "view-source ahk_exe " . webBrowserProcess
 	workingFilePath := A_ScriptDir . "\Local\backupOuePage-workfile.html"
-	targetContentNeedle := "{^}(?:\t| )*.*<section.*class="".*row.*$\n({^}.*$\n)*{^}(?:\t| )*</sect"
-		. "ion>$(?=\n{^}(?:\t| )*</div><{!}-- {#}post -->)|{^}(?:\t| )*<title>.*$\n|{^}(?:\t| )*<bo"
-		. "dy.*$\n|{^}(?:\t| )*</body.*$\n"
+	targetContentNeedle := "{^}(?:\t| )*.*<section.*class="".*row.*$\n({^}.*$\n)*{^}(?:\t| )*</section>$(?=\n{^}(?:\t| )*</div><{!}-- {#}post -->)|{^}(?:\t| )*.*<section.*class="".*row.*$\n({^}.*$\n)*{^}(?:\t| )*</section>$\n{^}</div>(?=(?:\t| )*</div><{!}-- {#}post -->)|{^}(?:\t| )*<title>.*$\n|{^}(?:\t| )*<body.*$\n|{^}(?:\t| )*</body.*$\n"
 
 	AppendAhkCmd( A_ThisLabel )
 	DisplaySplashText( "Now backuping up WordPress page on active DAESA website." )
@@ -345,7 +343,8 @@ Return
 		. "into which a WSU OUE website is loaded.")
 	if ( results ) {
 		BackupOueHtml( results, workingFilePath, targetContentNeedle, "", keyDelay )
-		DisplaySplashText( "Finished backuping up WordPress page on active DAESA website." )
+		doneMsg := New GuiMsgBox( "Finished backing up WordPress page on active DAESA website." )
+		doneMsg.ShowGui()
 	}
 Return
 
@@ -510,6 +509,7 @@ BackupOueHtml_GetFileHeaderComment( pathToUse, keyDelay ) {
 
 BackupOueHtml_FixBadMarkup( keyDelay ) {
 	global execDelayer
+	execDelayer.Wait( keyDelay * 10 )
 	SendInput, % "^h"
 	execDelayer.Wait( keyDelay * 3 )
 	SendInput, % "(<br ?/?> ?)\n[\t ]{{}0,{}}"
