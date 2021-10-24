@@ -1,17 +1,17 @@
 ####################################################################################################
 # ▐▀▄▀▌▀█▀ ▄▀▀▀ █▀▀▄ ▄▀▀▄ ▄▀▀▀ ▄▀▀▄ █▀▀▀▐▀█▀▌  █▀▀▄ ▄▀▀▄▐   ▌█▀▀▀ █▀▀▄ ▄▀▀▀ █  █ █▀▀▀ █    █
-# █ ▀ ▌ █  █    █▄▄▀ █  █ ▀▀▀█ █  █ █▀▀▀  █    █▄▄▀ █  █▐ █ ▌█▀▀  █▄▄▀ ▀▀▀█ █▀▀█ █▀▀  █  ▄ █  ▄
+# █ ▀ ▌ █  █    █▄▄▀ █  █ ▀▀▀█ █  █ █▀▀▀  █    █▄▄▀ █  █▐ █ ▌█▀▀  █▄▄▀ ▀▀▀█ █▀▀█ █▀▀  █  ▄ █  ▄ ▀
 # █   ▀▀▀▀  ▀▀▀ ▀  ▀▄ ▀▀  ▀▀▀   ▀▀  ▀     █  ▀ █     ▀▀  ▀ ▀ ▀▀▀▀ ▀  ▀▄▀▀▀  █  ▀ ▀▀▀▀ ▀▀▀  ▀▀▀
 #
-#            █▀▀▄ █▀▀▄ ▄▀▀▄ █▀▀▀ ▀█▀ █    █▀▀▀   █▀▀▄ ▄▀▀▀ ▄█
-#            █▄▄▀ █▄▄▀ █  █ █▀▀▀  █  █  ▄ █▀▀    █▄▄▀ ▀▀▀█  █
-#        ▀▀▀ █    ▀  ▀▄ ▀▀  ▀    ▀▀▀ ▀▀▀  ▀▀▀▀ ▀ █    ▀▀▀  ▄█▄▌
-# --------------------------------
+#             █▀▀▄ █▀▀▄ ▄▀▀▄ █▀▀▀ ▀█▀ █    █▀▀▀   █▀▀▄ ▄▀▀▀ ▄█
+#       ▀     █▄▄▀ █▄▄▀ █  █ █▀▀▀  █  █  ▄ █▀▀    █▄▄▀ ▀▀▀█  █
+#         ▀▀▀ █    ▀  ▀▄ ▀▀  ▀    ▀▀▀ ▀▀▀  ▀▀▀▀ ▀ █    ▀▀▀  ▄█▄▌
+#
 # PowerShell profile of Daniel C. Rieck used when working on web coordination and development of
 #   websites for the Division of Academic Engagement and Student Achievement at Washington State
 #   University.
 #
-# @version 1.3.9
+# @version 1.3.10
 #
 # @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 # @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…
@@ -55,6 +55,7 @@
 #     §1.18: Get-Image-List...................................................................586
 #     §1.19: Invoke-Git-Log...................................................................593
 #     §1.20: Invoke-Git-Diff… Commands........................................................621
+#     §1.†: Invoke-Git-Status.................................................................593
 #     §1.21: Open-Daesa-Website...............................................................702
 #     §1.22: Open-GitHub-Folder...............................................................772
 #     §1.23: Open-GitHub-on-Chrome............................................................811
@@ -277,24 +278,26 @@ Function Get-Array-of-GitHub-Repos {
     'daesa|https://github.com/invokeImmediately/admissions.wsu.edu-research-scholars|C:\GitHub\admissions.wsu.edu-research-scholars'
     'daesa|https://github.com/invokeImmediately/ascc.wsu.edu|C:\GitHub\ascc.wsu.edu'
     'daesa|https://github.com/invokeImmediately/commonreading.wsu.edu|C:\GitHub\commonreading.wsu.edu'
+    'daesa|https://github.com/invokeImmediately/cougarsuccess.wsu.edu|C:\GitHub\cougarsuccess.wsu.edu'
     'daesa|https://github.com/invokeImmediately/daesa.wsu.edu|C:\GitHub\daesa.wsu.edu'
-    'daesa|C:\GitHub\distinguishedscholarships.wsu.edu'
+    'daesa|https://github.com/invokeImmediately/distinguishedscholarships.wsu.edu|C:\GitHub\distinguishedscholarships.wsu.edu'
     'daesa|https://github.com/invokeImmediately/firstyear.wsu.edu|C:\GitHub\firstyear.wsu.edu'
-    'daesa|C:\GitHub\learningcommunities.wsu.edu'
-    'daesa|C:\GitHub\lsamp.wsu.edu'
-    'ugr|daesa|C:\GitHub\marc.wsu.edu'
-    'ugr|daesa|C:\GitHub\mira.wsu.edu'
-    'oae|C:\GitHub\nse.wsu.edu'
-    'other|C:\GitHub\nsse.wsu.edu'
-    'other|C:\GitHub\phibetakappa.wsu.edu'
-    'C:\GitHub\provost.wsu.edu_daesa_esteemed'
-    'ugr|daesa|C:\GitHub\summerresearch.wsu.edu'
-    'ugr|daesa|C:\GitHub\surca.wsu.edu'
-    'other|C:\GitHub\teachingacademy.wsu.edu'
-    'daesa|C:\GitHub\transfercredit.wsu.edu'
-    'daesa|C:\GitHub\ucore.wsu.edu'
-    'daesa|C:\GitHub\ucore.wsu.edu-assessment'
-    'ugr|daesa|C:\GitHub\undergraduateresearch.wsu.edu'
+    'daesa|https://github.com/invokeImmediately/learningcommunities.wsu.edu|C:\GitHub\learningcommunities.wsu.edu'
+    'daesa|https://github.com/invokeImmediately/lsamp.wsu.edu|C:\GitHub\lsamp.wsu.edu'
+    'ugr|daesa|https://github.com/invokeImmediately/marc.wsu.edu|C:\GitHub\marc.wsu.edu'
+    'ugr|daesa|https://github.com/invokeImmediately/mira.wsu.edu|C:\GitHub\mira.wsu.edu'
+    'oae|https://github.com/invokeImmediately/nse.wsu.edu|C:\GitHub\nse.wsu.edu'
+    'other|https://github.com/invokeImmediately/nsse.wsu.edu|C:\GitHub\nsse.wsu.edu'
+    'other|https://github.com/invokeImmediately/phibetakappa.wsu.edu|C:\GitHub\phibetakappa.wsu.edu'
+    'ugr|daesa|https://github.com/invokeImmediately/summerresearch.wsu.edu|C:\GitHub\summerresearch.wsu.edu'
+    'ugr|daesa|https://github.com/invokeImmediately/surca.wsu.edu|C:\GitHub\surca.wsu.edu'
+    'other|https://github.com/invokeImmediately/teachingacademy.wsu.edu|C:\GitHub\teachingacademy.wsu.edu'
+    'daesa|https://github.com/invokeImmediately/transfercredit.wsu.edu|C:\GitHub\transfercredit.wsu.edu'
+    'daesa|https://github.com/invokeImmediately/ucore.wsu.edu|C:\GitHub\ucore.wsu.edu'
+    'daesa|https://github.com/invokeImmediately/ucore.wsu.edu-assessment|C:\GitHub\ucore.wsu.edu-assessment'
+    'ugr|daesa|https://github.com/invokeImmediately/undergraduateresearch.wsu.edu|C:\GitHub\undergraduateresearch.wsu.edu'
+    'daesa|https://github.com/invokeImmediately/WSU-DAESA-CSS|C:\GitHub\WSU-DAESA-CSS'
+    'daesa|https://github.com/invokeImmediately/WSU-DAESA-JS|C:\GitHub\WSU-DAESA-JS'
   )
 
   # Filter the URL/folder list by category, if any.
@@ -302,13 +305,17 @@ Function Get-Array-of-GitHub-Repos {
     $ctgr = ".*?"
   }
   if ( $notMatchMode ) {
-    $UrlsToDaesaSites = ( $UrlsToDaesaSites -notmatch ( $ctgr + '\|' ) ) -replace  '.+\|(.+?)\|(.+?)$', '$1'
+    $PathsToRepos = ( $PathsToRepos -notmatch ( $ctgr + '\|' ) ) -replace  '.+\|(.+?\|.+?)$', '$1'
   } else {
-    $UrlsToDaesaSites = ( $UrlsToDaesaSites -match ( $ctgr + '\|' ) ) -replace  '.+\|(.+?)\|(.+?)$', '$1'
+    $PathsToRepos = ( $PathsToRepos -match ( $ctgr + '\|' ) ) -replace  '.+\|(.+?\|.+?)$', '$1'
   }
 
   # Now filter out either URLs or folder paths.
-  # @todo … Finish writing…
+  if ( $getUrl ) {
+    $PathsToRepos = $PathsToRepos -replace  '^(.+?)\|(.+?)$', '$1'
+  } else {
+    $PathsToRepos = $PathsToRepos -replace  '^(.+?)\|(.+?)$', '$2'
+  }
 
   # As specified by caller, return a filtered list of either local repo folders or remote GitHub
   #   URLs.
@@ -699,6 +706,11 @@ Function Invoke-Git-Diff-on-List {
 }
 
 ########
+### §1.†: Invoke-Git-Status
+
+# TODO: Finish writing
+
+########
 ### §1.21: Open-Daesa-Website
 ###   Open an optionally filtered list of DAESA websites in the Chrome web browser. The invoker can
 ###     specific pages within the WSUWP administration area to be opened; otherwise, the websites
@@ -809,9 +821,20 @@ Function Open-GitHub-Folder {
 
 ########
 ### §1.23: Open-GitHub-on-Chrome
-###   Open the author's GitHub profile in the Chrome web browser. The invoker can optionally specify
-###     that the command open a search query, which can be made in general or specifically against
-###     the author's commit history.
+
+<#
+.SYNOPSIS
+    Open the author's GitHub profile in the Chrome web browser.
+.DESCRIPTION
+    The invoker can optionally specify that the command open a search query, which can be made in
+    general or specifically against the author's commit history.
+.PARAMETER  qStr
+    Optional query string to search for on GitHub. Default: Empty string.
+.PARAMETER  srchCmts
+    Optional switch for indicating that the commit history should be searched. Default: False.
+.PARAMETER  inNewWin
+    Default: False. Aliases: nw, newWin, nt, newTab
+#>
 Function Open-GitHub-on-Chrome {
   Param(
     [Parameter(Mandatory=$false)]
@@ -819,16 +842,32 @@ Function Open-GitHub-on-Chrome {
 
     [ Parameter( Mandatory=$false ) ]
     [ bool ]
-    $srchCmts = $false
+    $srchCmts = $false,
+
+    [ Parameter( Mandatory=$false ) ]
+    [ bool ]
+    [Alias("nw", "newWin", "nt", "newTab")]
+    $inNewWin = $false
   )
+  # Start setting up the command line to open the chrome app.
+  $cli = "chrome "
+
+  # Next, add the URL for the page on GitHub that should be opened.
   if ( $qStr -eq "" ) {
-    $cmd = "https://github.com/invokeImmediately"
+    $cli += "https://github.com/invokeImmediately"
   } elseif ( $srchCmts ) {
-    $cmd = "https://github.com/search?q=user%3AinvokeImmediately+" + $qstr + "&s=committer-date&type=commits"
+    $cli += "https://github.com/search?q=user%3AinvokeImmediately+" + $qstr + "&s=committer-date&type=commits"
   } else {
-    $cmd = "https://github.com/search?q=user%3AinvokeImmediately+" + $qstr
+    $cli += "https://github.com/search?q=user%3AinvokeImmediately+" + $qstr
   }
-  chrome $cmd
+
+  # If appropriate, add a specification to open a new window in the command line expression.
+  if ( $inNewWin -eq $true ) {
+    $cli += " --new-window"
+  }
+
+  # Invoke the command line expression for opening chrome.
+  $cli | Invoke-Expression
 }
 
 #########
