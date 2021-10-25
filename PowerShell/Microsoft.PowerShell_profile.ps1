@@ -11,7 +11,7 @@
 #   websites for the Division of Academic Engagement and Student Achievement at Washington State
 #   University.
 #
-# @version 1.3.11
+# @version 1.3.12
 #
 # @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 # @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…
@@ -724,8 +724,8 @@ Function Open-Chrome {
   )
 
   # Options for paths to chrome.exe
-  $pathOptX64 = '"C:\Program Files\Google\Chrome\Application\chrome.exe'
-  $pathOptX86 = '"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"'
+  $pathOptX64 = 'C:\Program Files\Google\Chrome\Application\chrome.exe'
+  $pathOptX86 = 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
 
   # Determine which path chrome is valid on this system.
   if ( Test-Path $pathOptX64 ) {
@@ -733,6 +733,7 @@ Function Open-Chrome {
   } else {
     $cli = $pathOptX86
   }
+  Write-Host $cli
 
   # Start the chrome process using the CLI tail as the process argument list
   Start-Process $cli $cliTail
