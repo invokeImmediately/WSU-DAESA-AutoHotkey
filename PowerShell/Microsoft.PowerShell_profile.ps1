@@ -11,7 +11,7 @@
 #   websites for the Division of Academic Engagement and Student Achievement at Washington State
 #   University.
 #
-# @version 1.3.10
+# @version 1.3.11
 #
 # @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 # @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…
@@ -34,36 +34,37 @@
 ####################################################################################################
 # TABLE OF CONTENTS:
 ####################
-#   §1: Functions..............................................................................69
-#     §1.1:  Compare-Directories...............................................................72
-#     §1.2:  Copy-Current-Path................................................................105
-#     §1.3:  Copy-Daesa-Website-Urls-List.....................................................112
-#     §1.4:  Copy-GitHub-Repos-CSV-List.......................................................120
-#     §1.5:  Copy-GitHub-Repos-List...........................................................128
-#     §1.6:  Copy-Profiles-Path...............................................................137
-#     §1.7:  Find-Files-in-GitHub-Repos.......................................................144
-#     §1.8:  Get-Archives.....................................................................171
-#     §1.9:  Get-Array-of-Github-Folder-Excludes..............................................179
-#     §1.10: Get-Array-of-Daesa-Website-Urls..................................................190
-#     §1.11: Get-Array-of-GitHub-Repos........................................................252
-#     §1.12: Get-Array-of-Wsuwp-Operations....................................................319
-#     §1.13: Get-Directory-Stats..............................................................342
-#     §1.14: Get-Directories..................................................................476
-#     §1.15: Get-Filtered-Archives............................................................484
-#     §1.16: Get-Filtered-Directories.........................................................505
-#     §1.17: Get-Image........................................................................526
-#     §1.18: Get-Image-List...................................................................586
-#     §1.19: Invoke-Git-Log...................................................................593
-#     §1.20: Invoke-Git-Diff… Commands........................................................621
-#     §1.†: Invoke-Git-Status.................................................................593
-#     §1.21: Open-Daesa-Website...............................................................702
-#     §1.22: Open-GitHub-Folder...............................................................772
-#     §1.23: Open-GitHub-on-Chrome............................................................811
-#     §1.24: Open-PowerShell-Instance.........................................................835
-#     §1.25: Write-Commands-to-Host...........................................................847
-#     §1.26: Write-Welcome-Msg-to-Host........................................................870
-#   §2: Aliases...............................................................................912
-#   §3: Execution Entry Point.................................................................951
+#   §1: Functions..............................................................................71
+#     §1.1:  Compare-Directories...............................................................74
+#     §1.2:  Copy-Current-Path................................................................107
+#     §1.3:  Copy-Daesa-Website-Urls-List.....................................................114
+#     §1.4:  Copy-GitHub-Repos-CSV-List.......................................................122
+#     §1.5:  Copy-GitHub-Repos-List...........................................................130
+#     §1.6:  Copy-Profiles-Path...............................................................139
+#     §1.7:  Find-Files-in-GitHub-Repos.......................................................146
+#     §1.8:  Get-Archives.....................................................................173
+#     §1.9:  Get-Array-of-Github-Folder-Excludes..............................................181
+#     §1.10: Get-Array-of-Daesa-Website-Urls..................................................192
+#     §1.11: Get-Array-of-GitHub-Repos........................................................254
+#     §1.12: Get-Array-of-Wsuwp-Operations....................................................327
+#     §1.13: Get-Directory-Stats..............................................................350
+#     §1.14: Get-Directories..................................................................484
+#     §1.15: Get-Filtered-Archives............................................................492
+#     §1.16: Get-Filtered-Directories.........................................................513
+#     §1.17: Get-Image........................................................................534
+#     §1.18: Get-Image-List...................................................................594
+#     §1.19: Invoke-Git-Log...................................................................601
+#     §1.20: Invoke-Git-Diff… Commands........................................................629
+#     §1.†: Invoke-Git-Status.................................................................710
+#     §1.21: Open-Chrome......................................................................715
+#     §1.22: Open-Daesa-Website...............................................................742
+#     §1.23: Open-GitHub-Folder...............................................................813
+#     §1.24: Open-GitHub-on-Chrome............................................................852
+#     §1.25: Open-PowerShell-Instance.........................................................904
+#     §1.26: Write-Commands-to-Host...........................................................916
+#     §1.27: Write-Welcome-Msg-to-Host........................................................939
+#   §2: Aliases...............................................................................981
+#   §3: Execution Entry Point................................................................1020
 ####################################################################################################
 
 ###############
@@ -711,7 +712,34 @@ Function Invoke-Git-Diff-on-List {
 # TODO: Finish writing
 
 ########
-### §1.21: Open-Daesa-Website
+### §1.21: Open-Chrome
+###   Open an optionally filtered list of DAESA websites in the Chrome web browser. The invoker can
+###     specific pages within the WSUWP administration area to be opened; otherwise, the websites
+###     will be opened on their homepages.
+Function Open-Chrome {
+  Param(
+    [Parameter(Mandatory=$false)]
+    [string]
+    $cliTail = ""
+  )
+
+  # Options for paths to chrome.exe
+  $pathOptX64 = '"C:\Program Files\Google\Chrome\Application\chrome.exe'
+  $pathOptX86 = '"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"'
+
+  # Determine which path chrome is valid on this system.
+  if ( Test-Path $pathOptX64 ) {
+    $cli = $pathOptX64
+  } else {
+    $cli = $pathOptX86
+  }
+
+  # Start the chrome process using the CLI tail as the process argument list
+  Start-Process $cli $cliTail
+}
+
+########
+### §1.22: Open-Daesa-Website
 ###   Open an optionally filtered list of DAESA websites in the Chrome web browser. The invoker can
 ###     specific pages within the WSUWP administration area to be opened; otherwise, the websites
 ###     will be opened on their homepages.
@@ -768,11 +796,12 @@ Function Open-Daesa-Website {
   Write-Host "`nOpening the requested DAESA websites on Chrome:`n-----------------------------------------------" -foregroundcolor Green
   $1stWsToLd = $true
   foreach( $ws in $wsto ) {
-    $cli = "chrome ""$ws"""
+    $cli = "chrome ""$ws"
     if ( $1stWsToLd -and $opInNewWin) {
       $cli = $cli + " --new-window"
       $1stWsToLd = $false
     }
+    $cli += """"
     Write-Host "$cli" -foregroundcolor Cyan
     $cli | Invoke-Expression
     Start-Sleep -m $timing
@@ -781,7 +810,7 @@ Function Open-Daesa-Website {
 }
 
 ########
-### §1.22: Open-GitHub-Folder
+### §1.23: Open-GitHub-Folder
 ###   Move the terminal's location to the primary GitHub folder on the local machine; if the user
 ###     specifies a string representing a folder to a repo, attempt to use the string with wildcard
 ###     filtering to find the repo and enter it as well.
@@ -820,7 +849,7 @@ Function Open-GitHub-Folder {
 }
 
 ########
-### §1.23: Open-GitHub-on-Chrome
+### §1.24: Open-GitHub-on-Chrome
 
 <#
 .SYNOPSIS
@@ -850,7 +879,7 @@ Function Open-GitHub-on-Chrome {
     $inNewWin = $false
   )
   # Start setting up the command line to open the chrome app.
-  $cli = "chrome "
+  $cli = "chrome """
 
   # Next, add the URL for the page on GitHub that should be opened.
   if ( $qStr -eq "" ) {
@@ -865,13 +894,14 @@ Function Open-GitHub-on-Chrome {
   if ( $inNewWin -eq $true ) {
     $cli += " --new-window"
   }
+  $cli += """"
 
   # Invoke the command line expression for opening chrome.
   $cli | Invoke-Expression
 }
 
 #########
-### §1.24: Open-PowerShell-Instance
+### §1.25: Open-PowerShell-Instance
 ###   Use PowerShell to open a new instance of PowerShell.
 Function Open-PowerShell-Instance {
     $procName = (Get-Process -Id $PID).ProcessName
@@ -883,7 +913,7 @@ Function Open-PowerShell-Instance {
 }
 
 #########
-### §1.25: Write-Commands-to-Host
+### §1.26: Write-Commands-to-Host
 ###   Write a list of the commands and aliases in this PowerShell profile to the console.
 Function Write-Commands-to-Host {
   # Write introductory output to the console explaining what this function will do to the user.
@@ -906,7 +936,7 @@ Function Write-Commands-to-Host {
 }
 
 ########
-### §1.26: Write-Welcome-Msg-to-Host
+### §1.27: Write-Welcome-Msg-to-Host
 ###
 Function Write-Welcome-Msg-to-Host {
   # Build the components of a message to indicate this profile was loaded; bracket the message in
@@ -954,7 +984,7 @@ Set-Alias -Name ccp -Value Copy-Current-Path
 
 Set-Alias -Name compdirs -Value Compare-Directories
 
-Set-Alias -Name chrome -Value 'C:\Program Files\Google\Chrome\Application\chrome.exe'
+Set-Alias -Name chrome -Value Open-Chrome
 
 Set-Alias -Name gcia -Value Get-Archives
 
