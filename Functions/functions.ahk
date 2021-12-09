@@ -6,7 +6,7 @@
 ; Functions used throughout the script for performing common tasks involving communication,
 ;   state checking or changing, window interaction, and input automation.
 ;
-; @version 1.0.1
+; @version 1.0.2
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master/…→
@@ -175,78 +175,6 @@ DisplaySplashText(msg, displayTime := 1000, waitForMsg := False) {
 	; 	, % A_ScriptName
 	; 	, % splashMsg.msg
 	; SetTimer DismissSplashText, % -1 * displayTime
-}
-
-class SplashTextMsg {
-	__New( msg, maxLen := 70 ) {
-		this.maxLen := maxLen
-		this.maxLineLen := 0
-		this.numLines := 0
-		this.msg := this.SplitMsgIntoLines( msg )
-	}
-
-	SplitMsgIntoLines( msg ) {
-		; Recursively handle the case where the message string already has newlines. Split the message
-		;  into two parts around the first newline, dealing with the right-hand portion as a
-		;  recursively processed tail.
-		foundPos := InStr( msg, "`n")
-		if ( foundPos ) {
-			msgTail := SubStr(msg, foundPos + 1, StrLen( msg ) - foundPos )
-			msg := SubStr( msg, 1, foundPos - 1 )
-			msgTail := "`n" . this.SplitMsgIntoLines( msgTail )
-		} else {
-			msgTail := ""
-		}
-
-		; Proceed only if the string is shorter than the maximum length of the line; if so, don't
-		;  forget to reattach the recursively processed tail.
-		if ( StrLen( msg ) <= this.maxLen ) {
-			this.numLines++
-			lineLen := StrLen( msg )
-			if ( lineLen > this.maxLineLen ) {
-				this.maxLineLen := lineLen
-			}
-			return msg . msgTail
-		} else {
-			newMsg := ""
-		}
-
-		; Since the message string we are working with is longer than the maximum length of a line,
-		;  split it add newlines as needed to keep each line under the desired limit, working from
-		;  left to right.
-		regExNeedle := "Om)^(.*? )([^ ]*)$"
-		while ( StrLen( msg ) > this.maxLen ) {
-			msgChunkL := SubStr( msg, 1, this.maxLen )
-			msgChunkR := SubStr( msg, this.maxLen + 1, StrLen( msg ) - this.maxLen )
-			foundPos := RegExMatch( msgChunkL, regExNeedle, matches )
-			if ( foundPos ) {
-
-				; Be sure to keep track of which line happens to be the longest.
-				lineLen := StrLen( matches[1] )
-				if ( lineLen > this.maxLineLen ) {
-					this.maxLineLen := lineLen
-				}
-				this.numLines++
-				newMsg .= matches[1] . "`n"
-				msg := matches[2] . msgChunkR
-			} else {
-				lineLen := StrLen( msgChunkL )
-				if ( lineLen > this.maxLineLen ) {
-					this.maxLineLen := lineLen
-				}
-				this.numLines++
-				newMsg .= msg . "`n"
-				msg := msgChunkR
-			}
-		}
-		newMsg .= msg . msgTail
-		this.numLines++
-		lineLen := StrLen( msg )
-		if ( lineLen > this.maxLineLen ) {
-			this.maxLineLen := lineLen
-		}
-		return newMsg
-	}
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
