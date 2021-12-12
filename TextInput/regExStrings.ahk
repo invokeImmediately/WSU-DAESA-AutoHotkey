@@ -4,7 +4,7 @@
 ;
 ; Automate the insertion of RegEx strings used in find/replace editing. Designed with Sublime Text ;   version 3+ in mind.
 ;
-; @version 1.1.0
+; @version 1.1.1
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-AutoHotkey
@@ -56,8 +56,8 @@
 
 :*?:@findStrAhkTocSections1::
 	AppendAhkCmd(A_ThisLabel)
-	SafeSendInput( "(?:{^}; -{{}98{}}$\n; {{}3{}}.{+}$\n{^}; -{{}98{}}$)|(?:{^}; {{}3{}}·{{}96{}}$\n{"
-		. "^}; {{}5{}}>>> .*$)|(?:{^}; {{}5{}}(?: ·){{}47{}}$\n{^}; {{}7{}}→→→ .*$)" )
+	SafeSendInput( "(?:{^}; -{{}98{}}$\n; {{}3{}}.{+}$\n{^}; -{{}98{}}$)|(?:{^}; {{}3{}}·{+}$\n{"
+		. "^}; {{}5{}}>>> .*$)|(?:{^}; {{}5{}}(?: ·){+}$\n{^}; {{}7{}}→→→ .*$)" )
 Return
 
 ;   ································································································
