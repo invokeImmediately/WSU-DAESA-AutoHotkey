@@ -5,7 +5,7 @@
 ;
 ; GUI to be displayed at script startup.
 ;
-; @version 1.0.1
+; @version 1.0.2
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-AutoHotkey/blob/master/GUIs/GhGui.ahk
@@ -53,12 +53,12 @@ class StartupGui extends AhkGui
 		local guiCallback := this.okBtnHandler.handlerRef
 		local guiBgW := 1440
 		local guiBgH := 810
-		local guiBgPicFp := A_ScriptDir . "\Images\wsu-daesa-autohotkey_start-screen_background_v1-0-0.jpg"
+		local guiBgPicFp := A_ScriptDir . "\Images\wsu-daesa-autohotkey_start-screen_background.jpg"
 		local guiFgW := 773
 		local guiFgH := 361
 		local guiFgX := guiBgW / 2 - guiFgW / 2
 		local guiFgY := guiBgH / 2 - guiFgH / 2
-		local guiFgPicFp := A_ScriptDir . "\Images\wsu-daesa-autohotkey_start-screen_messaging_v1-0-0.png"
+		local guiFgPicFp := A_ScriptDir . "\Images\wsu-daesa-autohotkey_start-screen_messaging.png"
 		local okBtnW := 80
 		local okBtnX := guiBgW / 2 - okBtnW / 2
 		Local okBtnY := 810 - 32
