@@ -50,6 +50,7 @@ class GuiMsgBox extends AhkGui
 		local okBtnX
 		local okBtnSp := 16
 		local scrlW
+		local guiX
 
 		; Center the OK button at the bottom of the GUI control.
 		SysGet, scrlW, 2 ; The numeric value of SM_CXVSCROLL is 2.
@@ -68,7 +69,9 @@ class GuiMsgBox extends AhkGui
 		GuiControl, +g, ahkGui%guiType%Ok%guiName%, %guiCallback%
 		
 		; Display the GUI to the user.
-		Gui, ahkGui%guiType%%guiName%: Show
+		this.SetGuiOrigin( guiW, 0 )
+		guiX := this.originX
+		Gui, ahkGui%guiType%%guiName%: Show, X%guiX%
 	}
 }
 

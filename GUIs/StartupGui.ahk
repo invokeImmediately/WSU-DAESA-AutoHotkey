@@ -64,6 +64,7 @@ class StartupGui extends AhkGui
 		Local okBtnY := 810 - 32
 		local okBtnSp := 16
 		local scrlW
+		local guiX
 
 		; Create the GUI implementing a message box and apply the default styling theme.
 		Gui, ahkGui%guiType%%guiName%: New, , % this.title
@@ -83,7 +84,9 @@ class StartupGui extends AhkGui
 		GuiControl, +g, ahkGui%guiType%Ok%guiName%, %guiCallback%
 		
 		; Display the GUI to the user.
-		Gui, ahkGui%guiType%%guiName%: Show
+		this.SetGuiOrigin( guiBgW, 0 )
+		guiX := this.originX
+		Gui, ahkGui%guiType%%guiName%: Show, X%guiX%
 	}
 }
 
