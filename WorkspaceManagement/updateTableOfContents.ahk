@@ -10,11 +10,11 @@
 ; Automate the updating of line numbers in medias res in table of contents sections of the inline
 ;   documentation of Less, JS, and AHK files while coding in Sublime Text 3.
 ;
-; @version 1.1.0
+; @version 1.1.1
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
-; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…→
-;   ←…/WorkspaceManagement/updateTableOfContents.ahk
+; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/main/WorkspaceManagement/upda
+;   teTableOfContents.ahk
 ; @license MIT Copyright (c) 2021 Daniel C. Rieck.
 ;   Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 ;     and associated documentation files (the “Software”), to deal in the Software without

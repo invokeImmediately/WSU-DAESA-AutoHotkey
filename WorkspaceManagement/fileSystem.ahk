@@ -5,11 +5,11 @@
 ;
 ; File system navigation.
 ;
-; @version 0.0.0
+; @version 0.0.1
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
-; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…→
-;   ←…/WorkspaceManagement/fileSystem.ahk
+; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/main/WorkspaceManagement/file
+;   System.ahk
 ; @license MIT Copyright (c) 2021 Daniel C. Rieck.
 ;   Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 ;     and associated documentation files (the “Software”), to deal in the Software without

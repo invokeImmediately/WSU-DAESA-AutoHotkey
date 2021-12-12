@@ -14,11 +14,11 @@
 ; Formerly, this project was conducted by the Office of Undergraduate Education (OUE), which was
 ;   combined with the Office of Academic Engagement to form DAESA.
 ;
-; @version 1.1.0
+; @version 1.1.1
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
-; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master/WSU-DAESA-AutoHotkey.U
-;   64.ahk
+; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/main/WSU-DAESA-AutoHotkey.U64
+;   .ahk
 ; @license MIT Copyright (c) 2021 Daniel C. Rieck.
 ;   Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 ;     and associated documentation files (the “Software”), to deal in the Software without

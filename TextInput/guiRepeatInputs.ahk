@@ -6,11 +6,11 @@
 ; Creates a GUI that enables the user to repeat a specified series of command inputs a set number
 ;   of times at an indicated rate.
 ;
-; @version 1.0.0
+; @version 1.0.1
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
-; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…→
-;   ←…/TextInput/guiRepeatInputs.ahk
+; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/main/TextInput/guiRepeatInput
+;   s.ahk
 ; @license MIT Copyright (c) 2021 Daniel C. Rieck.
 ;   Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 ;     and associated documentation files (the “Software”), to deal in the Software without

@@ -6,10 +6,10 @@
 ; Automate tasks for working with git in Windows 10 via PowerShell and posting code from git
 ;   repositories to WSU WordPress.
 ;
-; @version 1.0.2
+; @version 1.0.3
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
-; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master/GitHub/github.ahk
+; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/main/GitHub/github.ahk
 ; @license: MIT Copyright (c) 2021 Daniel C. Rieck.
 ;   Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 ;     and associated documentation files (the “Software”), to deal in the Software without

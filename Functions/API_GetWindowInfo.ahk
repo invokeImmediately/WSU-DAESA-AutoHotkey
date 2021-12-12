@@ -6,12 +6,12 @@
 ; AutoHotkey implementation of a call to Windows API function GetWindowInfo in winuser.h. The
 ;   source code in this script file was provided by AutoHotkey forum member `just me` on 2011-07-19.
 ;
-; @version 1.0.0
+; @version 1.0.1
 ;
 ; @author AutoHotkey forum member `just me`
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
-; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…→
-;   ←…/Functions/API_GetWindowInfo.ahk
+; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/main/Functions/API_GetWindowI
+;   nfo.ahk
 ; @link https://autohotkey.com/board/topic/69254-func-api-getwindowinfo-ahk-l/
 ; @link https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getwindowinfo
 ; @license MIT Copyright (c) 2021 Daniel C. Rieck.

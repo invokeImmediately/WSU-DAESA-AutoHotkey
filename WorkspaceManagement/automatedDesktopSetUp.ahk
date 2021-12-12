@@ -9,11 +9,11 @@
 ;
 ; Script for automating the set up of virtual desktops for different, typical workflows.
 ;
-; @version 1.1.0
+; @version 1.1.1
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
-; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…→
-;   ←…/WorkspaceManagement/auotmatedDesktopStartup.ahk
+; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/main/WorkspaceManagement/auto
+;   matedDesktopStartup.ahk
 ; @license MIT Copyright (c) 2021 Daniel C. Rieck.
 ;   Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 ;     and associated documentation files (the “Software”), to deal in the Software without
