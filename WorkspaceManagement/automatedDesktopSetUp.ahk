@@ -1,15 +1,15 @@
 ; ==================================================================================================
-; ▄▀▀▄ █  █▐▀█▀▌▄▀▀▄ ▐▀▄▀▌▄▀▀▄▐▀█▀▌█▀▀▀ █▀▀▄ █▀▀▄ █▀▀▀ ▄▀▀▀ █ ▄▀ ▐▀█▀▌▄▀▀▄ █▀▀▄      
-; █▄▄█ █  █  █  █  █ █ ▀ ▌█▄▄█  █  █▀▀  █  █ █  █ █▀▀  ▀▀▀█ █▀▄    █  █  █ █▄▄▀      
-; █  ▀  ▀▀   █   ▀▀  █   ▀█  ▀  █  ▀▀▀▀ ▀▀▀  ▀▀▀  ▀▀▀▀ ▀▀▀  ▀  ▀▄  █   ▀▀  █    ▀ ▀ ▀
+; ▄▀▀▄ █  █▐▀█▀▌▄▀▀▄ ▐▀▄▀▌▄▀▀▄▐▀█▀▌█▀▀▀ █▀▀▄ █▀▀▄ █▀▀▀ ▄▀▀▀ █ ▄▀ ▐▀█▀▌▄▀▀▄ █▀▀▄
+; █▄▄█ █  █  █  █  █ █ ▀ ▌█▄▄█  █  █▀▀  █  █ █  █ █▀▀  ▀▀▀█ █▀▄    █  █  █ █▄▄▀ ▀
+; █  ▀  ▀▀   █   ▀▀  █   ▀█  ▀  █  ▀▀▀▀ ▀▀▀  ▀▀▀  ▀▀▀▀ ▀▀▀  ▀  ▀▄  █   ▀▀  █
 ;
-;          ▄▀▀▀ █▀▀▀▐▀█▀▌█  █ █▀▀▄   ▄▀▀▄ █  █ █ ▄▀ 
-;          ▀▀▀█ █▀▀   █  █  █ █▄▄▀   █▄▄█ █▀▀█ █▀▄  
-;    ▀ ▀ ▀ ▀▀▀  ▀▀▀▀  █   ▀▀  █    ▀ █  ▀ █  ▀ ▀  ▀▄
+;       ▄▀▀▀ █▀▀▀▐▀█▀▌█  █ █▀▀▄   ▄▀▀▄ █  █ █ ▄▀
+;     ▀ ▀▀▀█ █▀▀   █  █  █ █▄▄▀   █▄▄█ █▀▀█ █▀▄
+;       ▀▀▀  ▀▀▀▀  █   ▀▀  █    ▀ █  ▀ █  ▀ ▀  ▀▄
 ;
 ; Script for automating the set up of virtual desktops for different, typical workflows.
 ;
-; @version 1.0.1
+; @version 1.1.0
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…→
@@ -32,41 +32,42 @@
 ; ==================================================================================================
 ; Table of Contents:
 ; -----------------
-;   §1: VIRTUAL DESKTOP SET UP HOTSTRINGS.......................................................73
-;     >>> §1.1: Work environment set up — @setupWorkEnvironment.................................77
-;       →→→ §1.1.1: class ScriptEnvChecker......................................................97
-;       →→→ §1.1.1: @moveTempMonitors..........................................................197
-;       →→→ §1.1.2: @setupVirtualDesktops......................................................219
-;     >>> §1.2: Website editing VD — @setupVdForWebEditing.....................................254
-;       →→→ §1.2.1: @startChrome...............................................................288
-;       →→→ §1.2.2: @startSublimeText3.........................................................298
-;       →→→ §1.2.3: PositionChromeVD1()........................................................309
-;       →→→ §1.2.4: PosActWinOnMonsViaCtrlFN(…)................................................321
-;       →→→ §1.2.5: CenterWinOnMonsViaCtrlFN(…)................................................338
-;       →→→ §1.2.6: MaxActWinOnMonViaCtrlFN(…).................................................348
-;       →→→ §1.2.7: EnsureActWinMaxed()........................................................382
-;       →→→ §1.2.8: Vd1_OpenWorkNotesLog().....................................................396
-;     >>> §1.3: Programming VD — @setupVdForProgramming........................................460
-;       →→→ §1.3.1: @addSublimeText3ToVd + AddSublimeText3ToVd()...............................482
-;       →→→ §1.3.2: @arrangeGitHub.............................................................527
-;       →→→ §1.3.3: @startGithubClients........................................................564
-;       →→→ §1.3.4: agh_MovePowerShell().......................................................577
-;     >>> §1.4: Graphic design VD — @setupVdForGraphicDesign...................................645
-;       →→→ §1.4.1: @arrangeGimp...............................................................656
-;       →→→ §1.4.2: svd3_OpenGraphicsEditors...................................................679
-;       →→→ §1.4.3: svd3_OpenGraphicsReferences(…).............................................694
-;     >>> §1.5: Communications and media VD — @setupVdForCommunications........................709
-;       →→→ §1.5.1: @arrangeEmail..............................................................729
-;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)................................................784
-;     >>> §1.6: Research VD — @setupVdForResearch..............................................809
-;     >>> §1.7: PC monitoring VD — @setupVdForPcMonitoring.....................................855
-;   §2: STARTUP HOTKEYS........................................................................882
-;     >>> §2.1: #!r............................................................................886
-;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................893
-;     >>> §3.1: @quitAhk.......................................................................897
-;     >>> §3.2: ^#!r...........................................................................906
-;     >>> §3.3: PerformScriptShutdownTasks()...................................................915
-;     >>> §3.4: ScriptExitFunc(…)..............................................................925
+;   §1: VIRTUAL DESKTOP SET UP HOTSTRINGS.......................................................74
+;     >>> §1.1: Work environment set up — @setupWorkEnvironment.................................78
+;       →→→ §1.1.1: class ScriptEnvChecker......................................................98
+;       →→→ §1.1.1: @moveTempMonitors..........................................................198
+;       →→→ §1.1.2: @setupVirtualDesktops......................................................220
+;     >>> §1.2: Website editing VD — @setupVdForWebEditing.....................................255
+;       →→→ §1.2.1: @startChrome...............................................................289
+;       →→→ §1.2.2: @startSublimeText3.........................................................299
+;       →→→ §1.2.3: PositionChromeVD1()........................................................310
+;       →→→ §1.2.4: PosActWinOnMonsViaCtrlFN(…)................................................322
+;       →→→ §1.2.5: CenterWinOnMonsViaCtrlFN(…)................................................339
+;       →→→ §1.2.6: MaxActWinOnMonViaCtrlFN(…).................................................349
+;       →→→ §1.2.7: EnsureActWinMaxed()........................................................383
+;       →→→ §1.2.8: Vd1_OpenWorkNotesLog().....................................................397
+;     >>> §1.3: Programming VD — @setupVdForProgramming........................................461
+;       →→→ §1.3.1: @addSublimeText3ToVd + AddSublimeText3ToVd()...............................483
+;       →→→ §1.3.2: @addPsToVd + AddPSToVd()...................................................529
+;       →→→ §1.3.3: @arrangeGitHub.............................................................586
+;       →→→ §1.3.4: @startGithubClients........................................................623
+;       →→→ §1.3.5: agh_MovePowerShell().......................................................635
+;     >>> §1.4: Graphic design VD — @setupVdForGraphicDesign...................................703
+;       →→→ §1.4.1: @arrangeGimp...............................................................714
+;       →→→ §1.4.2: svd3_OpenGraphicsEditors...................................................737
+;       →→→ §1.4.3: svd3_OpenGraphicsReferences(…).............................................752
+;     >>> §1.5: Communications and media VD — @setupVdForCommunications........................767
+;       →→→ §1.5.1: @arrangeEmail..............................................................787
+;       →→→ §1.5.2: svd4_LoadWebEmailClients(…)................................................842
+;     >>> §1.6: Research VD — @setupVdForResearch..............................................867
+;     >>> §1.7: PC monitoring VD — @setupVdForPcMonitoring.....................................913
+;   §2: STARTUP HOTKEYS........................................................................940
+;     >>> §2.1: #!r............................................................................944
+;   §3: SHUTDOWN/RESTART HOTSTRINGS & FUNCTIONS................................................951
+;     >>> §3.1: @quitAhk.......................................................................955
+;     >>> §3.2: ^#!r...........................................................................964
+;     >>> §3.3: PerformScriptShutdownTasks()...................................................978
+;     >>> §3.4: ScriptExitFunc(…)..............................................................988
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -289,7 +290,7 @@ Return
 
 :*?:@startChrome::
 	AppendAhkCmd( A_ThisLabel )
-	LaunchStdApplicationPatiently( "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+	LaunchStdApplicationPatiently( "C:\Program Files\Google\Chrome\Application\chrome.exe"
 		, "chrome://newtab ahk_exe chrome.exe" )
 	execDelayer.Wait( "l" )
 Return
@@ -498,7 +499,6 @@ AddSublimeText3ToVd( whichVd ) {
 	st3NewWinTitle := "untitled.*?Sublime ahk_exe sublime_text\.exe"
 
 	; Add ST3 window to virtual desktop
-	; TODO: Check to see if ST3 is already on the virtual desktop.
 	DetectHiddenWindows On
 	IfWinExist, %st3TitleToMatch%
 	{
@@ -526,7 +526,64 @@ AddSublimeText3ToVd( whichVd ) {
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.3.2: @arrangeGitHub
+;       →→→ §1.3.2: @addPsToVd + AddPSToVd()
+
+:*?:@addPsToVd::
+	AppendAhkCmd( A_ThisLabel )
+	DisplaySplashText( "Adding PowerShell to active virtual desktop.", 2000, True )
+	curVd := GetCurrentVirtualDesktop()
+	AddPsToVd( curVd )
+	DisplaySplashText( "Finished adding PowerShell to virtual desktop.", 2000 )
+Return
+
+AddPsToVd( whichVd ) {
+	global mmRegEx
+	global execDelayer
+
+	oldTitleMatchMode := ChangeMatchMode(mmRegEx)
+	psTitleToMatch := "PowerShell ahk_exe pwsh\.exe|powershell\.exe"
+
+	; Add ST3 window to virtual desktop
+	DetectHiddenWindows On
+	IfWinExist, %psTitleToMatch%
+	{
+		; Switch to ST3 so that a new window can be generated and moved to the virtual desktop
+		execDelayer.Wait( "m" )
+		SafeWinActivate( psTitleToMatch, mmRegEx )
+		execDelayer.Wait( "l" )
+		st3Vd := GetCurrentVirtualDesktop()
+		execDelayer.Wait( "m" )
+		if ( st3Vd != whichVd ) {
+			SendInput, opi{Enter}
+			execDelayer.Wait( "l" )
+			moveActiveWindowToVirtualDesktop( whichVd )
+			execDelayer.Wait( "l", 1 )
+			switchDesktopByNumber( whichVd )
+			execDelayer.Wait( "l" )
+		}
+	} else {
+		GoSub, :*?:@startPowerShell
+	}
+	DetectHiddenWindows Off
+	RestoreMatchMode(oldTitleMatchMode)
+}
+
+:*?:@startPowerShell::
+	AppendAhkCmd(A_ThisLabel)
+	if ( FileExist( "C:\Program Files\PowerShell\7\pwsh.exe") != "" ) {
+		LaunchStdApplicationPatiently( "C:\Program Files\PowerShell\7\pwsh.exe"
+			, "PowerShell ahk_exe pwsh\.exe", mmRegEx )
+	} else if ( FileExist( "C:\Program Files\PowerShell\7\pwsh.exe") != "" ) {
+		LaunchStdApplicationPatiently( "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe"
+			, "PowerShell ahk_exe powershell\.exe", mmRegEx )
+	} else {
+   newMsgBox := New GuiMsgBox("Unfortunately, I was not able to find either pwsh.exe or powershell.exe installed in the expected locations on this system.", "Error Starting PowerShell")
+   newMsgBox.ShowGui()
+	}
+Return
+
+;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
+;       →→→ §1.3.3: @arrangeGitHub
 
 :*?:@arrangeGitHub::
 	AppendAhkCmd(A_ThisLabel)
@@ -563,20 +620,19 @@ AddSublimeText3ToVd( whichVd ) {
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.3.3: @startGithubClients
+;       →→→ §1.3.4: @startGithubClients
 
 :*?:@startGithubClients::
 	AppendAhkCmd( A_ThisLabel )
 	execDelayer.Wait( "s", 2 )
 	Gosub :*?:@startChrome
 	OpenWebsiteInChrome("github.com/invokeImmediately", False)
-	LaunchApplicationPatiently("C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe"
-		, "ahk_exe powershell.exe")
+	Gosub :*?:@startPowerShell
 	execDelayer.Wait( "s", 5 )
 Return
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §1.3.4: agh_MovePowerShell()
+;       →→→ §1.3.5: agh_MovePowerShell()
 
 agh_MovePowerShell() {
 	; Fetch references to globals used by this function.
