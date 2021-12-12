@@ -108,6 +108,21 @@ class AhkGui
 		}
 	}
 
+	SetGuiOrigin(guiW, guiH, whForCtrlsOnly := true) {
+		global
+		local aMon
+
+		if (whForCtrlsOnly) {
+			guiW += 12 * 2
+			guiH += 12 * 2
+		}
+		aMon := FindNearestActiveMonitor()
+		this.originX := ( mon%aMon%WorkArea_Right - mon%aMon%WorkArea_Left ) / 2 - guiW / 2
+			+ mon%aMon%WorkArea_Left
+		this.originY := ( mon%aMon%WorkArea_Bottom - mon%aMon%WorkArea_Top ) / 2 - guiH / 2
+			+ mon%aMon%WorkArea_Top
+	}
+
 	CloseGui() {
 		; Close the GUI by destroying it based on its identifier.
 		guiType := this.type
