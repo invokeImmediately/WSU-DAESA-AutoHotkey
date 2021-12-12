@@ -1,4 +1,4 @@
-﻿; ==================================================================================================
+; ==================================================================================================
 ; ▐   ▌▀█▀ █▀▀▄ ▐▀█▀▌█  █ ▄▀▀▄ █    █▀▀▄ █▀▀▀ ▄▀▀▀ █ ▄▀ ▐▀█▀▌▄▀▀▄ █▀▀▄ ▄▀▀▀   ▄▀▀▄ █  █ █ ▄▀ 
 ;  █ █  █  █▄▄▀   █  █  █ █▄▄█ █  ▄ █  █ █▀▀  ▀▀▀█ █▀▄    █  █  █ █▄▄▀ ▀▀▀█   █▄▄█ █▀▀█ █▀▄  
 ;   █  ▀▀▀ ▀  ▀▄  █   ▀▀  █  ▀ ▀▀▀  ▀▀▀  ▀▀▀▀ ▀▀▀  ▀  ▀▄  █   ▀▀  █    ▀▀▀  ▀ █  ▀ █  ▀ ▀  ▀▄
@@ -10,7 +10,7 @@
 ;   Virtual Desktops in Windows 10." The article there indicates that the code is ultimately
 ;   adapted from https://github.com/pmb6tz/windows-desktop-switcher.
 ;
-; @version 1.0.1
+; @version 1.0.2
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…→
@@ -40,11 +40,11 @@
 ;       →→→ §2.4.1: @getSessionId.............................................................123
 ;     >>> §2.5: MapDesktopsFromRegistry.......................................................134
 ;     >>> §2.6: MoveActiveWindowToVirtualDesktop..............................................196
-;     >>> §2.7: PrimeVirtualDesktops..........................................................266
-;     >>> §2.8: SwitchDesktopByNumber.........................................................286
-;   §3: HOTSTRINGS............................................................................344
-;     >>> §3.1: CloseOpenWindowsOnVD..........................................................348
-;     >>> §3.2: class VdWindowCloser..........................................................357
+;     >>> §2.7: PrimeVirtualDesktops..........................................................278
+;     >>> §2.8: SwitchDesktopByNumber.........................................................298
+;   §3: HOTSTRINGS............................................................................356
+;     >>> §3.1: CloseOpenWindowsOnVD..........................................................360
+;     >>> §3.2: class VdWindowCloser..........................................................369
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -237,8 +237,20 @@ MoveActiveWindowToVirtualDesktop(targetDesktop) {
 		GetActiveMonitorWorkArea(whichMon, monALeft, monATop, monARight, monABottom)
 		clickPosX := monALeft + awThumbnailX
 		clickPosY := monATop + awThumbnailY
-		Send #{Tab}
-		execDelayer.Wait( "s", 12 )
+		SendInput #{Tab}
+
+		; Activate the task viewer.
+		execDelayer.Wait( "l", 2.5 )
+		WinGetActiveTitle, awTitle
+		WinGet, awProc, ProcessName, A
+		if ( awProc != "explorer.exe" || awTitle != "Task View" ) {
+			; The Task View process must have crashed; attempt to activate it again.
+			execDelayer.Wait( "l", 10 )
+			SendInput #{Tab}
+			execDelayer.Wait( "l", 2.5 )
+		}
+
+		; Move the active window.
 		Send {Click, %clickPosX%, %clickPosY%, right}
 		execDelayer.Wait( "s", 3 )
 		SendInput {Down 2}{Right}
