@@ -5,7 +5,7 @@
 ;
 ; An assortment of text replacement hotkeys and hotstrings.
 ;
-; @version 1.0.2
+; @version 1.1.0
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/main/TextInput/textReplacemen
@@ -51,14 +51,14 @@
 ;     >>> §4.2: GetCmdForMoveToCSSFolder.......................................................415
 ;   §5: DATES and TIMES........................................................................433
 ;     >>> §5.1: Dates..........................................................................437
-;     >>> §5.2: Times..........................................................................465
-;   §6: CLIPBOARD modifying hotstrings.........................................................499
-;     >>> §6.1: Slash character reversal.......................................................503
-;     >>> §6.2: URL to Windows file name conversion............................................530
-;     >>> §6.3: ASCII Text Art.................................................................550
-;       →→→ §6.3.1: AsciiArtLetter3h class.....................................................553
-;       →→→ §6.3.2: AsciiArtConverter class....................................................566
-;       →→→ §6.3.3: @convertCbToAsciiArt hotstring.............................................705
+;     >>> §5.2: Times..........................................................................471
+;   §6: CLIPBOARD modifying hotstrings.........................................................511
+;     >>> §6.1: Slash character reversal.......................................................515
+;     >>> §6.2: URL to Windows file name conversion............................................542
+;     >>> §6.3: ASCII Text Art.................................................................562
+;       →→→ §6.3.1: AsciiArtLetter3h class.....................................................565
+;       →→→ §6.3.2: AsciiArtConverter class....................................................578
+;       →→→ §6.3.3: @convertCbToAsciiArt hotstring.............................................717
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -448,6 +448,12 @@ Return
 	SendInput, %currentDate%
 Return
 
+:?*:@ddn::
+	AppendAhkCmd(A_ThisLabel)
+	FormatTime, currentDate, , yyyyMMdd
+	SendInput, %currentDate%
+Return
+
 :?*:@dtfn::
 	AppendAhkCmd(A_ThisLabel)
 	FormatTime, currentDateTime, , yyyy-MM-dd_HH:mm:ss
@@ -465,6 +471,12 @@ Return
 ;     >>> §5.2: Times
 
 :?*:@ttt::
+	AppendAhkCmd(A_ThisLabel)
+	FormatTime, currentTime, , HHmmss
+	SendInput, %currentTime%
+Return
+
+:?*:@ttd::
 	AppendAhkCmd(A_ThisLabel)
 	FormatTime, currentTime, , HH-mm-ss
 	SendInput, %currentTime%
