@@ -11,14 +11,14 @@
 #   websites for the Division of Academic Engagement and Student Achievement at Washington State
 #   University.
 #
-# @version 1.3.12
+# @version 1.3.15
 #
 # @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 # @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…
 #   …/PowerShell/Microsoft.PowerShell_profile.ps1
 # @link [Root:]\Users\[user]\[Windows Documents]\WindowsPowerShell\Microsoft.PowerShell_profile.ps1
 # @link [Server Root]/[Folder(s)]/Backups/PowerShell Scripts/Microsoft.PowerShell_profile.ps1
-# @license MIT License — Copyright (c) 2021 Daniel C. Rieck
+# @license MIT License — Copyright (c) 2022 Daniel C. Rieck
 #   Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 #     and associated documentation files (the "Software"), to deal in the Software without
 #     restriction, including without limitation the rights to use, copy, modify, merge, publish,
@@ -45,26 +45,26 @@
 #     §1.8:  Get-Archives.....................................................................173
 #     §1.9:  Get-Array-of-Github-Folder-Excludes..............................................181
 #     §1.10: Get-Array-of-Daesa-Website-Urls..................................................192
-#     §1.11: Get-Array-of-GitHub-Repos........................................................254
-#     §1.12: Get-Array-of-Wsuwp-Operations....................................................327
-#     §1.13: Get-Directory-Stats..............................................................350
-#     §1.14: Get-Directories..................................................................484
-#     §1.15: Get-Filtered-Archives............................................................492
-#     §1.16: Get-Filtered-Directories.........................................................513
-#     §1.17: Get-Image........................................................................534
-#     §1.18: Get-Image-List...................................................................594
-#     §1.19: Invoke-Git-Log...................................................................601
-#     §1.20: Invoke-Git-Diff… Commands........................................................629
-#     §1.†: Invoke-Git-Status.................................................................710
-#     §1.21: Open-Chrome......................................................................715
-#     §1.22: Open-Daesa-Website...............................................................742
-#     §1.23: Open-GitHub-Folder...............................................................813
-#     §1.24: Open-GitHub-on-Chrome............................................................852
-#     §1.25: Open-PowerShell-Instance.........................................................904
-#     §1.26: Write-Commands-to-Host...........................................................916
-#     §1.27: Write-Welcome-Msg-to-Host........................................................939
-#   §2: Aliases...............................................................................981
-#   §3: Execution Entry Point................................................................1020
+#     §1.11: Get-Array-of-GitHub-Repos........................................................255
+#     §1.12: Get-Array-of-Wsuwp-Operations....................................................328
+#     §1.13: Get-Directory-Stats..............................................................351
+#     §1.14: Get-Directories..................................................................485
+#     §1.15: Get-Filtered-Archives............................................................493
+#     §1.16: Get-Filtered-Directories.........................................................514
+#     §1.17: Get-Image........................................................................535
+#     §1.18: Get-Image-List...................................................................595
+#     §1.19: Invoke-Git-Log...................................................................602
+#     §1.20: Invoke-Git-Diff… Commands........................................................630
+#     §1.21: Invoke-Git-Status................................................................711
+#     §1.22: Open-Chrome......................................................................716
+#     §1.23: Open-Daesa-Website...............................................................744
+#     §1.24: Open-GitHub-Folder...............................................................815
+#     §1.25: Open-GitHub-on-Chrome............................................................854
+#     §1.26: Open-PowerShell-Instance.........................................................906
+#     §1.27: Write-Commands-to-Host...........................................................918
+#     §1.28: Write-Welcome-Msg-to-Host........................................................941
+#   §2: Aliases...............................................................................983
+#   §3: Execution Entry Point................................................................1022
 ####################################################################################################
 
 ###############
@@ -211,10 +211,12 @@ Function Get-Array-of-Daesa-Website-Urls {
     'daesa|https://advising.wsu.edu/'
     'daesa|https://ascc.wsu.edu/'
     'daesa|https://admission.wsu.edu/research-scholars/'
+    'daesa|oae|https://cmm.wsu.edu/'
     'daesa|https://commonreading.wsu.edu/'
     'daesa|https://cougarsuccess.wsu.edu/'
     'daesa|https://daesa.wsu.edu/'
     'daesa|https://distinguishedscholarships.wsu.edu/'
+    'daesa|https://em.wsu.edu/advising411/'
     'other|https://emeritussociety.wsu.edu/'
     'daesa|https://firstyear.wsu.edu/'
     'daesa|https://learningcommunities.wsu.edu/'
@@ -707,12 +709,12 @@ Function Invoke-Git-Diff-on-List {
 }
 
 ########
-### §1.†: Invoke-Git-Status
+### §1.21: Invoke-Git-Status
 
 # TODO: Finish writing
 
 ########
-### §1.21: Open-Chrome
+### §1.22: Open-Chrome
 ###   Open an optionally filtered list of DAESA websites in the Chrome web browser. The invoker can
 ###     specific pages within the WSUWP administration area to be opened; otherwise, the websites
 ###     will be opened on their homepages.
@@ -733,14 +735,14 @@ Function Open-Chrome {
   } else {
     $cli = $pathOptX86
   }
-  Write-Host $cli
+  Write-Host $cli $cliTail
 
   # Start the chrome process using the CLI tail as the process argument list
   Start-Process $cli $cliTail
 }
 
 ########
-### §1.22: Open-Daesa-Website
+### §1.23: Open-Daesa-Website
 ###   Open an optionally filtered list of DAESA websites in the Chrome web browser. The invoker can
 ###     specific pages within the WSUWP administration area to be opened; otherwise, the websites
 ###     will be opened on their homepages.
@@ -811,7 +813,7 @@ Function Open-Daesa-Website {
 }
 
 ########
-### §1.23: Open-GitHub-Folder
+### §1.24: Open-GitHub-Folder
 ###   Move the terminal's location to the primary GitHub folder on the local machine; if the user
 ###     specifies a string representing a folder to a repo, attempt to use the string with wildcard
 ###     filtering to find the repo and enter it as well.
@@ -850,7 +852,7 @@ Function Open-GitHub-Folder {
 }
 
 ########
-### §1.24: Open-GitHub-on-Chrome
+### §1.25: Open-GitHub-on-Chrome
 
 <#
 .SYNOPSIS
@@ -902,7 +904,7 @@ Function Open-GitHub-on-Chrome {
 }
 
 #########
-### §1.25: Open-PowerShell-Instance
+### §1.26: Open-PowerShell-Instance
 ###   Use PowerShell to open a new instance of PowerShell.
 Function Open-PowerShell-Instance {
     $procName = (Get-Process -Id $PID).ProcessName
@@ -914,7 +916,7 @@ Function Open-PowerShell-Instance {
 }
 
 #########
-### §1.26: Write-Commands-to-Host
+### §1.27: Write-Commands-to-Host
 ###   Write a list of the commands and aliases in this PowerShell profile to the console.
 Function Write-Commands-to-Host {
   # Write introductory output to the console explaining what this function will do to the user.
@@ -937,7 +939,7 @@ Function Write-Commands-to-Host {
 }
 
 ########
-### §1.27: Write-Welcome-Msg-to-Host
+### §1.28: Write-Welcome-Msg-to-Host
 ###
 Function Write-Welcome-Msg-to-Host {
   # Build the components of a message to indicate this profile was loaded; bracket the message in
