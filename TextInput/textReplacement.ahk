@@ -5,7 +5,7 @@
 ;
 ; An assortment of text replacement hotkeys and hotstrings.
 ;
-; @version 1.2.0
+; @version 1.2.1
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/main/TextInput/textReplacemen
@@ -48,8 +48,8 @@
 ;     >>> §3.2: CSS editing....................................................................392
 ;     >>> §3.3: JS editing.....................................................................400
 ;   §4: NUMPAD mediated text insertion.........................................................405
-;     >>> §4.1: GetCmdForMoveToCSSFolder.......................................................409
-;     >>> §4.2: GetCmdForMoveToCSSFolder.......................................................427
+;     >>> §4.1: changeNumpadDiv hotstring......................................................409
+;     >>> §4.2: changeNumpadSub hotstring......................................................427
 ;   §5: DATES and TIMES........................................................................445
 ;     >>> §5.1: Dates..........................................................................449
 ;     >>> §5.2: Times..........................................................................483
