@@ -5,7 +5,7 @@
 ;
 ; Script for managing the desktop's workspace.
 ;
-; @version 1.4.0
+; @version 1.5.0
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/main/WorkspaceManagement/work
@@ -108,9 +108,9 @@
 ;       →→→ §7.6.1: @restartItunes............................................................1906
 ;   §8: Window stacking.......................................................................1961
 ;     >>> §8.1: @sendActiveWinToBack..........................................................1965
-;   §9: Diagnostic hotstrings.................................................................1974
-;     >>> §9.1: @getActiveMonitorWorkArea.....................................................1978
-;     >>> §9.2: @getInfoOnSystemMonitors......................................................1989
+;   §9: Diagnostic hotstrings.................................................................1982
+;     >>> §9.1: @getActiveMonitorWorkArea.....................................................1986
+;     >>> §9.2: @getInfoOnSystemMonitors......................................................1997
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -1968,6 +1968,14 @@ Return
   AppendAhkCmd(A_ThisLabel)
   WinGet, hWnd, ID, A
   DllCall("SetWindowPos", "uint", hWnd, "uint", 1, "int", 0, "int", 0, "int", 0, "int", 0, "uint", 0x13)
+Return
+
+#PgDn::
+	GoSub, #LButton
+	execDelayer.Wait( "s" )
+	GoSub, :*?:@sendActiveWinToBack
+	execDelayer.Wait( "s" )
+	GoSub, #Numpad5
 Return
 
 ; --------------------------------------------------------------------------------------------------
