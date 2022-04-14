@@ -11,7 +11,7 @@
 #   websites for the Division of Academic Engagement and Student Achievement at Washington State
 #   University.
 #
-# @version 1.4.0
+# @version 1.4.1
 #
 # @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 # @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…
@@ -60,11 +60,11 @@
 #     §1.23: Open-Daesa-Website...............................................................752
 #     §1.24: Open-GitHub-Folder...............................................................823
 #     §1.25: Open-GitHub-on-Chrome............................................................862
-#     §1.26: Open-PowerShell-Instance.........................................................914
-#     §1.27: Write-Commands-to-Host...........................................................926
-#     §1.28: Write-Welcome-Msg-to-Host........................................................949
-#   §2: Aliases...............................................................................991
-#   §3: Execution Entry Point................................................................1030
+#     §1.26: Open-PowerShell-Instance.........................................................917
+#     §1.27: Write-Commands-to-Host...........................................................929
+#     §1.28: Write-Welcome-Msg-to-Host........................................................952
+#   §2: Aliases...............................................................................994
+#   §3: Execution Entry Point................................................................1033
 ####################################################################################################
 
 ###############
@@ -890,6 +890,9 @@ Function Open-GitHub-on-Chrome {
   )
   # Start setting up the command line to open the chrome app.
   $cli = "chrome """
+
+  # If present, ensure the query string is encoded properly.
+  $qStr = [uri]::EscapeUriString($qStr)
 
   # Next, add the URL for the page on GitHub that should be opened.
   if ( $qStr -eq "" ) {
