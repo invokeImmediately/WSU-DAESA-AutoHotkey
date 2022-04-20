@@ -11,7 +11,7 @@
 #   websites for the Division of Academic Engagement and Student Achievement at Washington State
 #   University.
 #
-# @version 1.4.1
+# @version 1.5.0
 #
 # @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 # @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…
@@ -601,17 +601,31 @@ Function Get-Image-List {
 
 ########
 ### §1.19: Invoke-Git-Log
-###   Execute a preferred form of the git log command in the terminal.
+
+<#
+.SYNOPSIS
+    Execute a preferred form of the git log command in the terminal.
+.DESCRIPTION
+    The invoker can optionally specify the number of commits to display as well
+    as a file to follow.
+.PARAMETER  number
+    Optional query string to search for on GitHub. Default: Empty string.
+    Default: 5. Aliases: n, num.
+.PARAMETER  fileToFollow
+    Optional switch for indicating that the commit history should be searched.
+    Default: Empty string. Aliases: f, file, follow.
+#>
+
 Function Invoke-Git-Log {
   Param(
     [ Parameter( Mandatory=$false,
       ValueFromPipeline=$true ) ]
-    [Alias("num")]
+    [Alias("n", "num")]
     [ int32 ]$number = 5,
 
     [ Parameter( Mandatory=$false,
       ValueFromPipeline=$true ) ]
-    [Alias("file","follow")]
+    [Alias("f","file","follow")]
     [ string ]$fileToFollow = ""
   )
   if ( $number -le 0 -and $fileToFollow -eq "" ) {
@@ -629,15 +643,43 @@ Function Invoke-Git-Log {
 
 ########
 ### §1.20: Invoke-Git-Diff… Commands
-###   Execute a preferred form of the git diff command in the terminal.
+
+<#
+.SYNOPSIS
+    Execute a preferred form of the git diff command in the terminal.
+.DESCRIPTION
+    The invoker can optionally specify that the command open a search query, which can be made in
+    general or specifically against the author's commit history.
+.PARAMETER  file
+    Mandatory file path string to search for on GitHub. Default: Empty string.
+.PARAMETER  usePager
+    Optional switch for indicating that the commit history should be searched. Default: False.
+.PARAMETER  refCommit
+    Optional switch for indicating that the commit history should be searched. Default: False.
+#>
 Function Invoke-Git-Diff {
   Param(
-    [Parameter(Mandatory=$true,
-    ValueFromPipeline=$true)]
+    [Parameter(Mandatory=$false)]
     [string]
-    $file
+    [Alias("f", "path")]
+    $file = "",
+
+    [Parameter(Mandatory=$false)]
+    [bool]
+    [Alias("pgr")]
+    $usePager = $true,
+
+    [Parameter(Mandatory=$false)]
+    [string]
+    [Alias("ref", "commit")]
+    $refCommit = ""
   )
-  git --no-pager diff $file
+  $pgrStr = $usePager ? "" : "--no-pager "
+  $refCommit = ( $refCommit -ne "" ) ? " " + $refCommit : $refCommit
+  $file = ( $file -ne "" ) ? " -- " + $file : $file
+  $cli = "git " + $pgrStr + "diff" + $refCommit + $file
+  Write-Host "$cli" -foregroundcolor Cyan
+  $cli | Invoke-Expression
 }
 
 Function Invoke-Git-Diff-with-Output {
@@ -674,7 +716,12 @@ Function Invoke-Git-Diff-on-List {
     [Parameter(Mandatory=$false,
     ValueFromPipeline=$true)]
     [string]
-    $logFN = "diff.log.txt"
+    $logFN = "diff.log.txt",
+
+    [Parameter(Mandatory=$false)]
+    [string]
+    [Alias("ref", "commit")]
+    $refCommit = ""
   )
 
   $pastFirstFile = $false
@@ -865,27 +912,32 @@ Function Open-GitHub-Folder {
 .SYNOPSIS
     Open the author's GitHub profile in the Chrome web browser.
 .DESCRIPTION
-    The invoker can optionally specify that the command open a search query, which can be made in
-    general or specifically against the author's commit history.
+    The invoker can optionally specify that the command open a search query,
+    which can be made in general or specifically against the author's commit
+    history.
 .PARAMETER  qStr
     Optional query string to search for on GitHub. Default: Empty string.
 .PARAMETER  srchCmts
-    Optional switch for indicating that the commit history should be searched. Default: False.
+    Optional switch for indicating that the commit history should be searched.
+    Default: False. Aliases: commits, searchCommits
 .PARAMETER  inNewWin
-    Default: False. Aliases: nw, newWin, nt, newTab
+    Optional flag to indicate that the query should be performed in a new
+    browser window. Default: False. Aliases: nw, newWin.
 #>
 Function Open-GitHub-on-Chrome {
   Param(
     [Parameter(Mandatory=$false)]
+    [Alias("q")]
     [string] $qStr = "",
 
     [ Parameter( Mandatory=$false ) ]
     [ bool ]
+    [Alias("commits", "searchCommits")]
     $srchCmts = $false,
 
     [ Parameter( Mandatory=$false ) ]
     [ bool ]
-    [Alias("nw", "newWin", "nt", "newTab")]
+    [Alias("nw", "newWin")]
     $inNewWin = $false
   )
   # Start setting up the command line to open the chrome app.
