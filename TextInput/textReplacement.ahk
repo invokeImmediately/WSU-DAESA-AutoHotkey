@@ -5,7 +5,7 @@
 ;
 ; An assortment of text replacement hotkeys and hotstrings.
 ;
-; @version 1.2.1
+; @version 1.2.2
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/main/TextInput/textReplacemen
@@ -101,7 +101,7 @@ Return
 	SendInput, % "«"
 Return
 
->^>+'::
+<^<!'::
 	SendInput, % "»"
 Return
 
