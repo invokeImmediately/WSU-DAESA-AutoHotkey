@@ -11,7 +11,7 @@
 #   websites for the Division of Academic Engagement and Student Achievement at Washington State
 #   University.
 #
-# @version 1.5.0
+# @version 1.6.0
 #
 # @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 # @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…
@@ -54,17 +54,17 @@
 #     §1.17: Get-Image........................................................................536
 #     §1.18: Get-Image-List...................................................................596
 #     §1.19: Invoke-Git-Log...................................................................603
-#     §1.20: Invoke-Git-Diff… Commands........................................................631
-#     §1.21: Invoke-Git-Status................................................................719
-#     §1.22: Open-Chrome......................................................................724
-#     §1.23: Open-Daesa-Website...............................................................752
-#     §1.24: Open-GitHub-Folder...............................................................823
-#     §1.25: Open-GitHub-on-Chrome............................................................862
-#     §1.26: Open-PowerShell-Instance.........................................................917
-#     §1.27: Write-Commands-to-Host...........................................................929
-#     §1.28: Write-Welcome-Msg-to-Host........................................................952
-#   §2: Aliases...............................................................................994
-#   §3: Execution Entry Point................................................................1033
+#     §1.20: Invoke-Git-Diff… Commands........................................................645
+#     §1.21: Invoke-Git-Status................................................................768
+#     §1.22: Open-Chrome......................................................................804
+#     §1.23: Open-Daesa-Website...............................................................832
+#     §1.24: Open-GitHub-Folder...............................................................903
+#     §1.25: Open-GitHub-on-Chrome............................................................942
+#     §1.26: Open-PowerShell-Instance........................................................1002
+#     §1.27: Write-Commands-to-Host..........................................................1014
+#     §1.28: Write-Welcome-Msg-to-Host.......................................................1037
+#   §2: Aliases..............................................................................1079
+#   §3: Execution Entry Point................................................................1120
 ####################################################################################################
 
 ###############
@@ -648,14 +648,16 @@ Function Invoke-Git-Log {
 .SYNOPSIS
     Execute a preferred form of the git diff command in the terminal.
 .DESCRIPTION
-    The invoker can optionally specify that the command open a search query, which can be made in
-    general or specifically against the author's commit history.
+    The invoker can optionally specify a file to diff, whether the pager should
+    be used, and a reference commit.
 .PARAMETER  file
     Mandatory file path string to search for on GitHub. Default: Empty string.
 .PARAMETER  usePager
-    Optional switch for indicating that the commit history should be searched. Default: False.
+    Optional switch for indicating that the commit history should be searched.
+    Default: False.
 .PARAMETER  refCommit
-    Optional switch for indicating that the commit history should be searched. Default: False.
+    Optional switch for indicating that the commit history should be searched.
+    Default: False.
 #>
 Function Invoke-Git-Diff {
   Param(
@@ -765,7 +767,38 @@ Function Invoke-Git-Diff-on-List {
 ########
 ### §1.21: Invoke-Git-Status
 
-# TODO: Finish writing
+<#
+.SYNOPSIS
+    Execute a preferred form of the git status command in the terminal.
+.DESCRIPTION
+    The invoker can optionally specify options and the pathspec parameter.
+.PARAMETER  file
+    Mandatory file path string to search for on GitHub. Default: Empty string.
+.PARAMETER  usePager
+    Optional switch for indicating that the commit history should be searched.
+    Default: False.
+.PARAMETER  refCommit
+    Optional switch for indicating that the commit history should be searched.
+    Default: Empty string.
+#>
+Function Invoke-Git-Status {
+  Param(
+    [Parameter(Mandatory=$false)]
+    [string]
+    [Alias("opts")]
+    $options = "",
+
+    [Parameter(Mandatory=$false)]
+    [string]
+    [Alias("path", "ps")]
+    $pathSpec = ""
+  )
+  $options = ( $options -ne "" ) ? $options + " " : $options
+  $pathSpec = ( $pathSpec -ne "" ) ? " -- " + $pathSpec : $pathSpec
+  $cli = "git " + $options + "status" + $pathspec
+  Write-Host "$cli" -foregroundcolor Cyan
+  $cli | Invoke-Expression
+}
 
 ########
 ### §1.22: Open-Chrome
@@ -1067,11 +1100,13 @@ Set-Alias -Name ghgd -Value Invoke-Git-Diff
 
 Set-Alias -Name igd -Value Invoke-Git-Diff
 
-Set-Alias -Name igl -Value Invoke-Git-Log
-
 Set-Alias -Name igdwo -Value Invoke-Git-Diff-with-Output
 
 Set-Alias -Name igdol -Value Invoke-Git-Diff-on-List
+
+Set-Alias -Name igl -Value Invoke-Git-Log
+
+Set-Alias -Name igs -Value Invoke-Git-Status
 
 Set-Alias -Name odws -Value Open-Daesa-Website
 
