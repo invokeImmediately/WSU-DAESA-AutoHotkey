@@ -5,7 +5,7 @@
 ;
 ; An assortment of text replacement hotkeys and hotstrings.
 ;
-; @version 1.2.2
+; @version 1.3.0
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/main/TextInput/textReplacemen
@@ -82,6 +82,11 @@ Return
 :*?:@shrug::
 	AppendAhkCmd(A_ThisLabel)
 	SendInput, % "¯\_(·_·)_/¯"
+Return
+
+:*?:@facepalm::
+	AppendAhkCmd(A_ThisLabel)
+	SendInput, % "(－‸ლ)"
 Return
 
 ;   ································································································
