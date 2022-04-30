@@ -11,11 +11,11 @@
 #   websites for the Division of Academic Engagement and Student Achievement at Washington State
 #   University.
 #
-# @version 1.6.0
+# @version 1.7.0
 #
 # @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
-# @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/master…
-#   …/PowerShell/Microsoft.PowerShell_profile.ps1
+# @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/main/PowerShell/Microsoft.Pow
+#   erShell_profile.ps1
 # @link [Root:]\Users\[user]\[Windows Documents]\WindowsPowerShell\Microsoft.PowerShell_profile.ps1
 # @link [Server Root]/[Folder(s)]/Backups/PowerShell Scripts/Microsoft.PowerShell_profile.ps1
 # @license MIT License — Copyright (c) 2022 Daniel C. Rieck
@@ -34,38 +34,41 @@
 ####################################################################################################
 # TABLE OF CONTENTS:
 ####################
-#   §1: Functions..............................................................................71
-#     §1.1:  Compare-Directories...............................................................74
-#     §1.2:  Copy-Current-Path................................................................107
-#     §1.3:  Copy-Daesa-Website-Urls-List.....................................................114
-#     §1.4:  Copy-GitHub-Repos-CSV-List.......................................................122
-#     §1.5:  Copy-GitHub-Repos-List...........................................................130
-#     §1.6:  Copy-Profiles-Path...............................................................139
-#     §1.7:  Find-Files-in-GitHub-Repos.......................................................146
-#     §1.8:  Get-Archives.....................................................................173
-#     §1.9:  Get-Array-of-Github-Folder-Excludes..............................................181
-#     §1.10: Get-Array-of-Daesa-Website-Urls..................................................192
-#     §1.11: Get-Array-of-GitHub-Repos........................................................256
-#     §1.12: Get-Array-of-Wsuwp-Operations....................................................329
-#     §1.13: Get-Directory-Stats..............................................................352
-#     §1.14: Get-Directories..................................................................486
-#     §1.15: Get-Filtered-Archives............................................................494
-#     §1.16: Get-Filtered-Directories.........................................................515
-#     §1.17: Get-Image........................................................................536
-#     §1.18: Get-Image-List...................................................................596
-#     §1.19: Invoke-Git-Log...................................................................603
-#     §1.20: Invoke-Git-Diff… Commands........................................................645
-#     §1.21: Invoke-Git-Status................................................................768
-#     §1.22: Open-Chrome......................................................................804
-#     §1.23: Open-Daesa-Website...............................................................832
-#     §1.24: Open-GitHub-Folder...............................................................903
-#     §1.25: Open-GitHub-on-Chrome............................................................942
-#     §1.26: Open-PowerShell-Instance........................................................1002
-#     §1.27: Write-Commands-to-Host..........................................................1014
-#     §1.28: Write-Welcome-Msg-to-Host.......................................................1037
-#   §2: Aliases..............................................................................1079
-#   §3: Execution Entry Point................................................................1120
+#   §1: Functions..............................................................................74
+#     §1.1:  Compare-Directories...............................................................77
+#     §1.2:  Copy-Current-Path................................................................110
+#     §1.3:  Copy-Daesa-Website-Urls-List.....................................................117
+#     §1.4:  Copy-GitHub-Repos-CSV-List.......................................................125
+#     §1.5:  Copy-GitHub-Repos-List...........................................................133
+#     §1.6:  Copy-Profiles-Path...............................................................142
+#     §1.7:  Find-Files-in-GitHub-Repos.......................................................149
+#     §1.8:  Get-Archives.....................................................................176
+#     §1.9:  Get-Array-of-Github-Folder-Excludes..............................................184
+#     §1.10: Get-Array-of-Daesa-Website-Urls..................................................195
+#     §1.11: Get-Array-of-GitHub-Repos........................................................259
+#     §1.12: Get-Array-of-Wsuwp-Operations....................................................332
+#     §1.13: Get-Directory-Stats..............................................................355
+#     §1.14: Get-Directories..................................................................489
+#     §1.15: Get-Filtered-Archives............................................................497
+#     §1.16: Get-Filtered-Directories.........................................................518
+#     §1.17: Get-Image........................................................................539
+#     §1.18: Get-Image-List...................................................................599
+#     §1.19: Invoke-Git-Log...................................................................606
+#     §1.20: Invoke-Git-Diff… Commands........................................................648
+#     §1.21: Invoke-Git-Status................................................................771
+#     §1.22: Open-Chrome......................................................................807
+#     §1.23: Open-Daesa-Website...............................................................835
+#     §1.24: Open-GitHub-Folder...............................................................906
+#     §1.25: Open-GitHub-on-Chrome............................................................945
+#     §1.26: Open-PowerShell-Instance........................................................1005
+#     §1.27: Resize-Image-List...............................................................1017
+#     §1.28: Write-Commands-to-Host..........................................................1153
+#     §1.29: Write-Welcome-Msg-to-Host.......................................................1176
+#   §2: Aliases..............................................................................1218
+#   §3: Execution Entry Point................................................................1259
 ####################################################################################################
+
+Add-Type -AssemblyName 'System.Drawing'
 
 ###############
 # §1: Functions
@@ -1011,7 +1014,142 @@ Function Open-PowerShell-Instance {
 }
 
 #########
-### §1.27: Write-Commands-to-Host
+### §1.27: Resize-Image-List
+
+<#
+.SYNOPSIS
+   Resize a list of images of length n >= 1.
+.DESCRIPTION
+   Resize a list of images based on an array of strings representing paths to
+   the images and a combination of scaling parameters that allows absolute
+   dimensional resizing that is either unconstrained or based on a maintained
+   aspect ratio, or resizing based on dimensional percentage. The execution of
+   this CmdLet creates a new file named "OriginalName_$NmMod-$NewWidthw$NewHeigh
+   th" and maintains the original file extension.
+.PARAMETER ImgPath
+   An array of strings representing paths to the images being resized.
+.PARAMETER NewWidth
+   The new width of the images. Should be given alone when the MaintainRatio
+   flag is set.
+.PARAMETER NewHeight
+   The new height of the images. Should be given alone with the MaintainRatio
+   flag is set.
+.PARAMETER MaintainRatio
+   Maintain the ratio of the images when resizing them based on either a set new
+   width or a set new height. That is, setting both width and height while this
+   flag parameter is set will result in an error.
+.PARAMETER NewScale
+   Scale the images to a new width and height that are a percentage of the
+   original images' dimensions.
+.PARAMETER SmoothingMode
+   Sets the smoothing mode. Default is HighQuality.
+.PARAMETER InterpolationMode
+   Sets the interpolation mode. Default is HighQualityBicubic.
+.PARAMETER PixelOffsetMode
+   Sets the pixel offset mode. Default is HighQuality.
+.PARAMETER NmMod
+   Optional substring that is appended to the file name of each resized image.
+   Default is resized.
+.EXAMPLE
+   Resize-Image -Height 45 -Width 45 -ImagePath "Path/to/image.ext"
+.EXAMPLE
+   Resize-Image -Height 45 -MaintainRatio -ImagePath "Path/to/image.ext"
+.EXAMPLE
+   #Resize to 50% of the given image
+   Resize-Image -Percentage 50 -ImagePath "Path/to/image.ext"
+.NOTES
+   Adapted from a function written by Christopher Walker (github/someshinyobject
+   and [https://someshinyobject.com/]). Reference function was found at [https:/
+   /gist.github.com/someshinyobject/617bf00556bc43af87cd].
+#>
+Function Resize-Image {
+  Param (
+    [CmdLetBinding(
+        SupportsShouldProcess=$true, 
+        PositionalBinding=$false,
+        ConfirmImpact="Medium",
+        DefaultParameterSetName="Absolute"
+    )]
+    [Parameter(Mandatory=$True)]
+    [ValidateScript({
+        $_ | ForEach-Object {
+            Test-Path $_
+        }
+    })][String[]]$ImgPath,
+    [Parameter(Mandatory=$False)][Switch]$KeepAspectRatio,
+    [Parameter(Mandatory=$False, ParameterSetName="Absolute")][Int]$NewHeight,
+    [Parameter(Mandatory=$False, ParameterSetName="Absolute")][Int]$NewWidth,
+    [Parameter(Mandatory=$False, ParameterSetName="Scaled")][Double]$NewScale,
+    [Parameter(Mandatory=$False)][System.Drawing.Drawing2D.SmoothingMode]$SmoothingMode = "HighQuality",
+    [Parameter(Mandatory=$False)][System.Drawing.Drawing2D.InterpolationMode]$InterpolationMode = "HighQualityBicubic",
+    [Parameter(Mandatory=$False)][System.Drawing.Drawing2D.PixelOffsetMode]$PixelOffsetMode = "HighQuality",
+    [Parameter(Mandatory=$False)][String]$NmMod = "resized"
+  )
+  Begin {
+      If ($NewWidth -and $NewHeight -and $KeepAspectRatio) {
+          Throw "KeepAspectRatio flag must be specified with either absolute width or height set, but not both."
+      }
+
+      If (($NewWidth -xor $NewHeight) -and (-not $KeepAspectRatio)) {
+          Throw "If KeepAspectRatio flag is not used, both an absolute width and height must be set."
+      }
+
+      If ($Percentage -and $KeepAspectRatio) {
+          Write-Warning "The KeepAspectRatio flag while using the Percentage parameter does nothing"
+      }
+  }
+  Process {
+    $CalcRelToNewHeight = $NewHeight ? $true : $false
+    $SzFraction = $NewScale ? ($NewScale / 100) : $null
+    If ( $NmMod -ne "" ) {
+      $NmMod = $NmMod + "-"
+    }
+    ForEach ($Img in $ImgPath) {
+      $InPath = (Resolve-Path $Img).Path
+      $ExtIdx = $InPath.LastIndexOf(".")
+      
+      $RefImg = New-Object -TypeName System.Drawing.Bitmap -ArgumentList $InPath
+      $RefH = $RefImg.Height
+      $RefW = $RefImg.Width
+
+      If ( $KeepAspectRatio -and -not $NewScale ) {
+          If ( $CalcRelToNewHeight ) {
+              $NewWidth = $RefW / $RefH * $NewHeight
+          } Else {
+              $NewHeight = $RefH / $RefW * $NewWidth
+          }
+      }
+
+      If ( $NewScale ) {
+          $NewHeight = $RefH * $SzFraction
+          $NewWidth = $RefW * $SzFraction
+      }
+
+      $OutPath = $InPath.Substring(0,$ExtIdx) + "_" + $NmMod + $NewWidth + "w" + $NewHeight + "h" + $InPath.Substring($ExtIdx,$InPath.Length - $ExtIdx)
+
+      $Bitmap = New-Object -TypeName System.Drawing.Bitmap -ArgumentList $NewWidth, $NewHeight
+      $NewImage = [System.Drawing.Graphics]::FromImage($Bitmap)
+       
+      #Retrieving the best quality possible
+      $NewImage.SmoothingMode = $SmoothingMode
+      $NewImage.InterpolationMode = $InterpolationMode
+      $NewImage.PixelOffsetMode = $PixelOffsetMode
+      $NewImage.DrawImage($RefImg, $(New-Object -TypeName System.Drawing.Rectangle -ArgumentList 0, 0, $NewWidth, $NewHeight))
+
+      If ($PSCmdlet.ShouldProcess("Resized image based on $InPath", "save to $OutPath")) {
+          $Bitmap.Save($OutPath)
+          Write-Host "Resized $InPath and stored result as $OutPath."
+      }
+      
+      $Bitmap.Dispose()
+      $NewImage.Dispose()
+      $RefImg.Dispose()
+    }
+  }
+}
+
+#########
+### §1.28: Write-Commands-to-Host
 ###   Write a list of the commands and aliases in this PowerShell profile to the console.
 Function Write-Commands-to-Host {
   # Write introductory output to the console explaining what this function will do to the user.
@@ -1034,7 +1172,7 @@ Function Write-Commands-to-Host {
 }
 
 ########
-### §1.28: Write-Welcome-Msg-to-Host
+### §1.29: Write-Welcome-Msg-to-Host
 ###
 Function Write-Welcome-Msg-to-Host {
   # Build the components of a message to indicate this profile was loaded; bracket the message in
