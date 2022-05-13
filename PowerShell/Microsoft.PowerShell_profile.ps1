@@ -11,7 +11,7 @@
 #   websites for the Division of Academic Engagement and Student Achievement at Washington State
 #   University.
 #
-# @version 1.7.0
+# @version 1.8.0
 #
 # @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 # @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/main/PowerShell/Microsoft.Pow
@@ -45,27 +45,27 @@
 #     §1.8:  Get-Archives.....................................................................176
 #     §1.9:  Get-Array-of-Github-Folder-Excludes..............................................184
 #     §1.10: Get-Array-of-Daesa-Website-Urls..................................................195
-#     §1.11: Get-Array-of-GitHub-Repos........................................................259
-#     §1.12: Get-Array-of-Wsuwp-Operations....................................................332
-#     §1.13: Get-Directory-Stats..............................................................355
-#     §1.14: Get-Directories..................................................................489
-#     §1.15: Get-Filtered-Archives............................................................497
-#     §1.16: Get-Filtered-Directories.........................................................518
-#     §1.17: Get-Image........................................................................539
-#     §1.18: Get-Image-List...................................................................599
-#     §1.19: Invoke-Git-Log...................................................................606
-#     §1.20: Invoke-Git-Diff… Commands........................................................648
-#     §1.21: Invoke-Git-Status................................................................771
-#     §1.22: Open-Chrome......................................................................807
-#     §1.23: Open-Daesa-Website...............................................................835
-#     §1.24: Open-GitHub-Folder...............................................................906
-#     §1.25: Open-GitHub-on-Chrome............................................................945
-#     §1.26: Open-PowerShell-Instance........................................................1005
-#     §1.27: Resize-Image-List...............................................................1017
-#     §1.28: Write-Commands-to-Host..........................................................1153
-#     §1.29: Write-Welcome-Msg-to-Host.......................................................1176
-#   §2: Aliases..............................................................................1218
-#   §3: Execution Entry Point................................................................1259
+#     §1.11: Get-Array-of-GitHub-Repos........................................................261
+#     §1.12: Get-Array-of-Wsuwp-Operations....................................................334
+#     §1.13: Get-Directory-Stats..............................................................357
+#     §1.14: Get-Directories..................................................................491
+#     §1.15: Get-Filtered-Archives............................................................499
+#     §1.16: Get-Filtered-Directories.........................................................520
+#     §1.17: Get-Image........................................................................541
+#     §1.18: Get-Image-List...................................................................601
+#     §1.19: Invoke-Git-Log...................................................................608
+#     §1.20: Invoke-Git-Diff… Commands........................................................650
+#     §1.21: Invoke-Git-Status................................................................774
+#     §1.22: Open-Chrome......................................................................810
+#     §1.23: Open-Daesa-Website...............................................................838
+#     §1.24: Open-GitHub-Folder...............................................................909
+#     §1.25: Open-GitHub-on-Chrome............................................................948
+#     §1.26: Open-PowerShell-Instance........................................................1008
+#     §1.27: Resize-Image-List...............................................................1020
+#     §1.28: Write-Commands-to-Host..........................................................1155
+#     §1.29: Write-Welcome-Msg-to-Host.......................................................1178
+#   §2: Aliases..............................................................................1220
+#   §3: Execution Entry Point................................................................1261
 ####################################################################################################
 
 Add-Type -AssemblyName 'System.Drawing'
@@ -217,6 +217,7 @@ Function Get-Array-of-Daesa-Website-Urls {
     'daesa|oae|https://cmm.wsu.edu/'
     'daesa|https://commonreading.wsu.edu/'
     'daesa|https://cougarsuccess.wsu.edu/'
+    'daesa|https://daesa.wsu.edu/coug-succ-wds/'
     'daesa|https://daesa.wsu.edu/'
     'daesa|https://distinguishedscholarships.wsu.edu/'
     'daesa|https://em.wsu.edu/advising411/'
@@ -238,6 +239,7 @@ Function Get-Array-of-Daesa-Website-Urls {
     'daesa|https://ucore.wsu.edu/assessment/'
     'ugr|daesa|https://undergraduateresearch.wsu.edu/'
     'daesa|https://writingprogram.wsu.edu/'
+    'daesa|https://stage.web.wsu.edu/writ-prog-wds/'
     'other|https://wsuacada.wsu.edu/'
   )
 
@@ -655,28 +657,29 @@ Function Invoke-Git-Log {
     be used, and a reference commit.
 .PARAMETER  file
     Mandatory file path string to search for on GitHub. Default: Empty string.
+    Aliases: f, path, p.
 .PARAMETER  usePager
     Optional switch for indicating that the commit history should be searched.
-    Default: False.
+    Default: False. Aliases: pager, pgr, uPgr, up.
 .PARAMETER  refCommit
     Optional switch for indicating that the commit history should be searched.
-    Default: False.
+    Default: False. Aliases: commit, ref, rc.
 #>
 Function Invoke-Git-Diff {
   Param(
     [Parameter(Mandatory=$false)]
     [string]
-    [Alias("f", "path")]
+    [Alias("f", "path", "p")]
     $file = "",
 
     [Parameter(Mandatory=$false)]
     [bool]
-    [Alias("pgr")]
-    $usePager = $true,
+    [Alias("pager", "pgr", "uPgr", "up")]
+    $usePager = $false,
 
     [Parameter(Mandatory=$false)]
     [string]
-    [Alias("ref", "commit")]
+    [Alias("ref", "commit", "rc")]
     $refCommit = ""
   )
   $pgrStr = $usePager ? "" : "--no-pager "
