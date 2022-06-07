@@ -11,7 +11,7 @@
 #   websites for the Division of Academic Engagement and Student Achievement at Washington State
 #   University.
 #
-# @version 1.9.0
+# @version 1.10.0
 #
 # @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 # @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/main/PowerShell/Microsoft.Pow
@@ -34,39 +34,41 @@
 ####################################################################################################
 # TABLE OF CONTENTS:
 ####################
-#   §1: Functions..............................................................................75
-#     §1.1:  Compare-Directories...............................................................78
-#     §1.2:  Convert-Uri-Str-to-Windows-Filename..............................................111
-#     §1.3:  Copy-Current-Path................................................................148
-#     §1.4:  Copy-Daesa-Website-Urls-List.....................................................155
-#     §1.5:  Copy-GitHub-Repos-CSV-List.......................................................163
-#     §1.6:  Copy-GitHub-Repos-List...........................................................171
-#     §1.7:  Copy-Profiles-Path...............................................................180
-#     §1.8:  Find-Files-in-GitHub-Repos.......................................................187
-#     §1.9:  Get-Archives.....................................................................214
-#     §1.10:  Get-Array-of-Github-Folder-Excludes.............................................222
-#     §1.11: Get-Array-of-Daesa-Website-Urls..................................................233
-#     §1.12: Get-Array-of-GitHub-Repos........................................................299
-#     §1.13: Get-Array-of-Wsuwp-Operations....................................................372
-#     §1.14: Get-Directory-Stats..............................................................395
-#     §1.15: Get-Directories..................................................................529
-#     §1.16: Get-Filtered-Archives............................................................537
-#     §1.17: Get-Filtered-Directories.........................................................558
-#     §1.18: Get-Image........................................................................579
-#     §1.19: Get-Image-List...................................................................639
-#     §1.20: Invoke-Git-Log...................................................................646
-#     §1.21: Invoke-Git-Diff… Commands........................................................687
-#     §1.22: Invoke-Git-Status................................................................811
-#     §1.23: Open-Chrome......................................................................847
-#     §1.24: Open-Daesa-Website...............................................................875
-#     §1.25: Open-GitHub-Folder...............................................................946
-#     §1.26: Open-GitHub-on-Chrome............................................................985
-#     §1.27: Open-PowerShell-Instance........................................................1045
-#     §1.28: Resize-Image-List...............................................................1057
-#     §1.29: Write-Commands-to-Host..........................................................1192
-#     §1.30: Write-Welcome-Msg-to-Host.......................................................1215
-#   §2: Aliases..............................................................................1257
-#   §3: Execution Entry Point................................................................1298
+#   §1: Functions..............................................................................77
+#     §1.1:  Compare-Directories...............................................................80
+#     §1.2:  Convert-Uri-Str-to-Windows-Filename..............................................113
+#     §1.3:  Copy-Current-Path................................................................149
+#     §1.4:  Copy-Daesa-Website-Urls-List.....................................................156
+#     §1.5:  Copy-GitHub-Repos-CSV-List.......................................................164
+#     §1.6:  Copy-GitHub-Repos-List...........................................................172
+#     §1.7:  Copy-Profiles-Path...............................................................181
+#     §1.8:  Find-Files-in-GitHub-Repos.......................................................188
+#     §1.9:  Get-Archives.....................................................................215
+#     §1.10: Get-Array-of-Github-Folder-Excludes..............................................223
+#     §1.11: Get-Array-of-Daesa-Website-Urls..................................................234
+#     §1.12: Get-Array-of-GitHub-Repos........................................................301
+#     §1.13: Get-Array-of-Wsuwp-Operations....................................................374
+#     §1.14: Get-Directory-Stats..............................................................397
+#     §1.15: Get-Directories..................................................................531
+#     §1.16: Get-Filtered-Archives............................................................539
+#     §1.17: Get-Filtered-Directories.........................................................560
+#     §1.18: Get-Image........................................................................581
+#     §1.19: Get-Image-List...................................................................641
+#     §1.20: Invoke-Git-Log...................................................................648
+#     §1.21: Invoke-Git-Diff… Commands........................................................689
+#     §1.22: Invoke-Git-Status................................................................813
+#     §1.23: Open-Chrome......................................................................849
+#     §1.24: Open-Daesa-Website...............................................................877
+#     §1.25: Open-GitHub-Folder...............................................................948
+#     §1.26: Open-GitHub-on-Chrome............................................................987
+#     §1.27: Open-PowerShell-Instance........................................................1047
+#     §1.28: Resize-Image-List...............................................................1059
+#     §1.29: Save-Web-Page-Source-Code.......................................................1194
+#     §1.30: Test-Web-Page-Uri-Format........................................................1253
+#     §1.31: Write-Commands-to-Host..........................................................1274
+#     §1.32: Write-Welcome-Msg-to-Host.......................................................1297
+#   §2: Aliases..............................................................................1339
+#   §3: Execution Entry Point................................................................1380
 ####################################################################################################
 
 Add-Type -AssemblyName 'System.Drawing'
@@ -100,7 +102,7 @@ Function Compare-Directories {
   Catch
   {
     $itemName = $_.Exception.ItemName
-    if ([string]::IsNullOrEmpty($itemName)) {
+    If ([string]::IsNullOrEmpty($itemName)) {
       $itemName = "Script error"
     }
     Write-Host (-join ($itemName, ": ", $_.Exception.Message))
@@ -125,7 +127,7 @@ Function Compare-Directories {
     false
 #>
 Function Convert-Uri-Str-to-Windows-Filename {
-  Param(
+  Param (
     [ Parameter( Mandatory = $true,
       ValueFromPipelineByPropertyName = $true ) ]
     [ string ]
@@ -136,13 +138,12 @@ Function Convert-Uri-Str-to-Windows-Filename {
     [ bool ]
     $keepProtocol = $false
   )
-  if ( !$keepProtocol ) {
+  If ( !$keepProtocol ) {
     $uri = $uri -replace "https?://", ""
   }
   $uriFn = ( ( $uri -replace '/', '⁄' ) -replace '\.', '·' ) -replace ':', '¦'
   Return $uriFn
 }
-
 
 ########
 ### §1.3: Copy-Current-Path
@@ -270,6 +271,7 @@ Function Get-Array-of-Daesa-Website-Urls {
     'other|https://phibetakappa.wsu.edu/'
     'oae|https://provost.wsu.edu/oae/'
     'other|https://provost.wsu.edu/teaching-academy/'
+    'daesa|daesa|https://stage.web.wsu.edu/daesa-wds/'
     'ugr|daesa|https://summerresearch.wsu.edu/'
     'ugr|daesa|https://surca.wsu.edu/'
     'daesa|https://transfercredit.wsu.edu/'
@@ -282,10 +284,10 @@ Function Get-Array-of-Daesa-Website-Urls {
   )
 
   # Filter the URL list by category, if any.
-  if ( $ctgr -eq "" ) {
+  If ( $ctgr -eq "" ) {
     $ctgr = ".*?"
   }
-  if ( $notMatchMode ) {
+  If ( $notMatchMode ) {
     $UrlsToDaesaSites = ( $UrlsToDaesaSites -notmatch ( $ctgr + '\|' ) ) -replace  '.+\|(.+?)$', '$1'
   } else {
     $UrlsToDaesaSites = ( $UrlsToDaesaSites -match ( $ctgr + '\|' ) ) -replace  '.+\|(.+?)$', '$1'
@@ -347,17 +349,17 @@ Function Get-Array-of-GitHub-Repos {
   )
 
   # Filter the URL/folder list by category, if any.
-  if ( $ctgr -eq "" ) {
+  If ( $ctgr -eq "" ) {
     $ctgr = ".*?"
   }
-  if ( $notMatchMode ) {
+  If ( $notMatchMode ) {
     $PathsToRepos = ( $PathsToRepos -notmatch ( $ctgr + '\|' ) ) -replace  '.+\|(.+?\|.+?)$', '$1'
   } else {
     $PathsToRepos = ( $PathsToRepos -match ( $ctgr + '\|' ) ) -replace  '.+\|(.+?\|.+?)$', '$1'
   }
 
   # Now filter out either URLs or folder paths.
-  if ( $getUrl ) {
+  If ( $getUrl ) {
     $PathsToRepos = $PathsToRepos -replace  '^(.+?)\|(.+?)$', '$1'
   } else {
     $PathsToRepos = $PathsToRepos -replace  '^(.+?)\|(.+?)$', '$2'
@@ -417,29 +419,29 @@ function Get-Directory-Stats {
   begin {
     function Find-Disk-Usage-Reporter {
       # Try to find the disk usage executable that matches the system's memory architecture.
-      if ( [Environment]::Is64BitProcess ) {
+      If ( [Environment]::Is64BitProcess ) {
         $commandPath = (Get-Command 'du64.exe' -ErrorAction SilentlyContinue).Path
-        if ( -not $commandPath ) {
+        If ( -not $commandPath ) {
           $commandPath = (Get-Command 'du.exe' -ErrorAction SilentlyContinue).Path
         }
-        if ( -not $commandPath ) {
+        If ( -not $commandPath ) {
           throw "Could not find the Sysinternals 'du64.exe' or 'du.exe' command in the Path. Download it, copy it to a directory in your Path, and try again."
         }
       } else {
         $commandPath = (Get-Command 'du.exe' -ErrorAction SilentlyContinue).Path
-        if ( -not $commandPath ) {
+        If ( -not $commandPath ) {
           throw "Could not find the Sysinternals 'du.exe' command in the Path. Download it, copy it to a directory in your Path, and try again."
         }
       }
 
       # Test the legitimacy of the disk usage executable found by the script.
-      if ( (Get-Item $commandPath).VersionInfo.CompanyName -notmatch 'SysInternals' ) {
+      If ( (Get-Item $commandPath).VersionInfo.CompanyName -notmatch 'SysInternals' ) {
         throw "The file '$commandPath' is not the SysInternals version. Download it, copy it to a directory in your Path, and try again."
       }
 
       # Check whether the disk usage executable found by the script matches the system's memory
       #   architecture.
-      if ( [Environment]::Is64BitProcess -and ((Split-Path $commandPath -Leaf) -eq 'du.exe') ) {
+      If ( [Environment]::Is64BitProcess -and ((Split-Path $commandPath -Leaf) -eq 'du.exe') ) {
         Write-Warning "Found the SysInternals 'du.exe' command in the Path, but it may not be the 64-bit version. Recommend using the 64-bit version ('du64.exe') on 64-bit operating systems."
       }
 
@@ -451,7 +453,7 @@ function Get-Directory-Stats {
     $CommandPath = Find-Disk-Usage-Reporter
 
     # Assume current file system location as our execution context if -Path was not specified.
-    if ( -not $Path ) {
+    If ( -not $Path ) {
       $Path = $ExecutionContext.SessionState.Path.CurrentFileSystemLocation.Path
     }
 
@@ -468,7 +470,7 @@ function Get-Directory-Stats {
     }
 
     function Get-DirStats {
-      param(
+      param (
         [String] $path
       )
       $commandArgs = '-accepteula','-nobanner','-c'
@@ -484,16 +486,16 @@ function Get-Directory-Stats {
           $commandArgs += '-v'
         }
       }
-      if ( $CountHardlinks ) {
+      If ( $CountHardlinks ) {
         $commandArgs += '-u'
       }
-      if ( [Environment]::Is64BitProcess -and ((Split-Path $commandPath -Leaf) -eq 'du64.exe') ) {
+      If ( [Environment]::Is64BitProcess -and ((Split-Path $commandPath -Leaf) -eq 'du64.exe') ) {
         $uses64BitArch = $true;
       } else {
         $uses64BitArch = $false;
       }
       $commandArgs += $path
-      if ( $uses64BitArch ) {
+      If ( $uses64BitArch ) {
         & $CommandPath $commandArgs | ConvertFrom-Csv | Select-Object Path,
           @{Name = "CurrentFileCount";    Expression = {$_.CurrentFileCount -as [UInt64]}},
           @{Name = "CurrentFileSize";     Expression = {$_.CurrentFileSize -as [UInt64]}},
@@ -515,7 +517,7 @@ function Get-Directory-Stats {
 
   process {
     foreach ( $PathItem in $Path ) {
-      if ( -not $FormatNumbers ) {
+      If ( -not $FormatNumbers ) {
         Get-DirStats $PathItem
       }
       else {
@@ -579,7 +581,7 @@ Function Get-Filtered-Directories {
 ### §1.18: Get-Image
 ###   Get the properties of an image file.
 Function Get-Image {
-  Param(
+  Param (
     [Parameter(ValueFromPipeline=$true)]
     [System.IO.FileInfo]
     $file
@@ -588,7 +590,7 @@ Function Get-Image {
     [System.Reflection.Assembly]::LoadWithPartialName( "System.Drawing" ) | Out-Null
   }
   process {
-    if ( $file.Exists ) {
+    If ( $file.Exists ) {
       $fsImg = [System.Drawing.Image]::FromFile( $file )
       $image =  $fsImg.Clone()
       $fsImg.Dispose()
@@ -659,7 +661,7 @@ Function Get-Image-List {
     Default: Empty string. Aliases: f, file, follow.
 #>
 Function Invoke-Git-Log {
-  Param(
+  Param (
     [ Parameter( Mandatory=$false,
       ValueFromPipeline=$true ) ]
     [Alias("n", "num")]
@@ -670,11 +672,11 @@ Function Invoke-Git-Log {
     [Alias("f","file","follow")]
     [ string ]$fileToFollow = ""
   )
-  if ( $number -le 0 -and $fileToFollow -eq "" ) {
+  If ( $number -le 0 -and $fileToFollow -eq "" ) {
     $expr = "git --no-pager log --pretty=""format:%h | %cn | %cd | %s%n ╘═> %b%n"""
-  } elseif ( $number -gt 0 -and $fileToFollow -eq "" ) {
+  } elseIf ( $number -gt 0 -and $fileToFollow -eq "" ) {
     $expr = "git --no-pager log --pretty=""format:%h | %cn | %cd | %s%n ╘═> %b%n"" -$number"
-  } elseif ( $number -le 0 -and $fileToFollow -ne "" ) {
+  } elseIf ( $number -le 0 -and $fileToFollow -ne "" ) {
     $expr = "git --no-pager log --follow --pretty=""format:%h | %cn | %cd | %s%n ╘═> %b%n"" $fileToFollow"
   } else {
     $expr = "git --no-pager log --follow --pretty=""format:%h | %cn | %cd | %s%n ╘═> %b%n"" -$number $fileToFollow"
@@ -703,7 +705,7 @@ Function Invoke-Git-Log {
     Default: False. Aliases: commit, ref, rc.
 #>
 Function Invoke-Git-Diff {
-  Param(
+  Param (
     [Parameter(Mandatory=$false)]
     [string]
     [Alias("f", "path", "p")]
@@ -728,7 +730,7 @@ Function Invoke-Git-Diff {
 }
 
 Function Invoke-Git-Diff-with-Output {
-  Param(
+  Param (
     [Parameter(Mandatory=$false,
     ValueFromPipeline=$true)]
     [string]
@@ -747,7 +749,7 @@ Function Invoke-Git-Diff-with-Output {
 }
 
 Function Invoke-Git-Diff-on-List {
-  Param(
+  Param (
     [Parameter(Mandatory=$true,
     ValueFromPipeline=$true)]
     [string[]]
@@ -775,7 +777,7 @@ Function Invoke-Git-Diff-on-List {
   Write-Host "└------»"
   $files | % {
     $file = $_
-    if ( $pastFirstFile -eq $false ) {
+    If ( $pastFirstFile -eq $false ) {
       try {
         $result = gci -path $file -ErrorAction Stop
         git diff --color $file > $logFN
@@ -825,7 +827,7 @@ Function Invoke-Git-Diff-on-List {
     Default: Empty string.
 #>
 Function Invoke-Git-Status {
-  Param(
+  Param (
     [Parameter(Mandatory=$false)]
     [string]
     [Alias("opts")]
@@ -849,7 +851,7 @@ Function Invoke-Git-Status {
 ###     specific pages within the WSUWP administration area to be opened; otherwise, the websites
 ###     will be opened on their homepages.
 Function Open-Chrome {
-  Param(
+  Param (
     [Parameter(Mandatory=$false)]
     [string]
     $cliTail = ""
@@ -860,7 +862,7 @@ Function Open-Chrome {
   $pathOptX86 = 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
 
   # Determine which path chrome is valid on this system.
-  if ( Test-Path $pathOptX64 ) {
+  If ( Test-Path $pathOptX64 ) {
     $cli = $pathOptX64
   } else {
     $cli = $pathOptX86
@@ -877,7 +879,7 @@ Function Open-Chrome {
 ###     specific pages within the WSUWP administration area to be opened; otherwise, the websites
 ###     will be opened on their homepages.
 Function Open-Daesa-Website {
-  Param(
+  Param (
     [Parameter(Mandatory=$false)]
     [Alias("site")]
     [string]
@@ -910,8 +912,8 @@ Function Open-Daesa-Website {
 
   # Populate an array of URL stubs to open in Chrome
   $wsto = Get-Array-of-Daesa-Website-Urls -cat $ctgr
-  if ( $siteStub -ne "" ) {
-    if ( $notMatchMode ) {
+  If ( $siteStub -ne "" ) {
+    If ( $notMatchMode ) {
       $wsto = $wsto -notmatch $siteStub
     } else {
       $wsto = $wsto -match $siteStub
@@ -919,7 +921,7 @@ Function Open-Daesa-Website {
   }
 
   # Determine what additional action to perform, if any.
-  if ( $wsuwpOp -ne "" ) {
+  If ( $wsuwpOp -ne "" ) {
     $op = Get-Array-of-Wsuwp-Operations
     $op = ($op -match ($wsuwpOp + '\|'))[0] -replace '.+\|(.+?)$', '$1'
     $wsto = $wsto -replace "(.+)", ('$1' + $op)
@@ -928,9 +930,9 @@ Function Open-Daesa-Website {
   # Open the websites on chrome as specified.
   Write-Host "`nOpening the requested DAESA websites on Chrome:`n-----------------------------------------------" -foregroundcolor Green
   $1stWsToLd = $true
-  foreach( $ws in $wsto ) {
+  ForEach ( $ws in $wsto ) {
     $cli = "chrome ""$ws"
-    if ( $1stWsToLd -and $opInNewWin) {
+    If ( $1stWsToLd -and $opInNewWin) {
       $cli = $cli + " --new-window"
       $1stWsToLd = $false
     }
@@ -948,7 +950,7 @@ Function Open-Daesa-Website {
 ###     specifies a string representing a folder to a repo, attempt to use the string with wildcard
 ###     filtering to find the repo and enter it as well.
 Function Open-GitHub-Folder {
-  Param(
+  Param (
     [Parameter(Mandatory=$false)]
     [string]
     $folder
@@ -958,25 +960,25 @@ Function Open-GitHub-Folder {
   cd C:\GitHub
 
   # If no repo folder was provided, we are done and can return.
-  if ( $folder -eq $null -or $folder -eq "") {
+  If ( $folder -eq $null -or $folder -eq "") {
     return
   }
 
   # Since a repo folder string was provided, make sure that a wildcard is appended to the end of it.
-  if ( -not $folder[$folder.length] -eq "*" ) {
+  If ( -not $folder[$folder.length] -eq "*" ) {
     $folder = $folder + "*"
   }
 
   # See if the specified folder string returns a directory; if not, we will try prepending a
   #   wildcard to the front of the string.
   $results = gci $folder -Attributes Directory
-  if ( $results.length -eq 0 -and -not( $folder[0] -eq "*" ) ) {
+  If ( $results.length -eq 0 -and -not( $folder[0] -eq "*" ) ) {
     $folder = "*" + $folder
     $results = gci $folder -Attributes Directory
   }
 
   # If the Get-ChildItem cmdlet found results, simply move into the first folder found.
-  if ( -not ( $results.length -eq 0 ) ) {
+  If ( -not ( $results.length -eq 0 ) ) {
     cd $results[0].Name
   }
 }
@@ -1001,7 +1003,7 @@ Function Open-GitHub-Folder {
     browser window. Default: False. Aliases: nw, newWin.
 #>
 Function Open-GitHub-on-Chrome {
-  Param(
+  Param (
     [Parameter(Mandatory=$false)]
     [Alias("q")]
     [string] $qStr = "",
@@ -1023,16 +1025,16 @@ Function Open-GitHub-on-Chrome {
   $qStr = [uri]::EscapeUriString($qStr)
 
   # Next, add the URL for the page on GitHub that should be opened.
-  if ( $qStr -eq "" ) {
+  If ( $qStr -eq "" ) {
     $cli += "https://github.com/invokeImmediately"
-  } elseif ( $srchCmts ) {
+  } elseIf ( $srchCmts ) {
     $cli += "https://github.com/search?q=user%3AinvokeImmediately+" + $qstr + "&s=committer-date&type=commits"
   } else {
     $cli += "https://github.com/search?q=user%3AinvokeImmediately+" + $qstr
   }
 
   # If appropriate, add a specification to open a new window in the command line expression.
-  if ( $inNewWin -eq $true ) {
+  If ( $inNewWin -eq $true ) {
     $cli += " --new-window"
   }
   $cli += """"
@@ -1046,7 +1048,7 @@ Function Open-GitHub-on-Chrome {
 ###   Use PowerShell to open a new instance of PowerShell.
 Function Open-PowerShell-Instance {
     $procName = (Get-Process -Id $PID).ProcessName
-    if ( $procName -eq "pwsh" ) {
+    If ( $procName -eq "pwsh" ) {
       Start-Process pwsh.exe
   } else {
     Start-Process PowerShell.exe
@@ -1144,7 +1146,7 @@ Function Resize-Image {
     If ( $NmMod -ne "" ) {
       $NmMod = $NmMod + "-"
     }
-    ForEach ($Img in $ImgPath) {
+    ForEach ( $Img in $ImgPath ) {
       $InPath = (Resolve-Path $Img).Path
       $ExtIdx = $InPath.LastIndexOf(".")
       
@@ -1189,7 +1191,87 @@ Function Resize-Image {
 }
 
 #########
-### §1.29: Write-Commands-to-Host
+### §1.29: Save-Web-Page-Source-Code
+
+<#
+.SYNOPSIS
+   …
+.DESCRIPTION
+   …
+.PARAMETER ImgPath
+   An array of strings representing URIs to the web pages whose source code will
+   be saved.
+#>
+Function Save-Web-Page-Source-Code {
+  Param (
+    [Parameter(Mandatory=$True, ValueFromPipeline=$true)]
+    [ValidateScript({
+        $_ | ForEach-Object {
+            Test-Web-Page-Uri-Format $_
+        }
+    })][String[]]$Uris,
+
+    [Parameter(Mandatory=$False, ValueFromPipeline=$true)]
+    [Alias( "delay" )]
+    [Double]$AvgDelay = 5.0
+  )
+  $uriCount = 0
+  $flNmSuf4Uris = "«—src-code.html"
+  ForEach ( $Uri in $Uris ) {
+    $flNmPref4Uri = Convert-Uri-Str-to-Windows-Filename( $Uri )
+    Write-Host "Requesting resource at URI «$Uri»."
+    Try {
+      $resp = Invoke-WebRequest $Uri
+      Write-Host "Storing web page content to file «.\$flNmPref4Uri$flNmSuf4Uris»."
+      $curLoc = (Get-Location).Path
+      $Stream = [System.IO.StreamWriter]::new( $curLoc + "\" + $flNmPref4Uri + $flNmSuf4Uris, $false, $resp.Encoding )
+      Try {
+          $Stream.Write( $resp.Content )
+      } Finally {
+          $Stream.Dispose()
+      }
+      $uriCount++
+      If ( $uriCount -gt 1 -and $uriCount -le $Uris.length ) {
+        $delFac = Get-Random -Minimum 0.5 -Maximum 1.5
+        $delay = $AvgDelay * $delFac
+        Write-Host "Waiting $delay seconds before initiating next request."
+        Start-Sleep
+      }
+    } Catch {
+      $itemName = $_.Exception.ItemName
+      If ([string]::IsNullOrEmpty($itemName)) {
+        $itemName = "Script error"
+      }
+      Write-Host (-join ($itemName, ": ", $_.Exception.Message))
+    }
+  }
+  # Can use (?:^.*<nav class="wsu-navigation-site-vertical".+$\n)(^(?:.(?!</nav>))+$\n)+?</nav> to find WSUWP primary navigational components within web pages.
+  # (Get-Content -Raw .\stage·web·wsu·edu⁄daesa-wds«—src-code.html) -match "(?:.*<nav class=""wsu-navigation-site-vertical"".+`n)((?:.(?!</nav>))+`n)+?</nav>" \ Write-Host $Matches[0]
+}
+
+#########
+### §1.30: Test-Web-Page-Uri-Format
+
+<#
+.SYNOPSIS
+   Tests a string for conformity to the standard for forming a valid URI
+   for a web page.
+.DESCRIPTION
+   Returns true for a well formed URI string.
+.PARAMETER Uri
+   A string representing a prospective URI to be tested against the character
+   format rules for URIs.
+#>
+Function Test-Web-Page-Uri-Format {
+  Param (
+    [Parameter(Mandatory=$True, ValueFromPipeline=$true)]
+    [String]$Uri
+  )
+  Return $Uri -match "^((https?):\/)?\/?([^:\/\s]+)((\/\w+)*\/)([\w\-\.]+[^#?\s]+)(.*)?(#[\w\-]+)?$"
+}
+
+#########
+### §1.31: Write-Commands-to-Host
 ###   Write a list of the commands and aliases in this PowerShell profile to the console.
 Function Write-Commands-to-Host {
   # Write introductory output to the console explaining what this function will do to the user.
@@ -1212,7 +1294,7 @@ Function Write-Commands-to-Host {
 }
 
 ########
-### §1.30: Write-Welcome-Msg-to-Host
+### §1.32: Write-Welcome-Msg-to-Host
 ###
 Function Write-Welcome-Msg-to-Host {
   # Build the components of a message to indicate this profile was loaded; bracket the message in
@@ -1223,9 +1305,9 @@ Function Write-Welcome-Msg-to-Host {
   # Get the version number of the profile from the file header comment.
   $semVer = ""
   $strs = Select-String "^# @version ([0-9]+\.[0-9]+\.[0-9]+.*)$" $Profile.ToString()
-  foreach( $str in $strs ) {
+  ForEach ( $str in $strs ) {
     $matched = $str.Line -match "^# @version ([0-9]+\.[0-9]+\.[0-9]+.*)$"
-    if ( $matched ) {
+    If ( $matched ) {
       $semVer = " v" + $Matches.1
     }
 
