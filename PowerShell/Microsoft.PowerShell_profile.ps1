@@ -11,7 +11,7 @@
 #   websites for the Division of Academic Engagement and Student Achievement at Washington State
 #   University.
 #
-# @version 1.10.0
+# @version 1.11.1
 #
 # @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 # @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/main/PowerShell/Microsoft.Pow
@@ -48,27 +48,27 @@
 #     §1.11: Get-Array-of-Daesa-Website-Urls..................................................234
 #     §1.12: Get-Array-of-GitHub-Repos........................................................301
 #     §1.13: Get-Array-of-Wsuwp-Operations....................................................374
-#     §1.14: Get-Directory-Stats..............................................................397
-#     §1.15: Get-Directories..................................................................531
-#     §1.16: Get-Filtered-Archives............................................................539
-#     §1.17: Get-Filtered-Directories.........................................................560
-#     §1.18: Get-Image........................................................................581
-#     §1.19: Get-Image-List...................................................................641
-#     §1.20: Invoke-Git-Log...................................................................648
-#     §1.21: Invoke-Git-Diff… Commands........................................................689
-#     §1.22: Invoke-Git-Status................................................................813
-#     §1.23: Open-Chrome......................................................................849
-#     §1.24: Open-Daesa-Website...............................................................877
-#     §1.25: Open-GitHub-Folder...............................................................948
-#     §1.26: Open-GitHub-on-Chrome............................................................987
-#     §1.27: Open-PowerShell-Instance........................................................1047
-#     §1.28: Resize-Image-List...............................................................1059
-#     §1.29: Save-Web-Page-Source-Code.......................................................1194
-#     §1.30: Test-Web-Page-Uri-Format........................................................1253
-#     §1.31: Write-Commands-to-Host..........................................................1274
-#     §1.32: Write-Welcome-Msg-to-Host.......................................................1297
-#   §2: Aliases..............................................................................1339
-#   §3: Execution Entry Point................................................................1380
+#     §1.14: Get-Directory-Stats..............................................................398
+#     §1.15: Get-Directories..................................................................532
+#     §1.16: Get-Filtered-Archives............................................................566
+#     §1.17: Get-Filtered-Directories.........................................................587
+#     §1.18: Get-Image........................................................................608
+#     §1.19: Get-Image-List...................................................................668
+#     §1.20: Invoke-Git-Log...................................................................675
+#     §1.21: Invoke-Git-Diff… Commands........................................................716
+#     §1.22: Invoke-Git-Status................................................................840
+#     §1.23: Open-Chrome......................................................................876
+#     §1.24: Open-Daesa-Website...............................................................904
+#     §1.25: Open-GitHub-Folder...............................................................975
+#     §1.26: Open-GitHub-on-Chrome...........................................................1014
+#     §1.27: Open-PowerShell-Instance........................................................1074
+#     §1.28: Resize-Image-List...............................................................1086
+#     §1.29: Save-Web-Page-Source-Code.......................................................1221
+#     §1.30: Test-Web-Page-Uri-Format........................................................1280
+#     §1.31: Write-Commands-to-Host..........................................................1301
+#     §1.32: Write-Welcome-Msg-to-Host.......................................................1324
+#   §2: Aliases..............................................................................1366
+#   §3: Execution Entry Point................................................................1407
 ####################################################################################################
 
 Add-Type -AssemblyName 'System.Drawing'
@@ -379,6 +379,7 @@ function Get-Array-of-Wsuwp-Operations {
     'pg|pages|wp-admin/edit.php?post_type=page'
     'pgbd|pages-by-date|wp-admin/edit.php?post_type=page&orderby=wsu_last_updated&order=desc'
     'css|css-editor|wp-admin/themes.php?page=editcss'
+    'cust|customize|customizer|wp-admin/customize.php'
     'js|custom-js|wp-admin/themes.php?page=custom-javascript'
     'img|media|wp-admin/upload.php'
     'po|posts|wp-admin/edit.php'
@@ -531,8 +532,34 @@ function Get-Directory-Stats {
 ### §1.15: Get-Directories
 ###   Use the Get-Child-Item cmdlet to get files in the current directory that have the directory
 ###     attribute.
+#Function Get-Directories {
+#  gci -Attributes Directory
+#}
 Function Get-Directories {
-  gci -Attributes Directory
+  Param(
+    [ Parameter( Mandatory=$false ) ]
+    [string[]]
+    $Path = '',
+
+    [ Parameter( Mandatory=$false ) ]
+    [string]
+    $Filter = '',
+
+    [ Parameter( Mandatory=$false ) ]
+    [switch]
+    $Recurse,
+
+    [ Parameter( Mandatory=$false ) ]
+    [uint32]
+    $Depth = 0
+  )
+  if ( $Recurse.IsPresent -and -not $Depth -gt 0 ) {
+    gci -Path $Path -Filter $Filter -Attributes Directory -Recurse
+  } elseif ( $Depth -gt 0 ) {
+    gci -Path $Path -Filter $Filter -Attributes Directory -Depth $Depth
+  } else {
+    gci -Path $Path -Filter $Filter -Attributes Directory
+  }
 }
 
 ########
@@ -907,7 +934,7 @@ Function Open-Daesa-Website {
     [Parameter(Mandatory=$false)]
     [bool]
     [Alias("nw", "newWin")]
-    $opInNewWin = $true
+    $opInNewWin = $false
   )
 
   # Populate an array of URL stubs to open in Chrome
