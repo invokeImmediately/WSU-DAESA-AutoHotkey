@@ -5,7 +5,7 @@
 ;
 ; AutoHotkey script import for supporting front-end web development in the WSUWP environment.
 ;
-; @version 1.1.1
+; @version 1.1.2
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/main/Coding/frontEndCoding.ah
@@ -36,7 +36,7 @@
 ;     >>> §2.1: Text Replacement...............................................................232
 ;       →→→ §2.1.1: CSS shorthand insertion strings............................................235
 ;       →→→ §2.1.2: URL shortcuts for WSUWP websites...........................................243
-;       →→→ §2.1.3: String insertion related to fsront-end web development.....................303
+;       →→→ §2.1.3: String insertion related to front-end web development......................303
 ;     >>> §2.2: RegEx..........................................................................317
 ;     >>> §2.3: Backup HTML of OUE pages.......................................................324
 ;       →→→ §2.3.1: @backupOuePage.............................................................327
