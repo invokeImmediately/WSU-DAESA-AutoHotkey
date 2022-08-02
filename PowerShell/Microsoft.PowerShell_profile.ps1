@@ -11,7 +11,7 @@
 #   websites for the Division of Academic Engagement and Student Achievement at Washington State
 #   University.
 #
-# @version 1.11.1
+# @version 1.11.2
 #
 # @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 # @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/main/PowerShell/Microsoft.Pow
@@ -55,20 +55,20 @@
 #     §1.18: Get-Image........................................................................608
 #     §1.19: Get-Image-List...................................................................668
 #     §1.20: Invoke-Git-Log...................................................................675
-#     §1.21: Invoke-Git-Diff… Commands........................................................716
-#     §1.22: Invoke-Git-Status................................................................840
-#     §1.23: Open-Chrome......................................................................876
-#     §1.24: Open-Daesa-Website...............................................................904
-#     §1.25: Open-GitHub-Folder...............................................................975
-#     §1.26: Open-GitHub-on-Chrome...........................................................1014
-#     §1.27: Open-PowerShell-Instance........................................................1074
-#     §1.28: Resize-Image-List...............................................................1086
-#     §1.29: Save-Web-Page-Source-Code.......................................................1221
-#     §1.30: Test-Web-Page-Uri-Format........................................................1280
-#     §1.31: Write-Commands-to-Host..........................................................1301
-#     §1.32: Write-Welcome-Msg-to-Host.......................................................1324
-#   §2: Aliases..............................................................................1366
-#   §3: Execution Entry Point................................................................1407
+#     §1.21: Invoke-Git-Diff… Commands........................................................717
+#     §1.22: Invoke-Git-Status................................................................841
+#     §1.23: Open-Chrome......................................................................877
+#     §1.24: Open-Daesa-Website...............................................................905
+#     §1.25: Open-GitHub-Folder...............................................................976
+#     §1.26: Open-GitHub-on-Chrome...........................................................1015
+#     §1.27: Open-PowerShell-Instance........................................................1075
+#     §1.28: Resize-Image-List...............................................................1087
+#     §1.29: Save-Web-Page-Source-Code.......................................................1222
+#     §1.30: Test-Web-Page-Uri-Format........................................................1281
+#     §1.31: Write-Commands-to-Host..........................................................1302
+#     §1.32: Write-Welcome-Msg-to-Host.......................................................1325
+#   §2: Aliases..............................................................................1367
+#   §3: Execution Entry Point................................................................1408
 ####################################################################################################
 
 Add-Type -AssemblyName 'System.Drawing'
@@ -700,15 +700,16 @@ Function Invoke-Git-Log {
     [ string ]$fileToFollow = ""
   )
   If ( $number -le 0 -and $fileToFollow -eq "" ) {
-    $expr = "git --no-pager log --pretty=""format:%h | %cn | %cd | %s%n ╘═> %b%n"""
+    $expr = "git --no-pager log --pretty=""format:%h | %cn | %cd | %s%n │%n ╘═> %b■%n%n"""
   } elseIf ( $number -gt 0 -and $fileToFollow -eq "" ) {
-    $expr = "git --no-pager log --pretty=""format:%h | %cn | %cd | %s%n ╘═> %b%n"" -$number"
+    $expr = "git --no-pager log --pretty=""format:%h | %cn | %cd | %s%n │%n ╘═> %b■%n%n"" -$number"
   } elseIf ( $number -le 0 -and $fileToFollow -ne "" ) {
-    $expr = "git --no-pager log --follow --pretty=""format:%h | %cn | %cd | %s%n ╘═> %b%n"" $fileToFollow"
+    $expr = "git --no-pager log --follow --pretty=""format:%h | %cn | %cd | %s%n │%n ╘═> %b■%n%n"" $fileToFollow"
   } else {
-    $expr = "git --no-pager log --follow --pretty=""format:%h | %cn | %cd | %s%n ╘═> %b%n"" -$number $fileToFollow"
+    $expr = "git --no-pager log --follow --pretty=""format:%h | %cn | %cd | %s%n │%n ╘═> %b■%n%n"" -$number $fileToFollow"
   }
-  Write-Host "`n$expr`n"
+  Write-Host "`n.> $expr`n" -foregroundcolor Cyan
+  Write-Host "========`n"
   $expr | Invoke-Expression
 }
 
@@ -1262,7 +1263,7 @@ Function Save-Web-Page-Source-Code {
         $delFac = Get-Random -Minimum 0.5 -Maximum 1.5
         $delay = $AvgDelay * $delFac
         Write-Host "Waiting $delay seconds before initiating next request."
-        Start-Sleep
+        Start-Sleep $delay
       }
     } Catch {
       $itemName = $_.Exception.ItemName
