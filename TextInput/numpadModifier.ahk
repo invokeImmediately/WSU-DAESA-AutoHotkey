@@ -5,11 +5,11 @@
 ;
 ; Provide alternative character entry modes for the keyboard numpad.
 ;
-; @version 1.0.0-rc1
+; @version 1.1.0
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-AutoHotkey/blob/master/TextInput/numpadModifier.ahk
-; @license MIT Copyright (c) 2020 Daniel C. Rieck.
+; @license MIT Copyright (c) 2022 Daniel C. Rieck.
 ;   Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 ;     and associated documentation files (the “Software”), to deal in the Software without
 ;     restriction, including without limitation the rights to use, copy, modify, merge, publish,
@@ -30,10 +30,10 @@
 ;     >>> §1.2: NumpadSub.......................................................................86
 ;     >>> §1.3: NumpadDel......................................................................118
 ;   §2: Contextual numpad hotkeys..............................................................179
-;   §3: Mode persistence timer.................................................................395
-;     >>> §3.1: AutomaticCheckForNpModeExpiration..............................................399
-;     >>> §3.2: CheckForNpModeExpiration.......................................................411
-;     >>> §3.3: TerminateNpModes...............................................................433
+;   §3: Mode persistence timer.................................................................411
+;     >>> §3.1: AutomaticCheckForNpModeExpiration..............................................415
+;     >>> §3.2: CheckForNpModeExpiration.......................................................427
+;     >>> §3.3: TerminateNpModes...............................................................449
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -265,6 +265,22 @@ HandleNumpad5() {
 		SendInput, % "├"
 	} else {
 		SendInput, % "5"
+	}
+}
+
+NumpadClear::
+	HandleNumpadClear()
+Return
+
+HandleNumpadClear() {
+	global npBoxArtActive
+	global npArrowArtActive
+
+	CheckForNpModeExpiration()
+	if (npBoxArtActive) {
+		SendInput, % "┼"
+	} else if (npArrowArtActive) {
+		SendInput, % "┼"
 	}
 }
 
