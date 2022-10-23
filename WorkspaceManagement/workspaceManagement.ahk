@@ -5,12 +5,12 @@
 ;
 ; Script for managing the desktop's workspace.
 ;
-; @version 1.5.0
+; @version 1.5.1
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/main/WorkspaceManagement/work
 ;   spaceManagement.ahk
-; @license MIT Copyright (c) 2021 Daniel C. Rieck.
+; @license MIT Copyright (c) 2022 Daniel C. Rieck.
 ;   Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 ;     and associated documentation files (the “Software”), to deal in the Software without
 ;     restriction, including without limitation the rights to use, copy, modify, merge, publish,
@@ -108,9 +108,9 @@
 ;       →→→ §7.6.1: @restartItunes............................................................1906
 ;   §8: Window stacking.......................................................................1961
 ;     >>> §8.1: @sendActiveWinToBack..........................................................1965
-;   §9: Diagnostic hotstrings.................................................................1985
-;     >>> §9.1: @getActiveMonitorWorkArea.....................................................1989
-;     >>> §9.2: @getInfoOnSystemMonitors......................................................2000
+;   §9: Diagnostic hotstrings.................................................................1989
+;     >>> §9.1: @getActiveMonitorWorkArea.....................................................1993
+;     >>> §9.2: @getInfoOnSystemMonitors......................................................2004
 ; ==================================================================================================
 
 ; --------------------------------------------------------------------------------------------------
@@ -1975,10 +1975,14 @@ Return
 	execDelayer.Wait( "s" )
 	GoSub, :*?:@sendActiveWinToBack
 	execDelayer.Wait( "s" )
-	GoSub, #Numpad5
+
+	; ·> Active the window at the top of the view, but use alt + click as this generally prevents
+	; ·  hyperlinks from being followed when clicked upon <·
+	Send !{Click}
+
+	; Offset the position of the mouse to prevent undesirable behavior from #LButton
 	MouseGetPos, curX, curY
 	MouseMove, % curX + 20, % curY + 20
-
 Return
 
 ; --------------------------------------------------------------------------------------------------
