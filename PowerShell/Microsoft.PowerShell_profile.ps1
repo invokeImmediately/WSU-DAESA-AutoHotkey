@@ -11,7 +11,7 @@
 #   websites for the Division of Academic Engagement and Student Achievement at Washington State
 #   University.
 #
-# @version 1.11.2
+# @version 1.11.3
 #
 # @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 # @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/main/PowerShell/Microsoft.Pow
@@ -1259,7 +1259,7 @@ Function Save-Web-Page-Source-Code {
           $Stream.Dispose()
       }
       $uriCount++
-      If ( $uriCount -gt 1 -and $uriCount -le $Uris.length ) {
+      If ( $uriCount -le $Uris.length ) {
         $delFac = Get-Random -Minimum 0.5 -Maximum 1.5
         $delay = $AvgDelay * $delFac
         Write-Host "Waiting $delay seconds before initiating next request."
@@ -1295,7 +1295,7 @@ Function Test-Web-Page-Uri-Format {
     [Parameter(Mandatory=$True, ValueFromPipeline=$true)]
     [String]$Uri
   )
-  Return $Uri -match "^((https?):\/)?\/?([^:\/\s]+)((\/\w+)*\/)([\w\-\.]+[^#?\s]+)(.*)?(#[\w\-]+)?$"
+  Return $Uri -match "^((https?):\/)?\/?([^:\/\s]+)((\/\w+)*\/)([\w\-\.]+[^#?\s]+)?(.*)(#[\w\-]+)?$"
 }
 
 #########
