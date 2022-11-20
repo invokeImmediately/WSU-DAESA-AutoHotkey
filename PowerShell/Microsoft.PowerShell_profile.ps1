@@ -11,7 +11,7 @@
 #   websites for the Division of Academic Engagement and Student Achievement at Washington State
 #   University.
 #
-# @version 1.11.3
+# @version 1.11.4
 #
 # @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 # @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/main/PowerShell/Microsoft.Pow
@@ -688,6 +688,7 @@ Function Get-Image-List {
     Default: Empty string. Aliases: f, file, follow.
 #>
 Function Invoke-Git-Log {
+  [ CmdletBinding( PositionalBinding=$false ) ]
   Param (
     [ Parameter( Mandatory=$false,
       ValueFromPipeline=$true ) ]
