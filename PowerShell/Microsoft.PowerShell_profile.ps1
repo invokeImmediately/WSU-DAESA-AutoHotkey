@@ -1,75 +1,61 @@
-####################################################################################################
-# ▐▀▄▀▌▀█▀ ▄▀▀▀ █▀▀▄ ▄▀▀▄ ▄▀▀▀ ▄▀▀▄ █▀▀▀▐▀█▀▌  █▀▀▄ ▄▀▀▄▐   ▌█▀▀▀ █▀▀▄ ▄▀▀▀ █  █ █▀▀▀ █    █
-# █ ▀ ▌ █  █    █▄▄▀ █  █ ▀▀▀█ █  █ █▀▀▀  █    █▄▄▀ █  █▐ █ ▌█▀▀  █▄▄▀ ▀▀▀█ █▀▀█ █▀▀  █  ▄ █  ▄ ▀
-# █   ▀▀▀▀  ▀▀▀ ▀  ▀▄ ▀▀  ▀▀▀   ▀▀  ▀     █  ▀ █     ▀▀  ▀ ▀ ▀▀▀▀ ▀  ▀▄▀▀▀  █  ▀ ▀▀▀▀ ▀▀▀  ▀▀▀
+################################################################################
+# · · · · · █▀▀▄ ▄▀▀▄▐   ▌█▀▀▀ █▀▀▄ ▄▀▀▀ █  █ █▀▀▀ █    █ · · · · · · · · · · ·
+# Microsoft.█▄▄▀ █  █▐ █ ▌█▀▀  █▄▄▀ ▀▀▀█ █▀▀█ █▀▀  █  ▄ █  ▄ _profile.ps1  · · ·
+# · · · · · █     ▀▀  ▀ ▀ ▀▀▀▀ ▀  ▀▄▀▀▀  █  ▀ ▀▀▀▀ ▀▀▀  ▀▀▀ · · · · · · · · · ·
 #
-#             █▀▀▄ █▀▀▄ ▄▀▀▄ █▀▀▀ ▀█▀ █    █▀▀▀   █▀▀▄ ▄▀▀▀ ▄█
-#       ▀     █▄▄▀ █▄▄▀ █  █ █▀▀▀  █  █  ▄ █▀▀    █▄▄▀ ▀▀▀█  █
-#         ▀▀▀ █    ▀  ▀▄ ▀▀  ▀    ▀▀▀ ▀▀▀  ▀▀▀▀ ▀ █    ▀▀▀  ▄█▄▌
+# PowerShell profile of Daniel C. Rieck used when working on web coordination and development of websites for the Division of Academic Engagement and Student Achievement at Washington State University.
 #
-# PowerShell profile of Daniel C. Rieck used when working on web coordination and development of
-#   websites for the Division of Academic Engagement and Student Achievement at Washington State
-#   University.
-#
-# @version 1.11.4
+# @version 1.12.0
 #
 # @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 # @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/main/PowerShell/Microsoft.Pow
 #   erShell_profile.ps1
 # @link [Root:]\Users\[user]\[Windows Documents]\WindowsPowerShell\Microsoft.PowerShell_profile.ps1
 # @link [Server Root]/[Folder(s)]/Backups/PowerShell Scripts/Microsoft.PowerShell_profile.ps1
-# @license MIT License — Copyright (c) 2022 Daniel C. Rieck
-#   Permission is hereby granted, free of charge, to any person obtaining a copy of this software
-#     and associated documentation files (the "Software"), to deal in the Software without
-#     restriction, including without limitation the rights to use, copy, modify, merge, publish,
-#     distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
-#     Software is furnished to do so, subject to the following conditions:
-#   The above copyright notice and this permission notice shall be included in all copies or
-#     substantial portions of the Software.
-#   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
-#     BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-#     NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-#     DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-#     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-####################################################################################################
+# @license MIT License — Copyright (c) 2023 Daniel C. Rieck
+#   Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+#   The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+#   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+################################################################################
 # TABLE OF CONTENTS:
 ####################
-#   §1: Functions..............................................................................77
-#     §1.1:  Compare-Directories...............................................................80
-#     §1.2:  Convert-Uri-Str-to-Windows-Filename..............................................113
-#     §1.3:  Copy-Current-Path................................................................149
-#     §1.4:  Copy-Daesa-Website-Urls-List.....................................................156
-#     §1.5:  Copy-GitHub-Repos-CSV-List.......................................................164
-#     §1.6:  Copy-GitHub-Repos-List...........................................................172
-#     §1.7:  Copy-Profiles-Path...............................................................181
-#     §1.8:  Find-Files-in-GitHub-Repos.......................................................188
-#     §1.9:  Get-Archives.....................................................................215
-#     §1.10: Get-Array-of-Github-Folder-Excludes..............................................223
-#     §1.11: Get-Array-of-Daesa-Website-Urls..................................................234
-#     §1.12: Get-Array-of-GitHub-Repos........................................................301
-#     §1.13: Get-Array-of-Wsuwp-Operations....................................................374
-#     §1.14: Get-Directory-Stats..............................................................398
-#     §1.15: Get-Directories..................................................................532
-#     §1.16: Get-Filtered-Archives............................................................566
-#     §1.17: Get-Filtered-Directories.........................................................587
-#     §1.18: Get-Image........................................................................608
-#     §1.19: Get-Image-List...................................................................668
-#     §1.20: Invoke-Git-Log...................................................................675
-#     §1.21: Invoke-Git-Diff… Commands........................................................717
-#     §1.22: Invoke-Git-Status................................................................841
-#     §1.23: Open-Chrome......................................................................877
-#     §1.24: Open-Daesa-Website...............................................................905
-#     §1.25: Open-GitHub-Folder...............................................................976
-#     §1.26: Open-GitHub-on-Chrome...........................................................1015
-#     §1.27: Open-PowerShell-Instance........................................................1075
-#     §1.28: Resize-Image-List...............................................................1087
-#     §1.29: Save-Web-Page-Source-Code.......................................................1222
-#     §1.30: Test-Web-Page-Uri-Format........................................................1281
-#     §1.31: Write-Commands-to-Host..........................................................1302
-#     §1.32: Write-Welcome-Msg-to-Host.......................................................1325
-#   §2: Aliases..............................................................................1367
-#   §3: Execution Entry Point................................................................1408
-####################################################################################################
+#   §1: Functions..........................................................78
+#     §1.1:  Compare-Directories...........................................81
+#     §1.2:  Convert-Uri-Str-to-Windows-Filename..........................114
+#     §1.3:  Copy-Current-Path............................................150
+#     §1.4:  Copy-Daesa-Website-Urls-List.................................157
+#     §1.5:  Copy-GitHub-Repos-CSV-List...................................165
+#     §1.6:  Copy-GitHub-Repos-List.......................................173
+#     §1.7:  Copy-Profiles-Path...........................................182
+#     §1.8:  Find-Files-in-GitHub-Repos...................................189
+#     §1.9:  Get-Archives.................................................216
+#     §1.10: Get-Array-of-Github-Folder-Excludes..........................224
+#     §1.11: Get-Array-of-Daesa-Website-Urls..............................235
+#     §1.12: Get-Array-of-GitHub-Repos....................................302
+#     §1.13: Get-Array-of-Wsuwp-Operations................................375
+#     §1.14: Get-Directory-Stats..........................................399
+#     §1.15: Get-Directories..............................................533
+#     §1.16: Get-Filtered-Archives........................................567
+#     §1.17: Get-Filtered-Directories.....................................588
+#     §1.18: Get-Image....................................................609
+#     §1.19: Get-Image-List...............................................669
+#     §1.20: Invoke-Git-Log...............................................676
+#     §1.21: Invoke-Git-Diff… Commands....................................719
+#     §1.22: Invoke-Git-Status............................................843
+#     §1.23: Open-Chrome..................................................879
+#     §1.24: Open-Daesa-Website...........................................907
+#     §1.25: Open-GitHub-Folder...........................................978
+#     §1.26: Open-GitHub-on-Chrome.......................................1017
+#     §1.27: Open-List-of-Websites-on-Chrome.............................1077
+#     §1.28: Open-PowerShell-Instance....................................1139
+#     §1.29: Resize-Image................................................1151
+#     §1.30: Save-Web-Page-Source-Code...................................1287
+#     §1.31: Test-Web-Page-Uri-Format....................................1353
+#     §1.32: Write-Commands-to-Host......................................1374
+#     §1.33: Write-Welcome-Msg-to-Host...................................1397
+#   §2: Aliases..........................................................1439
+#   §3: Execution Entry Point............................................1480
+################################################################################
 
 Add-Type -AssemblyName 'System.Drawing'
 
@@ -170,8 +156,7 @@ Function Copy-GitHub-Repos-CSV-List {
 
 ########
 ### §1.6: Copy-GitHub-Repos-List
-###   Copy the list of repository folders associated with the GitHub projects for developing the
-###     DAESA websites I regularly work with to the clipboard.
+###   Copy the list of repository folders associated with the GitHub projects for developing the DAESA websites I regularly work with to the clipboard.
 Function Copy-GitHub-Repos-List {
   $repos = Get-Array-of-GitHub-Repos
   scb ( $repos )
@@ -186,8 +171,7 @@ Function Copy-Profiles-Path {
 
 ########
 ### §1.8: Find-Files-in-GitHub-Repos
-###   Use a filter to search for files within GitHub project repos associated with front-end web
-###     development work for WSU DAESA.
+###   Use a filter to search for files within GitHub project repos associated with front-end web development work for WSU DAESA.
 Function Find-Files-in-GitHub-Repos {
   Param (
     [ Parameter( Mandatory = $false,
@@ -213,16 +197,14 @@ Function Find-Files-in-GitHub-Repos {
 
 ########
 ### §1.9: Get-Archives
-###   Use the Get-Child-Item cmdlet to get files in the current directory that have the archive
-###     attribute.
+###   Use the Get-Child-Item cmdlet to get files in the current directory that have the archive attribute.
 Function Get-Archives {
   gci -Attributes Archive
 }
 
 ########
 ### §1.10: Get-Array-of-Github-Folder-Excludes
-###   Get an array of filters used to exclude files or sub-folders when searching through GitHub
-###     folders.
+###   Get an array of filters used to exclude files or sub-folders when searching through GitHub folders.
 Function Get-Array-of-Github-Folder-Excludes {
   $Excludes = [ string[] ]$Excludes = @(
     'node_modules'
@@ -246,8 +228,7 @@ Function Get-Array-of-Daesa-Website-Urls {
     $notMatchMode = $false
   )
 
-  # Specify the string of URLs to all DAESA websites we could potentially work with prepended by
-  #   category designators.
+  # Specify the string of URLs to all DAESA websites we could potentially work with prepended by category designators.
   [ string[] ]$UrlsToDaesaSites = @(
     'daesa|https://ace.wsu.edu/'
     'daesa|https://advising.wsu.edu/'
@@ -299,8 +280,7 @@ Function Get-Array-of-Daesa-Website-Urls {
 
 ########
 ### §1.12: Get-Array-of-GitHub-Repos
-###   Get an array of local paths to GitHub project repos associated with front-end web development
-###     work for WSU DAESA.
+###   Get an array of local paths to GitHub project repos associated with front-end web development work for WSU DAESA.
 Function Get-Array-of-GitHub-Repos {
   Param (
     [Parameter(Mandatory=$false)]
@@ -530,11 +510,7 @@ function Get-Directory-Stats {
 
 ########
 ### §1.15: Get-Directories
-###   Use the Get-Child-Item cmdlet to get files in the current directory that have the directory
-###     attribute.
-#Function Get-Directories {
-#  gci -Attributes Directory
-#}
+###   Use the Get-Child-Item cmdlet to get files in the current directory that have the directory attribute.
 Function Get-Directories {
   Param(
     [ Parameter( Mandatory=$false ) ]
@@ -564,8 +540,7 @@ Function Get-Directories {
 
 ########
 ### §1.16: Get-Filtered-Archives
-###   Use the Get-Child-Item cmdlet to get files in the current directory that have the archive
-###     attribute, but employ a specified filter and possibly recursion.
+###   Use the Get-Child-Item cmdlet to get files in the current directory that have the archive attribute, but employ a specified filter and possibly recursion.
 Function Get-Filtered-Archives {
   Param (
     [ Parameter( Mandatory=$true ) ]
@@ -585,8 +560,7 @@ Function Get-Filtered-Archives {
 
 ########
 ### §1.17: Get-Filtered-Directories
-###   Use the Get-Child-Item cmdlet to get files in the current directory that have the directory
-###     attribute, but employ a specified filter and possibly recursion.
+###   Use the Get-Child-Item cmdlet to get files in the current directory that have the directory attribute, but employ a specified filter and possibly recursion.
 Function Get-Filtered-Directories {
   Param (
     [ Parameter( Mandatory=$true ) ]
@@ -876,9 +850,7 @@ Function Invoke-Git-Status {
 
 ########
 ### §1.23: Open-Chrome
-###   Open an optionally filtered list of DAESA websites in the Chrome web browser. The invoker can
-###     specific pages within the WSUWP administration area to be opened; otherwise, the websites
-###     will be opened on their homepages.
+###   Open an optionally filtered list of DAESA websites in the Chrome web browser. The invoker can specific pages within the WSUWP administration area to be opened; otherwise, the websites will be opened on their homepages.
 Function Open-Chrome {
   Param (
     [Parameter(Mandatory=$false)]
@@ -904,9 +876,7 @@ Function Open-Chrome {
 
 ########
 ### §1.24: Open-Daesa-Website
-###   Open an optionally filtered list of DAESA websites in the Chrome web browser. The invoker can
-###     specific pages within the WSUWP administration area to be opened; otherwise, the websites
-###     will be opened on their homepages.
+###   Open an optionally filtered list of DAESA websites in the Chrome web browser. The invoker can specific pages within the WSUWP administration area to be opened; otherwise, the websites will be opened on their homepages.
 Function Open-Daesa-Website {
   Param (
     [Parameter(Mandatory=$false)]
@@ -1072,8 +1042,70 @@ Function Open-GitHub-on-Chrome {
   $cli | Invoke-Expression
 }
 
+########
+### §1.27: Open-List-of-Websites-on-Chrome
+
+<#
+.SYNOPSIS
+   Open a list of websites on the Chrome web browser one at a time and
+   temporally spaced out by an average but randomly determined delay.
+.PARAMETER Uris
+   An array of strings representing URIs to the web pages whose source code will
+   be saved.
+.PARAMETER AvgDelay
+   The average delay time in seconds. The actual delay time between each website
+   being opened is determined by multiplying this parameter by a randomly
+   determined scalar that ranges from 0.5 to 1.5.
+#>
+Function Open-List-of-Websites-on-Chrome {
+  [ CmdletBinding( PositionalBinding=$false ) ]
+  Param (
+    [Parameter(Mandatory=$True, ValueFromPipeline=$true)]
+    [ValidateScript({
+        $_ | ForEach-Object {
+            Test-Web-Page-Uri-Format $_
+        }
+    })][String[]]$Uris,
+
+    [Parameter(Mandatory=$False, ValueFromPipeline=$true)]
+    [Alias( "delay" )]
+    [Double]$AvgDelay = 5.0,
+
+    [Parameter(Mandatory=$False, ValueFromPipeline=$true)]
+    [Alias( "addlSlug" )]
+    [String]$AdditionalUrlSlug = ""
+  )
+  $uriCount = 0
+  ForEach ( $Uri in $Uris ) {
+    $flNmPref4Uri = Convert-Uri-Str-to-Windows-Filename( $Uri )
+    Write-Host "Opening URI «$Uri» on Chrome."
+    Try {
+      $cli = "chrome ""$Uri"
+      If ( $AdditionalUrlSlug -ne "" ) {
+        $cli += $AdditionalUrlSlug
+      }
+      $cli += """"
+      Write-Host "$cli" -foregroundcolor Cyan
+      $cli | Invoke-Expression
+      If ( $uriCount -le $Uris.length ) {
+        $delFac = Get-Random -Minimum 0.5 -Maximum 1.5
+        $delay = $AvgDelay * $delFac
+        Write-Host "Waiting $delay seconds before opening next site."
+        Start-Sleep $delay
+      }
+      $uriCount++
+    } Catch {
+      $itemName = $_.Exception.ItemName
+      If ([string]::IsNullOrEmpty($itemName)) {
+        $itemName = "Script error"
+      }
+      Write-Host (-join ($itemName, ": ", $_.Exception.Message))
+    }
+  }
+}
+
 #########
-### §1.27: Open-PowerShell-Instance
+### §1.28: Open-PowerShell-Instance
 ###   Use PowerShell to open a new instance of PowerShell.
 Function Open-PowerShell-Instance {
     $procName = (Get-Process -Id $PID).ProcessName
@@ -1085,7 +1117,7 @@ Function Open-PowerShell-Instance {
 }
 
 #########
-### §1.28: Resize-Image-List
+### §1.29: Resize-Image
 
 <#
 .SYNOPSIS
@@ -1177,6 +1209,7 @@ Function Resize-Image {
     }
     ForEach ( $Img in $ImgPath ) {
       $InPath = (Resolve-Path $Img).Path
+      Write-Host $InPath
       $ExtIdx = $InPath.LastIndexOf(".")
       
       $RefImg = New-Object -TypeName System.Drawing.Bitmap -ArgumentList $InPath
@@ -1220,16 +1253,23 @@ Function Resize-Image {
 }
 
 #########
-### §1.29: Save-Web-Page-Source-Code
+### §1.30: Save-Web-Page-Source-Code
 
 <#
 .SYNOPSIS
-   …
+   Save the source code for a list of websites to files whose file names are
+   based on the URL.
 .DESCRIPTION
-   …
-.PARAMETER ImgPath
+   The source code is saved one website at a time, with each request and write
+   operation and temporally spaced out by an average but randomly determined
+   delay.
+.PARAMETER Uri
    An array of strings representing URIs to the web pages whose source code will
    be saved.
+.PARAMETER AvgDelay
+   The average delay time in seconds. The actual delay time between each website
+   being opened is determined by multiplying this parameter by a randomly
+   determined scalar that ranges from 0.5 to 1.5.
 #>
 Function Save-Web-Page-Source-Code {
   Param (
@@ -1279,7 +1319,7 @@ Function Save-Web-Page-Source-Code {
 }
 
 #########
-### §1.30: Test-Web-Page-Uri-Format
+### §1.31: Test-Web-Page-Uri-Format
 
 <#
 .SYNOPSIS
@@ -1300,7 +1340,7 @@ Function Test-Web-Page-Uri-Format {
 }
 
 #########
-### §1.31: Write-Commands-to-Host
+### §1.32: Write-Commands-to-Host
 ###   Write a list of the commands and aliases in this PowerShell profile to the console.
 Function Write-Commands-to-Host {
   # Write introductory output to the console explaining what this function will do to the user.
@@ -1323,7 +1363,7 @@ Function Write-Commands-to-Host {
 }
 
 ########
-### §1.32: Write-Welcome-Msg-to-Host
+### §1.33: Write-Welcome-Msg-to-Host
 ###
 Function Write-Welcome-Msg-to-Host {
   # Build the components of a message to indicate this profile was loaded; bracket the message in
