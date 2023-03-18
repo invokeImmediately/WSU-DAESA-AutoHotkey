@@ -168,7 +168,7 @@ global lineLength			:= 125
 global bitNumpadSubToggle		:= false
 global numpadSubOverwrite		:= "{U+00b7}"
 global bitNumpadDivToggle		:= false
-global numpadDivOverwrite		:= "{U+00b7}"
+global numpadDivOverwrite		:= "{U+00a7}"
 global npModeExpirationTime	:= 5 * 60 * 1000
 
 global hotstrStartTime := 0
