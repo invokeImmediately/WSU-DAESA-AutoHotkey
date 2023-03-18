@@ -1,47 +1,38 @@
-﻿; ==================================================================================================
-; ▐▀▀▄ █  █ ▐▀▄▀▌█▀▀▄ ▄▀▀▄ █▀▀▄ ▐▀▄▀▌▄▀▀▄ █▀▀▄ ▀█▀ █▀▀▀ ▀█▀ █▀▀▀ █▀▀▄    ▄▀▀▄ █  █ █ ▄▀ 
-; █  ▐ █  █ █ ▀ ▌█▄▄▀ █▄▄█ █  █ █ ▀ ▌█  █ █  █  █  █▀▀▀  █  █▀▀  █▄▄▀    █▄▄█ █▀▀█ █▀▄  
-; ▀  ▐  ▀▀  █   ▀█    █  ▀ ▀▀▀  █   ▀ ▀▀  ▀▀▀  ▀▀▀ ▀    ▀▀▀ ▀▀▀▀ ▀  ▀▄ ▀ █  ▀ █  ▀ ▀  ▀▄
-;
+﻿; ==============================================================================
+; ▐▀▀▄ █  █ ▐▀▄▀▌█▀▀▄ ▄▀▀▄ █▀▀▄ · · · · · · · · · · · · · · · · · · · · · · · · 
+; █  ▐ █  █ █ ▀ ▌█▄▄▀ █▄▄█ █  █  · · · · · · · · · · · · · · · · · · · · · · · ·
+; ▀  ▐  ▀▀  █   ▀█    █  ▀ ▀▀▀  Modifier.ahk  · · · · · · · · · · · · · · · · · 
+; ··············································································
 ; Provide alternative character entry modes for the keyboard numpad.
 ;
-; @version 1.1.0
+; @version 1.2.0
 ;
 ; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
 ; @link https://github.com/invokeImmediately/WSU-AutoHotkey/blob/master/TextInput/numpadModifier.ahk
-; @license MIT Copyright (c) 2022 Daniel C. Rieck.
-;   Permission is hereby granted, free of charge, to any person obtaining a copy of this software
-;     and associated documentation files (the “Software”), to deal in the Software without
-;     restriction, including without limitation the rights to use, copy, modify, merge, publish,
-;     distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
-;     Software is furnished to do so, subject to the following conditions:
-;   The above copyright notice and this permission notice shall be included in all copies or
-;     substantial portions of the Software.
-;   THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
-;     BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-;     NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-;     DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-;     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-; ==================================================================================================
+; @license MIT Copyright (c) 2023 Daniel C. Rieck.
+;   Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+;   The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+;   THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+; ==============================================================================
 ; TABLE OF CONTENTS:
 ; -----------------
-;   §1: Numpad modification hotkeys.............................................................40
-;     >>> §1.1: NumpadDiv.......................................................................44
-;     >>> §1.2: NumpadSub.......................................................................86
-;     >>> §1.3: NumpadDel......................................................................118
-;   §2: Contextual numpad hotkeys..............................................................179
-;   §3: Mode persistence timer.................................................................411
-;     >>> §3.1: AutomaticCheckForNpModeExpiration..............................................415
-;     >>> §3.2: CheckForNpModeExpiration.......................................................427
-;     >>> §3.3: TerminateNpModes...............................................................449
-; ==================================================================================================
+; §1: Numpad modification hotkeys...........................................40
+;   §1.1: NumpadDiv.........................................................44
+;   §1.2: NumpadSub.........................................................86
+;   §1.3: NumpadDel........................................................118
+; §2: Contextual numpad hotkeys............................................179
+; §3: Mode persistence timer...............................................447
+;   §3.1: AutomaticCheckForNpModeExpiration................................451
+;   §3.2: CheckForNpModeExpiration.........................................463
+;   §3.3: TerminateNpModes.................................................485
+; ==============================================================================
 
-; --------------------------------------------------------------------------------------------------
-;   §1: Numpad modification hotkeys
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
+; §1: Numpad modification hotkeys
+; ------------------------------------------------------------------------------
 
-;   ································································································
-;     >>> §1.1: NumpadDiv
+;   ············································································
+;   §1.1: NumpadDiv
 
 NumpadDiv::
 	HandleNumpadDiv()
@@ -82,8 +73,8 @@ Return
 	DisplaySplashText(toggleMsg)
 Return
 
-;   ································································································
-;     >>> §1.2: NumpadSub
+;   ············································································
+;   §1.2: NumpadSub
 
 NumpadSub::
 	if (bitNumpadSubToggle) {
@@ -114,8 +105,8 @@ Return
 	DisplaySplashText(toggleMsg)
 Return
 
-;   ································································································
-;     >>> §1.3: NumpadDot/Del
+;   ············································································
+;   §1.3: NumpadDot/Del
 
 ^NumpadDel::
 	SendInput % "…"
@@ -175,8 +166,9 @@ HandleToggleNpArrowArt() {
 	DisplaySplashText(toggleMsg)
 }
 
-;   ································································································
-;     >>> §2: Contextual numpad hotkeys
+; ------------------------------------------------------------------------------
+; §2: Contextual numpad hotkeys
+; ------------------------------------------------------------------------------
 
 Numpad7::
 	HandleNumpad7()
@@ -187,12 +179,17 @@ HandleNumpad7() {
 	global npArrowArtActive
 
 	CheckForNpModeExpiration()
-	if (npBoxArtActive) {
+	cpsLckDwn := GetKeyState( "CapsLock", "T" )
+	if (npBoxArtActive && !cpsLckDwn) {
 		SendInput, % "┌"
-	} else if (npArrowArtActive) {
-		SendInput, % "└"
+	}	else if (npBoxArtActive && cpsLckDwn) {
+		SendInput, % "╔"
+	} else if (npArrowArtActive && !cpsLckDwn) {
+		SendInput, % "↰"
+	} else if (npArrowArtActive && cpsLckDwn) {
+		SendInput, % "↖"
 	} else {
-		SendInput, % "7"
+		SendInput, % "↶"
 	}
 }
 
@@ -205,10 +202,15 @@ HandleNumpad8() {
 	global npArrowArtActive
 
 	CheckForNpModeExpiration()
-	if (npBoxArtActive) {
+	cpsLckDwn := GetKeyState( "CapsLock", "T" )
+	if (npBoxArtActive && !cpsLckDwn) {
 		SendInput, % "─"
-	} else if (npArrowArtActive) {
+	}	else if (npBoxArtActive && cpsLckDwn) {
+		SendInput, % "═"
+	} else if (npArrowArtActive && !cpsLckDwn) {
 		SendInput, % "↑"
+	} else if (npArrowArtActive && cpsLckDwn) {
+		SendInput, % "⇑"
 	} else {
 		SendInput, % "8"
 	}
@@ -223,10 +225,15 @@ HandleNumpad9() {
 	global npArrowArtActive
 
 	CheckForNpModeExpiration()
-	if (npBoxArtActive) {
+	cpsLckDwn := GetKeyState( "CapsLock", "T" )
+	if (npBoxArtActive && !cpsLckDwn) {
 		SendInput, % "┐"
-	} else if (npArrowArtActive) {
+	}	else if (npBoxArtActive && cpsLckDwn) {
+		SendInput, % "╗"
+	} else if (npArrowArtActive && !cpsLckDwn) {
 		SendInput, % "↱"
+	} else if (npArrowArtActive && cpsLckDwn) {
+		SendInput, % "↗"
 	} else {
 		SendInput, % "9"
 	}
@@ -241,10 +248,15 @@ HandleNumpad4() {
 	global npArrowArtActive
 
 	CheckForNpModeExpiration()
-	if (npBoxArtActive) {
+	cpsLckDwn := GetKeyState( "CapsLock", "T" )
+	if (npBoxArtActive && !cpsLckDwn) {
 		SendInput, % "│"
-	} else if (npArrowArtActive) {
+	}	else if (npBoxArtActive && cpsLckDwn) {
+		SendInput, % "║"
+	} else if (npArrowArtActive && !cpsLckDwn) {
 		SendInput, % "←"
+	} else if (npArrowArtActive && cpsLckDwn) {
+		SendInput, % "⇐"
 	} else {
 		SendInput, % "4"
 	}
@@ -259,10 +271,15 @@ HandleNumpad5() {
 	global npArrowArtActive
 
 	CheckForNpModeExpiration()
-	if (npBoxArtActive) {
+	cpsLckDwn := GetKeyState( "CapsLock", "T" )
+	if (npBoxArtActive && !cpsLckDwn) {
 		SendInput, % "├"
-	} else if (npArrowArtActive) {
-		SendInput, % "├"
+	}	else if (npBoxArtActive && cpsLckDwn) {
+		SendInput, % "╠"
+	} else if (npArrowArtActive && !cpsLckDwn) {
+		SendInput, % "⇄"
+	} else if (npArrowArtActive && cpsLckDwn) {
+		SendInput, % "⇔"
 	} else {
 		SendInput, % "5"
 	}
@@ -277,10 +294,15 @@ HandleNumpadClear() {
 	global npArrowArtActive
 
 	CheckForNpModeExpiration()
-	if (npBoxArtActive) {
+	cpsLckDwn := GetKeyState( "CapsLock", "T" )
+	if (npBoxArtActive && !cpsLckDwn) {
 		SendInput, % "┼"
-	} else if (npArrowArtActive) {
-		SendInput, % "┼"
+	}	else if (npBoxArtActive && cpsLckDwn) {
+		SendInput, % "╬"
+	} else if (npArrowArtActive && !cpsLckDwn) {
+		SendInput, % "↩"
+	} else if (npArrowArtActive && cpsLckDwn) {
+		SendInput, % "↪"
 	}
 }
 
@@ -293,10 +315,15 @@ HandleNumpad6() {
 	global npArrowArtActive
 
 	CheckForNpModeExpiration()
-	if (npBoxArtActive) {
+	cpsLckDwn := GetKeyState( "CapsLock", "T" )
+	if (npBoxArtActive && !cpsLckDwn) {
 		SendInput, % "┤"
-	} else if (npArrowArtActive) {
+	}	else if (npBoxArtActive && cpsLckDwn) {
+		SendInput, % "╣"
+	} else if (npArrowArtActive && !cpsLckDwn) {
 		SendInput, % "→"
+	} else if (npArrowArtActive && cpsLckDwn) {
+		SendInput, % "⇒"
 	} else {
 		SendInput, % "6"
 	}
@@ -311,10 +338,15 @@ HandleNumpad1() {
 	global npArrowArtActive
 
 	CheckForNpModeExpiration()
-	if (npBoxArtActive) {
+	cpsLckDwn := GetKeyState( "CapsLock", "T" )
+	if (npBoxArtActive && !cpsLckDwn) {
 		SendInput, % "└"
-	} else if (npArrowArtActive) {
-		SendInput, % "─"
+	}	else if (npBoxArtActive && cpsLckDwn) {
+		SendInput, % "╚"
+	} else if (npArrowArtActive && !cpsLckDwn) {
+		SendInput, % "↲"
+	} else if (npArrowArtActive && cpsLckDwn) {
+		SendInput, % "↙"
 	} else {
 		SendInput, % "1"
 	}
@@ -329,10 +361,15 @@ HandleNumpad2() {
 	global npArrowArtActive
 
 	CheckForNpModeExpiration()
-	if (npBoxArtActive) {
+	cpsLckDwn := GetKeyState( "CapsLock", "T" )
+	if (npBoxArtActive && !cpsLckDwn) {
 		SendInput, % "┬"
-	} else if (npArrowArtActive) {
+	}	else if (npBoxArtActive && cpsLckDwn) {
+		SendInput, % "╦"
+	} else if (npArrowArtActive && !cpsLckDwn) {
 		SendInput, % "↓"
+	} else if (npArrowArtActive && cpsLckDwn) {
+		SendInput, % "⇓"
 	} else {
 		SendInput, % "2"
 	}
@@ -347,10 +384,15 @@ HandleNumpad3() {
 	global npArrowArtActive
 
 	CheckForNpModeExpiration()
-	if (npBoxArtActive) {
+	cpsLckDwn := GetKeyState( "CapsLock", "T" )
+	if (npBoxArtActive && !cpsLckDwn) {
 		SendInput, % "┘"
-	} else if (npArrowArtActive) {
+	}	else if (npBoxArtActive && cpsLckDwn) {
+		SendInput, % "╝"
+	} else if (npArrowArtActive && !cpsLckDwn) {
 		SendInput, % "↳"
+	} else if (npArrowArtActive && !cpsLckDwn) {
+		SendInput, % "↘"
 	} else {
 		SendInput, % "3"
 	}
@@ -365,10 +407,15 @@ HandleNumpad0() {
 	global npArrowArtActive
 
 	CheckForNpModeExpiration()
-	if (npBoxArtActive) {
+	cpsLckDwn := GetKeyState( "CapsLock", "T" )
+	if (npBoxArtActive && !cpsLckDwn) {
 		SendInput, % "┴"
-	} else if (npArrowArtActive) {
-		SendInput, % "│"
+	}	else if (npBoxArtActive && cpsLckDwn) {
+		SendInput, % "╩"
+	} else if (npArrowArtActive && !cpsLckDwn) {
+		SendInput, % "↴"
+	} else if (npArrowArtActive && cpsLckDwn) {
+		SendInput, % "⇅"
 	} else {
 		SendInput, % "0"
 	}
@@ -383,10 +430,15 @@ HandleNumpadDot() {
 	global npArrowArtActive
 
 	CheckForNpModeExpiration()
-	if (npBoxArtActive) {
+	cpsLckDwn := GetKeyState( "CapsLock", "T" )
+	if (npBoxArtActive && !cpsLckDwn) {
 		SendInput, % "┼"
-	} else if (npArrowArtActive) {
-		SendInput, % "└"
+	}	else if (npBoxArtActive && cpsLckDwn) {
+		SendInput, % "╬"
+	} else if (npArrowArtActive && !cpsLckDwn) {
+		SendInput, % "⇏"
+	} else if (npArrowArtActive && cpsLckDwn) {
+		SendInput, % "⇍"
 	} else {
 		SendInput, % "."
 	}
@@ -407,12 +459,12 @@ HandleNumpadMult() {
 	}
 }
 
-; --------------------------------------------------------------------------------------------------
-;   §3: Mode persistence timer
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
+; §3: Mode persistence timer
+; ------------------------------------------------------------------------------
 
-;   ································································································
-;     >>> §3.1: AutomaticCheckForNpModeExpiration()
+;   ············································································
+;   §3.1: AutomaticCheckForNpModeExpiration()
 
 AutomaticCheckForNpModeExpiration() {
 	global npModeLastUsed
@@ -423,8 +475,8 @@ AutomaticCheckForNpModeExpiration() {
 	}
 }
 
-;   ································································································
-;     >>> §3.2: CheckForNpModeExpiration()
+;   ············································································
+;   §3.2: CheckForNpModeExpiration()
 
 CheckForNpModeExpiration() {
 	global npModeLastUsed
@@ -445,8 +497,8 @@ CheckForNpModeExpiration() {
 	}
 }
 
-;   ································································································
-;     >>> §3.3: TerminateNpModes()
+;   ············································································
+;   §3.3: TerminateNpModes()
 
 TerminateNpModes() {
 	global npModeTimerActive
