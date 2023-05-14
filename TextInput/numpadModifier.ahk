@@ -189,7 +189,7 @@ HandleNumpad7() {
 	} else if (npArrowArtActive && cpsLckDwn) {
 		SendInput, % "↖"
 	} else {
-		SendInput, % "↶"
+		SendInput, % "7"
 	}
 }
 

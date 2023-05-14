@@ -1,81 +1,86 @@
-﻿; ==================================================================================================
-; ▐   ▌▄▀▀▀ █  █    █▀▀▄ ▄▀▀▄ █▀▀▀ ▄▀▀▀ ▄▀▀▄    ▄▀▀▄ █  █▐▀█▀▌▄▀▀▄ █  █ ▄▀▀▄▐▀█▀▌
-; ▐ █ ▌▀▀▀█ █  █ ▀▀ █  █ █▄▄█ █▀▀  ▀▀▀█ █▄▄█ ▀▀ █▄▄█ █  █  █  █  █ █▀▀█ █  █  █   ▀
-;  ▀ ▀ ▀▀▀   ▀▀     ▀▀▀  █  ▀ ▀▀▀▀ ▀▀▀  █  ▀    █  ▀  ▀▀   █   ▀▀  █  ▀  ▀▀   █
+﻿; ==============================================================================
+; WSU-DAESA- ▄▀▀▄ █  █▐▀█▀▌▄▀▀▄ █  █ ▄▀▀▄▐▀█▀▌█ ▄▀ █▀▀▀ █  █ ░░░░░░░░░░░░░░░░▒▓█
+; ░░░░░░░░░░ █▄▄█ █  █  █  █  █ █▀▀█ █  █  █  █▀▄  █▀▀  ▀▄▄█ ░░░░░░░░░░░░░░▒▓█
+; ░░░░░░░░░░ █  ▀  ▀▀   █   ▀▀  █  ▀  ▀▀   █  ▀  ▀▄▀▀▀▀ ▄▄▄▀ .U64.ahk ░░░▒▓█
 ;
-;      █ ▄▀ █▀▀▀ █  █   █  █ ▄▀▀▄  ▄▀█   ▄▀▀▄ █  █ █ ▄▀
-;    ▀ █▀▄  █▀▀  ▀▄▄█   █  █ █▄▄  ▐▄▄█▌  █▄▄█ █▀▀█ █▀▄
-;      ▀  ▀▄▀▀▀▀ ▄▄▄▀ ▀  ▀▀  ▀▄▄▀    █ ▀ █  ▀ █  ▀ ▀  ▀▄
+; AutoHotkey script for automation of coding, operating system control, window
+;   management, and file management tasks commonly performed during front-end
+;   web development work for the Division of Academic Engagement and Student
+;   Achievement (DAESA) at WSU.
 ;
-; AutoHotkey script for automation of coding, operating system control, window management, and file
-;   management tasks commonly performed during front-end web development work for the Division of
-;   Academic Engagement and Student Achievement (DAESA) at WSU.
+; Formerly, this project was conducted by the Office of Undergraduate Education 
+;   (OUE), which was combined with the Office of Academic Engagement to form
+;   DAESA.
 ;
-; Formerly, this project was conducted by the Office of Undergraduate Education (OUE), which was
-;   combined with the Office of Academic Engagement to form DAESA.
+; @version 1.1.1-rc0.+18.+12
 ;
-; @version 1.1.1-rc0.+18.+11
-;
-; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
-; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/blob/main/WSU-DAESA-AutoHotkey.U64
-;   .ahk
-; @license MIT Copyright (c) 2021 Daniel C. Rieck.
-;   Permission is hereby granted, free of charge, to any person obtaining a copy of this software
-;     and associated documentation files (the “Software”), to deal in the Software without
-;     restriction, including without limitation the rights to use, copy, modify, merge, publish,
-;     distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
-;     Software is furnished to do so, subject to the following conditions:
-;   The above copyright notice and this permission notice shall be included in all copies or
-;     substantial portions of the Software.
-;   THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
-;     BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-;     NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-;     DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-;     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-; ==================================================================================================
+; @author Daniel Rieck
+;   [daniel.rieck@wsu.edu]
+;   (https://github.com/invokeImmediately)
+; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/…
+;   …blob/main/…
+;   …WSU-DAESA-AutoHotkey.U64.ahk
+; @license MIT Copyright (c) 2023 Daniel C. Rieck.
+;   Permission is hereby granted, free of charge, to any person obtaining a copy
+;     of this software and associated documentation files (the “Software”), to
+;     deal in the Software without restriction, including without limitation the
+;     rights to use, copy, modify, merge, publish, distribute, sublicense, and/
+;     or sell copies of the Software, and to permit persons to whom the Software
+;     is furnished to do so, subject to the following conditions:
+;   The above copyright notice and this permission notice shall be included in
+;     all copies or substantial portions of the Software.
+;   THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+;     IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+;     FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+;     THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+;     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+;     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+;     DEALINGS IN THE SOFTWARE.
+; ==============================================================================
 ; TABLE OF CONTENTS:
 ; -----------------
-;   §1: Global variables........................................................................72
-;     >>> §1.1: System property globals.........................................................76
-;     >>> §1.2: Operation timing globals........................................................99
-;     >>> §1.3: Globals for locations of important folders & files.............................108
-;     >>> §1.4: Pomodoro work timer globals....................................................132
-;     >>> §1.5: Desktop arrangement auditory cue globals.......................................143
-;     >>> §1.6: Simulated memory of user actions...............................................155
-;     >>> §1.7: Keyboard overriding............................................................166
-;     >>> §1.8: Missing AutoHotkey constants...................................................178
-;   §2: Set up script & call main subroutine...................................................188
-;   §3: Common functions & classes.............................................................216
-;   §4: Command history........................................................................229
-;   §5: AutoHotkey script writing shortcuts....................................................235
-;     >>> §5.1: Hotstrings for inserting code-documentation headers............................239
-;   §6: Workspace management...................................................................297
-;   §7: File system navigation.................................................................341
-;   §8: Program/file launching shortcuts.......................................................347
-;     >>> §8.1: Notepad/text editor program....................................................351
-;     >>> §8.2: Miscellaneous files............................................................362
-;   §9: Powershell scripting...................................................................371
-;   §10: Github scripting......................................................................377
-;   §11: Google chrome scripting...............................................................383
-;   §12: Front-end coding......................................................................440
-;   §13: Text replacement & input..............................................................446
-;     >>> §13.1: Text Replacement hotkeys......................................................450
-;     >>> §13.2: Text Replacement hotstrings...................................................455
-;     >>> §13.3: Text Input hotstrings.........................................................462
-;   §14: Other shortcuts.......................................................................469
-;   §15: Work timer............................................................................482
-;   §16: Custom hotstrings & hotkeys...........................................................488
-;   §17: Execution entry point.................................................................560
-; ==================================================================================================
+;   §1: Global variables......................................................72
+;     §1.1: System property globals...........................................76
+;     §1.2: Operation timing globals..........................................99
+;     §1.3: Globals for locations of important folders & files...............108
+;     §1.4: Pomodoro work timer globals......................................132
+;     §1.5: Desktop arrangement auditory cue globals.........................143
+;     §1.6: Simulated memory of user actions.................................155
+;     §1.7: Keyboard overriding..............................................166
+;     §1.8: Missing AutoHotkey constants.....................................178
+;   §2: Set up script & call main subroutine.................................188
+;   §3: Common functions & classes...........................................216
+;   §4: Command history......................................................229
+;   §5: AutoHotkey script writing shortcuts..................................235
+;     §5.1: Hotstrings for inserting code-documentation headers..............239
+;   §6: Workspace management.................................................297
+;   §7: File system navigation...............................................341
+;   §8: Program/file launching shortcuts.....................................347
+;     §8.1: Notepad/text editor program......................................351
+;     §8.2: Miscellaneous files..............................................362
+;   §9: Powershell scripting.................................................371
+;   §10: Github scripting....................................................377
+;   §11: Google chrome scripting.............................................383
+;   §12: Front-end coding....................................................440
+;   §13: Text replacement & input............................................446
+;     §13.1: Text Replacement hotkeys........................................450
+;     §13.2: Text Replacement hotstrings.....................................455
+;     §13.3: Text Input hotstrings...........................................462
+;   §14: Other shortcuts.....................................................469
+;   §15: Work timer..........................................................482
+;   §16: Custom hotstrings & hotkeys.........................................488
+;   §17: Execution entry point...............................................560
+; ==============================================================================
 
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
 ;   §1: GLOBAL VARIABLES
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
 
-;   ································································································
+;   ············································································
 ;     >>> §1.1: SYSTEM PROPERTY GLOBALS
 
-; Constant needed for retreiving the number of display monitors on the desktop via SysGet(...).
+; Constant needed for retreiving the number of display monitors on the desktop
+;   via SysGet(...).
 global SM_CMONITORS 	:= 80	
 
 ; SysGet(...) constants needed for retreiving the default window border width and height.
@@ -89,32 +94,36 @@ global sysNumMonitors
 global sysWinBorderW
 global sysWinBorderH
 
-; Number of attempts at an open-ended goal, such as making a target window active.
+; Number of attempts at an open-ended goal, such as making a target window
+;   active.
 global g_maxTries := 10
 
-; WinTitle parameter for identifying when the desktop process is the active window.
+; WinTitle parameter for identifying when the desktop process is the active
+;   window.
 global g_osDesktopWinTitle := "ahk_class WorkerW ahk_exe explorer.exe"
 
-;   ································································································
+;   ············································································
 ;     >>> §1.2: OPERATION TIMING GLOBALS
 
-global g_delayQuantum			:= 15.6		; Min. amt. of time the Sleep command can wait; 0.0156s
+global g_delayQuantum			:= 15.6		; Min. amt. of time the Sleep command can
+                                    ;   wait; 0.0156s
 global g_extraShortDelay	:= 3			; An extra short delay of .0468s
 global g_shortDelay				:= 7			; A short delay of .1092s
 global g_mediumDelay			:= 21			; A medium delay of .3276s
 global g_longDelay				:= 63			; A long delay of around 0.9828s
 
-;   ································································································
+;   ············································································
 ;     >>> §1.3: GLOBALS FOR LOCATIONS OF IMPORTANT FOLDERS & FILES
 
-; TODO: Currently, the following variables are based on the author's idiosyncratic approach to
-;  organizing files on his local system. In his current scheme, the OS is installed on a SSD,
-;  whereas file storage is relegated to a HDD. Consequently, the following global variables were
-;  originally created as file path components for use in the script to build paths to specific file
-;  system locations based on a developer-changeable root specification. However, this approach is
-;  not ideal due to the issue of the system-specific nature of the underlying scheme; a better
-;  method would be to use a script configuration file containing paths to specific components that
-;  can more be easily updated for use on a different system.
+; TODO: Currently, the following variables are based on the author's idiosyn-
+;   cratic approach to organizing files on his local system. In his current
+;   scheme, the OS is installed on a SSD, whereas file storage is relegated to
+;   a HDD. Consequently, the following global variables were originally
+;   specific file created as file path components for use in the script to
+;   build paths to system locations based on a developer-changeable root
+;   specification. However, this approach is not ideal due to the issue of the ;   system-specific nature of the underlying scheme; a better method would be
+;   to use a script configuration  file containing paths to specific 
+;   components that can more be easily updated for use on a different system.
 global userAccountFolderSSD := "C:"
 global userAccountFolderHDD := "E:\Users\CamilleandDaniel"
 global relWorkFolder := "\Documents\Daniel"
@@ -128,7 +137,7 @@ global commitAnyFileMsgLog		:= A_ScriptDir . "\Config\commit-any-file-msg-histor
 global commitJsCustomJsMsgLog	:= A_ScriptDir . "\Config\commit-js-custom-js-msg-history.txt"
 global g_VimyModeIconPath := A_ScriptDir . "\Images\Vim-logo_64w64h.png"
 
-;   ································································································
+;   ············································································
 ;     >>> §1.4: POMODORO WORK TIMER GLOBALS
 
 global logFileName								:= A_ScriptDir . "\Config\workTimerLog.txt"
@@ -139,7 +148,7 @@ global workTimerNotificationSound	:= A_ScriptDir . "\Sounds\chinese-gong-daniel_
 global workTimerMinutesound				:= A_ScriptDir . "\Sounds\Bell-tone_C-4.wav"
 global workTimer5MinuteSound			:= A_ScriptDir . "\Sounds\Metal_Gong-Dianakc-109711828.wav"
 
-;   ································································································
+;   ············································································
 ;     >>> §1.5: DESKTOP ARRANGEMENT AUDITORY CUE GLOBALS
 
 global windowMovementSound		:= A_ScriptDir . "\Sounds\323413__sethroph__glass-slide-3_-12.5"
@@ -151,7 +160,7 @@ global desktopSwitchingSound	:= A_ScriptDir . "\Sounds\352719__dalesome__woosh-s
 global scriptLoadedSound			:= A_ScriptDir . "\Sounds\Storm_exclamation.wav"
 global desktopArrangedSound		:= A_ScriptDir . "\Sounds\zelda_lttp-mstr-swrd.wav"
 
-;   ································································································
+;   ············································································
 ;     >>> §1.6: SIMULATED MEMORY OF USER ACTIONS
 
 global cmdHistoryLog	:= A_ScriptDir . "\Config\ahk-cmd-history.txt"
@@ -162,7 +171,7 @@ global savedMouseX		:= 0
 global savedMouseY		:= 0
 global lineLength			:= 125
 
-;   ································································································
+;   ············································································
 ;     >>> §1.7: KEYBOARD OVERRIDING
 
 global bitNumpadSubToggle		:= false
@@ -174,7 +183,7 @@ global npModeExpirationTime	:= 5 * 60 * 1000
 global hotstrStartTime := 0
 global hotstrEndTime := 0
 
-;   ································································································
+;   ············································································
 ;     >>> §1.8: Missing AutoHotkey Constants
 
 global cmClient
@@ -184,17 +193,18 @@ global mmFast
 global mmRegex
 global mmSlow
 
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
 ;   §2: SET UP SCRIPT & CALL MAIN SUBROUTINE
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
 
 #NoEnv
 #SingleInstance
 #KeyHistory 0
 If not A_IsAdmin
 {
-	;" https://autohotkey.com/docs/commands/Run.htm#RunAs: For an executable file, the *RunAs verb
-	; is equivalent to selecting Run as administrator from the right-click menu of the file."
+	; "https://autohotkey.com/docs/commands/Run.htm#RunAs: For an executable file,
+	;   the *RunAs verb is equivalent to selecting Run as administrator from the
+	;   right-click menu of the file."
 	MsgBox, % 0x34
 		, % "Error: Admin Privileges Not Detected"
 		, % "AutoHotkeyU64.ahk was started without Admin privileges. Most of the script's features "
@@ -212,9 +222,9 @@ CoordMode, Mouse, Client
 FileEncoding, UTF-8
 StartScript()
 
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
 ;   §3: COMMON FUNCTIONS & CLASSES
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GUIs\ahkGui.ahk
 #Include %A_ScriptDir%\GUIs\GuiControlHandler.ahk
@@ -225,17 +235,17 @@ StartScript()
 #Include %A_ScriptDir%\Functions\trie.ahk
 #Include %A_ScriptDir%\Functions\cfgFile.ahk
 
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
 ;   §4: COMMAND HISTORY
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\Functions\commandHistory.ahk
 
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
 ;   §5: AUTOHOTKEY SCRIPT WRITING SHORTCUTS
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
 
-;   ································································································
+;   ············································································
 ;     >>> §5.1: Hotstrings for inserting code-documentation headers
 
 :*?:@insAhkCommentSection::
@@ -293,9 +303,9 @@ Return
 	}
 Return
 
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
 ;   §6: WORKSPACE MANAGEMENT
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\WorkspaceManagement\virtualDesktops.ahk
 
@@ -337,17 +347,17 @@ Return
 	}
 Return
 
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
 ;   §7: FILE SYSTEM NAVIGATION
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\WorkspaceManagement\fileSystem.ahk
 
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
 ;   §8: PROGRAM/FILE LAUNCHING SHORTCUTS
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
 
-;   ································································································
+;   ············································································
 ;     >>> §8.1: NOTEPAD/TEXT EDITOR PROGRAM
 
 :*?:@runZoom::
@@ -358,7 +368,7 @@ Return
 	Gosub :*?:@runZoom
 Return
 
-;   ································································································
+;   ············································································
 ;     >>> §8.2: MISCELLANEOUS FILES
 
 :*?:@checkHTMLSpec::
@@ -367,21 +377,21 @@ Return
 		. "Document_2016-03-16.jpg"
 Return
 
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
 ;   §9: POWERSHELL SCRIPTING
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\PowerShell\PowerShell.ahk
 
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
 ;   §10: GITHUB SCRIPTING
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GitHub\github.ahk
 
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
 ;   §11: GOOGLE CHROME SCRIPTING
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
 
 ^!o::
 	WinGet, thisProcess, ProcessName, A
@@ -436,38 +446,38 @@ PerformBypassingCtrlAltO:
 	Suspend, Off
 Return
 
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
 ;   §12: FRONT-END CODING
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\Coding\frontEndCoding.ahk
 
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
 ;   §13: TEXT REPLACEMENT & INPUT
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
 
-;   ································································································
+;   ············································································
 ;     >>> §13.1: Text Replacement HOTKEYS
 
 #Include %A_ScriptDir%\TextInput\numpadModifier.ahk
 
-;   ································································································
+;   ············································································
 ;     >>> §13.2: Text Replacement HOTSTRINGS
 
 #Include %A_ScriptDir%\TextInput\regExStrings.ahk
 
 #Include %A_ScriptDir%\TextInput\textReplacement.ahk
 
-;   ································································································
+;   ············································································
 ;     >>> §13.3: Text Input HOTSTRINGS
 
 #Include %A_ScriptDir%\TextInput\guiRepeatChars.ahk
 
 #Include %A_ScriptDir%\TextInput\guiRepeatInputs.ahk
 
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
 ;   §14: OTHER SHORTCUTS
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
 
 ; Shift + Wheel for horizontal scrolling
 ;+WheelDown::WheelRight
@@ -478,15 +488,15 @@ Return
 	Send {SPACE 16}
 Return
 
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
 ;   §15: WORK TIMER
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GUIs\workTimer.ahk
 
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
 ;   §16: CUSTOM HOTSTRINGS & HOTKEYS
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
 
 #Include *i %A_ScriptDir%\localOnly.ahk
 
@@ -556,9 +566,9 @@ Return
 	Sleep, 60
 Return
 
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
 ;   §17: EXECUTION ENTRY POINT
-; --------------------------------------------------------------------------------------------------
+; ------------------------------------------------------------------------------
 
 #Include %A_ScriptDir%\GUIs\StartupGui.ahk
 
