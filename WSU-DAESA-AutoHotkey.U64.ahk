@@ -12,7 +12,7 @@
 ;   (OUE), which was combined with the Office of Academic Engagement to form
 ;   DAESA.
 ;
-; @version 1.1.1-rc0.+18.+12
+; @version 1.1.1-rc0.+19.+12
 ;
 ; @author Daniel Rieck
 ;   [daniel.rieck@wsu.edu]
