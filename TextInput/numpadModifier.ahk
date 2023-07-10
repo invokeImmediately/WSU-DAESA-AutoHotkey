@@ -1,18 +1,35 @@
 ﻿; ==============================================================================
-; ▐▀▀▄ █  █ ▐▀▄▀▌█▀▀▄ ▄▀▀▄ █▀▀▄ · · · · · · · · · · · · · · · · · · · · · · · · 
-; █  ▐ █  █ █ ▀ ▌█▄▄▀ █▄▄█ █  █  · · · · · · · · · · · · · · · · · · · · · · · ·
-; ▀  ▐  ▀▀  █   ▀█    █  ▀ ▀▀▀  Modifier.ahk  · · · · · · · · · · · · · · · · · 
+; ▓▓▓▒ ▐▀▀▄ █  █ ▐▀▄▀▌█▀▀▄ ▄▀▀▄ █▀▀▄ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓
+; ▓▓▒▒ █  ▐ █  █ █ ▀ ▌█▄▄▀ █▄▄█ █  █ ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓
+; ▓▒▒▒ ▀  ▐  ▀▀  █   ▀█    █  ▀ ▀▀▀  Modifier.ahk ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓
 ; ··············································································
 ; Provide alternative character entry modes for the keyboard numpad.
 ;
 ; @version 1.2.0
 ;
-; @author Daniel Rieck [daniel.rieck@wsu.edu] (https://github.com/invokeImmediately)
-; @link https://github.com/invokeImmediately/WSU-AutoHotkey/blob/master/TextInput/numpadModifier.ahk
+; @author Daniel Rieck
+;  [daniel.rieck@wsu.edu]
+;  (https://github.com/invokeImmediately)
+;
+; @link https://github.com/invokeImmediately/WSU-AutoHotkey/blob/master…
+;  …/TextInput/numpadModifier.ahk
+;
 ; @license MIT Copyright (c) 2023 Daniel C. Rieck.
-;   Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-;   The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-;   THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+;  Permission is hereby granted, free of charge, to any person obtaining a copy
+;   of this software and associated documentation files (the “Software”), to
+;   deal in the Software without restriction, including without limitation the
+;   rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+;   sell copies of the Software, and to permit persons to whom the Software is
+;   furnished to do so, subject to the following conditions:
+;  The above copyright notice and this permission notice shall be included in
+;   all copies or substantial portions of the Software.
+;  THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+;   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+;   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+;   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+;   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+;   FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+;   IN THE SOFTWARE.
 ; ==============================================================================
 ; TABLE OF CONTENTS:
 ; -----------------
@@ -179,14 +196,14 @@ HandleNumpad7() {
 	global npArrowArtActive
 
 	CheckForNpModeExpiration()
-	cpsLckDwn := GetKeyState( "CapsLock", "T" )
-	if (npBoxArtActive && !cpsLckDwn) {
+	capsLockDown := GetKeyState( "CapsLock", "T" )
+	if (npBoxArtActive && !capsLockDown) {
 		SendInput, % "┌"
-	}	else if (npBoxArtActive && cpsLckDwn) {
+	}	else if (npBoxArtActive && capsLockDown) {
 		SendInput, % "╔"
-	} else if (npArrowArtActive && !cpsLckDwn) {
+	} else if (npArrowArtActive && !capsLockDown) {
 		SendInput, % "↰"
-	} else if (npArrowArtActive && cpsLckDwn) {
+	} else if (npArrowArtActive && capsLockDown) {
 		SendInput, % "↖"
 	} else {
 		SendInput, % "7"
@@ -202,14 +219,14 @@ HandleNumpad8() {
 	global npArrowArtActive
 
 	CheckForNpModeExpiration()
-	cpsLckDwn := GetKeyState( "CapsLock", "T" )
-	if (npBoxArtActive && !cpsLckDwn) {
+	capsLockDown := GetKeyState( "CapsLock", "T" )
+	if (npBoxArtActive && !capsLockDown) {
 		SendInput, % "─"
-	}	else if (npBoxArtActive && cpsLckDwn) {
+	}	else if (npBoxArtActive && capsLockDown) {
 		SendInput, % "═"
-	} else if (npArrowArtActive && !cpsLckDwn) {
+	} else if (npArrowArtActive && !capsLockDown) {
 		SendInput, % "↑"
-	} else if (npArrowArtActive && cpsLckDwn) {
+	} else if (npArrowArtActive && capsLockDown) {
 		SendInput, % "⇑"
 	} else {
 		SendInput, % "8"
@@ -225,14 +242,14 @@ HandleNumpad9() {
 	global npArrowArtActive
 
 	CheckForNpModeExpiration()
-	cpsLckDwn := GetKeyState( "CapsLock", "T" )
-	if (npBoxArtActive && !cpsLckDwn) {
+	capsLockDown := GetKeyState( "CapsLock", "T" )
+	if (npBoxArtActive && !capsLockDown) {
 		SendInput, % "┐"
-	}	else if (npBoxArtActive && cpsLckDwn) {
+	}	else if (npBoxArtActive && capsLockDown) {
 		SendInput, % "╗"
-	} else if (npArrowArtActive && !cpsLckDwn) {
+	} else if (npArrowArtActive && !capsLockDown) {
 		SendInput, % "↱"
-	} else if (npArrowArtActive && cpsLckDwn) {
+	} else if (npArrowArtActive && capsLockDown) {
 		SendInput, % "↗"
 	} else {
 		SendInput, % "9"
@@ -248,14 +265,14 @@ HandleNumpad4() {
 	global npArrowArtActive
 
 	CheckForNpModeExpiration()
-	cpsLckDwn := GetKeyState( "CapsLock", "T" )
-	if (npBoxArtActive && !cpsLckDwn) {
+	capsLockDown := GetKeyState( "CapsLock", "T" )
+	if (npBoxArtActive && !capsLockDown) {
 		SendInput, % "│"
-	}	else if (npBoxArtActive && cpsLckDwn) {
+	}	else if (npBoxArtActive && capsLockDown) {
 		SendInput, % "║"
-	} else if (npArrowArtActive && !cpsLckDwn) {
+	} else if (npArrowArtActive && !capsLockDown) {
 		SendInput, % "←"
-	} else if (npArrowArtActive && cpsLckDwn) {
+	} else if (npArrowArtActive && capsLockDown) {
 		SendInput, % "⇐"
 	} else {
 		SendInput, % "4"
@@ -271,14 +288,14 @@ HandleNumpad5() {
 	global npArrowArtActive
 
 	CheckForNpModeExpiration()
-	cpsLckDwn := GetKeyState( "CapsLock", "T" )
-	if (npBoxArtActive && !cpsLckDwn) {
+	capsLockDown := GetKeyState( "CapsLock", "T" )
+	if (npBoxArtActive && !capsLockDown) {
 		SendInput, % "├"
-	}	else if (npBoxArtActive && cpsLckDwn) {
+	}	else if (npBoxArtActive && capsLockDown) {
 		SendInput, % "╠"
-	} else if (npArrowArtActive && !cpsLckDwn) {
+	} else if (npArrowArtActive && !capsLockDown) {
 		SendInput, % "⇄"
-	} else if (npArrowArtActive && cpsLckDwn) {
+	} else if (npArrowArtActive && capsLockDown) {
 		SendInput, % "⇔"
 	} else {
 		SendInput, % "5"
@@ -294,14 +311,14 @@ HandleNumpadClear() {
 	global npArrowArtActive
 
 	CheckForNpModeExpiration()
-	cpsLckDwn := GetKeyState( "CapsLock", "T" )
-	if (npBoxArtActive && !cpsLckDwn) {
+	capsLockDown := GetKeyState( "CapsLock", "T" )
+	if (npBoxArtActive && !capsLockDown) {
 		SendInput, % "┼"
-	}	else if (npBoxArtActive && cpsLckDwn) {
+	}	else if (npBoxArtActive && capsLockDown) {
 		SendInput, % "╬"
-	} else if (npArrowArtActive && !cpsLckDwn) {
+	} else if (npArrowArtActive && !capsLockDown) {
 		SendInput, % "↩"
-	} else if (npArrowArtActive && cpsLckDwn) {
+	} else if (npArrowArtActive && capsLockDown) {
 		SendInput, % "↪"
 	}
 }
@@ -315,14 +332,14 @@ HandleNumpad6() {
 	global npArrowArtActive
 
 	CheckForNpModeExpiration()
-	cpsLckDwn := GetKeyState( "CapsLock", "T" )
-	if (npBoxArtActive && !cpsLckDwn) {
+	capsLockDown := GetKeyState( "CapsLock", "T" )
+	if (npBoxArtActive && !capsLockDown) {
 		SendInput, % "┤"
-	}	else if (npBoxArtActive && cpsLckDwn) {
+	}	else if (npBoxArtActive && capsLockDown) {
 		SendInput, % "╣"
-	} else if (npArrowArtActive && !cpsLckDwn) {
+	} else if (npArrowArtActive && !capsLockDown) {
 		SendInput, % "→"
-	} else if (npArrowArtActive && cpsLckDwn) {
+	} else if (npArrowArtActive && capsLockDown) {
 		SendInput, % "⇒"
 	} else {
 		SendInput, % "6"
@@ -338,14 +355,14 @@ HandleNumpad1() {
 	global npArrowArtActive
 
 	CheckForNpModeExpiration()
-	cpsLckDwn := GetKeyState( "CapsLock", "T" )
-	if (npBoxArtActive && !cpsLckDwn) {
+	capsLockDown := GetKeyState( "CapsLock", "T" )
+	if (npBoxArtActive && !capsLockDown) {
 		SendInput, % "└"
-	}	else if (npBoxArtActive && cpsLckDwn) {
+	}	else if (npBoxArtActive && capsLockDown) {
 		SendInput, % "╚"
-	} else if (npArrowArtActive && !cpsLckDwn) {
+	} else if (npArrowArtActive && !capsLockDown) {
 		SendInput, % "↲"
-	} else if (npArrowArtActive && cpsLckDwn) {
+	} else if (npArrowArtActive && capsLockDown) {
 		SendInput, % "↙"
 	} else {
 		SendInput, % "1"
@@ -361,14 +378,14 @@ HandleNumpad2() {
 	global npArrowArtActive
 
 	CheckForNpModeExpiration()
-	cpsLckDwn := GetKeyState( "CapsLock", "T" )
-	if (npBoxArtActive && !cpsLckDwn) {
+	capsLockDown := GetKeyState( "CapsLock", "T" )
+	if (npBoxArtActive && !capsLockDown) {
 		SendInput, % "┬"
-	}	else if (npBoxArtActive && cpsLckDwn) {
+	}	else if (npBoxArtActive && capsLockDown) {
 		SendInput, % "╦"
-	} else if (npArrowArtActive && !cpsLckDwn) {
+	} else if (npArrowArtActive && !capsLockDown) {
 		SendInput, % "↓"
-	} else if (npArrowArtActive && cpsLckDwn) {
+	} else if (npArrowArtActive && capsLockDown) {
 		SendInput, % "⇓"
 	} else {
 		SendInput, % "2"
@@ -384,14 +401,14 @@ HandleNumpad3() {
 	global npArrowArtActive
 
 	CheckForNpModeExpiration()
-	cpsLckDwn := GetKeyState( "CapsLock", "T" )
-	if (npBoxArtActive && !cpsLckDwn) {
+	capsLockDown := GetKeyState( "CapsLock", "T" )
+	if (npBoxArtActive && !capsLockDown) {
 		SendInput, % "┘"
-	}	else if (npBoxArtActive && cpsLckDwn) {
+	}	else if (npBoxArtActive && capsLockDown) {
 		SendInput, % "╝"
-	} else if (npArrowArtActive && !cpsLckDwn) {
+	} else if (npArrowArtActive && !capsLockDown) {
 		SendInput, % "↳"
-	} else if (npArrowArtActive && !cpsLckDwn) {
+	} else if (npArrowArtActive && !capsLockDown) {
 		SendInput, % "↘"
 	} else {
 		SendInput, % "3"
@@ -407,14 +424,14 @@ HandleNumpad0() {
 	global npArrowArtActive
 
 	CheckForNpModeExpiration()
-	cpsLckDwn := GetKeyState( "CapsLock", "T" )
-	if (npBoxArtActive && !cpsLckDwn) {
+	capsLockDown := GetKeyState( "CapsLock", "T" )
+	if (npBoxArtActive && !capsLockDown) {
 		SendInput, % "┴"
-	}	else if (npBoxArtActive && cpsLckDwn) {
+	}	else if (npBoxArtActive && capsLockDown) {
 		SendInput, % "╩"
-	} else if (npArrowArtActive && !cpsLckDwn) {
+	} else if (npArrowArtActive && !capsLockDown) {
 		SendInput, % "↴"
-	} else if (npArrowArtActive && cpsLckDwn) {
+	} else if (npArrowArtActive && capsLockDown) {
 		SendInput, % "⇅"
 	} else {
 		SendInput, % "0"
@@ -430,14 +447,14 @@ HandleNumpadDot() {
 	global npArrowArtActive
 
 	CheckForNpModeExpiration()
-	cpsLckDwn := GetKeyState( "CapsLock", "T" )
-	if (npBoxArtActive && !cpsLckDwn) {
-		SendInput, % "┼"
-	}	else if (npBoxArtActive && cpsLckDwn) {
-		SendInput, % "╬"
-	} else if (npArrowArtActive && !cpsLckDwn) {
+	capsLockDown := GetKeyState( "CapsLock", "T" )
+	if (npBoxArtActive && !capsLockDown) {
+		SendInput, % "▒"
+	}	else if (npBoxArtActive && capsLockDown) {
+		SendInput, % "▓"
+	} else if (npArrowArtActive && !capsLockDown) {
 		SendInput, % "⇏"
-	} else if (npArrowArtActive && cpsLckDwn) {
+	} else if (npArrowArtActive && capsLockDown) {
 		SendInput, % "⇍"
 	} else {
 		SendInput, % "."
@@ -450,10 +467,18 @@ Return
 
 HandleNumpadMult() {
 	global npArrowArtActive
+	global npBoxArtActive
 
 	CheckForNpModeExpiration()
-	if (npArrowArtActive) {
+	capsLockDown := GetKeyState( "CapsLock", "T" )
+	if( npArrowArtActive && !capsLockDown ) {
 		SendInput, % "•"
+	} else if( npArrowArtActive && capsLockDown ) {
+		SendInput, % "✓"
+	} else if( npBoxArtActive && !capsLockDown ) {
+		SendInput, % "░"
+	} else if( npBoxArtActive && capsLockDown ) {
+		SendInput, % "█"
 	} else {
 		SendInput, *
 	}
