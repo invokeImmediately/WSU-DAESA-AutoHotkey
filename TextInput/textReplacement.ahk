@@ -1,73 +1,72 @@
 ﻿; ==============================================================================
-; Text █▀▀▄ █▀▀▀ █▀▀▄ █    ▄▀▀▄ █▀▀ █▀▀▀ ▐▀▄▀▌█▀▀▀ ▐▀▀▄▐▀█▀▌ ░░░░░░░░░░░░░░░░▒▓█
-; ░░░░ █▄▄▀ █▀▀  █▄▄▀ █  ▄ █▄▄█ █   █▀▀  █ ▀ ▌█▀▀  █  ▐  █   ░░░░░░░░░░░░░░▒▓█
-; ░░░░ ▀  ▀▄▀▀▀▀ █    ▀▀▀  █  ▀ ▀▀▀ ▀▀▀▀ █   ▀▀▀▀▀ █  ▐  █  .ahk ░░░░░░░░▒▓█
+; ███ Text █▀▀▄ █▀▀▀ █▀▀▄ █    ▄▀▀▄ █▀▀ █▀▀▀ ▐▀▄▀▌█▀▀▀ ▐▀▀▄▐▀█▀▌ ░░░░░░░░░░░░░░█
+; ██░░░░░░ █▄▄▀ █▀▀  █▄▄▀ █  ▄ █▄▄█ █   █▀▀  █ ▀ ▌█▀▀  █  ▐  █   ░░░░░░░░░░░░░██
+; █░░░░░░░ ▀  ▀▄▀▀▀▀ █    ▀▀▀  █  ▀ ▀▀▀ ▀▀▀▀ █   ▀▀▀▀▀ █  ▐  █  .ahk ░░░░░░░░███
 ;
 ; An assortment of text replacement hotkeys and hotstrings.
 ;
-; @version 1.7.0
+; @version 1.7.1
 ;
 ; @author Daniel Rieck
-;   [daniel.rieck@wsu.edu]
-;   (https://github.com/invokeImmediately)
-; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey/…
-;   …blob/main/…
-;   …TextInput/textReplacement.ahk
+;  [daniel.rieck@wsu.edu]
+;  (https://github.com/invokeImmediately)
+; @link https://github.com/invokeImmediately/WSU-DAESA-AutoHotkey
+;  …/blob/main/TextInput/textReplacement.ahk
 ; @license MIT Copyright (c) 2023 Daniel C. Rieck.
-;   Permission is hereby granted, free of charge, to any person obtaining a copy
-;     of this software and associated documentation files (the “Software”), to
-;     deal in the Software without restriction, including without limitation the
-;     rights to use, copy, modify, merge, publish, distribute, sublicense, and/
-;     or sell copies of the Software, and to permit persons to whom the Software
-;     is furnished to do so, subject to the following conditions:
-;   The above copyright notice and this permission notice shall be included in
-;     all copies or substantial portions of the Software.
-;   THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-;     IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-;     FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-;     THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-;     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-;     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-;     DEALINGS IN THE SOFTWARE.
+;  Permission is hereby granted, free of charge, to any person obtaining a copy
+;   of this software and associated documentation files (the “Software”), to
+;   deal in the Software without restriction, including without limitation the
+;   rights to use, copy, modify, merge, publish, distribute, sublicense, and/
+;   or sell copies of the Software, and to permit persons to whom the Software
+;   is furnished to do so, subject to the following conditions:
+;  The above copyright notice and this permission notice shall be included in
+;   all copies or substantial portions of the Software.
+;  THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+;   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+;   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+;   THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+;   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+;   FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+;   DEALINGS IN THE SOFTWARE.
 ; ==============================================================================
 ; TABLE OF CONTENTS:
 ; -----------------
-;   §1: GENERAL text editing..................................................68
-;     §1.1: Hotstrings........................................................72
-;     §1.2: Hotkeys...........................................................95
-;       §1.2.1: Insertion of non-breaking spaces..............................98
-;       §1.2.2: Insertion of double angle quotation marks....................105
-;       §1.2.3: Insertion of left and right quotation marks..................116
-;       §1.2.4: Insertion of hyphen variants.................................135
-;   §2: VIM-STYLE keyboard modifications.....................................146
-;     §2.1: VIMy mode toggling...............................................150
-;       §2.1.1: ToggleVimyMode().............................................153
-;       §2.1.2: NotifyUserOfVimyModeState( … )...............................164
-;       §2.1.3: DestroyVimyModeGui( whichMon )...............................198
-;       §2.1.4: ShowVimyModeGui( whichMon )..................................207
-;       §2.1.5: Hotkeys for toggling VIMy mode...............................239
-;       §2.1.6: Semicolon key behavior with VIMy mode engaged................248
-;       §2.1.7: Semicolon key behavior with VIMy mode disabled...............257
-;     §2.2: Word based cursor movement hotkeys...............................268
-;     §2.3: Directionally based cursor movement hotkeys......................293
-;     §2.4: Character and word deletion and process termination hotkeys......378
-;   §3: FRONT-END web development............................................418
-;     §3.1: HTML editing.....................................................422
-;     §3.2: CSS editing......................................................429
-;     §3.3: JS editing.......................................................437
-;   §4: NUMPAD mediated text insertion.......................................442
-;     §4.1: changeNumpadDiv hotstring........................................446
-;     §4.2: changeNumpadSub hotstring........................................464
-;   §5: DATES and TIMES......................................................482
-;     §5.1: Dates............................................................486
-;     §5.2: Times............................................................520
-;   §6: CLIPBOARD modifying hotstrings.......................................560
-;     §6.1: Slash character reversal.........................................564
-;     §6.2: URL to Windows file name conversion..............................591
-;     §6.3: ASCII Text Art...................................................611
-;       §6.3.1: AsciiArtLetter3h class.......................................614
-;       §6.3.2: AsciiArtConverter class......................................627
-;       §6.3.3: @convertCbToAsciiArt hotstring...............................766
+;   §1: GENERAL text editing..................................................73
+;     §1.1: Hotstrings........................................................77
+;     §1.2: Hotkeys..........................................................100
+;       §1.2.1: Insertion of non-breaking spaces.............................103
+;       §1.2.2: Insertion of double angle quotation marks....................110
+;       §1.2.3: Insertion of left and right quotation marks..................121
+;       §1.2.4: Insertion of hyphen variants.................................140
+;   §2: VIM-STYLE keyboard modifications.....................................151
+;     §2.1: VIMy mode toggling...............................................155
+;       §2.1.1: ToggleVimyMode().............................................158
+;       §2.1.2: NotifyUserOfVimyModeState( … )...............................169
+;       §2.1.3: DestroyVimyModeGui( whichMon )...............................203
+;       §2.1.4: ShowVimyModeGui( whichMon )..................................212
+;       §2.1.5: Hotkeys for toggling VIMy mode...............................244
+;       §2.1.6: Semicolon key behavior with VIMy mode engaged................253
+;       §2.1.7: Semicolon key behavior with VIMy mode disabled...............262
+;     §2.2: Word based cursor movement hotkeys...............................273
+;     §2.3: Directionally based cursor movement hotkeys......................298
+;     §2.4: Character and word deletion and process termination hotkeys......383
+;   §3: FRONT-END web development............................................423
+;     §3.1: HTML editing.....................................................427
+;     §3.2: CSS editing......................................................434
+;     §3.3: JS editing.......................................................442
+;   §4: NUMPAD mediated text insertion.......................................447
+;     §4.1: changeNumpadDiv hotstring........................................451
+;     §4.2: changeNumpadSub hotstring........................................469
+;   §5: DATES and TIMES......................................................487
+;     §5.1: Dates............................................................491
+;     §5.2: Times............................................................531
+;   §6: CLIPBOARD modifying hotstrings.......................................571
+;     §6.1: Slash character reversal.........................................575
+;     §6.2: URL to Windows file name conversion..............................602
+;     §6.3: ASCII Text Art...................................................622
+;       §6.3.1: AsciiArtLetter3h class.......................................625
+;       §6.3.2: AsciiArtConverter class......................................638
+;       §6.3.3: @convertCbToAsciiArt hotstring...............................777
 ; ==============================================================================
 
 ; ------------------------------------------------------------------------------
@@ -201,7 +200,7 @@ NotifyUserOfVimyModeState( vimyModeState ) {
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §2.1.†3: DestroyVimyModeGui( whichMon )
+;       →→→ §2.1.3: DestroyVimyModeGui( whichMon )
 DestroyVimyModeGui( whichMon ) {
 
 		; Ensure that the GUI window for the indicated monitor that helps signal to the user VIMy mode
@@ -210,7 +209,7 @@ DestroyVimyModeGui( whichMon ) {
 }
 
 ;      · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ·
-;       →→→ §2.1.†4: ShowVimyModeGui( whichMon )
+;       →→→ §2.1.4: ShowVimyModeGui( whichMon )
 
 ShowVimyModeGui( whichMon ) {
 
