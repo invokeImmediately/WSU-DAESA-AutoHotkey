@@ -55,7 +55,7 @@
 	if ( isTargetProcessActive( editor, A_ThisLabel, "This hotstring only works when editing a file i"
 			. "n " . editor . ". Currently, the active process is " . getActiveProcessName() ) ) {
 		fileExt := utoc_GetFileExtension( timingDelay )
-		if ( fileExt = "js" || fileExt = "ts" ) {
+		if ( fileExt = "js" || fileExt = "ts" || fileExt = "mjs" ) {
 			utoc_UpdateTocInJsFile( timingDelay )
 		} else if ( fileExt = "ahk" ) {
 			utoc_UpdateTocInAhkFile( timingDelay )
@@ -64,7 +64,7 @@
 		} else if ( fileExt = "ps1" ) {
 			utoc_UpdateTocInPsFile( timingDelay )
 		} else {
-			MsgBox % "Editing a file that is not saved as JS, TS, AHK, Less, or PS1; file extension is "
+			MsgBox % "Editing a file that is not saved as JS, MJS, TS, AHK, Less, or PS1; file extension is "
 				. fileExt
 		}
 	}
